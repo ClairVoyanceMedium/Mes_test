@@ -434,12 +434,70 @@
     <br>
   </footer>
   
-<!-- Début du Tchat IA avec Tracking, CSS minifié et Questions/Réponses étendues -->
-<style>#chat-container{position:fixed;bottom:20px;right:20px;width:320px;max-height:450px;display:flex;flex-direction:column;z-index:999999;font-family:Arial,sans-serif}#chat-toggle{background:linear-gradient(145deg,#FFB6C1,#FF69B4);color:#fff;border:none;padding:.8rem 1.2rem;border-radius:50px;cursor:pointer;box-shadow:0 4px 12px rgba(255,105,180,.7);margin-bottom:10px;font-size:1rem;transition:transform .2s}#chat-toggle:hover{transform:scale(1.05)}#chat-box{background:#111;border-radius:10px;flex:1;display:flex;flex-direction:column;overflow:hidden}#chat-messages{flex:1;padding:1rem;overflow-y:auto;color:#fff}#chat-messages p{margin-bottom:.5rem;line-height:1.4}.user-message{text-align:right;color:#ffd700;margin-bottom:.8rem}.bot-message{text-align:left;color:#fff;background:rgba(255,255,255,.05);padding:.5rem;border-radius:5px;margin-bottom:.8rem;display:inline-block;max-width:80%}#chat-form{display:flex;border-top:1px solid #333}#chat-input{flex:1;padding:.5rem;border:none;outline:none;color:#333;border-radius:0 0 0 10px}#chat-send{background:#87CEEB;border:none;padding:.5rem 1rem;cursor:pointer;color:#fff;font-weight:bold;border-radius:0 0 10px 0;transition:background .2s}#chat-send:hover{background:#5eb6d1}#chat-box.hidden{display:none}@media(max-width:400px){#chat-container{width:95%;right:2.5%;bottom:5px}}
+  <!-- Tchat IA "Bulle unique" ultra-optimisé pour mobile, version 2025 -->
+<style>
+/* CSS minifié : un seul bouton rond + chat box cachée */
+#chat-container {
+  position: fixed; bottom: 20px; right: 20px;
+  width: 300px; max-height: 450px;
+  display: flex; flex-direction: column;
+  z-index: 999999; font-family: Arial, sans-serif;
+}
+#chat-toggle {
+  width: 60px; height: 60px;
+  background: linear-gradient(145deg,#FFB6C1,#FF69B4);
+  color: #fff; border: none; border-radius: 50%;
+  cursor: pointer; box-shadow: 0 4px 12px rgba(255,105,180,.7);
+  font-size: 1.4rem; display: flex;
+  align-items: center; justify-content: center;
+  transition: transform .2s; outline: none;
+}
+#chat-toggle:hover { transform: scale(1.05); }
+#chat-box {
+  background: #111; border-radius: 10px;
+  flex: 1; display: flex; flex-direction: column;
+  overflow: hidden; margin-top: -10px; /* pour coller le box au bouton */
+}
+#chat-messages {
+  flex: 1; padding: 1rem; overflow-y: auto; color: #fff;
+}
+#chat-messages p {
+  margin-bottom: .5rem; line-height: 1.4;
+}
+.user-message {
+  text-align: right; color: #ffd700; margin-bottom: .8rem;
+}
+.bot-message {
+  text-align: left; color: #fff;
+  background: rgba(255,255,255,.05);
+  padding: .5rem; border-radius: 5px;
+  margin-bottom: .8rem; display: inline-block;
+  max-width: 80%;
+}
+#chat-form {
+  display: flex; border-top: 1px solid #333;
+}
+#chat-input {
+  flex: 1; padding: .5rem; border: none;
+  outline: none; color: #333; border-radius: 0 0 0 10px;
+}
+#chat-send {
+  background: #87CEEB; border: none; padding: .5rem 1rem;
+  cursor: pointer; color: #fff; font-weight: bold;
+  border-radius: 0 0 10px 0; transition: background .2s;
+}
+#chat-send:hover { background: #5eb6d1; }
+#chat-box.hidden { display: none; }
+@media(max-width:400px){
+  #chat-container { width: 90%; right: 5%; bottom: 5px; }
+}
 </style>
 
 <div id="chat-container">
-  <button id="chat-toggle" aria-expanded="false">💬 Aide / Chat IA</button>
+  <!-- Bouton unique : bulle sans texte, juste l’icône -->
+  <button id="chat-toggle" aria-expanded="false" aria-label="Ouvrir le chat">💬</button>
+
+  <!-- Boîte de dialogue masquée au départ -->
   <div id="chat-box" class="hidden" role="region" aria-label="Chat IA">
     <div id="chat-messages" aria-live="polite"></div>
     <form id="chat-form" aria-label="Formulaire de saisie pour le Tchat IA">
@@ -451,151 +509,76 @@
 
 <script>
 /**
- * Tchat IA avec tracking, CSS minifié, Q/R étendues, sans API externe
- * Dernière mise à jour : 28/02/2025
+ * Tchat IA "bulle unique" + tracking, version 2025
+ * Base de connaissances étendue, sans API externe
+ * Code par Frederic / ClairvoyanceMedium.com
  */
 
-// ---- Tracking d'événements ----
-function trackClick(eventLabel, category='Chat', value=null){
-  if(typeof gtag === 'function'){
-    // Envoi à Google Analytics si gtag est dispo
+// Tracking d'événements (Google Analytics ou fallback console)
+function trackClick(label, category='Chat', value=null){
+  if(typeof gtag==='function'){
     gtag('event','click',{
-      'event_category': category,
-      'event_label': eventLabel,
-      'value': value
+      'event_category':category,
+      'event_label':label,
+      'value':value
     });
-  } else {
-    // Fallback console
-    console.log("Tracking:", eventLabel, category, value);
-  }
+  } else console.log("Tracking:",label,category,value);
 }
 
-// ---- Base de connaissances (NON MINIFIÉE) ----
-const knowledgeBase = [
-  {
-    question: "bonjour",
-    answer: "Bonjour à vous ! En quoi puis-je vous aider ? Sachez qu'un rituel de désenvoûtement est idéal pour dissiper toute énergie négative."
-  },
-  {
-    question: "envoûtement",
-    answer: "Un envoûtement peut provoquer fatigue, malchance et angoisses. Je vous conseille d'envisager notre rituel rapide (250€) pour vous libérer rapidement."
-  },
-  {
-    question: "protection",
-    answer: "Une protection spirituelle est cruciale pour rester à l’abri des influences néfastes. Frederick peut ériger ce bouclier en 4 jours."
-  },
-  {
-    question: "symptômes",
-    answer: "Fatigue chronique, cauchemars, conflits inexpliqués... Ces symptômes peuvent trahir un sort. Notre désenvoûtement vous redonne lumière et sérénité."
-  },
-  {
-    question: "fatigue",
-    answer: "La fatigue inexpliquée est souvent le signe d'énergies nocives. Le rituel de purification est un moyen sûr d'en venir à bout."
-  },
-  {
-    question: "cauchemars",
-    answer: "Les cauchemars récurrents sont l'écho d'un envoûtement. Un désenvoûtement rapide vous permet de retrouver un sommeil paisible."
-  },
-  {
-    question: "malchance",
-    answer: "Une malchance persistante peut être un indice fort d'envoûtement. Le rituel redonne un élan de chance et d'opportunités dans votre vie."
-  },
-  {
-    question: "prix",
-    answer: "Le rituel de désenvoûtement et protection est à 250€ en paiement unique. Un investissement pour votre bien-être spirituel."
-  },
-  {
-    question: "voyance",
-    answer: "Vous pouvez opter pour une voyance par email à partir de 6€ pour vérifier s'il existe un sortilège, avant de commander le rituel complet."
-  },
-  {
-    question: "détection",
-    answer: "La détection de sortilège est à 50€. Frederick étudie votre cas et vous confirme la présence d'énergies négatives."
-  },
-  {
-    question: "frederick",
-    answer: "Frederick, doté de 25 ans d'expertise, propose des rituels fiables à distance pour dissiper les sorts les plus persistants."
-  },
-  {
-    question: "durée",
-    answer: "Le rituel s’active en 4 jours. Les premiers bienfaits apparaissent dès la deuxième semaine et la protection dure plusieurs années."
-  },
-  {
-    question: "paiement",
-    answer: "Le paiement s’effectue en ligne via Stripe. Vous recevrez ensuite un formulaire pour décrire votre situation et lancer le rituel."
-  },
-  {
-    question: "remboursement",
-    answer: "Nous sommes convaincus de l’efficacité du rituel. Pour tout renseignement sur nos conditions, veuillez contacter Frederick directement."
-  },
-  {
-    question: "conseils",
-    answer: "Si vous ressentez oppression, angoisse ou fatigue étrange, n'hésitez pas à faire appel au rituel de désenvoûtement. Frederick peut vous éclairer davantage."
-  },
-  {
-    question: "rituel complet",
-    answer: "Le Rituel Complet inclut détection, désenvoûtement et protection, garantissant une efficacité optimale pour 300€ seulement."
-  },
-  {
-    question: "formulaire",
-    answer: "Une fois le paiement validé, un formulaire détail vous est envoyé pour préciser votre cas. Frederick adapte ainsi le rituel à vos symptômes."
-  },
-  {
-    question: "garanties",
-    answer: "Nos milliers de clients satisfaits témoignent de la qualité du rituel. Nous misons sur la confiance et l’expertise pour obtenir de vrais résultats."
-  },
-  {
-    question: "cauchemars enfant",
-    answer: "Si votre enfant subit des terreurs nocturnes sans raison, un envoûtement familial peut en être la cause. Le rituel protège tout le foyer."
-  },
-  {
-    question: "energies négatives",
-    answer: "Les énergies négatives finissent par s’accumuler si elles ne sont pas dissipées. Le rituel de désenvoûtement élimine ces forces et restaure la paix intérieure."
-  },
-  {
-    question: "temporalité",
-    answer: "Le rituel débute en 4 jours et vous en ressentez les effets dès la deuxième semaine. Les bénéfices peuvent durer plusieurs années."
-  },
-  {
-    question: "risque",
-    answer: "Sans purification, l’envoûtement peut s’intensifier. Il est donc préférable d’agir rapidement pour éviter l’enracinement des forces occultes."
-  },
-  {
-    question: "retour argent",
-    answer: "En cas de non-réussite, chaque situation est examinée individuellement. La sincérité de votre démarche influe aussi sur l’efficacité du rituel."
-  }
+// Base de connaissances
+const knowledgeBase=[
+  {question:"bonjour",answer:"Bonjour ! En quoi puis-je vous aider ? Le rituel de désenvoûtement dissipe toute énergie négative."},
+  {question:"envoûtement",answer:"Un envoûtement se traduit par fatigue, malchance et tensions. Notre rituel (250€) vous libère en 4 jours."},
+  {question:"protection",answer:"Une protection spirituelle vous met à l’abri des agressions occultes. Frederick la met en place rapidement."},
+  {question:"symptômes",answer:"Fatigue chronique, cauchemars, conflits sans raison... Ces signes indiquent un sort éventuel. Délivrance rapide possible."},
+  {question:"fatigue",answer:"La fatigue persistante peut venir d’énergies négatives. Un désenvoûtement restaure votre vitalité."},
+  {question:"cauchemars",answer:"Des cauchemars intenses sont souvent liés à un sort. Le rituel vous rendra la paix nocturne."},
+  {question:"malchance",answer:"Une série d’échecs et de blocages sont un indice d’envoûtement. Le rituel casse ce cercle vicieux."},
+  {question:"prix",answer:"Le rituel de désenvoûtement et protection coûte 250€ (paiement unique)."},
+  {question:"voyance",answer:"Nous proposons une voyance par email dès 6€ pour détecter un éventuel sort avant le rituel."},
+  {question:"détection",answer:"Pour 50€, Frederick vérifie votre aura pour confirmer la présence d’un envoûtement."},
+  {question:"frederick",answer:"Avec 25 ans d’expérience, Frederick est reconnu mondialement pour briser les sorts puissants."},
+  {question:"durée",answer:"Le rituel s’active en 4 jours, effets dès 2 semaines, protection sur plusieurs années."},
+  {question:"paiement",answer:"Le règlement s’effectue via Stripe. Vous recevrez ensuite un formulaire à compléter."},
+  {question:"remboursement",answer:"Nous sommes confiants quant à l’efficacité du rituel. Contactez Frederick pour connaître les conditions."},
+  {question:"conseils",answer:"Si vous ressentez oppression ou fatigue étrange, n’hésitez pas à nous consulter."},
+  {question:"rituel complet",answer:"Le Rituel Complet (300€) inclut détection, désenvoûtement et protection totale."},
+  {question:"formulaire",answer:"Après paiement, vous décrivez vos symptômes pour un rituel ciblé."},
+  {question:"garanties",answer:"Nos milliers de clients satisfaits sont la meilleure preuve de notre efficacité."},
+  {question:"cauchemars enfant",answer:"Un envoûtement familial peut affecter votre enfant. Le rituel protège tout le foyer."},
+  {question:"energies négatives",answer:"Si elles s’accumulent, elles bloquent vos projets. Le rituel nettoie et réharmonise vos vibrations."},
+  {question:"temporalité",answer:"Activation en 4 jours, effets en 2 semaines et protection à long terme."},
+  {question:"risque",answer:"Sans action, l’envoûtement peut empirer. Il est crucial d’agir rapidement."},
+  {question:"retour argent",answer:"Chaque cas est unique. La sincérité et la confiance renforcent l’efficacité du rituel."},
+  {question:"mauvais oeil",answer:"Le ‘mauvais oeil’ peut ruiner vos projets. Notre rituel brise cette influence avec puissance."},
+  {question:"envoutement familial",answer:"Lorsque toute la famille subit des blocages, un sort collectif peut en être la cause."},
+  {question:"couple",answer:"Des tensions inexplicables dans le couple peuvent être le signe d’une énergie néfaste."},
+  {question:"chance aux jeux",answer:"Le rituel peut rétablir votre aura de chance, mais restez responsable dans vos mises."},
+  {question:"enfant malade",answer:"Si la médecine ne trouve aucune cause, un envoûtement peut l’affaiblir. Le rituel soulage ces maux."},
+  {question:"comment briser une malediction",answer:"Un rituel dédié permet de couper toute malédiction ancestrale ou envoûtement puissant."}
 ];
 
-/* ---- Calcul de la distance de Levenshtein ---- */
-function levenshtein(a, b){
-  const an = a ? a.length : 0, bn = b ? b.length : 0;
-  if(an===0)return bn; if(bn===0)return an;
-  let matrix=[];
-  for(let i=0;i<=bn;i++){matrix[i]=[i];}
-  for(let j=0;j<=an;j++){matrix[0][j]=j;}
-  for(let i=1;i<=bn;i++){
-    for(let j=1;j<=an;j++){
-      const cost=b.charAt(i-1)===a.charAt(j-1)?0:1;
-      matrix[i][j]=Math.min(matrix[i-1][j]+1,matrix[i][j-1]+1,matrix[i-1][j-1]+cost);
-    }
-  }
-  return matrix[bn][an];
+// Correspondance via distance de Levenshtein
+function levenshtein(a,b){
+  const an=a?a.length:0,bn=b?b.length:0; if(!an)return bn; if(!bn)return an;
+  let matrix=[]; for(let i=0;i<=bn;i++){matrix[i]=[i]} for(let j=0;j<=an;j++){matrix[0][j]=j}
+  for(let i=1;i<=bn;i++){for(let j=1;j<=an;j++){
+    const cost=b.charAt(i-1)===a.charAt(j-1)?0:1;
+    matrix[i][j]=Math.min(matrix[i-1][j]+1,matrix[i][j-1]+1,matrix[i-1][j-1]+cost)
+  }}
+  return matrix[bn][an]
 }
 
-/* ---- Trouver la meilleure correspondance ---- */
 function findBestMatch(userInput){
-  userInput = userInput.toLowerCase();
-  let bestScore = Infinity, bestAnswer = null;
+  userInput=userInput.toLowerCase(); let bestScore=1e9,bestAnswer=null;
   knowledgeBase.forEach(item=>{
-    const dist = levenshtein(userInput,item.question.toLowerCase());
-    if(dist<bestScore){
-      bestScore=dist; bestAnswer=item.answer;
-    }
+    const dist=levenshtein(userInput,item.question.toLowerCase());
+    if(dist<bestScore){bestScore=dist;bestAnswer=item.answer}
   });
-  return bestScore>5?null:bestAnswer;
+  return bestScore>5?null:bestAnswer
 }
 
-/* ---- Initialisation du Tchat ---- */
+// Initialisation du Tchat
 (function(){
   const chatToggle=document.getElementById("chat-toggle"),
         chatBox=document.getElementById("chat-box"),
@@ -603,41 +586,35 @@ function findBestMatch(userInput){
         chatInput=document.getElementById("chat-input"),
         chatMessages=document.getElementById("chat-messages");
 
-  // Ouverture/Fermeture chat
   chatToggle.addEventListener("click",()=>{
     const isHidden=chatBox.classList.contains("hidden");
     chatBox.classList.toggle("hidden");
     chatToggle.setAttribute("aria-expanded",isHidden?"true":"false");
     if(isHidden){
-      trackClick('ChatOpen','Interaction',0);
+      trackClick("ChatOpen","Interaction",0);
       setTimeout(()=>chatInput.focus(),300);
-    } else {
-      trackClick('ChatClose','Interaction',0);
-    }
+    } else trackClick("ChatClose","Interaction",0);
   });
 
-  // Envoi message
   chatForm.addEventListener("submit",(e)=>{
     e.preventDefault();
     const userMsg=chatInput.value.trim();
     if(!userMsg)return;
     addMessage(userMsg,"user-message");
-    trackClick('ChatMessage','Interaction',0);
+    trackClick("ChatMessage","Interaction",0);
     chatInput.value="";
     const answer=findBestMatch(userMsg);
-    addMessage(answer?answer:"Je ne comprends pas votre question… Pouvez-vous reformuler ?", "bot-message");
+    addMessage(answer?answer:"Je ne comprends pas… Pouvez-vous reformuler ?", "bot-message");
   });
 
-  function addMessage(text,className){
+  function addMessage(txt,cls){
     const p=document.createElement("p");
-    p.className=className;
-    p.textContent=text;
+    p.className=cls; p.textContent=txt;
     chatMessages.appendChild(p);
     chatMessages.scrollTop=chatMessages.scrollHeight;
   }
 })();
 </script>
-<!-- Fin du Tchat IA avec Tracking, CSS minifié et Q/R étendues -->
   
   <script nonce="xai-48273">
     document.addEventListener("DOMContentLoaded",function(){document.querySelectorAll("#current-year,#current-year-footer").forEach(e=>e.textContent=new Date().getFullYear());function addToFavorites(e){const t=e.querySelector(".favorite-text");t.innerHTML="⭐ Ajouté !",t.style.color="#FFD700",e.setAttribute("aria-pressed","true"),/iPhone|iPad|iPod/i.test(navigator.userAgent)?alert("Partagez > Ajouter à l’écran d’accueil"):/Android/i.test(navigator.userAgent)?alert("Menu (⋮) > Ajouter à l’écran d’accueil"):alert("Ctrl + D ou Cmd + D");trackClick("Ajout Favoris","Interaction",0);}function trackClick(e,t="CTA",n=null){typeof gtag==="function"?gtag("event","click",{"event_category":t,"event_label":e,"value":n}):console.log("gtag indisponible:",e,t,n);}const t=document.querySelectorAll(".favorite-button");t.forEach(e=>e.addEventListener("click",()=>addToFavorites(e)));const n=document.querySelectorAll(".carousel blockquote");let a=0;n[0].classList.add("active"),setInterval(()=>{n.forEach(e=>e.classList.remove("active")),n[a].classList.add("active"),a=(a+1)%n.length},4e3);});
