@@ -434,109 +434,12 @@
     <br>
   </footer>
   
-<!-- Début du Tchat IA avec Tracking + Questions/Réponses non minifiées -->
-<style>
-  /* Styles de base pour le tchat */
-  #chat-container {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 320px;
-    max-height: 450px;
-    display: flex;
-    flex-direction: column;
-    z-index: 999999;
-    font-family: Arial, sans-serif;
-  }
-  #chat-toggle {
-    background: linear-gradient(145deg, #FFB6C1, #FF69B4);
-    color: #fff;
-    border: none;
-    padding: 0.8rem 1.2rem;
-    border-radius: 50px;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(255,105,180,0.7);
-    margin-bottom: 10px;
-    font-size: 1rem;
-    transition: transform 0.2s;
-  }
-  #chat-toggle:hover {
-    transform: scale(1.05);
-  }
-  #chat-box {
-    background: #111;
-    border-radius: 10px;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-  }
-  #chat-messages {
-    flex: 1;
-    padding: 1rem;
-    overflow-y: auto;
-    color: #fff;
-  }
-  #chat-messages p {
-    margin-bottom: 0.5rem;
-    line-height: 1.4;
-  }
-  .user-message {
-    text-align: right;
-    color: #ffd700; /* Couleur or pour l'utilisateur */
-    margin-bottom: 0.8rem;
-  }
-  .bot-message {
-    text-align: left;
-    color: #fff;
-    background: rgba(255,255,255,0.05);
-    padding: 0.5rem;
-    border-radius: 5px;
-    margin-bottom: 0.8rem;
-    display: inline-block;
-    max-width: 80%;
-  }
-  #chat-form {
-    display: flex;
-    border-top: 1px solid #333;
-  }
-  #chat-input {
-    flex: 1;
-    padding: 0.5rem;
-    border: none;
-    outline: none;
-    color: #333;
-    border-radius: 0 0 0 10px;
-  }
-  #chat-send {
-    background: #87CEEB;
-    border: none;
-    padding: 0.5rem 1rem;
-    cursor: pointer;
-    color: #fff;
-    font-weight: bold;
-    border-radius: 0 0 10px 0;
-    transition: background 0.2s;
-  }
-  #chat-send:hover {
-    background: #5eb6d1;
-  }
-  /* État caché du chat */
-  #chat-box.hidden {
-    display: none;
-  }
-  /* Responsive minimal */
-  @media (max-width: 400px) {
-    #chat-container {
-      width: 95%;
-      right: 2.5%;
-      bottom: 5px;
-    }
-  }
+<!-- Début du Tchat IA avec Tracking, CSS minifié et Questions/Réponses étendues -->
+<style>#chat-container{position:fixed;bottom:20px;right:20px;width:320px;max-height:450px;display:flex;flex-direction:column;z-index:999999;font-family:Arial,sans-serif}#chat-toggle{background:linear-gradient(145deg,#FFB6C1,#FF69B4);color:#fff;border:none;padding:.8rem 1.2rem;border-radius:50px;cursor:pointer;box-shadow:0 4px 12px rgba(255,105,180,.7);margin-bottom:10px;font-size:1rem;transition:transform .2s}#chat-toggle:hover{transform:scale(1.05)}#chat-box{background:#111;border-radius:10px;flex:1;display:flex;flex-direction:column;overflow:hidden}#chat-messages{flex:1;padding:1rem;overflow-y:auto;color:#fff}#chat-messages p{margin-bottom:.5rem;line-height:1.4}.user-message{text-align:right;color:#ffd700;margin-bottom:.8rem}.bot-message{text-align:left;color:#fff;background:rgba(255,255,255,.05);padding:.5rem;border-radius:5px;margin-bottom:.8rem;display:inline-block;max-width:80%}#chat-form{display:flex;border-top:1px solid #333}#chat-input{flex:1;padding:.5rem;border:none;outline:none;color:#333;border-radius:0 0 0 10px}#chat-send{background:#87CEEB;border:none;padding:.5rem 1rem;cursor:pointer;color:#fff;font-weight:bold;border-radius:0 0 10px 0;transition:background .2s}#chat-send:hover{background:#5eb6d1}#chat-box.hidden{display:none}@media(max-width:400px){#chat-container{width:95%;right:2.5%;bottom:5px}}
 </style>
 
 <div id="chat-container">
-  <button id="chat-toggle" aria-expanded="false">💬 Chat IA</button>
+  <button id="chat-toggle" aria-expanded="false">💬 Aide / Chat IA</button>
   <div id="chat-box" class="hidden" role="region" aria-label="Chat IA">
     <div id="chat-messages" aria-live="polite"></div>
     <form id="chat-form" aria-label="Formulaire de saisie pour le Tchat IA">
@@ -548,15 +451,15 @@
 
 <script>
 /**
- * Tchat IA avec tracking en pur JavaScript, sans API externe
+ * Tchat IA avec tracking, CSS minifié, Q/R étendues, sans API externe
  * Dernière mise à jour : 28/02/2025
  */
 
-/* ---- Tracking d'événements ---- */
+// ---- Tracking d'événements ----
 function trackClick(eventLabel, category='Chat', value=null){
   if(typeof gtag === 'function'){
     // Envoi à Google Analytics si gtag est dispo
-    gtag('event', 'click', {
+    gtag('event','click',{
       'event_category': category,
       'event_label': eventLabel,
       'value': value
@@ -567,7 +470,7 @@ function trackClick(eventLabel, category='Chat', value=null){
   }
 }
 
-/* ---- Base de connaissances NON minifiée ---- */
+// ---- Base de connaissances (NON MINIFIÉE) ----
 const knowledgeBase = [
   {
     question: "bonjour",
@@ -628,99 +531,113 @@ const knowledgeBase = [
   {
     question: "conseils",
     answer: "Si vous ressentez oppression, angoisse ou fatigue étrange, n'hésitez pas à faire appel au rituel de désenvoûtement. Frederick peut vous éclairer davantage."
+  },
+  {
+    question: "rituel complet",
+    answer: "Le Rituel Complet inclut détection, désenvoûtement et protection, garantissant une efficacité optimale pour 300€ seulement."
+  },
+  {
+    question: "formulaire",
+    answer: "Une fois le paiement validé, un formulaire détail vous est envoyé pour préciser votre cas. Frederick adapte ainsi le rituel à vos symptômes."
+  },
+  {
+    question: "garanties",
+    answer: "Nos milliers de clients satisfaits témoignent de la qualité du rituel. Nous misons sur la confiance et l’expertise pour obtenir de vrais résultats."
+  },
+  {
+    question: "cauchemars enfant",
+    answer: "Si votre enfant subit des terreurs nocturnes sans raison, un envoûtement familial peut en être la cause. Le rituel protège tout le foyer."
+  },
+  {
+    question: "energies négatives",
+    answer: "Les énergies négatives finissent par s’accumuler si elles ne sont pas dissipées. Le rituel de désenvoûtement élimine ces forces et restaure la paix intérieure."
+  },
+  {
+    question: "temporalité",
+    answer: "Le rituel débute en 4 jours et vous en ressentez les effets dès la deuxième semaine. Les bénéfices peuvent durer plusieurs années."
+  },
+  {
+    question: "risque",
+    answer: "Sans purification, l’envoûtement peut s’intensifier. Il est donc préférable d’agir rapidement pour éviter l’enracinement des forces occultes."
+  },
+  {
+    question: "retour argent",
+    answer: "En cas de non-réussite, chaque situation est examinée individuellement. La sincérité de votre démarche influe aussi sur l’efficacité du rituel."
   }
 ];
 
-/* ---- Distance de Levenshtein pour trouver la meilleure question proche ---- */
-function levenshtein(a, b) {
+/* ---- Calcul de la distance de Levenshtein ---- */
+function levenshtein(a, b){
   const an = a ? a.length : 0, bn = b ? b.length : 0;
-  if (an === 0) return bn;
-  if (bn === 0) return an;
-  let matrix = [];
-  for (let i = 0; i <= bn; i++){ matrix[i] = [i]; }
-  for (let j = 0; j <= an; j++){ matrix[0][j] = j; }
-  for (let i = 1; i <= bn; i++){
-    for (let j = 1; j <= an; j++){
-      const cost = b.charAt(i - 1) === a.charAt(j - 1) ? 0 : 1;
-      matrix[i][j] = Math.min(
-        matrix[i - 1][j] + 1,
-        matrix[i][j - 1] + 1,
-        matrix[i - 1][j - 1] + cost
-      );
+  if(an===0)return bn; if(bn===0)return an;
+  let matrix=[];
+  for(let i=0;i<=bn;i++){matrix[i]=[i];}
+  for(let j=0;j<=an;j++){matrix[0][j]=j;}
+  for(let i=1;i<=bn;i++){
+    for(let j=1;j<=an;j++){
+      const cost=b.charAt(i-1)===a.charAt(j-1)?0:1;
+      matrix[i][j]=Math.min(matrix[i-1][j]+1,matrix[i][j-1]+1,matrix[i-1][j-1]+cost);
     }
   }
   return matrix[bn][an];
 }
 
-/* ---- Trouver la meilleure correspondance dans la knowledgeBase ---- */
-function findBestMatch(userInput) {
+/* ---- Trouver la meilleure correspondance ---- */
+function findBestMatch(userInput){
   userInput = userInput.toLowerCase();
   let bestScore = Infinity, bestAnswer = null;
-  knowledgeBase.forEach(item => {
-    const dist = levenshtein(userInput, item.question.toLowerCase());
-    if(dist < bestScore){
-      bestScore = dist;
-      bestAnswer = item.answer;
+  knowledgeBase.forEach(item=>{
+    const dist = levenshtein(userInput,item.question.toLowerCase());
+    if(dist<bestScore){
+      bestScore=dist; bestAnswer=item.answer;
     }
   });
-  // Si la distance est trop élevée, on considère qu'il n'y a pas de correspondance
-  if(bestScore > 5) return null;
-  return bestAnswer;
+  return bestScore>5?null:bestAnswer;
 }
 
 /* ---- Initialisation du Tchat ---- */
 (function(){
-  const chatToggle = document.getElementById("chat-toggle");
-  const chatBox = document.getElementById("chat-box");
-  const chatForm = document.getElementById("chat-form");
-  const chatInput = document.getElementById("chat-input");
-  const chatMessages = document.getElementById("chat-messages");
+  const chatToggle=document.getElementById("chat-toggle"),
+        chatBox=document.getElementById("chat-box"),
+        chatForm=document.getElementById("chat-form"),
+        chatInput=document.getElementById("chat-input"),
+        chatMessages=document.getElementById("chat-messages");
 
-  // Ouvrir/Fermer le chat
-  chatToggle.addEventListener("click", () => {
-    const isHidden = chatBox.classList.contains("hidden");
+  // Ouverture/Fermeture chat
+  chatToggle.addEventListener("click",()=>{
+    const isHidden=chatBox.classList.contains("hidden");
     chatBox.classList.toggle("hidden");
-    chatToggle.setAttribute("aria-expanded", isHidden ? "true" : "false");
+    chatToggle.setAttribute("aria-expanded",isHidden?"true":"false");
     if(isHidden){
-      // Track l'ouverture du chat
       trackClick('ChatOpen','Interaction',0);
-      setTimeout(() => { chatInput.focus(); }, 300);
+      setTimeout(()=>chatInput.focus(),300);
     } else {
-      // Track la fermeture du chat
       trackClick('ChatClose','Interaction',0);
     }
   });
 
-  // Soumission du formulaire / Envoi message
-  chatForm.addEventListener("submit", (e) => {
+  // Envoi message
+  chatForm.addEventListener("submit",(e)=>{
     e.preventDefault();
-    const userMsg = chatInput.value.trim();
-    if(!userMsg) return;
-
-    addMessage(userMsg, "user-message");
-    // Track le message utilisateur
+    const userMsg=chatInput.value.trim();
+    if(!userMsg)return;
+    addMessage(userMsg,"user-message");
     trackClick('ChatMessage','Interaction',0);
-
-    chatInput.value = "";
-    const answer = findBestMatch(userMsg);
-    if(answer){
-      addMessage(answer, "bot-message");
-    } else {
-      addMessage("Je ne comprends pas votre question… Pouvez-vous reformuler ?", "bot-message");
-    }
+    chatInput.value="";
+    const answer=findBestMatch(userMsg);
+    addMessage(answer?answer:"Je ne comprends pas votre question… Pouvez-vous reformuler ?", "bot-message");
   });
 
-  // Afficher un message dans la zone de chat
-  function addMessage(text, className){
-    const p = document.createElement("p");
-    p.className = className;
-    p.textContent = text;
+  function addMessage(text,className){
+    const p=document.createElement("p");
+    p.className=className;
+    p.textContent=text;
     chatMessages.appendChild(p);
-    chatMessages.scrollTop = chatMessages.scrollHeight;
+    chatMessages.scrollTop=chatMessages.scrollHeight;
   }
 })();
 </script>
-<!-- Fin du Tchat IA avec Tracking + Questions/Réponses non minifiées -->
+<!-- Fin du Tchat IA avec Tracking, CSS minifié et Q/R étendues -->
   
   <script nonce="xai-48273">
     document.addEventListener("DOMContentLoaded",function(){document.querySelectorAll("#current-year,#current-year-footer").forEach(e=>e.textContent=new Date().getFullYear());function addToFavorites(e){const t=e.querySelector(".favorite-text");t.innerHTML="⭐ Ajouté !",t.style.color="#FFD700",e.setAttribute("aria-pressed","true"),/iPhone|iPad|iPod/i.test(navigator.userAgent)?alert("Partagez > Ajouter à l’écran d’accueil"):/Android/i.test(navigator.userAgent)?alert("Menu (⋮) > Ajouter à l’écran d’accueil"):alert("Ctrl + D ou Cmd + D");trackClick("Ajout Favoris","Interaction",0);}function trackClick(e,t="CTA",n=null){typeof gtag==="function"?gtag("event","click",{"event_category":t,"event_label":e,"value":n}):console.log("gtag indisponible:",e,t,n);}const t=document.querySelectorAll(".favorite-button");t.forEach(e=>e.addEventListener("click",()=>addToFavorites(e)));const n=document.querySelectorAll(".carousel blockquote");let a=0;n[0].classList.add("active"),setInterval(()=>{n.forEach(e=>e.classList.remove("active")),n[a].classList.add("active"),a=(a+1)%n.length},4e3);});
