@@ -270,15 +270,21 @@
     text-align: center;
     line-height: 1.4;">
   
-  <!-- Balise <picture> pour prioriser le format WebP, puis fallback PNG -->
+  <!-- Balise <picture> pour gérer AVIF, puis WebP, puis PNG -->
   <picture>
-    <!-- WebP (si le navigateur le supporte) -->
+    <!-- AVIF (ultra-léger, si dispo) -->
+    <source
+      srcset="https://i.imgur.com/KBYqPcf.avif"
+      type="image/avif"
+      sizes="(max-width: 768px) 100vw, 1200px">
+
+    <!-- WebP (fallback si AVIF n’est pas supporté) -->
     <source
       srcset="https://i.imgur.com/KBYqPcf.webp"
       type="image/webp"
       sizes="(max-width: 768px) 100vw, 1200px">
-    
-    <!-- Fallback PNG -->
+
+    <!-- PNG en dernier recours -->
     <img
       src="https://i.imgur.com/KBYqPcf.png"
       alt="Rituel divin : désenvoûtement et protection rapide, conçu par Frederick"
@@ -295,6 +301,7 @@
         max-width: 100%;">
   </picture>
 
+  <!-- Légende descriptive et SEO-friendly -->
   <figcaption
     style="
       color: #ccc;
@@ -309,7 +316,6 @@
     d’une harmonie spirituelle profonde et d’un bien-être au quotidien.
   </figcaption>
 </figure>
-
 
   </header>
 
