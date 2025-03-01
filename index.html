@@ -241,27 +241,29 @@
 </head>
 <body>
   <header>
-    <picture>
-  <!-- WebP prioritaire si le navigateur le supporte -->
+    <!-- Logo performant sans texte visible en front-end, mais alt riche pour le SEO -->
+<picture>
+  <!-- WebP prioritaire (si disponible) -->
   <source
     srcset="https://i.imgur.com/GmyGlKk.webp"
     type="image/webp"
     sizes="(max-width: 768px) 100vw, 720px">
   
-  <!-- Fallback PNG (dimensions augmentées ~60%) -->
+  <!-- Fallback JPG -->
   <img
-    src="https://imgur.com/KBYqPcf.png"
-    alt="Illustration sacrée du rituel de désenvoûtement et protection rapide le plus puissant au monde"
-    width="720"
+    src="https://i.imgur.com/GmyGlKk.jpg"
+    alt="Logo du rituel de désenvoûtement et de protection, assurant la libération spirituelle"
+    width="720" 
     height="720"
     loading="lazy"
     decoding="async"
     fetchpriority="high"
     style="
-      max-width: 100%;
+      display: block;
+      width: clamp(300px, 90vw, 720px);
       height: auto;
       margin: 0 auto;
-      display: block;"
+      object-fit: cover;"
     class="logo">
 </picture>
 
