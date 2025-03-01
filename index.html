@@ -263,31 +263,38 @@
     </div>
     <br><br><br>
     
-    <!-- Exemple de perfection : Figure + Image unique (PNG) + Légende SEO -->
-<figure
+    <figure
   style="
     margin: 0 auto;
     max-width: 1200px;
     text-align: center;
     line-height: 1.4;">
   
-  <!-- Image unique hébergée sur Imgur -->
-  <img
-    src="https://i.imgur.com/KBYqPcf.png"
-    alt="Rituel divin : désenvoûtement et protection rapide, conçu par Frederick"
-    width="1200"
-    height="600"
-    loading="lazy"
-    decoding="async"
-    style="
-      display: block;
-      width: 100%;
-      height: auto;
-      margin: 0 auto;
-      object-fit: cover;
-      max-width: 100%;">
-  
-  <!-- Légende descriptive, optimisée pour le SEO et l'engagement -->
+  <!-- Balise <picture> pour prioriser le format WebP, puis fallback PNG -->
+  <picture>
+    <!-- WebP (si le navigateur le supporte) -->
+    <source
+      srcset="https://i.imgur.com/KBYqPcf.webp"
+      type="image/webp"
+      sizes="(max-width: 768px) 100vw, 1200px">
+    
+    <!-- Fallback PNG -->
+    <img
+      src="https://i.imgur.com/KBYqPcf.png"
+      alt="Rituel divin : désenvoûtement et protection rapide, conçu par Frederick"
+      width="1200"
+      height="600"
+      loading="lazy"
+      decoding="async"
+      style="
+        display: block;
+        width: 100%;
+        height: auto;
+        margin: 0 auto;
+        object-fit: cover;
+        max-width: 100%;">
+  </picture>
+
   <figcaption
     style="
       color: #ccc;
