@@ -270,21 +270,15 @@
     text-align: center;
     line-height: 1.4;">
   
-  <!-- Balise <picture> pour gérer AVIF, puis WebP, puis PNG -->
+  <!-- Balise <picture> pour prioriser le format WebP, puis fallback PNG -->
   <picture>
-    <!-- AVIF (ultra-léger, si dispo) -->
-    <source
-      srcset="https://i.imgur.com/KBYqPcf.avif"
-      type="image/avif"
-      sizes="(max-width: 768px) 100vw, 1200px">
-
-    <!-- WebP (fallback si AVIF n’est pas supporté) -->
+    <!-- WebP (si le navigateur le supporte) -->
     <source
       srcset="https://i.imgur.com/KBYqPcf.webp"
       type="image/webp"
       sizes="(max-width: 768px) 100vw, 1200px">
-
-    <!-- PNG en dernier recours -->
+    
+    <!-- Fallback PNG -->
     <img
       src="https://i.imgur.com/KBYqPcf.png"
       alt="Rituel divin : désenvoûtement et protection rapide, conçu par Frederick"
@@ -301,21 +295,22 @@
         max-width: 100%;">
   </picture>
 
-  <!-- Légende descriptive et SEO-friendly -->
   <figcaption
     style="
-      color: #ccc;
-      font-size: 0.9rem;
-      margin-top: 0.5rem;
+      color: #faf8f0; /* Blanc nacré */
+      font-size: 1rem; /* Texte légèrement agrandi */
+      margin-top: 1rem; /* Espacement supplémentaire entre l'image et le texte */
       max-width: 80%;
       margin-left: auto;
-      margin-right: auto;">
+      margin-right: auto;
+      line-height: 1.4;">
     <strong>Plongez dans le rituel de désenvoûtement et de protection :</strong>
     brisez toute énergie négative, libérez-vous des sorts malveillants et retrouvez une chance renouvelée.
     Vivez dans la lumière en profitant d’une paix intérieure durable,
     d’une harmonie spirituelle profonde et d’un bien-être au quotidien.
   </figcaption>
 </figure>
+
 
   </header>
 
