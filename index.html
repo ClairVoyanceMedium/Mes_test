@@ -262,13 +262,39 @@
       </button>
     </div>
     <br><br><br>
-    <figure id="rituel-image" aria-labelledby="caption-rituel" aria-describedby="caption-rituel">
-      <picture>
-        <source srcset="https://imgur.com/KBYqPcf.png" type="image/webp">
-        <img src="https://imgur.com/KBYqPcf.png" alt="Rituel de désenvoûtement puissant : Briser les sorts noirs et purifier les énergies négatives" width="1200" height="600" loading="lazy" decoding="async" fetchpriority="high" importance="high">
-      </picture>
-      <figcaption id="caption-rituel" class="visually-hidden">Image de rituel de désenvoûtement et protection rapide : Purification spirituelle et bouclier contre les malédictions.</figcaption>
-    </figure>
+    
+    <figure style="margin: 0 auto; max-width: 100%; text-align: center;">
+  <!-- Balise <picture> pour fournir différents formats -->
+  <picture>
+    <!-- Priorité au format AVIF -->
+    <source
+      srcset="https://imgur.com/KBYqPcf.avif"
+      type="image/avif"
+      sizes="(max-width: 768px) 100vw, 1200px">
+
+    <!-- Fallback WebP -->
+    <source
+      srcset="https://imgur.com/KBYqPcf.webp"
+      type="image/webp"
+      sizes="(max-width: 768px) 100vw, 1200px">
+
+    <!-- Fallback PNG/JPG -->
+    <img
+      src="https://imgur.com/KBYqPcf.png"
+      alt="Rituel divin : désenvoûtement et protection rapide pour libérer votre âme"
+      width="1200"
+      height="600"
+      loading="lazy"
+      decoding="async"
+      style="max-width: 100%; height: auto; object-fit: cover;">
+  </picture>
+
+  <!-- Légende sémantique optimisée pour SEO -->
+  <figcaption style="color: #aaa; font-size: 0.9rem; margin-top: 0.5rem;">
+    Expérience de désenvoûtement : Brisez les chaînes maléfiques et protégez-vous durablement grâce à un rituel sacré.
+  </figcaption>
+</figure>
+
   </header>
 
   <main>
