@@ -238,22 +238,18 @@
   }
 }
   </script>
-</head>
-<body>
-  <header>
-    <!-- Logo performant sans texte visible en front-end, mais alt riche pour le SEO -->
 <picture>
-  <!-- WebP prioritaire (si disponible) -->
+  <!-- Format WebP prioritaire si le navigateur le supporte -->
   <source
     srcset="https://i.imgur.com/GmyGlKk.webp"
     type="image/webp"
     sizes="(max-width: 768px) 100vw, 720px">
   
-  <!-- Fallback JPG -->
+  <!-- Fallback JPG si WebP n’est pas pris en charge -->
   <img
     src="https://i.imgur.com/GmyGlKk.jpg"
-    alt="Logo du rituel de désenvoûtement et de protection, assurant la libération spirituelle"
-    width="720" 
+    alt="Logo : Rituel de désenvoûtement et protection, libération spirituelle"
+    width="720"
     height="720"
     loading="lazy"
     decoding="async"
@@ -263,7 +259,8 @@
       width: clamp(300px, 90vw, 720px);
       height: auto;
       margin: 0 auto;
-      object-fit: cover;"
+      /* Retrait de object-fit pour afficher l’image complète */
+    "
     class="logo">
 </picture>
 
