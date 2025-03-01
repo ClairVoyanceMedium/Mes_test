@@ -238,17 +238,19 @@
   }
 }
   </script>
-<picture>
-  <!-- Format WebP prioritaire si le navigateur le supporte -->
+</head>
+<body>
+  <header>
+    <picture>
+  <!-- WebP prioritaire, si pris en charge par le navigateur -->
   <source
     srcset="https://i.imgur.com/GmyGlKk.webp"
-    type="image/webp"
-    sizes="(max-width: 768px) 100vw, 720px">
-  
-  <!-- Fallback JPG si WebP n’est pas pris en charge -->
+    type="image/webp">
+
+  <!-- JPG de fallback -->
   <img
     src="https://i.imgur.com/GmyGlKk.jpg"
-    alt="Logo : Rituel de désenvoûtement et protection, libération spirituelle"
+    alt="Logo du rituel de désenvoûtement et de protection, libération spirituelle"
     width="720"
     height="720"
     loading="lazy"
@@ -256,14 +258,11 @@
     fetchpriority="high"
     style="
       display: block;
-      width: clamp(300px, 90vw, 720px);
-      height: auto;
       margin: 0 auto;
-      /* Retrait de object-fit pour afficher l’image complète */
-    "
-    class="logo">
+      width: 720px;       /* Force le logo à 720px si espace disponible */
+      max-width: 100%;    /* Se limite à 100% de l'écran sur les petits écrans */
+      height: auto;">
 </picture>
-
     <br>
     <div class="top-rank">
       <span class="number-one">Nº 1 sur le web encore en <span id="current-year"></span></span>
@@ -281,7 +280,7 @@
       </button>
     </div>
     <br><br><br>
-    
+
     <figure
   style="
     margin: 0 auto;
@@ -329,8 +328,7 @@
     d’une harmonie spirituelle profonde et d’un bien-être au quotidien.
   </figcaption>
 </figure>
-
-
+    
   </header>
 
   <main>
@@ -495,8 +493,8 @@
     </a>
     <br>
   </footer>
-  
-  <!-- Tchat IA "Bulle unique" ultra-optimisé pour mobile, version 2025 -->
+
+<!-- Tchat IA "Bulle unique" ultra-optimisé pour mobile, version 2025 -->
 <style>
 /* CSS minifié : un seul bouton rond + chat box cachée */
 #chat-container {
