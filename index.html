@@ -736,7 +736,7 @@ const knowledgeBase = [
   { question: "cauchemars", answer: "Des cauchemars qui reviennent souvent ? C’est embêtant, ça. Ça arrive toutes les nuits ou juste parfois ?", keywords: ["cauchemars", "rêves", "nuit"] },
   { question: "malchance", answer: "La poisse ne vous lâche pas ? Ça doit être frustrant. Ça touche quoi dans votre vie, surtout ?", keywords: ["malchance", "poisse", "pas de chance"] },
   { question: "prix", answer: "Vous voulez savoir les tarifs ? Je peux vous les donner, mais d’abord, dites-moi ce que vous cherchez à régler.", keywords: ["prix", "combien", "coût"] },
-  { question: "payer", answer: "Vous pensez au paiement ? On utilise Stripe, c’est simple et sûr. Mais avant, qu’est-ce qui vous préoccupe le plus ?", keywords: ["payer", "paiement", "comment payer"] },
+  { question: "payer", answer: "Vous pensez au paiement ? C’est simple et rapide, mais avant, qu’est-ce qui vous préoccupe le plus ?", keywords: ["payer", "paiement", "comment payer"] },
   { question: "frederick", answer: "Frederick, c’est le pro du Cabinet ClairvoyanceMedium.com, 25 ans d’expérience. Vous voulez savoir comment il peut vous aider ?", keywords: ["frederick", "qui", "voyant"] },
   { question: "rituel", answer: "Un rituel, c’est pour nettoyer et protéger en 4 jours. Vous pensez à un problème précis qui vous pousse à demander ça ?", keywords: ["rituel", "désenvoûtement", "protection"] },
   { question: "photo", answer: "Une photo ? Ça peut aider, mais c’est pas obligatoire. Vous avez quelque chose en tête que vous voulez que Frederick regarde ?", keywords: ["photo", "besoin", "image"] },
@@ -752,7 +752,7 @@ let userName = localStorage.getItem("userName") || null;
 let soulAura = localStorage.getItem("soulAura") || "seeking";
 let useVoice = false;
 let interactionLog = JSON.parse(localStorage.getItem("interactionLog")) || [];
-let hasGreeted = localStorage.getItem("hasGreeted") === "true";
+let unknownAttempts = 0;
 
 function levenshtein(a, b) {
   const an = a ? a.length : 0, bn = b ? b.length : 0;
@@ -807,23 +807,23 @@ function findBestMatch(userInput) {
   else soulAura = "seeking";
   localStorage.setItem("soulAura", soulAura);
 
-  // Réponse adaptée sans "Salut" répétitif
+  // Réponse dynamique avec prénom
   let prefix = userName ? `${userName}, ` : "";
 
   if (bestScore <= 5 && bestAnswer) {
     trackInteraction("MatchedQuery", "Interaction", userInput);
     return `${prefix}${bestAnswer}`;
-  } else if (conversation.length > 1) {
+  } else if (conversation.length > 2) { // Après 3 échanges
     const last = conversation[conversation.length - 2].toLowerCase();
-    if (last.includes("fatigue") && userInput.includes("depuis 2 mois")) {
+    if (last.includes("fatigue") && userInput.includes("depuis")) {
       trackInteraction("SymptomCombo", "Interaction");
-      return `${prefix}Deux mois, c’est pas rien. En général, les gens dans ce cas font une détection avec Frederick. Je vous conseille <button onclick=\"window.location.href='https://buy.stripe.com/6oE3cAevG5mLgpi7tL'\">une détection à 50€</button> pour voir ce qui se passe.`;
-    } else if (last.includes("cauchemars") && userInput.includes("toutes les nuits")) {
-      return `${prefix}Toutes les nuits, ça doit être dur. Les gens qui ont ça souvent prennent <button onclick=\"window.location.href='https://buy.stripe.com/6oE3cAevG5mLgpi7tL'\">une détection à 50€</button> avec Frederick. Je vous la conseille.`;
+      return `${prefix}Depuis un moment, ça doit être pesant. Pour ça, je vous conseille <button onclick=\"window.location.href='https://buy.stripe.com/6oE3cAevG5mLgpi7tL'\">une détection spirituelle à 50€</button> avec Frederick. Vous en pensez quoi ?`;
+    } else if (last.includes("cauchemars") && userInput.includes("nuits")) {
+      return `${prefix}Si c’est toutes les nuits, c’est plus sérieux. Je vous recommande <button onclick=\"window.location.href='https://buy.stripe.com/6oE3cAevG5mLgpi7tL'\">une détection spirituelle à 50€</button> avec Frederick. Ça vous parle ?`;
     } else if (last.includes("malchance") && userInput.includes("tout")) {
-      return `${prefix}Si ça touche tout, c’est plus sérieux. En général, les gens dans ce cas font <button onclick=\"window.location.href='https://buy.stripe.com/cN2bJ62MYg1p0qk5lE'\">un rituel à 250€</button> avec Frederick. Je vous le recommande.`;
+      return `${prefix}Quand ça touche tout, il faut agir. Je vous conseille <button onclick=\"window.location.href='https://buy.stripe.com/cN2bJ62MYg1p0qk5lE'\">un désenvoûtement à 250€</button> avec Frederick. Qu’en dites-vous ?`;
     }
-    return `${prefix}Pas sûr d’avoir compris. Vous pouvez répéter en expliquant un peu plus ce que vous vouliez dire par "${last}" ?`;
+    return `${prefix}Pas sûr d’avoir compris. Vous pouvez répéter en reformulant un peu ce que vous vouliez dire par "${last}" ?`;
   }
   return `${prefix}Pas sûr d’avoir compris. Vous pouvez répéter en reformulant un peu ?`;
 }
@@ -865,16 +865,12 @@ function findBestMatch(userInput) {
       trackInteraction("ChatOpen", "Interaction");
       setTimeout(() => chatInput.focus(), 300);
       voiceToggle.classList.add("show");
-      if (!conversation.length && !hasGreeted) {
-        const welcomeMsg = userName ? 
-          `Content de vous revoir, ${userName} ! Frederick du Cabinet ClairvoyanceMedium.com est là pour vous.` :
-          "Salut ! Je suis là avec Frederick du Cabinet ClairvoyanceMedium.com. Comment vous appelez-vous ?";
+      if (!conversation.length) {
+        const welcomeMsg = "Salut ! Je suis là avec Frederick du Cabinet ClairvoyanceMedium.com. Comment vous appelez-vous ?";
         setTimeout(() => {
           chatBox.classList.add("thinking");
           addMessage(welcomeMsg, "bot-message");
           setTimeout(() => chatBox.classList.remove("thinking"), 700);
-          localStorage.setItem("hasGreeted", "true");
-          hasGreeted = true;
         }, 700);
       }
     } else {
@@ -898,13 +894,11 @@ function findBestMatch(userInput) {
     if (!userName && conversation.length === 1) {
       userName = userMsg.split(" ")[0];
       localStorage.setItem("userName", userName);
-      const welcomeMsg = `Ravi de vous rencontrer, ${userName} ! Frederick du Cabinet ClairvoyanceMedium.com peut vous aider. Qu’est-ce qui vous préoccupe ?`;
+      const welcomeMsg = `${userName}, ravi de vous rencontrer ! Qu’est-ce qui vous préoccupe aujourd’hui ?`;
       setTimeout(() => {
         chatBox.classList.add("thinking");
         addMessage(welcomeMsg, "bot-message");
         setTimeout(() => chatBox.classList.remove("thinking"), 1400);
-        localStorage.setItem("hasGreeted", "true");
-        hasGreeted = true;
       }, 1400);
       return;
     }
@@ -922,7 +916,7 @@ function findBestMatch(userInput) {
       if (answer.includes("répéter")) {
         unknownAttempts++;
         if (unknownAttempts >= 2) {
-          const consultMsg = `${userName ? userName + ", " : ""}c’est un cas un peu compliqué, là. Une voyance par email avec Frederick serait utile pour y voir plus clair. Voici les options : <button onclick=\"window.location.href='https://buy.stripe.com/14kdRe0EQ4iH1uoaFa'\">1 question à 6€</button>, <button onclick=\"window.location.href='https://buy.stripe.com/dR614scnycPddd66oV'\">3 questions à 15€</button>, ou <button onclick=\"window.location.href='https://buy.stripe.com/28o3cA0EQ5mL0qk14C'\">5 questions à 28€</button>.`;
+          const consultMsg = `${userName}, c’est un cas un peu compliqué à saisir comme ça. Une voyance par email avec Frederick serait utile pour clarifier tout ça. Voici ce que vous pouvez choisir : <button onclick=\"window.location.href='https://buy.stripe.com/14kdRe0EQ4iH1uoaFa'\">1 question à 6€</button>, <button onclick=\"window.location.href='https://buy.stripe.com/dR614scnycPddd66oV'\">3 questions à 15€</button>, ou <button onclick=\"window.location.href='https://buy.stripe.com/28o3cA0EQ5mL0qk14C'\">5 questions à 28€</button>. Qu’en pensez-vous ?`;
           setTimeout(() => {
             chatBox.classList.add("thinking");
             addMessage(consultMsg, "bot-message");
@@ -1021,7 +1015,7 @@ function findBestMatch(userInput) {
       toggleVoiceBtn.textContent = "🔇";
       trackInteraction("VoiceEnabled", "Feature");
       chatBox.classList.add("thinking");
-      addMessage("Vous voulez entendre mes réponses ? Je peux parler maintenant. Essayez ‘salut’ pour tester.", "bot-message");
+      addMessage(`${userName ? userName + ", " : ""}vous voulez entendre mes réponses ? Je peux parler maintenant. Essayez ‘salut’ pour tester.`, "bot-message");
       setTimeout(() => chatBox.classList.remove("thinking"), 1400);
       e.target.value = "";
     } else if (value === "silence") {
@@ -1029,12 +1023,12 @@ function findBestMatch(userInput) {
       toggleVoiceBtn.textContent = "🔊";
       trackInteraction("VoiceDisabled", "Feature");
       chatBox.classList.add("thinking");
-      addMessage("OK, je reste en silence. Comment je peux vous aider ?", "bot-message");
+      addMessage(`${userName ? userName + ", " : ""}OK, je reste en silence. Comment je peux vous aider ?`, "bot-message");
       setTimeout(() => chatBox.classList.remove("thinking"), 1400);
       e.target.value = "";
     } else if (value === "salut") {
       trackInteraction("SalutCommand", "Command");
-      const msg = "Vous cherchez un changement ? OK, mais parlons d’abord de ce qui vous bloque. Qu’est-ce qui ne va pas ?";
+      const msg = `${userName ? userName + ", " : ""}vous cherchez un changement ? OK, mais parlons d’abord de ce qui vous bloque. Qu’est-ce qui ne va pas ?`;
       chatBox.classList.add("thinking");
       addMessage(msg, "bot-message");
       setTimeout(() => chatBox.classList.remove("thinking"), 1400);
