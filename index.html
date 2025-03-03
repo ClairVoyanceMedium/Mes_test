@@ -630,34 +630,34 @@
 
 <!-- Intégrez ceci avant </body> dans votre HTML -->
 <div id="chat-container">
-  <button id="chat-toggle" aria-expanded="false" aria-label="Invoquer l’Éther">💬</button>
-  <div id="chat-box" class="hidden" role="region" aria-label="Oracle de Frederick">
+  <button id="chat-toggle" aria-expanded="false" aria-label="Ouvrir le dialogue">💬</button>
+  <div id="chat-box" class="hidden" role="region" aria-label="Dialogue avec Frederick">
     <div id="chat-messages" aria-live="polite"></div>
     <div id="voice-toggle" style="position:absolute;top:5px;right:5px;display:none;">
       <button id="toggle-voice" aria-label="Activer/Désactiver la voix" style="background:none;border:none;color:#FFD700;font-size:0.9rem;cursor:pointer;">🔊</button>
     </div>
-    <form id="chat-form" aria-label="Portail Céleste">
-      <input type="text" id="chat-input" placeholder="Confiez votre âme..." aria-label="Votre souffle">
-      <button type="submit" id="chat-send" aria-label="Envoyer aux étoiles">➤</button>
+    <form id="chat-form" aria-label="Zone de saisie">
+      <input type="text" id="chat-input" placeholder="Parlez-moi..." aria-label="Votre message">
+      <button type="submit" id="chat-send" aria-label="Envoyer">➤</button>
     </form>
   </div>
 </div>
 
 <style>
   #chat-container {
-    position: fixed; bottom: 20px; right: 20px; width: 300px; max-height: 450px; z-index: 999999;
-    font-family: 'Cinzel', serif; transition: all 0.5s ease;
+    position: fixed; bottom: 20px; right: 20px; width: 300px; z-index: 999999;
+    font-family: 'Cinzel', serif; transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1); /* Fluidité accrue */
   }
   #chat-toggle {
     width: 60px; height: 60px; background: linear-gradient(145deg, #FFB6C1, #FF69B4); color: #fff;
     border: none; border-radius: 50%; cursor: pointer; box-shadow: 0 4px 12px rgba(255, 105, 180, 0.7);
-    font-size: 1.4rem; display: flex; align-items: center; justify-content: center; transition: transform 0.3s, box-shadow 0.3s;
+    font-size: 1.4rem; display: flex; align-items: center; justify-content: center; transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
   #chat-toggle:hover { transform: scale(1.05); box-shadow: 0 0 25px rgba(255, 105, 180, 1); }
   #chat-box {
     background: #111; border-radius: 10px; flex: 1; display: flex; flex-direction: column;
     overflow: hidden; margin-top: -10px; box-shadow: 0 0 30px rgba(135, 206, 235, 0.5);
-    border: 1px solid #87CEEB; position: relative;
+    border: 1px solid #87CEEB; position: relative; height: 400px; /* Taille fixe */
   }
   #chat-messages {
     flex: 1; padding: 1.5rem; overflow-y: auto; color: #fff; font-size: 1rem;
@@ -717,23 +717,23 @@
 </style>
 
 <script>
-// Base de connaissances sacrée
+// Base de connaissances avec ton humain
 const knowledgeBase = [
-  { question: "fatigue", answer: "Une fatigue infinie vous enlace ? Les ombres pourraient ternir votre flamme. Frederick offre une délivrance divine : <button onclick=\"window.location.href='https://buy.stripe.com/6oE3cAevG5mLgpi7tL'\">un regard dans l’éther (50€)</button> ou <button onclick=\"window.location.href='https://buy.stripe.com/cN2bJ62MYg1p0qk5lE'\">une purification sacrée (250€)</button>. Quelle lumière cherchez-vous pour votre salut ?", keywords: ["fatigue", "épuisé", "las"] },
-  { question: "cauchemars", answer: "Des cauchemars obscurcissent vos nuits ? Une malédiction murmure dans l’ombre. Frederick du Cabinet ClairvoyanceMedium.com peut vous libérer. Quelle grâce invoquez-vous pour votre éveil ?", keywords: ["cauchemars", "rêves", "nuit"] },
-  { question: "malchance", answer: "La malchance voile votre étoile ? Frederick tient la clé de votre renaissance. Un souffle divin peut tout changer. Quelle voie sacrée désirez-vous pour votre délivrance ?", keywords: ["malchance", "poisse", "pas de chance"] },
-  { question: "prix", answer: "Les offrandes célestes : 250€ pour une libération totale, 50€ pour une vision dans l’éther, 6-28€ pour une voyance. Quelle porte vers la lumière souhaitez-vous ouvrir pour votre salut ?", keywords: ["prix", "combien", "coût"] },
-  { question: "payer", answer: "Un passage sanctifié vous attend via Stripe. <button onclick=\"window.location.href='https://buy.stripe.com/cN2bJ62MYg1p0qk5lE'\">Rituel de salut (250€)</button> ou <button onclick=\"window.location.href='https://buy.stripe.com/6oE3cAevG5mLgpi7tL'\">Détection éthérée (50€)</button>. Quelle offrande choisissez-vous pour votre éveil ?", keywords: ["payer", "paiement", "comment payer"] },
-  { question: "frederick", answer: "Frederick, sage du Cabinet ClairvoyanceMedium.com, maître des énergies depuis 25 ans, peut dissiper toute ombre. Son pouvoir est à votre portée pour une renaissance sacrée. Que cherchez-vous en lui ?", keywords: ["frederick", "qui", "voyant"] },
-  { question: "rituel", answer: "Un rituel de 4 jours pour briser les chaînes et vous envelopper de lumière. Frederick vous offre cette grâce divine. <button onclick=\"window.location.href='https://buy.stripe.com/cN2bJ62MYg1p0qk5lE'\">Recevoir cette bénédiction (250€)</button>", keywords: ["rituel", "désenvoûtement", "protection"] },
-  { question: "photo", answer: "Une photo est un éclat de votre aura, mais votre nom et naissance suffisent pour l’éveil de Frederick. Que lui confiez-vous pour votre délivrance sacrée ?", keywords: ["photo", "besoin", "image"] },
-  { question: "aide", answer: "Je suis l’Oracle de Frederick, voix des sphères sacrées. Confiez-moi vos ombres ou murmurez ‘rituel’, ‘prix’, ‘contact’ pour une délivrance imminente.", keywords: ["aide", "help", "assistance"] },
-  { question: "contact", answer: "Un murmure à <a href='mailto:contact.clairvoyancemedium@gmail.com'>contact.clairvoyancemedium@gmail.com</a> et Frederick du Cabinet ClairvoyanceMedium.com guidera votre âme vers la lumière.", keywords: ["contact", "email", "contacter"] },
-  { question: "salut", answer: "Le salut vous appelle dans l’éther. Frederick peut briser les voiles sombres qui vous retiennent. <button onclick=\"window.location.href='https://buy.stripe.com/cN2bJ62MYg1p0qk5lE'\">Saisir cette grâce (250€)</button>", keywords: ["salut", "sauver"] },
-  { question: "éveil", answer: "L’éveil de votre âme est proche. Frederick du Cabinet ClairvoyanceMedium.com peut vous y conduire avec une grâce infinie. <button onclick=\"window.location.href='https://buy.stripe.com/6oE3cAevG5mLgpi7tL'\">Un premier pas (50€)</button>", keywords: ["éveil", "réveil"] },
+  { question: "fatigue", answer: "Vous vous sentez fatigué tout le temps ? Peut-être qu’une ombre pèse sur vous. Frederick peut vous aider avec <button onclick=\"window.location.href='https://buy.stripe.com/6oE3cAevG5mLgpi7tL'\">une détection rapide (50€)</button> ou <button onclick=\"window.location.href='https://buy.stripe.com/cN2bJ62MYg1p0qk5lE'\">un rituel complet (250€)</button>. Qu’est-ce qui vous tente pour retrouver votre énergie ?", keywords: ["fatigue", "épuisé", "crevé"] },
+  { question: "cauchemars", answer: "Des cauchemars qui reviennent sans cesse ? Ça pourrait être un signe à ne pas ignorer. Frederick du Cabinet ClairvoyanceMedium.com sait comment les arrêter. Vous voulez essayer quelque chose pour dormir tranquille ?", keywords: ["cauchemars", "rêves", "nuit"] },
+  { question: "malchance", answer: "La poisse ne vous lâche pas ? Frederick a la solution pour renverser ça. Un petit coup de pouce pourrait changer la donne. Vous êtes prêt à tenter votre chance ?", keywords: ["malchance", "poisse", "pas de chance"] },
+  { question: "prix", answer: "Voici les tarifs : 250€ pour un rituel qui change tout, 50€ pour une détection, et entre 6 et 28€ pour une voyance. Qu’est-ce qui vous parle pour avancer ?", keywords: ["prix", "combien", "coût"] },
+  { question: "payer", answer: "Le paiement est simple et sécurisé avec Stripe. <button onclick=\"window.location.href='https://buy.stripe.com/cN2bJ62MYg1p0qk5lE'\">Rituel à 250€</button> ou <button onclick=\"window.location.href='https://buy.stripe.com/6oE3cAevG5mLgpi7tL'\">Détection à 50€</button>. Vous choisissez quoi pour démarrer ?", keywords: ["payer", "paiement", "comment payer"] },
+  { question: "frederick", answer: "Frederick, c’est le pro du Cabinet ClairvoyanceMedium.com, avec 25 ans d’expérience pour chasser les mauvaises ondes. Vous voulez en savoir plus ou passer direct à l’action ?", keywords: ["frederick", "qui", "voyant"] },
+  { question: "rituel", answer: "Un rituel en 4 jours pour tout nettoyer et vous protéger. Frederick peut s’en charger. <button onclick=\"window.location.href='https://buy.stripe.com/cN2bJ62MYg1p0qk5lE'\">Ça coûte 250€ et ça peut tout changer</button>. Vous êtes partant ?", keywords: ["rituel", "désenvoûtement", "protection"] },
+  { question: "photo", answer: "Une photo, c’est utile mais pas obligatoire. Votre nom et date de naissance suffisent pour que Frederick commence. Qu’est-ce que vous lui donnez pour avancer ?", keywords: ["photo", "besoin", "image"] },
+  { question: "aide", answer: "Je suis là pour vous guider avec Frederick. Dites-moi ce qui vous tracasse ou essayez ‘rituel’, ‘prix’, ‘contact’ pour aller plus loin.", keywords: ["aide", "help", "assistance"] },
+  { question: "contact", answer: "Envoyez un mot à <a href='mailto:contact.clairvoyancemedium@gmail.com'>contact.clairvoyancemedium@gmail.com</a> et Frederick vous répondra pour vous aider.", keywords: ["contact", "email", "contacter"] },
+  { question: "salut", answer: "Vous cherchez un vrai changement ? Frederick peut vous sortir de là. <button onclick=\"window.location.href='https://buy.stripe.com/cN2bJ62MYg1p0qk5lE'\">Un rituel à 250€ pourrait être votre solution</button>. Ça vous tente ?", keywords: ["salut", "sauver"] },
+  { question: "éveil", answer: "Envie de retrouver votre énergie ? Frederick du Cabinet ClairvoyanceMedium.com peut vous y aider. <button onclick=\"window.location.href='https://buy.stripe.com/6oE3cAevG5mLgpi7tL'\">Une détection à 50€ pour commencer</button>. Vous essayez ?", keywords: ["éveil", "réveil"] },
 ];
 
-// État éthéré persistant avec tracking
+// État avec tracking
 let conversation = [];
 let userName = localStorage.getItem("userName") || null;
 let soulAura = localStorage.getItem("soulAura") || "seeking";
@@ -755,7 +755,7 @@ function findBestMatch(userInput) {
   userInput = userInput.toLowerCase().trim();
   let bestScore = Infinity, bestAnswer = null;
 
-  // Recherche divine
+  // Recherche simple
   knowledgeBase.forEach(item => {
     const keywords = item.keywords || [item.question];
     keywords.forEach(keyword => {
@@ -771,35 +771,35 @@ function findBestMatch(userInput) {
     }
   });
 
-  // Lecture et mise à jour de l’aura
+  // Mise à jour de l’aura
   if (userInput.includes("peur") || userInput.includes("mal") || userInput.includes("triste")) soulAura = "shadowed";
-  else if (userInput.includes("merci") || userInput.includes("joie") || userInput.includes("lumière")) soulAura = "radiant";
+  else if (userInput.includes("merci") || userInput.includes("joie") || userInput.includes("bien")) soulAura = "radiant";
   else soulAura = "seeking";
   localStorage.setItem("soulAura", soulAura);
 
-  // Réponse prophétique
+  // Réponse accessible
   if (bestScore > 5) {
     if (conversation.length > 1) {
       const last = conversation[conversation.length - 2].toLowerCase();
       if (last.includes("fatigue") && userInput.includes("cauchemars")) {
         trackInteraction("SymptomCombo", "Interaction");
-        return "Les ombres tissent fatigue et cauchemars dans votre être. Frederick peut offrir une délivrance sacrée. <button onclick=\"window.location.href='https://buy.stripe.com/6oE3cAevG5mLgpi7tL'\">Un regard éthéré (50€)</button> vous appelle-t-il ?";
+        return "Fatigue et cauchemars, ça fait beaucoup, non ? Frederick peut vérifier ça avec <button onclick=\"window.location.href='https://buy.stripe.com/6oE3cAevG5mLgpi7tL'\">une détection à 50€</button>. Vous voulez essayer ?";
       }
-      return `Votre dernier souffle évoquait "${last}". Laissez-moi vous guider vers une lumière salvatrice.`;
+      return `Vous avez parlé de "${last}" avant. Dites-m’en plus pour qu’on trouve une solution ensemble !`;
     }
-    return "Les étoiles n’ont pas encore capté votre chant… Confiez-moi ‘fatigue’, ‘rituel’ ou ‘aide’ pour une révélation divine.";
+    return "Je n’ai pas bien compris… Essayez ‘fatigue’, ‘rituel’ ou ‘aide’ pour qu’on avance.";
   }
 
-  // Invocation subliminale avec tracking
+  // Réponse adaptée avec tracking
   trackInteraction("MatchedQuery", "Interaction", userInput);
-  let prefix = userName ? `${userName}, ` : "Âme bénie, ";
-  if (soulAura === "shadowed") prefix += "les ténèbres vous effleurent, mais le salut est à portée, ";
-  else if (soulAura === "radiant") prefix += "votre éclat illumine les cieux, la grâce vous attend, ";
-  else prefix += "votre quête résonne dans l’éther, une libération vous guette, ";
+  let prefix = userName ? `${userName}, ` : "Hey, ";
+  if (soulAura === "shadowed") prefix += "on dirait que ça va pas fort, mais il y a une solution, ";
+  else if (soulAura === "radiant") prefix += "vous avez l’air en forme, on peut encore améliorer ça, ";
+  else prefix += "vous cherchez quelque chose, je peux vous aider, ";
   return `${prefix}${bestAnswer}`;
 }
 
-// Naissance de l’Oracle
+// Dialogue avec Frederick
 (function () {
   const chatContainer = document.getElementById("chat-container"),
         chatToggle = document.getElementById("chat-toggle"),
@@ -810,7 +810,7 @@ function findBestMatch(userInput) {
         voiceToggle = document.getElementById("voice-toggle"),
         toggleVoiceBtn = document.getElementById("toggle-voice");
 
-  // Activation vocale
+  // Toggle vocal discret
   toggleVoiceBtn.addEventListener("click", () => {
     useVoice = !useVoice;
     toggleVoiceBtn.textContent = useVoice ? "🔇" : "🔊";
@@ -821,13 +821,13 @@ function findBestMatch(userInput) {
     if (useVoice && window.speechSynthesis) {
       const utterance = new SpeechSynthesisUtterance(text.replace(/<[^>]+>/g, ""));
       utterance.lang = "fr-FR";
-      utterance.pitch = 1.2;
-      utterance.rate = 0.9;
+      utterance.pitch = 1;
+      utterance.rate = 1;
       window.speechSynthesis.speak(utterance);
     }
   }
 
-  // Invocation initiale
+  // Ouverture fluide
   chatToggle.addEventListener("click", () => {
     const isHidden = chatBox.classList.contains("hidden");
     chatBox.classList.toggle("hidden");
@@ -838,8 +838,8 @@ function findBestMatch(userInput) {
       voiceToggle.classList.add("show");
       if (!conversation.length) {
         const welcomeMsg = userName ? 
-          `Que les cieux sacrés vous accueillent à nouveau, ${userName} ! Frederick du Cabinet ClairvoyanceMedium.com vous attend.` :
-          "Que les cieux sacrés vous accueillent ! Je suis l’Oracle de Frederick du Cabinet ClairvoyanceMedium.com. Quel est votre nom dans l’éther ?";
+          `Content de vous revoir, ${userName} ! Frederick du Cabinet ClairvoyanceMedium.com est là pour vous.` :
+          "Salut ! Je suis là avec Frederick du Cabinet ClairvoyanceMedium.com. Comment vous appelez-vous ?";
         setTimeout(() => addMessage(welcomeMsg, "bot-message"), 700);
       }
     } else {
@@ -847,7 +847,7 @@ function findBestMatch(userInput) {
     }
   });
 
-  // Communion éthérée
+  // Échange humain
   chatForm.addEventListener("submit", (e) => {
     e.preventDefault();
     const userMsg = chatInput.value.trim();
@@ -858,31 +858,21 @@ function findBestMatch(userInput) {
     conversation.push(userMsg);
     chatInput.value = "";
 
-    // Nom sanctifié
+    // Nom enregistré
     if (!userName && conversation.length === 1) {
       userName = userMsg.split(" ")[0];
       localStorage.setItem("userName", userName);
-      setTimeout(() => {
-        const msg = `Que votre aura soit bénie, ${userName} ! Frederick du Cabinet ClairvoyanceMedium.com peut tisser votre salut. Comment puis-je vous éclairer ?`;
-        addMessage(msg, "bot-message");
-        speak(msg);
-      }, 1400);
+      setTimeout(() => addMessage(`Ravi de vous rencontrer, ${userName} ! Frederick du Cabinet ClairvoyanceMedium.com peut vous aider. Qu’est-ce qui vous préoccupe ?`, "bot-message"), 1400);
       return;
     }
 
-    // Réponse divine
-    const typing = addMessage("Les constellations s’harmonisent…", "bot-message typing");
+    // Réponse naturelle
+    const typing = addMessage("Je regarde ça…", "bot-message typing");
     setTimeout(() => {
       chatMessages.removeChild(typing);
       const answer = findBestMatch(userMsg);
-      const msgElement = addMessage(answer, "bot-message" + (useVoice ? " speaking" : ""));
-      speak(answer);
-      // Souffle prophétique
-      setTimeout(() => {
-        const hint = "Un appel sacré résonne : murmurez ‘salut’ ou ‘éveil’ pour une grâce imminente de Frederick.";
-        addMessage(hint, "bot-message");
-        speak(hint);
-      }, 2200);
+      addMessage(answer, "bot-message");
+      setTimeout(() => addMessage("Dites ‘salut’ ou ‘éveil’ si vous voulez une solution rapide de Frederick.", "bot-message"), 2200);
     }, 2000);
   });
 
@@ -895,8 +885,8 @@ function findBestMatch(userInput) {
     return p;
   }
 
-  // Déplacement céleste
-  let isDragging = false, currentX, currentY, initialX, initialY;
+  // Déplaçabilité ultra-fluide
+  let isDragging = false, currentX, currentY, initialX, initialY, velocityX = 0, velocityY = 0;
   chatContainer.addEventListener("mousedown", startDragging);
   chatContainer.addEventListener("touchstart", startDragging, { passive: false });
 
@@ -918,17 +908,20 @@ function findBestMatch(userInput) {
   function drag(e) {
     if (!isDragging) return;
     e.preventDefault();
+    let newX, newY;
     if (e.type === "mousemove") {
-      currentX = e.clientX - initialX;
-      currentY = e.clientY - initialY;
+      newX = e.clientX - initialX;
+      newY = e.clientY - initialY;
     } else {
-      currentX = e.touches[0].clientX - initialX;
-      currentY = e.touches[0].clientY - initialY;
+      newX = e.touches[0].clientX - initialX;
+      newY = e.touches[0].clientY - initialY;
     }
-    chatContainer.style.right = "auto";
-    chatContainer.style.bottom = "auto";
-    chatContainer.style.left = `${Math.max(0, Math.min(currentX, window.innerWidth - chatContainer.offsetWidth))}px`;
-    chatContainer.style.top = `${Math.max(0, Math.min(currentY, window.innerHeight - chatContainer.offsetHeight))}px`;
+    velocityX = newX - currentX;
+    velocityY = newY - currentY;
+    currentX = Math.max(0, Math.min(newX, window.innerWidth - chatContainer.offsetWidth));
+    currentY = Math.max(0, Math.min(newY, window.innerHeight - chatContainer.offsetHeight));
+    chatContainer.style.left = `${currentX}px`;
+    chatContainer.style.top = `${currentY}px`;
   }
 
   function stopDragging() {
@@ -937,9 +930,21 @@ function findBestMatch(userInput) {
     document.removeEventListener("touchmove", drag);
     document.removeEventListener("mouseup", stopDragging);
     document.removeEventListener("touchend", stopDragging);
+    // Inertie subtile
+    let inertia = setInterval(() => {
+      currentX += velocityX * 0.1;
+      currentY += velocityY * 0.1;
+      velocityX *= 0.9;
+      velocityY *= 0.9;
+      currentX = Math.max(0, Math.min(currentX, window.innerWidth - chatContainer.offsetWidth));
+      currentY = Math.max(0, Math.min(currentY, window.innerHeight - chatContainer.offsetHeight));
+      chatContainer.style.left = `${currentX}px`;
+      chatContainer.style.top = `${currentY}px`;
+      if (Math.abs(velocityX) < 0.1 && Math.abs(velocityY) < 0.1) clearInterval(inertia);
+    }, 16);
   }
 
-  // Harmonie cosmique
+  // Position initiale
   function updatePosition() {
     currentX = window.innerWidth - chatContainer.offsetWidth - 20;
     currentY = window.innerHeight - chatContainer.offsetHeight - 20;
@@ -949,34 +954,32 @@ function findBestMatch(userInput) {
   updatePosition();
   window.addEventListener("resize", updatePosition);
 
-  // Commandes divines avec tracking
+  // Commandes simples avec tracking
   chatInput.addEventListener("input", (e) => {
     const value = e.target.value.toLowerCase().trim();
     if (value === "voix") {
       useVoice = true;
       toggleVoiceBtn.textContent = "🔇";
       trackInteraction("VoiceEnabled", "Feature");
-      const msg = "La voix des cieux s’éveille pour vous. Frederick vous parle désormais. Dites ‘salut’ ou ‘éveil’ pour une grâce.";
-      addMessage(msg, "bot-message speaking");
-      speak(msg);
+      addMessage("Vous voulez entendre mes réponses ? Je peux parler maintenant. Dites ‘salut’ ou ‘éveil’ pour tester.", "bot-message");
       e.target.value = "";
     } else if (value === "silence") {
       useVoice = false;
       toggleVoiceBtn.textContent = "🔊";
       trackInteraction("VoiceDisabled", "Feature");
-      addMessage("Le silence revient, mais Frederick veille toujours. Que souhaitez-vous invoquer ?", "bot-message");
+      addMessage("OK, je reste en silence. Comment je peux vous aider ?", "bot-message");
       e.target.value = "";
     } else if (value === "salut") {
       trackInteraction("SalutCommand", "Command");
-      const msg = "Le salut vous appelle dans l’éther. Frederick du Cabinet ClairvoyanceMedium.com peut briser vos chaînes. <button onclick=\"window.location.href='https://buy.stripe.com/cN2bJ62MYg1p0qk5lE'\">Saisir cette lumière (250€)</button>";
-      addMessage(msg, "bot-message" + (useVoice ? " speaking" : ""));
-      speak(msg);
+      const msg = "Vous cherchez un vrai changement ? Frederick peut vous sortir de là. <button onclick=\"window.location.href='https://buy.stripe.com/cN2bJ62MYg1p0qk5lE'\">Un rituel à 250€ pourrait être votre solution</button>. Ça vous tente ?";
+      addMessage(msg, "bot-message");
+      if (useVoice) speak(msg);
       e.target.value = "";
     }
   });
 })();
 </script>
-
+  
   <script nonce="xai-48273">
     document.addEventListener("DOMContentLoaded", () => {
       const sections = document.querySelectorAll("section");
