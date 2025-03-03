@@ -665,7 +665,7 @@
   #chat-messages {
     flex: 1; padding: 1rem; overflow-y: auto; color: #fff; font-size: 1rem;
     background: linear-gradient(to bottom, rgba(17, 17, 17, 0.98), rgba(0, 0, 0, 0.95));
-    position: relative; -webkit-overflow-scrolling: touch; /* Scroll fluide sur mobile */
+    position: relative; -webkit-overflow-scrolling: touch;
   }
   #chat-messages::before {
     content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
@@ -730,7 +730,7 @@
 </style>
 
 <script>
-// Base de connaissances avec ton humain et échange progressif
+// Base de connaissances avec échange progressif
 const knowledgeBase = [
   { question: "fatigue", answer: "Vous vous sentez fatigué tout le temps ? Ça peut venir de plein de choses. Depuis quand vous ressentez ça ?", keywords: ["fatigue", "épuisé", "crevé"] },
   { question: "cauchemars", answer: "Des cauchemars qui reviennent souvent ? C’est embêtant, ça. Ça arrive toutes les nuits ou juste parfois ?", keywords: ["cauchemars", "rêves", "nuit"] },
@@ -752,6 +752,7 @@ let userName = localStorage.getItem("userName") || null;
 let soulAura = localStorage.getItem("soulAura") || "seeking";
 let useVoice = false;
 let interactionLog = JSON.parse(localStorage.getItem("interactionLog")) || [];
+let hasGreeted = localStorage.getItem("hasGreeted") === "true";
 
 function levenshtein(a, b) {
   const an = a ? a.length : 0, bn = b ? b.length : 0;
@@ -806,28 +807,25 @@ function findBestMatch(userInput) {
   else soulAura = "seeking";
   localStorage.setItem("soulAura", soulAura);
 
-  // Réponse progressive
-  let prefix = userName ? `${userName}, ` : "Hey, ";
-  if (soulAura === "shadowed") prefix += "on dirait que ça va pas fort, ";
-  else if (soulAura === "radiant") prefix += "vous avez l’air en forme, ";
-  else prefix += "je vois que vous cherchez quelque chose, ";
+  // Réponse adaptée sans "Salut" répétitif
+  let prefix = userName ? `${userName}, ` : "";
 
   if (bestScore <= 5 && bestAnswer) {
     trackInteraction("MatchedQuery", "Interaction", userInput);
     return `${prefix}${bestAnswer}`;
   } else if (conversation.length > 1) {
     const last = conversation[conversation.length - 2].toLowerCase();
-    if (last.includes("fatigue") && userInput.includes("cauchemars")) {
+    if (last.includes("fatigue") && userInput.includes("depuis 2 mois")) {
       trackInteraction("SymptomCombo", "Interaction");
-      return `${prefix}Fatigue et cauchemars, OK, ça fait beaucoup. En général, les gens dans ce cas commencent par une détection avec Frederick. Je vous conseille <button onclick=\"window.location.href='https://buy.stripe.com/6oE3cAevG5mLgpi7tL'\">une détection à 50€</button> pour voir ce qui se passe.`;
-    } else if (last.includes("fatigue") && !userInput.includes("non")) {
-      return `${prefix}Vous avez parlé de fatigue avant. Ça dure depuis longtemps ? Si oui, je vous conseille <button onclick=\"window.location.href='https://buy.stripe.com/6oE3cAevG5mLgpi7tL'\">une détection à 50€</button> avec Frederick pour creuser ça.`;
-    } else if (last.includes("cauchemars") && !userInput.includes("non")) {
-      return `${prefix}Vous avez mentionné des cauchemars. Ça vous réveille souvent ? Si c’est régulier, je vous recommande <button onclick=\"window.location.href='https://buy.stripe.com/6oE3cAevG5mLgpi7tL'\">une détection à 50€</button> avec Frederick.`;
+      return `${prefix}Deux mois, c’est pas rien. En général, les gens dans ce cas font une détection avec Frederick. Je vous conseille <button onclick=\"window.location.href='https://buy.stripe.com/6oE3cAevG5mLgpi7tL'\">une détection à 50€</button> pour voir ce qui se passe.`;
+    } else if (last.includes("cauchemars") && userInput.includes("toutes les nuits")) {
+      return `${prefix}Toutes les nuits, ça doit être dur. Les gens qui ont ça souvent prennent <button onclick=\"window.location.href='https://buy.stripe.com/6oE3cAevG5mLgpi7tL'\">une détection à 50€</button> avec Frederick. Je vous la conseille.`;
+    } else if (last.includes("malchance") && userInput.includes("tout")) {
+      return `${prefix}Si ça touche tout, c’est plus sérieux. En général, les gens dans ce cas font <button onclick=\"window.location.href='https://buy.stripe.com/cN2bJ62MYg1p0qk5lE'\">un rituel à 250€</button> avec Frederick. Je vous le recommande.`;
     }
-    return `${prefix}Je suis pas sûr de suivre. Vous pouvez reformuler votre question sur "${last}" ?`;
+    return `${prefix}Pas sûr d’avoir compris. Vous pouvez répéter en expliquant un peu plus ce que vous vouliez dire par "${last}" ?`;
   }
-  return `${prefix}Je vois pas bien ce que vous voulez dire. Vous pouvez reformuler ça pour moi ?`;
+  return `${prefix}Pas sûr d’avoir compris. Vous pouvez répéter en reformulant un peu ?`;
 }
 
 // Dialogue avec Frederick
@@ -867,7 +865,7 @@ function findBestMatch(userInput) {
       trackInteraction("ChatOpen", "Interaction");
       setTimeout(() => chatInput.focus(), 300);
       voiceToggle.classList.add("show");
-      if (!conversation.length) {
+      if (!conversation.length && !hasGreeted) {
         const welcomeMsg = userName ? 
           `Content de vous revoir, ${userName} ! Frederick du Cabinet ClairvoyanceMedium.com est là pour vous.` :
           "Salut ! Je suis là avec Frederick du Cabinet ClairvoyanceMedium.com. Comment vous appelez-vous ?";
@@ -875,6 +873,8 @@ function findBestMatch(userInput) {
           chatBox.classList.add("thinking");
           addMessage(welcomeMsg, "bot-message");
           setTimeout(() => chatBox.classList.remove("thinking"), 700);
+          localStorage.setItem("hasGreeted", "true");
+          hasGreeted = true;
         }, 700);
       }
     } else {
@@ -903,6 +903,8 @@ function findBestMatch(userInput) {
         chatBox.classList.add("thinking");
         addMessage(welcomeMsg, "bot-message");
         setTimeout(() => chatBox.classList.remove("thinking"), 1400);
+        localStorage.setItem("hasGreeted", "true");
+        hasGreeted = true;
       }, 1400);
       return;
     }
@@ -917,19 +919,19 @@ function findBestMatch(userInput) {
       chatBox.classList.remove("thinking");
 
       // Gestion des questions inconnues
-      if (answer.includes("reformuler")) {
+      if (answer.includes("répéter")) {
         unknownAttempts++;
         if (unknownAttempts >= 2) {
-          const consultMsg = `${userName ? userName + ", " : "Hey, "}je vois qu’on a du mal à se comprendre. Dans votre situation, une voyance par email avec Frederick serait très utile. Voici les options : <button onclick=\"window.location.href='https://buy.stripe.com/14kdRe0EQ4iH1uoaFa'\">1 question à 6€</button>, <button onclick=\"window.location.href='https://buy.stripe.com/dR614scnycPddd66oV'\">3 questions à 15€</button>, ou <button onclick=\"window.location.href='https://buy.stripe.com/28o3cA0EQ5mL0qk14C'\">5 questions à 28€</button>.`;
+          const consultMsg = `${userName ? userName + ", " : ""}c’est un cas un peu compliqué, là. Une voyance par email avec Frederick serait utile pour y voir plus clair. Voici les options : <button onclick=\"window.location.href='https://buy.stripe.com/14kdRe0EQ4iH1uoaFa'\">1 question à 6€</button>, <button onclick=\"window.location.href='https://buy.stripe.com/dR614scnycPddd66oV'\">3 questions à 15€</button>, ou <button onclick=\"window.location.href='https://buy.stripe.com/28o3cA0EQ5mL0qk14C'\">5 questions à 28€</button>.`;
           setTimeout(() => {
             chatBox.classList.add("thinking");
             addMessage(consultMsg, "bot-message");
             setTimeout(() => chatBox.classList.remove("thinking"), 1400);
           }, 1400);
-          unknownAttempts = 0; // Réinitialisation après suggestion
+          unknownAttempts = 0;
         }
       } else {
-        unknownAttempts = 0; // Réinitialisation si réponse trouvée
+        unknownAttempts = 0;
       }
     }, 2000);
   });
@@ -1042,6 +1044,7 @@ function findBestMatch(userInput) {
   });
 })();
 </script>
+
   
   <script nonce="xai-48273">
     document.addEventListener("DOMContentLoaded", () => {
