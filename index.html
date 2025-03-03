@@ -646,7 +646,7 @@
 <style>
   #chat-container {
     position: fixed; bottom: 20px; right: 20px; width: 300px; z-index: 999999;
-    font-family: 'Cinzel', serif; transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1); /* Fluidité accrue */
+    font-family: 'Cinzel', serif; transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
   }
   #chat-toggle {
     width: 60px; height: 60px; background: linear-gradient(145deg, #FFB6C1, #FF69B4); color: #fff;
@@ -657,7 +657,7 @@
   #chat-box {
     background: #111; border-radius: 10px; flex: 1; display: flex; flex-direction: column;
     overflow: hidden; margin-top: -10px; box-shadow: 0 0 30px rgba(135, 206, 235, 0.5);
-    border: 1px solid #87CEEB; position: relative; height: 400px; /* Taille fixe */
+    border: 1px solid #87CEEB; position: relative; height: 400px;
   }
   #chat-messages {
     flex: 1; padding: 1.5rem; overflow-y: auto; color: #fff; font-size: 1rem;
@@ -740,6 +740,22 @@ let soulAura = localStorage.getItem("soulAura") || "seeking";
 let useVoice = false;
 let interactionLog = JSON.parse(localStorage.getItem("interactionLog")) || [];
 
+function levenshtein(a, b) {
+  const an = a ? a.length : 0, bn = b ? b.length : 0;
+  if (!an) return bn;
+  if (!bn) return an;
+  let matrix = [];
+  for (let i = 0; i <= bn; i++) matrix[i] = [i];
+  for (let j = 0; j <= an; j++) matrix[0][j] = j;
+  for (let i = 1; i <= bn; i++) {
+    for (let j = 1; j <= an; j++) {
+      const cost = b.charAt(i - 1) === a.charAt(j - 1) ? 0 : 1;
+      matrix[i][j] = Math.min(matrix[i - 1][j] + 1, matrix[i][j - 1] + 1, matrix[i - 1][j - 1] + cost);
+    }
+  }
+  return matrix[bn][an];
+}
+
 function trackInteraction(label, category = "Oracle", value = null) {
   const event = { label, category, value, timestamp: new Date().toISOString() };
   interactionLog.push(event);
@@ -755,7 +771,7 @@ function findBestMatch(userInput) {
   userInput = userInput.toLowerCase().trim();
   let bestScore = Infinity, bestAnswer = null;
 
-  // Recherche simple
+  // Recherche améliorée
   knowledgeBase.forEach(item => {
     const keywords = item.keywords || [item.question];
     keywords.forEach(keyword => {
@@ -777,26 +793,24 @@ function findBestMatch(userInput) {
   else soulAura = "seeking";
   localStorage.setItem("soulAura", soulAura);
 
-  // Réponse accessible
-  if (bestScore > 5) {
-    if (conversation.length > 1) {
-      const last = conversation[conversation.length - 2].toLowerCase();
-      if (last.includes("fatigue") && userInput.includes("cauchemars")) {
-        trackInteraction("SymptomCombo", "Interaction");
-        return "Fatigue et cauchemars, ça fait beaucoup, non ? Frederick peut vérifier ça avec <button onclick=\"window.location.href='https://buy.stripe.com/6oE3cAevG5mLgpi7tL'\">une détection à 50€</button>. Vous voulez essayer ?";
-      }
-      return `Vous avez parlé de "${last}" avant. Dites-m’en plus pour qu’on trouve une solution ensemble !`;
-    }
-    return "Je n’ai pas bien compris… Essayez ‘fatigue’, ‘rituel’ ou ‘aide’ pour qu’on avance.";
-  }
-
-  // Réponse adaptée avec tracking
-  trackInteraction("MatchedQuery", "Interaction", userInput);
+  // Toujours une réponse
   let prefix = userName ? `${userName}, ` : "Hey, ";
   if (soulAura === "shadowed") prefix += "on dirait que ça va pas fort, mais il y a une solution, ";
   else if (soulAura === "radiant") prefix += "vous avez l’air en forme, on peut encore améliorer ça, ";
   else prefix += "vous cherchez quelque chose, je peux vous aider, ";
-  return `${prefix}${bestAnswer}`;
+
+  if (bestScore <= 5 && bestAnswer) {
+    trackInteraction("MatchedQuery", "Interaction", userInput);
+    return `${prefix}${bestAnswer}`;
+  } else if (conversation.length > 1) {
+    const last = conversation[conversation.length - 2].toLowerCase();
+    if (last.includes("fatigue") && userInput.includes("cauchemars")) {
+      trackInteraction("SymptomCombo", "Interaction");
+      return `${prefix}Fatigue et cauchemars, ça fait beaucoup, non ? Frederick peut vérifier ça avec <button onclick="window.location.href='https://buy.stripe.com/6oE3cAevG5mLgpi7tL'">une détection à 50€</button>. Vous voulez essayer ?`;
+    }
+    return `${prefix}Vous avez parlé de "${last}" avant. Dites-m’en plus pour qu’on trouve une solution ensemble !`;
+  }
+  return `${prefix}Je n’ai pas bien compris… Essayez ‘fatigue’, ‘rituel’ ou ‘aide’ pour qu’on avance.`;
 }
 
 // Dialogue avec Frederick
@@ -862,11 +876,12 @@ function findBestMatch(userInput) {
     if (!userName && conversation.length === 1) {
       userName = userMsg.split(" ")[0];
       localStorage.setItem("userName", userName);
-      setTimeout(() => addMessage(`Ravi de vous rencontrer, ${userName} ! Frederick du Cabinet ClairvoyanceMedium.com peut vous aider. Qu’est-ce qui vous préoccupe ?`, "bot-message"), 1400);
+      const welcomeMsg = `Ravi de vous rencontrer, ${userName} ! Frederick du Cabinet ClairvoyanceMedium.com peut vous aider. Qu’est-ce qui vous préoccupe ?`;
+      setTimeout(() => addMessage(welcomeMsg, "bot-message"), 1400);
       return;
     }
 
-    // Réponse naturelle
+    // Réponse garantie
     const typing = addMessage("Je regarde ça…", "bot-message typing");
     setTimeout(() => {
       chatMessages.removeChild(typing);
@@ -979,6 +994,7 @@ function findBestMatch(userInput) {
   });
 })();
 </script>
+
   
   <script nonce="xai-48273">
     document.addEventListener("DOMContentLoaded", () => {
