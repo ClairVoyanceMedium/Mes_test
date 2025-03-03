@@ -663,9 +663,9 @@
     animation: lightBeam 2s infinite;
   }
   #chat-messages {
-    flex: 1; padding: 1.5rem; overflow-y: auto; color: #fff; font-size: 1rem;
+    flex: 1; padding: 1rem; overflow-y: auto; color: #fff; font-size: 1rem;
     background: linear-gradient(to bottom, rgba(17, 17, 17, 0.98), rgba(0, 0, 0, 0.95));
-    position: relative;
+    position: relative; -webkit-overflow-scrolling: touch; /* Scroll fluide sur mobile */
   }
   #chat-messages::before {
     content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
@@ -673,13 +673,13 @@
     pointer-events: none; animation: starPulse 8s infinite;
   }
   .user-message {
-    text-align: right; color: #FFD700; margin: 12px 0; padding: 8px 14px;
+    text-align: right; color: #FFD700; margin: 10px 0; padding: 8px 12px;
     background: rgba(255, 215, 0, 0.25); border-radius: 12px; max-width: 80%; display: inline-block;
     animation: soulAscend 0.5s ease;
   }
   .bot-message {
-    text-align: left; color: #fff; background: rgba(135, 206, 235, 0.3); padding: 12px 16px;
-    border-radius: 12px; margin: 12px 0; max-width: 85%; display: inline-block;
+    text-align: left; color: #fff; background: rgba(135, 206, 235, 0.3); padding: 10px 14px;
+    border-radius: 12px; margin: 10px 0; max-width: 85%; display: inline-block;
     animation: celestialGlow 0.7s ease; position: relative; overflow: hidden;
   }
   .bot-message::after {
@@ -720,24 +720,30 @@
     100% { box-shadow: 0 0 10px rgba(255, 182, 193, 0.5), 0 0 10px rgba(135, 206, 235, 0.5); }
   }
   .typing::after { content: '...'; }
-  @media (max-width: 400px) { #chat-container { width: 90%; right: 5%; bottom: 5px; } }
+  @media (max-width: 400px) {
+    #chat-container { width: 90%; right: 5%; bottom: 5px; }
+    #chat-box { width: 100%; height: 80vh; max-height: 400px; }
+    #chat-messages { padding: 0.8rem; font-size: 0.9rem; }
+    #chat-input { font-size: 0.9rem; }
+    #chat-send { padding: 0.5rem 1rem; }
+  }
 </style>
 
 <script>
-// Base de connaissances avec ton humain affirmé
+// Base de connaissances avec ton humain et échange progressif
 const knowledgeBase = [
-  { question: "fatigue", answer: "Vous vous sentez fatigué tout le temps ? C’est souvent un signe que quelque chose ne va pas. En général, les gens commencent par <button onclick=\"window.location.href='https://buy.stripe.com/6oE3cAevG5mLgpi7tL'\">une détection rapide à 50€</button> avec Frederick, puis passent au <button onclick=\"window.location.href='https://buy.stripe.com/cN2bJ62MYg1p0qk5lE'\">rituel complet à 250€</button>. Je vous conseille vivement de démarrer par la détection.", keywords: ["fatigue", "épuisé", "crevé"] },
-  { question: "cauchemars", answer: "Des cauchemars qui reviennent sans cesse ? C’est un signal clair d’un problème à régler. Les gens dans votre cas prennent souvent <button onclick=\"window.location.href='https://buy.stripe.com/6oE3cAevG5mLgpi7tL'\">une détection à 50€</button> pour confirmer, puis le <button onclick=\"window.location.href='https://buy.stripe.com/cN2bJ62MYg1p0qk5lE'\">rituel à 250€</button>. Je vous recommande fortement la détection pour commencer.", keywords: ["cauchemars", "rêves", "nuit"] },
-  { question: "malchance", answer: "La poisse ne vous lâche pas ? Ça arrive souvent quand une énergie bloque votre chemin. En général, les gens optent pour <button onclick=\"window.location.href='https://buy.stripe.com/cN2bJ62MYg1p0qk5lE'\">le rituel à 250€</button> avec Frederick pour tout nettoyer d’un coup. Je vous conseille vivement de le prendre.", keywords: ["malchance", "poisse", "pas de chance"] },
-  { question: "prix", answer: "Vous voulez savoir les tarifs ? C’est 250€ pour un rituel complet, 50€ pour une détection, et 6 à 28€ pour une voyance. Les gens commencent souvent par <button onclick=\"window.location.href='https://buy.stripe.com/6oE3cAevG5mLgpi7tL'\">la détection à 50€</button>. Je vous recommande de partir là-dessus.", keywords: ["prix", "combien", "coût"] },
-  { question: "payer", answer: "Le paiement est simple et sécurisé avec Stripe. En général, les gens démarrent avec <button onclick=\"window.location.href='https://buy.stripe.com/6oE3cAevG5mLgpi7tL'\">la détection à 50€</button>, puis passent au <button onclick=\"window.location.href='https://buy.stripe.com/cN2bJ62MYg1p0qk5lE'\">rituel à 250€</button>. Je vous conseille vivement de commencer par la détection.", keywords: ["payer", "paiement", "comment payer"] },
-  { question: "frederick", answer: "Frederick, c’est le pro du Cabinet ClairvoyanceMedium.com, 25 ans d’expérience pour régler ces soucis. Les gens qui le consultent prennent souvent <button onclick=\"window.location.href='https://buy.stripe.com/cN2bJ62MYg1p0qk5lE'\">le rituel à 250€</button>. Je vous recommande de faire pareil.", keywords: ["frederick", "qui", "voyant"] },
-  { question: "rituel", answer: "Un rituel en 4 jours pour tout nettoyer et vous protéger, c’est ce que Frederick fait de mieux. Les gens dans votre situation choisissent <button onclick=\"window.location.href='https://buy.stripe.com/cN2bJ62MYg1p0qk5lE'\">ce rituel à 250€</button>. Je vous conseille vivement de le prendre.", keywords: ["rituel", "désenvoûtement", "protection"] },
-  { question: "photo", answer: "Une photo aide, mais votre nom et date de naissance suffisent pour Frederick. Les gens commencent souvent par <button onclick=\"window.location.href='https://buy.stripe.com/6oE3cAevG5mLgpi7tL'\">une détection à 50€</button>. Je vous recommande de partir là-dessus.", keywords: ["photo", "besoin", "image"] },
-  { question: "aide", answer: "Je suis là pour vous sortir de là avec Frederick. Dites-moi ce qui vous tracasse, mais en général, les gens commencent par <button onclick=\"window.location.href='https://buy.stripe.com/6oE3cAevG5mLgpi7tL'\">une détection à 50€</button>. Je vous conseille de faire ça.", keywords: ["aide", "help", "assistance"] },
-  { question: "contact", answer: "Envoyez un mot à <a href='mailto:contact.clairvoyancemedium@gmail.com'>contact.clairvoyancemedium@gmail.com</a>. Mais les gens préfèrent souvent <button onclick=\"window.location.href='https://buy.stripe.com/6oE3cAevG5mLgpi7tL'\">une détection à 50€</button> pour aller vite. Je vous recommande ça.", keywords: ["contact", "email", "contacter"] },
-  { question: "salut", answer: "Vous cherchez un vrai changement ? Les gens dans votre cas prennent <button onclick=\"window.location.href='https://buy.stripe.com/cN2bJ62MYg1p0qk5lE'\">le rituel à 250€</button> avec Frederick pour tout régler. Je vous conseille vivement de le faire.", keywords: ["salut", "sauver"] },
-  { question: "éveil", answer: "Envie de retrouver votre énergie ? En général, les gens commencent par <button onclick=\"window.location.href='https://buy.stripe.com/6oE3cAevG5mLgpi7tL'\">une détection à 50€</button> avec Frederick. Je vous recommande vivement ça.", keywords: ["éveil", "réveil"] },
+  { question: "fatigue", answer: "Vous vous sentez fatigué tout le temps ? Ça peut venir de plein de choses. Depuis quand vous ressentez ça ?", keywords: ["fatigue", "épuisé", "crevé"] },
+  { question: "cauchemars", answer: "Des cauchemars qui reviennent souvent ? C’est embêtant, ça. Ça arrive toutes les nuits ou juste parfois ?", keywords: ["cauchemars", "rêves", "nuit"] },
+  { question: "malchance", answer: "La poisse ne vous lâche pas ? Ça doit être frustrant. Ça touche quoi dans votre vie, surtout ?", keywords: ["malchance", "poisse", "pas de chance"] },
+  { question: "prix", answer: "Vous voulez savoir les tarifs ? Je peux vous les donner, mais d’abord, dites-moi ce que vous cherchez à régler.", keywords: ["prix", "combien", "coût"] },
+  { question: "payer", answer: "Vous pensez au paiement ? On utilise Stripe, c’est simple et sûr. Mais avant, qu’est-ce qui vous préoccupe le plus ?", keywords: ["payer", "paiement", "comment payer"] },
+  { question: "frederick", answer: "Frederick, c’est le pro du Cabinet ClairvoyanceMedium.com, 25 ans d’expérience. Vous voulez savoir comment il peut vous aider ?", keywords: ["frederick", "qui", "voyant"] },
+  { question: "rituel", answer: "Un rituel, c’est pour nettoyer et protéger en 4 jours. Vous pensez à un problème précis qui vous pousse à demander ça ?", keywords: ["rituel", "désenvoûtement", "protection"] },
+  { question: "photo", answer: "Une photo ? Ça peut aider, mais c’est pas obligatoire. Vous avez quelque chose en tête que vous voulez que Frederick regarde ?", keywords: ["photo", "besoin", "image"] },
+  { question: "aide", answer: "Je suis là pour vous aider avec Frederick. Qu’est-ce qui vous tracasse en ce moment ?", keywords: ["aide", "help", "assistance"] },
+  { question: "contact", answer: "Pour contacter Frederick, c’est par email. Mais d’abord, dites-moi ce que vous vivez, je peux vous guider.", keywords: ["contact", "email", "contacter"] },
+  { question: "salut", answer: "Vous cherchez un changement ? OK, mais parlons d’abord de ce qui vous bloque. Qu’est-ce qui ne va pas ?", keywords: ["salut", "sauver"] },
+  { question: "éveil", answer: "Vous voulez retrouver votre énergie ? Ça peut se faire. Qu’est-ce qui vous fatigue ou vous pèse en ce moment ?", keywords: ["éveil", "réveil"] },
 ];
 
 // État avec tracking
@@ -800,11 +806,11 @@ function findBestMatch(userInput) {
   else soulAura = "seeking";
   localStorage.setItem("soulAura", soulAura);
 
-  // Réponse ferme
+  // Réponse progressive
   let prefix = userName ? `${userName}, ` : "Hey, ";
-  if (soulAura === "shadowed") prefix += "ça n’a pas l’air d’aller, mais on va régler ça, ";
-  else if (soulAura === "radiant") prefix += "vous êtes bien parti, on va aller plus loin, ";
-  else prefix += "vous avez un souci, je sais quoi faire, ";
+  if (soulAura === "shadowed") prefix += "on dirait que ça va pas fort, ";
+  else if (soulAura === "radiant") prefix += "vous avez l’air en forme, ";
+  else prefix += "je vois que vous cherchez quelque chose, ";
 
   if (bestScore <= 5 && bestAnswer) {
     trackInteraction("MatchedQuery", "Interaction", userInput);
@@ -813,11 +819,15 @@ function findBestMatch(userInput) {
     const last = conversation[conversation.length - 2].toLowerCase();
     if (last.includes("fatigue") && userInput.includes("cauchemars")) {
       trackInteraction("SymptomCombo", "Interaction");
-      return `${prefix}Fatigue et cauchemars, c’est sérieux. Les gens dans votre cas commencent par <button onclick=\"window.location.href='https://buy.stripe.com/6oE3cAevG5mLgpi7tL'\">une détection à 50€</button> avec Frederick. Je vous conseille vivement de la prendre.`;
+      return `${prefix}Fatigue et cauchemars, OK, ça fait beaucoup. En général, les gens dans ce cas commencent par une détection avec Frederick. Je vous conseille <button onclick=\"window.location.href='https://buy.stripe.com/6oE3cAevG5mLgpi7tL'\">une détection à 50€</button> pour voir ce qui se passe.`;
+    } else if (last.includes("fatigue") && !userInput.includes("non")) {
+      return `${prefix}Vous avez parlé de fatigue avant. Ça dure depuis longtemps ? Si oui, je vous conseille <button onclick=\"window.location.href='https://buy.stripe.com/6oE3cAevG5mLgpi7tL'\">une détection à 50€</button> avec Frederick pour creuser ça.`;
+    } else if (last.includes("cauchemars") && !userInput.includes("non")) {
+      return `${prefix}Vous avez mentionné des cauchemars. Ça vous réveille souvent ? Si c’est régulier, je vous recommande <button onclick=\"window.location.href='https://buy.stripe.com/6oE3cAevG5mLgpi7tL'\">une détection à 50€</button> avec Frederick.`;
     }
-    return `${prefix}Vous avez parlé de "${last}" avant. Les gens avec ce genre de souci commencent par <button onclick=\"window.location.href='https://buy.stripe.com/6oE3cAevG5mLgpi7tL'\">une détection à 50€</button>. Je vous recommande de faire ça maintenant.`;
+    return `${prefix}Je suis pas sûr de suivre. Vous pouvez reformuler votre question sur "${last}" ?`;
   }
-  return `${prefix}Je n’ai pas tout compris, mais en général, les gens dans votre cas prennent <button onclick=\"window.location.href='https://buy.stripe.com/6oE3cAevG5mLgpi7tL'\">une détection à 50€</button> avec Frederick. Je vous conseille vivement de commencer par là.`;
+  return `${prefix}Je vois pas bien ce que vous voulez dire. Vous pouvez reformuler ça pour moi ?`;
 }
 
 // Dialogue avec Frederick
@@ -872,7 +882,8 @@ function findBestMatch(userInput) {
     }
   });
 
-  // Échange humain affirmé
+  // Échange humain progressif
+  let unknownAttempts = 0;
   chatForm.addEventListener("submit", (e) => {
     e.preventDefault();
     const userMsg = chatInput.value.trim();
@@ -904,6 +915,22 @@ function findBestMatch(userInput) {
       const answer = findBestMatch(userMsg);
       addMessage(answer, "bot-message");
       chatBox.classList.remove("thinking");
+
+      // Gestion des questions inconnues
+      if (answer.includes("reformuler")) {
+        unknownAttempts++;
+        if (unknownAttempts >= 2) {
+          const consultMsg = `${userName ? userName + ", " : "Hey, "}je vois qu’on a du mal à se comprendre. Dans votre situation, une voyance par email avec Frederick serait très utile. Voici les options : <button onclick=\"window.location.href='https://buy.stripe.com/14kdRe0EQ4iH1uoaFa'\">1 question à 6€</button>, <button onclick=\"window.location.href='https://buy.stripe.com/dR614scnycPddd66oV'\">3 questions à 15€</button>, ou <button onclick=\"window.location.href='https://buy.stripe.com/28o3cA0EQ5mL0qk14C'\">5 questions à 28€</button>.`;
+          setTimeout(() => {
+            chatBox.classList.add("thinking");
+            addMessage(consultMsg, "bot-message");
+            setTimeout(() => chatBox.classList.remove("thinking"), 1400);
+          }, 1400);
+          unknownAttempts = 0; // Réinitialisation après suggestion
+        }
+      } else {
+        unknownAttempts = 0; // Réinitialisation si réponse trouvée
+      }
     }, 2000);
   });
 
@@ -961,7 +988,6 @@ function findBestMatch(userInput) {
     document.removeEventListener("touchmove", drag);
     document.removeEventListener("mouseup", stopDragging);
     document.removeEventListener("touchend", stopDragging);
-    // Inertie subtile
     let inertia = setInterval(() => {
       currentX += velocityX * 0.1;
       currentY += velocityY * 0.1;
@@ -1006,7 +1032,7 @@ function findBestMatch(userInput) {
       e.target.value = "";
     } else if (value === "salut") {
       trackInteraction("SalutCommand", "Command");
-      const msg = "Vous cherchez un vrai changement ? Les gens dans votre cas prennent <button onclick=\"window.location.href='https://buy.stripe.com/cN2bJ62MYg1p0qk5lE'\">le rituel à 250€</button> avec Frederick pour tout régler. Je vous conseille vivement de le faire.";
+      const msg = "Vous cherchez un changement ? OK, mais parlons d’abord de ce qui vous bloque. Qu’est-ce qui ne va pas ?";
       chatBox.classList.add("thinking");
       addMessage(msg, "bot-message");
       setTimeout(() => chatBox.classList.remove("thinking"), 1400);
@@ -1016,7 +1042,7 @@ function findBestMatch(userInput) {
   });
 })();
 </script>
-
+  
   <script nonce="xai-48273">
     document.addEventListener("DOMContentLoaded", () => {
       const sections = document.querySelectorAll("section");
