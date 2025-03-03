@@ -711,8 +711,7 @@
   @keyframes starPulse { 0%, 100% { opacity: 0.1; } 50% { opacity: 0.05; } }
   @keyframes twinkle { 0%, 100% { opacity: 0.6; } 50% { opacity: 0.2; } }
   @keyframes sonicWave { 0% { width: 0; height: 0; opacity: 0.4; } 100% { width: 100px; height: 100px; opacity: 0; } }
-  .typing::after { content: '🌌'; animation: etherPulse 1.5s infinite; }
-  @keyframes etherPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+  .typing::after { content: '...'; }
   @media (max-width: 400px) { #chat-container { width: 90%; right: 5%; bottom: 5px; } }
 </style>
 
@@ -793,7 +792,7 @@ function findBestMatch(userInput) {
   else soulAura = "seeking";
   localStorage.setItem("soulAura", soulAura);
 
-  // Toujours une réponse
+  // Réponse adaptée
   let prefix = userName ? `${userName}, ` : "Hey, ";
   if (soulAura === "shadowed") prefix += "on dirait que ça va pas fort, mais il y a une solution, ";
   else if (soulAura === "radiant") prefix += "vous avez l’air en forme, on peut encore améliorer ça, ";
@@ -806,7 +805,7 @@ function findBestMatch(userInput) {
     const last = conversation[conversation.length - 2].toLowerCase();
     if (last.includes("fatigue") && userInput.includes("cauchemars")) {
       trackInteraction("SymptomCombo", "Interaction");
-      return `${prefix}Fatigue et cauchemars, ça fait beaucoup, non ? Frederick peut vérifier ça avec <button onclick="window.location.href='https://buy.stripe.com/6oE3cAevG5mLgpi7tL'">une détection à 50€</button>. Vous voulez essayer ?`;
+      return `${prefix}Fatigue et cauchemars, ça fait beaucoup, non ? Frederick peut vérifier ça avec <button onclick=\"window.location.href='https://buy.stripe.com/6oE3cAevG5mLgpi7tL'\">une détection à 50€</button>. Vous voulez essayer ?`;
     }
     return `${prefix}Vous avez parlé de "${last}" avant. Dites-m’en plus pour qu’on trouve une solution ensemble !`;
   }
@@ -881,13 +880,12 @@ function findBestMatch(userInput) {
       return;
     }
 
-    // Réponse garantie
-    const typing = addMessage("Je regarde ça…", "bot-message typing");
+    // Réponse avec réflexion
+    const typing = addMessage(" …", "bot-message typing");
     setTimeout(() => {
       chatMessages.removeChild(typing);
       const answer = findBestMatch(userMsg);
       addMessage(answer, "bot-message");
-      setTimeout(() => addMessage("Dites ‘salut’ ou ‘éveil’ si vous voulez une solution rapide de Frederick.", "bot-message"), 2200);
     }, 2000);
   });
 
@@ -976,7 +974,7 @@ function findBestMatch(userInput) {
       useVoice = true;
       toggleVoiceBtn.textContent = "🔇";
       trackInteraction("VoiceEnabled", "Feature");
-      addMessage("Vous voulez entendre mes réponses ? Je peux parler maintenant. Dites ‘salut’ ou ‘éveil’ pour tester.", "bot-message");
+      addMessage("Vous voulez entendre mes réponses ? Je peux parler maintenant. Essayez ‘salut’ pour tester.", "bot-message");
       e.target.value = "";
     } else if (value === "silence") {
       useVoice = false;
@@ -995,7 +993,6 @@ function findBestMatch(userInput) {
 })();
 </script>
 
-  
   <script nonce="xai-48273">
     document.addEventListener("DOMContentLoaded", () => {
       const sections = document.querySelectorAll("section");
