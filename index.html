@@ -13,10 +13,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <meta name="last-modified" content="[DATE_AJOUTER]">
+  <meta name="last-modified" content="2025-03-10">
   <meta name="theme-color" content="#1A1A1A">
   <title>Maximisez vos gains au Loto – Prédictions Optimisées par IA</title>
-  <meta name="description" content="Boostez vos chances au Loto français avec nos grilles optimisées par notre algorithme d’intelligence artificielle le plus puissant de [ANNEE_COURANTE]. Prédictions précises basées sur statistiques, machine learning et intuition pour maximiser vos gains au loto." />
+  <meta name="description" content="Boostez vos chances au Loto français avec nos grilles optimisées par notre algorithme d’intelligence artificielle le plus puissant de 2025. Prédictions précises basées sur statistiques, machine learning et intuition pour maximiser vos gains au loto." />
   <meta name="keywords" content="loto gagnant, prédictions loto, grille loto optimisée, numéro chance, loto français, conseils loto, stratégie loto, gagner au loto, clairvoyance, algorithmes IA, machine learning, prédictions précises, gains maximaux, tirage loto, numéros chanceux, loterie, pronostic" />
   <meta name="author" content="ClairvoyanceMedium.com">
   <meta name="robots" content="index,follow">
@@ -43,7 +43,7 @@
   <!-- Styles CSS optimisés -->
   <style>
     :root {
-      --gold: #BBAE98; /* Couleur mise à jour */
+      --gold: #BBAE98;
       --dark-gold: #8B5A2B;
       --donation-start: #87CEFA;
       --donation-end: #B39DDB;
@@ -59,7 +59,7 @@
     body {
       margin: 0;
       padding: 20px;
-      font-family: 'Cinzel', serif; /* Utilisation exclusive de Cinzel */
+      font-family: 'Cinzel', serif;
       background: var(--bg-dark);
       color: var(--text-light);
       line-height: 1.6;
@@ -171,12 +171,10 @@
       outline: 2px solid var(--donation-start);
     }
     .don-btn, .email-btn {
-      font-family: 'Cinzel', serif;
       background: linear-gradient(45deg, var(--donation-start), var(--donation-end));
       border: 2px solid var(--donation-end);
       color: var(--text-light);
     }
-    /* Carrousel optimisé pour 1000+ avis */
     .carousel {
       position: relative;
       max-width: 100%;
@@ -188,7 +186,7 @@
     .carousel-inner {
       display: flex;
       transition: transform 0.5s ease-in-out;
-      will-change: transform; /* Amélioration des performances */
+      will-change: transform;
     }
     .carousel-item {
       font-family: 'Cinzel', serif;
@@ -219,23 +217,6 @@
     }
     .carousel-prev { left: 10px; }
     .carousel-next { right: 10px; }
-    /* Performance pour grand nombre d'éléments */
-    .carousel-inner.large {
-      position: relative;
-      height: 200px; /* Hauteur fixe pour éviter le redimensionnement */
-    }
-    .carousel-item.large {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      opacity: 0;
-      transition: opacity 0.5s ease;
-    }
-    .carousel-item.large.active {
-      opacity: 1;
-    }
     footer {
       font-family: 'Cinzel', serif;
       margin-top: 3rem;
@@ -243,7 +224,6 @@
       color: #B0B0B0;
     }
     footer a {
-      font-family: 'Cinzel', serif;
       color: var(--gold);
       text-decoration: none;
     }
@@ -272,7 +252,6 @@
       height: 24px;
       fill: var(--bg-dark);
     }
-    /* Accessibilité et performance */
     :focus {
       outline: 2px solid var(--donation-start);
       outline-offset: 2px;
@@ -285,12 +264,10 @@
       #draggableContact {
         width: 40px;
         height: 40px;
-        position: fixed;
         cursor: default;
       }
       .carousel-item { padding: 1rem; }
     }
-    /* Lazy loading pour les sections */
     section[loading="lazy"] {
       opacity: 0;
       transition: opacity 0.5s;
@@ -364,7 +341,7 @@
 
       <section id="reviewsSection" loading="lazy">
         <h2>Avis de Nos Utilisateurs – Plus de 1000 Témoignages</h2>
-        <div class="carousel" role="region" aria-label="Carrousel d’avis, le plus performant du monde">
+        <div class="carousel" role="region" aria-label="Carrousel d’avis, le plus performant du monde" aria-live="polite">
           <div class="carousel-inner" id="carouselInner">
             <!-- Avis générés dynamiquement via JavaScript -->
           </div>
@@ -403,11 +380,11 @@
 
   <!-- Scripts optimisés -->
   <script defer>
-    // Mise à jour dynamique de l'année
+    // Mise à jour dynamique de l’année
     document.getElementById("current-year").innerText = new Date().getFullYear();
     document.getElementById("dynamicYear").innerText = new Date().getFullYear();
 
-    // Fonction de suivi des clics (simulé, à connecter à Google Analytics ou autre)
+    // Fonction de suivi des clics
     function trackClick(eventLabel) {
       console.log(`Tracking: ${eventLabel}`);
       if (typeof gtag === 'function') {
@@ -419,7 +396,7 @@
       }
     }
 
-    // Données Loto (simulées pour prédictions)
+    // Données Loto simulées
     async function fetchLotoData() {
       return {
         history: [
@@ -473,7 +450,7 @@
     }
     getAdvancedPredictions();
 
-    // Carrousel optimisé pour 1000+ avis
+    // Carrousel optimisé pour 1000 avis
     const reviews = Array.from({ length: 1000 }, (_, i) => {
       const names = ["Marie", "Pierre", "Sophie", "Paul", "Claire", "Jean", "Marc", "Léa", "Thomas", "Emma"];
       const gains = ["50 000 €", "500 €", "4 000 €", "750 €", "420 €", "1 000 €", "20 000 €", "10 000 €", "30 000 €", "100 €"];
@@ -487,7 +464,7 @@
     const carouselInner = document.getElementById('carouselInner');
     reviews.forEach(review => {
       const item = document.createElement('div');
-      item.classList.add('carousel-item', 'large');
+      item.classList.add('carousel-item');
       item.innerHTML = review;
       carouselInner.appendChild(item);
     });
@@ -498,12 +475,6 @@
     let currentIndex = 0;
 
     function updateCarousel() {
-      items.forEach((item, index) => {
-        item.classList.remove('active');
-        if (index === currentIndex) {
-          item.classList.add('active');
-        }
-      });
       carouselInner.style.transform = `translateX(-${currentIndex * 100}%)`;
     }
 
@@ -518,7 +489,7 @@
     setInterval(() => {
       currentIndex = (currentIndex < items.length - 1) ? currentIndex + 1 : 0;
       updateCarousel();
-    }, 3000); // Réduit à 3 secondes pour une expérience utilisateur plus rapide
+    }, 3000);
 
     // Icône déplaçable
     const draggableContact = document.getElementById("draggableContact");
@@ -530,7 +501,7 @@
     });
     document.addEventListener("mousemove", e => {
       if (isDragging) {
-        draggableContact.style.left = (e.clientX - offsetX)      "px";
+        draggableContact.style.left = (e.clientX - offsetX) + "px";
         draggableContact.style.top = (e.clientY - offsetY) + "px";
       }
     });
@@ -550,7 +521,7 @@
     });
     document.addEventListener("touchend", () => isDragging = false);
 
-    // Lazy loading des sections pour performance
+    // Lazy loading des sections
     document.addEventListener("DOMContentLoaded", () => {
       document.querySelectorAll('section[loading="lazy"]').forEach(section => {
         const observer = new IntersectionObserver((entries, observer) => {
