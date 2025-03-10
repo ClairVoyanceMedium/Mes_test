@@ -9,18 +9,25 @@
     }
   </script>
 
-  <!-- Métadonnées optimisées pour SEO et mobile -->
+  <!-- Métadonnées optimisées pour SEO et accessibilité -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <meta name="last-modified" content="2025-03-10">
+  <meta name="theme-color" content="#1A1A1A">
   <title>Maximisez vos gains au Loto – Prédictions Optimisées</title>
-  <meta name="description" content="Boostez vos chances au Loto français avec nos grilles optimisées par des experts. Prédictions indicatives basées sur statistiques et intuition." />
-  <meta name="keywords" content="loto gagnant, prédictions loto, comment faire pour gagner au loto, technique pour gagner au loto, trouver les bons numeros du loto, grille loto optimisée, numéro chance, loto français, conseils loto, stratégie loto" />
+  <meta name="description" content="Boostez vos chances au Loto français avec nos grilles optimisées par des experts. Prédictions indicatives basées sur statistiques et intuition pour maximiser vos gains." />
+  <meta name="keywords" content="loto gagnant, prédictions loto, grille loto optimisée, numéro chance, loto français, conseils loto, stratégie loto, gagner au loto, clairvoyance" />
   <meta name="author" content="ClairvoyanceMedium.com">
   <meta name="robots" content="index,follow">
+  <meta property="og:title" content="Maximisez vos gains au Loto – Prédictions Optimisées" />
+  <meta property="og:description" content="Grilles optimisées pour le Loto français basées sur statistiques et intuition. Tentez votre chance avec nos prédictions exclusives !" />
+  <meta property="og:url" content="https://www.clairvoyancemedium.com/" />
+  <meta property="og:image" content="https://i.imgur.com/GmyGlKk.jpg" />
+  <meta property="og:type" content="website" />
   <link rel="canonical" href="https://www.clairvoyancemedium.com/" />
   <link rel="icon" href="https://clairvoyancemedium.github.io/favicon_optimized.png" type="image/png" sizes="32x32" />
+  <link rel="preload" href="https://clairvoyancemedium.github.io/Consultation_de_voyance_par_email_pas_chere.github.io/Cinzel-Regular.woff2" as="font" type="font/woff2" crossorigin>
 
   <!-- Polices Cinzel et Playfair Display -->
   <style>
@@ -38,13 +45,12 @@
     }
   </style>
 
-  <!-- Styles CSS améliorés -->
+  <!-- Styles CSS optimisés -->
   <style>
     :root {
-      --gold: #D4A017;
+      --gold: #FFD700;
       --dark-gold: #8B5A2B;
       --green: #28a745;
-      --light-pink: #FFB6C1;
       --donation-start: #87CEFA;
       --donation-end: #B39DDB;
       --text-light: #F5F5F5;
@@ -54,11 +60,12 @@
     html {
       font-size: 16px;
       scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%;
     }
     body {
       margin: 0;
       padding: 20px;
-      font-family: 'Cinzel', serif;
+      font-family: 'Playfair Display', serif;
       background: var(--bg-dark);
       color: var(--text-light);
       line-height: 1.6;
@@ -84,6 +91,7 @@
       display: block;
     }
     h1 {
+      font-family: 'Cinzel', serif;
       font-size: 2.5rem;
       margin: 1.5rem 0;
       text-transform: uppercase;
@@ -96,7 +104,6 @@
       color: var(--text-light);
     }
     .intro-text {
-      font-family: 'Playfair Display', serif;
       font-size: 1.1rem;
       margin: 0 auto 2rem;
       max-width: 800px;
@@ -128,7 +135,7 @@
       box-shadow: 0 2px 10px rgba(0,0,0,0.3);
     }
     .last-draw-container { background: #2F3D2F; }
-    .prediction-container { background: #3D2F2F; }
+    .prediction-container { background: var(--gold); color: var(--bg-dark); }
     .disclaimer {
       background: #FFF9E6;
       color: #333;
@@ -154,43 +161,29 @@
       text-decoration: none;
       margin-top: 1rem;
       cursor: pointer;
-      transition: background 0.3s ease;
-    }
-    .btn {
-      background: var(--light-pink);
+      transition: background 0.3s ease, transform 0.2s;
+      background: var(--gold);
       color: var(--bg-dark);
       border: none;
     }
-    .btn:hover, .btn:focus {
+    .btn:hover, .btn:focus, .don-btn:hover, .don-btn:focus, .email-btn:hover, .email-btn:focus {
       background: var(--dark-gold);
+      transform: scale(1.05);
       outline: 2px solid var(--donation-start);
     }
-    .don-btn {
+    .don-btn, .email-btn {
       background: linear-gradient(45deg, var(--donation-start), var(--donation-end));
       border: 2px solid var(--donation-end);
       color: var(--text-light);
     }
-    .don-btn:hover, .don-btn:focus {
-      background: linear-gradient(45deg, #7BB0E0, #A391C2);
-      outline: 2px solid var(--donation-start);
-    }
-    .email-btn {
-      background: linear-gradient(45deg, var(--donation-start), var(--donation-end));
-      border: 2px solid var(--donation-end);
-      color: var(--text-light);
-    }
-    .email-btn:hover, .email-btn:focus {
-      background: linear-gradient(45deg, #7BB0E0, #A391C2);
-      outline: 2px solid var(--donation-start);
-    }
-    /* Carrousel d'avis */
+    /* Carrousel */
     .carousel {
       position: relative;
       max-width: 100%;
       overflow: hidden;
       border: 2px solid var(--donation-start);
       border-radius: 8px;
-      box-shadow: 0 0 15px var(--donation-start), 0 0 15px var(--light-pink);
+      box-shadow: 0 0 15px var(--donation-start), 0 0 15px var(--gold);
     }
     .carousel-inner {
       display: flex;
@@ -216,7 +209,7 @@
       transition: background 0.3s;
     }
     .carousel-prev:hover, .carousel-next:hover {
-      background: var(--light-pink);
+      background: var(--gold);
     }
     .carousel-prev { left: 10px; }
     .carousel-next { right: 10px; }
@@ -226,21 +219,20 @@
       color: #B0B0B0;
     }
     footer a {
-      color: var(--light-pink);
+      color: var(--gold);
       text-decoration: none;
     }
     footer a:hover, footer a:focus {
       text-decoration: underline;
       outline: 2px solid var(--donation-start);
     }
-    /* Icône de contact */
     #draggableContact {
       position: fixed;
       bottom: 20px;
       right: 20px;
       width: 50px;
       height: 50px;
-      background: var(--light-pink);
+      background: var(--gold);
       border: 2px solid var(--dark-gold);
       border-radius: 50%;
       display: flex;
@@ -255,7 +247,7 @@
       height: 24px;
       fill: var(--bg-dark);
     }
-    /* Accessibilité et responsive */
+    /* Accessibilité et performance */
     :focus {
       outline: 2px solid var(--donation-start);
       outline-offset: 2px;
@@ -272,17 +264,36 @@
         cursor: default;
       }
     }
+    /* Lazy loading pour les sections */
+    section[loading="lazy"] {
+      opacity: 0;
+      transition: opacity 0.5s;
+    }
+    section[loading="lazy"].loaded {
+      opacity: 1;
+    }
   </style>
 
-  <!-- Données structurées JSON-LD -->
+  <!-- Données structurées JSON-LD pour SEO -->
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-        {"@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://www.clairvoyancemedium.com/"},
-        {"@type": "ListItem", "position": 2, "name": "Prédictions Loto", "item": "https://www.clairvoyancemedium.com/"}
-      ]
+      "@type": "Website",
+      "name": "ClairvoyanceMedium",
+      "url": "https://www.clairvoyancemedium.com/",
+      "description": "Boostez vos chances au Loto français avec nos grilles optimisées par des experts.",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://www.clairvoyancemedium.com/search?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      },
+      "breadcrumb": {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {"@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://www.clairvoyancemedium.com/"},
+          {"@type": "ListItem", "position": 2, "name": "Prédictions Loto", "item": "https://www.clairvoyancemedium.com/"}
+        ]
+      }
     }
   </script>
 </head>
@@ -294,51 +305,46 @@
         <img src="https://i.imgur.com/GmyGlKk.jpg" alt="Logo ClairvoyanceMedium" loading="lazy">
       </picture>
       <h1>Prédictions Loto Optimisées</h1>
-      <div class="intro-text">
+      <div class="intro-text" role="region" aria-label="Introduction">
         Boostez vos chances au Loto français avec nos grilles optimisées par des experts. Nos prédictions indicatives combinent statistiques et intuition. Tentez votre chance dès maintenant !
       </div>
-      <nav>
-        <a href="#predictionSection">Prédictions</a>
-        <a href="#contactSection">Contact</a>
-        <a href="#reviewsSection">Avis</a>
+      <nav role="navigation" aria-label="Menu principal">
+        <a href="#predictionSection" onclick="trackClick('Nav_Predictions')">Prédictions</a>
+        <a href="#contactSection" onclick="trackClick('Nav_Contact')">Contact</a>
+        <a href="#reviewsSection" onclick="trackClick('Nav_Reviews')">Avis</a>
       </nav>
     </header>
 
     <main>
-      <!-- Dernier Tirage -->
-      <section class="last-draw-container">
+      <section class="last-draw-container" loading="lazy">
         <h2>Dernier Tirage du Loto</h2>
         <p id="last-draw">Chargement...</p>
         <p id="draw-datetime"></p>
       </section>
 
-      <!-- Bouton de don -->
-      <section>
-        <a href="https://stripe.com/donate/example?tracking=suivi" class="don-btn" target="_blank" rel="noopener noreferrer" aria-label="Faire un don dès 1€">
+      <section loading="lazy">
+        <a href="https://stripe.com/donate/example?tracking=suivi" class="don-btn" target="_blank" rel="noopener noreferrer" aria-label="Faire un don dès 1€" onclick="trackClick('Donation_Top')">
           Je fais un don dès 1€ – Suivi
         </a>
       </section>
 
-      <!-- Grille Prédite -->
-      <section class="prediction-container" id="predictionSection">
+      <section class="prediction-container" id="predictionSection" loading="lazy">
         <h2>Grille Prédite – Prochain Tirage</h2>
         <p id="next-draw-datetime"></p>
         <p class="result" id="prediction">Chargement...</p>
-        <div class="disclaimer">Simulation indicative – Résultats non garantis</div>
-        <button class="btn" onclick="getAdvancedPredictions()">Générer une grille</button>
+        <div class="disclaimer" role="alert">Simulation indicative – Résultats non garantis</div>
+        <button class="btn" onclick="getAdvancedPredictions(); trackClick('Generate_Grid')">Générer une grille</button>
       </section>
 
-      <!-- Contact -->
-      <section id="contactSection">
+      <section id="contactSection" loading="lazy">
         <h2>Demande Particulière</h2>
         <p>Contactez-nous pour une assistance personnalisée.</p>
-        <a href="mailto:contact.clairvoyancemedium@gmail.com?tracking=suivi" class="email-btn" target="_blank" rel="noopener noreferrer">Envoyer un e-mail</a>
+        <a href="mailto:contact.clairvoyancemedium@gmail.com?tracking=suivi" class="email-btn" target="_blank" rel="noopener noreferrer" onclick="trackClick('Email_Contact')">Envoyer un e-mail</a>
       </section>
 
-      <!-- Carrousel d’avis -->
-      <section id="reviewsSection">
+      <section id="reviewsSection" loading="lazy">
         <h2>Avis de Nos Utilisateurs</h2>
-        <div class="carousel">
+        <div class="carousel" role="region" aria-label="Carrousel d’avis">
           <div class="carousel-inner">
             <div class="carousel-item">"J’ai gagné 318€ grâce à cette méthode !" - Jean, 32 ans</div>
             <div class="carousel-item">"500€ en quelques tirages, exceptionnel !" - Sophie, 40 ans</div>
@@ -346,32 +352,46 @@
             <div class="carousel-item">"750€, bluffé par la précision !" - Claire, 35 ans</div>
             <div class="carousel-item">"420€, méthode sérieuse !" - Marc, 41 ans</div>
           </div>
-          <button class="carousel-prev" aria-label="Avis précédent">◄</button>
-          <button class="carousel-next" aria-label="Avis suivant">►</button>
+          <button class="carousel-prev" aria-label="Avis précédent" onclick="trackClick('Carousel_Prev')">◄</button>
+          <button class="carousel-next" aria-label="Avis suivant" onclick="trackClick('Carousel_Next')">►</button>
         </div>
-        <a href="https://stripe.com/donate/example?tracking=suivi" class="don-btn" target="_blank" rel="noopener noreferrer" aria-label="Faire un don dès 1€">Faire un don</a>
+        <a href="https://stripe.com/donate/example?tracking=suivi" class="don-btn" target="_blank" rel="noopener noreferrer" aria-label="Faire un don dès 1€" onclick="trackClick('Donation_Bottom')">
+          Faire un don
+        </a>
       </section>
     </main>
 
-    <footer>
+    <footer role="contentinfo">
       <p>© <span id="current-year"></span> ClairvoyanceMedium.com. Tous droits réservés.</p>
-      <p><a href="https://www.clairvoyancemedium.com" target="_blank" rel="noopener noreferrer">www.clairvoyancemedium.com</a></p>
+      <p><a href="https://www.clairvoyancemedium.com" target="_blank" rel="noopener noreferrer" onclick="trackClick('Footer_Link')">www.clairvoyancemedium.com</a></p>
     </footer>
   </div>
 
-  <!-- Icône de contact déplaçable -->
-  <div id="draggableContact" aria-label="Contactez-nous par e-mail">
-    <a href="mailto:contact.clairvoyancemedium@gmail.com?tracking=suivi" target="_blank" rel="noopener noreferrer">
+  <div id="draggableContact" aria-label="Contactez-nous par e-mail" role="button">
+    <a href="mailto:contact.clairvoyancemedium@gmail.com?tracking=suivi" target="_blank" rel="noopener noreferrer" onclick="trackClick('Contact_Icon')">
       <svg viewBox="0 0 24 24" aria-hidden="true">
         <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"></path>
       </svg>
     </a>
   </div>
 
-  <!-- Scripts -->
-  <script>
+  <!-- Scripts optimisés -->
+  <script defer>
     document.getElementById("current-year").innerText = new Date().getFullYear();
 
+    // Tracking fonction (simulé, à connecter à Google Analytics ou autre)
+    function trackClick(eventLabel) {
+      console.log(`Tracking: ${eventLabel}`);
+      if (typeof gtag === 'function') {
+        gtag('event', 'click', {
+          'event_category': 'Interaction',
+          'event_label': eventLabel,
+          'value': 1
+        });
+      }
+    }
+
+    // Données Loto (simulées)
     async function fetchLotoData() {
       return {
         lastDraw: { numbers: [12, 23, 34, 45, 56], chance: 7, date: "08/03/2025", time: "21:15" },
@@ -480,12 +500,26 @@
       }
     });
     document.addEventListener("touchend", () => isDragging = false);
+
+    // Lazy loading des sections
+    document.addEventListener("DOMContentLoaded", () => {
+      document.querySelectorAll('section[loading="lazy"]').forEach(section => {
+        const observer = new IntersectionObserver((entries, observer) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('loaded');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.1 });
+        observer.observe(section);
+      });
+    });
   </script>
 
-  <!-- Contenu de secours si JS désactivé -->
   <noscript>
     <div style="background: #FFF9E6; color: #333; padding: 1rem; margin: 1rem;">
-      Activez JavaScript pour voir les prédictions dynamiques. Voici une grille statique : 5 - 12 - 19 - 26 - 33 - Chance : 8.
+      Activez JavaScript pour une expérience complète. Grille statique : 5 - 12 - 19 - 26 - 33 - Chance : 8.
     </div>
   </noscript>
 </body>
