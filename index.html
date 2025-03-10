@@ -27,19 +27,14 @@
   <meta property="og:type" content="website" />
   <link rel="canonical" href="https://www.clairvoyancemedium.com/" />
   <link rel="icon" href="https://clairvoyancemedium.github.io/favicon_optimized.png" type="image/png" sizes="32x32" />
+  <link rel="preconnect" href="https://clairvoyancemedium.github.io">
   <link rel="preload" href="https://clairvoyancemedium.github.io/Consultation_de_voyance_par_email_pas_chere.github.io/Cinzel-Regular.woff2" as="font" type="font/woff2" crossorigin>
 
-  <!-- Polices Cinzel et Playfair Display -->
+  <!-- Police Cinzel -->
   <style>
     @font-face {
       font-family: 'Cinzel';
       src: url('https://clairvoyancemedium.github.io/Consultation_de_voyance_par_email_pas_chere.github.io/Cinzel-Regular.woff2') format('woff2');
-      font-weight: 400;
-      font-display: swap;
-    }
-    @font-face {
-      font-family: 'Playfair Display';
-      src: url('https://clairvoyancemedium.github.io/Consultation_de_voyance_par_email_pas_chere.github.io/PlayfairDisplay-Regular.woff2') format('woff2');
       font-weight: 400;
       font-display: swap;
     }
@@ -48,7 +43,7 @@
   <!-- Styles CSS optimisés -->
   <style>
     :root {
-      --gold: #FFD700;
+      --gold: #BBAE98; /* Couleur mise à jour */
       --dark-gold: #8B5A2B;
       --green: #28a745;
       --donation-start: #87CEFA;
@@ -65,7 +60,7 @@
     body {
       margin: 0;
       padding: 20px;
-      font-family: 'Playfair Display', serif;
+      font-family: 'Cinzel', serif; /* Utilisation exclusive de Cinzel */
       background: var(--bg-dark);
       color: var(--text-light);
       line-height: 1.6;
@@ -99,11 +94,13 @@
       letter-spacing: 1px;
     }
     h2 {
+      font-family: 'Cinzel', serif;
       font-size: 1.75rem;
       margin-bottom: 1.5rem;
       color: var(--text-light);
     }
     .intro-text {
+      font-family: 'Cinzel', serif;
       font-size: 1.1rem;
       margin: 0 auto 2rem;
       max-width: 800px;
@@ -114,6 +111,7 @@
       border-radius: 4px;
     }
     nav a {
+      font-family: 'Cinzel', serif;
       color: var(--gold);
       text-decoration: none;
       margin: 0 1rem;
@@ -137,6 +135,7 @@
     .last-draw-container { background: #2F3D2F; }
     .prediction-container { background: var(--gold); color: var(--bg-dark); }
     .disclaimer {
+      font-family: 'Cinzel', serif;
       background: #FFF9E6;
       color: #333;
       padding: 1rem;
@@ -145,15 +144,17 @@
       font-weight: bold;
     }
     .result {
+      font-family: 'Cinzel', serif;
       font-size: 1.75rem;
       font-weight: bold;
       margin: 1.5rem 0;
     }
     #last-draw, #draw-datetime, #next-draw-datetime {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Cinzel', serif;
       font-size: 1.25rem;
     }
     .btn, .don-btn, .email-btn {
+      font-family: 'Cinzel', serif;
       display: inline-block;
       padding: 0.75rem 1.5rem;
       font-size: 1.1rem;
@@ -172,6 +173,7 @@
       outline: 2px solid var(--donation-start);
     }
     .don-btn, .email-btn {
+      font-family: 'Cinzel', serif;
       background: linear-gradient(45deg, var(--donation-start), var(--donation-end));
       border: 2px solid var(--donation-end);
       color: var(--text-light);
@@ -190,6 +192,7 @@
       transition: transform 0.5s ease;
     }
     .carousel-item {
+      font-family: 'Cinzel', serif;
       min-width: 100%;
       padding: 1.5rem;
       font-style: italic;
@@ -198,6 +201,7 @@
       text-align: center;
     }
     .carousel-prev, .carousel-next {
+      font-family: 'Cinzel', serif;
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
@@ -214,11 +218,13 @@
     .carousel-prev { left: 10px; }
     .carousel-next { right: 10px; }
     footer {
+      font-family: 'Cinzel', serif;
       margin-top: 3rem;
       font-size: 0.9rem;
       color: #B0B0B0;
     }
     footer a {
+      font-family: 'Cinzel', serif;
       color: var(--gold);
       text-decoration: none;
     }
@@ -379,7 +385,7 @@
   <script defer>
     document.getElementById("current-year").innerText = new Date().getFullYear();
 
-    // Tracking fonction (simulé, à connecter à Google Analytics ou autre)
+    // Fonction de suivi des clics (simulé, à connecter à Google Analytics ou autre)
     function trackClick(eventLabel) {
       console.log(`Tracking: ${eventLabel}`);
       if (typeof gtag === 'function') {
