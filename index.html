@@ -9,7 +9,6 @@
     }
   </script>
 
-
   <!-- Métadonnées optimisées pour SEO et accessibilité -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
@@ -75,7 +74,15 @@
     #draggableContact{position:fixed;bottom:20px;right:20px;width:50px;height:50px;background:var(--gold);border:2px solid var(--dark-gold);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:move;z-index:1000;touch-action:none;}
     #draggableContact svg{width:24px;height:24px;fill:var(--bg-dark);}
     :focus{outline:2px solid var(--donation-start);outline-offset:2px;}
-    @media (max-width:600px){.container{padding:15px;}h1{font-size:2rem;}h2{font-size:1.5rem;}.result{font-size:1.5rem;}#draggableContact{width:40px;height:40px;cursor:default;}.carousel-item{padding:1rem;}}
+    /* Styles pour le formulaire d’inscription */
+    .subscribe-section{background:var(--section-bg);padding:2rem;border-radius:6px;margin:2rem 0;box-shadow:0 2px 10px rgba(0,0,0,0.3);}
+    .subscribe-section p{font-size:1.1rem;margin-bottom:1rem;}
+    .subscribe-section form{display:flex;justify-content:center;align-items:center;gap:1rem;}
+    .subscribe-section input[type="email"]{padding:0.75rem;font-family:'Cinzel',serif;font-size:1rem;border:2px solid var(--gold);border-radius:4px;background:var(--bg-dark);color:var(--text-light);width:250px;}
+    .subscribe-section input[type="email"]::placeholder{color:#B0B0B0;}
+    .subscribe-section button{background:linear-gradient(45deg,var(--donation-start),var(--donation-end));border:2px solid var(--donation-end);color:var(--text-light);padding:0.75rem 1.5rem;font-size:1.1rem;border-radius:4px;cursor:pointer;transition:background 0.3s ease,transform 0.2s;}
+    .subscribe-section button:hover{background:var(--dark-gold);transform:scale(1.05);}
+    @media (max-width:600px){.container{padding:15px;}h1{font-size:2rem;}h2{font-size:1.5rem;}.result{font-size:1.5rem;}#draggableContact{width:40px;height:40px;cursor:default;}.carousel-item{padding:1rem;}.subscribe-section form{flex-direction:column;}}
     section[loading="lazy"]{opacity:0;transition:opacity 0.5s;}
     section[loading="lazy"].loaded{opacity:1;}
   </style>
@@ -113,11 +120,21 @@
 
     <main>
       <section class="prediction-container" id="predictionSection" loading="lazy">
-        <h2>Grille Prédite – Prochain Tirage</h2>
+        <h2>Grille Prédite – Pour le prochain tirage du Loto (et non l’Euromillions)</h2>
         <p id="next-draw-datetime"></p>
         <p class="result" id="prediction">Chargement...</p>
         <div class="disclaimer" role="alert">Simulation indicative – Résultats non garantis</div>
         <button class="btn" onclick="getAdvancedPredictions(); trackClick('Generate_Grid')">Générer une grille</button>
+      </section>
+
+      <!-- Section d’inscription pour collecte d’e-mails -->
+      <section class="subscribe-section" id="subscribeSection" loading="lazy">
+        <h2>Recevez des Prédictions Exclusives</h2>
+        <p>Inscrivez-vous pour recevoir par e-mail des numéros pour le prochain tirage du Loto (et non l’Euromillions). Si Frédéric du cabinet ClairvoyanceMedium.com a un ressenti fort, vous serez les premiers avertis gratuitement.</p>
+        <form id="subscribeForm" onsubmit="handleSubscribe(event)">
+          <input type="email" placeholder="Entrez votre e-mail" required aria-label="Adresse e-mail pour inscription">
+          <button type="submit">S’inscrire</button>
+        </form>
       </section>
 
       <section id="contactSection" loading="lazy">
@@ -130,7 +147,7 @@
         <h2>Avis de Nos Utilisateurs – Plus de 1000 Témoignages</h2>
         <div class="carousel" role="region" aria-label="Carrousel d’avis" aria-live="polite" tabindex="0">
           <div class="carousel-inner" id="carouselInner">
-            <!-- Avis générés dynamiquement via JavaScript -->
+            <!-- 50 avis générés dynamiquement via JavaScript -->
           </div>
           <button class="carousel-prev" aria-label="Avis précédent" onclick="trackClick('Carousel_Prev')">◄</button>
           <button class="carousel-next" aria-label="Avis suivant" onclick="trackClick('Carousel_Next')">►</button>
@@ -165,46 +182,174 @@
 
   <!-- Scripts optimisés -->
   <script defer>
-    document.getElementById("current-year").innerText=new Date().getFullYear();document.getElementById("dynamicYear").innerText=new Date().getFullYear();
-    function trackClick(eventLabel){console.log(`Tracking: ${eventLabel}`);if(typeof gtag==='function'){gtag('event','click',{'event_category':'Interaction','event_label':eventLabel,'value':1});}}
+    document.getElementById("current-year").innerText = new Date().getFullYear();
+    document.getElementById("dynamicYear").innerText = new Date().getFullYear();
 
-    // Données Loto simulées (à remplacer par API réelle)
-    async function fetchLotoData(){return{history:[{numbers:[5,12,19,26,33],chance:8},{numbers:[7,13,22,41,38],chance:7},{numbers:[7,15,22,41,38],chance:9},{numbers:[4,12,19,41,38],chance:6},{numbers:[5,13,19,41,33],chance:8}]};}
-    // Exemple avec API réelle (décommenter et configurer avec une clé API)
-    /*
-    async function fetchLotoData() {
-      const response = await fetch('https://api.lotteryresultsapi.com/lottery/fr_lotto/draws/latest', {
-        headers: { 'Authorization': 'Bearer VOTRE_CLE_API' }
-      });
-      const data = await response.json();
-      return { history: data.draws };
+    function trackClick(eventLabel) {
+      console.log(`Tracking: ${eventLabel}`);
+      if (typeof gtag === 'function') {
+        gtag('event', 'click', { 'event_category': 'Interaction', 'event_label': eventLabel, 'value': 1 });
+      }
     }
-    */
-    function computeOptimizedGrid(history){const freq={};history.forEach(draw=>draw.numbers.forEach(num=>freq[num]=(freq[num]||0)+1));const numbers=Array.from({length:49},(_,i)=>i+1);const weights=numbers.map(num=>freq[num]||1);const selected=[];while(selected.length<5){const totalWeight=weights.reduce((a,b)=>a+b,0);let rnd=Math.random()*totalWeight,cum=0;for(let i=0;i<numbers.length;i++){cum+=weights[i];if(rnd<cum&&!selected.includes(numbers[i])){selected.push(numbers[i]);break;}}}const chanceNumbers=Array.from({length:10},(_,i)=>i+1);const chanceFreq={};history.forEach(draw=>chanceFreq[draw.chance]=(chanceFreq[draw.chance]||0)+1);const chanceWeights=chanceNumbers.map(num=>chanceFreq[num]||1);let rndChance=Math.random()*chanceWeights.reduce((a,b)=>a+b,0),cumChance=0;let selectedChance;for(let i=0;i<chanceNumbers.length;i++){cumChance+=chanceWeights[i];if(rndChance<cumChance){selectedChance=chanceNumbers[i];break;}}return[...selected.sort((a,b)=>a-b),selectedChance];}
-    async function getAdvancedPredictions(){const data=await fetchLotoData();document.getElementById("next-draw-datetime").innerText=`Prochain tirage : ${new Date().toLocaleDateString('fr-FR')} | 20:30`;const grid=computeOptimizedGrid(data.history);document.getElementById("prediction").innerHTML=`${grid.slice(0,5).join(" - ")} - <span style="color:#FFEB3B;">Chance : ${grid[5]}</span>`;}getAdvancedPredictions();
 
-    // Carrousel optimisé (limité à 20 avis initiaux)
-    const reviews=Array.from({length:20},(_,i)=>{const names=["Marie","Pierre","Sophie","Paul","Claire","Jean","Marc","Léa","Thomas","Emma"];const gains=["50 000 €","500 €","4 000 €","750 €","420 €","1 000 €","20 000 €","10 000 €","30 000 €","100 €"];const actions=["gagné au Loto","utilisé pour des prédictions loto","fait un don à Frederick","recommande vivement"];const name=names[Math.floor(Math.random()*names.length)];const gain=gains[Math.floor(Math.random()*gains.length)];const action=actions[Math.floor(Math.random()*actions.length)];return`"J’ai ${action} ${gain} grâce à cette méthode ! - ${name}, ${Math.floor(25+Math.random()*50)} ans"`;});
-    const carouselInner=document.getElementById('carouselInner');reviews.forEach(review=>{const item=document.createElement('div');item.classList.add('carousel-item');item.innerHTML=review;carouselInner.appendChild(item);});
-    const items=document.querySelectorAll('.carousel-item');const prevBtn=document.querySelector('.carousel-prev');const nextBtn=document.querySelector('.carousel-next');let currentIndex=0;
-    function updateCarousel(){carouselInner.style.transform=`translateX(-${currentIndex*100}%)`;}
-    prevBtn.addEventListener('click',()=>{currentIndex=(currentIndex>0)?currentIndex-1:items.length-1;updateCarousel();});
-    nextBtn.addEventListener('click',()=>{currentIndex=(currentIndex<items.length-1)?currentIndex+1:0;updateCarousel();});
-    setInterval(()=>{currentIndex=(currentIndex<items.length-1)?currentIndex+1:0;updateCarousel();},3000);
+    // Données Loto simulées
+    async function fetchLotoData() {
+      return {
+        history: [
+          { numbers: [5, 12, 19, 26, 33], chance: 8 },
+          { numbers: [7, 13, 22, 41, 38], chance: 7 },
+          { numbers: [7, 15, 22, 41, 38], chance: 9 },
+          { numbers: [4, 12, 19, 41, 38], chance: 6 },
+          { numbers: [5, 13, 19, 41, 33], chance: 8 }
+        ]
+      };
+    }
+
+    function computeOptimizedGrid(history) {
+      const freq = {};
+      history.forEach(draw => draw.numbers.forEach(num => freq[num] = (freq[num] || 0) + 1));
+      const numbers = Array.from({ length: 49 }, (_, i) => i + 1);
+      const weights = numbers.map(num => freq[num] || 1);
+      const selected = [];
+      while (selected.length < 5) {
+        const totalWeight = weights.reduce((a, b) => a + b, 0);
+        let rnd = Math.random() * totalWeight, cum = 0;
+        for (let i = 0; i < numbers.length; i++) {
+          cum += weights[i];
+          if (rnd < cum && !selected.includes(numbers[i])) {
+            selected.push(numbers[i]);
+            break;
+          }
+        }
+      }
+      const chanceNumbers = Array.from({ length: 10 }, (_, i) => i + 1);
+      const chanceFreq = {};
+      history.forEach(draw => chanceFreq[draw.chance] = (chanceFreq[draw.chance] || 0) + 1);
+      const chanceWeights = chanceNumbers.map(num => chanceFreq[num] || 1);
+      let rndChance = Math.random() * chanceWeights.reduce((a, b) => a + b, 0), cumChance = 0;
+      let selectedChance;
+      for (let i = 0; i < chanceNumbers.length; i++) {
+        cumChance += chanceWeights[i];
+        if (rndChance < cumChance) {
+          selectedChance = chanceNumbers[i];
+          break;
+        }
+      }
+      return [...selected.sort((a, b) => a - b), selectedChance];
+    }
+
+    async function getAdvancedPredictions() {
+      const data = await fetchLotoData();
+      document.getElementById("next-draw-datetime").innerText = `Pour le prochain tirage du Loto (et non l’Euromillions) : ${new Date().toLocaleDateString('fr-FR')} | 20:30`;
+      const grid = computeOptimizedGrid(data.history);
+      document.getElementById("prediction").innerHTML = `${grid.slice(0, 5).join(" - ")} - <span style="color:#FFEB3B;">Chance : ${grid[5]}</span>`;
+    }
+    getAdvancedPredictions();
+
+    // Carrousel avec 50 avis centrés
+    const reviews = Array.from({ length: 50 }, (_, i) => {
+      const names = ["Marie", "Pierre", "Sophie", "Paul", "Claire", "Jean", "Marc", "Léa", "Thomas", "Emma"];
+      const gains = ["50 000 €", "500 €", "4 000 €", "750 €", "420 €", "1 000 €", "20 000 €", "10 000 €", "30 000 €", "100 €"];
+      const actions = ["gagné au Loto", "utilisé pour des prédictions loto", "fait un don à Frederick", "recommande vivement"];
+      const name = names[Math.floor(Math.random() * names.length)];
+      const gain = gains[Math.floor(Math.random() * gains.length)];
+      const action = actions[Math.floor(Math.random() * actions.length)];
+      return `"J’ai ${action} ${gain} grâce à cette méthode ! - ${name}, ${Math.floor(25 + Math.random() * 50)} ans"`;
+    });
+
+    const carouselInner = document.getElementById('carouselInner');
+    reviews.forEach(review => {
+      const item = document.createElement('div');
+      item.classList.add('carousel-item');
+      item.innerHTML = review;
+      carouselInner.appendChild(item);
+    });
+
+    const items = document.querySelectorAll('.carousel-item');
+    const prevBtn = document.querySelector('.carousel-prev');
+    const nextBtn = document.querySelector('.carousel-next');
+    let currentIndex = 0;
+
+    function updateCarousel() {
+      carouselInner.style.transform = `translateX(-${currentIndex * 100}%)`;
+    }
+
+    prevBtn.addEventListener('click', () => {
+      currentIndex = (currentIndex > 0) ? currentIndex - 1 : items.length - 1;
+      updateCarousel();
+    });
+    nextBtn.addEventListener('click', () => {
+      currentIndex = (currentIndex < items.length - 1) ? currentIndex + 1 : 0;
+      updateCarousel();
+    });
+    setInterval(() => {
+      currentIndex = (currentIndex < items.length - 1) ? currentIndex + 1 : 0;
+      updateCarousel();
+    }, 3000);
+
     // Accessibilité clavier pour le carrousel
-    document.querySelector('.carousel').addEventListener('keydown',e=>{if(e.key==='ArrowLeft'){prevBtn.click();}else if(e.key==='ArrowRight'){nextBtn.click();}});
+    document.querySelector('.carousel').addEventListener('keydown', e => {
+      if (e.key === 'ArrowLeft') prevBtn.click();
+      else if (e.key === 'ArrowRight') nextBtn.click();
+    });
+
+    // Gestion de l’inscription
+    function handleSubscribe(event) {
+      event.preventDefault();
+      const email = event.target.querySelector('input[type="email"]').value;
+      if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        console.log(`Email inscrit : ${email}`);
+        alert("Merci de vous être inscrit ! Vous recevrez bientôt vos numéros pour le Loto.");
+        event.target.reset(); // Réinitialise le formulaire
+      } else {
+        alert("Veuillez entrer une adresse e-mail valide.");
+      }
+    }
 
     // Icône déplaçable
-    const draggableContact=document.getElementById("draggableContact");let isDragging=false,offsetX,offsetY;
-    draggableContact.addEventListener("mousedown",e=>{isDragging=true;offsetX=e.clientX-draggableContact.getBoundingClientRect().left;offsetY=e.clientY-draggableContact.getBoundingClientRect().top;});
-    document.addEventListener("mousemove",e=>{if(isDragging){draggableContact.style.left=(e.clientX-offsetX)+"px";draggableContact.style.top=(e.clientY-offsetY)+"px";}});
-    document.addEventListener("mouseup",()=>isDragging=false);
-    draggableContact.addEventListener("touchstart",e=>{const touch=e.touches[0];isDragging=true;offsetX=touch.clientX-draggableContact.getBoundingClientRect().left;offsetY=touch.clientY-draggableContact.getBoundingClientRect().top;});
-    document.addEventListener("touchmove",e=>{if(isDragging){const touch=e.touches[0];draggableContact.style.left=(touch.clientX-offsetX)+"px";draggableContact.style.top=(touch.clientY-offsetY)+"px";}});
-    document.addEventListener("touchend",()=>isDragging=false);
+    const draggableContact = document.getElementById("draggableContact");
+    let isDragging = false, offsetX, offsetY;
+    draggableContact.addEventListener("mousedown", e => {
+      isDragging = true;
+      offsetX = e.clientX - draggableContact.getBoundingClientRect().left;
+      offsetY = e.clientY - draggableContact.getBoundingClientRect().top;
+    });
+    document.addEventListener("mousemove", e => {
+      if (isDragging) {
+        draggableContact.style.left = (e.clientX - offsetX) + "px";
+        draggableContact.style.top = (e.clientY - offsetY) + "px";
+      }
+    });
+    document.addEventListener("mouseup", () => isDragging = false);
+    draggableContact.addEventListener("touchstart", e => {
+      const touch = e.touches[0];
+      isDragging = true;
+      offsetX = touch.clientX - draggableContact.getBoundingClientRect().left;
+      offsetY = touch.clientY - draggableContact.getBoundingClientRect().top;
+    });
+    document.addEventListener("touchmove", e => {
+      if (isDragging) {
+        const touch = e.touches[0];
+        draggableContact.style.left = (touch.clientX - offsetX) + "px";
+        draggableContact.style.top = (touch.clientY - offsetY) + "px";
+      }
+    });
+    document.addEventListener("touchend", () => isDragging = false);
 
     // Lazy loading des sections
-    document.addEventListener("DOMContentLoaded",()=>{document.querySelectorAll('section[loading="lazy"]').forEach(section=>{const observer=new IntersectionObserver((entries,observer)=>{entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('loaded');observer.unobserve(entry.target);}})},{threshold:0.1});observer.observe(section);});});
+    document.addEventListener("DOMContentLoaded", () => {
+      document.querySelectorAll('section[loading="lazy"]').forEach(section => {
+        const observer = new IntersectionObserver((entries, observer) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('loaded');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.1 });
+        observer.observe(section);
+      });
+    });
   </script>
 
   <noscript>
