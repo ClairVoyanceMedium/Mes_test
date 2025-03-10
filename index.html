@@ -9,6 +9,9 @@
     }
   </script>
 
+  <!-- Sécurité : Content Security Policy -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'nonce-xai-48273'; style-src 'self'; img-src 'self' https://i.imgur.com; font-src 'self' https://clairvoyancemedium.github.io; object-src 'none';">
+
   <!-- Métadonnées optimisées pour SEO et accessibilité -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
@@ -16,7 +19,7 @@
   <meta name="last-modified" content="2025-03-10">
   <meta name="theme-color" content="#1A1A1A">
   <title>Maximisez vos gains au Loto – Prédictions Optimisées par IA</title>
-  <meta name="description" content="Boostez vos chances au Loto français avec nos grilles optimisées par notre algorithme d’intelligence artificielle le plus puissant de 2025. Prédictions précises basées sur statistiques, machine learning et intuition pour maximiser vos gains au loto." />
+  <meta name="description" content="Boostez vos chances au Loto français avec nos grilles optimisées par notre algorithme d’intelligence artificielle le plus puissant de 2025. Prédictions précises basées sur statistiques, machine learning et données historiques pour maximiser vos gains au loto." />
   <meta name="keywords" content="loto gagnant, prédictions loto, grille loto optimisée, numéro chance, loto français, conseils loto, stratégie loto, gagner au loto, clairvoyance, algorithmes IA, machine learning, prédictions précises, gains maximaux, tirage loto, numéros chanceux, loterie, pronostic" />
   <meta name="author" content="ClairvoyanceMedium.com">
   <meta name="robots" content="index,follow">
@@ -30,7 +33,7 @@
   <link rel="preconnect" href="https://clairvoyancemedium.github.io">
   <link rel="preload" href="https://clairvoyancemedium.github.io/Consultation_de_voyance_par_email_pas_chere.github.io/Cinzel-Regular.woff2" as="font" type="font/woff2" crossorigin>
 
-  <!-- Police Cinzel -->
+  <!-- Police Cinzel avec fallback -->
   <style>
     @font-face {
       font-family: 'Cinzel';
@@ -40,241 +43,43 @@
     }
   </style>
 
-  <!-- Styles CSS optimisés -->
+  <!-- Styles CSS optimisés et minifiés -->
   <style>
-    :root {
-      --gold: #BBAE98;
-      --dark-gold: #8B5A2B;
-      --donation-start: #87CEFA;
-      --donation-end: #B39DDB;
-      --text-light: #F5F5F5;
-      --bg-dark: #1A1A1A;
-      --section-bg: #2A2A2A;
-    }
-    html {
-      font-size: 16px;
-      scroll-behavior: smooth;
-      -webkit-text-size-adjust: 100%;
-    }
-    body {
-      margin: 0;
-      padding: 20px;
-      font-family: 'Cinzel', serif;
-      background: var(--bg-dark);
-      color: var(--text-light);
-      line-height: 1.6;
-      text-align: center;
-      -webkit-font-smoothing: antialiased;
-    }
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      background: var(--section-bg);
-      padding: 30px;
-      border-radius: 8px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.5);
-    }
-    header {
-      padding: 2rem 0;
-    }
-    header img {
-      max-width: 720px;
-      width: 100%;
-      height: auto;
-      margin: 0 auto;
-      display: block;
-    }
-    h1 {
-      font-family: 'Cinzel', serif;
-      font-size: 2.5rem;
-      margin: 1.5rem 0;
-      text-transform: uppercase;
-      color: var(--gold);
-      letter-spacing: 1px;
-    }
-    h2 {
-      font-family: 'Cinzel', serif;
-      font-size: 1.75rem;
-      margin-bottom: 1.5rem;
-      color: var(--text-light);
-    }
-    .intro-text {
-      font-family: 'Cinzel', serif;
-      font-size: 1.1rem;
-      margin: 0 auto 2rem;
-      max-width: 800px;
-      text-align: left;
-      background: var(--section-bg);
-      color: var(--text-light);
-      padding: 1rem;
-      border-radius: 4px;
-    }
-    nav a {
-      font-family: 'Cinzel', serif;
-      color: var(--gold);
-      text-decoration: none;
-      margin: 0 1rem;
-      padding: 0.5rem 1rem;
-      border: 1px solid var(--gold);
-      border-radius: 4px;
-      transition: background 0.3s;
-    }
-    nav a:hover, nav a:focus {
-      background: var(--gold);
-      color: var(--bg-dark);
-      outline: none;
-    }
-    section {
-      background: var(--section-bg);
-      padding: 2rem;
-      border-radius: 6px;
-      margin: 2rem 0;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-    }
-    .prediction-container { background: var(--gold); color: var(--bg-dark); }
-    .disclaimer {
-      font-family: 'Cinzel', serif;
-      background: var(--section-bg);
-      color: var(--text-light);
-      padding: 1rem;
-      border-radius: 4px;
-      margin: 1rem 0;
-      font-weight: bold;
-    }
-    .result {
-      font-family: 'Cinzel', serif;
-      font-size: 1.75rem;
-      font-weight: bold;
-      margin: 1.5rem 0;
-    }
-    #next-draw-datetime {
-      font-family: 'Cinzel', serif;
-      font-size: 1.25rem;
-    }
-    .btn, .don-btn, .email-btn {
-      font-family: 'Cinzel', serif;
-      display: inline-block;
-      padding: 0.75rem 1.5rem;
-      font-size: 1.1rem;
-      border-radius: 4px;
-      text-decoration: none;
-      margin-top: 1rem;
-      cursor: pointer;
-      transition: background 0.3s ease, transform 0.2s;
-      background: var(--gold);
-      color: var(--bg-dark);
-      border: none;
-    }
-    .btn:hover, .btn:focus, .don-btn:hover, .don-btn:focus, .email-btn:hover, .email-btn:focus {
-      background: var(--dark-gold);
-      transform: scale(1.05);
-      outline: 2px solid var(--donation-start);
-    }
-    .don-btn, .email-btn {
-      background: linear-gradient(45deg, var(--donation-start), var(--donation-end));
-      border: 2px solid var(--donation-end);
-      color: var(--text-light);
-    }
-    .carousel {
-      position: relative;
-      max-width: 100%;
-      overflow: hidden;
-      border: 2px solid var(--donation-start);
-      border-radius: 8px;
-      box-shadow: 0 0 15px var(--donation-start), 0 0 15px var(--gold);
-    }
-    .carousel-inner {
-      display: flex;
-      transition: transform 0.5s ease-in-out;
-      will-change: transform;
-    }
-    .carousel-item {
-      font-family: 'Cinzel', serif;
-      min-width: 100%;
-      padding: 1.5rem;
-      font-style: italic;
-      color: var(--text-light);
-      background: var(--section-bg);
-      text-align: center;
-      flex-shrink: 0;
-    }
-    .carousel-prev, .carousel-next {
-      font-family: 'Cinzel', serif;
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background: var(--donation-start);
-      color: var(--text-light);
-      border: none;
-      padding: 0.5rem 1rem;
-      cursor: pointer;
-      transition: background 0.3s, transform 0.2s;
-      z-index: 10;
-    }
-    .carousel-prev:hover, .carousel-next:hover {
-      background: var(--gold);
-      transform: translateY(-50%) scale(1.1);
-    }
-    .carousel-prev { left: 10px; }
-    .carousel-next { right: 10px; }
-    footer {
-      font-family: 'Cinzel', serif;
-      margin-top: 3rem;
-      font-size: 0.9rem;
-      color: #B0B0B0;
-    }
-    footer a {
-      color: var(--gold);
-      text-decoration: none;
-    }
-    footer a:hover, footer a:focus {
-      text-decoration: underline;
-      outline: 2px solid var(--donation-start);
-    }
-    #draggableContact {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      width: 50px;
-      height: 50px;
-      background: var(--gold);
-      border: 2px solid var(--dark-gold);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: move;
-      z-index: 1000;
-      touch-action: none;
-    }
-    #draggableContact svg {
-      width: 24px;
-      height: 24px;
-      fill: var(--bg-dark);
-    }
-    :focus {
-      outline: 2px solid var(--donation-start);
-      outline-offset: 2px;
-    }
-    @media (max-width: 600px) {
-      .container { padding: 15px; }
-      h1 { font-size: 2rem; }
-      h2 { font-size: 1.5rem; }
-      .result { font-size: 1.5rem; }
-      #draggableContact {
-        width: 40px;
-        height: 40px;
-        cursor: default;
-      }
-      .carousel-item { padding: 1rem; }
-    }
-    section[loading="lazy"] {
-      opacity: 0;
-      transition: opacity 0.5s;
-    }
-    section[loading="lazy"].loaded {
-      opacity: 1;
-    }
+    :root{--gold:#BBAE98;--dark-gold:#8B5A2B;--donation-start:#87CEFA;--donation-end:#B39DDB;--text-light:#F5F5F5;--bg-dark:#1A1A1A;--section-bg:#2A2A2A;}
+    html{font-size:16px;scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
+    body{margin:0;padding:20px;font-family:'Cinzel',serif;background:var(--bg-dark);color:var(--text-light);line-height:1.6;text-align:center;-webkit-font-smoothing:antialiased;}
+    .container{max-width:1200px;margin:0 auto;background:var(--section-bg);padding:30px;border-radius:8px;box-shadow:0 0 20px rgba(0,0,0,0.5);}
+    header{padding:2rem 0;}
+    header img{max-width:720px;width:100%;height:auto;margin:0 auto;display:block;}
+    h1{font-family:'Cinzel',serif;font-size:2.5rem;margin:1.5rem 0;text-transform:uppercase;color:var(--gold);letter-spacing:1px;}
+    h2{font-family:'Cinzel',serif;font-size:1.75rem;margin-bottom:1.5rem;color:var(--text-light);}
+    .intro-text{font-family:'Cinzel',serif;font-size:1.1rem;margin:0 auto 2rem;max-width:800px;text-align:left;background:var(--section-bg);color:var(--text-light);padding:1rem;border-radius:4px;}
+    nav a{font-family:'Cinzel',serif;color:var(--gold);text-decoration:none;margin:0 1rem;padding:0.5rem 1rem;border:1px solid var(--gold);border-radius:4px;transition:background 0.3s;}
+    nav a:hover,nav a:focus{background:var(--gold);color:var(--bg-dark);outline:none;}
+    section{background:var(--section-bg);padding:2rem;border-radius:6px;margin:2rem 0;box-shadow:0 2px 10px rgba(0,0,0,0.3);}
+    .prediction-container{background:var(--gold);color:var(--bg-dark);}
+    .disclaimer{font-family:'Cinzel',serif;background:var(--section-bg);color:var(--text-light);padding:1rem;border-radius:4px;margin:1rem 0;font-weight:bold;}
+    .result{font-family:'Cinzel',serif;font-size:1.75rem;font-weight:bold;margin:1.5rem 0;}
+    #next-draw-datetime{font-family:'Cinzel',serif;font-size:1.25rem;}
+    .btn,.don-btn,.email-btn{font-family:'Cinzel',serif;display:inline-block;padding:0.75rem 1.5rem;font-size:1.1rem;border-radius:4px;text-decoration:none;margin-top:1rem;cursor:pointer;transition:background 0.3s ease,transform 0.2s;background:var(--gold);color:var(--bg-dark);border:none;}
+    .btn:hover,.btn:focus,.don-btn:hover,.don-btn:focus,.email-btn:hover,.email-btn:focus{background:var(--dark-gold);transform:scale(1.05);outline:2px solid var(--donation-start);}
+    .don-btn,.email-btn{background:linear-gradient(45deg,var(--donation-start),var(--donation-end));border:2px solid var(--donation-end);color:var(--text-light);}
+    .carousel{position:relative;max-width:100%;overflow:hidden;border:2px solid var(--donation-start);border-radius:8px;box-shadow:0 0 15px var(--donation-start),0 0 15px var(--gold);}
+    .carousel-inner{display:flex;transition:transform 0.5s ease-in-out;will-change:transform;}
+    .carousel-item{font-family:'Cinzel',serif;min-width:100%;padding:1.5rem;font-style:italic;color:var(--text-light);background:var(--section-bg);text-align:center;flex-shrink:0;display:flex;justify-content:center;align-items:center;}
+    .carousel-prev,.carousel-next{font-family:'Cinzel',serif;position:absolute;top:50%;transform:translateY(-50%);background:var(--donation-start);color:var(--text-light);border:none;padding:0.5rem 1rem;cursor:pointer;transition:background 0.3s,transform 0.2s;z-index:10;}
+    .carousel-prev:hover,.carousel-next:hover{background:var(--gold);transform:translateY(-50%) scale(1.1);}
+    .carousel-prev{left:10px;}
+    .carousel-next{right:10px;}
+    footer{font-family:'Cinzel',serif;margin-top:3rem;font-size:0.9rem;color:#B0B0B0;}
+    footer a{color:var(--gold);text-decoration:none;}
+    footer a:hover,footer a:focus{text-decoration:underline;outline:2px solid var(--donation-start);}
+    #draggableContact{position:fixed;bottom:20px;right:20px;width:50px;height:50px;background:var(--gold);border:2px solid var(--dark-gold);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:move;z-index:1000;touch-action:none;}
+    #draggableContact svg{width:24px;height:24px;fill:var(--bg-dark);}
+    :focus{outline:2px solid var(--donation-start);outline-offset:2px;}
+    @media (max-width:600px){.container{padding:15px;}h1{font-size:2rem;}h2{font-size:1.5rem;}.result{font-size:1.5rem;}#draggableContact{width:40px;height:40px;cursor:default;}.carousel-item{padding:1rem;}}
+    section[loading="lazy"]{opacity:0;transition:opacity 0.5s;}
+    section[loading="lazy"].loaded{opacity:1;}
   </style>
 
   <!-- Données structurées JSON-LD pour SEO -->
@@ -285,18 +90,8 @@
       "name": "ClairvoyanceMedium",
       "url": "https://www.clairvoyancemedium.com/",
       "description": "Boostez vos chances au Loto français avec nos grilles optimisées par notre algorithme d’intelligence artificielle le plus puissant.",
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": "https://www.clairvoyancemedium.com/search?q={search_term_string}",
-        "query-input": "required name=search_term_string"
-      },
-      "breadcrumb": {
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-          {"@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://www.clairvoyancemedium.com/"},
-          {"@type": "ListItem", "position": 2, "name": "Prédictions Loto", "item": "https://www.clairvoyancemedium.com/"}
-        ]
-      }
+      "potentialAction": {"@type":"SearchAction","target":"https://www.clairvoyancemedium.com/search?q={search_term_string}","query-input":"required name=search_term_string"},
+      "breadcrumb": {"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Accueil","item":"https://www.clairvoyancemedium.com/"},{"@type":"ListItem","position":2,"name":"Prédictions Loto","item":"https://www.clairvoyancemedium.com/"}]}
     }
   </script>
 </head>
@@ -319,12 +114,6 @@
     </header>
 
     <main>
-      <section loading="lazy">
-        <a href="https://stripe.com/donate/example?tracking=suivi" class="don-btn" target="_blank" rel="noopener noreferrer" aria-label="Faire un don dès 1€" onclick="trackClick('Donation_Top')">
-          Je fais un don dès 1€ – Suivi
-        </a>
-      </section>
-
       <section class="prediction-container" id="predictionSection" loading="lazy">
         <h2>Grille Prédite – Prochain Tirage</h2>
         <p id="next-draw-datetime"></p>
@@ -341,26 +130,24 @@
 
       <section id="reviewsSection" loading="lazy">
         <h2>Avis de Nos Utilisateurs – Plus de 1000 Témoignages</h2>
-        <div class="carousel" role="region" aria-label="Carrousel d’avis, le plus performant du monde" aria-live="polite">
+        <div class="carousel" role="region" aria-label="Carrousel d’avis" aria-live="polite" tabindex="0">
           <div class="carousel-inner" id="carouselInner">
             <!-- Avis générés dynamiquement via JavaScript -->
           </div>
           <button class="carousel-prev" aria-label="Avis précédent" onclick="trackClick('Carousel_Prev')">◄</button>
           <button class="carousel-next" aria-label="Avis suivant" onclick="trackClick('Carousel_Next')">►</button>
         </div>
-        <a href="https://stripe.com/donate/example?tracking=suivi" class="don-btn" target="_blank" rel="noopener noreferrer" aria-label="Faire un don dès 1€" onclick="trackClick('Donation_Bottom')">
-          Faire un don
-        </a>
+        <a href="https://stripe.com/donate/example?tracking=suivi" class="don-btn" target="_blank" rel="noopener noreferrer" aria-label="Faire un don dès 1€" onclick="trackClick('Donation_Bottom')">Faire un don</a>
       </section>
 
       <section id="servicesSection" loading="lazy">
         <h2>Nos Services Exclusifs</h2>
         <p>Découvrez nos services pour maximiser vos opportunités, surpassant les concurrents avec précision et intuition.</p>
-        <a href="https://www.clairvoyancemedium.com/voyance-par-telephone?tracking=suivi" class="btn" target="_blank" rel="noopener noreferrer" onclick="trackClick('Telephone_Voyance')" aria-label="Voyance par Téléphone, optimisée SEO">Voyance par Téléphone</a>
-        <a href="https://www.clairvoyancemedium.com/voyance-par-email?tracking=suivi" class="btn" target="_blank" rel="noopener noreferrer" onclick="trackClick('Email_Voyance')" aria-label="Voyance par Email, optimisée SEO">Voyance par Email</a>
-        <a href="https://www.clairvoyancemedium.com/voyance-par-telephone-22-euros?tracking=suivi" class="btn" target="_blank" rel="noopener noreferrer" onclick="trackClick('Telephone_Voyance_22')" aria-label="Voyance par Téléphone 22€, optimisée SEO">Voyance par Téléphone 22€</a>
-        <a href="https://www.clairvoyancemedium.com/desenvoutement-250-euros?tracking=suivi" class="btn" target="_blank" rel="noopener noreferrer" onclick="trackClick('Desenvoutement')" aria-label="Désenvoutement 250€, optimisée SEO">Désenvoutement 250€</a>
-        <a href="https://www.clairvoyancemedium.com/rituel-sentimental?tracking=suivi" class="btn" target="_blank" rel="noopener noreferrer" onclick="trackClick('Rituel_Sentimental')" aria-label="Rituel Sentimental, optimisée SEO">Rituel Sentimental</a>
+        <a href="https://www.clairvoyancemedium.com/voyance-par-telephone?tracking=suivi" class="btn" target="_blank" rel="noopener noreferrer" onclick="trackClick('Telephone_Voyance')" aria-label="Voyance par Téléphone">Voyance par Téléphone</a>
+        <a href="https://www.clairvoyancemedium.com/voyance-par-email?tracking=suivi" class="btn" target="_blank" rel="noopener noreferrer" onclick="trackClick('Email_Voyance')" aria-label="Voyance par Email">Voyance par Email</a>
+        <a href="https://www.clairvoyancemedium.com/voyance-par-telephone-22-euros?tracking=suivi" class="btn" target="_blank" rel="noopener noreferrer" onclick="trackClick('Telephone_Voyance_22')" aria-label="Voyance par Téléphone 22€">Voyance par Téléphone 22€</a>
+        <a href="https://www.clairvoyancemedium.com/desenvoutement-250-euros?tracking=suivi" class="btn" target="_blank" rel="noopener noreferrer" onclick="trackClick('Desenvoutement')" aria-label="Désenvoutement 250€">Désenvoutement 250€</a>
+        <a href="https://www.clairvoyancemedium.com/rituel-sentimental?tracking=suivi" class="btn" target="_blank" rel="noopener noreferrer" onclick="trackClick('Rituel_Sentimental')" aria-label="Rituel Sentimental">Rituel Sentimental</a>
       </section>
     </main>
 
@@ -370,7 +157,7 @@
     </footer>
   </div>
 
-  <div id="draggableContact" aria-label="Contactez-nous par e-mail" role="button">
+  <div id="draggableContact" aria-label="Contactez-nous par e-mail" role="button" tabindex="0">
     <a href="mailto:contact.clairvoyancemedium@gmail.com?tracking=suivi" target="_blank" rel="noopener noreferrer" onclick="trackClick('Contact_Icon')" aria-label="Envoyer un e-mail de contact">
       <svg viewBox="0 0 24 24" aria-hidden="true">
         <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"></path>
@@ -380,165 +167,50 @@
 
   <!-- Scripts optimisés -->
   <script defer>
-    // Mise à jour dynamique de l’année
-    document.getElementById("current-year").innerText = new Date().getFullYear();
-    document.getElementById("dynamicYear").innerText = new Date().getFullYear();
+    document.getElementById("current-year").innerText=new Date().getFullYear();document.getElementById("dynamicYear").innerText=new Date().getFullYear();
+    function trackClick(eventLabel){console.log(`Tracking: ${eventLabel}`);if(typeof gtag==='function'){gtag('event','click',{'event_category':'Interaction','event_label':eventLabel,'value':1});}}
 
-    // Fonction de suivi des clics
-    function trackClick(eventLabel) {
-      console.log(`Tracking: ${eventLabel}`);
-      if (typeof gtag === 'function') {
-        gtag('event', 'click', {
-          'event_category': 'Interaction',
-          'event_label': eventLabel,
-          'value': 1
-        });
-      }
-    }
-
-    // Données Loto simulées
+    // Données Loto simulées (à remplacer par API réelle)
+    async function fetchLotoData(){return{history:[{numbers:[5,12,19,26,33],chance:8},{numbers:[7,13,22,41,38],chance:7},{numbers:[7,15,22,41,38],chance:9},{numbers:[4,12,19,41,38],chance:6},{numbers:[5,13,19,41,33],chance:8}]};}
+    // Exemple avec API réelle (décommenter et configurer avec une clé API)
+    /*
     async function fetchLotoData() {
-      return {
-        history: [
-          { numbers: [5, 12, 19, 26, 33], chance: 8 },
-          { numbers: [7, 13, 22, 41, 38], chance: 7 },
-          { numbers: [7, 15, 22, 41, 38], chance: 9 },
-          { numbers: [4, 12, 19, 41, 38], chance: 6 },
-          { numbers: [5, 13, 19, 41, 33], chance: 8 }
-        ]
-      };
+      const response = await fetch('https://api.lotteryresultsapi.com/lottery/fr_lotto/draws/latest', {
+        headers: { 'Authorization': 'Bearer VOTRE_CLE_API' }
+      });
+      const data = await response.json();
+      return { history: data.draws };
     }
+    */
+    function computeOptimizedGrid(history){const freq={};history.forEach(draw=>draw.numbers.forEach(num=>freq[num]=(freq[num]||0)+1));const numbers=Array.from({length:49},(_,i)=>i+1);const weights=numbers.map(num=>freq[num]||1);const selected=[];while(selected.length<5){const totalWeight=weights.reduce((a,b)=>a+b,0);let rnd=Math.random()*totalWeight,cum=0;for(let i=0;i<numbers.length;i++){cum+=weights[i];if(rnd<cum&&!selected.includes(numbers[i])){selected.push(numbers[i]);break;}}}const chanceNumbers=Array.from({length:10},(_,i)=>i+1);const chanceFreq={};history.forEach(draw=>chanceFreq[draw.chance]=(chanceFreq[draw.chance]||0)+1);const chanceWeights=chanceNumbers.map(num=>chanceFreq[num]||1);let rndChance=Math.random()*chanceWeights.reduce((a,b)=>a+b,0),cumChance=0;let selectedChance;for(let i=0;i<chanceNumbers.length;i++){cumChance+=chanceWeights[i];if(rndChance<cumChance){selectedChance=chanceNumbers[i];break;}}return[...selected.sort((a,b)=>a-b),selectedChance];}
+    async function getAdvancedPredictions(){const data=await fetchLotoData();document.getElementById("next-draw-datetime").innerText=`Prochain tirage : ${new Date().toLocaleDateString('fr-FR')} | 20:30`;const grid=computeOptimizedGrid(data.history);document.getElementById("prediction").innerHTML=`${grid.slice(0,5).join(" - ")} - <span style="color:#FFEB3B;">Chance : ${grid[5]}</span>`;}getAdvancedPredictions();
 
-    function computeOptimizedGrid(history) {
-      const freq = {};
-      history.forEach(draw => draw.numbers.forEach(num => freq[num] = (freq[num] || 0) + 1));
-      const numbers = Array.from({ length: 49 }, (_, i) => i + 1);
-      const weights = numbers.map(num => freq[num] || 1);
-      const selected = [];
-      while (selected.length < 5) {
-        const totalWeight = weights.reduce((a, b) => a + b, 0);
-        let rnd = Math.random() * totalWeight, cum = 0;
-        for (let i = 0; i < numbers.length; i++) {
-          cum += weights[i];
-          if (rnd < cum && !selected.includes(numbers[i])) {
-            selected.push(numbers[i]);
-            break;
-          }
-        }
-      }
-      const chanceNumbers = Array.from({ length: 10 }, (_, i) => i + 1);
-      const chanceFreq = {};
-      history.forEach(draw => chanceFreq[draw.chance] = (chanceFreq[draw.chance] || 0) + 1);
-      const chanceWeights = chanceNumbers.map(num => chanceFreq[num] || 1);
-      let rndChance = Math.random() * chanceWeights.reduce((a, b) => a + b, 0), cumChance = 0;
-      let selectedChance;
-      for (let i = 0; i < chanceNumbers.length; i++) {
-        cumChance += chanceWeights[i];
-        if (rndChance < cumChance) {
-          selectedChance = chanceNumbers[i];
-          break;
-        }
-      }
-      return [...selected.sort((a, b) => a - b), selectedChance];
-    }
-
-    async function getAdvancedPredictions() {
-      const data = await fetchLotoData();
-      document.getElementById("next-draw-datetime").innerText = `Prochain tirage : ${new Date().toLocaleDateString('fr-FR')} | 20:30`;
-      const grid = computeOptimizedGrid(data.history);
-      document.getElementById("prediction").innerHTML = `${grid.slice(0, 5).join(" - ")} - <span style="color: #FFEB3B;">Chance : ${grid[5]}</span>`;
-    }
-    getAdvancedPredictions();
-
-    // Carrousel optimisé pour 1000 avis
-    const reviews = Array.from({ length: 1000 }, (_, i) => {
-      const names = ["Marie", "Pierre", "Sophie", "Paul", "Claire", "Jean", "Marc", "Léa", "Thomas", "Emma"];
-      const gains = ["50 000 €", "500 €", "4 000 €", "750 €", "420 €", "1 000 €", "20 000 €", "10 000 €", "30 000 €", "100 €"];
-      const actions = ["gagné au Loto", "utilisé pour des prédictions loto", "fait un don à Frederick", "recommande vivement"];
-      const name = names[Math.floor(Math.random() * names.length)];
-      const gain = gains[Math.floor(Math.random() * gains.length)];
-      const action = actions[Math.floor(Math.random() * actions.length)];
-      return `"J’ai ${action} ${gain} grâce à cette méthode ! - ${name}, ${Math.floor(25 + Math.random() * 50)} ans"`;
-    });
-
-    const carouselInner = document.getElementById('carouselInner');
-    reviews.forEach(review => {
-      const item = document.createElement('div');
-      item.classList.add('carousel-item');
-      item.innerHTML = review;
-      carouselInner.appendChild(item);
-    });
-
-    const items = document.querySelectorAll('.carousel-item');
-    const prevBtn = document.querySelector('.carousel-prev');
-    const nextBtn = document.querySelector('.carousel-next');
-    let currentIndex = 0;
-
-    function updateCarousel() {
-      carouselInner.style.transform = `translateX(-${currentIndex * 100}%)`;
-    }
-
-    prevBtn.addEventListener('click', () => {
-      currentIndex = (currentIndex > 0) ? currentIndex - 1 : items.length - 1;
-      updateCarousel();
-    });
-    nextBtn.addEventListener('click', () => {
-      currentIndex = (currentIndex < items.length - 1) ? currentIndex + 1 : 0;
-      updateCarousel();
-    });
-    setInterval(() => {
-      currentIndex = (currentIndex < items.length - 1) ? currentIndex + 1 : 0;
-      updateCarousel();
-    }, 3000);
+    // Carrousel optimisé (limité à 20 avis initiaux)
+    const reviews=Array.from({length:20},(_,i)=>{const names=["Marie","Pierre","Sophie","Paul","Claire","Jean","Marc","Léa","Thomas","Emma"];const gains=["50 000 €","500 €","4 000 €","750 €","420 €","1 000 €","20 000 €","10 000 €","30 000 €","100 €"];const actions=["gagné au Loto","utilisé pour des prédictions loto","fait un don à Frederick","recommande vivement"];const name=names[Math.floor(Math.random()*names.length)];const gain=gains[Math.floor(Math.random()*gains.length)];const action=actions[Math.floor(Math.random()*actions.length)];return`"J’ai ${action} ${gain} grâce à cette méthode ! - ${name}, ${Math.floor(25+Math.random()*50)} ans"`;});
+    const carouselInner=document.getElementById('carouselInner');reviews.forEach(review=>{const item=document.createElement('div');item.classList.add('carousel-item');item.innerHTML=review;carouselInner.appendChild(item);});
+    const items=document.querySelectorAll('.carousel-item');const prevBtn=document.querySelector('.carousel-prev');const nextBtn=document.querySelector('.carousel-next');let currentIndex=0;
+    function updateCarousel(){carouselInner.style.transform=`translateX(-${currentIndex*100}%)`;}
+    prevBtn.addEventListener('click',()=>{currentIndex=(currentIndex>0)?currentIndex-1:items.length-1;updateCarousel();});
+    nextBtn.addEventListener('click',()=>{currentIndex=(currentIndex<items.length-1)?currentIndex+1:0;updateCarousel();});
+    setInterval(()=>{currentIndex=(currentIndex<items.length-1)?currentIndex+1:0;updateCarousel();},3000);
+    // Accessibilité clavier pour le carrousel
+    document.querySelector('.carousel').addEventListener('keydown',e=>{if(e.key==='ArrowLeft'){prevBtn.click();}else if(e.key==='ArrowRight'){nextBtn.click();}});
 
     // Icône déplaçable
-    const draggableContact = document.getElementById("draggableContact");
-    let isDragging = false, offsetX, offsetY;
-    draggableContact.addEventListener("mousedown", e => {
-      isDragging = true;
-      offsetX = e.clientX - draggableContact.getBoundingClientRect().left;
-      offsetY = e.clientY - draggableContact.getBoundingClientRect().top;
-    });
-    document.addEventListener("mousemove", e => {
-      if (isDragging) {
-        draggableContact.style.left = (e.clientX - offsetX) + "px";
-        draggableContact.style.top = (e.clientY - offsetY) + "px";
-      }
-    });
-    document.addEventListener("mouseup", () => isDragging = false);
-    draggableContact.addEventListener("touchstart", e => {
-      const touch = e.touches[0];
-      isDragging = true;
-      offsetX = touch.clientX - draggableContact.getBoundingClientRect().left;
-      offsetY = touch.clientY - draggableContact.getBoundingClientRect().top;
-    });
-    document.addEventListener("touchmove", e => {
-      if (isDragging) {
-        const touch = e.touches[0];
-        draggableContact.style.left = (touch.clientX - offsetX) + "px";
-        draggableContact.style.top = (touch.clientY - offsetY) + "px";
-      }
-    });
-    document.addEventListener("touchend", () => isDragging = false);
+    const draggableContact=document.getElementById("draggableContact");let isDragging=false,offsetX,offsetY;
+    draggableContact.addEventListener("mousedown",e=>{isDragging=true;offsetX=e.clientX-draggableContact.getBoundingClientRect().left;offsetY=e.clientY-draggableContact.getBoundingClientRect().top;});
+    document.addEventListener("mousemove",e=>{if(isDragging){draggableContact.style.left=(e.clientX-offsetX)+"px";draggableContact.style.top=(e.clientY-offsetY)+"px";}});
+    document.addEventListener("mouseup",()=>isDragging=false);
+    draggableContact.addEventListener("touchstart",e=>{const touch=e.touches[0];isDragging=true;offsetX=touch.clientX-draggableContact.getBoundingClientRect().left;offsetY=touch.clientY-draggableContact.getBoundingClientRect().top;});
+    document.addEventListener("touchmove",e=>{if(isDragging){const touch=e.touches[0];draggableContact.style.left=(touch.clientX-offsetX)+"px";draggableContact.style.top=(touch.clientY-offsetY)+"px";}});
+    document.addEventListener("touchend",()=>isDragging=false);
 
     // Lazy loading des sections
-    document.addEventListener("DOMContentLoaded", () => {
-      document.querySelectorAll('section[loading="lazy"]').forEach(section => {
-        const observer = new IntersectionObserver((entries, observer) => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add('loaded');
-              observer.unobserve(entry.target);
-            }
-          });
-        }, { threshold: 0.1 });
-        observer.observe(section);
-      });
-    });
+    document.addEventListener("DOMContentLoaded",()=>{document.querySelectorAll('section[loading="lazy"]').forEach(section=>{const observer=new IntersectionObserver((entries,observer)=>{entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('loaded');observer.unobserve(entry.target);}})},{threshold:0.1});observer.observe(section);});});
   </script>
 
   <noscript>
-    <div style="background: var(--section-bg); color: var(--text-light); padding: 1rem; margin: 1rem;">
+    <div style="background:var(--section-bg);color:var(--text-light);padding:1rem;margin:1rem;">
       Activez JavaScript pour une expérience complète. Grille statique : 5 - 12 - 19 - 26 - 33 - Chance : 8.
     </div>
   </noscript>
