@@ -293,14 +293,15 @@
       else if (e.key === 'ArrowRight') nextBtn.click();
     });
 
-    // Gestion de l’inscription
+    // Gestion de l’inscription avec redirection simple vers le client mail
     function handleSubscribe(event) {
       event.preventDefault();
       const email = event.target.querySelector('input[type="email"]').value;
       if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        console.log(`Email inscrit : ${email}`);
-        alert("Merci de vous être inscrit ! Vous recevrez bientôt vos numéros pour le Loto.");
-        event.target.reset(); // Réinitialise le formulaire
+        window.location.href = "mailto:contact.clairvoyancemedium@gmail.com?subject=" 
+          + encodeURIComponent("Nouvelle Inscription à la Newsletter") 
+          + "&body=" 
+          + encodeURIComponent("Nouvelle inscription de : " + email);
       } else {
         alert("Veuillez entrer une adresse e-mail valide.");
       }
