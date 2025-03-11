@@ -294,38 +294,17 @@
     });
 
     // Gestion de l’inscription
-    <title>Inscription Newsletter</title>
-  <form id="subscribe-form" onsubmit="handleSubscribe(event)" aria-label="Formulaire d'inscription à la newsletter">
-    <label for="email-input">Adresse e-mail :</label>
-    <input type="email" id="email-input" name="email" required aria-required="true" placeholder="Votre adresse e-mail">
-    <button type="submit">S'inscrire</button>
-  </form>
-
-  <script>
     function handleSubscribe(event) {
       event.preventDefault();
-      const emailInput = event.target.querySelector('input[type="email"]');
-      const email = emailInput.value.trim();
-
-      // Vérification de la validité de l'adresse email
+      const email = event.target.querySelector('input[type="email"]').value;
       if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        // Option de tracking (exemple : Google Analytics)
-        if (window.gtag) {
-          gtag('event', 'subscribe', {
-            'event_category': 'Newsletter',
-            'event_label': email
-          });
-        }
-        // Redirection via mailto: (ouvre le client mail de l'utilisateur)
-        window.location.href = "mailto:contact.clairvoyancemedium@gmail.com?subject=" 
-          + encodeURIComponent("Nouvelle Inscription à la Newsletter") 
-          + "&body=" 
-          + encodeURIComponent("Nouvelle inscription de : " + email);
+        console.log(`Email inscrit : ${email}`);
+        alert("Merci de vous être inscrit ! Vous recevrez bientôt vos numéros pour le Loto.");
+        event.target.reset(); // Réinitialise le formulaire
       } else {
         alert("Veuillez entrer une adresse e-mail valide.");
       }
     }
-  </script>
 
     // Icône déplaçable
     const draggableContact = document.getElementById("draggableContact");
