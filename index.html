@@ -40,7 +40,7 @@
     }
   </style>
 
-  <!-- Styles CSS optimisés et inchangés -->
+  <!-- Styles CSS inchangés -->
   <style>
     :root {
       --gold: #BBAE98;
@@ -255,7 +255,7 @@
     footer a:hover,
     footer a:focus {
       text-decoration: underline;
-      outline: 2px solid var (--donation-start);
+      outline: 2px solid var(--donation-start);
     }
     #draggableContact {
       position: fixed;
@@ -370,7 +370,7 @@
     }
   </script>
 
-  <!-- JSON-LD enrichi : FAQPage (15 questions adaptées au Loto et services) -->
+  <!-- JSON-LD enrichi : FAQPage -->
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -420,7 +420,7 @@
         <p id="next-draw-datetime"></p>
         <p class="result" id="prediction">Chargement...</p>
         <div class="disclaimer" role="alert">Résultats non garantis</div>
-        <button class="btn" onclick="getAdvancedPredictions(); trackClick('Generate_Grid')">Générer une nouvelle grille</button>
+        <button class="btn" onclick="getAdvancedPredictions(); trackClick('Generate_Grid')" aria-label="Générer une nouvelle grille">Générer une nouvelle grille</button>
       </section>
 
       <section class="subscribe-section" id="subscribeSection" loading="lazy">
@@ -428,7 +428,7 @@
         <p>Inscrivez-vous pour recevoir par e-mail des numéros pour le prochain tirage du Loto (et non l’Euromillions). Si Frédéric du cabinet ClairvoyanceMedium.com a un ressenti fort, vous serez les premiers avertis gratuitement.</p>
         <form id="subscribeForm" onsubmit="handleSubscribe(event)">
           <input type="email" placeholder="Entrez votre email" required aria-label="Adresse e-mail pour inscription">
-          <button type="submit">S’inscrire</button>
+          <button type="submit" aria-label="S’inscrire">S’inscrire</button>
         </form>
       </section>
 
@@ -445,7 +445,7 @@
           <button class="carousel-prev" aria-label="Avis précédent" onclick="prevReview(); trackClick('Carousel_Prev')">←</button>
           <button class="carousel-next" aria-label="Avis suivant" onclick="nextReview(); trackClick('Carousel_Next')">→</button>
         </div>
-        <a href="https://buy.stripe.com/aEU3cAgDOeXl7SMbK3" class="don-btn" target="_blank" rel="noopener noreferrer" aria-label="Faire un don" onclick="trackClick('Donation_Bottom')">Faire un don</a>
+        <a href="https://buy.stripe.com/aEU3cAgDOeXl7SMbK3" class="don-btn" target="_blank" rel="noopener noreferrer" onclick="trackClick('Donation_Bottom')" aria-label="Faire un don">Faire un don</a>
       </section>
 
       <section id="servicesSection" loading="lazy">
@@ -472,7 +472,7 @@
     </a>
   </div>
 
-  <!-- Scripts optimisés pour performances maximales -->
+  <!-- Scripts optimisés -->
   <script defer>
     // Pré-calcul des années dynamiques
     const currentYear = new Date().getFullYear();
@@ -532,7 +532,7 @@
       return [...selected, chance];
     }
 
-    // Calcul de la prochaine date de tirage (lundi, mercredi, samedi)
+    // Calcul de la prochaine date de tirage (lundi, mercredi, samedi à 19h30)
     function getNextDrawDate() {
       const now = new Date();
       const drawDays = [1, 3, 6]; // Lundi, Mercredi, Samedi
@@ -540,7 +540,7 @@
       let daysAhead = drawDays.find(d => d >= day) - day || (7 - day + drawDays[0]);
       if (daysAhead < 0) daysAhead += 7;
       now.setDate(now.getDate() + daysAhead);
-      return now.toLocaleDateString('fr-FR') + ' | 20:30';
+      return now.toLocaleDateString('fr-FR') + ' | 19:30';
     }
 
     // Pré-calcul des éléments DOM
@@ -701,7 +701,7 @@
 
     // Lazy loading optimisé
     document.addEventListener("DOMContentLoaded", () => {
-      const sections = document.querySelector permeAll('section[loading="lazy"]');
+      const sections = document.querySelectorAll('section[loading="lazy"]');
       if ('IntersectionObserver' in window) {
         const observer = new IntersectionObserver((entries, obs) => {
           entries.forEach(entry => {
