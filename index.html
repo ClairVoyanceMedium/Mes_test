@@ -401,7 +401,7 @@
     <header>
       <picture>
         <source srcset="https://i.imgur.com/GmyGlKk.webp" type="image/webp">
-        <img src="https://i.imgur.com/GmyGlKk.jpg" alt="Logo ClairvoyanceMedium" loading="lazy">
+        <img src="https://i.imgur.com/GmyGlKk.jpg" alt="Logo ClairvoyanceMedium - Prédictions Loto" loading="lazy" srcset="https://i.imgur.com/GmyGlKk.jpg 720w, https://i.imgur.com/GmyGlKk.jpg 360w" sizes="(max-width: 600px) 360px, 720px">
       </picture>
       <h1>Propulsé par une technologie unique d'analyse puissante et réactive pour enfin reussir à gagner au Loto</h1>
       <div class="intro-text" role="region" aria-label="Introduction">
@@ -427,7 +427,8 @@
         <h2>Recevez des grilles Exclusives directement dans votre boite mail</h2>
         <p>Inscrivez-vous pour recevoir par e-mail des numéros pour le prochain tirage du Loto (et non l’Euromillions). Si Frédéric du cabinet ClairvoyanceMedium.com a un ressenti fort, vous serez les premiers avertis gratuitement.</p>
         <form id="subscribeForm" onsubmit="handleSubscribe(event)">
-          <input type="email" placeholder="Entrez votre email" required aria-label="Adresse e-mail pour inscription">
+          <label for="emailInput" class="visually-hidden">Entrez votre email</label>
+          <input type="email" id="emailInput" placeholder="Entrez votre email" required aria-label="Adresse e-mail pour inscription">
           <button type="submit" aria-label="S’inscrire">S’inscrire</button>
         </form>
       </section>
@@ -472,12 +473,16 @@
     </a>
   </div>
 
-  <!-- Scripts optimisés -->
+  <!-- Scripts optimisés avec améliorations -->
   <script defer>
     // Pré-calcul des années dynamiques
     const currentYear = new Date().getFullYear();
-    document.getElementById("current-year").textContent = currentYear;
-    document.getElementById("dynamicYear").textContent = currentYear;
+    try {
+      document.getElementById("current-year").textContent = currentYear;
+      document.getElementById("dynamicYear").textContent = currentYear;
+    } catch (e) {
+      console.error("Erreur lors de l’affichage de l’année:", e);
+    }
 
     // Fonction de suivi optimisée
     function trackClick(eventLabel) {
@@ -487,7 +492,7 @@
       }
     }
 
-    // Données Loto simulées (statiques pour performances)
+    // Données Loto simulées (statiques pour cet exemple, mais API-ready)
     const lotoData = {
       history: [
         { numbers: new Uint8Array([5, 12, 19, 26, 33]), chance: 8 },
@@ -497,7 +502,16 @@
         { numbers: new Uint8Array([5, 13, 19, 41, 33]), chance: 8 }
       ]
     };
-    const fetchLotoData = () => Promise.resolve(lotoData);
+    async function fetchLotoData() {
+      try {
+        // Exemple pour une future API réelle : const response = await fetch('https://api.loto.fr/history');
+        // return await response.json();
+        return Promise.resolve(lotoData);
+      } catch (e) {
+        console.error("Erreur lors de la récupération des données Loto:", e);
+        return lotoData; // Fallback sur données statiques
+      }
+    }
 
     // Algorithme optimisé avec tableaux typés
     function computeOptimizedGrid(history) {
@@ -537,8 +551,8 @@
       const now = new Date();
       const drawDays = [1, 3, 6]; // Lundi, Mercredi, Samedi
       const day = now.getDay();
-      let daysAhead = drawDays.find(d => d >= day) - day || (7 - day + drawDays[0]);
-      if (daysAhead < 0) daysAhead += 7;
+      let daysAhead = drawDays.find(d => d > day) - day || (7 - day + drawDays[0]);
+      if (daysAhead <= 0) daysAhead += 7;
       now.setDate(now.getDate() + daysAhead);
       return now.toLocaleDateString('fr-FR') + ' | 19:30';
     }
@@ -548,14 +562,21 @@
     const nextDrawEl = document.getElementById("next-draw-datetime");
 
     async function getAdvancedPredictions() {
-      const data = await fetchLotoData();
-      nextDrawEl.textContent = `Pour le prochain tirage du Loto (et non l’Euromillions) : ${getNextDrawDate()}`;
-      const grid = computeOptimizedGrid(data.history);
-      predictionEl.innerHTML = `${grid.slice(0, 5).join(" - ")} - <span style="color:#FFEB3B;">Chance : ${grid[5]}</span>`;
+      try {
+        const data = await fetchLotoData();
+        if (!nextDrawEl || !predictionEl) throw new Error("Éléments DOM manquants");
+        nextDrawEl.textContent = `Pour le prochain tirage du Loto (et non l’Euromillions) : ${getNextDrawDate()}`;
+        const grid = computeOptimizedGrid(data.history);
+        predictionEl.innerHTML = `${grid.slice(0, 5).join(" - ")} - <span style="color:#FFEB3B;">Chance : ${grid[5]}</span>`;
+      } catch (e) {
+        console.error("Erreur dans getAdvancedPredictions:", e);
+        if (nextDrawEl) nextDrawEl.textContent = "Erreur lors du calcul de la date";
+        if (predictionEl) predictionEl.textContent = "Erreur lors de la génération";
+      }
     }
     getAdvancedPredictions();
 
-    // Liste d’avis variés et uniques (65 éléments)
+    // Liste d’avis variés et uniques (65 éléments) avec chargement paresseux
     const reviews = [
       "« J’ai gagné 2 500 € avec cette grille géniale ! » - Julien, 34 ans",
       "« Les numéros m’ont porté chance, 300 € gagnés ! » - Sophie, 28 ans",
@@ -624,18 +645,26 @@
       "« Je recommande, 700 € gagnés ! » - Amélie, 31 ans"
     ];
 
-    // Pré-calcul du carrousel
+    // Carrousel avec chargement paresseux
     const carouselInner = document.getElementById('carouselInner');
-    reviews.forEach(review => {
-      const item = document.createElement('div');
-      item.classList.add('carousel-item');
-      item.textContent = review;
-      carouselInner.appendChild(item);
-    });
-
-    const items = carouselInner.children;
+    const itemsPerLoad = 5;
+    let loadedReviews = 0;
     let currentIndex = 0;
-    if (items.length) items[currentIndex].classList.add('active');
+
+    function loadReviews(start, end) {
+      for (let i = start; i < end && i < reviews.length; i++) {
+        const item = document.createElement('div');
+        item.classList.add('carousel-item');
+        item.textContent = reviews[i];
+        item.setAttribute('data-index', i);
+        carouselInner.appendChild(item);
+      }
+      loadedReviews = end;
+    }
+
+    loadReviews(0, itemsPerLoad);
+    const items = carouselInner.children;
+    if (items.length) items[0].classList.add('active');
 
     function prevReview() {
       items[currentIndex].classList.remove('active');
@@ -646,6 +675,9 @@
     function nextReview() {
       items[currentIndex].classList.remove('active');
       currentIndex = currentIndex < items.length - 1 ? currentIndex + 1 : 0;
+      if (currentIndex >= loadedReviews - 2 && loadedReviews < reviews.length) {
+        loadReviews(loadedReviews, loadedReviews + itemsPerLoad);
+      }
       items[currentIndex].classList.add('active');
     }
 
@@ -657,30 +689,44 @@
 
     // Gestion de l’inscription optimisée
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    function handleSubscribe(event) {
+    async function handleSubscribe(event) {
       event.preventDefault();
-      const email = event.target.querySelector('input[type="email"]').value;
-      if (emailRegex.test(email)) {
-        window.open(`mailto:contact.clairvoyancemedium@gmail.com?subject=${encodeURIComponent("voici mon email pour newsletter")}&body=${encodeURIComponent("Email du client : " + email)}`, "_blank");
-      } else {
+      const emailInput = event.target.querySelector('#emailInput');
+      const email = emailInput.value;
+      if (!emailRegex.test(email)) {
         alert("Veuillez entrer une adresse e-mail valide.");
+        return;
+      }
+      try {
+        // Simulation d’un appel API (à remplacer par un vrai endpoint)
+        console.log("Inscription simulée pour:", email);
+        // Exemple : await fetch('/api/subscribe', { method: 'POST', body: JSON.stringify({ email }) });
+        window.open(`mailto:contact.clairvoyancemedium@gmail.com?subject=${encodeURIComponent("voici mon email pour newsletter")}&body=${encodeURIComponent("Email du client : " + email)}`, "_blank");
+        emailInput.value = '';
+      } catch (e) {
+        console.error("Erreur lors de l’inscription:", e);
+        alert("Une erreur est survenue. Veuillez réessayer.");
       }
     }
 
-    // Icône déplaçable avec optimisation
+    // Icône déplaçable avec limites
     const draggableContact = document.getElementById("draggableContact");
     let isDragging = false, offsetX, offsetY;
     const moveHandler = e => {
       if (isDragging) {
-        draggableContact.style.left = (e.clientX - offsetX) + "px";
-        draggableContact.style.top = (e.clientY - offsetY) + "px";
+        const x = Math.max(0, Math.min(e.clientX - offsetX, window.innerWidth - 50));
+        const y = Math.max(0, Math.min(e.clientY - offsetY, window.innerHeight - 50));
+        draggableContact.style.left = x + "px";
+        draggableContact.style.top = y + "px";
       }
     };
     const touchMoveHandler = e => {
       if (isDragging) {
         const touch = e.touches[0];
-        draggableContact.style.left = (touch.clientX - offsetX) + "px";
-        draggableContact.style.top = (touch.clientY - offsetY) + "px";
+        const x = Math.max(0, Math.min(touch.clientX - offsetX, window.innerWidth - 50));
+        const y = Math.max(0, Math.min(touch.clientY - offsetY, window.innerHeight - 50));
+        draggableContact.style.left = x + "px";
+        draggableContact.style.top = y + "px";
       }
     };
     draggableContact.addEventListener("mousedown", e => {
@@ -720,8 +766,24 @@
 
   <noscript>
     <div style="background:var(--section-bg);color:var(--text-light);padding:1rem;margin:1rem;">
-      Activez JavaScript pour une expérience complète. Grille statique : 5 - 12 - 19 - 26 - 33 - Chance : 8.
+      <p>Activez JavaScript pour une expérience complète.</p>
+      <p>Prochain tirage : Lundi, Mercredi ou Samedi à 19h30 (selon le jour actuel).</p>
+      <p>Grille statique : 5 - 12 - 19 - 26 - 33 - Chance : 8</p>
     </div>
   </noscript>
+
+  <!-- Style pour label caché -->
+  <style>
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
+  </style>
 </body>
 </html>
