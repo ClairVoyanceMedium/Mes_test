@@ -40,7 +40,7 @@
     }
   </style>
 
-  <!-- Styles CSS inchangés -->
+  <!-- Styles CSS optimisés -->
   <style>
     :root {
       --gold: #BBAE98;
@@ -103,17 +103,22 @@
       font-size: 1.1rem;
       margin: 0 auto 2rem;
       max-width: 800px;
-      text-align: left;
+      text-align: center; /* Centré */
       background: var(--section-bg);
       color: var(--text-light);
       padding: 1rem;
       border-radius: 4px;
     }
+    nav {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
     nav a {
       font-family: 'Cinzel', serif;
       color: var(--gold);
       text-decoration: none;
-      margin: 0 1rem;
       padding: 0.5rem 1rem;
       border: 1px solid var(--gold);
       border-radius: 4px;
@@ -144,6 +149,7 @@
       border-radius: 4px;
       margin: 1rem 0;
       font-weight: bold;
+      text-align: center; /* Centré */
     }
     .result {
       font-family: 'Cinzel', serif;
@@ -160,8 +166,8 @@
     .email-btn {
       font-family: 'Cinzel', serif;
       display: inline-block;
-      padding: 0.75rem 1.5rem;
-      font-size: 1.1rem;
+      padding: 1rem 2rem; /* Augmentation de 40% */
+      font-size: 1.5rem; /* Augmentation de 40% */
       border-radius: 4px;
       text-decoration: none;
       margin-top: 1rem;
@@ -187,9 +193,19 @@
       border: 2px solid var(--donation-end);
       color: var(--text-light);
     }
+    /* Effet clignotant plus rapide pour "Faire un don" */
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+    .don-btn {
+      animation: blink 1s infinite; /* Plus rapide (1s au lieu de 1.5s) */
+    }
+    /* Nouveau carrousel optimisé */
     .carousel {
       position: relative;
       max-width: 100%;
+      min-height: 150px;
       overflow: hidden;
       border: 2px solid var(--donation-start);
       border-radius: 8px;
@@ -199,6 +215,9 @@
       position: relative;
       width: 100%;
       height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
     .carousel-item {
       position: absolute;
@@ -207,46 +226,40 @@
       width: 100%;
       opacity: 0;
       transition: opacity 0.8s ease-in-out;
-      display: flex;
-      justify-content: center;
-      align-items: center;
       text-align: center;
       padding: 1.5rem;
+      word-wrap: break-word;
+      font-size: 1rem;
     }
     .carousel-item.active {
       opacity: 1;
       position: relative;
     }
-    .carousel-prev,
-    .carousel-next {
-      font-family: 'Cinzel', serif;
+    .carousel-dots {
       position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 8px;
+    }
+    .carousel-dot {
+      width: 10px;
+      height: 10px;
       background: var(--donation-start);
-      color: var(--text-light);
-      border: none;
-      padding: 0.5rem 1rem;
+      border-radius: 50%;
       cursor: pointer;
-      transition: background 0.3s, transform 0.2s;
-      z-index: 10;
+      transition: background 0.3s;
     }
-    .carousel-prev:hover,
-    .carousel-next:hover {
+    .carousel-dot.active {
       background: var(--gold);
-      transform: translateY(-50%) scale(1.1);
-    }
-    .carousel-prev {
-      left: 10px;
-    }
-    .carousel-next {
-      right: 10px;
     }
     footer {
       font-family: 'Cinzel', serif;
       margin-top: 3rem;
       font-size: 0.9rem;
       color: #B0B0B0;
+      text-align: center; /* Centré */
     }
     footer a {
       color: var(--gold);
@@ -261,10 +274,10 @@
       position: fixed;
       bottom: 20px;
       right: 20px;
-      width: 70px; /* Augmentation de la taille */
-      height: 70px; /* Augmentation de la taille */
-      background: var(--gold);
-      border: 2px solid var(--dark-gold);
+      width: 70px;
+      height: 70px;
+      background: linear-gradient(45deg, var(--donation-start), var(--donation-end)); /* Bleu comme "Faire un don" */
+      border: 2px solid var(--donation-end);
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -274,9 +287,9 @@
       touch-action: none;
     }
     #draggableContact svg {
-      width: 32px; /* Augmentation de la taille */
-      height: 32px; /* Augmentation de la taille */
-      fill: var(--bg-dark);
+      width: 32px;
+      height: 32px;
+      fill: var(--text-light); /* Couleur ajustée pour contraste */
     }
     :focus {
       outline: 2px solid var(--donation-start);
@@ -292,6 +305,7 @@
     .subscribe-section p {
       font-size: 1.1rem;
       margin-bottom: 1rem;
+      text-align: center; /* Centré */
     }
     .subscribe-section form {
       display: flex;
@@ -316,8 +330,8 @@
       background: linear-gradient(45deg, var(--donation-start), var(--donation-end));
       border: 2px solid var(--donation-end);
       color: var(--text-light);
-      padding: 0.75rem 1.5rem;
-      font-size: 1.1rem;
+      padding: 1rem 2rem; /* Augmentation de 40% */
+      font-size: 1.5rem; /* Augmentation de 40% */
       border-radius: 4px;
       cursor: pointer;
       transition: background 0.3s ease, transform 0.2s;
@@ -326,7 +340,7 @@
       background: var(--dark-gold);
       transform: scale(1.05);
     }
-    @media (max-width:600px) {
+    @media (max-width: 600px) {
       .container {
         padding: 15px;
       }
@@ -340,19 +354,19 @@
         font-size: 1.5rem;
       }
       #draggableContact {
-        width: 60px; /* Augmentation de la taille pour mobile */
-        height: 60px; /* Augmentation de la taille pour mobile */
-        cursor: default;
+        width: 60px;
+        height: 60px;
       }
       .subscribe-section form {
         flex-direction: column;
       }
       .carousel-item {
-        padding: 1rem; /* Réduction du padding pour mobile */
+        font-size: 0.9rem;
+        padding: 1rem;
       }
-      .carousel-prev,
-      .carousel-next {
-        padding: 0.3rem 0.8rem; /* Réduction de la taille des boutons pour mobile */
+      .btn, .don-btn, .email-btn, .subscribe-section button {
+        padding: 0.75rem 1.5rem;
+        font-size: 1.2rem;
       }
     }
     section[loading="lazy"] {
@@ -361,14 +375,6 @@
     }
     section[loading="lazy"].loaded {
       opacity: 1;
-    }
-    /* Effet de clignotement pour le bouton "Faire un don" */
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.5; }
-    }
-    .don-btn {
-      animation: blink 1.5s infinite;
     }
   </style>
 
@@ -415,8 +421,8 @@
   <div class="container">
     <header>
       <picture>
-        <source srcset="https://i.imgur.com/GmyGlKk.webp" type="image/webp">
-        <img src="https://i.imgur.com/GmyGlKk.jpg" alt="Logo ClairvoyanceMedium" loading="lazy">
+        <source srcset="https://i.imgur.com/GmyGlKk.webp" type="image/webp" sizes="(max-width: 600px) 100vw, 720px">
+        <img src="https://i.imgur.com/GmyGlKk.jpg" alt="Logo ClairvoyanceMedium" loading="lazy" sizes="(max-width: 600px) 100vw, 720px" srcset="https://i.imgur.com/GmyGlKk.jpg 720w, https://i.imgur.com/GmyGlKk.jpg 360w">
       </picture>
       <h1>Propulsé par une technologie unique d'analyse puissante et réactive pour enfin reussir à gagner au Loto</h1>
       <div class="intro-text" role="region" aria-label="Introduction">
@@ -426,6 +432,7 @@
         <a href="#predictionSection" onclick="trackClick('Nav_Predictions')">Prédictions</a>
         <a href="#contactSection" onclick="trackClick('Nav_Contact')">Contact</a>
         <a href="#reviewsSection" onclick="trackClick('Nav_Reviews')">Avis</a>
+        <a href="#servicesSection" onclick="trackClick('Nav_Services')">Nos Services Exclusifs</a>
       </nav>
     </header>
 
@@ -457,8 +464,7 @@
         <h2>Derniers avis de Nos Utilisateurs ⭐⭐⭐⭐⭐</h2>
         <div class="carousel" role="region" aria-label="Carrousel d’avis" aria-live="polite" tabindex="0">
           <div class="carousel-inner" id="carouselInner"></div>
-          <button class="carousel-prev" aria-label="Avis précédent" onclick="prevReview(); trackClick('Carousel_Prev')">←</button>
-          <button class="carousel-next" aria-label="Avis suivant" onclick="nextReview(); trackClick('Carousel_Next')">→</button>
+          <div class="carousel-dots" id="carouselDots"></div>
         </div>
         <a href="https://buy.stripe.com/aEU3cAgDOeXl7SMbK3" class="don-btn" target="_blank" rel="noopener noreferrer" onclick="trackClick('Donation_Bottom')" aria-label="Faire un don">Faire un don</a>
       </section>
@@ -489,12 +495,12 @@
 
   <!-- Scripts optimisés -->
   <script defer>
-    // Pré-calcul des années dynamiques
+    // Années dynamiques
     const currentYear = new Date().getFullYear();
     document.getElementById("current-year").textContent = currentYear;
     document.getElementById("dynamicYear").textContent = currentYear;
 
-    // Fonction de suivi optimisée
+    // Fonction de suivi
     function trackClick(eventLabel) {
       console.log(`Tracking: ${eventLabel}`);
       if (typeof gtag === 'function') {
@@ -502,7 +508,7 @@
       }
     }
 
-    // Données Loto simulées (statiques pour performances)
+    // Données Loto simulées
     const lotoData = {
       history: [
         { numbers: new Uint8Array([5, 12, 19, 26, 33]), chance: 8 },
@@ -514,7 +520,7 @@
     };
     const fetchLotoData = () => Promise.resolve(lotoData);
 
-    // Algorithme optimisé avec tableaux typés
+    // Algorithme optimisé
     function computeOptimizedGrid(history) {
       const freq = new Uint32Array(49);
       history.forEach(draw => draw.numbers.forEach(num => freq[num - 1]++));
@@ -547,7 +553,7 @@
       return [...selected, chance];
     }
 
-    // Calcul de la prochaine date de tirage (lundi, mercredi, samedi à 19h30)
+    // Calcul de la prochaine date de tirage
     function getNextDrawDate() {
       const now = new Date();
       const drawDays = [1, 3, 6]; // Lundi, Mercredi, Samedi
@@ -558,119 +564,152 @@
       return now.toLocaleDateString('fr-FR') + ' | 20:20';
     }
 
-    // Pré-calcul des éléments DOM
+    // Éléments DOM pré-calculés
     const predictionEl = document.getElementById("prediction");
     const nextDrawEl = document.getElementById("next-draw-datetime");
 
     async function getAdvancedPredictions() {
-      const data = await fetchLotoData();
-      nextDrawEl.textContent = `Pour le prochain tirage du Loto (et non l’Euromillions) : ${getNextDrawDate()}`;
-      const grid = computeOptimizedGrid(data.history);
-      predictionEl.innerHTML = `${grid.slice(0, 5).join(" - ")} - <span style="color:#FFEB3B;">Chance : ${grid[5]}</span>`;
+      try {
+        const data = await fetchLotoData();
+        nextDrawEl.textContent = `Pour le prochain tirage du Loto (et non l’Euromillions) : ${getNextDrawDate()}`;
+        const grid = computeOptimizedGrid(data.history);
+        predictionEl.textContent = `${grid.slice(0, 5).join(" - ")} - Chance : ${grid[5]}`;
+      } catch (error) {
+        console.error("Erreur lors de la génération des prédictions :", error);
+        predictionEl.textContent = "Erreur lors du chargement.";
+      }
     }
     getAdvancedPredictions();
 
-    // Liste d’avis variés et uniques (65 éléments)
+    // Liste d’avis
     const reviews = [
-  "« J'ai utilisé ce site et gagné 500 € – simple et efficace. » - Clara, 29 ans",
-  "« Ce service m'a permis d'encaisser 300 € et de voir mes numéros s'afficher clairement. » - Thomas, 35 ans",
-  "« Grâce aux désenvoutements proposés ici, j'ai gagné au loto quelques temps après. » - Sophie, 42 ans",
-  "« J'ai vu mes numéros s'afficher et j'ai gagné 800 €. Service concret et direct. » - Julien, 31 ans",
-  "« Ce site m'aide à mieux comprendre le loto. Même sans gros gain, j'en ressens l'impact. » - Émilie, 27 ans",
-  "« J'utilise ce service régulièrement et j'ai obtenu 1000 € de gains. » - Marc, 48 ans",
-  "« L'approche est claire : j'ai gagné 600 € et le site est facile à utiliser. » - Aline, 33 ans",
-  "« Ce site m'a permis d'encaisser 700 € sans complications. » - Lucas, 39 ans",
-  "« Service fiable, j'ai gagné 850 € en voyant mes numéros s'afficher. » - Laura, 36 ans",
-  "« Un bon outil pour gagner au loto : j'ai obtenu 250 € et je suis satisfait. » - Antoine, 28 ans",
-  "« Ce site apporte des résultats concrets : 500 € gagnés et une interface intuitive. » - Valérie, 45 ans",
-  "« J'ai perçu 1000 € sur mon compte, et le service reste simple et direct. » - Pierre, 34 ans",
-  "« Après avoir suivi les désenvoutements, j'ai gagné au loto et touché 1100 €. » - Manon, 26 ans",
-  "« Ce service donne des résultats : j'ai encaissé 650 € et je le recommande. » - Olivier, 51 ans",
-  "« J'ai gagné 350 € et trouvé le site facile à utiliser. » - Chloé, 30 ans",
-  "« Pour réussir au loto, ce site est utile : j'ai gagné 750 € et je le trouve pratique. » - Hugo, 37 ans",
-  "« Une bonne expérience, j'ai gagné 800 € et le service est direct. » - Isabelle, 44 ans",
-  "« J'ai reçu 1200 € sur mon compte, sans complication. » - Nathan, 25 ans",
-  "« Ce site offre de réelles chances : j'ai encaissé 400 € et ça m'a aidé. » - Céline, 40 ans",
-  "« Service pratique, 950 € gagnés et des conseils utiles pour avancer. » - Rémi, 32 ans",
-  "« J'aime ce service : j'ai touché 700 € et ça me motive à continuer. » - Élodie, 29 ans",
-  "« Les numéros s'affichent clairement et j'ai gagné 600 € sans chichi. » - Vincent, 47 ans",
-  "« Une expérience simple : j'ai obtenu 1100 € et je reste convaincu. » - Léa, 23 ans",
-  "« Ce site offre tout pour réussir au loto – j'ai gagné 850 € et je suis confiant. » - David, 43 ans",
-  "« Service direct et sans fioritures, 500 € gagnés. » - Camille, 31 ans",
-  "« J'apprécie la simplicité du site : j'ai reçu 1000 € et des conseils pratiques. » - Mathieu, 41 ans",
-  "« Un outil pratique qui m'a permis de gagner 600 € et d'améliorer mes chances. » - Sarah, 28 ans",
-  "« Ce site m'a apporté des résultats tangibles : 750 € de gains et une interface claire. » - Bastien, 33 ans",
-  "« Je recommande ce service, j'ai gagné 850 € et trouvé les infos utiles. » - Anne, 46 ans",
-  "« J'ai obtenu 900 € grâce à ce service et j'apprécie sa simplicité. » - Florian, 35 ans",
-  "« J'ai gagné 500 € et trouvé le site très facile d'utilisation. » - Julie, 38 ans",
-  "« Ce site m'aide à mieux comprendre le loto – j'ai touché 700 € et c'est pratique. » - Romain, 27 ans",
-  "« Service efficace et concret : j'ai encaissé 800 € sans prise de tête. » - Sandra, 44 ans",
-  "« Je suis content d'avoir utilisé ce site : j'ai touché 300 € et les explications sont claires. » - Léo, 26 ans",
-  "« J'ai eu une bonne expérience avec ce service, j'ai gagné 600 € et je le recommande. » - Pauline, 32 ans",
-  "« Ce site propose des outils efficaces, j'ai gagné 950 € et ça aide vraiment. » - Nicolas, 40 ans",
-  "« Grâce aux désenvoutements proposés, j'ai gagné au loto avec 800 € quelques temps après. » - Mélanie, 37 ans",
-  "« Service concret : j'ai touché 400 € et l'interface est très simple. » - Adrien, 29 ans",
-  "« Ce site m'a apporté des résultats tangibles : j'ai gagné 500 € et l'info est claire. » - Élodie, 31 ans",
-  "« Pour gagner au loto, ce site offre tout ce qu'il faut. J'ai obtenu 750 € et je suis satisfait. » - Thomas, 50 ans",
-  "« Un service sans chichis : j'ai reçu 650 € et c'est facile à utiliser. » - Aurore, 24 ans",
-  "« J'ai eu une bonne expérience, j'ai gagné 800 € et c'est pratique pour le quotidien. » - Guillaume, 39 ans",
-  "« Ce site est utile : j'ai encaissé 550 € et les explications sont simples. » - Charlotte, 34 ans",
-  "« Je suis satisfait du service, j'ai touché 900 € et c'est très clair. » - Stéphane, 46 ans",
-  "« Un service efficace : j'ai gagné 400 € et les résultats sont concrets. » - Margot, 28 ans",
-  "« J'ai obtenu 500 € avec ce site et je pense que ça peut vraiment aider au quotidien. » - Benoit, 42 ans",
-  "« Ce service m'a permis de gagner 1000 € et d'améliorer mes chances au loto. » - Justine, 30 ans",
-  "« J'utilise ce site pour ses résultats directs : j'ai encaissé 600 € et les conseils sont pratiques. » - Alexandre, 41 ans",
-  "« Un outil simple pour gagner : j'ai reçu 700 € et c'est efficace. » - Camille, 27 ans",
-  "« J'ai gagné 800 € grâce à ce service et ça m'a vraiment aidé dans mes projets. » - Laurent, 45 ans",
-  "« Ce site offre de réels avantages : j'ai touché 500 € et ça change les choses. » - Élise, 32 ans",
-  "« J'ai trouvé ce service utile et j'ai gagné 850 €, un vrai coup de pouce. » - Jérémy, 36 ans",
-  "« Un service qui tient ses promesses : j'ai encaissé 600 € et ça m'a aidé à avancer. » - Sophie, 29 ans",
-  "« Ce site offre tout pour réussir au loto – j'ai obtenu 750 € et ça m'aide à y croire. » - Philippe, 43 ans",
-  "« J'apprécie ce service pour son efficacité : j'ai gagné 500 € et c'est très direct. » - Anaïs, 25 ans",
-  "« Un bon service pour améliorer sa chance : j'ai touché 800 € et je suis satisfait. » - Kevin, 34 ans",
-  "« Ça m'a aidé à mieux voir mes options, j'ai gagné 400 € et c'est simple. » - Marina, 40 ans",
-  "« Service pratique et direct : j'ai gagné 600 € et je le recommande sans hésiter. » - Lucas, 28 ans",
-  "« J'ai utilisé ce site et j'ai reçu 500 € – c'est clair et sans complications. » - Vanessa, 39 ans",
-  "« Ce service donne de vraies chances : j'ai gagné 700 € et ça marche. » - Quentin, 33 ans",
-  "« Un service concret qui change les choses : j'ai perçu 800 € et les résultats se font sentir. » - Clara, 35 ans",
-  "« J'ai gagné 900 € grâce à ce site et ça m'aide vraiment à avancer dans la vie. » - Étienne, 38 ans",
-  "« Ce service offre des résultats directs : j'ai touché 500 € et c'est utile au quotidien. » - Léna, 26 ans",
-  "« Une expérience concrète et pratique, j'ai encaissé 600 € et je suis content du résultat. » - Maxime, 44 ans",
-  "« Ce site propose tout pour réussir : de bonnes chances et 800 € qui font la différence. » - Amélie, 30 ans"
-];
+      "« J'ai utilisé ce site et gagné 500 € – simple et efficace. » - Clara, 29 ans",
+      "« Ce service m'a permis d'encaisser 300 € et de voir mes numéros s'afficher clairement. » - Thomas, 35 ans",
+      "« Grâce aux désenvoutements proposés ici, j'ai gagné au loto quelques temps après. » - Sophie, 42 ans",
+      "« J'ai vu mes numéros s'afficher et j'ai gagné 800 €. Service concret et direct. » - Julien, 31 ans",
+      "« Ce site m'aide à mieux comprendre le loto. Même sans gros gain, j'en ressens l'impact. » - Émilie, 27 ans",
+      "« J'utilise ce service régulièrement et j'ai obtenu 1000 € de gains. » - Marc, 48 ans",
+      "« L'approche est claire : j'ai gagné 600 € et le site est facile à utiliser. » - Aline, 33 ans",
+      "« Ce site m'a permis d'encaisser 700 € sans complications. » - Lucas, 39 ans",
+      "« Service fiable, j'ai gagné 850 € en voyant mes numéros s'afficher. » - Laura, 36 ans",
+      "« Un bon outil pour gagner au loto : j'ai obtenu 250 € et je suis satisfait. » - Antoine, 28 ans",
+      "« Ce site apporte des résultats concrets : 500 € gagnés et une interface intuitive. » - Valérie, 45 ans",
+      "« J'ai perçu 1000 € sur mon compte, et le service reste simple et direct. » - Pierre, 34 ans",
+      "« Après avoir suivi les désenvoutements, j'ai gagné au loto et touché 1100 €. » - Manon, 26 ans",
+      "« Ce service donne des résultats : j'ai encaissé 650 € et je le recommande. » - Olivier, 51 ans",
+      "« J'ai gagné 350 € et trouvé le site facile à utiliser. » - Chloé, 30 ans",
+      "« Pour réussir au loto, ce site est utile : j'ai gagné 750 € et je le trouve pratique. » - Hugo, 37 ans",
+      "« Une bonne expérience, j'ai gagné 800 € et le service est direct. » - Isabelle, 44 ans",
+      "« J'ai reçu 1200 € sur mon compte, sans complication. » - Nathan, 25 ans",
+      "« Ce site offre de réelles chances : j'ai encaissé 400 € et ça m'a aidé. » - Céline, 40 ans",
+      "« Service pratique, 950 € gagnés et des conseils utiles pour avancer. » - Rémi, 32 ans",
+      "« J'aime ce service : j'ai touché 700 € et ça me motive à continuer. » - Élodie, 29 ans",
+      "« Les numéros s'affichent clairement et j'ai gagné 600 € sans chichi. » - Vincent, 47 ans",
+      "« Une expérience simple : j'ai obtenu 1100 € et je reste convaincu. » - Léa, 23 ans",
+      "« Ce site offre tout pour réussir au loto – j'ai gagné 850 € et je suis confiant. » - David, 43 ans",
+      "« Service direct et sans fioritures, 500 € gagnés. » - Camille, 31 ans",
+      "« J'apprécie la simplicité du site : j'ai reçu 1000 € et des conseils pratiques. » - Mathieu, 41 ans",
+      "« Un outil pratique qui m'a permis de gagner 600 € et d'améliorer mes chances. » - Sarah, 28 ans",
+      "« Ce site m'a apporté des résultats tangibles : 750 € de gains et une interface claire. » - Bastien, 33 ans",
+      "« Je recommande ce service, j'ai gagné 850 € et trouvé les infos utiles. » - Anne, 46 ans",
+      "« J'ai obtenu 900 € grâce à ce service et j'apprécie sa simplicité. » - Florian, 35 ans",
+      "« J'ai gagné 500 € et trouvé le site très facile d'utilisation. » - Julie, 38 ans",
+      "« Ce site m'aide à mieux comprendre le loto – j'ai touché 700 € et c'est pratique. » - Romain, 27 ans",
+      "« Service efficace et concret : j'ai encaissé 800 € sans prise de tête. » - Sandra, 44 ans",
+      "« Je suis content d'avoir utilisé ce site : j'ai touché 300 € et les explications sont claires. » - Léo, 26 ans",
+      "« J'ai eu une bonne expérience avec ce service, j'ai gagné 600 € et je le recommande. » - Pauline, 32 ans",
+      "« Ce site propose des outils efficaces, j'ai gagné 950 € et ça aide vraiment. » - Nicolas, 40 ans",
+      "« Grâce aux désenvoutements proposés, j'ai gagné au loto avec 800 € quelques temps après. » - Mélanie, 37 ans",
+      "« Service concret : j'hai touché 400 € et l'interface est très simple. » - Adrien, 29 ans",
+      "« Ce site m'a apporté des résultats tangibles : j'ai gagné 500 € et l'info est claire. » - Élodie, 31 ans",
+      "« Pour gagner au loto, ce site offre tout ce qu'il faut. J'ai obtenu 750 € et je suis satisfait. » - Thomas, 50 ans",
+      "« Un service sans chichis : j'ai reçu 650 € et c'est facile à utiliser. » - Aurore, 24 ans",
+      "« J'ai eu une bonne expérience, j'ai gagné 800 € et c'est pratique pour le quotidien. » - Guillaume, 39 ans",
+      "« Ce site est utile : j'ai encaissé 550 € et les explications sont simples. » - Charlotte, 34 ans",
+      "« Je suis satisfait du service, j'ai touché 900 € et c'est très clair. » - Stéphane, 46 ans",
+      "« Un service efficace : j'ai gagné 400 € et les résultats sont concrets. » - Margot, 28 ans",
+      "« J'ai obtenu 500 € avec ce site et je pense que ça peut vraiment aider au quotidien. » - Benoit, 42 ans",
+      "« Ce service m'a permis de gagner 1000 € et d'améliorer mes chances au loto. » - Justine, 30 ans",
+      "« J'utilise ce site pour ses résultats directs : j'ai encaissé 600 € et les conseils sont pratiques. » - Alexandre, 41 ans",
+      "« Un outil simple pour gagner : j'ai reçu 700 € et c'est efficace. » - Camille, 27 ans",
+      "« J'ai gagné 800 € grâce à ce service et ça m'a vraiment aidé dans mes projets. » - Laurent, 45 ans",
+      "« Ce site offre de réels avantages : j'ai touché 500 € et ça change les choses. » - Élise, 32 ans",
+      "« J'ai trouvé ce service utile et j'ai gagné 850 €, un vrai coup de pouce. » - Jérémy, 36 ans",
+      "« Un service qui tient ses promesses : j'ai encaissé 600 € et ça m'a aidé à avancer. » - Sophie, 29 ans",
+      "« Ce site offre tout pour réussir au loto – j'ai obtenu 750 € et ça m'aide à y croire. » - Philippe, 43 ans",
+      "« J'apprécie ce service pour son efficacité : j'ai gagné 500 € et c'est très direct. » - Anaïs, 25 ans",
+      "« Un bon service pour améliorer sa chance : j'ai touché 800 € et je suis satisfait. » - Kevin, 34 ans",
+      "« Ça m'a aidé à mieux voir mes options, j'ai gagné 400 € et c'est simple. » - Marina, 40 ans",
+      "« Service pratique et direct : j'ai gagné 600 € et je le recommande sans hésiter. » - Lucas, 28 ans",
+      "« J'ai utilisé ce site et j'ai reçu 500 € – c'est clair et sans complications. » - Vanessa, 39 ans",
+      "« Ce service donne de vraies chances : j'ai gagné 700 € et ça marche. » - Quentin, 33 ans",
+      "« Un service concret qui change les choses : j'ai perçu 800 € et les résultats se font sentir. » - Clara, 35 ans",
+      "« J'ai gagné 900 € grâce à ce site et ça m'aide vraiment à avancer dans la vie. » - Étienne, 38 ans",
+      "« Ce service offre des résultats directs : j'ai touché 500 € et c'est utile au quotidien. » - Léna, 26 ans",
+      "« Une expérience concrète et pratique, j'ai encaissé 600 € et je suis content du résultat. » - Maxime, 44 ans",
+      "« Ce site propose tout pour réussir : de bonnes chances et 800 € qui font la différence. » - Amélie, 30 ans"
+    ];
 
-    // Pré-calcul du carrousel
+    // Carrousel optimisé
     const carouselInner = document.getElementById('carouselInner');
-    reviews.forEach(review => {
-      const item = document.createElement('div');
-      item.classList.add('carousel-item');
-      item.textContent = review;
-      carouselInner.appendChild(item);
-    });
-
-    const items = carouselInner.children;
+    const carouselDots = document.getElementById('carouselDots');
     let currentIndex = 0;
-    if (items.length) items[currentIndex].classList.add('active');
 
-    function prevReview() {
+    function initCarousel() {
+      reviews.forEach((review, index) => {
+        const item = document.createElement('div');
+        item.classList.add('carousel-item');
+        item.textContent = review;
+        if (index === 0) item.classList.add('active');
+        carouselInner.appendChild(item);
+
+        const dot = document.createElement('div');
+        dot.classList.add('carousel-dot');
+        if (index === 0) dot.classList.add('active');
+        dot.setAttribute('aria-label', `Aller à l’avis ${index + 1}`);
+        dot.addEventListener('click', () => goToReview(index));
+        carouselDots.appendChild(dot);
+      });
+    }
+
+    function goToReview(index) {
+      const items = carouselInner.children;
+      const dots = carouselDots.children;
       items[currentIndex].classList.remove('active');
-      currentIndex = currentIndex > 0 ? currentIndex - 1 : items.length - 1;
+      dots[currentIndex].classList.remove('active');
+      currentIndex = index;
       items[currentIndex].classList.add('active');
+      dots[currentIndex].classList.add('active');
     }
 
     function nextReview() {
+      const items = carouselInner.children;
+      const dots = carouselDots.children;
       items[currentIndex].classList.remove('active');
-      currentIndex = currentIndex < items.length - 1 ? currentIndex + 1 : 0;
+      dots[currentIndex].classList.remove('active');
+      currentIndex = (currentIndex + 1) % items.length;
       items[currentIndex].classList.add('active');
+      dots[currentIndex].classList.add('active');
     }
 
+    function prevReview() {
+      const items = carouselInner.children;
+      const dots = carouselDots.children;
+      items[currentIndex].classList.remove('active');
+      dots[currentIndex].classList.remove('active');
+      currentIndex = (currentIndex - 1 + items.length) % items.length;
+      items[currentIndex].classList.add('active');
+      dots[currentIndex].classList.add('active');
+    }
+
+    initCarousel();
     setInterval(nextReview, 3000);
     document.querySelector('.carousel').addEventListener('keydown', e => {
       if (e.key === 'ArrowLeft') prevReview();
       else if (e.key === 'ArrowRight') nextReview();
     });
 
-    // Gestion de l’inscription optimisée
+    // Gestion de l’inscription
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     function handleSubscribe(event) {
       event.preventDefault();
@@ -682,20 +721,26 @@
       }
     }
 
-    // Icône déplaçable avec optimisation
+    // Icône déplaçable
     const draggableContact = document.getElementById("draggableContact");
     let isDragging = false, offsetX, offsetY;
     const moveHandler = e => {
       if (isDragging) {
-        draggableContact.style.left = (e.clientX - offsetX) + "px";
-        draggableContact.style.top = (e.clientY - offsetY) + "px";
+        const x = e.clientX - offsetX;
+        const y = e.clientY - offsetY;
+        const bounds = document.body.getBoundingClientRect();
+        draggableContact.style.left = Math.max(0, Math.min(x, bounds.width - 70)) + "px";
+        draggableContact.style.top = Math.max(0, Math.min(y, bounds.height - 70)) + "px";
       }
     };
     const touchMoveHandler = e => {
       if (isDragging) {
         const touch = e.touches[0];
-        draggableContact.style.left = (touch.clientX - offsetX) + "px";
-        draggableContact.style.top = (touch.clientY - offsetY) + "px";
+        const x = touch.clientX - offsetX;
+        const y = touch.clientY - offsetY;
+        const bounds = document.body.getBoundingClientRect();
+        draggableContact.style.left = Math.max(0, Math.min(x, bounds.width - 70)) + "px";
+        draggableContact.style.top = Math.max(0, Math.min(y, bounds.height - 70)) + "px";
       }
     };
     draggableContact.addEventListener("mousedown", e => {
@@ -714,7 +759,7 @@
     document.addEventListener("touchmove", touchMoveHandler);
     document.addEventListener("touchend", () => isDragging = false);
 
-    // Lazy loading optimisé
+    // Lazy loading
     document.addEventListener("DOMContentLoaded", () => {
       const sections = document.querySelectorAll('section[loading="lazy"]');
       if ('IntersectionObserver' in window) {
@@ -734,7 +779,7 @@
   </script>
 
   <noscript>
-    <div style="background:var(--section-bg);color:var(--text-light);padding:1rem;margin:1rem;">
+    <div style="background:var(--section-bg);color:var(--text-light);padding:1rem;margin:1rem;text-align:center;">
       Activez JavaScript pour une expérience complète. Grille statique : 5 - 12 - 19 - 26 - 33 - Chance : 8.
     </div>
   </noscript>
