@@ -77,10 +77,11 @@
     header {
       padding: 2rem 0;
     }
+    /* Logo avec dimensions explicites pour éviter les décalages (exemple : 720x405) */
     header img {
-      max-width: 720px;
-      width: 100%;
-      height: auto;
+      width: 720px;
+      height: 405px;
+      max-width: 100%;
       margin: 0 auto;
       display: block;
     }
@@ -91,44 +92,44 @@
       text-transform: uppercase;
       color: var(--gold);
       letter-spacing: 1px;
+      /* Fixation d'une hauteur minimale pour éviter le CLS */
+      min-height: 3rem;
     }
-    h2 {
+    /* Nouvelle section pour les 4 boutons sous le logo */
+    .nav-container {
+      margin-top: 1rem;
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .nav-container a {
       font-family: 'Cinzel', serif;
-      font-size: 1.75rem;
-      margin-bottom: 1.5rem;
-      color: var(--text-light);
+      color: var(--gold);
+      text-decoration: none;
+      padding: 0.75rem 1.25rem; /* Augmenté pour des zones tactiles suffisantes */
+      border: 1px solid var(--gold);
+      border-radius: 4px;
+      transition: background 0.3s;
+      min-width: 120px;
+      text-align: center;
+    }
+    .nav-container a:hover,
+    .nav-container a:focus {
+      background: var(--gold);
+      color: var(--bg-dark);
+      outline: 2px solid var(--donation-start);
     }
     .intro-text {
       font-family: 'Cinzel', serif;
       font-size: 1.1rem;
-      margin: 0 auto 2rem;
+      margin: 2rem auto;
       max-width: 800px;
-      text-align: center; /* Centré */
+      text-align: center;
       background: var(--section-bg);
       color: var(--text-light);
       padding: 1rem;
       border-radius: 4px;
-    }
-    nav {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
-    nav a {
-      font-family: 'Cinzel', serif;
-      color: var(--gold);
-      text-decoration: none;
-      padding: 0.5rem 1rem;
-      border: 1px solid var(--gold);
-      border-radius: 4px;
-      transition: background 0.3s;
-    }
-    nav a:hover,
-    nav a:focus {
-      background: var(--gold);
-      color: var(--bg-dark);
-      outline: 2px solid var(--donation-start);
     }
     section {
       background: var(--section-bg);
@@ -149,7 +150,7 @@
       border-radius: 4px;
       margin: 1rem 0;
       font-weight: bold;
-      text-align: center; /* Centré */
+      text-align: center;
     }
     .result {
       font-family: 'Cinzel', serif;
@@ -166,8 +167,8 @@
     .email-btn {
       font-family: 'Cinzel', serif;
       display: inline-block;
-      padding: 1rem 2rem; /* Augmentation de 40% */
-      font-size: 1.5rem; /* Augmentation de 40% */
+      padding: 1rem 2rem;
+      font-size: 1.5rem;
       border-radius: 4px;
       text-decoration: none;
       margin-top: 1rem;
@@ -176,6 +177,7 @@
       background: var(--gold);
       color: var(--bg-dark);
       border: none;
+      min-width: 120px;
     }
     .btn:hover,
     .btn:focus,
@@ -193,15 +195,14 @@
       border: 2px solid var(--donation-end);
       color: var(--text-light);
     }
-    /* Effet clignotant plus rapide pour "Faire un don" */
     @keyframes blink {
       0%, 100% { opacity: 1; }
       50% { opacity: 0.7; }
     }
     .don-btn {
-      animation: blink 1s infinite; /* Plus rapide (1s au lieu de 1.5s) */
+      animation: blink 1s infinite;
     }
-    /* Nouveau carrousel optimisé */
+    /* Carrousel */
     .carousel {
       position: relative;
       max-width: 100%;
@@ -259,7 +260,7 @@
       margin-top: 3rem;
       font-size: 0.9rem;
       color: #B0B0B0;
-      text-align: center; /* Centré */
+      text-align: center;
     }
     footer a {
       color: var(--gold);
@@ -270,13 +271,14 @@
       text-decoration: underline;
       outline: 2px solid var(--donation-start);
     }
+    /* Bouton flottant de contact (augmenté pour toucher) */
     #draggableContact {
       position: fixed;
       bottom: 20px;
       right: 20px;
       width: 70px;
       height: 70px;
-      background: linear-gradient(45deg, var(--donation-start), var(--donation-end)); /* Bleu comme "Faire un don" */
+      background: linear-gradient(45deg, var(--donation-start), var(--donation-end));
       border: 2px solid var(--donation-end);
       border-radius: 50%;
       display: flex;
@@ -289,7 +291,7 @@
     #draggableContact svg {
       width: 32px;
       height: 32px;
-      fill: var(--text-light); /* Couleur ajustée pour contraste */
+      fill: var(--text-light);
     }
     :focus {
       outline: 2px solid var(--donation-start);
@@ -305,13 +307,14 @@
     .subscribe-section p {
       font-size: 1.1rem;
       margin-bottom: 1rem;
-      text-align: center; /* Centré */
+      text-align: center;
     }
     .subscribe-section form {
       display: flex;
       justify-content: center;
       align-items: center;
       gap: 1rem;
+      flex-wrap: wrap;
     }
     .subscribe-section input[type="email"] {
       padding: 0.75rem;
@@ -330,8 +333,8 @@
       background: linear-gradient(45deg, var(--donation-start), var(--donation-end));
       border: 2px solid var(--donation-end);
       color: var(--text-light);
-      padding: 1rem 2rem; /* Augmentation de 40% */
-      font-size: 1.5rem; /* Augmentation de 40% */
+      padding: 1rem 2rem;
+      font-size: 1.5rem;
       border-radius: 4px;
       cursor: pointer;
       transition: background 0.3s ease, transform 0.2s;
@@ -386,8 +389,18 @@
       "name": "ClairvoyanceMedium",
       "url": "https://www.clairvoyancemedium.com/",
       "description": "Boostez vos chances au Loto français avec nos grilles optimisées par notre algorithme d’intelligence artificielle le plus puissant.",
-      "potentialAction": {"@type":"SearchAction","target":"https://www.clairvoyancemedium.com/search?q={search_term_string}","query-input":"required name=search_term_string"},
-      "breadcrumb": {"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Accueil","item":"https://www.clairvoyancemedium.com/"},{"@type":"ListItem","position":2,"name":"Prédictions Loto","item":"https://www.clairvoyancemedium.com/"}]}
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://www.clairvoyancemedium.com/search?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      },
+      "breadcrumb": {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {"@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://www.clairvoyancemedium.com/"},
+          {"@type": "ListItem", "position": 2, "name": "Prédictions Loto", "item": "https://www.clairvoyancemedium.com/"}
+        ]
+      }
     }
   </script>
 
@@ -422,23 +435,23 @@
     <header>
       <picture>
         <source srcset="https://i.imgur.com/GmyGlKk.webp" type="image/webp" sizes="(max-width: 600px) 100vw, 720px">
-        <img src="https://i.imgur.com/GmyGlKk.jpg" alt="Logo ClairvoyanceMedium" loading="lazy" sizes="(max-width: 600px) 100vw, 720px" srcset="https://i.imgur.com/GmyGlKk.jpg 720w, https://i.imgur.com/GmyGlKk.jpg 360w">
+        <img src="https://i.imgur.com/GmyGlKk.jpg" alt="Logo ClairvoyanceMedium" loading="lazy" width="720" height="405" sizes="(max-width: 600px) 100vw, 720px" srcset="https://i.imgur.com/GmyGlKk.jpg 720w, https://i.imgur.com/GmyGlKk.jpg 360w">
       </picture>
-      <h1>Propulsé par une technologie unique d'analyse puissante et réactive pour enfin reussir à gagner au Loto</h1>
-      <div class="intro-text" role="region" aria-label="Introduction">
-        <strong>Boostez vos chances de gagner gros</strong> au <strong>Loto français</strong> grâce à nos <strong>grilles révolutionnaires</strong>, ultra-optimisées par la <strong>technologie la plus performante</strong> de <span id="dynamicYear"></span>. Avec nos <strong>analyses historiques précises</strong>, notre <strong>algorithme avancé</strong> de pointe associé à l’<strong>expertise inégalée</strong> de notre voyant Frederick, chaque prédiction est minutieusement élaborée pour vous offrir les <strong>numéros gagnants</strong> et des <strong>stratégies exclusives</strong>. Ne laissez pas passer cette opportunité exceptionnelle d’<strong>augmenter votre potentiel de gain</strong> et de transformer votre vie grâce à des choix intelligents et performants... gratuitement!
-      </div>
-      <nav role="navigation" aria-label="Menu principal">
+      <!-- Boutons de navigation sous le logo avec espace -->
+      <div class="nav-container">
         <a href="#predictionSection" onclick="trackClick('Nav_Predictions')">Prédictions</a>
         <a href="#contactSection" onclick="trackClick('Nav_Contact')">Contact</a>
         <a href="#reviewsSection" onclick="trackClick('Nav_Reviews')">Avis</a>
-        <a href="#servicesSection" onclick="trackClick('Nav_Services')">Nos Services Exclusifs</a>
-      </nav>
+        <a href="#servicesSection" onclick="trackClick('Nav_Services')">Nos Services</a>
+      </div>
+      <div class="intro-text" role="region" aria-label="Introduction">
+        <strong>Boostez vos chances de gagner gros</strong> au <strong>Loto français</strong> grâce à nos <strong>grilles révolutionnaires</strong>, ultra-optimisées par la <strong>technologie la plus performante</strong> de <span id="dynamicYear"></span>. Avec nos <strong>analyses historiques précises</strong>, notre <strong>algorithme avancé</strong> de pointe associé à l’<strong>expertise inégalée</strong> de notre voyant Frederick, chaque prédiction est minutieusement élaborée pour vous offrir les <strong>numéros gagnants</strong> et des <strong>stratégies exclusives</strong>. Ne laissez pas passer cette opportunité exceptionnelle d’<strong>augmenter votre potentiel de gain</strong> et de transformer votre vie grâce à des choix intelligents et performants... gratuitement!
+      </div>
     </header>
 
     <main>
       <section class="prediction-container" id="predictionSection" loading="lazy">
-        <h2>Generer la Grille parfaite gratuitement Pour le prochain tirage du Loto (invalide pour l’Euromillions)</h2>
+        <h2>Générez la grille parfaite gratuitement pour le prochain tirage du Loto (invalide pour l’Euromillions)</h2>
         <p id="next-draw-datetime"></p>
         <p class="result" id="prediction">Chargement...</p>
         <div class="disclaimer" role="alert">Résultats non garantis</div>
@@ -446,7 +459,7 @@
       </section>
 
       <section class="subscribe-section" id="subscribeSection" loading="lazy">
-        <h2>Recevez des grilles Exclusives directement dans votre boite mail</h2>
+        <h2>Recevez des grilles exclusives directement dans votre boite mail</h2>
         <p>Inscrivez-vous pour recevoir par e-mail des numéros pour le prochain tirage du Loto (et non l’Euromillions). Si Frédéric du cabinet ClairvoyanceMedium.com a un ressenti fort, vous serez les premiers avertis gratuitement.</p>
         <form id="subscribeForm" onsubmit="handleSubscribe(event)">
           <input type="email" placeholder="Entrez votre email" required aria-label="Adresse e-mail pour inscription">
@@ -455,13 +468,13 @@
       </section>
 
       <section id="contactSection" loading="lazy">
-        <h2>Votre demande Particulière</h2>
-        <p>Contactez-nous pour une assistance personnalisée pour le loto ou tout autre service (PMU, Euromillions, Keno ect...)</p>
+        <h2>Votre demande particulière</h2>
+        <p>Contactez-nous pour une assistance personnalisée pour le loto ou tout autre service (PMU, Euromillions, Keno, etc.).</p>
         <a href="mailto:contact.clairvoyancemedium@gmail.com?tracking=suivi" class="email-btn" target="_blank" rel="noopener noreferrer" onclick="trackClick('Email_Contact')" aria-label="Envoyer un e-mail pour contact">Envoyer un e-mail</a>
       </section>
 
       <section id="reviewsSection" loading="lazy">
-        <h2>Derniers avis de Nos Utilisateurs ⭐⭐⭐⭐⭐</h2>
+        <h2>Derniers avis de nos utilisateurs ⭐⭐⭐⭐⭐</h2>
         <div class="carousel" role="region" aria-label="Carrousel d’avis" aria-live="polite" tabindex="0">
           <div class="carousel-inner" id="carouselInner"></div>
           <div class="carousel-dots" id="carouselDots"></div>
@@ -470,13 +483,13 @@
       </section>
 
       <section id="servicesSection" loading="lazy">
-        <h2>Nos Services Exclusifs</h2>
+        <h2>Nos services exclusifs</h2>
         <p>Découvrez nos services pour maximiser vos opportunités, surpassant les concurrents avec précision et intuition.</p>
         <a href="https://www.clairvoyancemedium.com/Voyance-par-telephone-5-minutes-cbaaaaaZa.asp?tracking=suivi" class="btn" target="_blank" rel="noopener noreferrer" onclick="trackClick('Telephone_Voyance_5')" aria-label="Voyance par Téléphone 5min/8,00€">Voyance par Téléphone - 5min/8,00€</a>
-        <a href="https://www.clairvoyancemedium.com/Voyance-3-Questions-par-Email-cbaaaaaca.asp?tracking=suivi" class="btn" target="_blank" rel="noopener noreferrer" onclick="trackClick('Email_Voyance_3')" aria-label="Voyance 3 Questions par Email/12€">Voyance par Email - 3 questions/12,00€</a>
-        <a href="https://www.clairvoyancemedium.com/Voyance-par-telephone-20-minutes-cbaaaaapa.asp?tracking=suivi" class="btn" target="_blank" rel="noopener noreferrer" onclick="trackClick('Telephone_Voyance_22')" aria-label="Voyance par Téléphone 20min/22€">Voyance par Téléphone - 20min/22,00€</a>
-        <a href="https://www.clairvoyancemedium.com/Desenvoutement-et-protection-a-distance-cbaaaaala.asp?tracking=suivi" class="btn" target="_blank" rel="noopener noreferrer" onclick="trackClick('Desenvoutement')" aria-label="Désenvoutement + protection - 150€">Désenvoûtement profond - 150,00€</a>
-        <a href="https://www.clairvoyancemedium.com/Recevez-1-message-d-un-defunt-cbaaaabka.asp?tracking=suivi" class="btn" target="_blank" rel="noopener noreferrer" onclick="trackClick('Defunt_Message')" aria-label="Recevez 1 message d'un defunt - 17,00€">Message d'un defunt - 17,00€</a>
+        <a href="https://www.clairvoyancemedium.com/Voyance-3-Questions-par-Email-cbaaaaaca.asp?tracking=suivi" class="btn" target="_blank" rel="noopener noreferrer" onclick="trackClick('Email_Voyance_3')" aria-label="Voyance 3 Questions par Email/12,00€">Voyance par Email - 3 questions/12,00€</a>
+        <a href="https://www.clairvoyancemedium.com/Voyance-par-telephone-20-minutes-cbaaaaapa.asp?tracking=suivi" class="btn" target="_blank" rel="noopener noreferrer" onclick="trackClick('Telephone_Voyance_22')" aria-label="Voyance par Téléphone 20min/22,00€">Voyance par Téléphone - 20min/22,00€</a>
+        <a href="https://www.clairvoyancemedium.com/Desenvoutement-et-protection-a-distance-cbaaaaala.asp?tracking=suivi" class="btn" target="_blank" rel="noopener noreferrer" onclick="trackClick('Desenvoutement')" aria-label="Désenvoûtement profond - 150,00€">Désenvoûtement profond - 150,00€</a>
+        <a href="https://www.clairvoyancemedium.com/Recevez-1-message-d-un-defunt-cbaaaabka.asp?tracking=suivi" class="btn" target="_blank" rel="noopener noreferrer" onclick="trackClick('Defunt_Message')" aria-label="Message d'un defunt - 17,00€">Message d'un defunt - 17,00€</a>
       </section>
     </main>
 
@@ -581,76 +594,76 @@
     }
     getAdvancedPredictions();
 
-    // Liste d’avis
+    // Liste d'avis avec note sur 10 à la fin de chaque avis
     const reviews = [
-      "« J'ai utilisé ce site et gagné 500 € – simple et efficace. » - Clara, 29 ans",
-      "« Ce service m'a permis d'encaisser 300 € et de voir mes numéros s'afficher clairement. » - Thomas, 35 ans",
-      "« Grâce aux désenvoutements proposés ici, j'ai gagné au loto quelques temps après. » - Sophie, 42 ans",
-      "« J'ai vu mes numéros s'afficher et j'ai gagné 800 €. Service concret et direct. » - Julien, 31 ans",
-      "« Ce site m'aide à mieux comprendre le loto. Même sans gros gain, j'en ressens l'impact. » - Émilie, 27 ans",
-      "« J'utilise ce service régulièrement et j'ai obtenu 1000 € de gains. » - Marc, 48 ans",
-      "« L'approche est claire : j'ai gagné 600 € et le site est facile à utiliser. » - Aline, 33 ans",
-      "« Ce site m'a permis d'encaisser 700 € sans complications. » - Lucas, 39 ans",
-      "« Service fiable, j'ai gagné 850 € en voyant mes numéros s'afficher. » - Laura, 36 ans",
-      "« Un bon outil pour gagner au loto : j'ai obtenu 250 € et je suis satisfait. » - Antoine, 28 ans",
-      "« Ce site apporte des résultats concrets : 500 € gagnés et une interface intuitive. » - Valérie, 45 ans",
-      "« J'ai perçu 1000 € sur mon compte, et le service reste simple et direct. » - Pierre, 34 ans",
-      "« Après avoir suivi les désenvoutements, j'ai gagné au loto et touché 1100 €. » - Manon, 26 ans",
-      "« Ce service donne des résultats : j'ai encaissé 650 € et je le recommande. » - Olivier, 51 ans",
-      "« J'ai gagné 350 € et trouvé le site facile à utiliser. » - Chloé, 30 ans",
-      "« Pour réussir au loto, ce site est utile : j'ai gagné 750 € et je le trouve pratique. » - Hugo, 37 ans",
-      "« Une bonne expérience, j'ai gagné 800 € et le service est direct. » - Isabelle, 44 ans",
-      "« J'ai reçu 1200 € sur mon compte, sans complication. » - Nathan, 25 ans",
-      "« Ce site offre de réelles chances : j'ai encaissé 400 € et ça m'a aidé. » - Céline, 40 ans",
-      "« Service pratique, 950 € gagnés et des conseils utiles pour avancer. » - Rémi, 32 ans",
-      "« J'aime ce service : j'ai touché 700 € et ça me motive à continuer. » - Élodie, 29 ans",
-      "« Les numéros s'affichent clairement et j'ai gagné 600 € sans chichi. » - Vincent, 47 ans",
-      "« Une expérience simple : j'ai obtenu 1100 € et je reste convaincu. » - Léa, 23 ans",
-      "« Ce site offre tout pour réussir au loto – j'ai gagné 850 € et je suis confiant. » - David, 43 ans",
-      "« Service direct et sans fioritures, 500 € gagnés. » - Camille, 31 ans",
-      "« J'apprécie la simplicité du site : j'ai reçu 1000 € et des conseils pratiques. » - Mathieu, 41 ans",
-      "« Un outil pratique qui m'a permis de gagner 600 € et d'améliorer mes chances. » - Sarah, 28 ans",
-      "« Ce site m'a apporté des résultats tangibles : 750 € de gains et une interface claire. » - Bastien, 33 ans",
-      "« Je recommande ce service, j'ai gagné 850 € et trouvé les infos utiles. » - Anne, 46 ans",
-      "« J'ai obtenu 900 € grâce à ce service et j'apprécie sa simplicité. » - Florian, 35 ans",
-      "« J'ai gagné 500 € et trouvé le site très facile d'utilisation. » - Julie, 38 ans",
-      "« Ce site m'aide à mieux comprendre le loto – j'ai touché 700 € et c'est pratique. » - Romain, 27 ans",
-      "« Service efficace et concret : j'ai encaissé 800 € sans prise de tête. » - Sandra, 44 ans",
-      "« Je suis content d'avoir utilisé ce site : j'ai touché 300 € et les explications sont claires. » - Léo, 26 ans",
-      "« J'ai eu une bonne expérience avec ce service, j'ai gagné 600 € et je le recommande. » - Pauline, 32 ans",
-      "« Ce site propose des outils efficaces, j'ai gagné 950 € et ça aide vraiment. » - Nicolas, 40 ans",
-      "« Grâce aux désenvoutements proposés, j'ai gagné au loto avec 800 € quelques temps après. » - Mélanie, 37 ans",
-      "« Service concret : j'hai touché 400 € et l'interface est très simple. » - Adrien, 29 ans",
-      "« Ce site m'a apporté des résultats tangibles : j'ai gagné 500 € et l'info est claire. » - Élodie, 31 ans",
-      "« Pour gagner au loto, ce site offre tout ce qu'il faut. J'ai obtenu 750 € et je suis satisfait. » - Thomas, 50 ans",
-      "« Un service sans chichis : j'ai reçu 650 € et c'est facile à utiliser. » - Aurore, 24 ans",
-      "« J'ai eu une bonne expérience, j'ai gagné 800 € et c'est pratique pour le quotidien. » - Guillaume, 39 ans",
-      "« Ce site est utile : j'ai encaissé 550 € et les explications sont simples. » - Charlotte, 34 ans",
-      "« Je suis satisfait du service, j'ai touché 900 € et c'est très clair. » - Stéphane, 46 ans",
-      "« Un service efficace : j'ai gagné 400 € et les résultats sont concrets. » - Margot, 28 ans",
-      "« J'ai obtenu 500 € avec ce site et je pense que ça peut vraiment aider au quotidien. » - Benoit, 42 ans",
-      "« Ce service m'a permis de gagner 1000 € et d'améliorer mes chances au loto. » - Justine, 30 ans",
-      "« J'utilise ce site pour ses résultats directs : j'ai encaissé 600 € et les conseils sont pratiques. » - Alexandre, 41 ans",
-      "« Un outil simple pour gagner : j'ai reçu 700 € et c'est efficace. » - Camille, 27 ans",
-      "« J'ai gagné 800 € grâce à ce service et ça m'a vraiment aidé dans mes projets. » - Laurent, 45 ans",
-      "« Ce site offre de réels avantages : j'ai touché 500 € et ça change les choses. » - Élise, 32 ans",
-      "« J'ai trouvé ce service utile et j'ai gagné 850 €, un vrai coup de pouce. » - Jérémy, 36 ans",
-      "« Un service qui tient ses promesses : j'ai encaissé 600 € et ça m'a aidé à avancer. » - Sophie, 29 ans",
-      "« Ce site offre tout pour réussir au loto – j'ai obtenu 750 € et ça m'aide à y croire. » - Philippe, 43 ans",
-      "« J'apprécie ce service pour son efficacité : j'ai gagné 500 € et c'est très direct. » - Anaïs, 25 ans",
-      "« Un bon service pour améliorer sa chance : j'ai touché 800 € et je suis satisfait. » - Kevin, 34 ans",
-      "« Ça m'a aidé à mieux voir mes options, j'ai gagné 400 € et c'est simple. » - Marina, 40 ans",
-      "« Service pratique et direct : j'ai gagné 600 € et je le recommande sans hésiter. » - Lucas, 28 ans",
-      "« J'ai utilisé ce site et j'ai reçu 500 € – c'est clair et sans complications. » - Vanessa, 39 ans",
-      "« Ce service donne de vraies chances : j'ai gagné 700 € et ça marche. » - Quentin, 33 ans",
-      "« Un service concret qui change les choses : j'ai perçu 800 € et les résultats se font sentir. » - Clara, 35 ans",
-      "« J'ai gagné 900 € grâce à ce site et ça m'aide vraiment à avancer dans la vie. » - Étienne, 38 ans",
-      "« Ce service offre des résultats directs : j'ai touché 500 € et c'est utile au quotidien. » - Léna, 26 ans",
-      "« Une expérience concrète et pratique, j'ai encaissé 600 € et je suis content du résultat. » - Maxime, 44 ans",
-      "« Ce site propose tout pour réussir : de bonnes chances et 800 € qui font la différence. » - Amélie, 30 ans"
+      "« J'ai utilisé ce site et gagné 500 € – simple et efficace. » - Clara, 29 ans (Note : 8/10)",
+      "« Ce service m'a permis d'encaisser 300 € et de voir mes numéros s'afficher clairement. » - Thomas, 35 ans (Note : 7/10)",
+      "« Grâce aux désenvoutements proposés ici, j'ai gagné au loto quelques temps après. » - Sophie, 42 ans (Note : 9/10)",
+      "« J'ai vu mes numéros s'afficher et j'ai gagné 800 €. Service concret et direct. » - Julien, 31 ans (Note : 8/10)",
+      "« Ce site m'aide à mieux comprendre le loto. Même sans gros gain, j'en ressens l'impact. » - Élodie, 27 ans (Note : 7/10)",
+      "« J'utilise ce service régulièrement et j'ai obtenu 1000 € de gains. » - Marc, 48 ans (Note : 9/10)",
+      "« L'approche est claire : j'ai gagné 600 € et le site est facile à utiliser. » - Aline, 33 ans (Note : 8/10)",
+      "« Ce site m'a permis d'encaisser 700 € sans complications. » - Lucas, 39 ans (Note : 8/10)",
+      "« Service fiable, j'ai gagné 850 € en voyant mes numéros s'afficher. » - Laura, 36 ans (Note : 9/10)",
+      "« Un bon outil pour gagner au loto : j'ai obtenu 250 € et je suis satisfait. » - Antoine, 28 ans (Note : 7/10)",
+      "« Ce site apporte des résultats concrets : 500 € gagnés et une interface intuitive. » - Valérie, 45 ans (Note : 8/10)",
+      "« J'ai perçu 1000 € sur mon compte, et le service reste simple et direct. » - Pierre, 34 ans (Note : 9/10)",
+      "« Après avoir suivi les désenvoutements, j'ai gagné au loto et touché 1100 €. » - Manon, 26 ans (Note : 8/10)",
+      "« Ce service donne des résultats : j'ai encaissé 650 € et je le recommande. » - Olivier, 51 ans (Note : 8/10)",
+      "« J'ai gagné 350 € et trouvé le site facile à utiliser. » - Chloé, 30 ans (Note : 7/10)",
+      "« Pour réussir au loto, ce site est utile : j'ai gagné 750 € et je le trouve pratique. » - Hugo, 37 ans (Note : 8/10)",
+      "« Une bonne expérience, j'ai gagné 800 € et le service est direct. » - Isabelle, 44 ans (Note : 8/10)",
+      "« J'ai reçu 1200 € sur mon compte, sans complication. » - Nathan, 25 ans (Note : 9/10)",
+      "« Ce site offre de réelles chances : j'ai encaissé 400 € et ça m'a aidé. » - Céline, 40 ans (Note : 7/10)",
+      "« Service pratique, 950 € gagnés et des conseils utiles pour avancer. » - Rémi, 32 ans (Note : 8/10)",
+      "« J'aime ce service : j'ai touché 700 € et ça me motive à continuer. » - Élodie, 29 ans (Note : 8/10)",
+      "« Les numéros s'affichent clairement et j'ai gagné 600 € sans chichi. » - Vincent, 47 ans (Note : 8/10)",
+      "« Une expérience simple : j'ai obtenu 1100 € et je reste convaincu. » - Léa, 23 ans (Note : 9/10)",
+      "« Ce site offre tout pour réussir au loto – j'ai gagné 850 € et je suis confiant. » - David, 43 ans (Note : 8/10)",
+      "« Service direct et sans fioritures, 500 € gagnés. » - Camille, 31 ans (Note : 7/10)",
+      "« J'apprécie la simplicité du site : j'ai reçu 1000 € et des conseils pratiques. » - Mathieu, 41 ans (Note : 9/10)",
+      "« Un outil pratique qui m'a permis de gagner 600 € et d'améliorer mes chances. » - Sarah, 28 ans (Note : 8/10)",
+      "« Ce site m'a apporté des résultats tangibles : 750 € de gains et une interface claire. » - Bastien, 33 ans (Note : 8/10)",
+      "« Je recommande ce service, j'ai gagné 850 € et trouvé les infos utiles. » - Anne, 46 ans (Note : 9/10)",
+      "« J'ai obtenu 900 € grâce à ce service et j'apprécie sa simplicité. » - Florian, 35 ans (Note : 8/10)",
+      "« J'ai gagné 500 € et trouvé le site très facile d'utilisation. » - Julie, 38 ans (Note : 7/10)",
+      "« Ce site m'aide à mieux comprendre le loto – j'ai touché 700 € et c'est pratique. » - Romain, 27 ans (Note : 8/10)",
+      "« Service efficace et concret : j'ai encaissé 800 € sans prise de tête. » - Sandra, 44 ans (Note : 8/10)",
+      "« Je suis content d'avoir utilisé ce site : j'ai touché 300 € et les explications sont claires. » - Léo, 26 ans (Note : 7/10)",
+      "« J'ai eu une bonne expérience avec ce service, j'ai gagné 600 € et je le recommande. » - Pauline, 32 ans (Note : 8/10)",
+      "« Ce site propose des outils efficaces, j'ai gagné 950 € et ça aide vraiment. » - Nicolas, 40 ans (Note : 9/10)",
+      "« Grâce aux désenvoutements proposés, j'ai gagné au loto avec 800 € quelques temps après. » - Mélanie, 37 ans (Note : 8/10)",
+      "« Service concret : j'ai touché 400 € et l'interface est très simple. » - Adrien, 29 ans (Note : 7/10)",
+      "« Ce site m'a apporté des résultats tangibles : j'ai gagné 500 € et l'info est claire. » - Élodie, 31 ans (Note : 8/10)",
+      "« Pour gagner au loto, ce site offre tout ce qu'il faut. J'ai obtenu 750 € et je suis satisfait. » - Thomas, 50 ans (Note : 8/10)",
+      "« Un service sans chichis : j'ai reçu 650 € et c'est facile à utiliser. » - Aurore, 24 ans (Note : 7/10)",
+      "« J'ai eu une bonne expérience, j'ai gagné 800 € et c'est pratique pour le quotidien. » - Guillaume, 39 ans (Note : 8/10)",
+      "« Ce site est utile : j'ai encaissé 550 € et les explications sont simples. » - Charlotte, 34 ans (Note : 7/10)",
+      "« Je suis satisfait du service, j'ai touché 900 € et c'est très clair. » - Stéphane, 46 ans (Note : 9/10)",
+      "« Un service efficace : j'ai gagné 400 € et les résultats sont concrets. » - Margot, 28 ans (Note : 8/10)",
+      "« J'ai obtenu 500 € avec ce site et je pense que ça peut vraiment aider au quotidien. » - Benoit, 42 ans (Note : 8/10)",
+      "« Ce service m'a permis de gagner 1000 € et d'améliorer mes chances au loto. » - Justine, 30 ans (Note : 9/10)",
+      "« J'utilise ce site pour ses résultats directs : j'ai encaissé 600 € et les conseils sont pratiques. » - Alexandre, 41 ans (Note : 8/10)",
+      "« Un outil simple pour gagner : j'ai reçu 700 € et c'est efficace. » - Camille, 27 ans (Note : 7/10)",
+      "« J'ai gagné 800 € grâce à ce service et ça m'a vraiment aidé dans mes projets. » - Laurent, 45 ans (Note : 8/10)",
+      "« Ce site offre de réels avantages : j'ai touché 500 € et ça change les choses. » - Élise, 32 ans (Note : 8/10)",
+      "« J'ai trouvé ce service utile et j'ai gagné 850 €, un vrai coup de pouce. » - Jérémy, 36 ans (Note : 9/10)",
+      "« Un service qui tient ses promesses : j'ai encaissé 600 € et ça m'a aidé à avancer. » - Sophie, 29 ans (Note : 8/10)",
+      "« Ce site offre tout pour réussir au loto – j'ai obtenu 750 € et ça m'aide à y croire. » - Philippe, 43 ans (Note : 8/10)",
+      "« J'apprécie ce service pour son efficacité : j'ai gagné 500 € et c'est très direct. » - Anaïs, 25 ans (Note : 7/10)",
+      "« Un bon service pour améliorer sa chance : j'ai touché 800 € et je suis satisfait. » - Kevin, 34 ans (Note : 8/10)",
+      "« Ça m'a aidé à mieux voir mes options, j'ai gagné 400 € et c'est simple. » - Marina, 40 ans (Note : 7/10)",
+      "« Service pratique et direct : j'ai gagné 600 € et je le recommande sans hésiter. » - Lucas, 28 ans (Note : 8/10)",
+      "« J'ai utilisé ce site et j'ai reçu 500 € – c'est clair et sans complications. » - Vanessa, 39 ans (Note : 8/10)",
+      "« Ce service donne de vraies chances : j'ai gagné 700 € et ça marche. » - Quentin, 33 ans (Note : 8/10)",
+      "« Un service concret qui change les choses : j'ai perçu 800 € et les résultats se font sentir. » - Clara, 35 ans (Note : 9/10)",
+      "« J'ai gagné 900 € grâce à ce site et ça m'aide vraiment à avancer dans la vie. » - Étienne, 38 ans (Note : 9/10)",
+      "« Ce service offre des résultats directs : j'ai touché 500 € et c'est utile au quotidien. » - Léna, 26 ans (Note : 8/10)",
+      "« Une expérience concrète et pratique, j'ai encaissé 600 € et je suis content du résultat. » - Maxime, 44 ans (Note : 8/10)",
+      "« Ce site propose tout pour réussir : de bonnes chances et 800 € qui font la différence. » - Amélie, 30 ans (Note : 9/10)"
     ];
 
-    // Carrousel optimisé
+    // Carrousel optimisé avec points de navigation
     const carouselInner = document.getElementById('carouselInner');
     const carouselDots = document.getElementById('carouselDots');
     let currentIndex = 0;
@@ -709,7 +722,7 @@
       else if (e.key === 'ArrowRight') nextReview();
     });
 
-    // Gestion de l’inscription
+    // Gestion de l'inscription
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     function handleSubscribe(event) {
       event.preventDefault();
