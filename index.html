@@ -261,8 +261,8 @@
       position: fixed;
       bottom: 20px;
       right: 20px;
-      width: 50px;
-      height: 50px;
+      width: 70px; /* Augmentation de la taille */
+      height: 70px; /* Augmentation de la taille */
       background: var(--gold);
       border: 2px solid var(--dark-gold);
       border-radius: 50%;
@@ -274,8 +274,8 @@
       touch-action: none;
     }
     #draggableContact svg {
-      width: 24px;
-      height: 24px;
+      width: 32px; /* Augmentation de la taille */
+      height: 32px; /* Augmentation de la taille */
       fill: var(--bg-dark);
     }
     :focus {
@@ -340,12 +340,19 @@
         font-size: 1.5rem;
       }
       #draggableContact {
-        width: 40px;
-        height: 40px;
+        width: 60px; /* Augmentation de la taille pour mobile */
+        height: 60px; /* Augmentation de la taille pour mobile */
         cursor: default;
       }
       .subscribe-section form {
         flex-direction: column;
+      }
+      .carousel-item {
+        padding: 1rem; /* Réduction du padding pour mobile */
+      }
+      .carousel-prev,
+      .carousel-next {
+        padding: 0.3rem 0.8rem; /* Réduction de la taille des boutons pour mobile */
       }
     }
     section[loading="lazy"] {
@@ -354,6 +361,14 @@
     }
     section[loading="lazy"].loaded {
       opacity: 1;
+    }
+    /* Effet de clignotement pour le bouton "Faire un don" */
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    .don-btn {
+      animation: blink 1.5s infinite;
     }
   </style>
 
@@ -401,7 +416,7 @@
     <header>
       <picture>
         <source srcset="https://i.imgur.com/GmyGlKk.webp" type="image/webp">
-        <img src="https://i.imgur.com/GmyGlKk.jpg" alt="Logo ClairvoyanceMedium - Prédictions Loto" loading="lazy" srcset="https://i.imgur.com/GmyGlKk.jpg 720w, https://i.imgur.com/GmyGlKk.jpg 360w" sizes="(max-width: 600px) 360px, 720px">
+        <img src="https://i.imgur.com/GmyGlKk.jpg" alt="Logo ClairvoyanceMedium" loading="lazy">
       </picture>
       <h1>Propulsé par une technologie unique d'analyse puissante et réactive pour enfin reussir à gagner au Loto</h1>
       <div class="intro-text" role="region" aria-label="Introduction">
@@ -427,8 +442,7 @@
         <h2>Recevez des grilles Exclusives directement dans votre boite mail</h2>
         <p>Inscrivez-vous pour recevoir par e-mail des numéros pour le prochain tirage du Loto (et non l’Euromillions). Si Frédéric du cabinet ClairvoyanceMedium.com a un ressenti fort, vous serez les premiers avertis gratuitement.</p>
         <form id="subscribeForm" onsubmit="handleSubscribe(event)">
-          <label for="emailInput" class="visually-hidden">Entrez votre email</label>
-          <input type="email" id="emailInput" placeholder="Entrez votre email" required aria-label="Adresse e-mail pour inscription">
+          <input type="email" placeholder="Entrez votre email" required aria-label="Adresse e-mail pour inscription">
           <button type="submit" aria-label="S’inscrire">S’inscrire</button>
         </form>
       </section>
@@ -473,16 +487,12 @@
     </a>
   </div>
 
-  <!-- Scripts optimisés avec améliorations -->
+  <!-- Scripts optimisés -->
   <script defer>
     // Pré-calcul des années dynamiques
     const currentYear = new Date().getFullYear();
-    try {
-      document.getElementById("current-year").textContent = currentYear;
-      document.getElementById("dynamicYear").textContent = currentYear;
-    } catch (e) {
-      console.error("Erreur lors de l’affichage de l’année:", e);
-    }
+    document.getElementById("current-year").textContent = currentYear;
+    document.getElementById("dynamicYear").textContent = currentYear;
 
     // Fonction de suivi optimisée
     function trackClick(eventLabel) {
@@ -492,7 +502,7 @@
       }
     }
 
-    // Données Loto simulées (statiques pour cet exemple, mais API-ready)
+    // Données Loto simulées (statiques pour performances)
     const lotoData = {
       history: [
         { numbers: new Uint8Array([5, 12, 19, 26, 33]), chance: 8 },
@@ -502,16 +512,7 @@
         { numbers: new Uint8Array([5, 13, 19, 41, 33]), chance: 8 }
       ]
     };
-    async function fetchLotoData() {
-      try {
-        // Exemple pour une future API réelle : const response = await fetch('https://api.loto.fr/history');
-        // return await response.json();
-        return Promise.resolve(lotoData);
-      } catch (e) {
-        console.error("Erreur lors de la récupération des données Loto:", e);
-        return lotoData; // Fallback sur données statiques
-      }
-    }
+    const fetchLotoData = () => Promise.resolve(lotoData);
 
     // Algorithme optimisé avec tableaux typés
     function computeOptimizedGrid(history) {
@@ -551,10 +552,10 @@
       const now = new Date();
       const drawDays = [1, 3, 6]; // Lundi, Mercredi, Samedi
       const day = now.getDay();
-      let daysAhead = drawDays.find(d => d > day) - day || (7 - day + drawDays[0]);
-      if (daysAhead <= 0) daysAhead += 7;
+      let daysAhead = drawDays.find(d => d >= day) - day || (7 - day + drawDays[0]);
+      if (daysAhead < 0) daysAhead += 7;
       now.setDate(now.getDate() + daysAhead);
-      return now.toLocaleDateString('fr-FR') + ' | 19:30';
+      return now.toLocaleDateString('fr-FR') + ' | 20:20';
     }
 
     // Pré-calcul des éléments DOM
@@ -562,109 +563,94 @@
     const nextDrawEl = document.getElementById("next-draw-datetime");
 
     async function getAdvancedPredictions() {
-      try {
-        const data = await fetchLotoData();
-        if (!nextDrawEl || !predictionEl) throw new Error("Éléments DOM manquants");
-        nextDrawEl.textContent = `Pour le prochain tirage du Loto (et non l’Euromillions) : ${getNextDrawDate()}`;
-        const grid = computeOptimizedGrid(data.history);
-        predictionEl.innerHTML = `${grid.slice(0, 5).join(" - ")} - <span style="color:#FFEB3B;">Chance : ${grid[5]}</span>`;
-      } catch (e) {
-        console.error("Erreur dans getAdvancedPredictions:", e);
-        if (nextDrawEl) nextDrawEl.textContent = "Erreur lors du calcul de la date";
-        if (predictionEl) predictionEl.textContent = "Erreur lors de la génération";
-      }
+      const data = await fetchLotoData();
+      nextDrawEl.textContent = `Pour le prochain tirage du Loto (et non l’Euromillions) : ${getNextDrawDate()}`;
+      const grid = computeOptimizedGrid(data.history);
+      predictionEl.innerHTML = `${grid.slice(0, 5).join(" - ")} - <span style="color:#FFEB3B;">Chance : ${grid[5]}</span>`;
     }
     getAdvancedPredictions();
 
-    // Liste d’avis variés et uniques (65 éléments) avec chargement paresseux
+    // Liste d’avis variés et uniques (65 éléments)
     const reviews = [
-      "« J’ai gagné 2 500 € avec cette grille géniale ! » - Julien, 34 ans",
-      "« Les numéros m’ont porté chance, 300 € gagnés ! » - Sophie, 28 ans",
-      "« Frederick m’a bluffé, 1 000 € en poche ! » - Aline, 45 ans",
-      "« Première fois que je gagne 450 €, merci ! » - Lucas, 39 ans",
-      "« Une grille parfaite, 150 € dès le départ ! » - Élodie, 31 ans",
-      "« L’IA est incroyable, 5 000 € pour moi ! » - Thierry, 52 ans",
-      "« Les prédictions ont payé : 800 € ! » - Camille, 27 ans",
-      "« Je recommande, 600 € grâce à eux ! » - Marc, 41 ans",
-      "« Frederick voit juste, 10 000 € gagnés ! » - Laura, 36 ans",
-      "« Une méthode top, 200 € en un essai ! » - Antoine, 29 ans",
-      "« J’ai suivi la grille, 3 000 € gagnés ! » - Valérie, 47 ans",
-      "« Super service, 1 200 € pour moi ! » - Pierre, 33 ans",
-      "« L’IA m’a surpris, 7 500 € en poche ! » - Manon, 25 ans",
-      "« Frederick est unique, 4 000 € gagnés ! » - Olivier, 50 ans",
-      "« Une grille gagnante, 350 € rapidement ! » - Chloé, 30 ans",
-      "« Les numéros étaient parfaits, 900 € ! » - Hugo, 38 ans",
-      "« Une aide précieuse, 2 000 € gagnés ! » - Isabelle, 43 ans",
-      "« L’intuition de Frederick, 6 000 € pour moi ! » - Nathan, 26 ans",
-      "« J’ai tenté ma chance, 1 500 € gagnés ! » - Céline, 40 ans",
-      "« Les prédictions sont top, 5 500 € ! » - Rémi, 35 ans",
-      "« Merci pour l’IA, 700 € en poche ! » - Émilie, 32 ans",
-      "« Une victoire rapide, 3 500 € gagnés ! » - Vincent, 48 ans",
-      "« Les numéros m’ont porté chance, 400 € ! » - Léa, 24 ans",
-      "« L’IA m’a bluffé, 8 000 € pour moi ! » - David, 44 ans",
-      "« Super méthode, 550 € gagnés ! » - Clara, 37 ans",
-      "« Frederick a vu juste, 2 800 € gagnés ! » - Mathieu, 42 ans",
-      "« Première fois, 1 800 € grâce à eux ! » - Sarah, 29 ans",
-      "« Les grilles sont géniales, 950 € ! » - Bastien, 31 ans",
-      "« Une aide incroyable, 4 500 € gagnés ! » - Anne, 46 ans",
-      "« L’IA fonctionne, 1 100 € pour moi ! » - Florian, 33 ans",
-      "« Je ne m’attendais pas à 9 000 €, merci ! » - Julie, 39 ans",
-      "« Une méthode fiable, 650 € gagnés ! » - Romain, 28 ans",
-      "« Frederick est top, 2 200 € en poche ! » - Sandra, 45 ans",
-      "« Les prédictions m’ont aidé, 300 € ! » - Léo, 27 ans",
-      "« Super service, 4 200 € gagnés ! » - Pauline, 34 ans",
-      "« J’ai gagné 1 300 € grâce à l’IA ! » - Nicolas, 41 ans",
-      "« Une grille parfaite, 7 000 € pour moi ! » - Mélanie, 36 ans",
-      "« Merci Frederick, 850 € gagnés ! » - Adrien, 30 ans",
-      "« Les numéros étaient top, 2 600 € ! » - Élodie, 32 ans",
-      "« Une victoire à 6 500 €, incroyable ! » - Thomas, 49 ans",
-      "« L’IA m’a porté chance, 500 € gagnés ! » - Aurore, 26 ans",
-      "« Super prédictions, 3 200 € pour moi ! » - Guillaume, 38 ans",
-      "« J’ai tenté, 1 600 € gagnés ! » - Charlotte, 35 ans",
-      "« Une méthode unique, 10 500 € gagnés ! » - Stéphane, 47 ans",
-      "« Les grilles sont top, 750 € pour moi ! » - Margot, 29 ans",
-      "« Frederick m’a guidé, 4 800 € gagnés ! » - Benoit, 43 ans",
-      "« Première fois, 1 400 € grâce à eux ! » - Justine, 31 ans",
-      "« L’IA est bluffante, 8 500 € en poche ! » - Alexandre, 40 ans",
-      "« Merci pour l’aide, 600 € gagnés ! » - Camille, 28 ans",
-      "« Frederick voit loin, 3 800 € pour moi ! » - Laurent, 46 ans",
-      "« Une grille rapide, 1 900 € gagnés ! » - Élise, 33 ans",
-      "« Les prédictions sont parfaites, 5 000 € ! » - Jérémy, 37 ans",
-      "« L’IA m’a surpris, 2 300 € gagnés ! » - Sophie, 30 ans",
-      "« Frederick est génial, 7 800 € pour moi ! » - Philippe, 44 ans",
-      "« Une grille bien pensée, 450 € gagnés ! » - Anaïs, 27 ans",
-      "« J’ai gagné 1 700 € grâce à eux ! » - Kevin, 35 ans",
-      "« Une méthode top, 9 500 € en poche ! » - Marina, 41 ans",
-      "« Les numéros m’ont porté chance, 800 € ! » - Lucas, 29 ans",
-      "« Frederick m’a bluffé, 4 600 € gagnés ! » - Vanessa, 38 ans",
-      "« Super service, 2 400 € pour moi ! » - Quentin, 32 ans",
-      "« L’IA est incroyable, 6 200 € gagnés ! » - Clara, 34 ans",
-      "« Merci pour tout, 1 200 € en poche ! » - Étienne, 39 ans",
-      "« Une grille parfaite, 3 400 € gagnés ! » - Léna, 28 ans",
-      "« Les prédictions sont top, 5 800 € pour moi ! » - Maxime, 45 ans",
-      "« Je recommande, 700 € gagnés ! » - Amélie, 31 ans"
-    ];
+  "« J'ai utilisé ce site et gagné 500 € – simple et efficace. » - Clara, 29 ans",
+  "« Ce service m'a permis d'encaisser 300 € et de voir mes numéros s'afficher clairement. » - Thomas, 35 ans",
+  "« Grâce aux désenvoutements proposés ici, j'ai gagné au loto quelques temps après. » - Sophie, 42 ans",
+  "« J'ai vu mes numéros s'afficher et j'ai gagné 800 €. Service concret et direct. » - Julien, 31 ans",
+  "« Ce site m'aide à mieux comprendre le loto. Même sans gros gain, j'en ressens l'impact. » - Émilie, 27 ans",
+  "« J'utilise ce service régulièrement et j'ai obtenu 1000 € de gains. » - Marc, 48 ans",
+  "« L'approche est claire : j'ai gagné 600 € et le site est facile à utiliser. » - Aline, 33 ans",
+  "« Ce site m'a permis d'encaisser 700 € sans complications. » - Lucas, 39 ans",
+  "« Service fiable, j'ai gagné 850 € en voyant mes numéros s'afficher. » - Laura, 36 ans",
+  "« Un bon outil pour gagner au loto : j'ai obtenu 250 € et je suis satisfait. » - Antoine, 28 ans",
+  "« Ce site apporte des résultats concrets : 500 € gagnés et une interface intuitive. » - Valérie, 45 ans",
+  "« J'ai perçu 1000 € sur mon compte, et le service reste simple et direct. » - Pierre, 34 ans",
+  "« Après avoir suivi les désenvoutements, j'ai gagné au loto et touché 1100 €. » - Manon, 26 ans",
+  "« Ce service donne des résultats : j'ai encaissé 650 € et je le recommande. » - Olivier, 51 ans",
+  "« J'ai gagné 350 € et trouvé le site facile à utiliser. » - Chloé, 30 ans",
+  "« Pour réussir au loto, ce site est utile : j'ai gagné 750 € et je le trouve pratique. » - Hugo, 37 ans",
+  "« Une bonne expérience, j'ai gagné 800 € et le service est direct. » - Isabelle, 44 ans",
+  "« J'ai reçu 1200 € sur mon compte, sans complication. » - Nathan, 25 ans",
+  "« Ce site offre de réelles chances : j'ai encaissé 400 € et ça m'a aidé. » - Céline, 40 ans",
+  "« Service pratique, 950 € gagnés et des conseils utiles pour avancer. » - Rémi, 32 ans",
+  "« J'aime ce service : j'ai touché 700 € et ça me motive à continuer. » - Élodie, 29 ans",
+  "« Les numéros s'affichent clairement et j'ai gagné 600 € sans chichi. » - Vincent, 47 ans",
+  "« Une expérience simple : j'ai obtenu 1100 € et je reste convaincu. » - Léa, 23 ans",
+  "« Ce site offre tout pour réussir au loto – j'ai gagné 850 € et je suis confiant. » - David, 43 ans",
+  "« Service direct et sans fioritures, 500 € gagnés. » - Camille, 31 ans",
+  "« J'apprécie la simplicité du site : j'ai reçu 1000 € et des conseils pratiques. » - Mathieu, 41 ans",
+  "« Un outil pratique qui m'a permis de gagner 600 € et d'améliorer mes chances. » - Sarah, 28 ans",
+  "« Ce site m'a apporté des résultats tangibles : 750 € de gains et une interface claire. » - Bastien, 33 ans",
+  "« Je recommande ce service, j'ai gagné 850 € et trouvé les infos utiles. » - Anne, 46 ans",
+  "« J'ai obtenu 900 € grâce à ce service et j'apprécie sa simplicité. » - Florian, 35 ans",
+  "« J'ai gagné 500 € et trouvé le site très facile d'utilisation. » - Julie, 38 ans",
+  "« Ce site m'aide à mieux comprendre le loto – j'ai touché 700 € et c'est pratique. » - Romain, 27 ans",
+  "« Service efficace et concret : j'ai encaissé 800 € sans prise de tête. » - Sandra, 44 ans",
+  "« Je suis content d'avoir utilisé ce site : j'ai touché 300 € et les explications sont claires. » - Léo, 26 ans",
+  "« J'ai eu une bonne expérience avec ce service, j'ai gagné 600 € et je le recommande. » - Pauline, 32 ans",
+  "« Ce site propose des outils efficaces, j'ai gagné 950 € et ça aide vraiment. » - Nicolas, 40 ans",
+  "« Grâce aux désenvoutements proposés, j'ai gagné au loto avec 800 € quelques temps après. » - Mélanie, 37 ans",
+  "« Service concret : j'ai touché 400 € et l'interface est très simple. » - Adrien, 29 ans",
+  "« Ce site m'a apporté des résultats tangibles : j'ai gagné 500 € et l'info est claire. » - Élodie, 31 ans",
+  "« Pour gagner au loto, ce site offre tout ce qu'il faut. J'ai obtenu 750 € et je suis satisfait. » - Thomas, 50 ans",
+  "« Un service sans chichis : j'ai reçu 650 € et c'est facile à utiliser. » - Aurore, 24 ans",
+  "« J'ai eu une bonne expérience, j'ai gagné 800 € et c'est pratique pour le quotidien. » - Guillaume, 39 ans",
+  "« Ce site est utile : j'ai encaissé 550 € et les explications sont simples. » - Charlotte, 34 ans",
+  "« Je suis satisfait du service, j'ai touché 900 € et c'est très clair. » - Stéphane, 46 ans",
+  "« Un service efficace : j'ai gagné 400 € et les résultats sont concrets. » - Margot, 28 ans",
+  "« J'ai obtenu 500 € avec ce site et je pense que ça peut vraiment aider au quotidien. » - Benoit, 42 ans",
+  "« Ce service m'a permis de gagner 1000 € et d'améliorer mes chances au loto. » - Justine, 30 ans",
+  "« J'utilise ce site pour ses résultats directs : j'ai encaissé 600 € et les conseils sont pratiques. » - Alexandre, 41 ans",
+  "« Un outil simple pour gagner : j'ai reçu 700 € et c'est efficace. » - Camille, 27 ans",
+  "« J'ai gagné 800 € grâce à ce service et ça m'a vraiment aidé dans mes projets. » - Laurent, 45 ans",
+  "« Ce site offre de réels avantages : j'ai touché 500 € et ça change les choses. » - Élise, 32 ans",
+  "« J'ai trouvé ce service utile et j'ai gagné 850 €, un vrai coup de pouce. » - Jérémy, 36 ans",
+  "« Un service qui tient ses promesses : j'ai encaissé 600 € et ça m'a aidé à avancer. » - Sophie, 29 ans",
+  "« Ce site offre tout pour réussir au loto – j'ai obtenu 750 € et ça m'aide à y croire. » - Philippe, 43 ans",
+  "« J'apprécie ce service pour son efficacité : j'ai gagné 500 € et c'est très direct. » - Anaïs, 25 ans",
+  "« Un bon service pour améliorer sa chance : j'ai touché 800 € et je suis satisfait. » - Kevin, 34 ans",
+  "« Ça m'a aidé à mieux voir mes options, j'ai gagné 400 € et c'est simple. » - Marina, 40 ans",
+  "« Service pratique et direct : j'ai gagné 600 € et je le recommande sans hésiter. » - Lucas, 28 ans",
+  "« J'ai utilisé ce site et j'ai reçu 500 € – c'est clair et sans complications. » - Vanessa, 39 ans",
+  "« Ce service donne de vraies chances : j'ai gagné 700 € et ça marche. » - Quentin, 33 ans",
+  "« Un service concret qui change les choses : j'ai perçu 800 € et les résultats se font sentir. » - Clara, 35 ans",
+  "« J'ai gagné 900 € grâce à ce site et ça m'aide vraiment à avancer dans la vie. » - Étienne, 38 ans",
+  "« Ce service offre des résultats directs : j'ai touché 500 € et c'est utile au quotidien. » - Léna, 26 ans",
+  "« Une expérience concrète et pratique, j'ai encaissé 600 € et je suis content du résultat. » - Maxime, 44 ans",
+  "« Ce site propose tout pour réussir : de bonnes chances et 800 € qui font la différence. » - Amélie, 30 ans"
+];
 
-    // Carrousel avec chargement paresseux
+    // Pré-calcul du carrousel
     const carouselInner = document.getElementById('carouselInner');
-    const itemsPerLoad = 5;
-    let loadedReviews = 0;
-    let currentIndex = 0;
+    reviews.forEach(review => {
+      const item = document.createElement('div');
+      item.classList.add('carousel-item');
+      item.textContent = review;
+      carouselInner.appendChild(item);
+    });
 
-    function loadReviews(start, end) {
-      for (let i = start; i < end && i < reviews.length; i++) {
-        const item = document.createElement('div');
-        item.classList.add('carousel-item');
-        item.textContent = reviews[i];
-        item.setAttribute('data-index', i);
-        carouselInner.appendChild(item);
-      }
-      loadedReviews = end;
-    }
-
-    loadReviews(0, itemsPerLoad);
     const items = carouselInner.children;
-    if (items.length) items[0].classList.add('active');
+    let currentIndex = 0;
+    if (items.length) items[currentIndex].classList.add('active');
 
     function prevReview() {
       items[currentIndex].classList.remove('active');
@@ -675,9 +661,6 @@
     function nextReview() {
       items[currentIndex].classList.remove('active');
       currentIndex = currentIndex < items.length - 1 ? currentIndex + 1 : 0;
-      if (currentIndex >= loadedReviews - 2 && loadedReviews < reviews.length) {
-        loadReviews(loadedReviews, loadedReviews + itemsPerLoad);
-      }
       items[currentIndex].classList.add('active');
     }
 
@@ -689,44 +672,30 @@
 
     // Gestion de l’inscription optimisée
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    async function handleSubscribe(event) {
+    function handleSubscribe(event) {
       event.preventDefault();
-      const emailInput = event.target.querySelector('#emailInput');
-      const email = emailInput.value;
-      if (!emailRegex.test(email)) {
-        alert("Veuillez entrer une adresse e-mail valide.");
-        return;
-      }
-      try {
-        // Simulation d’un appel API (à remplacer par un vrai endpoint)
-        console.log("Inscription simulée pour:", email);
-        // Exemple : await fetch('/api/subscribe', { method: 'POST', body: JSON.stringify({ email }) });
+      const email = event.target.querySelector('input[type="email"]').value;
+      if (emailRegex.test(email)) {
         window.open(`mailto:contact.clairvoyancemedium@gmail.com?subject=${encodeURIComponent("voici mon email pour newsletter")}&body=${encodeURIComponent("Email du client : " + email)}`, "_blank");
-        emailInput.value = '';
-      } catch (e) {
-        console.error("Erreur lors de l’inscription:", e);
-        alert("Une erreur est survenue. Veuillez réessayer.");
+      } else {
+        alert("Veuillez entrer une adresse e-mail valide.");
       }
     }
 
-    // Icône déplaçable avec limites
+    // Icône déplaçable avec optimisation
     const draggableContact = document.getElementById("draggableContact");
     let isDragging = false, offsetX, offsetY;
     const moveHandler = e => {
       if (isDragging) {
-        const x = Math.max(0, Math.min(e.clientX - offsetX, window.innerWidth - 50));
-        const y = Math.max(0, Math.min(e.clientY - offsetY, window.innerHeight - 50));
-        draggableContact.style.left = x + "px";
-        draggableContact.style.top = y + "px";
+        draggableContact.style.left = (e.clientX - offsetX) + "px";
+        draggableContact.style.top = (e.clientY - offsetY) + "px";
       }
     };
     const touchMoveHandler = e => {
       if (isDragging) {
         const touch = e.touches[0];
-        const x = Math.max(0, Math.min(touch.clientX - offsetX, window.innerWidth - 50));
-        const y = Math.max(0, Math.min(touch.clientY - offsetY, window.innerHeight - 50));
-        draggableContact.style.left = x + "px";
-        draggableContact.style.top = y + "px";
+        draggableContact.style.left = (touch.clientX - offsetX) + "px";
+        draggableContact.style.top = (touch.clientY - offsetY) + "px";
       }
     };
     draggableContact.addEventListener("mousedown", e => {
@@ -766,24 +735,8 @@
 
   <noscript>
     <div style="background:var(--section-bg);color:var(--text-light);padding:1rem;margin:1rem;">
-      <p>Activez JavaScript pour une expérience complète.</p>
-      <p>Prochain tirage : Lundi, Mercredi ou Samedi à 19h30 (selon le jour actuel).</p>
-      <p>Grille statique : 5 - 12 - 19 - 26 - 33 - Chance : 8</p>
+      Activez JavaScript pour une expérience complète. Grille statique : 5 - 12 - 19 - 26 - 33 - Chance : 8.
     </div>
   </noscript>
-
-  <!-- Style pour label caché -->
-  <style>
-    .visually-hidden {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      border: 0;
-    }
-  </style>
 </body>
 </html>
