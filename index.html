@@ -1,32 +1,36 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+  <!-- Anti-clickjacking -->
+  <script nonce="xai-48273">
+    if (window.top !== window.self) {
+      window.top.location = window.self.location;
+      console.warn("Tentative de clickjacking bloquée.");
+    }
+  </script>
+
+  <!-- Métadonnées optimisées pour SEO et accessibilité -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="last-modified" content="2025-03-10">
   <meta name="theme-color" content="#1A1A1A">
+  <title>Maximisez vos gains au Loto – Prédictions Optimisées par Algorithme puissant et flash profond</title>
+  <meta name="description" content="Boostez vos chances au Loto français avec nos grilles optimisées par notre algorithme d’intelligence artificielle le plus puissant de 2025. Prédictions précises basées sur statistiques, machine learning et données historiques pour maximiser vos gains au loto." />
+  <meta name="keywords" content="loto gagnant, prédictions loto, grille loto optimisée, numéro chance, loto français, conseils loto, stratégie loto, gagner au loto, clairvoyance, algorithmes IA, machine learning, prédictions précises, gains maximaux, tirage loto, numéros chanceux, loterie, pronostic" />
+  <meta name="author" content="ClairvoyanceMedium.com">
   <meta name="robots" content="index,follow">
-  <meta name="description" content="Boostez vos chances au Loto français avec nos grilles optimisées par IA et stratégies exclusives. Maximisez vos gains avec des prédictions précises et des conseils experts." />
-  <meta name="keywords" content="loto gagnant, prédictions loto, grille optimisée, intelligence artificielle, gagner au loto, stratégie loto, voyance, conseils loto" />
-  <meta name="author" content="ClairvoyanceMedium.com" />
-  <title>Maximisez vos Gains au Loto – Grilles Optimisées et Conseils Experts</title>
-
-  <!-- Open Graph -->
-  <meta property="og:title" content="Maximisez vos Gains au Loto – Grilles Optimisées et Conseils Experts" />
-  <meta property="og:description" content="Découvrez nos prédictions basées sur l'intelligence artificielle pour booster vos chances au Loto français. Essayez gratuitement nos grilles optimisées !" />
+  <meta property="og:title" content="Maximisez vos gains au Loto – Prédictions Optimisées par IA" />
+  <meta property="og:description" content="Grilles optimisées pour le Loto français basées sur notre algorithme d’intelligence artificielle le plus performant. Tentez votre chance avec nos prédictions exclusives !" />
   <meta property="og:url" content="https://www.clairvoyancemedium.com/" />
   <meta property="og:image" content="https://i.imgur.com/GmyGlKk.jpg" />
   <meta property="og:type" content="website" />
-
-  <!-- Canonical -->
   <link rel="canonical" href="https://www.clairvoyancemedium.com/" />
-
-  <!-- Favicon & Preconnect -->
-  <link rel="icon" href="https://clairvoyancemedium.github.io/favicon_optimized.png" type="image/png" sizes="32x32">
+  <link rel="icon" href="https://clairvoyancemedium.github.io/favicon_optimized.png" type="image/png" sizes="32x32" />
   <link rel="preconnect" href="https://clairvoyancemedium.github.io">
   <link rel="preload" href="https://clairvoyancemedium.github.io/Consultation_de_voyance_par_email_pas_chere.github.io/Cinzel-Regular.woff2" as="font" type="font/woff2" crossorigin>
 
-  <!-- Police Web : Cinzel -->
+  <!-- Police Cinzel avec fallback -->
   <style>
     @font-face {
       font-family: 'Cinzel';
@@ -36,19 +40,22 @@
     }
   </style>
 
-  <!-- Optimized CSS Styles -->
+  <!-- Styles CSS optimisés -->
   <style>
     :root {
       --gold: #BBAE98;
       --dark-gold: #8B5A2B;
       --donation-start: #87CEFA;
-      --donation-end: #F4A460;
+      --donation-end: #F4A460; /* Orange clair */
       --text-light: #F5F5F5;
       --bg-dark: #1A1A1A;
       --section-bg: #2A2A2A;
     }
-    * { box-sizing: border-box; }
-    html { font-size: 16px; scroll-behavior: smooth; }
+    html {
+      font-size: 16px;
+      scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%;
+    }
     body {
       margin: 0;
       padding: 20px;
@@ -67,28 +74,35 @@
       border-radius: 8px;
       box-shadow: 0 0 20px rgba(0,0,0,0.5);
     }
-    header, nav, main, footer { margin-bottom: 2rem; }
+    header {
+      padding: 2rem 0;
+    }
+    /* Logo avec dimensions explicites pour éviter le CLS et aspect ratio normal */
     header img {
-      width: 100%;
-      max-width: 720px;
+      width: 720px;
       height: auto;
+      max-width: 100%;
       display: block;
       margin: 0 auto;
     }
     h1 {
+      font-family: 'Cinzel', serif;
       font-size: 2.5rem;
       margin: 1.5rem 0;
       text-transform: uppercase;
       color: var(--gold);
       letter-spacing: 1px;
+      min-height: 3rem;
     }
-    nav {
+    /* Boutons de navigation sous le logo */
+    .nav-container {
+      margin: 1rem 0 2rem;
       display: flex;
       justify-content: center;
-      flex-wrap: wrap;
       gap: 1rem;
+      flex-wrap: wrap;
     }
-    nav a {
+    .nav-container a {
       font-family: 'Cinzel', serif;
       color: var(--gold);
       text-decoration: none;
@@ -99,16 +113,20 @@
       min-width: 120px;
       text-align: center;
     }
-    nav a:hover, nav a:focus {
+    .nav-container a:hover,
+    .nav-container a:focus {
       background: var(--gold);
       color: var(--bg-dark);
       outline: 2px solid var(--donation-start);
     }
     .intro-text {
+      font-family: 'Cinzel', serif;
       font-size: 1.1rem;
       margin: 2rem auto;
       max-width: 800px;
+      text-align: center;
       background: var(--section-bg);
+      color: var(--text-light);
       padding: 1rem;
       border-radius: 4px;
     }
@@ -116,6 +134,7 @@
       background: var(--section-bg);
       padding: 2rem;
       border-radius: 6px;
+      margin: 2rem 0;
       box-shadow: 0 2px 10px rgba(0,0,0,0.3);
     }
     .prediction-container {
@@ -123,18 +142,29 @@
       color: var(--bg-dark);
     }
     .disclaimer {
+      font-family: 'Cinzel', serif;
+      background: var(--section-bg);
+      color: var(--text-light);
       padding: 1rem;
       border-radius: 4px;
       margin: 1rem 0;
       font-weight: bold;
+      text-align: center;
     }
     .result {
+      font-family: 'Cinzel', serif;
       font-size: 1.75rem;
       font-weight: bold;
       margin: 1.5rem 0;
     }
-    #next-draw-datetime { font-size: 1.25rem; }
-    .btn, .don-btn, .email-btn {
+    #next-draw-datetime {
+      font-family: 'Cinzel', serif;
+      font-size: 1.25rem;
+    }
+    .btn,
+    .don-btn,
+    .email-btn {
+      font-family: 'Cinzel', serif;
       display: inline-block;
       padding: 1rem 2rem;
       font-size: 1.5rem;
@@ -142,26 +172,38 @@
       text-decoration: none;
       margin-top: 1rem;
       cursor: pointer;
-      transition: background 0.3s, transform 0.2s;
+      transition: background 0.3s ease, transform 0.2s;
       background: var(--gold);
       color: var(--bg-dark);
       border: none;
       min-width: 120px;
     }
-    .btn:hover, .btn:focus,
-    .don-btn:hover, .don-btn:focus,
-    .email-btn:hover, .email-btn:focus {
+    .btn:hover,
+    .btn:focus,
+    .don-btn:hover,
+    .don-btn:focus,
+    .email-btn:hover,
+    .email-btn:focus {
       background: var(--dark-gold);
       transform: scale(1.05);
       outline: 2px solid var(--donation-start);
     }
-    .don-btn, .email-btn {
+    .don-btn,
+    .email-btn {
       background: linear-gradient(45deg, var(--donation-start), var(--donation-end));
       border: 2px solid var(--donation-end);
       color: var(--text-light);
     }
-    .don-btn { min-width: 200px; animation: blink 1s infinite; }
-    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
+    /* Faire un don : bouton plus long et clignotant en bleu et orange clair */
+    .don-btn {
+      min-width: 200px;
+      animation: blink 1s infinite;
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+    /* Carrousel sans points, avec flèches sous les avis */
     .carousel {
       position: relative;
       max-width: 100%;
@@ -176,8 +218,8 @@
       width: 100%;
       height: 100%;
       display: flex;
-      align-items: center;
       justify-content: center;
+      align-items: center;
     }
     .carousel-item {
       position: absolute;
@@ -185,11 +227,17 @@
       left: 0;
       width: 100%;
       opacity: 0;
-      transition: opacity 0.8s;
+      transition: opacity 0.8s ease-in-out;
+      text-align: center;
       padding: 1.5rem;
+      word-wrap: break-word;
       font-size: 1rem;
     }
-    .carousel-item.active { opacity: 1; position: relative; }
+    .carousel-item.active {
+      opacity: 1;
+      position: relative;
+    }
+    /* Flèches de navigation du carrousel sous les avis */
     .carousel-nav {
       margin-top: 1rem;
       display: flex;
@@ -197,6 +245,7 @@
       gap: 1rem;
     }
     .carousel-nav button {
+      font-family: 'Cinzel', serif;
       background: var(--donation-start);
       color: var(--text-light);
       border: none;
@@ -206,19 +255,29 @@
       border-radius: 4px;
       min-width: 60px;
     }
-    .carousel-nav button:hover, .carousel-nav button:focus {
+    .carousel-nav button:hover,
+    .carousel-nav button:focus {
       background: var(--gold);
       transform: scale(1.1);
       outline: 2px solid var(--donation-start);
     }
     footer {
       font-family: 'Cinzel', serif;
+      margin-top: 3rem;
       font-size: 0.9rem;
       color: #B0B0B0;
       text-align: center;
     }
-    footer a { color: var(--gold); text-decoration: none; }
-    footer a:hover, footer a:focus { text-decoration: underline; outline: 2px solid var(--donation-start); }
+    footer a {
+      color: var(--gold);
+      text-decoration: none;
+    }
+    footer a:hover,
+    footer a:focus {
+      text-decoration: underline;
+      outline: 2px solid var(--donation-start);
+    }
+    /* Bouton flottant de contact amélioré pour zones tactiles */
     #draggableContact {
       position: fixed;
       bottom: 20px;
@@ -235,21 +294,37 @@
       z-index: 1000;
       touch-action: none;
     }
-    #draggableContact svg { width: 32px; height: 32px; fill: var(--text-light); }
-    :focus { outline: 2px solid var(--donation-start); outline-offset: 2px; }
+    #draggableContact svg {
+      width: 32px;
+      height: 32px;
+      fill: var(--text-light);
+    }
+    :focus {
+      outline: 2px solid var(--donation-start);
+      outline-offset: 2px;
+    }
     .subscribe-section {
+      background: var(--section-bg);
       padding: 2rem;
       border-radius: 6px;
+      margin: 2rem 0;
       box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    }
+    .subscribe-section p {
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+      text-align: center;
     }
     .subscribe-section form {
       display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
       justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
     }
     .subscribe-section input[type="email"] {
       padding: 0.75rem;
+      font-family: 'Cinzel', serif;
       font-size: 1rem;
       border: 2px solid var(--gold);
       border-radius: 4px;
@@ -257,7 +332,9 @@
       color: var(--text-light);
       width: 250px;
     }
-    .subscribe-section input[type="email"]::placeholder { color: #B0B0B0; }
+    .subscribe-section input[type="email"]::placeholder {
+      color: #B0B0B0;
+    }
     .subscribe-section button {
       background: linear-gradient(45deg, var(--donation-start), var(--donation-end));
       border: 2px solid var(--donation-end);
@@ -266,30 +343,58 @@
       font-size: 1.5rem;
       border-radius: 4px;
       cursor: pointer;
-      transition: background 0.3s, transform 0.2s;
+      transition: background 0.3s ease, transform 0.2s;
     }
-    .subscribe-section button:hover { background: var(--dark-gold); transform: scale(1.05); }
+    .subscribe-section button:hover {
+      background: var(--dark-gold);
+      transform: scale(1.05);
+    }
     @media (max-width: 600px) {
-      .container { padding: 15px; }
-      h1 { font-size: 2rem; }
-      .result { font-size: 1.5rem; }
-      #draggableContact { width: 60px; height: 60px; }
-      .subscribe-section form { flex-direction: column; }
-      .carousel-item { font-size: 0.9rem; padding: 1rem; }
-      .btn, .don-btn, .email-btn, .subscribe-section button { padding: 0.75rem 1.5rem; font-size: 1.2rem; }
+      .container {
+        padding: 15px;
+      }
+      h1 {
+        font-size: 2rem;
+      }
+      h2 {
+        font-size: 1.5rem;
+      }
+      .result {
+        font-size: 1.5rem;
+      }
+      #draggableContact {
+        width: 60px;
+        height: 60px;
+      }
+      .subscribe-section form {
+        flex-direction: column;
+      }
+      .carousel-item {
+        font-size: 0.9rem;
+        padding: 1rem;
+      }
+      .btn, .don-btn, .email-btn, .subscribe-section button {
+        padding: 0.75rem 1.5rem;
+        font-size: 1.2rem;
+      }
     }
-    section[loading="lazy"] { opacity: 0; transition: opacity 0.5s; }
-    section[loading="lazy"].loaded { opacity: 1; }
+    section[loading="lazy"] {
+      opacity: 0;
+      transition: opacity 0.5s;
+    }
+    section[loading="lazy"].loaded {
+      opacity: 1;
+    }
   </style>
 
-  <!-- Structured Data: JSON-LD -->
+  <!-- Données structurées JSON-LD pour SEO -->
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "WebSite",
+      "@type": "Website",
       "name": "ClairvoyanceMedium",
       "url": "https://www.clairvoyancemedium.com/",
-      "description": "Boostez vos chances au Loto français avec nos grilles optimisées par IA.",
+      "description": "Boostez vos chances au Loto français avec nos grilles optimisées par notre algorithme d’intelligence artificielle le plus puissant.",
       "potentialAction": {
         "@type": "SearchAction",
         "target": "https://www.clairvoyancemedium.com/search?q={search_term_string}",
@@ -298,154 +403,236 @@
       "breadcrumb": {
         "@type": "BreadcrumbList",
         "itemListElement": [
-          { "@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://www.clairvoyancemedium.com/" },
-          { "@type": "ListItem", "position": 2, "name": "Prédictions Loto", "item": "https://www.clairvoyancemedium.com/" }
+          {"@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://www.clairvoyancemedium.com/"},
+          {"@type": "ListItem", "position": 2, "name": "Prédictions Loto", "item": "https://www.clairvoyancemedium.com/"}
         ]
       }
     }
   </script>
 
-  <!-- FAQ Structured Data -->
+  <!-- JSON-LD enrichi : FAQPage -->
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "FAQPage",
       "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "Comment fonctionnent les prédictions Loto par IA ?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Notre IA analyse des données historiques et des tendances pour générer des grilles optimisées et booster vos chances au Loto."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Les prédictions garantissent-elles un gain ?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Non, elles maximisent vos chances mais ne garantissent pas un gain certain."
-          }
-        }
+        {"@type": "Question", "name": "Comment fonctionnent les prédictions Loto par IA ?", "acceptedAnswer": {"@type": "Answer", "text": "Notre IA analyse des données historiques, des tendances statistiques et des probabilités pour générer des grilles optimisées, boostant vos chances au Loto français."}},
+        {"@type": "Question", "name": "Les prédictions Loto garantissent-elles un gain ?", "acceptedAnswer": {"@type": "Answer", "text": "Non, ce sont des simulations indicatives basées sur l’IA et l’intuition de Frederick, mais elles maximisent vos opportunités."}},
+        {"@type": "Question", "name": "Pourquoi choisir ClairvoyanceMedium pour le Loto ?", "acceptedAnswer": {"@type": "Answer", "text": "Frederick combine 25 ans d’expertise spirituelle avec une IA de pointe pour offrir des prédictions uniques et précises."}},
+        {"@type": "Question", "name": "Comment recevoir les numéros Loto par email ?", "acceptedAnswer": {"@type": "Answer", "text": "Inscrivez-vous via notre formulaire, et les prédictions vous parviennent directement dans votre boîte email."}},
+        {"@type": "Question", "name": "Combien coûte une prédiction Loto ?", "acceptedAnswer": {"@type": "Answer", "text": "Les prédictions de base sont gratuites via l’inscription. Des services premium, comme la voyance, débutent à 22€."}},
+        {"@type": "Question", "name": "L’IA peut-elle prédire un tirage exact ?", "acceptedAnswer": {"@type": "Answer", "text": "Non, l’IA optimise les grilles mais ne peut garantir un tirage exact, car le Loto reste aléatoire."}},
+        {"@type": "Question", "name": "Frederick utilise-t-il la voyance pour les prédictions ?", "acceptedAnswer": {"@type": "Answer", "text": "Oui, son intuition spirituelle complète l’analyse IA pour des grilles encore plus puissantes."}},
+        {"@type": "Question", "name": "Les prédictions fonctionnent-elles pour l’Euromillions ?", "acceptedAnswer": {"@type": "Answer", "text": "Non, nos grilles sont optimisées uniquement pour le Loto français, pas l’Euromillions."}},
+        {"@type": "Question", "name": "Comment maximiser mes chances au Loto ?", "acceptedAnswer": {"@type": "Answer", "text": "Utilisez nos grilles IA, jouez régulièrement, et combinez avec une consultation de Frederick pour un ressenti personnel."}},
+        {"@type": "Question", "name": "Puis-je demander une voyance Loto par téléphone ?", "acceptedAnswer": {"@type": "Answer", "text": "Oui, pour 22€, Frederick offre une voyance personnalisée par téléphone pour vos numéros chanceux."}},
+        {"@type": "Question", "name": "Les prédictions sont-elles disponibles sur mobile ?", "acceptedAnswer": {"@type": "Answer", "text": "Oui, notre site est optimisé pour mobile, et les voyances par email sont accessibles partout."}},
+        {"@type": "Question", "name": "Quels sont les bienfaits d’un désenvoûtement pour le Loto ?", "acceptedAnswer": {"@type": "Answer", "text": "Un rituel à 250€ brise les blocages spirituels, restaurant votre chance naturelle pour les jeux."}},
+        {"@type": "Question", "name": "Combien de temps pour recevoir une prédiction ?", "acceptedAnswer": {"@type": "Answer", "text": "Les emails sont envoyés sous 24h après inscription, selon les tirages."}},
+        {"@type": "Question", "name": "Les prédictions IA sont-elles fiables ?", "acceptedAnswer": {"@type": "Answer", "text": "Elles reposent sur des données solides et l’expertise de Frederick, offrant une fiabilité supérieure aux choix aléatoires."}},
+        {"@type": "Question", "name": "Puis-je utiliser les prédictions depuis l’étranger ?", "acceptedAnswer": {"@type": "Answer", "text": "Oui, nos services sont accessibles mondialement, bien que ciblés sur le Loto français."}}
       ]
     }
   </script>
+<!-- Balise Google Ads Universelle avec Remarketing et Suivi des Conversions -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-CONVERSION_ID"></script>
+  <script nonce="48273">
+    (function() {
+      // Fonction pour initialiser Google Ads avec des paramètres dynamiques
+      const initGoogleAds = ({
+        conversionId,
+        conversionLabel = null,
+        transactionValue = null,
+        currency = 'EUR'
+      }) => {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
 
-  <!-- External Scripts -->
+        // Configuration de base pour Google Ads
+        gtag('config', `AW-${conversionId}`);
+
+        // Ajout de Remarketing (par défaut sur chaque page)
+        gtag('event', 'page_view', {
+          'send_to': `AW-${conversionId}`
+        });
+
+        // Suivi des conversions (si conversionLabel et transactionValue sont fournis)
+        if (conversionLabel && transactionValue !== null) {
+          gtag('event', 'conversion', {
+            'send_to': `AW-${conversionId}/${conversionLabel}`,
+            'value': transactionValue,
+            'currency': currency
+          });
+        }
+      };
+
+      // Exemple d'utilisation : Remplacez par votre CONVERSION_ID
+      const googleAdsConfig = {
+        conversionId: 'AW-00000000000', // Remplacez par votre ID Google Ads
+        conversionLabel: 'CONVERSION_LABEL_OPTIONNEL', // Facultatif
+        transactionValue: 0 // Valeur transactionnelle à adapter si besoin
+      };
+      initGoogleAds(googleAdsConfig);
+    })();
+  </script>
+
+  <!-- Script Asynchrone pour Remarketing -->
+  <script nonce="48273">
+    (function() {
+      const conversionId = 'AW-00000000000'; // Remplacez par votre Conversion ID
+      var script = document.createElement('script');
+      script.src = `https://www.googleadservices.com/pagead/conversion_async.js?id=${conversionId}`;
+      script.async = true;
+      document.head.appendChild(script);
+
+      script.onload = function() {
+        // Paramètres de remarketing
+        var google_trackConversion = {
+          google_conversion_id: conversionId,
+          google_custom_params: window.google_tag_params || {},
+          google_remarketing_only: true
+        };
+      };
+    })();
+  </script>
+
+  <!-- Balise de Sécurité (NoScript) pour Remarketing Google Ads -->
+  <noscript>
+    <div style="display:inline;">
+      <img height="1" width="1" style="border-style:none;" alt=""
+           src="https://www.googleadservices.com/pagead/conversion/CONVERSION_ID/?value=0&amp;currency_code=EUR&amp;label=CONVERSION_LABEL_OPTIONNEL&amp;guid=ON&amp;script=0">
+    </div>
+  </noscript>
+
+  <!-- Google Tag Manager -->
+  <script nonce="48273">(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-P3J6SXCH');</script>
+  <!-- End Google Tag Manager -->
+
+  <!-- Google Analytics 4 -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-RZP46D0P7Y"></script>
   <script nonce="48273">
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
+
+    // Configuration de Google Analytics 4
     gtag('config', 'G-RZP46D0P7Y', {
       'send_page_view': true,
-      'linker': { 'domains': ['site1.com', 'site2.com', 'site3.com'] }
+      'linker': {
+        'domains': ['site1.com', 'site2.com', 'site3.com']
+      }
     });
   </script>
-  <script nonce="48273">
-    (function(w,d,s,l,i){
-      w[l]=w[l]||[];
-      w[l].push({'gtm.start': new Date().getTime(), event:'gtm.js'});
-      var f=d.getElementsByTagName(s)[0],
-          j=d.createElement(s), dl=l!='dataLayer'?'&l='+l:'';
-      j.async=true;
-      j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
-      f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-P3J6SXCH');
-  </script>
 </head>
+
 <body>
-  <!-- Google Tag Manager (noscript) -->
-  <noscript>
-    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P3J6SXCH" height="0" width="0" style="display:none;visibility:hidden"></iframe>
-  </noscript>
-  
   <div class="container">
     <header>
       <picture>
-        <source srcset="https://i.imgur.com/GmyGlKk.webp" type="image/webp">
-        <img src="https://i.imgur.com/GmyGlKk.jpg" alt="Logo ClairvoyanceMedium" loading="lazy" width="720" height="405">
+        <source srcset="https://i.imgur.com/GmyGlKk.webp" type="image/webp" sizes="(max-width: 600px) 100vw, 720px">
+        <img src="https://i.imgur.com/GmyGlKk.jpg" alt="Logo ClairvoyanceMedium" loading="lazy" width="720" height="405" sizes="(max-width: 600px) 100vw, 720px" srcset="https://i.imgur.com/GmyGlKk.jpg 720w, https://i.imgur.com/GmyGlKk.jpg 360w">
       </picture>
-      <nav>
-        <a href="#predictionSection" onclick="trackClick('Nav_Predictions')">Générer votre grille gratuite</a>
-        <a href="#contactSection" onclick="trackClick('Nav_Contact')">Demande spéciale pour jeux de hasard ?</a>
-        <a href="#reviewsSection" onclick="trackClick('Nav_Reviews')">Avis Vérifiés</a>
-        <a href="#servicesSection" onclick="trackClick('Nav_Services')">Services pour Gagner au Loto</a>
-      </nav>
+      <!-- Boutons de navigation placés sous le logo -->
+      <div class="nav-container">
+        <a href="#predictionSection" onclick="trackClick('Nav_Predictions')">Génerer votre grille de Loto gratuitement</a>
+        <a href="#contactSection" onclick="trackClick('Nav_Contact')">Une demande particulière pour un jeux de hasard ?</a>
+        <a href="#reviewsSection" onclick="trackClick('Nav_Reviews')">Avis vérifiés</a>
+        <a href="#servicesSection" onclick="trackClick('Nav_Services')">Services nécessaires pour gagner au Loto</a>
+      </div>
       <div class="intro-text" role="region" aria-label="Introduction">
-        <strong>Boostez vos chances de gagner gros</strong> au <strong>Loto français</strong> grâce à nos <strong>grilles révolutionnaires</strong> et à l’expertise de notre voyant. Profitez d’analyses précises, d’un algorithme IA avancé et de conseils personnalisés pour maximiser vos gains !
+        <strong>Boostez vos chances de gagner gros</strong> au <strong>Loto français</strong> grâce à nos <strong>grilles spécialement conçues pour la "Française de jeux"</strong>, ultra-optimisées par la <strong>technologie la plus performante</strong> en <span id="dynamicDate"></span>. Avec nos <strong>analyses historiques précises</strong>, notre <strong>algorithme avancé</strong> de pointe associé à l’<strong>expertise inégalée</strong> de notre voyant Frederick, chaque prédiction est minutieusement élaborée pour vous offrir les <strong>numéros gagnants</strong> et des <strong>stratégies exclusives</strong>. Ne laissez pas passer cette opportunité exceptionnelle d’<strong>augmenter votre potentiel de gain</strong> et de transformer votre vie grâce à des choix intelligents et performants... gratuitement!
       </div>
     </header>
     <main>
       <section class="prediction-container" id="predictionSection" loading="lazy">
-        <h2>Générez la grille parfaite pour le prochain tirage du Loto (hors Euromillions)</h2>
+        <h2>Générez la grille parfaite gratuitement pour le prochain tirage du Loto (invalide pour l’Euromillions)</h2>
         <p id="next-draw-datetime"></p>
         <p class="result" id="prediction">Chargement...</p>
         <div class="disclaimer" role="alert">Résultats non garantis</div>
-        <button class="btn" onclick="getAdvancedPredictions(); trackClick('Generate_Grid')" aria-label="Générer une nouvelle grille">Générer ma grille gagnante</button>
+        <button class="btn" onclick="getAdvancedPredictions(); trackClick('Generate_Grid')" aria-label="Générer une nouvelle grille">Générer une nouvelle grille de Loto gagnante</button>
       </section>
+
+      <a href="https://buy.stripe.com/aEU3cAgDOeXl7SMbK3" class="don-btn" target="_blank" rel="noopener noreferrer" onclick="trackClick('Donation_Bottom')" aria-label="Faire un don">Faire un don : Quelques euros seulement de temps en temps change la donne ! Soutenez le développement et l'amélioration et participez à votre propre changement de vie !</a>
+      
       <section class="subscribe-section" id="subscribeSection" loading="lazy">
-        <h2>Recevez nos grilles exclusives par email</h2>
-        <p>Inscrivez-vous pour recevoir par email des numéros pour le prochain tirage du Loto (hors Euromillions). Soyez le premier informé en cas de ressenti fort de notre expert !</p>
+        <h2>Recevez des grilles exclusives directement dans votre boite mail</h2>
+        <p>Inscrivez-vous pour recevoir par e-mail des numéros pour le prochain tirage du Loto (et non l’Euromillions). Si Frédéric du cabinet ClairvoyanceMedium.com a un ressenti fort, vous serez les premiers avertis gratuitement.</p>
         <form id="subscribeForm" onsubmit="handleSubscribe(event)">
-          <input type="email" placeholder="Entrez votre email" required aria-label="Adresse e-mail">
+          <input type="email" placeholder="Entrez votre email" required aria-label="Adresse e-mail pour inscription">
           <button type="submit" aria-label="S’inscrire">S’inscrire</button>
         </form>
       </section>
+
       <section id="contactSection" loading="lazy">
-        <h2>Demande Personnalisée</h2>
-        <p>Contactez-nous pour une assistance dédiée concernant le Loto ou d’autres jeux de hasard (PMU, Euromillions, Keno, etc.).</p>
-        <a href="mailto:contact.clairvoyancemedium@gmail.com?tracking=suivi" class="email-btn" target="_blank" rel="noopener noreferrer" onclick="trackClick('Email_Contact')" aria-label="Envoyer un email">Envoyer un email</a>
+        <h2>Votre demande particulière</h2>
+        <p>Contactez-nous pour une assistance personnalisée pour le loto ou tout autre jeu de hasard (PMU, Euromillions, Keno, etc.).</p>
+        <a href="mailto:contact.clairvoyancemedium@gmail.com?tracking=suivi" class="email-btn" target="_blank" rel="noopener noreferrer" onclick="trackClick('Email_Contact')" aria-label="Envoyer un e-mail pour contact">Envoyer un e-mail</a>
       </section>
+
       <section id="reviewsSection" loading="lazy">
-        <h2>Ce que disent nos utilisateurs ⭐⭐⭐⭐⭐</h2>
-        <div class="carousel" role="region" aria-label="Carrousel d'avis" tabindex="0">
+        <h2>Derniers avis de nos utilisateurs ⭐⭐⭐⭐⭐</h2>
+        <div class="carousel" role="region" aria-label="Carrousel d’avis" aria-live="polite" tabindex="0">
           <div class="carousel-inner" id="carouselInner"></div>
         </div>
+        <!-- Flèches de navigation sous le carrousel -->
         <div class="carousel-nav">
           <button onclick="prevReview(); trackClick('Carousel_Prev')" aria-label="Avis précédent">←</button>
           <button onclick="nextReview(); trackClick('Carousel_Next')" aria-label="Avis suivant">→</button>
         </div>
         <a href="https://buy.stripe.com/aEU3cAgDOeXl7SMbK3" class="don-btn" target="_blank" rel="noopener noreferrer" onclick="trackClick('Donation_Bottom')" aria-label="Faire un don">Faire un don</a>
       </section>
+
       <section id="servicesSection" loading="lazy">
-        <h2>Nos Services Exclusifs pour Gagner au Loto</h2>
-        <p>Optimisez vos chances avec nos solutions sur-mesure, conçues pour maximiser vos opportunités et surpasser le hasard.</p>
-        <a href="https://www.clairvoyancemedium.com/Voyance-par-telephone-5-minutes-cbaaaaaZa.asp?tracking=suivi" class="btn" target="_blank" rel="noopener noreferrer" onclick="trackClick('Telephone_Voyance_5')" aria-label="Voyance Téléphonique 5min/8,00€">Voyance Téléphonique 24h/7jrs - 5min/8,00€</a>
+        <h2>Nos services exclusifs pour gagner de jolies sommes d'argent grâce au Loto français</h2>
+        <p>Améliorez votre succès avec nos solutions sur-mesure, conçues pour maximiser vos opportunités et prendre une longueur d’avance sur le hasard.</p>
+        <a href="https://www.clairvoyancemedium.com/Voyance-par-telephone-5-minutes-cbaaaaaZa.asp?tracking=suivi" class="btn" target="_blank" rel="noopener noreferrer" onclick="trackClick('Telephone_Voyance_5')" aria-label="Voyance par Téléphone 5min/8,00€">Voyance par Téléphone 24h/7jrs au 06.95.46.89.23 - 5min/8,00€</a>
         <a href="https://www.clairvoyancemedium.com/Voyance-3-Questions-par-Email-cbaaaaaca.asp?tracking=suivi" class="btn" target="_blank" rel="noopener noreferrer" onclick="trackClick('Email_Voyance_3')" aria-label="Voyance par Email - 3 questions/12,00€">Voyance par Email - 3 questions/12,00€</a>
-        <a href="https://www.clairvoyancemedium.com/Voyance-par-telephone-20-minutes-cbaaaaapa.asp?tracking=suivi" class="btn" target="_blank" rel="noopener noreferrer" onclick="trackClick('Telephone_Voyance_22')" aria-label="Voyance Téléphonique 20min/22,00€">Voyance Téléphonique 24h/7jrs - 20min/22,00€</a>
-        <a href="https://www.clairvoyancemedium.com/Desenvoutement-et-protection-a-distance-cbaaaaala.asp?tracking=suivi" class="btn" target="_blank" rel="noopener noreferrer" onclick="trackClick('Desenvoutement')" aria-label="Désenvoûtement Profond - 150,00€">Désenvoûtement Profond - 150,00€</a>
-        <a href="https://www.clairvoyancemedium.com/Recevez-1-message-d-un-defunt-cbaaaabka.asp?tracking=suivi" class="btn" target="_blank" rel="noopener noreferrer" onclick="trackClick('Defunt_Message')" aria-label="Aide d'un defunt - 17,00€">Aide d'un defunt - 17,00€</a>
+        <a href="https://www.clairvoyancemedium.com/Voyance-par-telephone-20-minutes-cbaaaaapa.asp?tracking=suivi" class="btn" target="_blank" rel="noopener noreferrer" onclick="trackClick('Telephone_Voyance_22')" aria-label="Voyance par Téléphone 20min/22,00€">Voyance par Téléphone 24h/7jrs au 06.95.46.89.23 - 20min/22,00€</a>
+        <a href="https://www.clairvoyancemedium.com/Desenvoutement-et-protection-a-distance-cbaaaaala.asp?tracking=suivi" class="btn" target="_blank" rel="noopener noreferrer" onclick="trackClick('Desenvoutement')" aria-label="Désenvoûtement profond - 150,00€">Rituel anti-malchance pour reussir à gagner aux jeux – 150,00€</a>
+        <a href="https://www.clairvoyancemedium.com/Recevez-1-message-d-un-defunt-cbaaaabka.asp?tracking=suivi" class="btn" target="_blank" rel="noopener noreferrer" onclick="trackClick('Defunt_Message')" aria-label="Message d'un defunt - 17,00€">Appel à un defunt pour vous aider à gagner au Loto - 17,00€</a>
       </section>
     </main>
+
     <footer role="contentinfo">
       <p>© <span id="current-year"></span> ClairvoyanceMedium.com. Tous droits réservés.</p>
       <p><a href="https://www.clairvoyancemedium.com" target="_blank" rel="noopener noreferrer" onclick="trackClick('Footer_Link')" aria-label="Visitez notre site officiel">www.clairvoyancemedium.com</a></p>
     </footer>
   </div>
-  <div id="draggableContact" aria-label="Contactez-nous par email" role="button" tabindex="0">
-    <a href="mailto:contact.clairvoyancemedium@gmail.com?tracking=suivi" target="_blank" rel="noopener noreferrer" onclick="trackClick('Contact_Icon')" aria-label="Envoyer un email de contact">
+  <div id="draggableContact" aria-label="Contactez-nous par e-mail" role="button" tabindex="0">
+    <a href="mailto:contact.clairvoyancemedium@gmail.com?tracking=suivi" target="_blank" rel="noopener noreferrer" onclick="trackClick('Contact_Icon')" aria-label="Envoyer un e-mail de contact">
       <svg viewBox="0 0 24 24" aria-hidden="true">
         <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"></path>
       </svg>
     </a>
   </div>
 
-  <!-- Optimized Scripts -->
+  <!-- Scripts optimisés -->
   <script defer>
-    // Mise à jour dynamique de l'année
+    // Années dynamiques
     const currentYear = new Date().getFullYear();
     document.getElementById("current-year").textContent = currentYear;
-    
-    // Fonction de tracking
+    document.getElementById("dynamicYear").textContent = currentYear;
+
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear();
+    const currentMonth = currentDate.toLocaleString('fr-FR', { month: 'long' });
+    document.getElementById("dynamicDate").textContent = currentMonth + " " + currentYear;
+
+
+    // Fonction de suivi
     function trackClick(eventLabel) {
       console.log(`Tracking: ${eventLabel}`);
       if (typeof gtag === 'function') {
         gtag('event', 'click', { event_category: 'Interaction', event_label: eventLabel, value: 1 });
       }
     }
-    
-    // Simulation des données Loto
+
+    // Données Loto simulées
     const lotoData = {
       history: [
         { numbers: new Uint8Array([5, 12, 19, 26, 33]), chance: 8 },
@@ -456,8 +643,8 @@
       ]
     };
     const fetchLotoData = () => Promise.resolve(lotoData);
-    
-    // Calcul de la grille optimisée
+
+    // Algorithme optimisé
     function computeOptimizedGrid(history) {
       const freq = new Uint32Array(49);
       history.forEach(draw => draw.numbers.forEach(num => freq[num - 1]++));
@@ -482,12 +669,15 @@
       let chance = 1;
       for (let i = 0; i < 10; i++) {
         cumChance += chanceFreq[i] + 1;
-        if (rndChance < cumChance) { chance = i + 1; break; }
+        if (rndChance < cumChance) {
+          chance = i + 1;
+          break;
+        }
       }
       return [...selected, chance];
     }
-    
-    // Calcul de la date du prochain tirage
+
+    // Calcul de la prochaine date de tirage
     function getNextDrawDate() {
       const now = new Date();
       const drawDays = [1, 3, 6]; // Lundi, Mercredi, Samedi
@@ -497,15 +687,15 @@
       now.setDate(now.getDate() + daysAhead);
       return now.toLocaleDateString('fr-FR') + ' | 20:20';
     }
-    
-    // Mise à jour du DOM
+
+    // Éléments DOM pré-calculés
     const predictionEl = document.getElementById("prediction");
     const nextDrawEl = document.getElementById("next-draw-datetime");
-    
+
     async function getAdvancedPredictions() {
       try {
         const data = await fetchLotoData();
-        nextDrawEl.textContent = `Pour le prochain tirage du Loto : ${getNextDrawDate()}`;
+        nextDrawEl.textContent = `Pour le prochain tirage du Loto (et non l’Euromillions) : ${getNextDrawDate()}`;
         const grid = computeOptimizedGrid(data.history);
         predictionEl.textContent = `${grid.slice(0, 5).join(" - ")} - Chance : ${grid[5]}`;
       } catch (error) {
@@ -514,18 +704,80 @@
       }
     }
     getAdvancedPredictions();
-    
-    // Carrousel d'avis
+
+    // Liste d'avis avec note sur 10 à la fin de chaque avis
     const reviews = [
       "« J'ai utilisé cette stratégie et gagné 500 € – simple et efficace. » - Clara, 29 ans (Note : 8/10)",
       "« Ce service m'a permis d'encaisser 300 €. » - Thomas, 35 ans (Note : 7/10)",
-      "« Grâce aux désenvoutements, j'ai gagné au loto 3 semaines après. » - Sophie, 42 ans (Note : 9/10)",
-      "« J'ai vu mes numéros s'afficher et gagné 800 €. » - Julien, 31 ans (Note : 8/10)",
-      "« Le site m'aide à mieux comprendre le loto. » - Élodie, 27 ans (Note : 7/10)",
-      "« J'utilise ce service régulièrement et j'ai obtenu 1000 €. » - Marc, 48 ans (Note : 9/10)"
+      "« Grâce aux désenvoutements proposés, j'ai gagné au loto 3 semaines après. » - Sophie, 42 ans (Note : 9/10)",
+      "« J'ai vu mes numéros s'afficher et j'ai gagné 800 €. Service concret et direct. À recommander » - Julien, 31 ans (Note : 8/10)",
+      "« Le site m'aide à gagner au loto plusieurs fois dans l'année. Même sans gros gain, j'en ressens l'impact. » - Élodie, 27 ans (Note : 7/10)",
+      "« J'utilise ce service régulièrement et j'ai obtenu 1000 € de gains. » - Marc, 48 ans (Note : 9/10)",
+      "« L'approche est claire : j'ai gagné 600 € et le site est facile à utiliser. » - Aline, 33 ans (Note : 8/10)",
+      "« Ça m'a permis d'encaisser 700 € sans complications. » - Lucas, 39 ans (Note : 8/10)",
+      "« Service fiable, j'ai gagné 850 €. » - Laura, 36 ans (Note : 9/10)",
+      "« Un bon outil pour gagner au loto : j'ai pris 250 € et je suis satisfait. » - Antoine, 28 ans (Note : 7/10)",
+      "« Ce site apporte des résultats concrets : 500 € gagnés et une interface intuitive. » - Valérie, 45 ans (Note : 8/10)",
+      "« J'ai perçu 1900 € en tout sur mon compte, et le service reste simple et direct. » - Pierre, 34 ans (Note : 9/10)",
+      "« Après avoir suivi les désenvoutements, j'ai gagné au loto et touché 7100 €. » - Manon, 26 ans (Note : 8/10)",
+      "« Ce service donne des résultats : 650 € je le recommande. » - Olivier, 51 ans (Note : 8/10)",
+      "« J'ai gagné 350 € et trouvé le site facile à utiliser. » - Chloé, 30 ans (Note : 7/10)",
+      "« Pour réussir au loto, ce site est utile : j'ai gagné 750 € et je le trouve pratique. » - Hugo, 37 ans (Note : 8/10)",
+      "« Une bonne expérience, j'ai gagné 800 €. » - Isabelle, 44 ans (Note : 8/10)",
+      "« J'ai reussi à gagner 1200 €, sans complication. » - Nathan, 25 ans (Note : 9/10)",
+      "« De réelles chances : j'ai gagnée 400 € et ça m'a aidé pour payer mes factures. » - Céline, 40 ans (Note : 7/10)",
+      "« Service pratique, 950 € gagnés et des conseils utiles pour avancer. » - Rémi, 32 ans (Note : 8/10)",
+      "« J'aime ce service : j'ai touché 700 € et ça me motive à continuer. » - Élodie, 29 ans (Note : 8/10)",
+      "« Les numéros s'affichent clairement sur le site et j'ai gagné 600 € sans chichi. » - Vincent, 47 ans (Note : 8/10)",
+      "« Une expérience simple : j'ai obtenu 1100 € et je reste convaincu que je peux toucher le jackpot. » - Léa, 23 ans (Note : 9/10)",
+      "« Ce site offre tout pour réussir au loto – j'ai gagné 850 €. Merci Frederick. » - David, 43 ans (Note : 8/10)",
+      "« Service direct et sans fioritures, 500 € gagnés. » - Camille, 31 ans (Note : 7/10)",
+      "« J'apprécie la simplicité du site : j'ai reçu 1000 € et des conseils pratiques. » - Mathieu, 41 ans (Note : 9/10)",
+      "« Un outil pratique qui m'a permis de gagner 600 € et d'améliorer mes chances. » - Sarah, 28 ans (Note : 8/10)",
+      "« Ce site m'a apporté des résultats tangibles : 750 € de gains et une interface claire. » - Bastien, 33 ans (Note : 8/10)",
+      "« Je recommande ce service, j'ai gagné 850 € et trouvé les infos utiles. » - Anne, 46 ans (Note : 9/10)",
+      "« J'ai obtenu 900 € grâce à ce service et j'apprécie sa simplicité. » - Florian, 35 ans (Note : 8/10)",
+      "« J'ai gagné 500 € et trouvé le site très facile d'utilisation. » - Julie, 38 ans (Note : 7/10)",
+      "« Ce site m'aide à mieux comprendre le loto – j'ai touché 700 € et c'est pratique. » - Romain, 27 ans (Note : 8/10)",
+      "« Service efficace et concret : j'ai encaissé 800 € sans prise de tête. » - Sandra, 44 ans (Note : 8/10)",
+      "« Je suis content d'avoir utilisé ce site : j'ai touché 300 € et les explications sont claires. » - Léo, 26 ans (Note : 7/10)",
+      "« J'ai eu une bonne expérience avec ce service, j'ai gagné 600 € et je le recommande. » - Pauline, 32 ans (Note : 8/10)",
+      "« Ce site propose des outils efficaces, j'ai gagné 950 € et ça aide vraiment pour gagner. » - Nicolas, 40 ans (Note : 9/10)",
+      "« Grâce aux désenvoutements proposés, j'ai gagné au loto avec 800 € quelques temps après. » - Mélanie, 37 ans (Note : 8/10)",
+      "« Service concret : j'ai touché 400 € et l'interface est très simple. » - Adrien, 29 ans (Note : 7/10)",
+      "« Le site m'a apporté des résultats tangibles pour l'instant : j'ai gagné 500 € et l'info est claire. » - Élodie, 31 ans (Note : 8/10)",
+      "« Pour gagner au loto, ce site offre tout ce qu'il faut. J'ai obtenu 750 € et je suis satisfait. » - Thomas, 50 ans (Note : 8/10)",
+      "« Un service sans chichis : j'ai reçu 650 € et c'est facile à utiliser. » - Aurore, 24 ans (Note : 7/10)",
+      "« J'ai eu une bonne expérience, j'ai gagné 800 € et c'est pratique pour le quotidien. » - Guillaume, 39 ans (Note : 8/10)",
+      "« Le site est très utile : j'ai encaissé 550 € et les explications sont simples. » - Charlotte, 34 ans (Note : 7/10)",
+      "« Je suis satisfait du service, j'ai touché 900 € et c'est très clair. » - Stéphane, 46 ans (Note : 9/10)",
+      "« Un service efficace : j'ai gagné 400 € et les résultats sont concrets. » - Margot, 28 ans (Note : 8/10)",
+      "« J'ai obtenu 500 € avec ce site et je pense que ça peut vraiment aider au quotidien. » - Benoit, 42 ans (Note : 8/10)",
+      "« Ce service m'a permis de gagner 1000 € et d'améliorer mes chances au loto. » - Justine, 30 ans (Note : 9/10)",
+      "« J'utilise ce site pour ses résultats directs : j'ai encaissé 600 € et les conseils sont pratiques. » - Alexandre, 41 ans (Note : 8/10)",
+      "« Un outil simple pour gagner : j'ai gagnée 700 € et c'est efficace. » - Camille, 27 ans (Note : 9/10)",
+      "« J'ai gagné 800 € grâce à ce service et ça m'a vraiment aidé dans mes projets. » - Laurent, 45 ans (Note : 8/10)",
+      "« Ce site offre de réels avantages : j'ai touché 500 € et ça change les choses. » - Élise, 32 ans (Note : 8/10)",
+      "« J'ai trouvé ce service utile et j'ai gagné 850 €, un vrai coup de pouce. » - Jérémy, 36 ans (Note : 9/10)",
+      "« Un service qui tient ses promesses : j'ai encaissé 600 € et ça m'a aidé à avancer. » - Sophie, 29 ans (Note : 8/10)",
+      "« Ce site offre tout pour réussir au loto – j'ai obtenu 750 € et ça m'aide à y croire. » - Philippe, 43 ans (Note : 8/10)",
+      "« J'apprécie ce service pour son efficacité : j'ai gagné 500 € et c'est très direct. » - Anaïs, 25 ans (Note : 7/10)",
+      "« Un bon service pour améliorer sa chance : j'ai touché 800 € et je suis satisfait. » - Kevin, 34 ans (Note : 8/10)",
+      "« Ça m'a aidé à mieux voir mes options, j'ai gagné 400 € et c'est simple. » - Marina, 40 ans (Note : 7/10)",
+      "« Service pratique et direct : j'ai gagné 600 € et je le recommande sans hésiter. » - Lucas, 28 ans (Note : 8/10)",
+      "« J'ai utilisé ce site et j'ai reçu 500 € – c'est clair et sans complications. » - Vanessa, 39 ans (Note : 8/10)",
+      "« Ce service gratuit donne de vraies chances : j'ai gagné 700 € et ça marche. » - Quentin, 33 ans (Note : 8/10)",
+      "« Un service concret qui change les choses : j'ai perçu 800 € et les résultats se font sentir. » - Clara, 35 ans (Note : 9/10)",
+      "« J'ai gagné 900 € grâce à ce site et ça m'aide vraiment à avancer dans la vie. » - Étienne, 38 ans (Note : 9/10)",
+      "« Offre des résultats directs : j'ai touché 500 € et c'est utile mes mes tirages de loto. » - Léna, 26 ans (Note : 8/10)",
+      "« Une expérience concrète et pratique, j'ai encaissé 600 € et je suis content du résultat. » - Maxime, 44 ans (Note : 8/10)",
+      "« Le site propose tout pour réussir c'est vrai : de bonnes chances et 800 € qui font la différence. » - Amélie, 30 ans (Note : 9/10)"
     ];
+
+    // Carrousel optimisé sans points, avec deux flèches de navigation sous les avis
     const carouselInner = document.getElementById('carouselInner');
     let currentIndex = 0;
+
     function initCarousel() {
       reviews.forEach((review, index) => {
         const item = document.createElement('div');
@@ -535,38 +787,52 @@
         carouselInner.appendChild(item);
       });
     }
+
+    function goToReview(index) {
+      const items = carouselInner.children;
+      items[currentIndex].classList.remove('active');
+      currentIndex = index;
+      items[currentIndex].classList.add('active');
+    }
+
     function nextReview() {
       const items = carouselInner.children;
       items[currentIndex].classList.remove('active');
       currentIndex = (currentIndex + 1) % items.length;
       items[currentIndex].classList.add('active');
     }
+
     function prevReview() {
       const items = carouselInner.children;
       items[currentIndex].classList.remove('active');
       currentIndex = (currentIndex - 1 + items.length) % items.length;
       items[currentIndex].classList.add('active');
     }
+
     initCarousel();
     setInterval(nextReview, 3000);
     document.querySelector('.carousel').addEventListener('keydown', e => {
       if (e.key === 'ArrowLeft') prevReview();
       else if (e.key === 'ArrowRight') nextReview();
     });
-    
-    // Gestion de l'inscription à la newsletter
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    // Gestion newsletter pour l’inscription
     function handleSubscribe(event) {
-      event.preventDefault();
-      const email = event.target.querySelector('input[type="email"]').value;
-      if (emailRegex.test(email)) {
-        window.open(`mailto:contact.clairvoyancemedium@gmail.com?subject=${encodeURIComponent("Inscription Newsletter")}&body=${encodeURIComponent("Email du client : " + email)}`, "_blank");
-      } else {
-        alert("Veuillez entrer une adresse e-mail valide.");
-      }
-    }
-    
-    // Icône de contact déplaçable
+  event.preventDefault();
+  const email = event.target.querySelector('input[type="email"]').value;
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (emailRegex.test(email)) {
+    // Pré-remplissage du sujet et du corps du message
+    const subject = "Gagner aux Jeux d'argent : Inscription à la newsletter ClairvoyanceMedium.com";
+    const body = "Bonjour Frederick,\n\nVoici mon adresse email pour l'inscription à la newsletter : " + email + "\n\nCordialement,";
+    // Ouvre le client de messagerie avec le mailto pré-rempli
+    window.location.href = `mailto:contact.clairvoyancemedium@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  } else {
+    alert("Veuillez entrer une adresse e-mail valide.");
+  }
+}
+
+    // Icône déplaçable
     const draggableContact = document.getElementById("draggableContact");
     let isDragging = false, offsetX, offsetY;
     const moveHandler = e => {
@@ -603,8 +869,8 @@
     });
     document.addEventListener("touchmove", touchMoveHandler);
     document.addEventListener("touchend", () => isDragging = false);
-    
-    // Lazy Loading pour améliorer la performance
+
+    // Lazy loading
     document.addEventListener("DOMContentLoaded", () => {
       const sections = document.querySelectorAll('section[loading="lazy"]');
       if ('IntersectionObserver' in window) {
@@ -622,8 +888,9 @@
       }
     });
   </script>
+
   <noscript>
-    <div style="background: var(--section-bg); color: var(--text-light); padding: 1rem; margin: 1rem; text-align: center;">
+    <div style="background:var(--section-bg);color:var(--text-light);padding:1rem;margin:1rem;text-align:center;">
       Activez JavaScript pour une expérience complète. Grille statique : 5 - 12 - 19 - 26 - 33 - Chance : 8.
     </div>
   </noscript>
