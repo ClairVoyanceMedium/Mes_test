@@ -1,245 +1,203 @@
-<!-- Styles et structure HTML du chat avec les modifications demandées -->
-<style>
-  /* Conteneur général du chat avec effet néon sur la boîte */
-  #chat-container {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 300px;
-    max-height: 450px;
-    display: flex;
-    flex-direction: column;
-    z-index: 999999;
-    font-family: Arial, sans-serif;
-    cursor: move;
-    transition: transform 0.2s;
-  }
-
-  /* Bouton de bascule */
-  #chat-toggle {
-    width: 60px;
-    height: 60px;
-    background: linear-gradient(145deg, #FFB6C1, #FF69B4);
-    color: #fff;
-    border: none;
-    border-radius: 50%;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(255,105,180,0.7);
-    font-size: 1.4rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.2s;
-    outline: none;
-  }
-  #chat-toggle:hover {
-    transform: scale(1.05);
-  }
-
-  /* Boîte de dialogue avec contour néon rose fluo */
-  #chat-box {
-    background: #111;
-    border-radius: 10px;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    margin-top: -10px;
-    border: 2px solid #FF1493;
-    box-shadow: 0 0 10px #FF1493;
-    transition: all 0.3s ease;
-  }
-
-  /* Zone des messages avec effet fade-in */
-  #chat-messages {
-    flex: 1;
-    padding: 1rem;
-    overflow-y: auto;
-    color: #fff;
-  }
-  #chat-messages p {
-    margin-bottom: 0.5rem;
-    line-height: 1.4;
-    opacity: 0;
-    animation: fadeIn 0.5s forwards;
-  }
-  @keyframes fadeIn {
-    to { opacity: 1; }
-  }
-
-  /* Bulles de messages du bot avec effet néon rose */
-  .bot-message {
-    text-align: left;
-    color: #fff;
-    background: rgba(255,255,255,0.05);
-    padding: 0.5rem;
-    border-radius: 5px;
-    margin-bottom: 0.8rem;
-    display: inline-block;
-    max-width: 80%;
-    border: 2px solid #FF69B4;
-    box-shadow: 0 0 8px #FF69B4;
-    transition: border 0.3s, box-shadow 0.3s;
-  }
-
-  /* Bulles de messages de l'utilisateur avec effet néon bleu */
-  .user-message {
-    text-align: right;
-    color: #ffd700;
-    margin-bottom: 0.8rem;
-    border: 2px solid #1E90FF;
-    box-shadow: 0 0 8px #1E90FF;
-    padding: 0.5rem;
-    border-radius: 5px;
-    display: inline-block;
-    max-width: 80%;
-    transition: border 0.3s, box-shadow 0.3s;
-  }
-
-  /* Formulaire de saisie */
-  #chat-form {
-    display: flex;
-    border-top: 1px solid #333;
-  }
-  #chat-input {
-    flex: 1;
-    padding: 0.5rem;
-    border: none;
-    outline: none;
-    color: #333;
-    border-radius: 0 0 0 10px;
-  }
-  #chat-send {
-    background: #87CEEB;
-    border: none;
-    padding: 0.5rem 1rem;
-    cursor: pointer;
-    color: #fff;
-    font-weight: bold;
-    border-radius: 0 0 10px 0;
-    transition: background 0.2s;
-  }
-  #chat-send:hover {
-    background: #5eb6d1;
-  }
-
-  /* Contour de la bulle flottante avec effet néon */
-  #chat-container {
-    border: 2px solid #FF1493; /* Néon rose */
-    box-shadow: 0 0 15px #FF1493;
-  }
-
-  /* Gestion des tailles pour mobile */
-  @media(max-width: 400px) {
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chat Interactif</title>
+  <style>
+    /* Conteneur de la bulle flottante */
     #chat-container {
-      width: 90%;
-      right: 5%;
-      bottom: 5px;
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(145deg, #FFB6C1, #FF69B4);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      cursor: pointer;
+      box-shadow: 0 0 15px #FF1493;
+      z-index: 999999;
+      transition: all 0.3s ease;
     }
-  }
-</style>
 
-<div id="chat-container">
-  <!-- Bouton de bascule du chat -->
-  <button id="chat-toggle" aria-expanded="false" aria-label="Ouvrir le chat">💬</button>
-  
-  <!-- Boîte de dialogue (initialement masquée) -->
-  <div id="chat-box" class="hidden" role="region" aria-label="Chat IA">
-    <div id="chat-messages" aria-live="polite"></div>
-    <form id="chat-form" aria-label="Formulaire de saisie pour le Tchat IA">
-      <input type="text" id="chat-input" placeholder="Posez votre question..." aria-label="Tapez votre message ici" autocomplete="off">
-      <button type="submit" id="chat-send" aria-label="Envoyer votre question">➤</button>
-    </form>
+    #chat-container:hover {
+      transform: scale(1.1);
+    }
+
+    /* Boîte de dialogue avec effet néon rose */
+    #chat-box {
+      position: fixed;
+      bottom: 80px;
+      right: 20px;
+      width: 300px;
+      max-height: 450px;
+      background: white;
+      border: 3px solid #FF1493;
+      border-radius: 15px;
+      display: none; /* Caché au départ */
+      flex-direction: column;
+      box-shadow: 0 0 15px #FF1493;
+      padding: 10px;
+      font-family: Arial, sans-serif;
+      z-index: 999999;
+    }
+
+    #chat-box .header {
+      font-weight: bold;
+      padding: 10px;
+      color: #FF1493;
+      text-align: center;
+    }
+
+    #chat-box .messages {
+      padding: 10px;
+      height: 300px;
+      overflow-y: auto;
+    }
+
+    .message {
+      margin: 10px 0;
+      padding: 8px;
+      background: #FFB6C1;
+      border-radius: 8px;
+      color: #fff;
+      max-width: 80%;
+    }
+
+    .user-message {
+      background: #FF69B4;
+      align-self: flex-end;
+    }
+
+    .bot-message {
+      background: #FF1493;
+      align-self: flex-start;
+    }
+
+    #chat-box textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #FF1493;
+      border-radius: 5px;
+    }
+
+    /* Effet de glissement pour la boîte de dialogue déplaçable */
+    #chat-box.dragging {
+      cursor: move;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div id="chat-container">
+    <span>💬</span>
   </div>
-</div>
 
-<script>
-  // Variable pour compter les incompréhensions consécutives
-  let nonUnderstoodCount = 0;
-  const defaultNonUnderstood = "Je ne comprends pas bien."; // Chaîne utilisée pour tester la correspondance
+  <div id="chat-box">
+    <div class="header">Chat avec Frédéric</div>
+    <div class="messages" id="messages">
+      <!-- Messages s'affichent ici -->
+    </div>
+    <textarea id="user-input" placeholder="Votre question ici..."></textarea>
+  </div>
 
-  // Fonction pour vérifier si un mot est "connu"
-  function containsUnknownWord(userMsg) {
-    let words = userMsg.split(/\s+/);
-    const validRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ'-]+$/;
-    for (let word of words) {
-      let cleanWord = word.replace(/[.,?!;:()"]/g, '');
-      if (cleanWord && !validRegex.test(cleanWord)) {
-        return true;
+  <script>
+    // Variables globales
+    const chatContainer = document.getElementById('chat-container');
+    const chatBox = document.getElementById('chat-box');
+    const messages = document.getElementById('messages');
+    const userInput = document.getElementById('user-input');
+
+    let isDragging = false;
+
+    // Affichage de la boîte de dialogue au clic sur la bulle
+    chatContainer.addEventListener('click', () => {
+      chatBox.style.display = 'flex';
+      chatContainer.style.display = 'none';
+      displayMessage("Bonjour, que puis-je pour vous ?", 'bot');
+    });
+
+    // Fonction pour envoyer un message
+    function sendMessage() {
+      const userMessage = userInput.value.trim();
+      if (userMessage) {
+        displayMessage(userMessage, 'user');
+        processMessage(userMessage);
+      }
+      userInput.value = ''; // Réinitialiser l'input
+    }
+
+    // Fonction pour afficher un message
+    function displayMessage(message, sender) {
+      const messageElement = document.createElement('div');
+      messageElement.classList.add('message');
+      if (sender === 'user') {
+        messageElement.classList.add('user-message');
+      } else {
+        messageElement.classList.add('bot-message');
+      }
+      messageElement.textContent = message;
+      messages.appendChild(messageElement);
+      messages.scrollTop = messages.scrollHeight; // Descendre vers le bas
+    }
+
+    // Traitement des messages envoyés
+    function processMessage(message) {
+      // Réponse aux phrases courantes
+      const lowerCaseMessage = message.toLowerCase();
+      if (lowerCaseMessage.includes('bonjour')) {
+        displayMessage("Je suis à votre écoute.", 'bot');
+      } else if (lowerCaseMessage.includes('merci')) {
+        displayMessage("Je vous en prie.", 'bot');
+      } else if (lowerCaseMessage.includes('au revoir')) {
+        displayMessage("Au revoir, et à bientôt. N'oubliez pas que je suis là si vous avez besoin.", 'bot');
+      } else if (lowerCaseMessage.includes('désenvoutement') || lowerCaseMessage.includes('rituel')) {
+        displayMessage("Il semble que vous soyez intéressé par un rituel de désenvoûtement. N'hésitez pas à me contacter pour plus de détails.", 'bot');
+      } else {
+        // Proposer de reformuler après 3 incompréhensions
+        displayMessage("Je n'ai pas bien compris, pourriez-vous reformuler votre question ?", 'bot');
       }
     }
-    return false;
-  }
 
-  // Recherche de la meilleure correspondance dans la base de connaissances
-  function findBestMatch(userInput) {
-    userInput = userInput.toLowerCase();
-    let bestScore = Infinity, bestAnswer = null;
-    // Ajouter ici la base de connaissances personnalisée...
-    if (bestScore > 5) return defaultNonUnderstood;
-    return bestAnswer;
-  }
+    // Gestion du déplacement de la boîte
+    let offsetX, offsetY;
 
-  // Réponse à une demande utilisateur
-  function getResponse(userMsg) {
-    const lowerMsg = userMsg.toLowerCase().trim();
-    if (lowerMsg === "bonjour") {
-      nonUnderstoodCount = 0;
-      return "Je suis à votre écoute.";
-    } else if (lowerMsg === "merci" || lowerMsg === "merci beaucoup") {
-      nonUnderstoodCount = 0;
-      return "Je vous en prie.";
-    } else if (lowerMsg === "au revoir" || lowerMsg === "aurevoir" || lowerMsg === "à bientôt" || lowerMsg === "bye") {
-      nonUnderstoodCount = 0;
-      return "Au revoir, mais sachez que notre aide est toujours à portée de main. Revenez quand vous le souhaitez, chaque éclaircissement peut illuminer votre chemin.";
-    } else {
-      if (containsUnknownWord(userMsg)) {
-        nonUnderstoodCount++;
-        if (nonUnderstoodCount < 3) {
-          return "Je n'ai pas saisi certains mots de votre question. Pourriez-vous reformuler, s'il vous plaît ?";
-        } else {
-          nonUnderstoodCount = 0;
-          return "Je n'arrive toujours pas à comprendre votre question. Si vous avez des difficultés ou souhaitez plus d'éclaircissements, vous pouvez me contacter directement à l'adresse suivante : <a href='mailto:contact.clairvoyancemedium@gmail.com'>contacter Frédéric</a>. Nous pourrions aussi envisager un rituel de désenvoûtement ou une détection à partir de 50€, pour rétablir l'équilibre énergétique.";
-        }
+    chatBox.addEventListener('mousedown', (e) => {
+      if (e.target === chatBox) {
+        isDragging = true;
+        offsetX = e.clientX - chatBox.offsetLeft;
+        offsetY = e.clientY - chatBox.offsetTop;
+        chatBox.classList.add('dragging');
       }
-      return findBestMatch(userMsg);
-    }
-  }
+    });
 
-  // Ajout d'un message dans le chat
-  function addMessage(txt, cls) {
-    const p = document.createElement("p");
-    p.className = cls;
-    p.textContent = txt;
-    chatMessages.appendChild(p);
-    chatMessages.scrollTop = chatMessages.scrollHeight;
-  }
+    window.addEventListener('mousemove', (e) => {
+      if (isDragging) {
+        chatBox.style.left = `${e.clientX - offsetX}px`;
+        chatBox.style.top = `${e.clientY - offsetY}px`;
+      }
+    });
 
-  // Mise en place de l'ouverture/fermeture du chat
-  const chatToggle = document.getElementById("chat-toggle");
-  const chatBox = document.getElementById("chat-box");
-  const chatMessages = document.getElementById("chat-messages");
-  const chatForm = document.getElementById("chat-form");
-  const chatInput = document.getElementById("chat-input");
+    window.addEventListener('mouseup', () => {
+      isDragging = false;
+      chatBox.classList.remove('dragging');
+    });
 
-  chatToggle.addEventListener("click", () => {
-    const isHidden = chatBox.classList.contains("hidden");
-    chatBox.classList.toggle("hidden");
-    chatToggle.setAttribute("aria-expanded", isHidden ? "true" : "false");
-    if (isHidden) {
-      addMessage("Bonjour, que puis-je pour vous ?", "bot-message");
-      setTimeout(() => chatInput.focus(), 300);
-    }
-  });
+    // Envoi du message au pressage de la touche "Enter"
+    userInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+      }
+    });
+  </script>
 
-  // Gestion de l'envoi d'une question
-  chatForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const userMsg = chatInput.value.trim();
-    if (!userMsg) return;
-    addMessage(userMsg, "user-message");
-    chatInput.value = "";
-    const answer = getResponse(userMsg);
-    addMessage(answer, "bot-message");
-  });
-</script>
+</body>
+</html>
