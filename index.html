@@ -219,6 +219,20 @@
     chatMessages.scrollTop = chatMessages.scrollHeight;
   }
 
+  // Gestion des réponses spécifiques selon les messages de l'utilisateur
+  function getResponse(userMsg) {
+    const lowerMsg = userMsg.toLowerCase().trim();
+    if (lowerMsg === "bonjour") {
+      return "Je suis à votre écoute.";
+    } else if (lowerMsg === "merci" || lowerMsg === "merci beaucoup") {
+      return "Je vous en prie.";
+    } else if (lowerMsg === "au revoir" || lowerMsg === "aurevoir" || lowerMsg === "à bientôt" || lowerMsg === "bye") {
+      return "Au revoir, mais sachez que notre aide est toujours disponible. Revenez quand vous le souhaitez, car vous n'êtes jamais seul sur ce chemin.";
+    } else {
+      return findBestMatch(userMsg);
+    }
+  }
+
   // Mise en place de la déplaçabilité du conteneur de chat
   let isDragging = false, currentX, currentY, initialX, initialY;
   const chatContainer = document.getElementById("chat-container");
@@ -303,16 +317,7 @@
     trackClick("ChatMessage", "Interaction", 0);
     chatInput.value = "";
     simulateTyping(() => {
-      let answer = "";
-      // Réponses spécifiques pour les salutations et au revoir
-      const lowerMsg = userMsg.toLowerCase();
-      if (lowerMsg === "bonjour") {
-        answer = "Je suis à votre écoute.";
-      } else if (lowerMsg === "aurevoir" || lowerMsg === "au revoir") {
-        answer = "Aurevoir, que la lumière vous accompagne.";
-      } else {
-        answer = findBestMatch(userMsg);
-      }
+      const answer = getResponse(userMsg);
       addMessage(answer, "bot-message");
     });
   });
