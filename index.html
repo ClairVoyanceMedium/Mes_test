@@ -157,12 +157,27 @@
     { question: "tristesse", answer: "Une tristesse inexplicable peut être liée à des influences occultes. Un désenvoûtement pourrait restaurer votre joie de vivre." },
     { question: "colère", answer: "Une colère soudaine peut être le signe d'une perturbation énergétique. Un rituel de désenvoûtement pourrait apaiser ces énergies." },
     { question: "peur", answer: "Une peur irrationnelle peut provenir d'un envoûtement. Pensez à une détection ou à un rituel pour vous libérer de ces ombres." }
-    // Vous pouvez ajouter d'autres entrées pour enrichir la base.
+    // Vous pouvez enrichir cette base en ajoutant d'autres entrées.
   ];
 
   // Variable pour compter les incompréhensions consécutives
   let nonUnderstoodCount = 0;
-  const defaultNonUnderstood = "Je ne comprends pas bien."; // Cette chaîne sert uniquement pour le test de correspondance
+  const defaultNonUnderstood = "Je ne comprends pas bien."; // Chaîne utilisée pour tester la correspondance
+
+  // Fonction pour vérifier si un mot est "connu"
+  function containsUnknownWord(userMsg) {
+    // Sépare les mots en supprimant la ponctuation
+    let words = userMsg.split(/\s+/);
+    // Expression régulière pour valider un mot (lettres, accents, tirets et apostrophes)
+    const validRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ'-]+$/;
+    for (let word of words) {
+      let cleanWord = word.replace(/[.,?!;:()"]/g, '');
+      if (cleanWord && !validRegex.test(cleanWord)) {
+        return true;
+      }
+    }
+    return false;
+  }
 
   // Calcul de la distance de Levenshtein pour une correspondance approximative
   function levenshtein(a, b) {
@@ -179,7 +194,11 @@
     for (let i = 1; i <= bn; i++) {
       for (let j = 1; j <= an; j++) {
         const cost = b.charAt(i - 1) === a.charAt(j - 1) ? 0 : 1;
-        matrix[i][j] = Math.min(matrix[i - 1][j] + 1, matrix[i][j - 1] + 1, matrix[i - 1][j - 1] + cost);
+        matrix[i][j] = Math.min(
+          matrix[i - 1][j] + 1,
+          matrix[i][j - 1] + 1,
+          matrix[i - 1][j - 1] + cost
+        );
       }
     }
     return matrix[bn][an];
@@ -213,14 +232,24 @@
       nonUnderstoodCount = 0;
       return "Au revoir, mais sachez que notre aide est toujours à portée de main. Revenez quand vous le souhaitez, car chaque éclaircissement peut illuminer votre chemin.";
     } else {
-      // Recherche de réponse dans la base de connaissances
+      // Vérification des fautes ou mots inconnus
+      if (containsUnknownWord(userMsg)) {
+        nonUnderstoodCount++;
+        if (nonUnderstoodCount < 3) {
+          return "Je n'ai pas saisi certains mots de votre question. Pourriez-vous reformuler, s'il vous plaît ?";
+        } else {
+          nonUnderstoodCount = 0;
+          return "Il semble que nous ayons du mal à nous comprendre. Peut-être est-il temps d'envisager un désenvoûtement pour rétablir l'équilibre de vos énergies. Nos services débutent à 50€ pour une détection et 250€ pour un rituel complet.";
+        }
+      }
+      // Recherche dans la base de connaissances
       let answer = findBestMatch(userMsg);
       if (answer === defaultNonUnderstood) {
         nonUnderstoodCount++;
         if (nonUnderstoodCount < 3) {
           return "Je n'ai pas saisi votre question. Pourriez-vous reformuler, s'il vous plaît ?";
         } else {
-          nonUnderstoodCount = 0; // Réinitialisation après 3 échecs
+          nonUnderstoodCount = 0;
           return "Il semble que nous ayons du mal à nous comprendre. Peut-être est-il temps d'envisager un désenvoûtement pour rétablir l'équilibre de vos énergies. Nos services débutent à 50€ pour une détection et 250€ pour un rituel complet.";
         }
       } else {
