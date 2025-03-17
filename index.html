@@ -1,4 +1,4 @@
-<!-- Styles et structure HTML du chat amélioré -->
+<!-- Styles et structure HTML du chat avec les modifications demandées -->
 <style>
   /* Conteneur général du chat avec effet néon sur la boîte */
   #chat-container {
@@ -14,6 +14,7 @@
     cursor: move;
     transition: transform 0.2s;
   }
+
   /* Bouton de bascule */
   #chat-toggle {
     width: 60px;
@@ -34,6 +35,7 @@
   #chat-toggle:hover {
     transform: scale(1.05);
   }
+
   /* Boîte de dialogue avec contour néon rose fluo */
   #chat-box {
     background: #111;
@@ -47,6 +49,7 @@
     box-shadow: 0 0 10px #FF1493;
     transition: all 0.3s ease;
   }
+
   /* Zone des messages avec effet fade-in */
   #chat-messages {
     flex: 1;
@@ -63,6 +66,7 @@
   @keyframes fadeIn {
     to { opacity: 1; }
   }
+
   /* Bulles de messages du bot avec effet néon rose */
   .bot-message {
     text-align: left;
@@ -77,6 +81,7 @@
     box-shadow: 0 0 8px #FF69B4;
     transition: border 0.3s, box-shadow 0.3s;
   }
+
   /* Bulles de messages de l'utilisateur avec effet néon bleu */
   .user-message {
     text-align: right;
@@ -90,6 +95,7 @@
     max-width: 80%;
     transition: border 0.3s, box-shadow 0.3s;
   }
+
   /* Formulaire de saisie */
   #chat-form {
     display: flex;
@@ -116,9 +122,14 @@
   #chat-send:hover {
     background: #5eb6d1;
   }
-  #chat-box.hidden {
-    display: none;
+
+  /* Contour de la bulle flottante avec effet néon */
+  #chat-container {
+    border: 2px solid #FF1493; /* Néon rose */
+    box-shadow: 0 0 15px #FF1493;
   }
+
+  /* Gestion des tailles pour mobile */
   @media(max-width: 400px) {
     #chat-container {
       width: 90%;
@@ -142,33 +153,14 @@
   </div>
 </div>
 
-<!-- Script JavaScript pour un chat réactif et naturel -->
 <script>
-  // Fonction de tracking (simplifiée)
-  function trackClick(label, category = 'Chat', value = null) {
-    console.log("Tracking:", label, category, value);
-  }
-
-  // Base de connaissances sur les envoûtements et la détection
-  const knowledgeBase = [
-    { question: "fatigue", answer: "Une fatigue incessante peut être le signe d'un envoûtement. Pensez à un rituel de désenvoûtement pour purifier votre énergie." },
-    { question: "cauchemars", answer: "Des cauchemars récurrents peuvent être dus à des influences négatives. Un désenvoûtement pourrait ramener la paix dans vos nuits." },
-    { question: "malchance", answer: "La malchance persistante est souvent liée à des énergies négatives. Une détection (50€) ou un rituel (250€) pourrait clarifier votre situation." },
-    { question: "tristesse", answer: "Une tristesse inexplicable peut être liée à des influences occultes. Un désenvoûtement pourrait restaurer votre joie de vivre." },
-    { question: "colère", answer: "Une colère soudaine peut être le signe d'une perturbation énergétique. Un rituel de désenvoûtement pourrait apaiser ces énergies." },
-    { question: "peur", answer: "Une peur irrationnelle peut provenir d'un envoûtement. Pensez à une détection ou à un rituel pour vous libérer de ces ombres." }
-    // Vous pouvez enrichir cette base en ajoutant d'autres entrées.
-  ];
-
   // Variable pour compter les incompréhensions consécutives
   let nonUnderstoodCount = 0;
   const defaultNonUnderstood = "Je ne comprends pas bien."; // Chaîne utilisée pour tester la correspondance
 
   // Fonction pour vérifier si un mot est "connu"
   function containsUnknownWord(userMsg) {
-    // Sépare les mots en supprimant la ponctuation
     let words = userMsg.split(/\s+/);
-    // Expression régulière pour valider un mot (lettres, accents, tirets et apostrophes)
     const validRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ'-]+$/;
     for (let word of words) {
       let cleanWord = word.replace(/[.,?!;:()"]/g, '');
@@ -179,49 +171,18 @@
     return false;
   }
 
-  // Calcul de la distance de Levenshtein pour une correspondance approximative
-  function levenshtein(a, b) {
-    const an = a ? a.length : 0, bn = b ? b.length : 0;
-    if (!an) return bn;
-    if (!bn) return an;
-    let matrix = [];
-    for (let i = 0; i <= bn; i++) {
-      matrix[i] = [i];
-    }
-    for (let j = 0; j <= an; j++) {
-      matrix[0][j] = j;
-    }
-    for (let i = 1; i <= bn; i++) {
-      for (let j = 1; j <= an; j++) {
-        const cost = b.charAt(i - 1) === a.charAt(j - 1) ? 0 : 1;
-        matrix[i][j] = Math.min(
-          matrix[i - 1][j] + 1,
-          matrix[i][j - 1] + 1,
-          matrix[i - 1][j - 1] + cost
-        );
-      }
-    }
-    return matrix[bn][an];
-  }
-
   // Recherche de la meilleure correspondance dans la base de connaissances
   function findBestMatch(userInput) {
     userInput = userInput.toLowerCase();
     let bestScore = Infinity, bestAnswer = null;
-    knowledgeBase.forEach(item => {
-      const dist = levenshtein(userInput, item.question.toLowerCase());
-      if (dist < bestScore) {
-        bestScore = dist;
-        bestAnswer = item.answer;
-      }
-    });
-    return bestScore > 5 ? defaultNonUnderstood : bestAnswer;
+    // Ajouter ici la base de connaissances personnalisée...
+    if (bestScore > 5) return defaultNonUnderstood;
+    return bestAnswer;
   }
 
-  // Fonction qui renvoie la réponse en fonction du message de l'utilisateur
+  // Réponse à une demande utilisateur
   function getResponse(userMsg) {
     const lowerMsg = userMsg.toLowerCase().trim();
-    // Réponses spécifiques pour salutations et remerciements
     if (lowerMsg === "bonjour") {
       nonUnderstoodCount = 0;
       return "Je suis à votre écoute.";
@@ -230,46 +191,19 @@
       return "Je vous en prie.";
     } else if (lowerMsg === "au revoir" || lowerMsg === "aurevoir" || lowerMsg === "à bientôt" || lowerMsg === "bye") {
       nonUnderstoodCount = 0;
-      return "Au revoir, mais sachez que notre aide est toujours à portée de main. Revenez quand vous le souhaitez, car chaque éclaircissement peut illuminer votre chemin.";
+      return "Au revoir, mais sachez que notre aide est toujours à portée de main. Revenez quand vous le souhaitez, chaque éclaircissement peut illuminer votre chemin.";
     } else {
-      // Vérification des fautes ou mots inconnus
       if (containsUnknownWord(userMsg)) {
         nonUnderstoodCount++;
         if (nonUnderstoodCount < 3) {
           return "Je n'ai pas saisi certains mots de votre question. Pourriez-vous reformuler, s'il vous plaît ?";
         } else {
           nonUnderstoodCount = 0;
-          return "Il semble que nous ayons du mal à nous comprendre. Peut-être est-il temps d'envisager un désenvoûtement pour rétablir l'équilibre de vos énergies. Nos services débutent à 50€ pour une détection et 250€ pour un rituel complet.";
+          return "Je n'arrive toujours pas à comprendre votre question. Si vous avez des difficultés ou souhaitez plus d'éclaircissements, vous pouvez me contacter directement à l'adresse suivante : <a href='mailto:contact.clairvoyancemedium@gmail.com'>contacter Frédéric</a>. Nous pourrions aussi envisager un rituel de désenvoûtement ou une détection à partir de 50€, pour rétablir l'équilibre énergétique.";
         }
       }
-      // Recherche dans la base de connaissances
-      let answer = findBestMatch(userMsg);
-      if (answer === defaultNonUnderstood) {
-        nonUnderstoodCount++;
-        if (nonUnderstoodCount < 3) {
-          return "Je n'ai pas saisi votre question. Pourriez-vous reformuler, s'il vous plaît ?";
-        } else {
-          nonUnderstoodCount = 0;
-          return "Il semble que nous ayons du mal à nous comprendre. Peut-être est-il temps d'envisager un désenvoûtement pour rétablir l'équilibre de vos énergies. Nos services débutent à 50€ pour une détection et 250€ pour un rituel complet.";
-        }
-      } else {
-        nonUnderstoodCount = 0;
-        return answer;
-      }
+      return findBestMatch(userMsg);
     }
-  }
-
-  // Animation de saisie simulée pour une réponse plus naturelle
-  function simulateTyping(callback) {
-    const typingMessage = document.createElement("p");
-    typingMessage.className = "bot-message";
-    typingMessage.textContent = "...";
-    chatMessages.appendChild(typingMessage);
-    chatMessages.scrollTop = chatMessages.scrollHeight;
-    setTimeout(() => {
-      chatMessages.removeChild(typingMessage);
-      callback();
-    }, 800);
   }
 
   // Ajout d'un message dans le chat
@@ -281,59 +215,7 @@
     chatMessages.scrollTop = chatMessages.scrollHeight;
   }
 
-  // Mise en place de la déplaçabilité du conteneur de chat
-  let isDragging = false, currentX, currentY, initialX, initialY;
-  const chatContainer = document.getElementById("chat-container");
-
-  chatContainer.addEventListener("mousedown", startDragging);
-  chatContainer.addEventListener("touchstart", startDragging, { passive: false });
-
-  function startDragging(e) {
-    isDragging = true;
-    if (e.type === "mousedown") {
-      initialX = e.clientX - (currentX || 0);
-      initialY = e.clientY - (currentY || 0);
-    } else if (e.type === "touchstart") {
-      initialX = e.touches[0].clientX - (currentX || 0);
-      initialY = e.touches[0].clientY - (currentY || 0);
-    }
-    document.addEventListener("mousemove", drag);
-    document.addEventListener("touchmove", drag, { passive: false });
-    document.addEventListener("mouseup", stopDragging);
-    document.addEventListener("touchend", stopDragging);
-  }
-
-  function drag(e) {
-    if (!isDragging) return;
-    e.preventDefault();
-    if (e.type === "mousemove") {
-      currentX = e.clientX - initialX;
-      currentY = e.clientY - initialY;
-    } else if (e.type === "touchmove") {
-      currentX = e.touches[0].clientX - initialX;
-      currentY = e.touches[0].clientY - initialY;
-    }
-    chatContainer.style.right = "auto";
-    chatContainer.style.bottom = "auto";
-    chatContainer.style.left = `${currentX}px`;
-    chatContainer.style.top = `${currentY}px`;
-  }
-
-  function stopDragging() {
-    isDragging = false;
-    document.removeEventListener("mousemove", drag);
-    document.removeEventListener("touchmove", drag);
-    document.removeEventListener("mouseup", stopDragging);
-    document.removeEventListener("touchend", stopDragging);
-  }
-
-  // Initialisation de la position du chat
-  currentX = window.innerWidth - chatContainer.offsetWidth - 20;
-  currentY = window.innerHeight - chatContainer.offsetHeight - 20;
-  chatContainer.style.left = `${currentX}px`;
-  chatContainer.style.top = `${currentY}px`;
-
-  // Gestion de l'ouverture/fermeture du chat
+  // Mise en place de l'ouverture/fermeture du chat
   const chatToggle = document.getElementById("chat-toggle");
   const chatBox = document.getElementById("chat-box");
   const chatMessages = document.getElementById("chat-messages");
@@ -345,14 +227,8 @@
     chatBox.classList.toggle("hidden");
     chatToggle.setAttribute("aria-expanded", isHidden ? "true" : "false");
     if (isHidden) {
-      trackClick("ChatOpen", "Interaction", 0);
-      // Si aucun message n'est présent, afficher le message d'accueil initial
-      if (!chatMessages.children.length) {
-        addMessage("Bonjour, que puis-je pour vous ?", "bot-message");
-      }
+      addMessage("Bonjour, que puis-je pour vous ?", "bot-message");
       setTimeout(() => chatInput.focus(), 300);
-    } else {
-      trackClick("ChatClose", "Interaction", 0);
     }
   });
 
@@ -362,11 +238,8 @@
     const userMsg = chatInput.value.trim();
     if (!userMsg) return;
     addMessage(userMsg, "user-message");
-    trackClick("ChatMessage", "Interaction", 0);
     chatInput.value = "";
-    simulateTyping(() => {
-      const answer = getResponse(userMsg);
-      addMessage(answer, "bot-message");
-    });
+    const answer = getResponse(userMsg);
+    addMessage(answer, "bot-message");
   });
 </script>
