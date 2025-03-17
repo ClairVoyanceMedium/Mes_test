@@ -1,4 +1,3 @@
-<!-- Styles et structure HTML du chat amélioré -->
 <style>
   /* Conteneur général du chat avec effet néon sur la boîte */
   #chat-container {
@@ -77,13 +76,13 @@
     box-shadow: 0 0 8px #FF69B4;
     transition: border 0.3s, box-shadow 0.3s;
   }
-  /* Bulles de messages de l'utilisateur avec effet néon bleu */
+  /* Bulles de messages de l'utilisateur avec effet néon bleu clair */
   .user-message {
     text-align: right;
     color: #ffd700;
     margin-bottom: 0.8rem;
-    border: 2px solid #1E90FF;
-    box-shadow: 0 0 8px #1E90FF;
+    border: 2px solid #00BFFF;  /* Bleu clair modifié */
+    box-shadow: 0 0 8px #00BFFF; /* Bleu clair modifié */
     padding: 0.5rem;
     border-radius: 5px;
     display: inline-block;
@@ -142,7 +141,6 @@
   </div>
 </div>
 
-<!-- Script JavaScript pour un chat réactif et naturel -->
 <script>
   // Fonction de tracking (simplifiée)
   function trackClick(label, category = 'Chat', value = null) {
@@ -166,9 +164,7 @@
 
   // Fonction pour vérifier si un mot est "connu"
   function containsUnknownWord(userMsg) {
-    // Sépare les mots en supprimant la ponctuation
     let words = userMsg.split(/\s+/);
-    // Expression régulière pour valider un mot (lettres, accents, tirets et apostrophes)
     const validRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ'-]+$/;
     for (let word of words) {
       let cleanWord = word.replace(/[.,?!;:()"]/g, '');
@@ -221,7 +217,6 @@
   // Fonction qui renvoie la réponse en fonction du message de l'utilisateur
   function getResponse(userMsg) {
     const lowerMsg = userMsg.toLowerCase().trim();
-    // Réponses spécifiques pour salutations et remerciements
     if (lowerMsg === "bonjour") {
       nonUnderstoodCount = 0;
       return "Je suis à votre écoute.";
@@ -232,7 +227,6 @@
       nonUnderstoodCount = 0;
       return "Au revoir, mais sachez que notre aide est toujours à portée de main. Revenez quand vous le souhaitez, car chaque éclaircissement peut illuminer votre chemin.";
     } else {
-      // Vérification des fautes ou mots inconnus
       if (containsUnknownWord(userMsg)) {
         nonUnderstoodCount++;
         if (nonUnderstoodCount < 3) {
@@ -242,7 +236,6 @@
           return "Il semble que nous ayons du mal à nous comprendre. Peut-être est-il temps d'envisager un désenvoûtement pour rétablir l'équilibre de vos énergies. Nos services débutent à 50€ pour une détection et 250€ pour un rituel complet.";
         }
       }
-      // Recherche dans la base de connaissances
       let answer = findBestMatch(userMsg);
       if (answer === defaultNonUnderstood) {
         nonUnderstoodCount++;
@@ -259,19 +252,6 @@
     }
   }
 
-  // Animation de saisie simulée pour une réponse plus naturelle
-  function simulateTyping(callback) {
-    const typingMessage = document.createElement("p");
-    typingMessage.className = "bot-message";
-    typingMessage.textContent = "...";
-    chatMessages.appendChild(typingMessage);
-    chatMessages.scrollTop = chatMessages.scrollHeight;
-    setTimeout(() => {
-      chatMessages.removeChild(typingMessage);
-      callback();
-    }, 800);
-  }
-
   // Ajout d'un message dans le chat
   function addMessage(txt, cls) {
     const p = document.createElement("p");
@@ -281,59 +261,7 @@
     chatMessages.scrollTop = chatMessages.scrollHeight;
   }
 
-  // Mise en place de la déplaçabilité du conteneur de chat
-  let isDragging = false, currentX, currentY, initialX, initialY;
-  const chatContainer = document.getElementById("chat-container");
-
-  chatContainer.addEventListener("mousedown", startDragging);
-  chatContainer.addEventListener("touchstart", startDragging, { passive: false });
-
-  function startDragging(e) {
-    isDragging = true;
-    if (e.type === "mousedown") {
-      initialX = e.clientX - (currentX || 0);
-      initialY = e.clientY - (currentY || 0);
-    } else if (e.type === "touchstart") {
-      initialX = e.touches[0].clientX - (currentX || 0);
-      initialY = e.touches[0].clientY - (currentY || 0);
-    }
-    document.addEventListener("mousemove", drag);
-    document.addEventListener("touchmove", drag, { passive: false });
-    document.addEventListener("mouseup", stopDragging);
-    document.addEventListener("touchend", stopDragging);
-  }
-
-  function drag(e) {
-    if (!isDragging) return;
-    e.preventDefault();
-    if (e.type === "mousemove") {
-      currentX = e.clientX - initialX;
-      currentY = e.clientY - initialY;
-    } else if (e.type === "touchmove") {
-      currentX = e.touches[0].clientX - initialX;
-      currentY = e.touches[0].clientY - initialY;
-    }
-    chatContainer.style.right = "auto";
-    chatContainer.style.bottom = "auto";
-    chatContainer.style.left = `${currentX}px`;
-    chatContainer.style.top = `${currentY}px`;
-  }
-
-  function stopDragging() {
-    isDragging = false;
-    document.removeEventListener("mousemove", drag);
-    document.removeEventListener("touchmove", drag);
-    document.removeEventListener("mouseup", stopDragging);
-    document.removeEventListener("touchend", stopDragging);
-  }
-
-  // Initialisation de la position du chat
-  currentX = window.innerWidth - chatContainer.offsetWidth - 20;
-  currentY = window.innerHeight - chatContainer.offsetHeight - 20;
-  chatContainer.style.left = `${currentX}px`;
-  chatContainer.style.top = `${currentY}px`;
-
-  // Gestion de l'ouverture/fermeture du chat
+  // Mise en place de l'ouverture/fermeture du chat
   const chatToggle = document.getElementById("chat-toggle");
   const chatBox = document.getElementById("chat-box");
   const chatMessages = document.getElementById("chat-messages");
@@ -345,14 +273,7 @@
     chatBox.classList.toggle("hidden");
     chatToggle.setAttribute("aria-expanded", isHidden ? "true" : "false");
     if (isHidden) {
-      trackClick("ChatOpen", "Interaction", 0);
-      // Si aucun message n'est présent, afficher le message d'accueil initial
-      if (!chatMessages.children.length) {
-        addMessage("Bonjour, que puis-je pour vous ?", "bot-message");
-      }
-      setTimeout(() => chatInput.focus(), 300);
-    } else {
-      trackClick("ChatClose", "Interaction", 0);
+      addMessage("Bonjour, que puis-je pour vous ?", "bot-message");
     }
   });
 
@@ -362,11 +283,10 @@
     const userMsg = chatInput.value.trim();
     if (!userMsg) return;
     addMessage(userMsg, "user-message");
-    trackClick("ChatMessage", "Interaction", 0);
     chatInput.value = "";
-    simulateTyping(() => {
+    setTimeout(() => {
       const answer = getResponse(userMsg);
       addMessage(answer, "bot-message");
-    });
+    }, 1000);
   });
 </script>
