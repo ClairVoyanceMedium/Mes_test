@@ -1,4 +1,4 @@
-<!-- Styles et structure HTML du chat amélioré (inchangés) -->
+<!-- Styles et structure HTML du chat amélioré -->
 <style>
   /* Conteneur général du chat avec effet néon sur la boîte */
   #chat-container {
@@ -160,6 +160,12 @@
     // Vous pouvez ajouter d'autres entrées pour enrichir la base.
   ];
 
+  // Variable pour compter les incompréhensions consécutives
+  let nonUnderstoodCount = 0;
+
+  // Message par défaut lorsque la question n'est pas comprise
+  const defaultNonUnderstood = "Je ne comprends pas bien. Peut-être ressentez-vous un malaise lié à un envoûtement ? Pensez à notre détection (50€) ou à un rituel (250€) pour clarifier votre situation.";
+
   // Calcul de la distance de Levenshtein pour une correspondance approximative
   function levenshtein(a, b) {
     const an = a ? a.length : 0, bn = b ? b.length : 0;
@@ -192,9 +198,39 @@
         bestAnswer = item.answer;
       }
     });
-    return bestScore > 5 
-      ? "Je ne comprends pas bien. Peut-être ressentez-vous un malaise lié à un envoûtement ? Pensez à notre détection (50€) ou à un rituel (250€) pour clarifier votre situation." 
-      : bestAnswer;
+    return bestScore > 5 ? defaultNonUnderstood : bestAnswer;
+  }
+
+  // Fonction qui renvoie la réponse en fonction du message de l'utilisateur,
+  // avec gestion des cas de reformulation et incitation après 3 incompréhensions consécutives.
+  function getResponse(userMsg) {
+    const lowerMsg = userMsg.toLowerCase().trim();
+    // Réponses spécifiques pour salutations et remerciements
+    if (lowerMsg === "bonjour") {
+      nonUnderstoodCount = 0;
+      return "Je suis à votre écoute.";
+    } else if (lowerMsg === "merci" || lowerMsg === "merci beaucoup") {
+      nonUnderstoodCount = 0;
+      return "Je vous en prie.";
+    } else if (lowerMsg === "au revoir" || lowerMsg === "aurevoir" || lowerMsg === "à bientôt" || lowerMsg === "bye") {
+      nonUnderstoodCount = 0;
+      return "Au revoir, mais n'oubliez pas : notre aide est toujours disponible. Revenez quand vous le souhaitez, car chaque éclaircissement compte sur votre chemin.";
+    } else {
+      // Recherche de réponse dans la base de connaissances
+      let answer = findBestMatch(userMsg);
+      if (answer === defaultNonUnderstood) {
+        nonUnderstoodCount++;
+        if (nonUnderstoodCount < 3) {
+          return "Pourriez-vous reformuler votre question, s'il vous plaît ?";
+        } else {
+          nonUnderstoodCount = 0; // réinitialisation après 3 incompréhensions
+          return "Il semble que nous ayons du mal à nous comprendre. Peut-être est-il temps d'envisager un désenvoûtement pour rétablir l'équilibre de vos énergies. Nos services commencent à 50€ pour une détection, et à 250€ pour un rituel complet.";
+        }
+      } else {
+        nonUnderstoodCount = 0;
+        return answer;
+      }
+    }
   }
 
   // Animation de saisie simulée pour une réponse plus naturelle
@@ -217,20 +253,6 @@
     p.textContent = txt;
     chatMessages.appendChild(p);
     chatMessages.scrollTop = chatMessages.scrollHeight;
-  }
-
-  // Gestion des réponses spécifiques selon les messages de l'utilisateur
-  function getResponse(userMsg) {
-    const lowerMsg = userMsg.toLowerCase().trim();
-    if (lowerMsg === "bonjour") {
-      return "Je suis à votre écoute.";
-    } else if (lowerMsg === "merci" || lowerMsg === "merci beaucoup") {
-      return "Je vous en prie.";
-    } else if (lowerMsg === "au revoir" || lowerMsg === "aurevoir" || lowerMsg === "à bientôt" || lowerMsg === "bye") {
-      return "Au revoir, mais sachez que notre aide est toujours disponible. Revenez quand vous le souhaitez, vous ne serez jamais seul face à vos demons.";
-    } else {
-      return findBestMatch(userMsg);
-    }
   }
 
   // Mise en place de la déplaçabilité du conteneur de chat
