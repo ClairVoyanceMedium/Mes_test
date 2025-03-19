@@ -178,12 +178,23 @@
   </div>
 
   <script>
+    // Objet de traduction pour faciliter une éventuelle localisation
+    const translations = {
+      greeting: "Bonjour, que puis-je pour vous ?",
+      thanks: "Je vous en prie.",
+      goodbye: "À bientôt et sachez que notre aide est toujours à portée de main.",
+      notUnderstood: "Je n’ai pas saisi votre question. Pourriez-vous reformuler, s’il vous plaît ?",
+      notUnderstoodAfter: "Il semble que nous ayons du mal à nous comprendre. Peut-être est-il temps d’envisager un désenvoûtement pour rétablir l’équilibre de vos énergies. Nos services débutent à 50€ pour une détection et 250€ pour un rituel complet.",
+      grave: "Votre situation semble extrêmement préoccupante. Il est impératif d'agir immédiatement. Je vous recommande de consulter un spécialiste et de prendre les mesures nécessaires sans attendre. Ne laissez pas l'ombre prendre le dessus.",
+      intro: "Bonjour, je suis votre assistant. Je suis ici pour vous aider. Parlez, et je vous écouterai."
+    };
+
     // Fonction de tracking (simulée, peut être connectée à une API)
     function trackClick(label, category = 'Chat', value = null) {
       console.log(`Tracking: Label=${label}, Category=${category}, Value=${value}`);
     }
 
-    // Base de connaissances avec mots multiples (inchangée)
+    // Base de connaissances (inchangée)
     const knowledgeBase = [
       { question: "Fatigue|Lassitude|Torpeur|Éreintement|Faiblesse|Usure", answer: "Et si cette fatigue écrasante n’était pas un hasard, mais une entité obscure qui dévore ton énergie ? Frederick de ClairvoyanceMedium.com purifie ton aura pour te libérer – combien de temps te laisseras-tu sombrer ?" },
       { question: "Cauchemars|Visions|NuitsHantées|SongeNoir|RêvesTroublés|PeursNocturnes", answer: "Ces cauchemars qui t’assaillent pourraient être l’œuvre d’une présence maléfique ; Frederick chasse ces ombres pour te rendre tes nuits – supporteras-tu encore ces terreurs ?" },
@@ -283,11 +294,11 @@
       { question: "Tourmente|TempêteÂme|OuraganIntérieur|TumulteEsprit|FureurSombre|AgitationProfonde", answer: "Cette tourmente pourrait être une force obscure ; Frederick t’apaise – combien de temps résisteras-tu ?" },
       { question: "Tension|Serrage|Crispation|ContraintePhysique|ÉtauCorps|RaideurSombre", answer: "Cette tension pourrait être un sort ; Frederick te détend – supporteras-tu encore cet étau ?" },
       { question: "Vigueur|Dynamisme|ÉnergieVive|ForceIntérieure|Puissance|ÉlanVital", answer: "Si ta vigueur s’efface, un sort pourrait te drainer ; Frederick te ranime – laisseras-tu ta force s’éteindre ?" },
-      { question: "Flamme|Ardeur|PassionVive|FeuIntérieur|ÉclatVie|ChaleurÂme", answer: "Si ta flamme vacille, un sort pourrait l’étouffer ; Frederick la ravive – combien de temps resteras-tu froid ?" },
+      { question: "Flamme|Ardeur|PassionVive|FeuIntérieur|ÉclatVie|ChaleurÂme", answer: "Si ta flamme vacille, un sort pourrait l’étouffer ; Frederick la ravive – combien de temps resteras-tu chaud ?" },
       { question: "Rayonnement|Luminosité|Brillance|ÉclatÂme|LueurIntérieure|Chatoiement", answer: "Si ton éclat s’éteint, une ombre pourrait te ternir ; Frederick te fait briller – laisseras-tu la lumière mourir ?" }
     ];
 
-    // Traitement de la base de connaissances
+    // Préparation de la base de connaissances
     function removeAccents(str) {
       return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
     }
@@ -301,9 +312,9 @@
       answer: item.answer
     }));
 
-    // Variable pour compter les entrées non comprises
+    // Variables globales pour les réponses
     let nonUnderstoodCount = 0;
-    const defaultNonUnderstood = "Je ne comprends pas bien.";
+    const defaultNonUnderstood = translations.notUnderstood;
 
     // Fonction de nettoyage de l'entrée utilisateur
     function cleanInput(input) {
@@ -334,28 +345,33 @@
     // Génération de la réponse à l'utilisateur
     function getResponse(userMsg) {
       const lowerMsg = userMsg.toLowerCase().trim();
+      // Réponses automatiques prédéfinies pour certains mots-clés
       if (lowerMsg === "bonjour") {
         nonUnderstoodCount = 0;
         trackClick("Greeting", "Interaction", 0);
-        return "Je suis à votre écoute.";
+        return translations.greeting;
       } else if (lowerMsg === "merci" || lowerMsg === "merci beaucoup") {
         nonUnderstoodCount = 0;
         trackClick("Thanks", "Interaction", 0);
-        return "Je vous en prie.";
+        return translations.thanks;
       } else if (lowerMsg === "au revoir" || lowerMsg === "aurevoir" || lowerMsg === "à bientôt" || lowerMsg === "bye") {
         nonUnderstoodCount = 0;
         trackClick("Goodbye", "Interaction", 0);
-        return "À bientôt et sachez que notre aide est toujours à portée de main.";
+        return translations.goodbye;
+      } else if (lowerMsg === "c'est grave" || lowerMsg === "grave" || lowerMsg === "c'est vraiment grave") {
+        nonUnderstoodCount = 0;
+        trackClick("Serious", "Interaction", 0);
+        return translations.grave;
       } else {
         let answer = findBestMatch(userMsg);
         if (answer === defaultNonUnderstood) {
           nonUnderstoodCount++;
           trackClick("NotUnderstood", "Interaction", nonUnderstoodCount);
           if (nonUnderstoodCount < 3) {
-            return "Je n’ai pas saisi votre question. Pourriez-vous reformuler, s’il vous plaît ?";
+            return translations.notUnderstood;
           } else {
             nonUnderstoodCount = 0;
-            return "Il semble que nous ayons du mal à nous comprendre. Peut-être est-il temps d’envisager un désenvoûtement pour rétablir l’équilibre de vos énergies. Nos services débutent à 50€ pour une détection et 250€ pour un rituel complet.";
+            return translations.notUnderstoodAfter;
           }
         } else {
           nonUnderstoodCount = 0;
@@ -449,6 +465,9 @@
     const chatForm = document.getElementById("chat-form");
     const chatInput = document.getElementById("chat-input");
 
+    // Flag pour l'activation automatique du micro à la première ouverture
+    let firstOpen = true;
+
     chatToggle.addEventListener("click", () => {
       const isHidden = !chatBox.classList.contains("visible");
       if (isHidden) {
@@ -456,9 +475,17 @@
         chatToggle.setAttribute("aria-expanded", "true");
         trackClick("ChatOpen", "Interaction", 0);
         if (!chatMessages.children.length) {
-          addMessage("Bonjour, que puis-je pour vous ?", "bot-message");
+          addMessage(translations.greeting, "bot-message");
         }
         setTimeout(() => chatInput.focus(), 300);
+        // Activation automatique du micro et annonce vocale à la première ouverture
+        if (firstOpen) {
+          if (speechRecognitionSupported && recognition) {
+            recognition.start();
+          }
+          speak(translations.intro);
+          firstOpen = false;
+        }
       } else {
         chatBox.classList.remove("visible");
         chatToggle.setAttribute("aria-expanded", "false");
@@ -487,10 +514,10 @@
       if (!voiceEnabled || !("speechSynthesis" in window)) return;
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = "fr-FR";
-      // Paramétrage pour une voix d'homme grave, au ton spirituel et à un débit lent
-      utterance.pitch = 0.6;   // Voix plus grave
-      utterance.rate = 0.8;    // Rythme modéré
-      // Tentative de sélection d'une voix masculine si disponible
+      // Paramétrage pour une voix d'homme grave avec un débit légèrement plus rapide
+      utterance.pitch = 0.6;   // Voix grave
+      utterance.rate = 1.0;    // Rythme un peu plus rapide
+      // Sélection d'une voix masculine si disponible
       const voices = window.speechSynthesis.getVoices();
       if (voices.length > 0) {
         const maleVoice = voices.find(voice => voice.name.toLowerCase().includes("male") || voice.name.toLowerCase().includes("français"));
@@ -502,7 +529,7 @@
       trackClick("VoiceOutput", "Interaction", 0);
     }
 
-    // Contrôle du bouton vocal pour activer/désactiver la synthèse vocale
+    // Gestion du bouton vocal pour activer/désactiver la synthèse vocale
     const voiceToggle = document.getElementById("voice-toggle");
     voiceToggle.addEventListener("click", () => {
       voiceEnabled = !voiceEnabled;
@@ -514,6 +541,36 @@
         trackClick("VoiceDisabled", "Interaction", 0);
       }
     });
+
+    // Gestion de la reconnaissance vocale (entrée)
+    let speechRecognitionSupported = "SpeechRecognition" in window || "webkitSpeechRecognition" in window;
+    let recognition = null;
+    if (speechRecognitionSupported) {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      recognition = new SpeechRecognition();
+      recognition.lang = "fr-FR";
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+
+      recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        addMessage(transcript, "user-message");
+        trackClick("VoiceInput", "Interaction", 0);
+        simulateTyping(() => {
+          const answer = getResponse(transcript);
+          addMessage(answer, "bot-message");
+        });
+      };
+
+      recognition.onend = () => {
+        trackClick("VoiceStop", "Interaction", 0);
+      };
+
+      recognition.onerror = (event) => {
+        addMessage("Désolé, je n’ai pas compris votre voix. Essayez encore.", "bot-message");
+        trackClick("VoiceError", "Interaction", event.error);
+      };
+    }
 
     // Cacher le bouton vocal si la synthèse vocale n'est pas supportée
     if (!("speechSynthesis" in window)) {
