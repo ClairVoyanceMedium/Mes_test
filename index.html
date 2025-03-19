@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Chat IA Mobile avec Tracking et Vocal</title>
+  <title>Chat IA Optimisé avec Tracking et Vocal</title>
   <style>
     #chat-container {
       position: fixed;
@@ -181,6 +181,21 @@
 
   <script>
     document.addEventListener("DOMContentLoaded", () => {
+      // Éléments DOM
+      const chatContainer = document.getElementById("chat-container");
+      const chatToggle = document.getElementById("chat-toggle");
+      const chatBox = document.getElementById("chat-box");
+      const chatMessages = document.getElementById("chat-messages");
+      const chatForm = document.getElementById("chat-form");
+      const chatInput = document.getElementById("chat-input");
+      const voiceToggle = document.getElementById("voice-toggle");
+
+      // Vérification DOM
+      if (!chatToggle || !chatBox || !chatForm || !chatInput || !voiceToggle) {
+        console.error("Erreur : Un ou plusieurs éléments DOM manquants");
+        return;
+      }
+
       // Tracking
       function trackClick(label, category = 'Chat', value = null) {
         console.log(`Tracking: Label=${label}, Category=${category}, Value=${value}`);
@@ -216,11 +231,7 @@
       }
 
       const processedKnowledgeBase = knowledgeBase.map(item => ({
-        question: item.question
-          .toLowerCase()
-          .split("|")
-          .map(word => removeAccents(word.trim()))
-          .filter(word => word.length > 0),
+        question: item.question.toLowerCase().split("|").map(word => removeAccents(word.trim())).filter(word => word),
         answer: item.answer
       }));
 
@@ -231,22 +242,15 @@
 
       // Nettoyage entrée
       function cleanInput(input) {
-        return input
-          .toLowerCase()
-          .replace(/[^\w\s]/g, "")
-          .split(/\s+/)
-          .map(word => removeAccents(word))
-          .filter(word => word.length > 0);
+        return input.toLowerCase().replace(/[^\w\s]/g, "").split(/\s+/).map(word => removeAccents(word)).filter(word => word);
       }
 
       // Recherche correspondance
       function findBestMatch(userInput) {
         const userWords = cleanInput(userInput);
-        let bestMatch = null;
-        let maxOverlap = 0;
+        let bestMatch = null, maxOverlap = 0;
         processedKnowledgeBase.forEach(item => {
-          const keywords = item.question;
-          const overlap = userWords.filter(word => keywords.includes(word)).length;
+          const overlap = userWords.filter(word => item.question.includes(word)).length;
           if (overlap > maxOverlap) {
             maxOverlap = overlap;
             bestMatch = item;
@@ -260,30 +264,27 @@
         const lowerMsg = userMsg.toLowerCase().trim();
         if (lowerMsg === "bonjour") {
           nonUnderstoodCount = 0;
-          trackClick("Greeting", "Interaction", 0);
+          trackClick("Greeting");
           return "Je suis à votre écoute.";
-        } else if (lowerMsg === "merci" || lowerMsg === "merci beaucoup") {
+        } else if (["merci", "merci beaucoup"].includes(lowerMsg)) {
           nonUnderstoodCount = 0;
-          trackClick("Thanks", "Interaction", 0);
+          trackClick("Thanks");
           return "Je vous en prie.";
-        } else if (lowerMsg === "au revoir" || lowerMsg === "aurevoir" || lowerMsg === "à bientôt" || lowerMsg === "bye") {
+        } else if (["au revoir", "aurevoir", "à bientôt", "bye"].includes(lowerMsg)) {
           nonUnderstoodCount = 0;
-          trackClick("Goodbye", "Interaction", 0);
+          trackClick("Goodbye");
           return "À bientôt et sachez que notre aide est toujours à portée de main.";
         } else {
-          let answer = findBestMatch(userMsg);
+          const answer = findBestMatch(userMsg);
           if (answer === defaultNonUnderstood) {
             nonUnderstoodCount++;
             trackClick("NotUnderstood", "Interaction", nonUnderstoodCount);
-            if (nonUnderstoodCount < 3) {
-              return "Je n’ai pas saisi votre question. Pourriez-vous reformuler, s’il vous plaît ?";
-            } else {
-              nonUnderstoodCount = 0;
-              return "Il semble que nous ayons du mal à nous comprendre. Peut-être est-il temps d’envisager un désenvoûtement pour rétablir l’équilibre de vos énergies. Nos services débutent à 50€ pour une détection et 250€ pour un rituel complet.";
-            }
+            return nonUnderstoodCount < 3 
+              ? "Je n’ai pas saisi votre question. Pourriez-vous reformuler, s’il vous plaît ?"
+              : "Il semble que nous ayons du mal à nous comprendre. Peut-être est-il temps d’envisager un désenvoûtement pour rétablir l’équilibre de vos énergies. Nos services débutent à 50€ pour une détection et 250€ pour un rituel complet.";
           } else {
             nonUnderstoodCount = 0;
-            trackClick("ResponseGiven", "Interaction", 0);
+            trackClick("ResponseGiven");
             return answer;
           }
         }
@@ -309,28 +310,19 @@
         p.textContent = txt;
         chatMessages.appendChild(p);
         chatMessages.scrollTop = chatMessages.scrollHeight;
-        if (speakResponse && speechSynthesisSupported) {
-          speak(txt);
-        }
+        if (speakResponse && speechSynthesisSupported) speak(txt);
       }
 
       // Déplaçabilité
       let isDragging = false, currentX, currentY, initialX, initialY;
-      const chatContainer = document.getElementById("chat-container");
-
       chatContainer.addEventListener("mousedown", startDragging);
       chatContainer.addEventListener("touchstart", startDragging, { passive: false });
 
       function startDragging(e) {
         isDragging = true;
         e.preventDefault();
-        if (e.type === "mousedown") {
-          initialX = e.clientX - (currentX || 0);
-          initialY = e.clientY - (currentY || 0);
-        } else if (e.type === "touchstart") {
-          initialX = e.touches[0].clientX - (currentX || 0);
-          initialY = e.touches[0].clientY - (currentY || 0);
-        }
+        initialX = (e.type === "mousedown" ? e.clientX : e.touches[0].clientX) - (currentX || 0);
+        initialY = (e.type === "mousedown" ? e.clientY : e.touches[0].clientY) - (currentY || 0);
         document.addEventListener("mousemove", drag);
         document.addEventListener("touchmove", drag, { passive: false });
         document.addEventListener("mouseup", stopDragging);
@@ -340,13 +332,8 @@
       function drag(e) {
         if (!isDragging) return;
         e.preventDefault();
-        if (e.type === "mousemove") {
-          currentX = e.clientX - initialX;
-          currentY = e.clientY - initialY;
-        } else if (e.type === "touchmove") {
-          currentX = e.touches[0].clientX - initialX;
-          currentY = e.touches[0].clientY - initialY;
-        }
+        currentX = (e.type === "mousemove" ? e.clientX : e.touches[0].clientX) - initialX;
+        currentY = (e.type === "mousemove" ? e.clientY : e.touches[0].clientY) - initialY;
         chatContainer.style.right = "auto";
         chatContainer.style.bottom = "auto";
         chatContainer.style.left = `${currentX}px`;
@@ -367,62 +354,30 @@
       chatContainer.style.top = `${currentY}px`;
 
       // Gestion ouverture/fermeture
-      const chatToggle = document.getElementById("chat-toggle");
-      const chatBox = document.getElementById("chat-box");
-      const chatMessages = document.getElementById("chat-messages");
-      const chatForm = document.getElementById("chat-form");
-      const chatInput = document.getElementById("chat-input");
-
-      if (!chatToggle || !chatBox) {
-        console.error("Erreur : #chat-toggle ou #chat-box introuvable");
-        return;
+      function toggleChat() {
+        console.log("Toggle chat déclenché");
+        const isHidden = !chatBox.classList.contains("visible");
+        chatBox.classList.toggle("visible");
+        chatToggle.setAttribute("aria-expanded", isHidden ? "true" : "false");
+        trackClick(isHidden ? "ChatOpen" : "ChatClose");
+        if (isHidden && !chatMessages.children.length) {
+          addMessage("Bonjour, que puis-je pour vous ?", "bot-message");
+        }
+        if (isHidden) setTimeout(() => chatInput.focus(), 300);
       }
 
-      chatToggle.addEventListener("click", () => {
-        console.log("Clic sur chat-toggle détecté");
-        const isHidden = !chatBox.classList.contains("visible");
-        if (isHidden) {
-          chatBox.classList.add("visible");
-          chatToggle.setAttribute("aria-expanded", "true");
-          trackClick("ChatOpen", "Interaction", 0);
-          if (!chatMessages.children.length) {
-            addMessage("Bonjour, que puis-je pour vous ?", "bot-message");
-          }
-          setTimeout(() => chatInput.focus(), 300);
-        } else {
-          chatBox.classList.remove("visible");
-          chatToggle.setAttribute("aria-expanded", "false");
-          trackClick("ChatClose", "Interaction", 0);
-        }
-      });
-
-      chatToggle.addEventListener("touchend", (e) => {
-        e.preventDefault();
-        console.log("Touchend sur chat-toggle détecté");
-        const isHidden = !chatBox.classList.contains("visible");
-        if (isHidden) {
-          chatBox.classList.add("visible");
-          chatToggle.setAttribute("aria-expanded", "true");
-          trackClick("ChatOpen", "Interaction", 0);
-          if (!chatMessages.children.length) {
-            addMessage("Bonjour, que puis-je pour vous ?", "bot-message");
-          }
-          setTimeout(() => chatInput.focus(), 300);
-        } else {
-          chatBox.classList.remove("visible");
-          chatToggle.setAttribute("aria-expanded", "false");
-          trackClick("ChatClose", "Interaction", 0);
-        }
-      });
+      chatToggle.addEventListener("click", toggleChat);
+      chatToggle.addEventListener("touchend", (e) => { e.preventDefault(); toggleChat(); });
 
       // Gestion envoi texte
       chatForm.addEventListener("submit", (e) => {
         e.preventDefault();
+        console.log("Formulaire soumis");
         const userMsg = chatInput.value.trim();
         if (!userMsg) return;
         isVoiceInput = false;
         addMessage(userMsg, "user-message");
-        trackClick("ChatMessage", "Interaction", 0);
+        trackClick("ChatMessage");
         chatInput.value = "";
         simulateTyping(() => {
           const answer = getResponse(userMsg);
@@ -431,16 +386,10 @@
       });
 
       // Gestion vocal
-      const voiceToggle = document.getElementById("voice-toggle");
       let speechSynthesisSupported = "speechSynthesis" in window;
       let speechRecognitionSupported = "SpeechRecognition" in window || "webkitSpeechRecognition" in window;
       let recognition = null;
       let isListening = false;
-
-      if (!voiceToggle) {
-        console.error("Erreur : #voice-toggle introuvable");
-        return;
-      }
 
       if (speechRecognitionSupported) {
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -460,7 +409,7 @@
           console.log("Résultat vocal : ", transcript);
           isVoiceInput = true;
           addMessage(transcript, "user-message");
-          trackClick("VoiceInput", "Interaction", 0);
+          trackClick("VoiceInput");
           simulateTyping(() => {
             const answer = getResponse(transcript);
             addMessage(answer, "bot-message", true);
@@ -471,92 +420,59 @@
           console.log("Reconnaissance vocale terminée");
           isListening = false;
           voiceToggle.classList.remove("listening");
-          trackClick("VoiceStop", "Interaction", 0);
+          trackClick("VoiceStop");
         };
 
         recognition.onerror = (event) => {
           console.error("Erreur vocale : ", event.error);
-          addMessage("Désolé, une erreur s’est produite avec le vocal : " + event.error, "bot-message");
+          addMessage(`Erreur vocale : ${event.error}. Réessayez.`, "bot-message");
           trackClick("VoiceError", "Interaction", event.error);
           isListening = false;
           voiceToggle.classList.remove("listening");
         };
 
-        // Gestion clic vocal
-        voiceToggle.addEventListener("click", () => {
-          console.log("Clic sur voice-toggle détecté");
+        function toggleVoice() {
+          console.log("Toggle vocal déclenché");
           if (!speechRecognitionSupported) {
             addMessage("La reconnaissance vocale n’est pas supportée sur cet appareil.", "bot-message");
-            trackClick("VoiceNotSupported", "Interaction", 0);
+            trackClick("VoiceNotSupported");
             return;
           }
           if (isListening) {
             recognition.stop();
-            console.log("Arrêt demandé");
           } else {
             navigator.mediaDevices.getUserMedia({ audio: true })
               .then(() => {
                 console.log("Permission micro accordée");
-                isListening = true;
-                voiceToggle.classList.add("listening");
                 recognition.start();
-                trackClick("VoiceStart", "Interaction", 0);
+                trackClick("VoiceStart");
               })
               .catch(err => {
-                console.error("Erreur permission micro : ", err);
+                console.error("Erreur permission : ", err);
                 addMessage("Permission microphone refusée. Activez-la dans les paramètres.", "bot-message");
                 trackClick("VoicePermissionDenied", "Interaction", err.message);
               });
           }
-        });
+        }
 
-        // Support tactile pour vocal
-        voiceToggle.addEventListener("touchend", (e) => {
-          e.preventDefault();
-          console.log("Touchend sur voice-toggle détecté");
-          if (!speechRecognitionSupported) {
-            addMessage("La reconnaissance vocale n’est pas supportée sur cet appareil.", "bot-message");
-            trackClick("VoiceNotSupported", "Interaction", 0);
-            return;
-          }
-          if (isListening) {
-            recognition.stop();
-            console.log("Arrêt demandé (tactile)");
-          } else {
-            navigator.mediaDevices.getUserMedia({ audio: true })
-              .then(() => {
-                console.log("Permission micro accordée (tactile)");
-                isListening = true;
-                voiceToggle.classList.add("listening");
-                recognition.start();
-                trackClick("VoiceStart", "Interaction", 0);
-              })
-              .catch(err => {
-                console.error("Erreur permission micro (tactile) : ", err);
-                addMessage("Permission microphone refusée. Activez-la dans les paramètres.", "bot-message");
-                trackClick("VoicePermissionDenied", "Interaction", err.message);
-              });
-          }
-        });
+        voiceToggle.addEventListener("click", toggleVoice);
+        voiceToggle.addEventListener("touchend", (e) => { e.preventDefault(); toggleVoice(); });
       } else {
         console.log("Reconnaissance vocale non supportée");
-        addMessage("La reconnaissance vocale n’est pas disponible sur cet appareil.", "bot-message");
         voiceToggle.style.display = "none";
+        addMessage("La reconnaissance vocale n’est pas disponible sur cet appareil.", "bot-message");
       }
 
       function speak(text) {
-        if (!speechSynthesisSupported) {
-          console.log("Synthèse vocale non supportée");
-          return;
-        }
+        if (!speechSynthesisSupported) return;
         const utterance = new SpeechSynthesisUtterance(text);
         utterance.lang = "fr-FR";
         utterance.volume = 1.0;
         utterance.rate = 1.0;
         utterance.pitch = 1.0;
         window.speechSynthesis.speak(utterance);
-        trackClick("VoiceOutput", "Interaction", 0);
-        console.log("Synthèse vocale : ", text);
+        trackClick("VoiceOutput");
+        console.log("Synthèse : ", text);
       }
 
       if (!speechSynthesisSupported && !speechRecognitionSupported) {
