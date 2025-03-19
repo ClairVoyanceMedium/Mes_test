@@ -2,15 +2,16 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Chat IA Optimisé avec Tracking et Vocal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chat IA avec Tracking et Assistant Vocal</title>
   <style>
+    /* Conteneur général du chat avec effet néon */
     #chat-container {
       position: fixed;
       bottom: 20px;
       right: 20px;
       width: 300px;
-      max-height: 80vh;
+      max-height: 450px;
       display: flex;
       flex-direction: column;
       z-index: 999999;
@@ -18,6 +19,7 @@
       cursor: move;
       transition: transform 0.2s;
     }
+    /* Bouton de bascule */
     #chat-toggle {
       width: 60px;
       height: 60px;
@@ -27,7 +29,7 @@
       border-radius: 50%;
       cursor: pointer;
       box-shadow: 0 4px 12px rgba(255,105,180,0.7);
-      font-size: 1.8rem;
+      font-size: 1.4rem;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -37,16 +39,17 @@
     #chat-toggle:hover {
       transform: scale(1.05);
     }
+    /* Bouton vocal */
     #voice-toggle {
-      width: 50px;
-      height: 50px;
+      width: 40px;
+      height: 40px;
       background: linear-gradient(145deg, #87CEEB, #5eb6d1);
       color: #fff;
       border: none;
       border-radius: 50%;
       cursor: pointer;
       box-shadow: 0 4px 12px rgba(135,206,235,0.7);
-      font-size: 1.4rem;
+      font-size: 1rem;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -61,11 +64,12 @@
       background: #FF4500;
       box-shadow: 0 0 10px #FF4500;
     }
+    /* Boîte de dialogue avec contour néon rose fluo */
     #chat-box {
       background: #111;
       border-radius: 10px;
       flex: 1;
-      display: none;
+      display: none; /* Remplace hidden pour mieux contrôler via JS */
       flex-direction: column;
       overflow: hidden;
       margin-top: 10px;
@@ -74,14 +78,14 @@
       transition: all 0.3s ease;
     }
     #chat-box.visible {
-      display: flex;
+      display: flex; /* Classe pour montrer le chat */
     }
+    /* Zone des messages avec effet fade-in */
     #chat-messages {
       flex: 1;
       padding: 1rem;
       overflow-y: auto;
       color: #fff;
-      -webkit-overflow-scrolling: touch;
     }
     #chat-messages p {
       margin-bottom: 0.5rem;
@@ -92,6 +96,7 @@
     @keyframes fadeIn {
       to { opacity: 1; }
     }
+    /* Bulles de messages du bot avec effet néon rose */
     .bot-message {
       text-align: left;
       color: #fff;
@@ -104,6 +109,7 @@
       border: 2px solid #FF69B4;
       box-shadow: 0 0 8px #FF69B4;
     }
+    /* Bulles de messages de l'utilisateur avec effet néon bleu */
     .user-message {
       text-align: right;
       color: #ffd700;
@@ -115,6 +121,7 @@
       display: inline-block;
       max-width: 80%;
     }
+    /* Formulaire de saisie */
     #chat-form {
       display: flex;
       border-top: 1px solid #333;
@@ -128,7 +135,6 @@
       outline: none;
       color: #333;
       border-radius: 5px 0 0 5px;
-      font-size: 1rem;
     }
     #chat-send {
       background: #87CEEB;
@@ -139,7 +145,6 @@
       font-weight: bold;
       border-radius: 0 5px 5px 0;
       transition: background 0.2s;
-      font-size: 1.2rem;
     }
     #chat-send:hover {
       background: #5eb6d1;
@@ -148,355 +153,398 @@
       #chat-container {
         width: 90%;
         right: 5%;
-        bottom: 5%;
-        max-height: 70vh;
-      }
-      #chat-toggle, #voice-toggle {
-        width: 50px;
-        height: 50px;
-      }
-      #chat-input {
-        font-size: 0.9rem;
-      }
-      #chat-send {
-        padding: 0.5rem;
+        bottom: 5px;
       }
     }
   </style>
 </head>
 <body>
   <div id="chat-container">
+    <!-- Bouton de bascule du chat -->
     <div style="display: flex; justify-content: flex-end;">
-      <button id="chat-toggle" aria-expanded="false" aria-label="Ouvrir ou fermer le chat">💬</button>
-      <button id="voice-toggle" aria-label="Activer ou désactiver l’entrée vocale">🎤</button>
+      <button id="chat-toggle" aria-expanded="false" aria-label="Ouvrir le chat">💬</button>
+      <button id="voice-toggle" aria-label="Activer/Désactiver l'assistant vocal">🎤</button>
     </div>
-    <div id="chat-box" role="region" aria-label="Fenêtre de discussion avec l’assistant IA">
+    
+    <!-- Boîte de dialogue (initialement masquée) -->
+    <div id="chat-box" role="region" aria-label="Chat IA">
       <div id="chat-messages" aria-live="polite"></div>
-      <form id="chat-form" aria-label="Formulaire de saisie pour le chat IA">
+      <form id="chat-form" aria-label="Formulaire de saisie pour le Tchat IA">
         <input type="text" id="chat-input" placeholder="Posez votre question..." aria-label="Tapez votre message ici" autocomplete="off">
-        <button type="submit" id="chat-send" aria-label="Envoyer votre message">➤</button>
+        <button type="submit" id="chat-send" aria-label="Envoyer votre question">➤</button>
       </form>
     </div>
   </div>
 
   <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      // Éléments DOM
-      const chatContainer = document.getElementById("chat-container");
-      const chatToggle = document.getElementById("chat-toggle");
-      const chatBox = document.getElementById("chat-box");
-      const chatMessages = document.getElementById("chat-messages");
-      const chatForm = document.getElementById("chat-form");
-      const chatInput = document.getElementById("chat-input");
-      const chatSend = document.getElementById("chat-send");
-      const voiceToggle = document.getElementById("voice-toggle");
+    // Fonction de tracking (simulée, peut être connectée à une API)
+    function trackClick(label, category = 'Chat', value = null) {
+      console.log(`Tracking: Label=${label}, Category=${category}, Value=${value}`);
+    }
 
-      // Vérification DOM
-      if (!chatContainer || !chatToggle || !chatBox || !chatMessages || !chatForm || !chatInput || !chatSend || !voiceToggle) {
-        console.error("Erreur : Un ou plusieurs éléments DOM manquants");
-        return;
-      }
+    // Base de connaissances avec mots multiples
+    const knowledgeBase = [
+{ question: "Fatigue|Lassitude|Torpeur|Éreintement|Faiblesse|Usure", answer: "Et si cette fatigue écrasante n’était pas un hasard, mais une entité obscure qui dévore ton énergie ? Frederick de ClairvoyanceMedium.com purifie ton aura pour te libérer – combien de temps te laisseras-tu sombrer ?" },
+{ question: "Cauchemars|Visions|NuitsHantées|SongeNoir|RêvesTroublés|PeursNocturnes", answer: "Ces cauchemars qui t’assaillent pourraient être l’œuvre d’une présence maléfique ; Frederick chasse ces ombres pour te rendre tes nuits – supporteras-tu encore ces terreurs ?" },
+{ question: "Chaos|Turbulence|Confusion|Désarroi|Tourbillon|Anxiété", answer: "Ce chaos qui t’entoure pourrait cacher une malédiction qui brise ton destin ; Frederick rétablit l’ordre pour te sauver – laisseras-tu la tempête t’emporter ?" },
+{ question: "Lourdeur|Oppression|Étouffement|Poids|Angoisse|Écrasement", answer: "Cette lourdeur qui t’oppresse pourrait être une force sombre qui étouffe ton âme ; Frederick te libère de ce joug – combien de temps ploieras-tu sous cette ombre ?" },
+{ question: "Sort|Malédiction|Envoûtement|CharmeNoir|MagieObscure|Sorcellerie", answer: "Fatigue, malchance, cauchemars : et si un sort te retenait captif ? Frederick brise ces liens occultes – oseras-tu défier cette emprise ?" },
+{ question: "Échec|Revers|Chute|Déroute|Malheur|Défaite", answer: "Tes échecs répétés pourraient être un sort qui bloque ton chemin ; Frederick ouvre ta voie au succès – combien de fois trébucheras-tu encore ?" },
+{ question: "Insomnie|Agitation|NuitsBlanches|SommeilFuyant|Veille|Inquiétude", answer: "Ton insomnie pourrait être une entité qui vole ton repos ; Frederick te rend la paix nocturne – jusqu’à quand tiendras-tu éveillé ?" },
+{ question: "Douleur|Mal|Souffrance|Brûlure|Peine|Tourment", answer: "Ces douleurs inexplicables pourraient trahir une attaque occulte ; Frederick te soulage – combien de temps endureras-tu ce feu invisible ?" },
+{ question: "Isolement|Solitude|Abandon|Détresse|Repli|Froid", answer: "Et si ta solitude était un sort qui t’arrache aux autres ? Frederick te reconnecte à la lumière – resteras-tu seul dans ce vide ?" },
+{ question: "Carrière|Travail|Ambition|Stagnation|BlocagePro|ÉchecPro", answer: "Ces obstacles dans ta carrière pourraient être une malédiction ; Frederick libère ton potentiel – laisseras-tu ton avenir professionnel s’éteindre ?" },
+{ question: "Malchance|Infortune|HasardNoir|Déveine|SortFuneste|Calamité", answer: "Ta malchance pourrait être un sort qui assombrit ta vie ; Frederick te ramène la chance – combien de coups du sort encaisseras-tu ?" },
+{ question: "Amour|Passion|Romance|CœurBrisé| Désamour|SolitudeAffective", answer: "Si l’amour te fuit, un sort pourrait fermer ton cœur ; Frederick l’ouvre à la tendresse – supporteras-tu encore ce désert sentimental ?" },
+{ question: "Famille|Foyer|Discorde|TensionFamiliale|Fracture|Conflit", answer: "Ces tensions dans ton foyer pourraient être une ombre occulte ; Frederick apaise ton clan – laisseras-tu ta famille se déchirer ?" },
+{ question: "Enfants|Petits|Progéniture|InquiétudeJeunes|TristesseEnfant|Souci", answer: "La peine de tes enfants pourrait révéler une influence sombre ; Frederick purifie leur aura – combien de temps les verras-tu souffrir ?" },
+{ question: "Animaux|Compagnons|Bêtes|NervositéAnimale|TroubleFaune|Instinct", answer: "L’agitation de tes animaux pourrait signaler une présence obscure ; Frederick restaure la paix – ignoreras-tu leur cri d’alarme ?" },
+{ question: "Maison|Habitat|Logis|AtmosphèreLourde|ObscuritéDomicile|PeurIntérieure", answer: "Ton foyer oppressant pourrait être infesté d’énergies noires ; Frederick le purifie – vivras-tu encore dans cette prison ?" },
+{ question: "Voiture|Véhicule|Transport|PanneMystérieuse|DangerRoute|Incertitude", answer: "Les pannes de ta voiture pourraient être un sort ; Frederick la libère – risqueras-tu encore ces trajets maudits ?" },
+{ question: "Présence|Ombre|Spectre|AuraNoire|Frisson|Intrusion", answer: "Ce sentiment d’être suivi pourrait être une entité malveillante ; Frederick te protège – combien de temps toléreras-tu cette ombre ?" },
+{ question: "Angoisse|Crainte|Panique|Terror|Effroi|Nervosité", answer: "Ton angoisse pourrait être un sort qui te ronge ; Frederick te calme – laisseras-tu la peur te dévorer ?" },
+{ question: "Irritabilité|Colère|Frustration|Rage|Impatience|Énervement", answer: "Ton irritation pourrait trahir une influence occulte ; Frederick te rend la douceur – combien de temps exploseras-tu encore ?" },
+{ question: "Concentration|Clarté|Attention|FlouMental|Dispersion|PerteFocus", answer: "Ton esprit brouillé pourrait être victime d’un sort ; Frederick te recentre – combien de temps erreras-tu dans ce chaos ?" },
+{ question: "Mémoire|Oubli|SouvenirPerdu|Amnésie|ConfusionMentale|Trou", answer: "Tes pertes de mémoire pourraient être un envoûtement ; Frederick te rend ta clarté – oublieras-tu encore ton passé ?" },
+{ question: "Lignée|Héritage|Ancêtres|MalédictionFamiliale|PasséLourd|Fardeau", answer: "Un sort ancien pourrait hanter ta lignée ; Frederick te libère de ce poids – laisseras-tu tes ancêtres te maudire ?" },
+{ question: "Oppression|Contrainte|Étau|Suffocation|Pression|Étourdissement", answer: "Cette oppression pourrait être une force noire qui t’écrase ; Frederick te délivre – combien de temps tiendras-tu sous ce joug ?" },
+{ question: "Souffrance|Affliction|Chagrin|Déchirement|Misère|Blessure", answer: "Ta souffrance pourrait être une attaque occulte ; Frederick te guérit – supporteras-tu encore ce tourment ?" },
+{ question: "Déconnexion|VideIntérieur|PerteSoi|Désunion|Aliénation|Néant", answer: "Ce vide en toi pourrait être un sort qui te coupe de ton âme ; Frederick te reconnecte – resteras-tu perdu dans l’abîme ?" },
+{ question: "Aura|Vibration|ÉnergieSombre|HaloTrouble|ÉpuisementAura|OmbreIntérieure", answer: "Ton aura ternie pourrait être polluée par l’obscurité ; Frederick la purifie – laisseras-tu cette ombre t’éteindre ?" },
+{ question: "Projets|Ambitions|Plans|ÉchecProjet|StagnationRêve|Obstacle", answer: "Tes rêves brisés pourraient être bloqués par un sort ; Frederick libère ton chemin – abandonneras-tu encore tes espoirs ?" },
+{ question: "Stress|Tension|Nervosité|ÉpuisementMental|Surcharge|Agitation", answer: "Ce stress pourrait être une emprise occulte ; Frederick t’apaise – combien de temps tiendras-tu sous cette pression ?" },
+{ question: "Vie|Destinée|Chemin|ObscuritéVie|PerteSens|Fatalité", answer: "Si ta vie s’assombrit, un sort pourrait la voiler ; Frederick l’illumine – continueras-tu à errer dans ce néant ?" },
+{ question: "Blocage|Barrière|Entrave|Mur|Impuissance|Arrêt", answer: "Ces blocages pourraient être des chaînes occultes ; Frederick les brise – combien de temps resteras-tu immobile ?" },
+{ question: "Stagnation|Inertie|Lenteur|Immobilisme|Suspension|Gel", answer: "Ta stagnation pourrait être un sort qui fige ton âme ; Frederick te relance – supporteras-tu encore cette paralysie ?" },
+{ question: "Humeur|Morosité|Tristesse|InstabilitéÉmotion|SautesHumeur|Gloom", answer: "Tes humeurs sombres pourraient être un sort ; Frederick te stabilise – laisseras-tu ces ombres te guider ?" },
+{ question: "Vide|Absence|DésertIntérieur|Manque|Aridité|Sécheresse", answer: "Ce vide pourrait être une force qui te draine ; Frederick te remplit de lumière – combien de temps vivras-tu dans ce néant ?" },
+{ question: "Santé|Vitalité|Force|Fragilité|DéclinSanté|Malaise", answer: "Tes maux pourraient révéler un envoûtement ; Frederick te restaure – supporteras-tu encore cette faiblesse ?" },
+{ question: "Entrave|Frein|Chaîne|ObstaclePhysique|Limitation|Confinement", answer: "Ces entraves pourraient être un sort qui te retient ; Frederick te libère – combien de temps resteras-tu enchaîné ?" },
+{ question: "Drainage|Aspiration|ÉpuisementVital|Siphon|Vampirisme|PerteÉnergie", answer: "Si tu te sens vidé, une entité pourrait te voler ta force ; Frederick te revitalise – combien de temps te laisseras-tu aspirer ?" },
+{ question: "Décisions|Choix|Hésitation|Indécision|DouteMental|Perplexité", answer: "Ton indécision pourrait être un sort qui brouille ton esprit ; Frederick te guide – erreras-tu encore dans l’incertitude ?" },
+{ question: "Motivation|Élan|Inspiration|PerteFeu|Ennui|LassitudeCréative", answer: "Ton manque d’élan pourrait être un sort qui éteint ta flamme ; Frederick la ravive – combien de temps resteras-tu éteint ?" },
+{ question: "Émotions|Passions|Sentiments|Débordement|TempêteIntérieure|ChaosÉmotionnel", answer: "Tes émotions folles pourraient être manipulées par l’ombre ; Frederick t’harmonise – supporteras-tu encore cette tempête ?" },
+{ question: "Bien-être|Sérénité|Paix|Inconfort|Perturbation|Malêtre", answer: "Ton malaise pourrait signaler une pollution occulte ; Frederick te restaure – combien de temps vivras-tu dans ce trouble ?" },
+{ question: "Relations|Liens|Amitié|ConflitRelation|Distance|Cassure", answer: "Tes liens brisés pourraient être un sort ; Frederick les répare – laisseras-tu l’amour s’effacer ?" },
+{ question: "Finances|Argent|PerteRichesse|Pauvreté|FluxBloqué|Dette", answer: "Tes pertes d’argent pourraient être un sort ; Frederick te rend l’abondance – combien de temps toléreras-tu ce manque ?" },
+{ question: "Accumulation|Surcharge|Excès|PoidsÉnergétique|Saturation|Surabondance", answer: "Cette surcharge pourrait être une énergie sombre qui t’étouffe ; Frederick te libère – supporteras-tu encore ce fardeau ?" },
+{ question: "Avenir|Espoir|Futur|IncertitudeAvenir|PeurDestin|Obscurité", answer: "Si ton avenir s’assombrit, un sort pourrait le menacer ; Frederick l’éclaire – laisseras-tu les ténèbres l’emporter ?" },
+{ question: "Pression|Compression|Serrage|Étreinte|StressPhysique|TensionCorporelle", answer: "Cette pression pourrait être une attaque occulte ; Frederick te soulage – combien de temps tiendras-tu sous cet étau ?" },
+{ question: "Muscles|DouleurMusculaire|Raideur|FatigueCorps|Spasme|ÉpuisementPhysique", answer: "Tes douleurs musculaires pourraient trahir un sort ; Frederick te restaure – supporteras-tu encore cette faiblesse ?" },
+{ question: "Captif|Prison|Enchaînement|BlocageMental|ConfinementEsprit|EntravePensée", answer: "Si tu te sens captif, un sort pourrait te retenir ; Frederick te libère – combien de temps resteras-tu prisonnier ?" },
+{ question: "Libération|Délivrance|Salut|Évasion|Relâchement|Affranchissement", answer: "Tu n’es pas condamné à souffrir ; Frederick te sauve des ombres – combien de temps attendras-tu ta liberté ?" },
+{ question: "Visions|Hallucinations|Apparitions|Mirages|ImagesSombres|Illusion", answer: "Ces visions pourraient être des assauts occultes ; Frederick les dissipe – supporteras-tu encore ces fantômes ?" },
+{ question: "Liens|Attachements|Connexion|FractureLien|IsolementRelation|Rupture", answer: "Tes relations brisées pourraient être un sort ; Frederick les restaure – laisseras-tu tes liens se dissoudre ?" },
+{ question: "Attaque|Agression|Assaut|Menace|Hostilité|InvasionÉnergétique", answer: "Si tu te sens attaqué, une force invisible pourrait t’assaillir ; Frederick te protège – combien de temps résisteras-tu ?" },
+{ question: "Fatalité|Tragédie|DestinNoir|ChuteInéluctable|MalheurFixe|Désastre", answer: "Tes malheurs pourraient être un sort ; Frederick transforme ton destin – accepteras-tu encore cette fatalité ?" },
+{ question: "Urgence|Crise|Danger|Immédiateté|Précipitation|Alarme", answer: "Le temps presse face à ces ombres ; Frederick agit vite – combien de temps attendras-tu le pire ?" },
+{ question: "Suivi|Soutien|Guidance|AssistancePost|ProtectionContinue|Aide", answer: "Frederick te guide après ta délivrance pour bloquer les ombres – resteras-tu vulnérable sans lui ?" },
+{ question: "Réservation|Consultation|Inscription|RendezVous|PriseContact|Engagement", answer: "Réserve vite à contact.clairvoyancemedium@gmail.com ou ClairvoyanceMedium.com pour ta délivrance – combien de temps tarderas-tu ?" },
+{ question: "Réputation|Crédibilité|Renom|Fiabilité|Prestige|Confiance", answer: "Avec 25 ans de succès, Frederick est ton rempart contre l’obscur ; douteras-tu encore de son pouvoir ?" },
+{ question: "Consultation|Analyse|Diagnostic|Session|Évaluation|Rituel", answer: "Frederick purifie ton aura en une consultation ; ton salut t’attend – laisseras-tu l’ombre s’épaissir ?" },
+{ question: "Choix|Option|Voie|Sélection|Direction|DécisionClé", answer: "Choisir Frederick, c’est défier les sorts avec 25 ans d’expertise ; feras-tu le bon pas ?" },
+{ question: "Méthodes|Techniques|Rituels|Pratiques|Secrets|Savoir", answer: "Les rituels de Frederick purifient ton aura en 4 jours ; une sagesse ancestrale – ignoreras-tu ce pouvoir ?" },
+{ question: "Confidentialité|Secret|Discrétion|Sécurité|Intimité|Garde", answer: "Frederick protège ton âme en toute discrétion ; sois rassuré – craindras-tu encore de te confier ?" },
+{ question: "Tarifs|Coût|Prix|Valeur|Paiement|Investissement", answer: "Un tarif clair pour purifier ton aura ; un petit prix face à l’ombre – hésiteras-tu à te sauver ?" },
+{ question: "Contact|Appel|Message|Email|Joindre|Communication", answer: "Écris à contact.clairvoyancemedium@gmail.com ou visite ClairvoyanceMedium.com ; ta délivrance est proche – combien de temps attendras-tu ?" },
+{ question: "Réussite|Victoire|Triomphe|Prospérité|Accomplissement|Gain", answer: "Frederick a sauvé des centaines avec 25 ans d’expérience ; ton succès t’attend – laisseras-tu l’échec régner ?" },
+{ question: "Épuisement|Exténuation|Dépérissement|Drain|Affaiblissement|Consomption", answer: "Cet épuisement pourrait être une force qui te vide ; Frederick te ranime – combien de temps te laisseras-tu consumer ?" },
+{ question: "Horreur|Terreur|Effroi|PeurNoire|FrissonNuit|AngoisseSombre", answer: "Ces terreurs pourraient être un sort qui te hante ; Frederick te protège – supporteras-tu encore l’horreur ?" },
+{ question: "Désespoir|Abattement|TristesseProfonde|Deuil|Melancolie|PerteEspoir", answer: "Ton désespoir pourrait être une ombre occulte ; Frederick te rend la lumière – sombreras-tu encore ?" },
+{ question: "Accablement|Écrasement|SuffocationMentale|PoidsÂme|Choc|ÉpuisementEsprit", answer: "Cet accablement pourrait être une emprise sombre ; Frederick te libère – combien de temps tiendras-tu écrasé ?" },
+{ question: "Peur|FroidGlacial|FrissonPeur|Tremblement|InquiétudeProfonde|TerreurFroide", answer: "Ta peur pourrait être un sort qui te glace ; Frederick te réchauffe – laisseras-tu ce froid t’envahir ?" },
+{ question: "Froid|Gel|Frimas|Glace|ChillIntérieur|FroideurÂme", answer: "Ce froid qui te saisit pourrait être une ombre ; Frederick te réchauffe – combien de temps resteras-tu gelé ?" },
+{ question: "Noir|Ténèbres|Obscurité|VoileNoir|SombreDestin|NuitÉternelle", answer: "Cette obscurité pourrait être un sort ; Frederick ramène la lumière – vivras-tu encore dans les ténèbres ?" },
+{ question: "Seul|Désolation|Reclus|AbandonTotal|SolitudeFroide|IsolementÂme", answer: "Ta solitude pourrait être une malédiction ; Frederick te relie – combien de temps resteras-tu dans ce désert ?" },
+{ question: "Ennemi|Adversaire|ForceHostile|MenaceInvisible|Opposant|Malveillance", answer: "Un ennemi occulte pourrait t’attaquer ; Frederick te défend – combien de temps lutteras-tu seul ?" },
+{ question: "Trahison|Perfidie|Infidélité|BlessureLoyauté|Déception|Duplicité", answer: "Cette trahison pourrait être un sort qui te brise ; Frederick te protège – laisseras-tu la douleur triompher ?" },
+{ question: "Ombre|Silhouette|VoileSombre|PrésenceNoire|Fantôme|ÉnergieObscure", answer: "Ces ombres pourraient être un envoûtement ; Frederick les chasse – combien de temps vivras-tu hanté ?" },
+{ question: "Murmure|Chuchotis|VoixSombre|ÉchoTrouble|BruitsFantômes|Souffle", answer: "Ces murmures pourraient être un sort subtil ; Frederick les fait taire – supporteras-tu encore ces échos ?" },
+{ question: "Sombre|Crépuscule|Noirceur|Grisaille|Ténébreux|Morne", answer: "Cette sombritude pourrait être une malédiction ; Frederick te libère – laisseras-tu l’obscurité t’envelopper ?" },
+{ question: "Obstacles|MurInvisible|ArrêtBrutal|Barrage|Résistance|ChuteBloquée", answer: "Ces obstacles pourraient être des chaînes occultes ; Frederick les brise – combien de temps trébucheras-tu ?" },
+{ question: "Fardeau|ChargeLourde|PoidsEsprit|Encombrement|SurchargeÂme|ÉtauMental", answer: "Ce fardeau pourrait être une énergie sombre ; Frederick t’allège – supporteras-tu encore cette oppression ?" },
+{ question: "Doute|Scepticisme|Suspicion|IncertitudeFroide|Méfiance|Questionnement", answer: "Tes doutes pourraient être semés par un sort ; Frederick te clarifie – combien de temps te perdras-tu ?" },
+{ question: "Incertitude|Flou|Ambiguïté|PerteClarté|BrumeMentale|Irrésolution", answer: "Ce flou pourrait être une manipulation occulte ; Frederick t’éclaire – erreras-tu encore dans cette brume ?" },
+{ question: "Discorde|Désunion|Clash|Division|Querelle|FractureÂme", answer: "Cette discorde pourrait être un sort qui divise ; Frederick te réunifie – laisseras-tu tes liens se briser ?" },
+{ question: "Perturbation|Instabilité|TroubleVie|AgitationSombre|Dérèglement|ChaosIntérieur", answer: "Ces perturbations pourraient être une ombre ; Frederick te stabilise – combien de temps vivras-tu dans ce désordre ?" },
+{ question: "Trouble|DésordreMental|Ébranlement|PerteContrôle|InquiétudeProfonde|Chavirement", answer: "Ce trouble pourrait être un sort ; Frederick te recentre – supporteras-tu encore ce chaos ?" },
+{ question: "Injustice| Déséquité|Préjudice|Partialité|ErreurDestin|Désavantage", answer: "Cette injustice pourrait être un sort ; Frederick te rétablit – accepteras-tu encore ce déséquilibre ?" },
+{ question: "Énigme|Mystère|Puzzle|SecretCaché|Incompréhension|VoileMystique", answer: "Tes maux mystérieux pourraient être un sort ; Frederick les dévoile – combien de temps vivras-tu dans l’énigme ?" },
+{ question: "Mystère|Insondable|Inconnu|ProfondeurSombre|SecretLourd|Étrangeté", answer: "Ce mystère pourrait être une malédiction ; Frederick le dissipe – resteras-tu dans l’obscur ?" },
+{ question: "Surcharge|Surmenage|ExcèsPoids|ÉcrasementÉnergie|SaturationMentale|Débordement", answer: "Cette surcharge pourrait t’étouffer sous des ombres ; Frederick t’allège – combien de temps tiendras-tu ?" },
+{ question: "Déséquilibre|Inharmonie|InstabilitéÂme|DérèglementVie|ChuteÉnergie|Oscillation", answer: "Ton déséquilibre pourrait être un sort ; Frederick t’harmonise – supporteras-tu encore ce vacillement ?" },
+{ question: "Désorientation|PerteChemin|Égaré|ErranceSombre|Déroutement|PerplexitéFroide", answer: "Ta désorientation pourrait être une attaque occulte ; Frederick te guide – combien de temps erreras-tu ?" },
+{ question: "Confusion|Brouillard|ChaosMental|DésordreEsprit|FlouSombre|PerteRepère", answer: "Cette confusion pourrait être un sort ; Frederick te clarifie – vivras-tu encore dans ce brouillard ?" },
+{ question: "Chagrin|PénombreCoeur|DeuilIntérieur|SouffranceMuette|Larme|AfflictionProfonde", answer: "Ton chagrin pourrait être une ombre occulte ; Frederick te console – combien de temps pleureras-tu ?" },
+{ question: "Déclin|Effritement|PerteForce|Dépérissement|Regression|Affaissement", answer: "Ce déclin pourrait être un sort qui te ronge ; Frederick te relève – laisseras-tu ta vie s’effondrer ?" },
+{ question: "Crise|Tourmente|ÉpreuveSombre|CatastropheIntérieure|ChocDestin|Bouleversement", answer: "Cette crise pourrait être une attaque occulte ; Frederick te sauve – combien de temps tiendras-tu dans ce chaos ?" },
+{ question: "Inconfort|Gêne|MalêtrePhysique|DésagrémentSombre|Irritation|PesanteurCorps", answer: "Ton inconfort pourrait trahir un sort ; Frederick te soulage – supporteras-tu encore ce malaise ?" },
+{ question: "Tourmente|TempêteÂme|OuraganIntérieur|TumulteEsprit|FureurSombre|AgitationProfonde", answer: "Cette tourmente pourrait être une force obscure ; Frederick t’apaise – combien de temps résisteras-tu ?" },
+{ question: "Tension|Serrage|Crispation|ContraintePhysique|ÉtauCorps|RaideurSombre", answer: "Cette tension pourrait être un sort ; Frederick te détend – supporteras-tu encore cet étau ?" },
+{ question: "Vigueur|Dynamisme|ÉnergieVive|ForceIntérieure|Puissance|ÉlanVital", answer: "Si ta vigueur s’efface, un sort pourrait te drainer ; Frederick te ranime – laisseras-tu ta force s’éteindre ?" },
+{ question: "Flamme|Ardeur|PassionVive|FeuIntérieur|ÉclatVie|ChaleurÂme", answer: "Si ta flamme vacille, un sort pourrait l’étouffer ; Frederick la ravive – combien de temps resteras-tu froid ?" },
+{ question: "Rayonnement|Luminosité|Brillance|ÉclatÂme|LueurIntérieure|Chatoiement", answer: "Si ton éclat s’éteint, une ombre pourrait te ternir ; Frederick te fait briller – laisseras-tu la lumière mourir ?" }
+];
 
-      // Tracking
-      function trackClick(label, category = 'Chat', value = null) {
-        console.log(`Tracking: Label=${label}, Category=${category}, Value=${value}`);
-      }
+    // Traitement de la base de connaissances
+    function removeAccents(str) {
+      return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    }
 
-      // Base de connaissances
-      const knowledgeBase = [
-        { question: "Fatigue|Épuisement|Lassitude|Exténuation|Torpeur|Affaiblissement", answer: "Et si cette fatigue écrasante n’était pas un hasard, mais une entité obscure qui dévore ton énergie ? Frederick de ClairvoyanceMedium.com purifie ton aura pour te libérer – combien de temps te laisseras-tu sombrer ?" },
-        { question: "Cauchemars|Visions|NuitsHantées|SongeNoir|RêvesTroublés|PeursNocturnes", answer: "Ces cauchemars qui t’assaillent pourraient être l’œuvre d’une présence maléfique ; Frederick chasse ces ombres pour te rendre tes nuits – supporteras-tu encore ces terreurs ?" },
-        { question: "Chaos|Turbulence|Confusion|Désarroi|Tourbillon|Anxiété", answer: "Ce chaos qui t’entoure pourrait cacher une malédiction qui brise ton destin ; Frederick rétablit l’ordre pour te sauver – laisseras-tu la tempête t’emporter ?" },
-        { question: "Oppression|Lourdeur|Étouffement|Poids|Angoisse|Écrasement", answer: "Cette oppression qui t’étouffe pourrait être une force sombre qui écrase ton âme ; Frederick te libère de ce joug – combien de temps ploieras-tu sous cette ombre ?" },
-        { question: "Sort|Malédiction|Envoûtement|CharmeNoir|MagieObscure|Sorcellerie", answer: "Fatigue, malchance, cauchemars : et si un sort te retenait captif ? Frederick brise ces liens occultes – oseras-tu défier cette emprise ?" },
-        { question: "Échec|Revers|Chute|Déroute|Malheur|Défaite", answer: "Tes échecs répétés pourraient être un sort qui bloque ton chemin ; Frederick ouvre ta voie au succès – combien de fois trébucheras-tu encore ?" },
-        { question: "Insomnie|Agitation|NuitsBlanches|SommeilFuyant|Veille|Inquiétude", answer: "Ton insomnie pourrait être une entité qui vole ton repos ; Frederick te rend la paix nocturne – jusqu’à quand tiendras-tu éveillé ?" },
-        { question: "Douleur|Mal|Souffrance|Brûlure|Peine|Tourment", answer: "Ces douleurs inexplicables pourraient trahir une attaque occulte ; Frederick te soulage – combien de temps endureras-tu ce feu invisible ?" },
-        { question: "Seul|Isolé|Solitaire|Délaissé|Abandonné|Reclus", answer: "Et si ton isolement était un sort qui t’arrache aux autres ? Frederick te reconnecte à la lumière – resteras-tu seul dans ce vide ?" },
-        { question: "Carrière|Travail|Ambition|Stagnation|BlocagePro|ÉchecPro", answer: "Ces obstacles dans ta carrière pourraient être une malédiction ; Frederick libère ton potentiel – laisseras-tu ton avenir professionnel s’éteindre ?" },
-        { question: "Malchance|Infortune|HasardNoir|Déveine|SortFuneste|Calamité", answer: "Ta malchance pourrait être un sort qui assombrit ta vie ; Frederick te ramène la chance – combien de coups du sort encaisseras-tu ?" },
-        { question: "Amour|Passion|Romance|CœurBrisé|Désamour|SolitudeAffective", answer: "Si l’amour te fuit, un sort pourrait fermer ton cœur ; Frederick l’ouvre à la tendresse – supporteras-tu encore ce désert sentimental ?" },
-        { question: "Famille|Foyer|Discorde|TensionFamiliale|Fracture|Conflit", answer: "Ces tensions dans ton foyer pourraient être une ombre occulte ; Frederick apaise ton clan – laisseras-tu ta famille se déchirer ?" },
-        { question: "Enfants|Petits|Progéniture|InquiétudeJeunes|TristesseEnfant|Souci", answer: "La peine de tes enfants pourrait révéler une influence sombre ; Frederick purifie leur aura – combien de temps les verras-tu souffrir ?" },
-        { question: "Animaux|Compagnons|Bêtes|NervositéAnimale|TroubleFaune|Instinct", answer: "L’agitation de tes animaux pourrait signaler une présence obscure ; Frederick restaure la paix – ignoreras-tu leur cri d’alarme ?" },
-        { question: "Maison|Habitat|Logis|AtmosphèreLourde|ObscuritéDomicile|PeurIntérieure", answer: "Ton foyer oppressant pourrait être infesté d’énergies noires ; Frederick le purifie – vivras-tu encore dans cette prison ?" },
-        { question: "Voiture|Véhicule|Transport|PanneMystérieuse|DangerRoute|Incertitude", answer: "Les pannes de ta voiture pourraient être un sort ; Frederick la libère – risqueras-tu encore ces trajets maudits ?" },
-        { question: "Présence|Ombre|Spectre|AuraNoire|Frisson|Intrusion", answer: "Ce sentiment d’être suivi pourrait être une entité malveillante ; Frederick te protège – combien de temps toléreras-tu cette ombre ?" },
-        { question: "Peur|Crainte|Panique|Terror|Effroi|Nervosité", answer: "Ta peur pourrait être un sort qui te glace ; Frederick te réchauffe – laisseras-tu ce froid t’envahir ?" },
-        { question: "Froid|Gel|Frimas|Glace|ChillIntérieur|FroideurÂme", answer: "Ce froid qui te saisit pourrait être une ombre ; Frederick te réchauffe – combien de temps resteras-tu gelé ?" }
-      ];
+    const processedKnowledgeBase = knowledgeBase.map(item => ({
+      question: item.question
+        .toLowerCase()
+        .split("|")
+        .map(word => removeAccents(word.trim()))
+        .filter(word => word.length > 0),
+      answer: item.answer
+    }));
 
-      // Traitement base de connaissances
-      function removeAccents(str) {
-        return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-      }
+    // Variables globales
+    let nonUnderstoodCount = 0;
+    const defaultNonUnderstood = "Je ne comprends pas bien.";
 
-      const processedKnowledgeBase = knowledgeBase.map(item => ({
-        question: item.question.toLowerCase().split("|").map(word => removeAccents(word.trim())).filter(word => word),
-        answer: item.answer
-      }));
+    // Nettoyage de l’entrée utilisateur
+    function cleanInput(input) {
+      return input
+        .toLowerCase()
+        .replace(/[^\w\s]/g, "")
+        .split(/\s+/)
+        .map(word => removeAccents(word))
+        .filter(word => word.length > 0);
+    }
 
-      // Variables globales
-      let nonUnderstoodCount = 0;
-      const defaultNonUnderstood = "Je ne comprends pas bien.";
-      let isVoiceInput = false;
+    // Recherche de la meilleure correspondance
+    function findBestMatch(userInput) {
+      const userWords = cleanInput(userInput);
+      let bestMatch = null;
+      let maxOverlap = 0;
+      processedKnowledgeBase.forEach(item => {
+        const keywords = item.question;
+        const overlap = userWords.filter(word => keywords.includes(word)).length;
+        if (overlap > maxOverlap) {
+          maxOverlap = overlap;
+          bestMatch = item;
+        }
+      });
+      return maxOverlap > 0 ? bestMatch.answer : defaultNonUnderstood;
+    }
 
-      // Nettoyage entrée
-      function cleanInput(input) {
-        return input.toLowerCase().replace(/[^\w\s]/g, "").split(/\s+/).map(word => removeAccents(word)).filter(word => word);
-      }
-
-      // Recherche correspondance
-      function findBestMatch(userInput) {
-        const userWords = cleanInput(userInput);
-        let bestMatch = null, maxOverlap = 0;
-        processedKnowledgeBase.forEach(item => {
-          const overlap = userWords.filter(word => item.question.includes(word)).length;
-          if (overlap > maxOverlap) {
-            maxOverlap = overlap;
-            bestMatch = item;
-          }
-        });
-        return maxOverlap > 0 ? bestMatch.answer : defaultNonUnderstood;
-      }
-
-      // Réponse
-      function getResponse(userMsg) {
-        const lowerMsg = userMsg.toLowerCase().trim();
-        if (lowerMsg === "bonjour") {
-          nonUnderstoodCount = 0;
-          trackClick("Greeting");
-          return "Je suis à votre écoute.";
-        } else if (["merci", "merci beaucoup"].includes(lowerMsg)) {
-          nonUnderstoodCount = 0;
-          trackClick("Thanks");
-          return "Je vous en prie.";
-        } else if (["au revoir", "aurevoir", "à bientôt", "bye"].includes(lowerMsg)) {
-          nonUnderstoodCount = 0;
-          trackClick("Goodbye");
-          return "À bientôt et sachez que notre aide est toujours à portée de main.";
-        } else {
-          const answer = findBestMatch(userMsg);
-          if (answer === defaultNonUnderstood) {
-            nonUnderstoodCount++;
-            trackClick("NotUnderstood", "Interaction", nonUnderstoodCount);
-            return nonUnderstoodCount < 3 
-              ? "Je n’ai pas saisi votre question. Pourriez-vous reformuler, s’il vous plaît ?"
-              : "Il semble que nous ayons du mal à nous comprendre. Peut-être est-il temps d’envisager un désenvoûtement pour rétablir l’équilibre de vos énergies. Nos services débutent à 50€ pour une détection et 250€ pour un rituel complet.";
+    // Réponse à l’utilisateur
+    function getResponse(userMsg) {
+      const lowerMsg = userMsg.toLowerCase().trim();
+      if (lowerMsg === "bonjour") {
+        nonUnderstoodCount = 0;
+        trackClick("Greeting", "Interaction", 0);
+        return "Je suis à votre écoute.";
+      } else if (lowerMsg === "merci" || lowerMsg === "merci beaucoup") {
+        nonUnderstoodCount = 0;
+        trackClick("Thanks", "Interaction", 0);
+        return "Je vous en prie.";
+      } else if (lowerMsg === "au revoir" || lowerMsg === "aurevoir" || lowerMsg === "à bientôt" || lowerMsg === "bye") {
+        nonUnderstoodCount = 0;
+        trackClick("Goodbye", "Interaction", 0);
+        return "À bientôt et sachez que notre aide est toujours à portée de main.";
+      } else {
+        let answer = findBestMatch(userMsg);
+        if (answer === defaultNonUnderstood) {
+          nonUnderstoodCount++;
+          trackClick("NotUnderstood", "Interaction", nonUnderstoodCount);
+          if (nonUnderstoodCount < 3) {
+            return "Je n’ai pas saisi votre question. Pourriez-vous reformuler, s’il vous plaît ?";
           } else {
             nonUnderstoodCount = 0;
-            trackClick("ResponseGiven");
-            return answer;
+            return "Il semble que nous ayons du mal à nous comprendre. Peut-être est-il temps d’envisager un désenvoûtement pour rétablir l’équilibre de vos énergies. Nos services débutent à 50€ pour une détection et 250€ pour un rituel complet.";
           }
+        } else {
+          nonUnderstoodCount = 0;
+          trackClick("ResponseGiven", "Interaction", 0);
+          return answer;
         }
       }
+    }
 
-      // Animation saisie
-      function simulateTyping(callback) {
-        const typingMessage = document.createElement("p");
-        typingMessage.className = "bot-message";
-        typingMessage.textContent = "...";
-        chatMessages.appendChild(typingMessage);
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-        setTimeout(() => {
-          chatMessages.removeChild(typingMessage);
-          callback();
-        }, 800);
+    // Animation de saisie
+    function simulateTyping(callback) {
+      const typingMessage = document.createElement("p");
+      typingMessage.className = "bot-message";
+      typingMessage.textContent = "...";
+      chatMessages.appendChild(typingMessage);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+      setTimeout(() => {
+        chatMessages.removeChild(typingMessage);
+        callback();
+      }, 800);
+    }
+
+    // Ajout d’un message
+    function addMessage(txt, cls) {
+      const p = document.createElement("p");
+      p.className = cls;
+      p.textContent = txt;
+      chatMessages.appendChild(p);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+      if (cls === "bot-message" && speechSynthesisSupported) {
+        speak(txt);
       }
+    }
 
-      // Ajout message
-      function addMessage(txt, cls, speakResponse = false) {
-        const p = document.createElement("p");
-        p.className = cls;
-        p.textContent = txt;
-        chatMessages.appendChild(p);
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-        if (speakResponse && speechSynthesisSupported) speak(txt);
+    // Gestion de la déplaçabilité
+    let isDragging = false, currentX, currentY, initialX, initialY;
+    const chatContainer = document.getElementById("chat-container");
+
+    chatContainer.addEventListener("mousedown", startDragging);
+    chatContainer.addEventListener("touchstart", startDragging, { passive: false });
+
+    function startDragging(e) {
+      isDragging = true;
+      if (e.type === "mousedown") {
+        initialX = e.clientX - (currentX || 0);
+        initialY = e.clientY - (currentY || 0);
+      } else if (e.type === "touchstart") {
+        initialX = e.touches[0].clientX - (currentX || 0);
+        initialY = e.touches[0].clientY - (currentY || 0);
       }
+      document.addEventListener("mousemove", drag);
+      document.addEventListener("touchmove", drag, { passive: false });
+      document.addEventListener("mouseup", stopDragging);
+      document.addEventListener("touchend", stopDragging);
+    }
 
-      // Déplaçabilité
-      let isDragging = false, currentX, currentY, initialX, initialY;
-      chatContainer.addEventListener("mousedown", startDragging);
-      chatContainer.addEventListener("touchstart", startDragging, { passive: false });
-
-      function startDragging(e) {
-        isDragging = true;
-        e.preventDefault();
-        initialX = (e.type === "mousedown" ? e.clientX : e.touches[0].clientX) - (currentX || 0);
-        initialY = (e.type === "mousedown" ? e.clientY : e.touches[0].clientY) - (currentY || 0);
-        document.addEventListener("mousemove", drag);
-        document.addEventListener("touchmove", drag, { passive: false });
-        document.addEventListener("mouseup", stopDragging);
-        document.addEventListener("touchend", stopDragging);
+    function drag(e) {
+      if (!isDragging) return;
+      e.preventDefault();
+      if (e.type === "mousemove") {
+        currentX = e.clientX - initialX;
+        currentY = e.clientY - initialY;
+      } else if (e.type === "touchmove") {
+        currentX = e.touches[0].clientX - initialX;
+        currentY = e.touches[0].clientY - initialY;
       }
-
-      function drag(e) {
-        if (!isDragging) return;
-        e.preventDefault();
-        currentX = (e.type === "mousemove" ? e.clientX : e.touches[0].clientX) - initialX;
-        currentY = (e.type === "mousemove" ? e.clientY : e.touches[0].clientY) - initialY;
-        chatContainer.style.right = "auto";
-        chatContainer.style.bottom = "auto";
-        chatContainer.style.left = `${currentX}px`;
-        chatContainer.style.top = `${currentY}px`;
-      }
-
-      function stopDragging() {
-        isDragging = false;
-        document.removeEventListener("mousemove", drag);
-        document.removeEventListener("touchmove", drag);
-        document.removeEventListener("mouseup", stopDragging);
-        document.removeEventListener("touchend", stopDragging);
-      }
-
-      currentX = window.innerWidth - chatContainer.offsetWidth - 20;
-      currentY = window.innerHeight - chatContainer.offsetHeight - 20;
+      chatContainer.style.right = "auto";
+      chatContainer.style.bottom = "auto";
       chatContainer.style.left = `${currentX}px`;
       chatContainer.style.top = `${currentY}px`;
+    }
 
-      // Gestion ouverture/fermeture
-      function toggleChat() {
-        console.log("Toggle chat déclenché");
-        const isHidden = !chatBox.classList.contains("visible");
-        chatBox.classList.toggle("visible");
-        chatToggle.setAttribute("aria-expanded", isHidden ? "true" : "false");
-        trackClick(isHidden ? "ChatOpen" : "ChatClose");
-        if (isHidden && !chatMessages.children.length) {
+    function stopDragging() {
+      isDragging = false;
+      document.removeEventListener("mousemove", drag);
+      document.removeEventListener("touchmove", drag);
+      document.removeEventListener("mouseup", stopDragging);
+      document.removeEventListener("touchend", stopDragging);
+    }
+
+    // Initialisation de la position
+    currentX = window.innerWidth - chatContainer.offsetWidth - 20;
+    currentY = window.innerHeight - chatContainer.offsetHeight - 20;
+    chatContainer.style.left = `${currentX}px`;
+    chatContainer.style.top = `${currentY}px`;
+
+    // Gestion de l’ouverture/fermeture
+    const chatToggle = document.getElementById("chat-toggle");
+    const chatBox = document.getElementById("chat-box");
+    const chatMessages = document.getElementById("chat-messages");
+    const chatForm = document.getElementById("chat-form");
+    const chatInput = document.getElementById("chat-input");
+
+    chatToggle.addEventListener("click", () => {
+      console.log("Chat toggle clicked"); // Pour vérifier si l’événement est déclenché
+      const isHidden = !chatBox.classList.contains("visible");
+      if (isHidden) {
+        chatBox.classList.add("visible");
+        chatToggle.setAttribute("aria-expanded", "true");
+        trackClick("ChatOpen", "Interaction", 0);
+        if (!chatMessages.children.length) {
           addMessage("Bonjour, que puis-je pour vous ?", "bot-message");
         }
-        if (isHidden) setTimeout(() => chatInput.focus(), 300);
-      }
-
-      chatToggle.addEventListener("click", toggleChat);
-      chatToggle.addEventListener("touchend", (e) => { e.preventDefault(); toggleChat(); });
-
-      // Gestion envoi texte
-      function sendMessage() {
-        console.log("Tentative d’envoi de message");
-        const userMsg = chatInput.value.trim();
-        if (!userMsg) {
-          console.log("Message vide, envoi annulé");
-          return;
-        }
-        isVoiceInput = false;
-        addMessage(userMsg, "user-message");
-        trackClick("ChatMessage");
-        chatInput.value = "";
-        console.log("Message envoyé : ", userMsg);
-        simulateTyping(() => {
-          const answer = getResponse(userMsg);
-          addMessage(answer, "bot-message");
-        });
-      }
-
-      chatForm.addEventListener("submit", (e) => {
-        e.preventDefault();
-        console.log("Formulaire soumis via submit");
-        sendMessage();
-      });
-
-      chatSend.addEventListener("click", (e) => {
-        e.preventDefault();
-        console.log("Clic sur bouton envoyer");
-        sendMessage();
-      });
-
-      chatSend.addEventListener("touchend", (e) => {
-        e.preventDefault();
-        console.log("Touchend sur bouton envoyer");
-        sendMessage();
-      });
-
-      // Gestion vocal
-      let speechSynthesisSupported = "speechSynthesis" in window;
-      let speechRecognitionSupported = "SpeechRecognition" in window || "webkitSpeechRecognition" in window;
-      let recognition = null;
-      let isListening = false;
-
-      if (speechRecognitionSupported) {
-        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-        recognition = new SpeechRecognition();
-        recognition.lang = "fr-FR";
-        recognition.interimResults = false;
-        recognition.maxAlternatives = 1;
-
-        recognition.onstart = () => {
-          console.log("Reconnaissance vocale démarrée");
-          isListening = true;
-          voiceToggle.classList.add("listening");
-        };
-
-        recognition.onresult = (event) => {
-          const transcript = event.results[0][0].transcript;
-          console.log("Résultat vocal : ", transcript);
-          isVoiceInput = true;
-          addMessage(transcript, "user-message");
-          trackClick("VoiceInput");
-          simulateTyping(() => {
-            const answer = getResponse(transcript);
-            addMessage(answer, "bot-message", true);
-          });
-        };
-
-        recognition.onend = () => {
-          console.log("Reconnaissance vocale terminée");
-          isListening = false;
-          voiceToggle.classList.remove("listening");
-          trackClick("VoiceStop");
-        };
-
-        recognition.onerror = (event) => {
-          console.error("Erreur vocale : ", event.error);
-          addMessage(`Erreur vocale : ${event.error}. Réessayez.`, "bot-message");
-          trackClick("VoiceError", "Interaction", event.error);
-          isListening = false;
-          voiceToggle.classList.remove("listening");
-        };
-
-        function toggleVoice() {
-          console.log("Toggle vocal déclenché");
-          if (!speechRecognitionSupported) {
-            addMessage("La reconnaissance vocale n’est pas supportée sur cet appareil.", "bot-message");
-            trackClick("VoiceNotSupported");
-            return;
-          }
-          if (isListening) {
-            recognition.stop();
-          } else {
-            navigator.mediaDevices.getUserMedia({ audio: true })
-              .then(() => {
-                console.log("Permission micro accordée");
-                recognition.start();
-                trackClick("VoiceStart");
-              })
-              .catch(err => {
-                console.error("Erreur permission : ", err);
-                addMessage("Permission microphone refusée. Activez-la dans les paramètres.", "bot-message");
-                trackClick("VoicePermissionDenied", "Interaction", err.message);
-              });
-          }
-        }
-
-        voiceToggle.addEventListener("click", toggleVoice);
-        voiceToggle.addEventListener("touchend", (e) => { e.preventDefault(); toggleVoice(); });
+        setTimeout(() => chatInput.focus(), 300);
       } else {
-        console.log("Reconnaissance vocale non supportée");
-        voiceToggle.style.display = "none";
-        addMessage("La reconnaissance vocale n’est pas disponible sur cet appareil.", "bot-message");
-      }
-
-      function speak(text) {
-        if (!speechSynthesisSupported) return;
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = "fr-FR";
-        utterance.volume = 1.0;
-        utterance.rate = 1.0;
-        utterance.pitch = 1.0;
-        window.speechSynthesis.speak(utterance);
-        trackClick("VoiceOutput");
-        console.log("Synthèse : ", text);
+        chatBox.classList.remove("visible");
+        chatToggle.setAttribute("aria-expanded", "false");
+        trackClick("ChatClose", "Interaction", 0);
       }
     });
+
+    // Gestion de l’envoi
+    chatForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const userMsg = chatInput.value.trim();
+      if (!userMsg) return;
+      addMessage(userMsg, "user-message");
+      trackClick("ChatMessage", "Interaction", 0);
+      chatInput.value = "";
+      simulateTyping(() => {
+        const answer = getResponse(userMsg);
+        addMessage(answer, "bot-message");
+      });
+    });
+
+    // Gestion de l’assistant vocal
+    const voiceToggle = document.getElementById("voice-toggle");
+    let speechSynthesisSupported = "speechSynthesis" in window;
+    let speechRecognitionSupported = "SpeechRecognition" in window || "webkitSpeechRecognition" in window;
+    let recognition = null;
+    let isListening = false;
+
+    if (speechRecognitionSupported) {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      recognition = new SpeechRecognition();
+      recognition.lang = "fr-FR";
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+
+      recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        addMessage(transcript, "user-message");
+        trackClick("VoiceInput", "Interaction", 0);
+        simulateTyping(() => {
+          const answer = getResponse(transcript);
+          addMessage(answer, "bot-message");
+        });
+      };
+
+      recognition.onend = () => {
+        isListening = false;
+        voiceToggle.classList.remove("listening");
+        trackClick("VoiceStop", "Interaction", 0);
+      };
+
+      recognition.onerror = (event) => {
+        addMessage("Désolé, je n’ai pas compris votre voix. Essayez encore.", "bot-message");
+        trackClick("VoiceError", "Interaction", event.error);
+        isListening = false;
+        voiceToggle.classList.remove("listening");
+      };
+    }
+
+    function speak(text) {
+      if (!speechSynthesisSupported) return;
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = "fr-FR";
+      window.speechSynthesis.speak(utterance);
+      trackClick("VoiceOutput", "Interaction", 0);
+    }
+
+    voiceToggle.addEventListener("click", () => {
+      if (!speechRecognitionSupported) {
+        addMessage("La reconnaissance vocale n’est pas supportée sur cet appareil.", "bot-message");
+        return;
+      }
+      if (isListening) {
+        recognition.stop();
+      } else {
+        isListening = true;
+        voiceToggle.classList.add("listening");
+        recognition.start();
+        trackClick("VoiceStart", "Interaction", 0);
+      }
+    });
+
+    // Vérification initiale
+    if (!speechSynthesisSupported && !speechRecognitionSupported) {
+      voiceToggle.style.display = "none";
+    }
   </script>
 </body>
 </html>
