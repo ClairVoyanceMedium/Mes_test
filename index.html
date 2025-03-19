@@ -188,10 +188,11 @@
       const chatMessages = document.getElementById("chat-messages");
       const chatForm = document.getElementById("chat-form");
       const chatInput = document.getElementById("chat-input");
+      const chatSend = document.getElementById("chat-send");
       const voiceToggle = document.getElementById("voice-toggle");
 
       // Vérification DOM
-      if (!chatToggle || !chatBox || !chatForm || !chatInput || !voiceToggle) {
+      if (!chatContainer || !chatToggle || !chatBox || !chatMessages || !chatForm || !chatInput || !chatSend || !voiceToggle) {
         console.error("Erreur : Un ou plusieurs éléments DOM manquants");
         return;
       }
@@ -370,19 +371,40 @@
       chatToggle.addEventListener("touchend", (e) => { e.preventDefault(); toggleChat(); });
 
       // Gestion envoi texte
-      chatForm.addEventListener("submit", (e) => {
-        e.preventDefault();
-        console.log("Formulaire soumis");
+      function sendMessage() {
+        console.log("Tentative d’envoi de message");
         const userMsg = chatInput.value.trim();
-        if (!userMsg) return;
+        if (!userMsg) {
+          console.log("Message vide, envoi annulé");
+          return;
+        }
         isVoiceInput = false;
         addMessage(userMsg, "user-message");
         trackClick("ChatMessage");
         chatInput.value = "";
+        console.log("Message envoyé : ", userMsg);
         simulateTyping(() => {
           const answer = getResponse(userMsg);
           addMessage(answer, "bot-message");
         });
+      }
+
+      chatForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        console.log("Formulaire soumis via submit");
+        sendMessage();
+      });
+
+      chatSend.addEventListener("click", (e) => {
+        e.preventDefault();
+        console.log("Clic sur bouton envoyer");
+        sendMessage();
+      });
+
+      chatSend.addEventListener("touchend", (e) => {
+        e.preventDefault();
+        console.log("Touchend sur bouton envoyer");
+        sendMessage();
       });
 
       // Gestion vocal
@@ -473,10 +495,6 @@
         window.speechSynthesis.speak(utterance);
         trackClick("VoiceOutput");
         console.log("Synthèse : ", text);
-      }
-
-      if (!speechSynthesisSupported && !speechRecognitionSupported) {
-        voiceToggle.style.display = "none";
       }
     });
   </script>
