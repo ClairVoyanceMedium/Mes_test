@@ -10,7 +10,7 @@
       bottom: 20px;
       right: 20px;
       width: 300px;
-      max-height: 80vh; /* Adapté pour mobile */
+      max-height: 80vh;
       display: flex;
       flex-direction: column;
       z-index: 999999;
@@ -27,19 +27,18 @@
       border-radius: 50%;
       cursor: pointer;
       box-shadow: 0 4px 12px rgba(255,105,180,0.7);
-      font-size: 1.8rem; /* Plus grand pour mobile */
+      font-size: 1.8rem;
       display: flex;
       align-items: center;
       justify-content: center;
       transition: transform 0.2s;
       outline: none;
-      touch-action: none; /* Évite le zoom/pan sur mobile */
     }
     #chat-toggle:hover {
       transform: scale(1.05);
     }
     #voice-toggle {
-      width: 50px; /* Plus grand pour mobile */
+      width: 50px;
       height: 50px;
       background: linear-gradient(145deg, #87CEEB, #5eb6d1);
       color: #fff;
@@ -54,7 +53,6 @@
       margin-left: 10px;
       transition: transform 0.2s;
       outline: none;
-      touch-action: none;
     }
     #voice-toggle:hover {
       transform: scale(1.05);
@@ -83,7 +81,7 @@
       padding: 1rem;
       overflow-y: auto;
       color: #fff;
-      -webkit-overflow-scrolling: touch; /* Défilement fluide sur iOS */
+      -webkit-overflow-scrolling: touch;
     }
     #chat-messages p {
       margin-bottom: 0.5rem;
@@ -151,7 +149,7 @@
         width: 90%;
         right: 5%;
         bottom: 5%;
-        max-height: 70vh; /* Plus petit pour mobile */
+        max-height: 70vh;
       }
       #chat-toggle, #voice-toggle {
         width: 50px;
@@ -182,306 +180,335 @@
   </div>
 
   <script>
-    // Tracking
-    function trackClick(label, category = 'Chat', value = null) {
-      console.log(`Tracking: Label=${label}, Category=${category}, Value=${value}`);
-    }
+    // Attendre que le DOM soit chargé
+    document.addEventListener("DOMContentLoaded", () => {
+      // Tracking
+      function trackClick(label, category = 'Chat', value = null) {
+        console.log(`Tracking: Label=${label}, Category=${category}, Value=${value}`);
+      }
 
-    // Base de connaissances
-    const knowledgeBase = [
-      { question: "Fatigue|Épuisement|Lassitude|Exténuation|Torpeur|Affaiblissement", answer: "Et si cette fatigue écrasante n’était pas un hasard, mais une entité obscure qui dévore ton énergie ? Frederick de ClairvoyanceMedium.com purifie ton aura pour te libérer – combien de temps te laisseras-tu sombrer ?" },
-      { question: "Cauchemars|Visions|NuitsHantées|SongeNoir|RêvesTroublés|PeursNocturnes", answer: "Ces cauchemars qui t’assaillent pourraient être l’œuvre d’une présence maléfique ; Frederick chasse ces ombres pour te rendre tes nuits – supporteras-tu encore ces terreurs ?" },
-      { question: "Chaos|Turbulence|Confusion|Désarroi|Tourbillon|Anxiété", answer: "Ce chaos qui t’entoure pourrait cacher une malédiction qui brise ton destin ; Frederick rétablit l’ordre pour te sauver – laisseras-tu la tempête t’emporter ?" },
-      { question: "Oppression|Lourdeur|Étouffement|Poids|Angoisse|Écrasement", answer: "Cette oppression qui t’étouffe pourrait être une force sombre qui écrase ton âme ; Frederick te libère de ce joug – combien de temps ploieras-tu sous cette ombre ?" },
-      { question: "Sort|Malédiction|Envoûtement|CharmeNoir|MagieObscure|Sorcellerie", answer: "Fatigue, malchance, cauchemars : et si un sort te retenait captif ? Frederick brise ces liens occultes – oseras-tu défier cette emprise ?" },
-      { question: "Échec|Revers|Chute|Déroute|Malheur|Défaite", answer: "Tes échecs répétés pourraient être un sort qui bloque ton chemin ; Frederick ouvre ta voie au succès – combien de fois trébucheras-tu encore ?" },
-      { question: "Insomnie|Agitation|NuitsBlanches|SommeilFuyant|Veille|Inquiétude", answer: "Ton insomnie pourrait être une entité qui vole ton repos ; Frederick te rend la paix nocturne – jusqu’à quand tiendras-tu éveillé ?" },
-      { question: "Douleur|Mal|Souffrance|Brûlure|Peine|Tourment", answer: "Ces douleurs inexplicables pourraient trahir une attaque occulte ; Frederick te soulage – combien de temps endureras-tu ce feu invisible ?" },
-      { question: "Seul|Isolé|Solitaire|Délaissé|Abandonné|Reclus", answer: "Et si ton isolement était un sort qui t’arrache aux autres ? Frederick te reconnecte à la lumière – resteras-tu seul dans ce vide ?" },
-      { question: "Carrière|Travail|Ambition|Stagnation|BlocagePro|ÉchecPro", answer: "Ces obstacles dans ta carrière pourraient être une malédiction ; Frederick libère ton potentiel – laisseras-tu ton avenir professionnel s’éteindre ?" },
-      { question: "Malchance|Infortune|HasardNoir|Déveine|SortFuneste|Calamité", answer: "Ta malchance pourrait être un sort qui assombrit ta vie ; Frederick te ramène la chance – combien de coups du sort encaisseras-tu ?" },
-      { question: "Amour|Passion|Romance|CœurBrisé|Désamour|SolitudeAffective", answer: "Si l’amour te fuit, un sort pourrait fermer ton cœur ; Frederick l’ouvre à la tendresse – supporteras-tu encore ce désert sentimental ?" },
-      { question: "Famille|Foyer|Discorde|TensionFamiliale|Fracture|Conflit", answer: "Ces tensions dans ton foyer pourraient être une ombre occulte ; Frederick apaise ton clan – laisseras-tu ta famille se déchirer ?" },
-      { question: "Enfants|Petits|Progéniture|InquiétudeJeunes|TristesseEnfant|Souci", answer: "La peine de tes enfants pourrait révéler une influence sombre ; Frederick purifie leur aura – combien de temps les verras-tu souffrir ?" },
-      { question: "Animaux|Compagnons|Bêtes|NervositéAnimale|TroubleFaune|Instinct", answer: "L’agitation de tes animaux pourrait signaler une présence obscure ; Frederick restaure la paix – ignoreras-tu leur cri d’alarme ?" },
-      { question: "Maison|Habitat|Logis|AtmosphèreLourde|ObscuritéDomicile|PeurIntérieure", answer: "Ton foyer oppressant pourrait être infesté d’énergies noires ; Frederick le purifie – vivras-tu encore dans cette prison ?" },
-      { question: "Voiture|Véhicule|Transport|PanneMystérieuse|DangerRoute|Incertitude", answer: "Les pannes de ta voiture pourraient être un sort ; Frederick la libère – risqueras-tu encore ces trajets maudits ?" },
-      { question: "Présence|Ombre|Spectre|AuraNoire|Frisson|Intrusion", answer: "Ce sentiment d’être suivi pourrait être une entité malveillante ; Frederick te protège – combien de temps toléreras-tu cette ombre ?" },
-      { question: "Peur|Crainte|Panique|Terror|Effroi|Nervosité", answer: "Ta peur pourrait être un sort qui te glace ; Frederick te réchauffe – laisseras-tu ce froid t’envahir ?" },
-      { question: "Froid|Gel|Frimas|Glace|ChillIntérieur|FroideurÂme", answer: "Ce froid qui te saisit pourrait être une ombre ; Frederick te réchauffe – combien de temps resteras-tu gelé ?" }
-    ];
+      // Base de connaissances
+      const knowledgeBase = [
+        { question: "Fatigue|Épuisement|Lassitude|Exténuation|Torpeur|Affaiblissement", answer: "Et si cette fatigue écrasante n’était pas un hasard, mais une entité obscure qui dévore ton énergie ? Frederick de ClairvoyanceMedium.com purifie ton aura pour te libérer – combien de temps te laisseras-tu sombrer ?" },
+        { question: "Cauchemars|Visions|NuitsHantées|SongeNoir|RêvesTroublés|PeursNocturnes", answer: "Ces cauchemars qui t’assaillent pourraient être l’œuvre d’une présence maléfique ; Frederick chasse ces ombres pour te rendre tes nuits – supporteras-tu encore ces terreurs ?" },
+        { question: "Chaos|Turbulence|Confusion|Désarroi|Tourbillon|Anxiété", answer: "Ce chaos qui t’entoure pourrait cacher une malédiction qui brise ton destin ; Frederick rétablit l’ordre pour te sauver – laisseras-tu la tempête t’emporter ?" },
+        { question: "Oppression|Lourdeur|Étouffement|Poids|Angoisse|Écrasement", answer: "Cette oppression qui t’étouffe pourrait être une force sombre qui écrase ton âme ; Frederick te libère de ce joug – combien de temps ploieras-tu sous cette ombre ?" },
+        { question: "Sort|Malédiction|Envoûtement|CharmeNoir|MagieObscure|Sorcellerie", answer: "Fatigue, malchance, cauchemars : et si un sort te retenait captif ? Frederick brise ces liens occultes – oseras-tu défier cette emprise ?" },
+        { question: "Échec|Revers|Chute|Déroute|Malheur|Défaite", answer: "Tes échecs répétés pourraient être un sort qui bloque ton chemin ; Frederick ouvre ta voie au succès – combien de fois trébucheras-tu encore ?" },
+        { question: "Insomnie|Agitation|NuitsBlanches|SommeilFuyant|Veille|Inquiétude", answer: "Ton insomnie pourrait être une entité qui vole ton repos ; Frederick te rend la paix nocturne – jusqu’à quand tiendras-tu éveillé ?" },
+        { question: "Douleur|Mal|Souffrance|Brûlure|Peine|Tourment", answer: "Ces douleurs inexplicables pourraient trahir une attaque occulte ; Frederick te soulage – combien de temps endureras-tu ce feu invisible ?" },
+        { question: "Seul|Isolé|Solitaire|Délaissé|Abandonné|Reclus", answer: "Et si ton isolement était un sort qui t’arrache aux autres ? Frederick te reconnecte à la lumière – resteras-tu seul dans ce vide ?" },
+        { question: "Carrière|Travail|Ambition|Stagnation|BlocagePro|ÉchecPro", answer: "Ces obstacles dans ta carrière pourraient être une malédiction ; Frederick libère ton potentiel – laisseras-tu ton avenir professionnel s’éteindre ?" },
+        { question: "Malchance|Infortune|HasardNoir|Déveine|SortFuneste|Calamité", answer: "Ta malchance pourrait être un sort qui assombrit ta vie ; Frederick te ramène la chance – combien de coups du sort encaisseras-tu ?" },
+        { question: "Amour|Passion|Romance|CœurBrisé|Désamour|SolitudeAffective", answer: "Si l’amour te fuit, un sort pourrait fermer ton cœur ; Frederick l’ouvre à la tendresse – supporteras-tu encore ce désert sentimental ?" },
+        { question: "Famille|Foyer|Discorde|TensionFamiliale|Fracture|Conflit", answer: "Ces tensions dans ton foyer pourraient être une ombre occulte ; Frederick apaise ton clan – laisseras-tu ta famille se déchirer ?" },
+        { question: "Enfants|Petits|Progéniture|InquiétudeJeunes|TristesseEnfant|Souci", answer: "La peine de tes enfants pourrait révéler une influence sombre ; Frederick purifie leur aura – combien de temps les verras-tu souffrir ?" },
+        { question: "Animaux|Compagnons|Bêtes|NervositéAnimale|TroubleFaune|Instinct", answer: "L’agitation de tes animaux pourrait signaler une présence obscure ; Frederick restaure la paix – ignoreras-tu leur cri d’alarme ?" },
+        { question: "Maison|Habitat|Logis|AtmosphèreLourde|ObscuritéDomicile|PeurIntérieure", answer: "Ton foyer oppressant pourrait être infesté d’énergies noires ; Frederick le purifie – vivras-tu encore dans cette prison ?" },
+        { question: "Voiture|Véhicule|Transport|PanneMystérieuse|DangerRoute|Incertitude", answer: "Les pannes de ta voiture pourraient être un sort ; Frederick la libère – risqueras-tu encore ces trajets maudits ?" },
+        { question: "Présence|Ombre|Spectre|AuraNoire|Frisson|Intrusion", answer: "Ce sentiment d’être suivi pourrait être une entité malveillante ; Frederick te protège – combien de temps toléreras-tu cette ombre ?" },
+        { question: "Peur|Crainte|Panique|Terror|Effroi|Nervosité", answer: "Ta peur pourrait être un sort qui te glace ; Frederick te réchauffe – laisseras-tu ce froid t’envahir ?" },
+        { question: "Froid|Gel|Frimas|Glace|ChillIntérieur|FroideurÂme", answer: "Ce froid qui te saisit pourrait être une ombre ; Frederick te réchauffe – combien de temps resteras-tu gelé ?" }
+      ];
 
-    // Traitement base de connaissances
-    function removeAccents(str) {
-      return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-    }
+      // Traitement base de connaissances
+      function removeAccents(str) {
+        return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+      }
 
-    const processedKnowledgeBase = knowledgeBase.map(item => ({
-      question: item.question
-        .toLowerCase()
-        .split("|")
-        .map(word => removeAccents(word.trim()))
-        .filter(word => word.length > 0),
-      answer: item.answer
-    }));
+      const processedKnowledgeBase = knowledgeBase.map(item => ({
+        question: item.question
+          .toLowerCase()
+          .split("|")
+          .map(word => removeAccents(word.trim()))
+          .filter(word => word.length > 0),
+        answer: item.answer
+      }));
 
-    // Variables globales
-    let nonUnderstoodCount = 0;
-    const defaultNonUnderstood = "Je ne comprends pas bien.";
-    let isVoiceInput = false;
+      // Variables globales
+      let nonUnderstoodCount = 0;
+      const defaultNonUnderstood = "Je ne comprends pas bien.";
+      let isVoiceInput = false;
 
-    // Nettoyage entrée
-    function cleanInput(input) {
-      return input
-        .toLowerCase()
-        .replace(/[^\w\s]/g, "")
-        .split(/\s+/)
-        .map(word => removeAccents(word))
-        .filter(word => word.length > 0);
-    }
+      // Nettoyage entrée
+      function cleanInput(input) {
+        return input
+          .toLowerCase()
+          .replace(/[^\w\s]/g, "")
+          .split(/\s+/)
+          .map(word => removeAccents(word))
+          .filter(word => word.length > 0);
+      }
 
-    // Recherche correspondance
-    function findBestMatch(userInput) {
-      const userWords = cleanInput(userInput);
-      let bestMatch = null;
-      let maxOverlap = 0;
-      processedKnowledgeBase.forEach(item => {
-        const keywords = item.question;
-        const overlap = userWords.filter(word => keywords.includes(word)).length;
-        if (overlap > maxOverlap) {
-          maxOverlap = overlap;
-          bestMatch = item;
-        }
-      });
-      return maxOverlap > 0 ? bestMatch.answer : defaultNonUnderstood;
-    }
+      // Recherche correspondance
+      function findBestMatch(userInput) {
+        const userWords = cleanInput(userInput);
+        let bestMatch = null;
+        let maxOverlap = 0;
+        processedKnowledgeBase.forEach(item => {
+          const keywords = item.question;
+          const overlap = userWords.filter(word => keywords.includes(word)).length;
+          if (overlap > maxOverlap) {
+            maxOverlap = overlap;
+            bestMatch = item;
+          }
+        });
+        return maxOverlap > 0 ? bestMatch.answer : defaultNonUnderstood;
+      }
 
-    // Réponse
-    function getResponse(userMsg) {
-      const lowerMsg = userMsg.toLowerCase().trim();
-      if (lowerMsg === "bonjour") {
-        nonUnderstoodCount = 0;
-        trackClick("Greeting", "Interaction", 0);
-        return "Je suis à votre écoute.";
-      } else if (lowerMsg === "merci" || lowerMsg === "merci beaucoup") {
-        nonUnderstoodCount = 0;
-        trackClick("Thanks", "Interaction", 0);
-        return "Je vous en prie.";
-      } else if (lowerMsg === "au revoir" || lowerMsg === "aurevoir" || lowerMsg === "à bientôt" || lowerMsg === "bye") {
-        nonUnderstoodCount = 0;
-        trackClick("Goodbye", "Interaction", 0);
-        return "À bientôt et sachez que notre aide est toujours à portée de main.";
-      } else {
-        let answer = findBestMatch(userMsg);
-        if (answer === defaultNonUnderstood) {
-          nonUnderstoodCount++;
-          trackClick("NotUnderstood", "Interaction", nonUnderstoodCount);
-          if (nonUnderstoodCount < 3) {
-            return "Je n’ai pas saisi votre question. Pourriez-vous reformuler, s’il vous plaît ?";
+      // Réponse
+      function getResponse(userMsg) {
+        const lowerMsg = userMsg.toLowerCase().trim();
+        if (lowerMsg === "bonjour") {
+          nonUnderstoodCount = 0;
+          trackClick("Greeting", "Interaction", 0);
+          return "Je suis à votre écoute.";
+        } else if (lowerMsg === "merci" || lowerMsg === "merci beaucoup") {
+          nonUnderstoodCount = 0;
+          trackClick("Thanks", "Interaction", 0);
+          return "Je vous en prie.";
+        } else if (lowerMsg === "au revoir" || lowerMsg === "aurevoir" || lowerMsg === "à bientôt" || lowerMsg === "bye") {
+          nonUnderstoodCount = 0;
+          trackClick("Goodbye", "Interaction", 0);
+          return "À bientôt et sachez que notre aide est toujours à portée de main.";
+        } else {
+          let answer = findBestMatch(userMsg);
+          if (answer === defaultNonUnderstood) {
+            nonUnderstoodCount++;
+            trackClick("NotUnderstood", "Interaction", nonUnderstoodCount);
+            if (nonUnderstoodCount < 3) {
+              return "Je n’ai pas saisi votre question. Pourriez-vous reformuler, s’il vous plaît ?";
+            } else {
+              nonUnderstoodCount = 0;
+              return "Il semble que nous ayons du mal à nous comprendre. Peut-être est-il temps d’envisager un désenvoûtement pour rétablir l’équilibre de vos énergies. Nos services débutent à 50€ pour une détection et 250€ pour un rituel complet.";
+            }
           } else {
             nonUnderstoodCount = 0;
-            return "Il semble que nous ayons du mal à nous comprendre. Peut-être est-il temps d’envisager un désenvoûtement pour rétablir l’équilibre de vos énergies. Nos services débutent à 50€ pour une détection et 250€ pour un rituel complet.";
+            trackClick("ResponseGiven", "Interaction", 0);
+            return answer;
           }
-        } else {
-          nonUnderstoodCount = 0;
-          trackClick("ResponseGiven", "Interaction", 0);
-          return answer;
         }
       }
-    }
 
-    // Animation saisie
-    function simulateTyping(callback) {
-      const typingMessage = document.createElement("p");
-      typingMessage.className = "bot-message";
-      typingMessage.textContent = "...";
-      chatMessages.appendChild(typingMessage);
-      chatMessages.scrollTop = chatMessages.scrollHeight;
-      setTimeout(() => {
-        chatMessages.removeChild(typingMessage);
-        callback();
-      }, 800);
-    }
-
-    // Ajout message
-    function addMessage(txt, cls, speakResponse = false) {
-      const p = document.createElement("p");
-      p.className = cls;
-      p.textContent = txt;
-      chatMessages.appendChild(p);
-      chatMessages.scrollTop = chatMessages.scrollHeight;
-      if (speakResponse && speechSynthesisSupported) {
-        speak(txt);
+      // Animation saisie
+      function simulateTyping(callback) {
+        const typingMessage = document.createElement("p");
+        typingMessage.className = "bot-message";
+        typingMessage.textContent = "...";
+        chatMessages.appendChild(typingMessage);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+        setTimeout(() => {
+          chatMessages.removeChild(typingMessage);
+          callback();
+        }, 800);
       }
-    }
 
-    // Déplaçabilité
-    let isDragging = false, currentX, currentY, initialX, initialY;
-    const chatContainer = document.getElementById("chat-container");
-
-    chatContainer.addEventListener("mousedown", startDragging);
-    chatContainer.addEventListener("touchstart", startDragging, { passive: false });
-
-    function startDragging(e) {
-      isDragging = true;
-      e.preventDefault(); // Empêche le défilement sur mobile
-      if (e.type === "mousedown") {
-        initialX = e.clientX - (currentX || 0);
-        initialY = e.clientY - (currentY || 0);
-      } else if (e.type === "touchstart") {
-        initialX = e.touches[0].clientX - (currentX || 0);
-        initialY = e.touches[0].clientY - (currentY || 0);
+      // Ajout message
+      function addMessage(txt, cls, speakResponse = false) {
+        const p = document.createElement("p");
+        p.className = cls;
+        p.textContent = txt;
+        chatMessages.appendChild(p);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+        if (speakResponse && speechSynthesisSupported) {
+          speak(txt);
+        }
       }
-      document.addEventListener("mousemove", drag);
-      document.addEventListener("touchmove", drag, { passive: false });
-      document.addEventListener("mouseup", stopDragging);
-      document.addEventListener("touchend", stopDragging);
-    }
 
-    function drag(e) {
-      if (!isDragging) return;
-      e.preventDefault();
-      if (e.type === "mousemove") {
-        currentX = e.clientX - initialX;
-        currentY = e.clientY - initialY;
-      } else if (e.type === "touchmove") {
-        currentX = e.touches[0].clientX - initialX;
-        currentY = e.touches[0].clientY - initialY;
+      // Déplaçabilité
+      let isDragging = false, currentX, currentY, initialX, initialY;
+      const chatContainer = document.getElementById("chat-container");
+
+      chatContainer.addEventListener("mousedown", startDragging);
+      chatContainer.addEventListener("touchstart", startDragging, { passive: false });
+
+      function startDragging(e) {
+        isDragging = true;
+        e.preventDefault();
+        if (e.type === "mousedown") {
+          initialX = e.clientX - (currentX || 0);
+          initialY = e.clientY - (currentY || 0);
+        } else if (e.type === "touchstart") {
+          initialX = e.touches[0].clientX - (currentX || 0);
+          initialY = e.touches[0].clientY - (currentY || 0);
+        }
+        document.addEventListener("mousemove", drag);
+        document.addEventListener("touchmove", drag, { passive: false });
+        document.addEventListener("mouseup", stopDragging);
+        document.addEventListener("touchend", stopDragging);
       }
-      chatContainer.style.right = "auto";
-      chatContainer.style.bottom = "auto";
+
+      function drag(e) {
+        if (!isDragging) return;
+        e.preventDefault();
+        if (e.type === "mousemove") {
+          currentX = e.clientX - initialX;
+          currentY = e.clientY - initialY;
+        } else if (e.type === "touchmove") {
+          currentX = e.touches[0].clientX - initialX;
+          currentY = e.touches[0].clientY - initialY;
+        }
+        chatContainer.style.right = "auto";
+        chatContainer.style.bottom = "auto";
+        chatContainer.style.left = `${currentX}px`;
+        chatContainer.style.top = `${currentY}px`;
+      }
+
+      function stopDragging() {
+        isDragging = false;
+        document.removeEventListener("mousemove", drag);
+        document.removeEventListener("touchmove", drag);
+        document.removeEventListener("mouseup", stopDragging);
+        document.removeEventListener("touchend", stopDragging);
+      }
+
+      currentX = window.innerWidth - chatContainer.offsetWidth - 20;
+      currentY = window.innerHeight - chatContainer.offsetHeight - 20;
       chatContainer.style.left = `${currentX}px`;
       chatContainer.style.top = `${currentY}px`;
-    }
 
-    function stopDragging() {
-      isDragging = false;
-      document.removeEventListener("mousemove", drag);
-      document.removeEventListener("touchmove", drag);
-      document.removeEventListener("mouseup", stopDragging);
-      document.removeEventListener("touchend", stopDragging);
-    }
+      // Gestion ouverture/fermeture
+      const chatToggle = document.getElementById("chat-toggle");
+      const chatBox = document.getElementById("chat-box");
+      const chatMessages = document.getElementById("chat-messages");
+      const chatForm = document.getElementById("chat-form");
+      const chatInput = document.getElementById("chat-input");
 
-    currentX = window.innerWidth - chatContainer.offsetWidth - 20;
-    currentY = window.innerHeight - chatContainer.offsetHeight - 20;
-    chatContainer.style.left = `${currentX}px`;
-    chatContainer.style.top = `${currentY}px`;
+      // Vérification des éléments DOM
+      if (!chatToggle || !chatBox) {
+        console.error("Erreur : #chat-toggle ou #chat-box introuvable");
+        return;
+      }
 
-    // Gestion ouverture/fermeture
-    const chatToggle = document.getElementById("chat-toggle");
-    const chatBox = document.getElementById("chat-box");
-    const chatMessages = document.getElementById("chat-messages");
-    const chatForm = document.getElementById("chat-form");
-    const chatInput = document.getElementById("chat-input");
-
-    chatToggle.addEventListener("click", () => {
-      const isHidden = !chatBox.classList.contains("visible");
-      if (isHidden) {
-        chatBox.classList.add("visible");
-        chatToggle.setAttribute("aria-expanded", "true");
-        trackClick("ChatOpen", "Interaction", 0);
-        if (!chatMessages.children.length) {
-          addMessage("Bonjour, que puis-je pour vous ?", "bot-message");
+      chatToggle.addEventListener("click", () => {
+        console.log("Clic sur chat-toggle détecté"); // Débogage
+        const isHidden = !chatBox.classList.contains("visible");
+        if (isHidden) {
+          chatBox.classList.add("visible");
+          chatToggle.setAttribute("aria-expanded", "true");
+          trackClick("ChatOpen", "Interaction", 0);
+          if (!chatMessages.children.length) {
+            addMessage("Bonjour, que puis-je pour vous ?", "bot-message");
+          }
+          setTimeout(() => chatInput.focus(), 300);
+        } else {
+          chatBox.classList.remove("visible");
+          chatToggle.setAttribute("aria-expanded", "false");
+          trackClick("ChatClose", "Interaction", 0);
         }
-        setTimeout(() => chatInput.focus(), 300);
-      } else {
-        chatBox.classList.remove("visible");
-        chatToggle.setAttribute("aria-expanded", "false");
-        trackClick("ChatClose", "Interaction", 0);
+      });
+
+      // Support tactile pour ouverture (mobile)
+      chatToggle.addEventListener("touchend", (e) => {
+        e.preventDefault();
+        console.log("Touchend sur chat-toggle détecté"); // Débogage
+        const isHidden = !chatBox.classList.contains("visible");
+        if (isHidden) {
+          chatBox.classList.add("visible");
+          chatToggle.setAttribute("aria-expanded", "true");
+          trackClick("ChatOpen", "Interaction", 0);
+          if (!chatMessages.children.length) {
+            addMessage("Bonjour, que puis-je pour vous ?", "bot-message");
+          }
+          setTimeout(() => chatInput.focus(), 300);
+        } else {
+          chatBox.classList.remove("visible");
+          chatToggle.setAttribute("aria-expanded", "false");
+          trackClick("ChatClose", "Interaction", 0);
+        }
+      });
+
+      // Gestion envoi texte
+      chatForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const userMsg = chatInput.value.trim();
+        if (!userMsg) return;
+        isVoiceInput = false;
+        addMessage(userMsg, "user-message");
+        trackClick("ChatMessage", "Interaction", 0);
+        chatInput.value = "";
+        simulateTyping(() => {
+          const answer = getResponse(userMsg);
+          addMessage(answer, "bot-message");
+        });
+      });
+
+      // Gestion vocal
+      const voiceToggle = document.getElementById("voice-toggle");
+      let speechSynthesisSupported = "speechSynthesis" in window;
+      let speechRecognitionSupported = "SpeechRecognition" in window || "webkitSpeechRecognition" in window;
+      let recognition = null;
+      let isListening = false;
+
+      if (speechRecognitionSupported) {
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        recognition = new SpeechRecognition();
+        recognition.lang = "fr-FR";
+        recognition.interimResults = false;
+        recognition.maxAlternatives = 1;
+
+        recognition.onresult = (event) => {
+          const transcript = event.results[0][0].transcript;
+          isVoiceInput = true;
+          addMessage(transcript, "user-message");
+          trackClick("VoiceInput", "Interaction", 0);
+          simulateTyping(() => {
+            const answer = getResponse(transcript);
+            addMessage(answer, "bot-message", true);
+          });
+        };
+
+        recognition.onend = () => {
+          isListening = false;
+          voiceToggle.classList.remove("listening");
+          trackClick("VoiceStop", "Interaction", 0);
+        };
+
+        recognition.onerror = (event) => {
+          addMessage("Désolé, je n’ai pas compris votre voix. Essayez encore.", "bot-message");
+          trackClick("VoiceError", "Interaction", event.error);
+          isListening = false;
+          voiceToggle.classList.remove("listening");
+        };
+
+        voiceToggle.addEventListener("click", () => {
+          if (!speechRecognitionSupported) {
+            addMessage("La reconnaissance vocale n’est pas supportée sur cet appareil.", "bot-message");
+            return;
+          }
+          if (isListening) {
+            recognition.stop();
+          } else {
+            navigator.mediaDevices.getUserMedia({ audio: true })
+              .then(() => {
+                isListening = true;
+                voiceToggle.classList.add("listening");
+                recognition.start();
+                trackClick("VoiceStart", "Interaction", 0);
+              })
+              .catch(err => {
+                addMessage("Permission microphone refusée. Activez-la dans les paramètres.", "bot-message");
+                trackClick("VoicePermissionDenied", "Interaction", err.message);
+              });
+          }
+        });
+      }
+
+      function speak(text) {
+        if (!speechSynthesisSupported) return;
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = "fr-FR";
+        utterance.volume = 1.0;
+        utterance.rate = 1.0;
+        utterance.pitch = 1.0;
+        window.speechSynthesis.speak(utterance);
+        trackClick("VoiceOutput", "Interaction", 0);
+      }
+
+      if (!speechSynthesisSupported && !speechRecognitionSupported) {
+        voiceToggle.style.display = "none";
       }
     });
-
-    // Gestion envoi texte
-    chatForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const userMsg = chatInput.value.trim();
-      if (!userMsg) return;
-      isVoiceInput = false;
-      addMessage(userMsg, "user-message");
-      trackClick("ChatMessage", "Interaction", 0);
-      chatInput.value = "";
-      simulateTyping(() => {
-        const answer = getResponse(userMsg);
-        addMessage(answer, "bot-message");
-      });
-    });
-
-    // Gestion vocal
-    const voiceToggle = document.getElementById("voice-toggle");
-    let speechSynthesisSupported = "speechSynthesis" in window;
-    let speechRecognitionSupported = "SpeechRecognition" in window || "webkitSpeechRecognition" in window;
-    let recognition = null;
-    let isListening = false;
-
-    if (speechRecognitionSupported) {
-      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-      recognition = new SpeechRecognition();
-      recognition.lang = "fr-FR";
-      recognition.interimResults = false;
-      recognition.maxAlternatives = 1;
-
-      recognition.onresult = (event) => {
-        const transcript = event.results[0][0].transcript;
-        isVoiceInput = true;
-        addMessage(transcript, "user-message");
-        trackClick("VoiceInput", "Interaction", 0);
-        simulateTyping(() => {
-          const answer = getResponse(transcript);
-          addMessage(answer, "bot-message", true);
-        });
-      };
-
-      recognition.onend = () => {
-        isListening = false;
-        voiceToggle.classList.remove("listening");
-        trackClick("VoiceStop", "Interaction", 0);
-      };
-
-      recognition.onerror = (event) => {
-        addMessage("Désolé, je n’ai pas compris votre voix. Essayez encore.", "bot-message");
-        trackClick("VoiceError", "Interaction", event.error);
-        isListening = false;
-        voiceToggle.classList.remove("listening");
-      };
-
-      // Demande de permission microphone sur mobile
-      voiceToggle.addEventListener("click", () => {
-        if (!speechRecognitionSupported) {
-          addMessage("La reconnaissance vocale n’est pas supportée sur cet appareil.", "bot-message");
-          return;
-        }
-        if (isListening) {
-          recognition.stop();
-        } else {
-          navigator.mediaDevices.getUserMedia({ audio: true })
-            .then(() => {
-              isListening = true;
-              voiceToggle.classList.add("listening");
-              recognition.start();
-              trackClick("VoiceStart", "Interaction", 0);
-            })
-            .catch(err => {
-              addMessage("Permission microphone refusée. Activez-la dans les paramètres.", "bot-message");
-              trackClick("VoicePermissionDenied", "Interaction", err.message);
-            });
-        }
-      });
-    }
-
-    function speak(text) {
-      if (!speechSynthesisSupported) return;
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = "fr-FR";
-      utterance.volume = 1.0;
-      utterance.rate = 1.0;
-      utterance.pitch = 1.0;
-      window.speechSynthesis.speak(utterance);
-      trackClick("VoiceOutput", "Interaction", 0);
-    }
-
-    if (!speechSynthesisSupported && !speechRecognitionSupported) {
-      voiceToggle.style.display = "none";
-    }
   </script>
 </body>
 </html>
