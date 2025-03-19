@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Chat IA avec Tracking et Assistant Vocal</title>
   <style>
-    /* Conteneur général du chat avec effet néon sur la boîte */
+    /* Conteneur général du chat avec effet néon */
     #chat-container {
       position: fixed;
       bottom: 20px;
@@ -69,13 +69,16 @@
       background: #111;
       border-radius: 10px;
       flex: 1;
-      display: flex;
+      display: none; /* Remplace hidden pour mieux contrôler via JS */
       flex-direction: column;
       overflow: hidden;
-      margin-top: -10px;
+      margin-top: 10px;
       border: 2px solid #FF1493;
       box-shadow: 0 0 10px #FF1493;
       transition: all 0.3s ease;
+    }
+    #chat-box.visible {
+      display: flex; /* Classe pour montrer le chat */
     }
     /* Zone des messages avec effet fade-in */
     #chat-messages {
@@ -105,7 +108,6 @@
       max-width: 80%;
       border: 2px solid #FF69B4;
       box-shadow: 0 0 8px #FF69B4;
-      transition: border 0.3s, box-shadow 0.3s;
     }
     /* Bulles de messages de l'utilisateur avec effet néon bleu */
     .user-message {
@@ -118,7 +120,6 @@
       border-radius: 5px;
       display: inline-block;
       max-width: 80%;
-      transition: border 0.3s, box-shadow 0.3s;
     }
     /* Formulaire de saisie */
     #chat-form {
@@ -148,9 +149,6 @@
     #chat-send:hover {
       background: #5eb6d1;
     }
-    #chat-box.hidden {
-      display: none;
-    }
     @media(max-width: 400px) {
       #chat-container {
         width: 90%;
@@ -169,7 +167,7 @@
     </div>
     
     <!-- Boîte de dialogue (initialement masquée) -->
-    <div id="chat-box" class="hidden" role="region" aria-label="Chat IA">
+    <div id="chat-box" role="region" aria-label="Chat IA">
       <div id="chat-messages" aria-live="polite"></div>
       <form id="chat-form" aria-label="Formulaire de saisie pour le Tchat IA">
         <input type="text" id="chat-input" placeholder="Posez votre question..." aria-label="Tapez votre message ici" autocomplete="off">
@@ -179,11 +177,9 @@
   </div>
 
   <script>
-    // Fonction de tracking (simulée pour l'exemple, peut être connectée à une API comme Google Analytics)
+    // Fonction de tracking (simulée, peut être connectée à une API)
     function trackClick(label, category = 'Chat', value = null) {
       console.log(`Tracking: Label=${label}, Category=${category}, Value=${value}`);
-      // Exemple avec Google Analytics (si intégré) :
-      // if (window.ga) ga('send', 'event', category, label, value);
     }
 
     // Base de connaissances avec mots multiples
@@ -210,7 +206,7 @@
       { question: "Froid|Gel|Frimas|Glace|ChillIntérieur|FroideurÂme", answer: "Ce froid qui te saisit pourrait être une ombre ; Frederick te réchauffe – combien de temps resteras-tu gelé ?" }
     ];
 
-    // Traitement de la base de connaissances pour mots multiples
+    // Traitement de la base de connaissances
     function removeAccents(str) {
       return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
     }
@@ -224,11 +220,11 @@
       answer: item.answer
     }));
 
-    // Variable pour compter les incompréhensions consécutives
+    // Variables globales
     let nonUnderstoodCount = 0;
     const defaultNonUnderstood = "Je ne comprends pas bien.";
 
-    // Fonction pour nettoyer l'entrée utilisateur
+    // Nettoyage de l’entrée utilisateur
     function cleanInput(input) {
       return input
         .toLowerCase()
@@ -251,14 +247,10 @@
           bestMatch = item;
         }
       });
-      if (maxOverlap > 0) {
-        return bestMatch.answer;
-      } else {
-        return defaultNonUnderstood;
-      }
+      return maxOverlap > 0 ? bestMatch.answer : defaultNonUnderstood;
     }
 
-    // Fonction pour obtenir la réponse
+    // Réponse à l’utilisateur
     function getResponse(userMsg) {
       const lowerMsg = userMsg.toLowerCase().trim();
       if (lowerMsg === "bonjour") {
@@ -272,7 +264,7 @@
       } else if (lowerMsg === "au revoir" || lowerMsg === "aurevoir" || lowerMsg === "à bientôt" || lowerMsg === "bye") {
         nonUnderstoodCount = 0;
         trackClick("Goodbye", "Interaction", 0);
-        return "À bientôt et sachez que notre aide est toujours à portée de main. Revenez quand vous le souhaitez.";
+        return "À bientôt et sachez que notre aide est toujours à portée de main.";
       } else {
         let answer = findBestMatch(userMsg);
         if (answer === defaultNonUnderstood) {
@@ -292,7 +284,7 @@
       }
     }
 
-    // Animation de saisie simulée
+    // Animation de saisie
     function simulateTyping(callback) {
       const typingMessage = document.createElement("p");
       typingMessage.className = "bot-message";
@@ -305,7 +297,7 @@
       }, 800);
     }
 
-    // Ajout d’un message dans le chat
+    // Ajout d’un message
     function addMessage(txt, cls) {
       const p = document.createElement("p");
       p.className = cls;
@@ -317,7 +309,7 @@
       }
     }
 
-    // Gestion de la déplaçabilité du conteneur
+    // Gestion de la déplaçabilité
     let isDragging = false, currentX, currentY, initialX, initialY;
     const chatContainer = document.getElementById("chat-container");
 
@@ -369,7 +361,7 @@
     chatContainer.style.left = `${currentX}px`;
     chatContainer.style.top = `${currentY}px`;
 
-    // Gestion de l’ouverture/fermeture du chat
+    // Gestion de l’ouverture/fermeture
     const chatToggle = document.getElementById("chat-toggle");
     const chatBox = document.getElementById("chat-box");
     const chatMessages = document.getElementById("chat-messages");
@@ -377,21 +369,24 @@
     const chatInput = document.getElementById("chat-input");
 
     chatToggle.addEventListener("click", () => {
-      const isHidden = chatBox.classList.contains("hidden");
-      chatBox.classList.toggle("hidden");
-      chatToggle.setAttribute("aria-expanded", isHidden ? "true" : "false");
+      console.log("Chat toggle clicked"); // Pour vérifier si l’événement est déclenché
+      const isHidden = !chatBox.classList.contains("visible");
       if (isHidden) {
+        chatBox.classList.add("visible");
+        chatToggle.setAttribute("aria-expanded", "true");
         trackClick("ChatOpen", "Interaction", 0);
         if (!chatMessages.children.length) {
           addMessage("Bonjour, que puis-je pour vous ?", "bot-message");
         }
         setTimeout(() => chatInput.focus(), 300);
       } else {
+        chatBox.classList.remove("visible");
+        chatToggle.setAttribute("aria-expanded", "false");
         trackClick("ChatClose", "Interaction", 0);
       }
     });
 
-    // Gestion de l’envoi d’une question
+    // Gestion de l’envoi
     chatForm.addEventListener("submit", (e) => {
       e.preventDefault();
       const userMsg = chatInput.value.trim();
@@ -447,9 +442,6 @@
       if (!speechSynthesisSupported) return;
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = "fr-FR";
-      utterance.volume = 1.0;
-      utterance.rate = 1.0;
-      utterance.pitch = 1.0;
       window.speechSynthesis.speak(utterance);
       trackClick("VoiceOutput", "Interaction", 0);
     }
@@ -469,17 +461,9 @@
       }
     });
 
-    // Message initial si vocal supporté
-    if (speechSynthesisSupported || speechRecognitionSupported) {
-      console.log("Assistant vocal prêt.");
-.
-/*
-      // Désactiver ce message initial pour éviter l'affichage automatique
-      addMessage("Utilisez le bouton 🎤 pour parler ou écoutez mes réponses.", "bot-message");
-*/
-    } else {
-      console.log("Assistant vocal non supporté.");
-      voiceToggle.style.display = "none"; // Masquer le bouton si non supporté
+    // Vérification initiale
+    if (!speechSynthesisSupported && !speechRecognitionSupported) {
+      voiceToggle.style.display = "none";
     }
   </script>
 </body>
