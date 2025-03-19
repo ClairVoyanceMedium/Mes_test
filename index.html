@@ -180,7 +180,6 @@
   </div>
 
   <script>
-    // Attendre que le DOM soit chargé
     document.addEventListener("DOMContentLoaded", () => {
       // Tracking
       function trackClick(label, category = 'Chat', value = null) {
@@ -374,14 +373,13 @@
       const chatForm = document.getElementById("chat-form");
       const chatInput = document.getElementById("chat-input");
 
-      // Vérification des éléments DOM
       if (!chatToggle || !chatBox) {
         console.error("Erreur : #chat-toggle ou #chat-box introuvable");
         return;
       }
 
       chatToggle.addEventListener("click", () => {
-        console.log("Clic sur chat-toggle détecté"); // Débogage
+        console.log("Clic sur chat-toggle détecté");
         const isHidden = !chatBox.classList.contains("visible");
         if (isHidden) {
           chatBox.classList.add("visible");
@@ -398,10 +396,9 @@
         }
       });
 
-      // Support tactile pour ouverture (mobile)
       chatToggle.addEventListener("touchend", (e) => {
         e.preventDefault();
-        console.log("Touchend sur chat-toggle détecté"); // Débogage
+        console.log("Touchend sur chat-toggle détecté");
         const isHidden = !chatBox.classList.contains("visible");
         if (isHidden) {
           chatBox.classList.add("visible");
@@ -440,6 +437,11 @@
       let recognition = null;
       let isListening = false;
 
+      if (!voiceToggle) {
+        console.error("Erreur : #voice-toggle introuvable");
+        return;
+      }
+
       if (speechRecognitionSupported) {
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         recognition = new SpeechRecognition();
@@ -447,8 +449,15 @@
         recognition.interimResults = false;
         recognition.maxAlternatives = 1;
 
+        recognition.onstart = () => {
+          console.log("Reconnaissance vocale démarrée");
+          isListening = true;
+          voiceToggle.classList.add("listening");
+        };
+
         recognition.onresult = (event) => {
           const transcript = event.results[0][0].transcript;
+          console.log("Résultat vocal : ", transcript);
           isVoiceInput = true;
           addMessage(transcript, "user-message");
           trackClick("VoiceInput", "Interaction", 0);
@@ -459,43 +468,87 @@
         };
 
         recognition.onend = () => {
+          console.log("Reconnaissance vocale terminée");
           isListening = false;
           voiceToggle.classList.remove("listening");
           trackClick("VoiceStop", "Interaction", 0);
         };
 
         recognition.onerror = (event) => {
-          addMessage("Désolé, je n’ai pas compris votre voix. Essayez encore.", "bot-message");
+          console.error("Erreur vocale : ", event.error);
+          addMessage("Désolé, une erreur s’est produite avec le vocal : " + event.error, "bot-message");
           trackClick("VoiceError", "Interaction", event.error);
           isListening = false;
           voiceToggle.classList.remove("listening");
         };
 
+        // Gestion clic vocal
         voiceToggle.addEventListener("click", () => {
+          console.log("Clic sur voice-toggle détecté");
           if (!speechRecognitionSupported) {
             addMessage("La reconnaissance vocale n’est pas supportée sur cet appareil.", "bot-message");
+            trackClick("VoiceNotSupported", "Interaction", 0);
             return;
           }
           if (isListening) {
             recognition.stop();
+            console.log("Arrêt demandé");
           } else {
             navigator.mediaDevices.getUserMedia({ audio: true })
               .then(() => {
+                console.log("Permission micro accordée");
                 isListening = true;
                 voiceToggle.classList.add("listening");
                 recognition.start();
                 trackClick("VoiceStart", "Interaction", 0);
               })
               .catch(err => {
+                console.error("Erreur permission micro : ", err);
                 addMessage("Permission microphone refusée. Activez-la dans les paramètres.", "bot-message");
                 trackClick("VoicePermissionDenied", "Interaction", err.message);
               });
           }
         });
+
+        // Support tactile pour vocal
+        voiceToggle.addEventListener("touchend", (e) => {
+          e.preventDefault();
+          console.log("Touchend sur voice-toggle détecté");
+          if (!speechRecognitionSupported) {
+            addMessage("La reconnaissance vocale n’est pas supportée sur cet appareil.", "bot-message");
+            trackClick("VoiceNotSupported", "Interaction", 0);
+            return;
+          }
+          if (isListening) {
+            recognition.stop();
+            console.log("Arrêt demandé (tactile)");
+          } else {
+            navigator.mediaDevices.getUserMedia({ audio: true })
+              .then(() => {
+                console.log("Permission micro accordée (tactile)");
+                isListening = true;
+                voiceToggle.classList.add("listening");
+                recognition.start();
+                trackClick("VoiceStart", "Interaction", 0);
+              })
+              .catch(err => {
+                console.error("Erreur permission micro (tactile) : ", err);
+                addMessage("Permission microphone refusée. Activez-la dans les paramètres.", "bot-message");
+                trackClick("VoicePermissionDenied", "Interaction", err.message);
+              });
+          }
+        });
+      } else {
+        console.log("Reconnaissance vocale non supportée");
+        addMessage("La reconnaissance vocale n’est pas disponible sur cet appareil.", "bot-message");
+        voiceToggle.style.display = "none";
       }
 
       function speak(text) {
-        if (!speechSynthesisSupported) return;
+        if (!speechSynthesisSupported) {
+          console.log("Synthèse vocale non supportée");
+          return;
+        }
         const utterance = new SpeechSynthesisUtterance(text);
         utterance.lang = "fr-FR";
         utterance.volume = 1.0;
@@ -503,6 +556,7 @@
         utterance.pitch = 1.0;
         window.speechSynthesis.speak(utterance);
         trackClick("VoiceOutput", "Interaction", 0);
+        console.log("Synthèse vocale : ", text);
       }
 
       if (!speechSynthesisSupported && !speechRecognitionSupported) {
