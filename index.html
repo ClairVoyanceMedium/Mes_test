@@ -7,8 +7,6 @@
   <style>
     #chat-container {
       position: fixed;
-      bottom: 20px;
-      right: 20px;
       width: 300px;
       max-height: 450px;
       display: flex;
@@ -144,8 +142,6 @@
     @media(max-width: 400px) {
       #chat-container {
         width: 90%;
-        right: 5%;
-        bottom: 5px;
       }
     }
   </style>
@@ -167,7 +163,7 @@
 
   <script>
     const translations = {
-      greeting: "Bonjour, je suis le chat du cabinet ClairvoyanceMedium.com, que puis-je pour vous ?",
+      greeting: "Bonjour, je suis le tchat du cabinet clairvoyancemedium.com",
       thanks: "Je vous en prie.",
       goodbye: "À bientôt et sachez que notre aide est toujours à portée de main.",
       notUnderstood: "Je n’ai pas saisi votre question. Pourriez-vous reformuler, s’il vous plaît ?",
@@ -182,7 +178,6 @@
     const knowledgeBase = [
       { question: "Fatigue|Lassitude|Torpeur|Éreintement|Faiblesse|Usure", answer: "Et si cette fatigue écrasante n’était pas un hasard, mais une entité obscure qui dévore ton énergie ? Frederick de ClairvoyanceMedium.com purifie ton aura pour te libérer – combien de temps te laisseras-tu sombrer ?" },
       { question: "Cauchemars|Visions|NuitsHantées|SongeNoir|RêvesTroublés|PeursNocturnes", answer: "Ces cauchemars qui t’assaillent pourraient être l’œuvre d’une présence maléfique ; Frederick chasse ces ombres pour te rendre tes nuits – supporteras-tu encore ces terreurs ?" },
-      // (Autres éléments de la base de connaissances inchangés)
     ];
 
     function removeAccents(str) {
@@ -279,8 +274,15 @@
     let isDragging = false, currentX, currentY, initialX, initialY;
     const chatContainer = document.getElementById("chat-container");
 
+    // Gestion du déplacement avec la souris
     chatContainer.addEventListener("mousedown", startDragging);
+    document.addEventListener("mousemove", drag);
+    document.addEventListener("mouseup", stopDragging);
+
+    // Gestion du déplacement tactile (mobile)
     chatContainer.addEventListener("touchstart", startDragging, { passive: false });
+    document.addEventListener("touchmove", drag, { passive: false });
+    document.addEventListener("touchend", stopDragging);
 
     function startDragging(e) {
       isDragging = true;
@@ -291,10 +293,6 @@
         initialX = e.touches[0].clientX - (currentX || 0);
         initialY = e.touches[0].clientY - (currentY || 0);
       }
-      document.addEventListener("mousemove", drag);
-      document.addEventListener("touchmove", drag, { passive: false });
-      document.addEventListener("mouseup", stopDragging);
-      document.addEventListener("touchend", stopDragging);
     }
 
     function drag(e) {
@@ -315,20 +313,18 @@
       currentX = Math.max(0, Math.min(newX, maxX));
       currentY = Math.max(0, Math.min(newY, maxY));
 
-      chatContainer.style.right = "auto";
-      chatContainer.style.bottom = "auto";
+      // Positionnement absolu
       chatContainer.style.left = `${currentX}px`;
       chatContainer.style.top = `${currentY}px`;
+      chatContainer.style.right = "auto";
+      chatContainer.style.bottom = "auto";
     }
 
     function stopDragging() {
       isDragging = false;
-      document.removeEventListener("mousemove", drag);
-      document.removeEventListener("touchmove", drag);
-      document.removeEventListener("mouseup", stopDragging);
-      document.removeEventListener("touchend", stopDragging);
     }
 
+    // Position initiale (en bas à droite par défaut)
     currentX = window.innerWidth - chatContainer.offsetWidth - 20;
     currentY = window.innerHeight - chatContainer.offsetHeight - 20;
     chatContainer.style.left = `${currentX}px`;
@@ -368,7 +364,7 @@
       const userMsg = chatInput.value.trim();
       if (!userMsg) return;
       addMessage(userMsg, "user-message");
-      trackClick("ChatMessage", "Interaction", 0);
+      trackClick("ChatMessage Comparez nos solutions", "Interaction", 0);
       chatInput.value = "";
       simulateTyping(() => {
         const answer = getResponse(userMsg);
