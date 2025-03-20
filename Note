@@ -27,7 +27,7 @@
       color: #fff;
       border: none;
       border-radius: 50%;
-      cursor: pointer;
+      cursor: move;
       box-shadow: 0 4px 12px rgba(255,105,180,0.7);
       font-size: 1.4rem;
       display: flex;
@@ -60,16 +60,17 @@
     #voice-toggle:hover {
       transform: scale(1.05);
     }
-    #voice-toggle.listening {
-      background: #FF4500;
-      box-shadow: 0 0 10px #FF4500;
+    /* Indicateur de désactivation de la voix */
+    #voice-toggle.disabled {
+      background: #808080;
+      box-shadow: 0 0 10px #808080;
     }
     /* Boîte de dialogue avec contour néon rose fluo */
     #chat-box {
       background: #111;
       border-radius: 10px;
       flex: 1;
-      display: none; /* Remplace hidden pour mieux contrôler via JS */
+      display: none; /* Contrôlé via JS */
       flex-direction: column;
       overflow: hidden;
       margin-top: 10px;
@@ -78,7 +79,7 @@
       transition: all 0.3s ease;
     }
     #chat-box.visible {
-      display: flex; /* Classe pour montrer le chat */
+      display: flex; /* Affichage lorsque visible */
     }
     /* Zone des messages avec effet fade-in */
     #chat-messages {
@@ -160,7 +161,7 @@
 </head>
 <body>
   <div id="chat-container">
-    <!-- Bouton de bascule du chat -->
+    <!-- Boutons de bascule du chat et de la synthèse vocale -->
     <div style="display: flex; justify-content: flex-end;">
       <button id="chat-toggle" aria-expanded="false" aria-label="Ouvrir le chat">💬</button>
       <button id="voice-toggle" aria-label="Activer/Désactiver l'assistant vocal">🎤</button>
@@ -177,116 +178,127 @@
   </div>
 
   <script>
+    // Objet de traduction pour faciliter une éventuelle localisation
+    const translations = {
+      greeting: "Bonjour, que puis-je pour vous ?",
+      thanks: "Je vous en prie.",
+      goodbye: "À bientôt et sachez que notre aide est toujours à portée de main.",
+      notUnderstood: "Je n’ai pas saisi votre question. Pourriez-vous reformuler, s’il vous plaît ?",
+      notUnderstoodAfter: "Il semble que nous ayons du mal à nous comprendre. Peut-être est-il temps d’envisager un désenvoûtement pour rétablir l’équilibre de vos énergies. Nos services débutent à 50€ pour une détection et 250€ pour un rituel complet.",
+      grave: "Votre situation semble extrêmement préoccupante. Il est impératif d'agir immédiatement. Je vous recommande de consulter un spécialiste et de prendre les mesures nécessaires sans attendre. Ne laissez pas l'ombre prendre le dessus.",
+      intro: "Bonjour, je suis votre assistant. Je suis ici pour vous aider. Parlez, et je vous écouterai."
+    };
+
     // Fonction de tracking (simulée, peut être connectée à une API)
     function trackClick(label, category = 'Chat', value = null) {
       console.log(`Tracking: Label=${label}, Category=${category}, Value=${value}`);
     }
 
-    // Base de connaissances avec mots multiples
+    // Base de connaissances (inchangée)
     const knowledgeBase = [
-{ question: "Fatigue|Lassitude|Torpeur|Éreintement|Faiblesse|Usure", answer: "Et si cette fatigue écrasante n’était pas un hasard, mais une entité obscure qui dévore ton énergie ? Frederick de ClairvoyanceMedium.com purifie ton aura pour te libérer – combien de temps te laisseras-tu sombrer ?" },
-{ question: "Cauchemars|Visions|NuitsHantées|SongeNoir|RêvesTroublés|PeursNocturnes", answer: "Ces cauchemars qui t’assaillent pourraient être l’œuvre d’une présence maléfique ; Frederick chasse ces ombres pour te rendre tes nuits – supporteras-tu encore ces terreurs ?" },
-{ question: "Chaos|Turbulence|Confusion|Désarroi|Tourbillon|Anxiété", answer: "Ce chaos qui t’entoure pourrait cacher une malédiction qui brise ton destin ; Frederick rétablit l’ordre pour te sauver – laisseras-tu la tempête t’emporter ?" },
-{ question: "Lourdeur|Oppression|Étouffement|Poids|Angoisse|Écrasement", answer: "Cette lourdeur qui t’oppresse pourrait être une force sombre qui étouffe ton âme ; Frederick te libère de ce joug – combien de temps ploieras-tu sous cette ombre ?" },
-{ question: "Sort|Malédiction|Envoûtement|CharmeNoir|MagieObscure|Sorcellerie", answer: "Fatigue, malchance, cauchemars : et si un sort te retenait captif ? Frederick brise ces liens occultes – oseras-tu défier cette emprise ?" },
-{ question: "Échec|Revers|Chute|Déroute|Malheur|Défaite", answer: "Tes échecs répétés pourraient être un sort qui bloque ton chemin ; Frederick ouvre ta voie au succès – combien de fois trébucheras-tu encore ?" },
-{ question: "Insomnie|Agitation|NuitsBlanches|SommeilFuyant|Veille|Inquiétude", answer: "Ton insomnie pourrait être une entité qui vole ton repos ; Frederick te rend la paix nocturne – jusqu’à quand tiendras-tu éveillé ?" },
-{ question: "Douleur|Mal|Souffrance|Brûlure|Peine|Tourment", answer: "Ces douleurs inexplicables pourraient trahir une attaque occulte ; Frederick te soulage – combien de temps endureras-tu ce feu invisible ?" },
-{ question: "Isolement|Solitude|Abandon|Détresse|Repli|Froid", answer: "Et si ta solitude était un sort qui t’arrache aux autres ? Frederick te reconnecte à la lumière – resteras-tu seul dans ce vide ?" },
-{ question: "Carrière|Travail|Ambition|Stagnation|BlocagePro|ÉchecPro", answer: "Ces obstacles dans ta carrière pourraient être une malédiction ; Frederick libère ton potentiel – laisseras-tu ton avenir professionnel s’éteindre ?" },
-{ question: "Malchance|Infortune|HasardNoir|Déveine|SortFuneste|Calamité", answer: "Ta malchance pourrait être un sort qui assombrit ta vie ; Frederick te ramène la chance – combien de coups du sort encaisseras-tu ?" },
-{ question: "Amour|Passion|Romance|CœurBrisé| Désamour|SolitudeAffective", answer: "Si l’amour te fuit, un sort pourrait fermer ton cœur ; Frederick l’ouvre à la tendresse – supporteras-tu encore ce désert sentimental ?" },
-{ question: "Famille|Foyer|Discorde|TensionFamiliale|Fracture|Conflit", answer: "Ces tensions dans ton foyer pourraient être une ombre occulte ; Frederick apaise ton clan – laisseras-tu ta famille se déchirer ?" },
-{ question: "Enfants|Petits|Progéniture|InquiétudeJeunes|TristesseEnfant|Souci", answer: "La peine de tes enfants pourrait révéler une influence sombre ; Frederick purifie leur aura – combien de temps les verras-tu souffrir ?" },
-{ question: "Animaux|Compagnons|Bêtes|NervositéAnimale|TroubleFaune|Instinct", answer: "L’agitation de tes animaux pourrait signaler une présence obscure ; Frederick restaure la paix – ignoreras-tu leur cri d’alarme ?" },
-{ question: "Maison|Habitat|Logis|AtmosphèreLourde|ObscuritéDomicile|PeurIntérieure", answer: "Ton foyer oppressant pourrait être infesté d’énergies noires ; Frederick le purifie – vivras-tu encore dans cette prison ?" },
-{ question: "Voiture|Véhicule|Transport|PanneMystérieuse|DangerRoute|Incertitude", answer: "Les pannes de ta voiture pourraient être un sort ; Frederick la libère – risqueras-tu encore ces trajets maudits ?" },
-{ question: "Présence|Ombre|Spectre|AuraNoire|Frisson|Intrusion", answer: "Ce sentiment d’être suivi pourrait être une entité malveillante ; Frederick te protège – combien de temps toléreras-tu cette ombre ?" },
-{ question: "Angoisse|Crainte|Panique|Terror|Effroi|Nervosité", answer: "Ton angoisse pourrait être un sort qui te ronge ; Frederick te calme – laisseras-tu la peur te dévorer ?" },
-{ question: "Irritabilité|Colère|Frustration|Rage|Impatience|Énervement", answer: "Ton irritation pourrait trahir une influence occulte ; Frederick te rend la douceur – combien de temps exploseras-tu encore ?" },
-{ question: "Concentration|Clarté|Attention|FlouMental|Dispersion|PerteFocus", answer: "Ton esprit brouillé pourrait être victime d’un sort ; Frederick te recentre – combien de temps erreras-tu dans ce chaos ?" },
-{ question: "Mémoire|Oubli|SouvenirPerdu|Amnésie|ConfusionMentale|Trou", answer: "Tes pertes de mémoire pourraient être un envoûtement ; Frederick te rend ta clarté – oublieras-tu encore ton passé ?" },
-{ question: "Lignée|Héritage|Ancêtres|MalédictionFamiliale|PasséLourd|Fardeau", answer: "Un sort ancien pourrait hanter ta lignée ; Frederick te libère de ce poids – laisseras-tu tes ancêtres te maudire ?" },
-{ question: "Oppression|Contrainte|Étau|Suffocation|Pression|Étourdissement", answer: "Cette oppression pourrait être une force noire qui t’écrase ; Frederick te délivre – combien de temps tiendras-tu sous ce joug ?" },
-{ question: "Souffrance|Affliction|Chagrin|Déchirement|Misère|Blessure", answer: "Ta souffrance pourrait être une attaque occulte ; Frederick te guérit – supporteras-tu encore ce tourment ?" },
-{ question: "Déconnexion|VideIntérieur|PerteSoi|Désunion|Aliénation|Néant", answer: "Ce vide en toi pourrait être un sort qui te coupe de ton âme ; Frederick te reconnecte – resteras-tu perdu dans l’abîme ?" },
-{ question: "Aura|Vibration|ÉnergieSombre|HaloTrouble|ÉpuisementAura|OmbreIntérieure", answer: "Ton aura ternie pourrait être polluée par l’obscurité ; Frederick la purifie – laisseras-tu cette ombre t’éteindre ?" },
-{ question: "Projets|Ambitions|Plans|ÉchecProjet|StagnationRêve|Obstacle", answer: "Tes rêves brisés pourraient être bloqués par un sort ; Frederick libère ton chemin – abandonneras-tu encore tes espoirs ?" },
-{ question: "Stress|Tension|Nervosité|ÉpuisementMental|Surcharge|Agitation", answer: "Ce stress pourrait être une emprise occulte ; Frederick t’apaise – combien de temps tiendras-tu sous cette pression ?" },
-{ question: "Vie|Destinée|Chemin|ObscuritéVie|PerteSens|Fatalité", answer: "Si ta vie s’assombrit, un sort pourrait la voiler ; Frederick l’illumine – continueras-tu à errer dans ce néant ?" },
-{ question: "Blocage|Barrière|Entrave|Mur|Impuissance|Arrêt", answer: "Ces blocages pourraient être des chaînes occultes ; Frederick les brise – combien de temps resteras-tu immobile ?" },
-{ question: "Stagnation|Inertie|Lenteur|Immobilisme|Suspension|Gel", answer: "Ta stagnation pourrait être un sort qui fige ton âme ; Frederick te relance – supporteras-tu encore cette paralysie ?" },
-{ question: "Humeur|Morosité|Tristesse|InstabilitéÉmotion|SautesHumeur|Gloom", answer: "Tes humeurs sombres pourraient être un sort ; Frederick te stabilise – laisseras-tu ces ombres te guider ?" },
-{ question: "Vide|Absence|DésertIntérieur|Manque|Aridité|Sécheresse", answer: "Ce vide pourrait être une force qui te draine ; Frederick te remplit de lumière – combien de temps vivras-tu dans ce néant ?" },
-{ question: "Santé|Vitalité|Force|Fragilité|DéclinSanté|Malaise", answer: "Tes maux pourraient révéler un envoûtement ; Frederick te restaure – supporteras-tu encore cette faiblesse ?" },
-{ question: "Entrave|Frein|Chaîne|ObstaclePhysique|Limitation|Confinement", answer: "Ces entraves pourraient être un sort qui te retient ; Frederick te libère – combien de temps resteras-tu enchaîné ?" },
-{ question: "Drainage|Aspiration|ÉpuisementVital|Siphon|Vampirisme|PerteÉnergie", answer: "Si tu te sens vidé, une entité pourrait te voler ta force ; Frederick te revitalise – combien de temps te laisseras-tu aspirer ?" },
-{ question: "Décisions|Choix|Hésitation|Indécision|DouteMental|Perplexité", answer: "Ton indécision pourrait être un sort qui brouille ton esprit ; Frederick te guide – erreras-tu encore dans l’incertitude ?" },
-{ question: "Motivation|Élan|Inspiration|PerteFeu|Ennui|LassitudeCréative", answer: "Ton manque d’élan pourrait être un sort qui éteint ta flamme ; Frederick la ravive – combien de temps resteras-tu éteint ?" },
-{ question: "Émotions|Passions|Sentiments|Débordement|TempêteIntérieure|ChaosÉmotionnel", answer: "Tes émotions folles pourraient être manipulées par l’ombre ; Frederick t’harmonise – supporteras-tu encore cette tempête ?" },
-{ question: "Bien-être|Sérénité|Paix|Inconfort|Perturbation|Malêtre", answer: "Ton malaise pourrait signaler une pollution occulte ; Frederick te restaure – combien de temps vivras-tu dans ce trouble ?" },
-{ question: "Relations|Liens|Amitié|ConflitRelation|Distance|Cassure", answer: "Tes liens brisés pourraient être un sort ; Frederick les répare – laisseras-tu l’amour s’effacer ?" },
-{ question: "Finances|Argent|PerteRichesse|Pauvreté|FluxBloqué|Dette", answer: "Tes pertes d’argent pourraient être un sort ; Frederick te rend l’abondance – combien de temps toléreras-tu ce manque ?" },
-{ question: "Accumulation|Surcharge|Excès|PoidsÉnergétique|Saturation|Surabondance", answer: "Cette surcharge pourrait être une énergie sombre qui t’étouffe ; Frederick te libère – supporteras-tu encore ce fardeau ?" },
-{ question: "Avenir|Espoir|Futur|IncertitudeAvenir|PeurDestin|Obscurité", answer: "Si ton avenir s’assombrit, un sort pourrait le menacer ; Frederick l’éclaire – laisseras-tu les ténèbres l’emporter ?" },
-{ question: "Pression|Compression|Serrage|Étreinte|StressPhysique|TensionCorporelle", answer: "Cette pression pourrait être une attaque occulte ; Frederick te soulage – combien de temps tiendras-tu sous cet étau ?" },
-{ question: "Muscles|DouleurMusculaire|Raideur|FatigueCorps|Spasme|ÉpuisementPhysique", answer: "Tes douleurs musculaires pourraient trahir un sort ; Frederick te restaure – supporteras-tu encore cette faiblesse ?" },
-{ question: "Captif|Prison|Enchaînement|BlocageMental|ConfinementEsprit|EntravePensée", answer: "Si tu te sens captif, un sort pourrait te retenir ; Frederick te libère – combien de temps resteras-tu prisonnier ?" },
-{ question: "Libération|Délivrance|Salut|Évasion|Relâchement|Affranchissement", answer: "Tu n’es pas condamné à souffrir ; Frederick te sauve des ombres – combien de temps attendras-tu ta liberté ?" },
-{ question: "Visions|Hallucinations|Apparitions|Mirages|ImagesSombres|Illusion", answer: "Ces visions pourraient être des assauts occultes ; Frederick les dissipe – supporteras-tu encore ces fantômes ?" },
-{ question: "Liens|Attachements|Connexion|FractureLien|IsolementRelation|Rupture", answer: "Tes relations brisées pourraient être un sort ; Frederick les restaure – laisseras-tu tes liens se dissoudre ?" },
-{ question: "Attaque|Agression|Assaut|Menace|Hostilité|InvasionÉnergétique", answer: "Si tu te sens attaqué, une force invisible pourrait t’assaillir ; Frederick te protège – combien de temps résisteras-tu ?" },
-{ question: "Fatalité|Tragédie|DestinNoir|ChuteInéluctable|MalheurFixe|Désastre", answer: "Tes malheurs pourraient être un sort ; Frederick transforme ton destin – accepteras-tu encore cette fatalité ?" },
-{ question: "Urgence|Crise|Danger|Immédiateté|Précipitation|Alarme", answer: "Le temps presse face à ces ombres ; Frederick agit vite – combien de temps attendras-tu le pire ?" },
-{ question: "Suivi|Soutien|Guidance|AssistancePost|ProtectionContinue|Aide", answer: "Frederick te guide après ta délivrance pour bloquer les ombres – resteras-tu vulnérable sans lui ?" },
-{ question: "Réservation|Consultation|Inscription|RendezVous|PriseContact|Engagement", answer: "Réserve vite à contact.clairvoyancemedium@gmail.com ou ClairvoyanceMedium.com pour ta délivrance – combien de temps tarderas-tu ?" },
-{ question: "Réputation|Crédibilité|Renom|Fiabilité|Prestige|Confiance", answer: "Avec 25 ans de succès, Frederick est ton rempart contre l’obscur ; douteras-tu encore de son pouvoir ?" },
-{ question: "Consultation|Analyse|Diagnostic|Session|Évaluation|Rituel", answer: "Frederick purifie ton aura en une consultation ; ton salut t’attend – laisseras-tu l’ombre s’épaissir ?" },
-{ question: "Choix|Option|Voie|Sélection|Direction|DécisionClé", answer: "Choisir Frederick, c’est défier les sorts avec 25 ans d’expertise ; feras-tu le bon pas ?" },
-{ question: "Méthodes|Techniques|Rituels|Pratiques|Secrets|Savoir", answer: "Les rituels de Frederick purifient ton aura en 4 jours ; une sagesse ancestrale – ignoreras-tu ce pouvoir ?" },
-{ question: "Confidentialité|Secret|Discrétion|Sécurité|Intimité|Garde", answer: "Frederick protège ton âme en toute discrétion ; sois rassuré – craindras-tu encore de te confier ?" },
-{ question: "Tarifs|Coût|Prix|Valeur|Paiement|Investissement", answer: "Un tarif clair pour purifier ton aura ; un petit prix face à l’ombre – hésiteras-tu à te sauver ?" },
-{ question: "Contact|Appel|Message|Email|Joindre|Communication", answer: "Écris à contact.clairvoyancemedium@gmail.com ou visite ClairvoyanceMedium.com ; ta délivrance est proche – combien de temps attendras-tu ?" },
-{ question: "Réussite|Victoire|Triomphe|Prospérité|Accomplissement|Gain", answer: "Frederick a sauvé des centaines avec 25 ans d’expérience ; ton succès t’attend – laisseras-tu l’échec régner ?" },
-{ question: "Épuisement|Exténuation|Dépérissement|Drain|Affaiblissement|Consomption", answer: "Cet épuisement pourrait être une force qui te vide ; Frederick te ranime – combien de temps te laisseras-tu consumer ?" },
-{ question: "Horreur|Terreur|Effroi|PeurNoire|FrissonNuit|AngoisseSombre", answer: "Ces terreurs pourraient être un sort qui te hante ; Frederick te protège – supporteras-tu encore l’horreur ?" },
-{ question: "Désespoir|Abattement|TristesseProfonde|Deuil|Melancolie|PerteEspoir", answer: "Ton désespoir pourrait être une ombre occulte ; Frederick te rend la lumière – sombreras-tu encore ?" },
-{ question: "Accablement|Écrasement|SuffocationMentale|PoidsÂme|Choc|ÉpuisementEsprit", answer: "Cet accablement pourrait être une emprise sombre ; Frederick te libère – combien de temps tiendras-tu écrasé ?" },
-{ question: "Peur|FroidGlacial|FrissonPeur|Tremblement|InquiétudeProfonde|TerreurFroide", answer: "Ta peur pourrait être un sort qui te glace ; Frederick te réchauffe – laisseras-tu ce froid t’envahir ?" },
-{ question: "Froid|Gel|Frimas|Glace|ChillIntérieur|FroideurÂme", answer: "Ce froid qui te saisit pourrait être une ombre ; Frederick te réchauffe – combien de temps resteras-tu gelé ?" },
-{ question: "Noir|Ténèbres|Obscurité|VoileNoir|SombreDestin|NuitÉternelle", answer: "Cette obscurité pourrait être un sort ; Frederick ramène la lumière – vivras-tu encore dans les ténèbres ?" },
-{ question: "Seul|Désolation|Reclus|AbandonTotal|SolitudeFroide|IsolementÂme", answer: "Ta solitude pourrait être une malédiction ; Frederick te relie – combien de temps resteras-tu dans ce désert ?" },
-{ question: "Ennemi|Adversaire|ForceHostile|MenaceInvisible|Opposant|Malveillance", answer: "Un ennemi occulte pourrait t’attaquer ; Frederick te défend – combien de temps lutteras-tu seul ?" },
-{ question: "Trahison|Perfidie|Infidélité|BlessureLoyauté|Déception|Duplicité", answer: "Cette trahison pourrait être un sort qui te brise ; Frederick te protège – laisseras-tu la douleur triompher ?" },
-{ question: "Ombre|Silhouette|VoileSombre|PrésenceNoire|Fantôme|ÉnergieObscure", answer: "Ces ombres pourraient être un envoûtement ; Frederick les chasse – combien de temps vivras-tu hanté ?" },
-{ question: "Murmure|Chuchotis|VoixSombre|ÉchoTrouble|BruitsFantômes|Souffle", answer: "Ces murmures pourraient être un sort subtil ; Frederick les fait taire – supporteras-tu encore ces échos ?" },
-{ question: "Sombre|Crépuscule|Noirceur|Grisaille|Ténébreux|Morne", answer: "Cette sombritude pourrait être une malédiction ; Frederick te libère – laisseras-tu l’obscurité t’envelopper ?" },
-{ question: "Obstacles|MurInvisible|ArrêtBrutal|Barrage|Résistance|ChuteBloquée", answer: "Ces obstacles pourraient être des chaînes occultes ; Frederick les brise – combien de temps trébucheras-tu ?" },
-{ question: "Fardeau|ChargeLourde|PoidsEsprit|Encombrement|SurchargeÂme|ÉtauMental", answer: "Ce fardeau pourrait être une énergie sombre ; Frederick t’allège – supporteras-tu encore cette oppression ?" },
-{ question: "Doute|Scepticisme|Suspicion|IncertitudeFroide|Méfiance|Questionnement", answer: "Tes doutes pourraient être semés par un sort ; Frederick te clarifie – combien de temps te perdras-tu ?" },
-{ question: "Incertitude|Flou|Ambiguïté|PerteClarté|BrumeMentale|Irrésolution", answer: "Ce flou pourrait être une manipulation occulte ; Frederick t’éclaire – erreras-tu encore dans cette brume ?" },
-{ question: "Discorde|Désunion|Clash|Division|Querelle|FractureÂme", answer: "Cette discorde pourrait être un sort qui divise ; Frederick te réunifie – laisseras-tu tes liens se briser ?" },
-{ question: "Perturbation|Instabilité|TroubleVie|AgitationSombre|Dérèglement|ChaosIntérieur", answer: "Ces perturbations pourraient être une ombre ; Frederick te stabilise – combien de temps vivras-tu dans ce désordre ?" },
-{ question: "Trouble|DésordreMental|Ébranlement|PerteContrôle|InquiétudeProfonde|Chavirement", answer: "Ce trouble pourrait être un sort ; Frederick te recentre – supporteras-tu encore ce chaos ?" },
-{ question: "Injustice| Déséquité|Préjudice|Partialité|ErreurDestin|Désavantage", answer: "Cette injustice pourrait être un sort ; Frederick te rétablit – accepteras-tu encore ce déséquilibre ?" },
-{ question: "Énigme|Mystère|Puzzle|SecretCaché|Incompréhension|VoileMystique", answer: "Tes maux mystérieux pourraient être un sort ; Frederick les dévoile – combien de temps vivras-tu dans l’énigme ?" },
-{ question: "Mystère|Insondable|Inconnu|ProfondeurSombre|SecretLourd|Étrangeté", answer: "Ce mystère pourrait être une malédiction ; Frederick le dissipe – resteras-tu dans l’obscur ?" },
-{ question: "Surcharge|Surmenage|ExcèsPoids|ÉcrasementÉnergie|SaturationMentale|Débordement", answer: "Cette surcharge pourrait t’étouffer sous des ombres ; Frederick t’allège – combien de temps tiendras-tu ?" },
-{ question: "Déséquilibre|Inharmonie|InstabilitéÂme|DérèglementVie|ChuteÉnergie|Oscillation", answer: "Ton déséquilibre pourrait être un sort ; Frederick t’harmonise – supporteras-tu encore ce vacillement ?" },
-{ question: "Désorientation|PerteChemin|Égaré|ErranceSombre|Déroutement|PerplexitéFroide", answer: "Ta désorientation pourrait être une attaque occulte ; Frederick te guide – combien de temps erreras-tu ?" },
-{ question: "Confusion|Brouillard|ChaosMental|DésordreEsprit|FlouSombre|PerteRepère", answer: "Cette confusion pourrait être un sort ; Frederick te clarifie – vivras-tu encore dans ce brouillard ?" },
-{ question: "Chagrin|PénombreCoeur|DeuilIntérieur|SouffranceMuette|Larme|AfflictionProfonde", answer: "Ton chagrin pourrait être une ombre occulte ; Frederick te console – combien de temps pleureras-tu ?" },
-{ question: "Déclin|Effritement|PerteForce|Dépérissement|Regression|Affaissement", answer: "Ce déclin pourrait être un sort qui te ronge ; Frederick te relève – laisseras-tu ta vie s’effondrer ?" },
-{ question: "Crise|Tourmente|ÉpreuveSombre|CatastropheIntérieure|ChocDestin|Bouleversement", answer: "Cette crise pourrait être une attaque occulte ; Frederick te sauve – combien de temps tiendras-tu dans ce chaos ?" },
-{ question: "Inconfort|Gêne|MalêtrePhysique|DésagrémentSombre|Irritation|PesanteurCorps", answer: "Ton inconfort pourrait trahir un sort ; Frederick te soulage – supporteras-tu encore ce malaise ?" },
-{ question: "Tourmente|TempêteÂme|OuraganIntérieur|TumulteEsprit|FureurSombre|AgitationProfonde", answer: "Cette tourmente pourrait être une force obscure ; Frederick t’apaise – combien de temps résisteras-tu ?" },
-{ question: "Tension|Serrage|Crispation|ContraintePhysique|ÉtauCorps|RaideurSombre", answer: "Cette tension pourrait être un sort ; Frederick te détend – supporteras-tu encore cet étau ?" },
-{ question: "Vigueur|Dynamisme|ÉnergieVive|ForceIntérieure|Puissance|ÉlanVital", answer: "Si ta vigueur s’efface, un sort pourrait te drainer ; Frederick te ranime – laisseras-tu ta force s’éteindre ?" },
-{ question: "Flamme|Ardeur|PassionVive|FeuIntérieur|ÉclatVie|ChaleurÂme", answer: "Si ta flamme vacille, un sort pourrait l’étouffer ; Frederick la ravive – combien de temps resteras-tu froid ?" },
-{ question: "Rayonnement|Luminosité|Brillance|ÉclatÂme|LueurIntérieure|Chatoiement", answer: "Si ton éclat s’éteint, une ombre pourrait te ternir ; Frederick te fait briller – laisseras-tu la lumière mourir ?" }
-];
+      { question: "Fatigue|Lassitude|Torpeur|Éreintement|Faiblesse|Usure", answer: "Et si cette fatigue écrasante n’était pas un hasard, mais une entité obscure qui dévore ton énergie ? Frederick de ClairvoyanceMedium.com purifie ton aura pour te libérer – combien de temps te laisseras-tu sombrer ?" },
+      { question: "Cauchemars|Visions|NuitsHantées|SongeNoir|RêvesTroublés|PeursNocturnes", answer: "Ces cauchemars qui t’assaillent pourraient être l’œuvre d’une présence maléfique ; Frederick chasse ces ombres pour te rendre tes nuits – supporteras-tu encore ces terreurs ?" },
+      { question: "Chaos|Turbulence|Confusion|Désarroi|Tourbillon|Anxiété", answer: "Ce chaos qui t’entoure pourrait cacher une malédiction qui brise ton destin ; Frederick rétablit l’ordre pour te sauver – laisseras-tu la tempête t’emporter ?" },
+      { question: "Lourdeur|Oppression|Étouffement|Poids|Angoisse|Écrasement", answer: "Cette lourdeur qui t’oppresse pourrait être une force sombre qui étouffe ton âme ; Frederick te libère de ce joug – combien de temps ploieras-tu sous cette ombre ?" },
+      { question: "Sort|Malédiction|Envoûtement|CharmeNoir|MagieObscure|Sorcellerie", answer: "Fatigue, malchance, cauchemars : et si un sort te retenait captif ? Frederick brise ces liens occultes – oseras-tu défier cette emprise ?" },
+      { question: "Échec|Revers|Chute|Déroute|Malheur|Défaite", answer: "Tes échecs répétés pourraient être un sort qui bloque ton chemin ; Frederick ouvre ta voie au succès – combien de fois trébucheras-tu encore ?" },
+      { question: "Insomnie|Agitation|NuitsBlanches|SommeilFuyant|Veille|Inquiétude", answer: "Ton insomnie pourrait être une entité qui vole ton repos ; Frederick te rend la paix nocturne – jusqu’à quand tiendras-tu éveillé ?" },
+      { question: "Douleur|Mal|Souffrance|Brûlure|Peine|Tourment", answer: "Ces douleurs inexplicables pourraient trahir une attaque occulte ; Frederick te soulage – combien de temps endureras-tu ce feu invisible ?" },
+      { question: "Isolement|Solitude|Abandon|Détresse|Repli|Froid", answer: "Et si ta solitude était un sort qui t’arrache aux autres ? Frederick te reconnecte à la lumière – resteras-tu seul dans ce vide ?" },
+      { question: "Carrière|Travail|Ambition|Stagnation|BlocagePro|ÉchecPro", answer: "Ces obstacles dans ta carrière pourraient être une malédiction ; Frederick libère ton potentiel – laisseras-tu ton avenir professionnel s’éteindre ?" },
+      { question: "Malchance|Infortune|HasardNoir|Déveine|SortFuneste|Calamité", answer: "Ta malchance pourrait être un sort qui assombrit ta vie ; Frederick te ramène la chance – combien de coups du sort encaisseras-tu ?" },
+      { question: "Amour|Passion|Romance|CœurBrisé| Désamour|SolitudeAffective", answer: "Si l’amour te fuit, un sort pourrait fermer ton cœur ; Frederick l’ouvre à la tendresse – supporteras-tu encore ce désert sentimental ?" },
+      { question: "Famille|Foyer|Discorde|TensionFamiliale|Fracture|Conflit", answer: "Ces tensions dans ton foyer pourraient être une ombre occulte ; Frederick apaise ton clan – laisseras-tu ta famille se déchirer ?" },
+      { question: "Enfants|Petits|Progéniture|InquiétudeJeunes|TristesseEnfant|Souci", answer: "La peine de tes enfants pourrait révéler une influence sombre ; Frederick purifie leur aura – combien de temps les verras-tu souffrir ?" },
+      { question: "Animaux|Compagnons|Bêtes|NervositéAnimale|TroubleFaune|Instinct", answer: "L’agitation de tes animaux pourrait signaler une présence obscure ; Frederick restaure la paix – ignoreras-tu leur cri d’alarme ?" },
+      { question: "Maison|Habitat|Logis|AtmosphèreLourde|ObscuritéDomicile|PeurIntérieure", answer: "Ton foyer oppressant pourrait être infesté d’énergies noires ; Frederick le purifie – vivras-tu encore dans cette prison ?" },
+      { question: "Voiture|Véhicule|Transport|PanneMystérieuse|DangerRoute|Incertitude", answer: "Les pannes de ta voiture pourraient être un sort ; Frederick la libère – risqueras-tu encore ces trajets maudits ?" },
+      { question: "Présence|Ombre|Spectre|AuraNoire|Frisson|Intrusion", answer: "Ce sentiment d’être suivi pourrait être une entité malveillante ; Frederick te protège – combien de temps toléreras-tu cette ombre ?" },
+      { question: "Angoisse|Crainte|Panique|Terror|Effroi|Nervosité", answer: "Ton angoisse pourrait être un sort qui te ronge ; Frederick te calme – laisseras-tu la peur te dévorer ?" },
+      { question: "Irritabilité|Colère|Frustration|Rage|Impatience|Énervement", answer: "Ton irritation pourrait trahir une influence occulte ; Frederick te rend la douceur – combien de temps exploseras-tu encore ?" },
+      { question: "Concentration|Clarté|Attention|FlouMental|Dispersion|PerteFocus", answer: "Ton esprit brouillé pourrait être victime d’un sort ; Frederick te recentre – combien de temps erreras-tu dans ce chaos ?" },
+      { question: "Mémoire|Oubli|SouvenirPerdu|Amnésie|ConfusionMentale|Trou", answer: "Tes pertes de mémoire pourraient être un envoûtement ; Frederick te rend ta clarté – oublieras-tu encore ton passé ?" },
+      { question: "Lignée|Héritage|Ancêtres|MalédictionFamiliale|PasséLourd|Fardeau", answer: "Un sort ancien pourrait hanter ta lignée ; Frederick te libère de ce poids – laisseras-tu tes ancêtres te maudire ?" },
+      { question: "Oppression|Contrainte|Étau|Suffocation|Pression|Étourdissement", answer: "Cette oppression pourrait être une force noire qui t’écrase ; Frederick te délivre – combien de temps tiendras-tu sous ce joug ?" },
+      { question: "Souffrance|Affliction|Chagrin|Déchirement|Misère|Blessure", answer: "Ta souffrance pourrait être une attaque occulte ; Frederick te guérit – supporteras-tu encore ce tourment ?" },
+      { question: "Déconnexion|VideIntérieur|PerteSoi|Désunion|Aliénation|Néant", answer: "Ce vide en toi pourrait être un sort qui te coupe de ton âme ; Frederick te reconnecte – resteras-tu perdu dans l’abîme ?" },
+      { question: "Aura|Vibration|ÉnergieSombre|HaloTrouble|ÉpuisementAura|OmbreIntérieure", answer: "Ton aura ternie pourrait être polluée par l’obscurité ; Frederick la purifie – laisseras-tu cette ombre t’éteindre ?" },
+      { question: "Projets|Ambitions|Plans|ÉchecProjet|StagnationRêve|Obstacle", answer: "Tes rêves brisés pourraient être bloqués par un sort ; Frederick libère ton chemin – abandonneras-tu encore tes espoirs ?" },
+      { question: "Stress|Tension|Nervosité|ÉpuisementMental|Surcharge|Agitation", answer: "Ce stress pourrait être une emprise occulte ; Frederick t’apaise – combien de temps tiendras-tu sous cette pression ?" },
+      { question: "Vie|Destinée|Chemin|ObscuritéVie|PerteSens|Fatalité", answer: "Si ta vie s’assombrit, un sort pourrait la voiler ; Frederick l’illumine – continueras-tu à errer dans ce néant ?" },
+      { question: "Blocage|Barrière|Entrave|Mur|Impuissance|Arrêt", answer: "Ces blocages pourraient être des chaînes occultes ; Frederick les brise – combien de temps resteras-tu immobile ?" },
+      { question: "Stagnation|Inertie|Lenteur|Immobilisme|Suspension|Gel", answer: "Ta stagnation pourrait être un sort qui fige ton âme ; Frederick te relance – supporteras-tu encore cette paralysie ?" },
+      { question: "Humeur|Morosité|Tristesse|InstabilitéÉmotion|SautesHumeur|Gloom", answer: "Tes humeurs sombres pourraient être un sort ; Frederick te stabilise – laisseras-tu ces ombres te guider ?" },
+      { question: "Vide|Absence|DésertIntérieur|Manque|Aridité|Sécheresse", answer: "Ce vide pourrait être une force qui te draine ; Frederick te remplit de lumière – combien de temps vivras-tu dans ce néant ?" },
+      { question: "Santé|Vitalité|Force|Fragilité|DéclinSanté|Malaise", answer: "Tes maux pourraient révéler un envoûtement ; Frederick te restaure – supporteras-tu encore cette faiblesse ?" },
+      { question: "Entrave|Frein|Chaîne|ObstaclePhysique|Limitation|Confinement", answer: "Ces entraves pourraient être un sort qui te retient ; Frederick te libère – combien de temps resteras-tu enchaîné ?" },
+      { question: "Drainage|Aspiration|ÉpuisementVital|Siphon|Vampirisme|PerteÉnergie", answer: "Si tu te sens vidé, une entité pourrait te voler ta force ; Frederick te revitalise – combien de temps te laisseras-tu aspirer ?" },
+      { question: "Décisions|Choix|Hésitation|Indécision|DouteMental|Perplexité", answer: "Ton indécision pourrait être un sort qui brouille ton esprit ; Frederick te guide – erreras-tu encore dans l’incertitude ?" },
+      { question: "Motivation|Élan|Inspiration|PerteFeu|Ennui|LassitudeCréative", answer: "Ton manque d’élan pourrait être un sort qui éteint ta flamme ; Frederick la ravive – combien de temps resteras-tu éteint ?" },
+      { question: "Émotions|Passions|Sentiments|Débordement|TempêteIntérieure|ChaosÉmotionnel", answer: "Tes émotions folles pourraient être manipulées par l’ombre ; Frederick t’harmonise – supporteras-tu encore cette tempête ?" },
+      { question: "Bien-être|Sérénité|Paix|Inconfort|Perturbation|Malêtre", answer: "Ton malaise pourrait signaler une pollution occulte ; Frederick te restaure – combien de temps vivras-tu dans ce trouble ?" },
+      { question: "Relations|Liens|Amitié|ConflitRelation|Distance|Cassure", answer: "Tes liens brisés pourraient être un sort ; Frederick les répare – laisseras-tu l’amour s’effacer ?" },
+      { question: "Finances|Argent|PerteRichesse|Pauvreté|FluxBloqué|Dette", answer: "Tes pertes d’argent pourraient être un sort ; Frederick te rend l’abondance – combien de temps toléreras-tu ce manque ?" },
+      { question: "Accumulation|Surcharge|Excès|PoidsÉnergétique|Saturation|Surabondance", answer: "Cette surcharge pourrait être une énergie sombre qui t’étouffe ; Frederick te libère – supporteras-tu encore ce fardeau ?" },
+      { question: "Avenir|Espoir|Futur|IncertitudeAvenir|PeurDestin|Obscurité", answer: "Si ton avenir s’assombrit, un sort pourrait le menacer ; Frederick l’éclaire – laisseras-tu les ténèbres l’emporter ?" },
+      { question: "Pression|Compression|Serrage|Étreinte|StressPhysique|TensionCorporelle", answer: "Cette pression pourrait être une attaque occulte ; Frederick te soulage – combien de temps tiendras-tu sous cet étau ?" },
+      { question: "Muscles|DouleurMusculaire|Raideur|FatigueCorps|Spasme|ÉpuisementPhysique", answer: "Tes douleurs musculaires pourraient trahir un sort ; Frederick te restaure – supporteras-tu encore cette faiblesse ?" },
+      { question: "Captif|Prison|Enchaînement|BlocageMental|ConfinementEsprit|EntravePensée", answer: "Si tu te sens captif, un sort pourrait te retenir ; Frederick te libère – combien de temps resteras-tu prisonnier ?" },
+      { question: "Libération|Délivrance|Salut|Évasion|Relâchement|Affranchissement", answer: "Tu n’es pas condamné à souffrir ; Frederick te sauve des ombres – combien de temps attendras-tu ta liberté ?" },
+      { question: "Visions|Hallucinations|Apparitions|Mirages|ImagesSombres|Illusion", answer: "Ces visions pourraient être des assauts occultes ; Frederick les dissipe – supporteras-tu encore ces fantômes ?" },
+      { question: "Liens|Attachements|Connexion|FractureLien|IsolementRelation|Rupture", answer: "Tes relations brisées pourraient être un sort ; Frederick les restaure – laisseras-tu tes liens se dissoudre ?" },
+      { question: "Attaque|Agression|Assaut|Menace|Hostilité|InvasionÉnergétique", answer: "Si tu te sens attaqué, une force invisible pourrait t’assaillir ; Frederick te protège – combien de temps résisteras-tu ?" },
+      { question: "Fatalité|Tragédie|DestinNoir|ChuteInéluctable|MalheurFixe|Désastre", answer: "Tes malheurs pourraient être un sort ; Frederick transforme ton destin – accepteras-tu encore cette fatalité ?" },
+      { question: "Urgence|Crise|Danger|Immédiateté|Précipitation|Alarme", answer: "Le temps presse face à ces ombres ; Frederick agit vite – combien de temps attendras-tu le pire ?" },
+      { question: "Suivi|Soutien|Guidance|AssistancePost|ProtectionContinue|Aide", answer: "Frederick te guide après ta délivrance pour bloquer les ombres – resteras-tu vulnérable sans lui ?" },
+      { question: "Réservation|Consultation|Inscription|RendezVous|PriseContact|Engagement", answer: "Réserve vite à contact.clairvoyancemedium@gmail.com ou ClairvoyanceMedium.com pour ta délivrance – combien de temps tarderas-tu ?" },
+      { question: "Réputation|Crédibilité|Renom|Fiabilité|Prestige|Confiance", answer: "Avec 25 ans de succès, Frederick est ton rempart contre l’obscur ; douteras-tu encore de son pouvoir ?" },
+      { question: "Consultation|Analyse|Diagnostic|Session|Évaluation|Rituel", answer: "Frederick purifie ton aura en une consultation ; ton salut t’attend – laisseras-tu l’ombre s’épaissir ?" },
+      { question: "Choix|Option|Voie|Sélection|Direction|DécisionClé", answer: "Choisir Frederick, c’est défier les sorts avec 25 ans d’expertise ; feras-tu le bon pas ?" },
+      { question: "Méthodes|Techniques|Rituels|Pratiques|Secrets|Savoir", answer: "Les rituels de Frederick purifient ton aura en 4 jours ; une sagesse ancestrale – ignoreras-tu ce pouvoir ?" },
+      { question: "Confidentialité|Secret|Discrétion|Sécurité|Intimité|Garde", answer: "Frederick protège ton âme en toute discrétion ; sois rassuré – craindras-tu encore de te confier ?" },
+      { question: "Tarifs|Coût|Prix|Valeur|Paiement|Investissement", answer: "Un tarif clair pour purifier ton aura ; un petit prix face à l’ombre – hésiteras-tu à te sauver ?" },
+      { question: "Contact|Appel|Message|Email|Joindre|Communication", answer: "Écris à contact.clairvoyancemedium@gmail.com ou visite ClairvoyanceMedium.com ; ta délivrance est proche – combien de temps attendras-tu ?" },
+      { question: "Réussite|Victoire|Triomphe|Prospérité|Accomplissement|Gain", answer: "Frederick a sauvé des centaines avec 25 ans d’expérience ; ton succès t’attend – laisseras-tu l’échec régner ?" },
+      { question: "Épuisement|Exténuation|Dépérissement|Drain|Affaiblissement|Consomption", answer: "Cet épuisement pourrait être une force qui te vide ; Frederick te ranime – combien de temps te laisseras-tu consumer ?" },
+      { question: "Horreur|Terreur|Effroi|PeurNoire|FrissonNuit|AngoisseSombre", answer: "Ces terreurs pourraient être un sort qui te hante ; Frederick te protège – supporteras-tu encore l’horreur ?" },
+      { question: "Désespoir|Abattement|TristesseProfonde|Deuil|Melancolie|PerteEspoir", answer: "Ton désespoir pourrait être une ombre occulte ; Frederick te rend la lumière – sombreras-tu encore ?" },
+      { question: "Accablement|Écrasement|SuffocationMentale|PoidsÂme|Choc|ÉpuisementEsprit", answer: "Cet accablement pourrait être une emprise sombre ; Frederick te libère – combien de temps tiendras-tu écrasé ?" },
+      { question: "Peur|FroidGlacial|FrissonPeur|Tremblement|InquiétudeProfonde|TerreurFroide", answer: "Ta peur pourrait être un sort qui te glace ; Frederick te réchauffe – laisseras-tu ce froid t’envahir ?" },
+      { question: "Froid|Gel|Frimas|Glace|ChillIntérieur|FroideurÂme", answer: "Ce froid qui te saisit pourrait être une ombre ; Frederick te réchauffe – combien de temps resteras-tu gelé ?" },
+      { question: "Noir|Ténèbres|Obscurité|VoileNoir|SombreDestin|NuitÉternelle", answer: "Cette obscurité pourrait être un sort ; Frederick ramène la lumière – vivras-tu encore dans les ténèbres ?" },
+      { question: "Seul|Désolation|Reclus|AbandonTotal|SolitudeFroide|IsolementÂme", answer: "Ta solitude pourrait être une malédiction ; Frederick te relie – combien de temps resteras-tu dans ce désert ?" },
+      { question: "Ennemi|Adversaire|ForceHostile|MenaceInvisible|Opposant|Malveillance", answer: "Un ennemi occulte pourrait t’attaquer ; Frederick te défend – combien de temps lutteras-tu seul ?" },
+      { question: "Trahison|Perfidie|Infidélité|BlessureLoyauté|Déception|Duplicité", answer: "Cette trahison pourrait être un sort qui te brise ; Frederick te protège – laisseras-tu la douleur triompher ?" },
+      { question: "Ombre|Silhouette|VoileSombre|PrésenceNoire|Fantôme|ÉnergieObscure", answer: "Ces ombres pourraient être un envoûtement ; Frederick les chasse – combien de temps vivras-tu hanté ?" },
+      { question: "Murmure|Chuchotis|VoixSombre|ÉchoTrouble|BruitsFantômes|Souffle", answer: "Ces murmures pourraient être un sort subtil ; Frederick les fait taire – supporteras-tu encore ces échos ?" },
+      { question: "Sombre|Crépuscule|Noirceur|Grisaille|Ténébreux|Morne", answer: "Cette sombritude pourrait être une malédiction ; Frederick te libère – laisseras-tu l’obscurité t’envelopper ?" },
+      { question: "Obstacles|MurInvisible|ArrêtBrutal|Barrage|Résistance|ChuteBloquée", answer: "Ces obstacles pourraient être des chaînes occultes ; Frederick les brise – combien de temps trébucheras-tu ?" },
+      { question: "Fardeau|ChargeLourde|PoidsEsprit|Encombrement|SurchargeÂme|ÉtauMental", answer: "Ce fardeau pourrait être une énergie sombre ; Frederick t’allège – supporteras-tu encore cette oppression ?" },
+      { question: "Doute|Scepticisme|Suspicion|IncertitudeFroide|Méfiance|Questionnement", answer: "Tes doutes pourraient être semés par un sort ; Frederick te clarifie – combien de temps te perdras-tu ?" },
+      { question: "Incertitude|Flou|Ambiguïté|PerteClarté|BrumeMentale|Irrésolution", answer: "Ce flou pourrait être une manipulation occulte ; Frederick t’éclaire – erreras-tu encore dans cette brume ?" },
+      { question: "Discorde|Désunion|Clash|Division|Querelle|FractureÂme", answer: "Cette discorde pourrait être un sort qui divise ; Frederick te réunifie – laisseras-tu tes liens se briser ?" },
+      { question: "Perturbation|Instabilité|TroubleVie|AgitationSombre|Dérèglement|ChaosIntérieur", answer: "Ces perturbations pourraient être une ombre ; Frederick te stabilise – combien de temps vivras-tu dans ce désordre ?" },
+      { question: "Trouble|DésordreMental|Ébranlement|PerteContrôle|InquiétudeProfonde|Chavirement", answer: "Ce trouble pourrait être un sort ; Frederick te recentre – supporteras-tu encore ce chaos ?" },
+      { question: "Injustice| Déséquité|Préjudice|Partialité|ErreurDestin|Désavantage", answer: "Cette injustice pourrait être un sort ; Frederick te rétablit – accepteras-tu encore ce déséquilibre ?" },
+      { question: "Énigme|Mystère|Puzzle|SecretCaché|Incompréhension|VoileMystique", answer: "Tes maux mystérieux pourraient être un sort ; Frederick les dévoile – combien de temps vivras-tu dans l’énigme ?" },
+      { question: "Mystère|Insondable|Inconnu|ProfondeurSombre|SecretLourd|Étrangeté", answer: "Ce mystère pourrait être une malédiction ; Frederick le dissipe – resteras-tu dans l’obscur ?" },
+      { question: "Surcharge|Surmenage|ExcèsPoids|ÉcrasementÉnergie|SaturationMentale|Débordement", answer: "Cette surcharge pourrait t’étouffer sous des ombres ; Frederick t’allège – combien de temps tiendras-tu ?" },
+      { question: "Déséquilibre|Inharmonie|InstabilitéÂme|DérèglementVie|ChuteÉnergie|Oscillation", answer: "Ton déséquilibre pourrait être un sort ; Frederick t’harmonise – supporteras-tu encore ce vacillement ?" },
+      { question: "Désorientation|PerteChemin|Égaré|ErranceSombre|Déroutement|PerplexitéFroide", answer: "Ta désorientation pourrait être une attaque occulte ; Frederick te guide – combien de temps erreras-tu ?" },
+      { question: "Confusion|Brouillard|ChaosMental|DésordreEsprit|FlouSombre|PerteRepère", answer: "Cette confusion pourrait être un sort ; Frederick te clarifie – vivras-tu encore dans ce brouillard ?" },
+      { question: "Chagrin|PénombreCoeur|DeuilIntérieur|SouffranceMuette|Larme|AfflictionProfonde", answer: "Ton chagrin pourrait être une ombre occulte ; Frederick te console – combien de temps pleureras-tu ?" },
+      { question: "Déclin|Effritement|PerteForce|Dépérissement|Regression|Affaissement", answer: "Ce déclin pourrait être un sort qui te ronge ; Frederick te relève – laisseras-tu ta vie s’effondrer ?" },
+      { question: "Crise|Tourmente|ÉpreuveSombre|CatastropheIntérieure|ChocDestin|Bouleversement", answer: "Cette crise pourrait être une attaque occulte ; Frederick te sauve – combien de temps tiendras-tu dans ce chaos ?" },
+      { question: "Inconfort|Gêne|MalêtrePhysique|DésagrémentSombre|Irritation|PesanteurCorps", answer: "Ton inconfort pourrait trahir un sort ; Frederick te soulage – supporteras-tu encore ce malaise ?" },
+      { question: "Tourmente|TempêteÂme|OuraganIntérieur|TumulteEsprit|FureurSombre|AgitationProfonde", answer: "Cette tourmente pourrait être une force obscure ; Frederick t’apaise – combien de temps résisteras-tu ?" },
+      { question: "Tension|Serrage|Crispation|ContraintePhysique|ÉtauCorps|RaideurSombre", answer: "Cette tension pourrait être un sort ; Frederick te détend – supporteras-tu encore cet étau ?" },
+      { question: "Vigueur|Dynamisme|ÉnergieVive|ForceIntérieure|Puissance|ÉlanVital", answer: "Si ta vigueur s’efface, un sort pourrait te drainer ; Frederick te ranime – laisseras-tu ta force s’éteindre ?" },
+      { question: "Flamme|Ardeur|PassionVive|FeuIntérieur|ÉclatVie|ChaleurÂme", answer: "Si ta flamme vacille, un sort pourrait l’étouffer ; Frederick la ravive – combien de temps resteras-tu chaud ?" },
+      { question: "Rayonnement|Luminosité|Brillance|ÉclatÂme|LueurIntérieure|Chatoiement", answer: "Si ton éclat s’éteint, une ombre pourrait te ternir ; Frederick te fait briller – laisseras-tu la lumière mourir ?" }
+    ];
 
-    // Traitement de la base de connaissances
+    // Préparation de la base de connaissances
     function removeAccents(str) {
       return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
     }
@@ -300,11 +312,11 @@
       answer: item.answer
     }));
 
-    // Variables globales
+    // Variables globales pour les réponses
     let nonUnderstoodCount = 0;
-    const defaultNonUnderstood = "Je ne comprends pas bien.";
+    const defaultNonUnderstood = translations.notUnderstood;
 
-    // Nettoyage de l’entrée utilisateur
+    // Fonction de nettoyage de l'entrée utilisateur
     function cleanInput(input) {
       return input
         .toLowerCase()
@@ -314,7 +326,7 @@
         .filter(word => word.length > 0);
     }
 
-    // Recherche de la meilleure correspondance
+    // Recherche de la meilleure correspondance dans la base de connaissances
     function findBestMatch(userInput) {
       const userWords = cleanInput(userInput);
       let bestMatch = null;
@@ -330,31 +342,36 @@
       return maxOverlap > 0 ? bestMatch.answer : defaultNonUnderstood;
     }
 
-    // Réponse à l’utilisateur
+    // Génération de la réponse à l'utilisateur
     function getResponse(userMsg) {
       const lowerMsg = userMsg.toLowerCase().trim();
+      // Réponses automatiques prédéfinies pour certains mots-clés
       if (lowerMsg === "bonjour") {
         nonUnderstoodCount = 0;
         trackClick("Greeting", "Interaction", 0);
-        return "Je suis à votre écoute.";
+        return translations.greeting;
       } else if (lowerMsg === "merci" || lowerMsg === "merci beaucoup") {
         nonUnderstoodCount = 0;
         trackClick("Thanks", "Interaction", 0);
-        return "Je vous en prie.";
+        return translations.thanks;
       } else if (lowerMsg === "au revoir" || lowerMsg === "aurevoir" || lowerMsg === "à bientôt" || lowerMsg === "bye") {
         nonUnderstoodCount = 0;
         trackClick("Goodbye", "Interaction", 0);
-        return "À bientôt et sachez que notre aide est toujours à portée de main.";
+        return translations.goodbye;
+      } else if (lowerMsg === "c'est grave" || lowerMsg === "grave" || lowerMsg === "c'est vraiment grave") {
+        nonUnderstoodCount = 0;
+        trackClick("Serious", "Interaction", 0);
+        return translations.grave;
       } else {
         let answer = findBestMatch(userMsg);
         if (answer === defaultNonUnderstood) {
           nonUnderstoodCount++;
           trackClick("NotUnderstood", "Interaction", nonUnderstoodCount);
           if (nonUnderstoodCount < 3) {
-            return "Je n’ai pas saisi votre question. Pourriez-vous reformuler, s’il vous plaît ?";
+            return translations.notUnderstood;
           } else {
             nonUnderstoodCount = 0;
-            return "Il semble que nous ayons du mal à nous comprendre. Peut-être est-il temps d’envisager un désenvoûtement pour rétablir l’équilibre de vos énergies. Nos services débutent à 50€ pour une détection et 250€ pour un rituel complet.";
+            return translations.notUnderstoodAfter;
           }
         } else {
           nonUnderstoodCount = 0;
@@ -364,7 +381,7 @@
       }
     }
 
-    // Animation de saisie
+    // Animation de saisie pour simuler la réponse du bot
     function simulateTyping(callback) {
       const typingMessage = document.createElement("p");
       typingMessage.className = "bot-message";
@@ -377,19 +394,19 @@
       }, 800);
     }
 
-    // Ajout d’un message
+    // Ajout d’un message dans la conversation
     function addMessage(txt, cls) {
       const p = document.createElement("p");
       p.className = cls;
       p.textContent = txt;
       chatMessages.appendChild(p);
       chatMessages.scrollTop = chatMessages.scrollHeight;
-      if (cls === "bot-message" && speechSynthesisSupported) {
+      if (cls === "bot-message") {
         speak(txt);
       }
     }
 
-    // Gestion de la déplaçabilité
+    // Gestion de la déplaçabilité du conteneur de chat
     let isDragging = false, currentX, currentY, initialX, initialY;
     const chatContainer = document.getElementById("chat-container");
 
@@ -435,30 +452,40 @@
       document.removeEventListener("touchend", stopDragging);
     }
 
-    // Initialisation de la position
+    // Initialisation de la position du conteneur
     currentX = window.innerWidth - chatContainer.offsetWidth - 20;
     currentY = window.innerHeight - chatContainer.offsetHeight - 20;
     chatContainer.style.left = `${currentX}px`;
     chatContainer.style.top = `${currentY}px`;
 
-    // Gestion de l’ouverture/fermeture
+    // Gestion de l’ouverture/fermeture du chat
     const chatToggle = document.getElementById("chat-toggle");
     const chatBox = document.getElementById("chat-box");
     const chatMessages = document.getElementById("chat-messages");
     const chatForm = document.getElementById("chat-form");
     const chatInput = document.getElementById("chat-input");
 
+    // Flag pour l'activation automatique du micro à la première ouverture
+    let firstOpen = true;
+
     chatToggle.addEventListener("click", () => {
-      console.log("Chat toggle clicked"); // Pour vérifier si l’événement est déclenché
       const isHidden = !chatBox.classList.contains("visible");
       if (isHidden) {
         chatBox.classList.add("visible");
         chatToggle.setAttribute("aria-expanded", "true");
         trackClick("ChatOpen", "Interaction", 0);
         if (!chatMessages.children.length) {
-          addMessage("Bonjour, que puis-je pour vous ?", "bot-message");
+          addMessage(translations.greeting, "bot-message");
         }
         setTimeout(() => chatInput.focus(), 300);
+        // Activation automatique du micro et annonce vocale à la première ouverture
+        if (firstOpen) {
+          if (speechRecognitionSupported && recognition) {
+            recognition.start();
+          }
+          speak(translations.intro);
+          firstOpen = false;
+        }
       } else {
         chatBox.classList.remove("visible");
         chatToggle.setAttribute("aria-expanded", "false");
@@ -466,7 +493,7 @@
       }
     });
 
-    // Gestion de l’envoi
+    // Gestion de l’envoi d’un message
     chatForm.addEventListener("submit", (e) => {
       e.preventDefault();
       const userMsg = chatInput.value.trim();
@@ -480,13 +507,44 @@
       });
     });
 
-    // Gestion de l’assistant vocal
+    // Gestion de la synthèse vocale (sortie uniquement)
+    let voiceEnabled = true; // Contrôle l'activation de la synthèse vocale
+
+    function speak(text) {
+      if (!voiceEnabled || !("speechSynthesis" in window)) return;
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = "fr-FR";
+      // Paramétrage pour une voix d'homme grave avec un débit légèrement plus rapide
+      utterance.pitch = 0.6;   // Voix grave
+      utterance.rate = 1.1;    // Rythme un peu plus rapide
+      // Sélection d'une voix masculine si disponible
+      const voices = window.speechSynthesis.getVoices();
+      if (voices.length > 0) {
+        const maleVoice = voices.find(voice => voice.name.toLowerCase().includes("male") || voice.name.toLowerCase().includes("français"));
+        if (maleVoice) {
+          utterance.voice = maleVoice;
+        }
+      }
+      window.speechSynthesis.speak(utterance);
+      trackClick("VoiceOutput", "Interaction", 0);
+    }
+
+    // Gestion du bouton vocal pour activer/désactiver la synthèse vocale
     const voiceToggle = document.getElementById("voice-toggle");
-    let speechSynthesisSupported = "speechSynthesis" in window;
+    voiceToggle.addEventListener("click", () => {
+      voiceEnabled = !voiceEnabled;
+      if (voiceEnabled) {
+        voiceToggle.classList.remove("disabled");
+        trackClick("VoiceEnabled", "Interaction", 0);
+      } else {
+        voiceToggle.classList.add("disabled");
+        trackClick("VoiceDisabled", "Interaction", 0);
+      }
+    });
+
+    // Gestion de la reconnaissance vocale (entrée)
     let speechRecognitionSupported = "SpeechRecognition" in window || "webkitSpeechRecognition" in window;
     let recognition = null;
-    let isListening = false;
-
     if (speechRecognitionSupported) {
       const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
       recognition = new SpeechRecognition();
@@ -505,44 +563,17 @@
       };
 
       recognition.onend = () => {
-        isListening = false;
-        voiceToggle.classList.remove("listening");
         trackClick("VoiceStop", "Interaction", 0);
       };
 
       recognition.onerror = (event) => {
         addMessage("Désolé, je n’ai pas compris votre voix. Essayez encore.", "bot-message");
         trackClick("VoiceError", "Interaction", event.error);
-        isListening = false;
-        voiceToggle.classList.remove("listening");
       };
     }
 
-    function speak(text) {
-      if (!speechSynthesisSupported) return;
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = "fr-FR";
-      window.speechSynthesis.speak(utterance);
-      trackClick("VoiceOutput", "Interaction", 0);
-    }
-
-    voiceToggle.addEventListener("click", () => {
-      if (!speechRecognitionSupported) {
-        addMessage("La reconnaissance vocale n’est pas supportée sur cet appareil.", "bot-message");
-        return;
-      }
-      if (isListening) {
-        recognition.stop();
-      } else {
-        isListening = true;
-        voiceToggle.classList.add("listening");
-        recognition.start();
-        trackClick("VoiceStart", "Interaction", 0);
-      }
-    });
-
-    // Vérification initiale
-    if (!speechSynthesisSupported && !speechRecognitionSupported) {
+    // Cacher le bouton vocal si la synthèse vocale n'est pas supportée
+    if (!("speechSynthesis" in window)) {
       voiceToggle.style.display = "none";
     }
   </script>
