@@ -6,7 +6,7 @@
   <title>Chat IA avec Tracking et Assistant Vocal</title>
   <style>
     #chat-container {
-      position: fixed;
+      position: absolute;
       width: 300px;
       max-height: 450px;
       display: flex;
@@ -163,7 +163,7 @@
 
   <script>
     const translations = {
-      greeting: "Bonjour, je suis le tchat du cabinet clairvoyancemedium.com",
+      greeting: "Bonjour je suis le tchat du cabinet ClairvoyanceMedium.com je suis là pour vous aider, je vous écoute",
       thanks: "Je vous en prie.",
       goodbye: "À bientôt et sachez que notre aide est toujours à portée de main.",
       notUnderstood: "Je n’ai pas saisi votre question. Pourriez-vous reformuler, s’il vous plaît ?",
@@ -313,18 +313,15 @@
       currentX = Math.max(0, Math.min(newX, maxX));
       currentY = Math.max(0, Math.min(newY, maxY));
 
-      // Positionnement absolu
       chatContainer.style.left = `${currentX}px`;
       chatContainer.style.top = `${currentY}px`;
-      chatContainer.style.right = "auto";
-      chatContainer.style.bottom = "auto";
     }
 
     function stopDragging() {
       isDragging = false;
     }
 
-    // Position initiale (en bas à droite par défaut)
+    // Position initiale
     currentX = window.innerWidth - chatContainer.offsetWidth - 20;
     currentY = window.innerHeight - chatContainer.offsetHeight - 20;
     chatContainer.style.left = `${currentX}px`;
@@ -417,7 +414,6 @@
 
       recognition.onend = () => trackClick("VoiceStop", "Interaction", 0);
       recognition.onerror = (event) => {
-        addMessage("Désolé, je n’ai pas compris votre voix. Essayez encore.", "bot-message");
         trackClick("VoiceError", "Interaction", event.error);
       };
     }
