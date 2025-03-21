@@ -8,7 +8,7 @@
     /* Le conteneur principal n'a plus de largeur fixe pour permettre à la bulle seule de se dimensionner automatiquement */
     #chat-container {
       position: absolute;
-      max-height: 450px;
+      /* max-height retiré pour permettre à la boîte de dialogue de gérer sa hauteur */
       display: inline-block;
       flex-direction: column;
       z-index: 999999;
@@ -64,17 +64,18 @@
       background: #808080;
       box-shadow: 0 0 10px #808080;
     }
-    /* La boîte de dialogue conserve une largeur fixe lorsqu'elle est affichée */
+    /* La boîte de dialogue conserve une largeur fixe lorsqu'elle est affichée 
+       et sa hauteur est limitée pour permettre le défilement des messages */
     #chat-box {
       background: #111;
       border-radius: 10px;
       display: none;
       flex-direction: column;
-      overflow: hidden;
       margin-top: 10px;
       border: 2px solid #FF1493;
       box-shadow: 0 0 10px #FF1493;
       transition: all 0.3s ease;
+      max-height: 400px;
     }
     #chat-box.visible {
       display: flex;
