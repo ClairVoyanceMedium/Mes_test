@@ -5,16 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Chat IA avec Tracking et Assistant Vocal</title>
   <style>
+    /* Le conteneur principal n'a plus de largeur fixe pour permettre à la bulle seule de se dimensionner automatiquement */
     #chat-container {
       position: absolute;
-      width: 300px;
       max-height: 450px;
-      display: flex;
+      display: inline-block;
       flex-direction: column;
       z-index: 999999;
       font-family: Arial, sans-serif;
       cursor: move;
       transition: transform 0.2s;
+    }
+    /* Conteneur de la bulle (boutons) */
+    #chat-bubble {
+      display: flex;
+      justify-content: flex-end;
     }
     #chat-toggle {
       width: 60px;
@@ -59,10 +64,10 @@
       background: #808080;
       box-shadow: 0 0 10px #808080;
     }
+    /* La boîte de dialogue conserve une largeur fixe lorsqu'elle est affichée */
     #chat-box {
       background: #111;
       border-radius: 10px;
-      flex: 1;
       display: none;
       flex-direction: column;
       overflow: hidden;
@@ -148,7 +153,7 @@
 </head>
 <body>
   <div id="chat-container">
-    <div style="display: flex; justify-content: flex-end;">
+    <div id="chat-bubble">
       <button id="chat-toggle" aria-expanded="false" aria-label="Ouvrir le chat">💬</button>
       <button id="voice-toggle" aria-label="Activer/Désactiver l'assistant vocal">🎤</button>
     </div>
@@ -215,6 +220,10 @@
 
     function getResponse(userMsg) {
       const lowerMsg = userMsg.toLowerCase().trim();
+      // Réponse automatique en cas d'approbation
+      if (["d'accord", "daccord", "oui", "ok"].includes(lowerMsg)) {
+        return "Je suis là pour vous aider";
+      }
       if (lowerMsg === "bonjour") {
         nonUnderstoodCount = 0;
         trackClick("Greeting", "Interaction", 0);
@@ -273,15 +282,13 @@
       }
     }
 
-    let isDragging = false, currentX, currentY, initialX, initialY;
+    let isDragging = false, currentX = 0, currentY = 0, initialX, initialY;
     const chatContainer = document.getElementById("chat-container");
 
-    // Gestion du déplacement avec la souris
+    // Gestion du déplacement (souris et tactile)
     chatContainer.addEventListener("mousedown", startDragging);
     document.addEventListener("mousemove", drag);
     document.addEventListener("mouseup", stopDragging);
-
-    // Gestion du déplacement tactile (mobile)
     chatContainer.addEventListener("touchstart", startDragging, { passive: false });
     document.addEventListener("touchmove", drag, { passive: false });
     document.addEventListener("touchend", stopDragging);
@@ -289,11 +296,11 @@
     function startDragging(e) {
       isDragging = true;
       if (e.type === "mousedown") {
-        initialX = e.clientX - (currentX || 0);
-        initialY = e.clientY - (currentY || 0);
+        initialX = e.clientX - currentX;
+        initialY = e.clientY - currentY;
       } else if (e.type === "touchstart") {
-        initialX = e.touches[0].clientX - (currentX || 0);
-        initialY = e.touches[0].clientY - (currentY || 0);
+        initialX = e.touches[0].clientX - currentX;
+        initialY = e.touches[0].clientY - currentY;
       }
     }
 
@@ -308,13 +315,11 @@
         newX = e.touches[0].clientX - initialX;
         newY = e.touches[0].clientY - initialY;
       }
-
-      // Limites de l'écran
-      const maxX = window.innerWidth - chatContainer.offsetWidth;
-      const maxY = window.innerHeight - chatContainer.offsetHeight;
+      const rect = chatContainer.getBoundingClientRect();
+      const maxX = window.innerWidth - rect.width;
+      const maxY = window.innerHeight - rect.height;
       currentX = Math.max(0, Math.min(newX, maxX));
       currentY = Math.max(0, Math.min(newY, maxY));
-
       chatContainer.style.left = `${currentX}px`;
       chatContainer.style.top = `${currentY}px`;
     }
@@ -323,16 +328,20 @@
       isDragging = false;
     }
 
-    // Position initiale en bas à droite
-    currentX = window.innerWidth - chatContainer.offsetWidth - 20;
-    currentY = window.innerHeight - chatContainer.offsetHeight - 20;
-    chatContainer.style.left = `${currentX}px`;
-    chatContainer.style.top = `${currentY}px`;
+    // Position initiale en bas à droite (pour la bulle seule)
+    window.addEventListener('load', () => {
+      const rect = chatContainer.getBoundingClientRect();
+      currentX = window.innerWidth - rect.width - 20;
+      currentY = window.innerHeight - rect.height - 20;
+      chatContainer.style.left = `${currentX}px`;
+      chatContainer.style.top = `${currentY}px`;
+    });
 
-    // Ajustement de la position en cas de redimensionnement de la fenêtre
+    // Ajustement de la position lors du redimensionnement de la fenêtre
     function adjustChatContainerPosition() {
-      const maxX = window.innerWidth - chatContainer.offsetWidth;
-      const maxY = window.innerHeight - chatContainer.offsetHeight;
+      const rect = chatContainer.getBoundingClientRect();
+      const maxX = window.innerWidth - rect.width;
+      const maxY = window.innerHeight - rect.height;
       currentX = Math.min(currentX, maxX);
       currentX = Math.max(0, currentX);
       currentY = Math.min(currentY, maxY);
@@ -353,12 +362,15 @@
     chatToggle.addEventListener("click", () => {
       const isHidden = !chatBox.classList.contains("visible");
       if (isHidden) {
+        // Lors de l'ouverture, on force la largeur à 300px pour la boîte de dialogue
+        chatContainer.style.width = "300px";
         chatBox.classList.add("visible");
         chatToggle.setAttribute("aria-expanded", "true");
         trackClick("ChatOpen", "Interaction", 0);
         if (!chatMessages.children.length) {
           addMessage(translations.greeting, "bot-message");
         }
+        adjustChatContainerPosition();
         setTimeout(() => chatInput.focus(), 300);
         if (firstOpen && speechRecognitionSupported && recognition) {
           recognition.start();
@@ -368,6 +380,10 @@
         chatBox.classList.remove("visible");
         chatToggle.setAttribute("aria-expanded", "false");
         trackClick("ChatClose", "Interaction", 0);
+        // À la fermeture, on rétablit la taille "auto" pour que la bulle se dimensionne à son contenu
+        chatContainer.style.width = "auto";
+        chatContainer.style.height = "auto";
+        adjustChatContainerPosition();
       }
     });
 
@@ -385,7 +401,6 @@
     });
 
     let voiceEnabled = true;
-
     function speak(text) {
       if (!voiceEnabled || !("speechSynthesis" in window)) return;
       const utterance = new SpeechSynthesisUtterance(text);
@@ -416,7 +431,6 @@
       recognition.lang = "fr-FR";
       recognition.interimResults = false;
       recognition.maxAlternatives = 1;
-
       recognition.onresult = (event) => {
         const transcript = event.results[0][0].transcript;
         addMessage(transcript, "user-message");
@@ -426,13 +440,11 @@
           addMessage(answer, "bot-message");
         });
       };
-
       recognition.onend = () => trackClick("VoiceStop", "Interaction", 0);
       recognition.onerror = (event) => {
         trackClick("VoiceError", "Interaction", event.error);
       };
     }
-
     if (!("speechSynthesis" in window)) {
       voiceToggle.style.display = "none";
     }
