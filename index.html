@@ -8,18 +8,17 @@
     /* Le conteneur principal n'a plus de largeur fixe pour permettre à la bulle seule de se dimensionner automatiquement */
     #chat-container {
       position: absolute;
-      /* max-height retiré pour permettre à la boîte de dialogue de gérer sa hauteur */
       display: inline-block;
       flex-direction: column;
       z-index: 999999;
       font-family: Arial, sans-serif;
-      cursor: move;
       transition: transform 0.2s;
     }
-    /* Conteneur de la bulle (boutons) */
+    /* Poignée de déplacement : toujours affichée, que le chat soit ouvert ou fermé */
     #chat-bubble {
       display: flex;
       justify-content: flex-end;
+      cursor: move;
     }
     #chat-toggle {
       width: 60px;
@@ -28,7 +27,6 @@
       color: #fff;
       border: none;
       border-radius: 50%;
-      cursor: move;
       box-shadow: 0 4px 12px rgba(255,105,180,0.7);
       font-size: 1.4rem;
       display: flex;
@@ -64,8 +62,7 @@
       background: #808080;
       box-shadow: 0 0 10px #808080;
     }
-    /* La boîte de dialogue conserve une largeur fixe lorsqu'elle est affichée 
-       et sa hauteur est limitée pour permettre le défilement des messages */
+    /* Boîte de dialogue avec largeur fixe et hauteur limitée pour permettre le défilement */
     #chat-box {
       background: #111;
       border-radius: 10px;
@@ -284,24 +281,44 @@
     }
 
     let isDragging = false, currentX = 0, currentY = 0, initialX, initialY;
+    let longPressTimeout = null;
+    // Utilisation de la poignée de déplacement (chat-bubble)
+    const dragHandle = document.getElementById("chat-bubble");
     const chatContainer = document.getElementById("chat-container");
+    const chatBox = document.getElementById("chat-box");
+    const chatMessages = document.getElementById("chat-messages");
 
-    // Gestion du déplacement (souris et tactile)
-    chatContainer.addEventListener("mousedown", startDragging);
+    // Événements de déplacement (souris et tactile) attachés à la poignée
+    dragHandle.addEventListener("mousedown", startDragging);
+    dragHandle.addEventListener("touchstart", startDragging, { passive: false });
     document.addEventListener("mousemove", drag);
     document.addEventListener("mouseup", stopDragging);
-    chatContainer.addEventListener("touchstart", startDragging, { passive: false });
     document.addEventListener("touchmove", drag, { passive: false });
     document.addEventListener("touchend", stopDragging);
 
     function startDragging(e) {
-      isDragging = true;
-      if (e.type === "mousedown") {
-        initialX = e.clientX - currentX;
-        initialY = e.clientY - currentY;
-      } else if (e.type === "touchstart") {
-        initialX = e.touches[0].clientX - currentX;
-        initialY = e.touches[0].clientY - currentY;
+      // Si le chat est ouvert, n'active le déplacement qu'après un appui long de 3 secondes
+      if (chatBox.classList.contains("visible")) {
+        longPressTimeout = setTimeout(() => {
+          isDragging = true;
+          if (e.type === "mousedown") {
+            initialX = e.clientX - currentX;
+            initialY = e.clientY - currentY;
+          } else if (e.type === "touchstart") {
+            initialX = e.touches[0].clientX - currentX;
+            initialY = e.touches[0].clientY - currentY;
+          }
+        }, 3000);
+      } else {
+        // Lorsque le chat est fermé (seule la bulle est affichée), le déplacement est immédiat
+        isDragging = true;
+        if (e.type === "mousedown") {
+          initialX = e.clientX - currentX;
+          initialY = e.clientY - currentY;
+        } else if (e.type === "touchstart") {
+          initialX = e.touches[0].clientX - currentX;
+          initialY = e.touches[0].clientY - currentY;
+        }
       }
     }
 
@@ -326,6 +343,8 @@
     }
 
     function stopDragging() {
+      clearTimeout(longPressTimeout);
+      longPressTimeout = null;
       isDragging = false;
     }
 
@@ -353,17 +372,14 @@
     window.addEventListener('resize', adjustChatContainerPosition);
 
     const chatToggle = document.getElementById("chat-toggle");
-    const chatBox = document.getElementById("chat-box");
-    const chatMessages = document.getElementById("chat-messages");
     const chatForm = document.getElementById("chat-form");
     const chatInput = document.getElementById("chat-input");
 
     let firstOpen = true;
-
     chatToggle.addEventListener("click", () => {
       const isHidden = !chatBox.classList.contains("visible");
       if (isHidden) {
-        // Lors de l'ouverture, on force la largeur à 300px pour la boîte de dialogue
+        // Lors de l'ouverture, on fixe la largeur pour la boîte de dialogue
         chatContainer.style.width = "300px";
         chatBox.classList.add("visible");
         chatToggle.setAttribute("aria-expanded", "true");
@@ -373,7 +389,7 @@
         }
         adjustChatContainerPosition();
         setTimeout(() => chatInput.focus(), 300);
-        if (firstOpen && speechRecognitionSupported && recognition) {
+        if (firstOpen && ("SpeechRecognition" in window || "webkitSpeechRecognition" in window) && recognition) {
           recognition.start();
           firstOpen = false;
         }
@@ -381,7 +397,7 @@
         chatBox.classList.remove("visible");
         chatToggle.setAttribute("aria-expanded", "false");
         trackClick("ChatClose", "Interaction", 0);
-        // À la fermeture, on rétablit la taille "auto" pour que la bulle se dimensionne à son contenu
+        // À la fermeture, la taille revient à "auto" pour que la bulle se dimensionne à son contenu
         chatContainer.style.width = "auto";
         chatContainer.style.height = "auto";
         adjustChatContainerPosition();
