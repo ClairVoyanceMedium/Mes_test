@@ -5,11 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Chat IA avec Tracking et Assistant Vocal</title>
   <style>
-    /* Conteneur principal, avec position par défaut en haut à gauche */
+    /* Conteneur principal sans position fixe définie dans le CSS */
     #chat-container {
       position: absolute;
-      left: 20px;
-      top: 20px;
       display: inline-block;
       flex-direction: column;
       z-index: 999999;
@@ -317,7 +315,14 @@
       isDragging = false;
     }
 
-    // Supprime le positionnement forcé lors du chargement pour permettre à la poignée d'être libre dès le départ
+    // Position initiale en bas à droite dès le chargement
+    window.addEventListener('load', () => {
+      const rect = chatContainer.getBoundingClientRect();
+      currentX = window.innerWidth - rect.width - 20;
+      currentY = window.innerHeight - rect.height - 20;
+      chatContainer.style.left = `${currentX}px`;
+      chatContainer.style.top = `${currentY}px`;
+    });
 
     // Ajustement de la position lors du redimensionnement de la fenêtre
     function adjustChatContainerPosition() {
