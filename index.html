@@ -162,6 +162,7 @@
   </div>
 
   <script>
+    // Traductions et messages
     const translations = {
       greeting: "Bonjour je suis le tchat du cabinet clairvoyancemedium.com. Avant qu'il ne saute trop tard, je suis là pour vous aider !",
       thanks: "Je vous en prie.",
@@ -175,6 +176,7 @@
       console.log(`Tracking: Label=${label}, Category=${category}, Value=${value}`);
     }
 
+    // Base de connaissances
     const knowledgeBase = [
       { question: "Fatigue|Lassitude|Torpeur|Éreintement|Faiblesse|Usure", answer: "Et si cette fatigue écrasante n’était pas un hasard, mais une entité obscure qui dévore ton énergie ? Frederick de ClairvoyanceMedium.com purifie ton aura pour te libérer – combien de temps te laisseras-tu sombrer ?" },
       { question: "Cauchemars|Visions|NuitsHantées|SongeNoir|RêvesTroublés|PeursNocturnes", answer: "Ces cauchemars qui t’assaillent pourraient être l’œuvre d’une présence maléfique ; Frederick chasse ces ombres pour te rendre tes nuits – supporteras-tu encore ces terreurs ?" },
@@ -326,6 +328,19 @@
     currentY = window.innerHeight - chatContainer.offsetHeight - 20;
     chatContainer.style.left = `${currentX}px`;
     chatContainer.style.top = `${currentY}px`;
+
+    // Ajustement de la position en cas de redimensionnement de la fenêtre
+    function adjustChatContainerPosition() {
+      const maxX = window.innerWidth - chatContainer.offsetWidth;
+      const maxY = window.innerHeight - chatContainer.offsetHeight;
+      currentX = Math.min(currentX, maxX);
+      currentX = Math.max(0, currentX);
+      currentY = Math.min(currentY, maxY);
+      currentY = Math.max(0, currentY);
+      chatContainer.style.left = `${currentX}px`;
+      chatContainer.style.top = `${currentY}px`;
+    }
+    window.addEventListener('resize', adjustChatContainerPosition);
 
     const chatToggle = document.getElementById("chat-toggle");
     const chatBox = document.getElementById("chat-box");
