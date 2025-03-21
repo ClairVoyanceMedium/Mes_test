@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Chat IA avec Tracking et Assistant Vocal</title>
   <style>
-    /* Conteneur principal, dimensionné en fonction de l'état (ouvert ou fermé) */
+    /* Conteneur principal sans position fixe définie dans le CSS */
     #chat-container {
       position: absolute;
       display: inline-block;
@@ -278,7 +278,7 @@
     const chatBox = document.getElementById("chat-box");
     const chatMessages = document.getElementById("chat-messages");
 
-    // Événements de déplacement attachés à la poignée (déplacement immédiat, sans délai)
+    // Événements de déplacement attachés à la poignée (déplacement immédiat)
     dragHandle.addEventListener("mousedown", startDragging);
     dragHandle.addEventListener("touchstart", startDragging, { passive: false });
     document.addEventListener("mousemove", drag);
