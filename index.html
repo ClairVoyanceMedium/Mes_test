@@ -1,438 +1,103 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Chat IA avec Tracking et Assistant Vocal</title>
-  <style>
-    /* Conteneur principal en position fixed pour une visibilité constante */
-    #chat-container {
-      position: fixed;
-      display: inline-block;
-      flex-direction: column;
-      z-index: 999999;
-      font-family: Arial, sans-serif;
-      transition: transform 0.2s;
-    }
-    /* Poignée de déplacement : la bulle rose (avec le mégaphone) */
-    #chat-bubble {
-      display: flex;
-      justify-content: flex-end;
-      cursor: move;
-    }
-    #chat-toggle {
-      width: 60px;
-      height: 60px;
-      background: linear-gradient(145deg, #FFB6C1, #FF69B4);
-      color: #fff;
-      border: none;
-      border-radius: 50%;
-      box-shadow: 0 4px 12px rgba(255,105,180,0.7);
-      font-size: 1.4rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: transform 0.2s;
-      outline: none;
-    }
-    #chat-toggle:hover {
-      transform: scale(1.05);
-    }
-    /* Remplacement de l'icône du micro par un mégaphone élégant */
-    #voice-toggle {
-      width: 40px;
-      height: 40px;
-      background: linear-gradient(145deg, #87CEEB, #5eb6d1);
-      color: #fff;
-      border: none;
-      border-radius: 50%;
-      cursor: pointer;
-      box-shadow: 0 4px 12px rgba(135,206,235,0.7);
-      font-size: 1rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-left: 10px;
-      transition: transform 0.2s;
-      outline: none;
-    }
-    #voice-toggle:hover {
-      transform: scale(1.05);
-    }
-    #voice-toggle.disabled {
-      background: #808080;
-      box-shadow: 0 0 10px #808080;
-    }
-    /* Boîte de dialogue avec largeur fixe et hauteur limitée pour le défilement */
-    #chat-box {
-      background: #111;
-      border-radius: 10px;
-      display: none;
-      flex-direction: column;
-      margin-top: 10px;
-      border: 2px solid #FF1493;
-      box-shadow: 0 0 10px #FF1493;
-      transition: all 0.3s ease;
-      max-height: 400px;
-    }
-    #chat-box.visible {
-      display: flex;
-    }
-    #chat-messages {
-      flex: 1;
-      padding: 1rem;
-      overflow-y: auto;
-      color: #fff;
-    }
-    #chat-messages p {
-      margin-bottom: 0.5rem;
-      line-height: 1.4;
-      opacity: 0;
-      animation: fadeIn 0.5s forwards;
-    }
-    @keyframes fadeIn {
-      to { opacity: 1; }
-    }
-    .bot-message {
-      text-align: left;
-      color: #fff;
-      background: rgba(255,255,255,0.05);
-      padding: 0.5rem;
-      border-radius: 5px;
-      margin-bottom: 0.8rem;
-      display: inline-block;
-      max-width: 80%;
-      border: 2px solid #FF69B4;
-      box-shadow: 0 0 8px #FF69B4;
-    }
-    .user-message {
-      text-align: right;
-      color: #ffd700;
-      margin-bottom: 0.8rem;
-      border: 2px solid #AED6F1;
-      box-shadow: 0 0 8px #AED6F1;
-      padding: 0.5rem;
-      border-radius: 5px;
-      display: inline-block;
-      max-width: 80%;
-    }
-    #chat-form {
-      display: flex;
-      border-top: 1px solid #333;
-      align-items: center;
-      padding: 0.5rem;
-    }
-    #chat-input {
-      flex: 1;
-      padding: 0.5rem;
-      border: none;
-      outline: none;
-      color: #333;
-      border-radius: 5px 0 0 5px;
-    }
-    #chat-send {
-      background: #87CEEB;
-      border: none;
-      padding: 0.5rem 1rem;
-      cursor: pointer;
-      color: #fff;
-      font-weight: bold;
-      border-radius: 0 5px 5px 0;
-      transition: background 0.2s;
-    }
-    #chat-send:hover {
-      background: #5eb6d1;
-    }
-    @media(max-width: 400px) {
-      #chat-container {
-        width: 90%;
-      }
-    }
-  </style>
-</head>
-<body>
-  <div id="chat-container">
-    <div id="chat-bubble">
-      <button id="chat-toggle" aria-expanded="false" aria-label="Ouvrir le chat">💬</button>
-      <!-- Icône remplacée par un mégaphone -->
-      <button id="voice-toggle" aria-label="Activer/Désactiver l'assistant vocal">🎤</button>
-    </div>
-    <div id="chat-box" role="region" aria-label="Chat IA">
-      <div id="chat-messages" aria-live="polite"></div>
-      <form id="chat-form" aria-label="Formulaire de saisie pour le Tchat IA">
-        <input type="text" id="chat-input" placeholder="Posez votre question..." aria-label="Tapez votre message ici" autocomplete="off">
-        <button type="submit" id="chat-send" aria-label="Envoyer votre question">➤</button>
-      </form>
-    </div>
-  </div>
-
-  <script>
-    // Fonction de tracking intégrée à GA4
-    function trackClick(label, category = 'Chat', value = null) {
-      console.log(`Tracking: Label=${label}, Category=${category}, Value=${value}`);
-      if (typeof gtag === 'function') {
-        gtag('event', label, {
-          'event_category': category,
-          'value': value
-        });
-      }
-    }
-
-    // Traductions et messages
-    const translations = {
-      greeting: "Bonjour je suis le tchat du cabinet clairvoyancemedium.com. Avant qu'il ne saute trop tard, je suis là pour vous aider !",
-      thanks: "Je vous en prie.",
-      goodbye: "À bientôt et sachez que notre aide est toujours à portée de main.",
-      notUnderstood: "Je n’ai pas saisi votre question. Pourriez-vous reformuler, s’il vous plaît ?",
-      notUnderstoodAfter: "Il semble que nous ayons du mal à nous comprendre. Peut-être est-il temps d’envisager un désenvoûtement pour rétablir l’équilibre de vos énergies. Nos services débutent à 50€ pour une détection et 250€ pour un rituel complet.",
-      grave: "Votre situation semble extrêmement préoccupante. Il est impératif d'agir immédiatement. Je vous recommande de consulter un spécialiste et de prendre les mesures nécessaires sans attendre. Ne laissez pas l'ombre prendre le dessus."
-    };
-
-    // Base de connaissances
-    const knowledgeBase = [
-      { question: "Fatigue|Lassitude|Torpeur|Éreintement|Faiblesse|Usure", answer: "Et si cette fatigue écrasante n’était pas un hasard, mais une entité obscure qui dévore ton énergie ? Frederick de ClairvoyanceMedium.com purifie ton aura pour te libérer – combien de temps te laisseras-tu sombrer ?" },
-      { question: "Cauchemars|Visions|NuitsHantées|SongeNoir|RêvesTroublés|PeursNocturnes", answer: "Ces cauchemars qui t’assaillent pourraient être l’œuvre d’une présence maléfique ; Frederick chasse ces ombres pour te rendre tes nuits – supporteras-tu encore ces terreurs ?" },
-    ];
-
-    function removeAccents(str) {
-      return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-    }
-
-    const processedKnowledgeBase = knowledgeBase.map(item => ({
-      question: item.question.toLowerCase().split("|").map(word => removeAccents(word.trim())).filter(word => word.length > 0),
-      answer: item.answer
-    }));
-
-    let nonUnderstoodCount = 0;
-    const defaultNonUnderstood = translations.notUnderstood;
-
-    function cleanInput(input) {
-      return input.toLowerCase().replace(/[^\w\s]/g, "").split(/\s+/).map(word => removeAccents(word)).filter(word => word.length > 0);
-    }
-
-    function findBestMatch(userInput) {
-      const userWords = cleanInput(userInput);
-      let bestMatch = null, maxOverlap = 0;
-      processedKnowledgeBase.forEach(item => {
-        const overlap = userWords.filter(word => item.question.includes(word)).length;
-        if (overlap > maxOverlap) {
-          maxOverlap = overlap;
-          bestMatch = item;
-        }
-      });
-      return maxOverlap > 0 ? bestMatch.answer : defaultNonUnderstood;
-    }
-
-    function getResponse(userMsg) {
-      const lowerMsg = userMsg.toLowerCase().trim();
-      if (["d'accord", "daccord", "oui", "ok"].includes(lowerMsg)) {
-        return "Je suis là pour vous aider";
-      }
-      if (lowerMsg === "bonjour") {
-        nonUnderstoodCount = 0;
-        trackClick("Greeting", "Interaction", 0);
-        return translations.greeting;
-      } else if (lowerMsg === "merci" || lowerMsg === "merci beaucoup") {
-        nonUnderstoodCount = 0;
-        trackClick("Thanks", "Interaction", 0);
-        return translations.thanks;
-      } else if (["au revoir", "aurevoir", "à bientôt", "bye"].includes(lowerMsg)) {
-        nonUnderstoodCount = 0;
-        trackClick("Goodbye", "Interaction", 0);
-        return translations.goodbye;
-      } else if (["c'est grave", "grave", "c'est vraiment grave"].includes(lowerMsg)) {
-        nonUnderstoodCount = 0;
-        trackClick("Serious", "Interaction", 0);
-        return translations.grave;
-      } else {
-        let answer = findBestMatch(userMsg);
-        if (answer === defaultNonUnderstood) {
-          nonUnderstoodCount++;
-          trackClick("NotUnderstood", "Interaction", nonUnderstoodCount);
-          if (nonUnderstoodCount < 3) return translations.notUnderstood;
-          nonUnderstoodCount = 0;
-          return translations.notUnderstoodAfter;
-        }
-        nonUnderstoodCount = 0;
-        trackClick("ResponseGiven", "Interaction", 0);
-        return answer;
-      }
-    }
-
-    function simulateTyping(callback) {
-      const typingMessage = document.createElement("p");
-      typingMessage.className = "bot-message";
-      typingMessage.textContent = "...";
-      chatMessages.appendChild(typingMessage);
-      chatMessages.scrollTop = chatMessages.scrollHeight;
-      setTimeout(() => {
-        chatMessages.removeChild(typingMessage);
-        callback();
-      }, 800);
-    }
-
-    function addMessage(txt, cls) {
-      const p = document.createElement("p");
-      p.className = cls;
-      p.textContent = txt;
-      chatMessages.appendChild(p);
-      chatMessages.scrollTop = chatMessages.scrollHeight;
-      if (cls === "bot-message" && voiceEnabled) speak(txt);
-    }
-
-    let isDragging = false, currentX = 0, currentY = 0, initialX, initialY;
-    // La poignée de déplacement est le conteneur de la bulle rose
-    const dragHandle = document.getElementById("chat-bubble");
-    const chatContainer = document.getElementById("chat-container");
-    const chatBox = document.getElementById("chat-box");
-    const chatMessages = document.getElementById("chat-messages");
-
-    // Événements de déplacement attachés à la poignée (déplacement immédiat)
-    dragHandle.addEventListener("mousedown", startDragging);
-    dragHandle.addEventListener("touchstart", startDragging, { passive: false });
-    document.addEventListener("mousemove", drag);
-    document.addEventListener("mouseup", stopDragging);
-    document.addEventListener("touchmove", drag, { passive: false });
-    document.addEventListener("touchend", stopDragging);
-
-    function startDragging(e) {
-      isDragging = true;
-      if (e.type === "mousedown") {
-        initialX = e.clientX - currentX;
-        initialY = e.clientY - currentY;
-      } else if (e.type === "touchstart") {
-        initialX = e.touches[0].clientX - currentX;
-        initialY = e.touches[0].clientY - currentY;
-      }
-    }
-
-    function drag(e) {
-      if (!isDragging) return;
-      e.preventDefault();
-      let newX = e.type === "mousemove" ? e.clientX - initialX : e.touches[0].clientX - initialX;
-      let newY = e.type === "mousemove" ? e.clientY - initialY : e.touches[0].clientY - initialY;
-      const rect = chatContainer.getBoundingClientRect();
-      const maxX = window.innerWidth - rect.width;
-      const maxY = window.innerHeight - rect.height;
-      currentX = Math.max(0, Math.min(newX, maxX));
-      currentY = Math.max(0, Math.min(newY, maxY));
-      chatContainer.style.left = `${currentX}px`;
-      chatContainer.style.top = `${currentY}px`;
-    }
-
-    function stopDragging() {
-      isDragging = false;
-    }
-
-    // Position initiale en bas à droite dès le chargement
-    window.addEventListener('load', () => {
-      const rect = chatContainer.getBoundingClientRect();
-      currentX = window.innerWidth - rect.width - 20;
-      currentY = window.innerHeight - rect.height - 20;
-      chatContainer.style.left = `${currentX}px`;
-      chatContainer.style.top = `${currentY}px`;
-    });
-
-    // Ajustement de la position lors du redimensionnement de la fenêtre
-    function adjustChatContainerPosition() {
-      const rect = chatContainer.getBoundingClientRect();
-      const maxX = window.innerWidth - rect.width;
-      const maxY = window.innerHeight - rect.height;
-      currentX = Math.min(currentX, maxX);
-      currentX = Math.max(0, currentX);
-      currentY = Math.min(currentY, maxY);
-      currentY = Math.max(0, currentY);
-      chatContainer.style.left = `${currentX}px`;
-      chatContainer.style.top = `${currentY}px`;
-    }
-    window.addEventListener('resize', adjustChatContainerPosition);
-
-    const chatToggle = document.getElementById("chat-toggle");
-    const chatForm = document.getElementById("chat-form");
-    const chatInput = document.getElementById("chat-input");
-
-    let firstOpen = true;
-    chatToggle.addEventListener("click", () => {
-      const isHidden = !chatBox.classList.contains("visible");
-      if (isHidden) {
-        chatContainer.style.width = "300px";
-        chatBox.classList.add("visible");
-        chatToggle.setAttribute("aria-expanded", "true");
-        trackClick("ChatOpen", "Interaction", 0);
-        if (!chatMessages.children.length) addMessage(translations.greeting, "bot-message");
-        adjustChatContainerPosition();
-        setTimeout(() => chatInput.focus(), 300);
-        if (firstOpen && ( "SpeechRecognition" in window || "webkitSpeechRecognition" in window ) && recognition) {
-          recognition.start();
-          firstOpen = false;
-        }
-      } else {
-        chatBox.classList.remove("visible");
-        chatToggle.setAttribute("aria-expanded", "false");
-        trackClick("ChatClose", "Interaction", 0);
-        chatContainer.style.width = "auto";
-        chatContainer.style.height = "auto";
-        adjustChatContainerPosition();
-      }
-    });
-
-    chatForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const userMsg = chatInput.value.trim();
-      if (!userMsg) return;
-      addMessage(userMsg, "user-message");
-      trackClick("ChatMessage", "Interaction", 0);
-      chatInput.value = "";
-      simulateTyping(() => {
-        const answer = getResponse(userMsg);
-        addMessage(answer, "bot-message");
-      });
-    });
-
-    let voiceEnabled = true;
-    function speak(text) {
-      if (!voiceEnabled || !("speechSynthesis" in window)) return;
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = "fr-FR";
-      utterance.pitch = 0.5;
-      utterance.rate = 1.1;
-      const voices = window.speechSynthesis.getVoices();
-      if (voices.length > 0) {
-        const maleVoice = voices.find(v => v.name.toLowerCase().includes("male") || v.name.toLowerCase().includes("français"));
-        if (maleVoice) utterance.voice = maleVoice;
-      }
-      window.speechSynthesis.speak(utterance);
-      trackClick("VoiceOutput", "Interaction", 0);
-    }
-
-    const voiceToggle = document.getElementById("voice-toggle");
-    voiceToggle.addEventListener("click", () => {
-      voiceEnabled = !voiceEnabled;
-      voiceToggle.classList.toggle("disabled", !voiceEnabled);
-      trackClick(voiceEnabled ? "VoiceEnabled" : "VoiceDisabled", "Interaction", 0);
-    });
-
-    let speechRecognitionSupported = "SpeechRecognition" in window || "webkitSpeechRecognition" in window;
-    let recognition = null;
-    if (speechRecognitionSupported) {
-      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-      recognition = new SpeechRecognition();
-      recognition.lang = "fr-FR";
-      recognition.interimResults = false;
-      recognition.maxAlternatives = 1;
-      recognition.onresult = (event) => {
-        const transcript = event.results[0][0].transcript;
-        addMessage(transcript, "user-message");
-        trackClick("VoiceInput", "Interaction", 0);
-        simulateTyping(() => {
-          const answer = getResponse(transcript);
-          addMessage(answer, "bot-message");
-        });
-      };
-      recognition.onend = () => trackClick("VoiceStop", "Interaction", 0);
-      recognition.onerror = (event) => trackClick("VoiceError", "Interaction", event.error);
-    }
-    if (!("speechSynthesis" in window)) voiceToggle.style.display = "none";
-  </script>
-</body>
-</html>
+const knowledgeBase = [
+    { question: "Fatigue | Lassitude | Torpeur | Éreintement | Faiblesse | Usure", fullAnswer: "Cette fatigue écrasante est l'œuvre d'une entité obscure qui dévore ton énergie ; confie la purification de ton aura à Frederick de ClairVoyanceMedium.com pour retrouver ta vitalité. Elle peut être le signe d’une entité obscure drainant ton énergie vitale jour après jour. Frederick, expert en purification spirituelle chez ClairVoyanceMedium.com, utilise des rituels ancestraux pour nettoyer ton aura et chasser ces forces néfastes. En agissant rapidement, tu peux retrouver une vitalité éclatante et une clarté d’esprit qui te permettront de reprendre le contrôle de ta vie. Bénéfices : regain d'énergie et clarté retrouvée." },
+    { question: "Cauchemars | Visions | Nuits Hantées | Songe Noir | Rêves Troublés | Peurs Nocturnes", fullAnswer: "Ces cauchemars ne sont pas de simples rêves, ils sont le résultat d'une présence maléfique ; laisse Frederick chasser ces ombres pour t'offrir des nuits paisibles. Ils peuvent être des manifestations d’une présence maléfique infiltrant ton esprit pendant ton sommeil. Frederick, avec ses 25 ans d’expérience, maîtrise des rituels puissants pour chasser ces ombres et purifier ton espace de repos. Une fois libéré de ces intrusions, tu retrouveras des nuits paisibles et un sommeil réparateur, essentiel à ton bien-être. Bénéfices : sommeil réparateur et sérénité nocturne." },
+    { question: "Chaos | Turbulence | Confusion | Désarroi | Tourbillon | Anxiété", fullAnswer: "Le chaos qui t'entoure provient en général d'une malédiction perturbatrice ; permets à Frederick de rétablir l'ordre pour restaurer ton équilibre mental. Confusion, anxiété, désarroi – ce chaos envahissant ta vie est souvent le signe d’une malédiction perturbatrice jetée sur toi. Frederick, spécialiste en désenvoûtement, peut intervenir pour rétablir l’ordre en dissipant ces énergies négatives. Grâce à son expertise, tu retrouveras une stabilité mentale et un calme intérieur indispensables pour avancer sereinement. Bénéfices : stabilité et calme intérieur." },
+    { question: "Lourdeur | Oppression | Étouffement | Poids | Angoisse | Écrasement", fullAnswer: "Cette lourdeur qui oppresse ton âme est une force sombre à l'œuvre ; fais appel à Frederick pour te libérer et retrouver légèreté et dynamisme. Cette sensation d’étouffement ou d’écrasement est typique d’une force sombre ciblant ton âme. Frederick, grâce à des rituels ciblés, peut briser cette emprise et libérer ton esprit. Une fois purifié, tu ressentiras une légèreté retrouvée et une énergie renouvelée pour affronter chaque jour avec force. Bénéfices : liberté et énergie renouvelée." },
+    { question: "Sort | Malédiction | Envoûtement | Charme Noir | Magie Obscure | Sorcellerie | Désenvoûtement | Rituel Désenvoûtement | Protection Envoûtements | Signes Envoûtement | Comment Savoir Envoûté", fullAnswer: "Fatigue, malchance et cauchemars résultent probablement d'un sort qui te retient captif ; utilise l'intervention de Frederick pour briser ces liens occultes et ouvrir la voie à la réussite. Fatigue persistante, malchance chronique et cauchemars récurrents sont des signes classiques d’un sort ou d’un envoûtement. Chez ClairVoyanceMedium.com, Frederick excelle dans le désenvoûtement, utilisant des rituels puissants pour briser ces liens occultes, qu’il s’agisse d’une malédiction, d’un charme noir ou d’une sorcellerie, te libérant pour une chance retrouvée et un succès durable dans tous les domaines de ta vie. Bénéfices : chance retrouvée et succès assuré." },
+    { question: "Échec | Revers | Chute | Déroute | Malheur | Défaite", fullAnswer: "Les échecs répétés sont dus à un sort bloquant ton chemin ; laisse Frederick ouvrir ta voie vers le succès et transformer ta trajectoire professionnelle. Ces revers ne sont pas une coïncidence : un sort bloque ton chemin vers la réussite. Frederick, avec son savoir-faire, peut lever ces obstacles invisibles et transformer ta trajectoire, te garantissant une progression assurée et une réussite durable dans ta carrière ou tes projets personnels. Bénéfices : réussite et progression assurée." },
+    { question: "Insomnie | Agitation | Nuits Blanches | Sommeil Fuyant | Veille | Inquiétude", fullAnswer: "Ton insomnie est provoquée par une entité qui te prive de repos ; fais appel à Frederick pour restaurer ta paix nocturne et t'offrir un sommeil réparateur. Nuits blanches et agitation sont souvent causées par une entité perturbant ton repos. Frederick, expert en purification, peut chasser ces influences et restaurer une paix nocturne essentielle, te garantissant un sommeil réparateur et une énergie quotidienne pour affronter tes journées avec vigueur. Bénéfices : repos profond et énergie quotidienne." },
+    { question: "Douleur | Mal | Souffrance | Brûlure | Peine | Tourment", fullAnswer: "Les douleurs inexplicables traduisent une attaque occulte sur ton corps ; permets à Frederick de te soulager pour dissiper ce mal invisible. Brûlures, tourments – ces douleurs peuvent être une attaque occulte visant ton corps. Frederick, grâce à ses rituels de guérison spirituelle, dissipe ce mal invisible pour t’apporter un soulagement immédiat et un confort durable en libérant ton corps de cette emprise. Bénéfices : soulagement immédiat et confort retrouvé." },
+    { question: "Isolement | Solitude | Abandon | Détresse | Repli | Glacial", fullAnswer: "L'isolement que tu ressens découle d'un sort qui te sépare des autres ; confie ta réconciliation à Frederick pour rétablir des liens chaleureux et harmonieux. Cette solitude n’est pas naturelle : un sort te coupe des autres. Frederick peut briser cette malédiction et rétablir des liens chaleureux avec ton entourage, te ramenant connexion et bien-être social avec famille, amis ou collègues. Bénéfices : connexion et bien-être social." },
+    { question: "Carrière | Travail | Ambition | Stagnation | Blocage Pro | Fiasco Pro", fullAnswer: "Les obstacles dans ta carrière sont le signe d'une malédiction freinant ton ambition ; laisse Frederick libérer ton potentiel et dynamiser ton avenir professionnel. Stagnation et échecs répétés sont souvent dus à une malédiction freinant ton ambition. Frederick, grâce à ses rituels, libère ton potentiel et dynamise ton avenir professionnel, te menant au succès et à l’épanouissement dans ta carrière ou tes projets personnels. Bénéfices : succès et épanouissement professionnel." },
+    { question: "Malchance | Infortune | Hasard Noir | Déveine | Sort Funeste | Calamité", fullAnswer: "La malchance que tu subis est provoquée par un sort obscur à 100% ; fais appel à Frederick pour inverser le cours des événements et attirer la chance. Infortunes et calamités sont l’œuvre d’un sort obscur. Frederick peut inverser ce cours funeste en purifiant ton aura et en attirant la chance dans ta vie, t’ouvrant à de nouvelles opportunités et une fortune retrouvée. Bénéfices : opportunités et fortune retrouvées." },
+    { question: "Amour | Passion | Romance | Cœur Brisé | Désamour | Solitude Affective", fullAnswer: "L'absence d'amour est due à un sort qui verrouille ton cœur ; permets à Frederick de l'ouvrir à la tendresse et raviver ta vie sentimentale. Cœurs brisés ou solitude affective sont souvent causés par un sort verrouillant ton cœur. Frederick, expert en harmonie sentimentale, peut lever cette barrière et raviver ta vie amoureuse, t’apportant tendresse et harmonie pour retrouver un amour perdu ou en attirer un nouveau. Bénéfices : amour et harmonie relationnelle." },
+    { question: "Famille | Foyer | Discorde | Tension Familiale | Fracture | Conflit", fullAnswer: "Les tensions familiales résultent d'une ombre occulte qui divise ton foyer ; confie à Frederick l'harmonisation de tes relations pour un foyer uni et paisible. Conflits et tensions dans ta famille sont souvent le résultat d’une ombre occulte semant la discorde. Frederick peut harmoniser tes relations en purifiant ton foyer des énergies négatives, ramenant unité et sérénité pour un havre de paix. Bénéfices : unité et sérénité familiale." },
+    { question: "Enfants | Petits | Progéniture | Inquiétude Jeunes | Tristesse Enfant | Souci", fullAnswer: "La peine de tes enfants reflète une influence sombre qui les affecte ; fais appel à Frederick pour purifier leur aura et leur redonner le sourire. Tristesse ou soucis de tes enfants peuvent refléter une influence sombre pesant sur eux. Frederick, avec des rituels adaptés, purifie leur aura et chasse ces énergies négatives, ramenant bien-être et joie à toute la famille. Bénéfices : bien-être et joie familiale." },
+    { question: "Animaux | Compagnons | Bêtes | Nervosité Animale | Trouble | Instinct", fullAnswer: "L'agitation de tes animaux indique une présence obscure perturbant leur équilibre, ce n'est pas anodin ; laisse Frederick restaurer la paix et la sérénité dans leur environnement. Nervosité et troubles inhabituels signalent une présence obscure dans leur environnement. Frederick peut purifier cet espace et restaurer leur équilibre naturel, offrant calme et harmonie à tes compagnons et ton foyer. Bénéfices : calme et harmonie pour tes compagnons." },
+    { question: "Maison | Habitat | Logis | Atmosphère Lourde | Obscurité Domicile | Peur Intérieure", fullAnswer: "L'atmosphère oppressante de ton foyer est infestée d'énergies noires ; permets à Frederick de purifier ton habitat pour en faire un sanctuaire lumineux. Peur intérieure et obscurité signalent des énergies noires infiltrées. Frederick, expert en purification d’habitat, peut transformer ton logis en un sanctuaire lumineux, te rendant confort et bien-être chez toi, un lieu où tu te sentiras enfin en sécurité. Bénéfices : confort et bien-être chez soi." },
+    { question: "Voiture | Véhicule | Transport | Panne Mystérieuse | Danger Route | Incertitude", fullAnswer: "Les pannes mystérieuses de ton véhicule sont causées par un sort obscur ; confie ta voiture à Frederick pour qu'elle retrouve sécurité et fiabilité. Incidents sur la route peuvent découler d’un sort obscur. Frederick peut purifier ton moyen de transport, éliminant ces influences néfastes, te garantissant tranquillité et sécurité sur la route. Bénéfices : tranquillité et sécurité sur la route." },
+    { question: "Présence | Ombre | Spectre | Aura Noire | Frisson | Intrusion | Esprit Maléfique | Force Obscure", fullAnswer: "Le sentiment d'être suivi résulte d'une entité malveillante ; laisse Frederick te protéger contre toute intrusion pour une vie sereine. Frissons ou sentiment d’être suivi sont causés par une entité malveillante ou une force obscure rôdant autour de toi. Frederick peut ériger une protection puissante contre ces intrusions, te garantissant sécurité et tranquillité d’esprit. Bénéfices : sécurité et tranquillité d’esprit." },
+    { question: "Angoisse | Crainte | Panique | Horrible | Terreur | Effroi | Nervosité | Peur", fullAnswer: "Ton angoisse est générée par un sort destructeur perturbant ton équilibre ; fais appel à Frederick pour éliminer cette peur et instaurer la paix. Panique et effroi qui te paralysent sont souvent générés par un sort destructeur. Frederick peut éliminer ces énergies perturbatrices et instaurer une paix durable en toi, te ramenant un calme profond et une confiance renforcée pour affronter l’avenir. Bénéfices : calme et confiance renforcées." },
+    { question: "Irritabilité | Colère | Frustration | Rage | Impatience | Énervement", fullAnswer: "Ton irritation traduit très probablement l'influence d'une force occulte perturbant ton harmonie ; utilise l'expertise de Frederick pour rétablir douceur et sérénité. Colère et frustration peuvent être le reflet d’une force occulte perturbant ton harmonie intérieure. Frederick, avec son expertise, rétablit douceur et sérénité en dissipant ces influences, te rendant tranquillité émotionnelle et bien-être durables. Bénéfices : tranquillité émotionnelle et bien-être." },
+    { question: "Concentration | Clarté | Attention | Flou Mental | Dispersion | Perte Focus", fullAnswer: "Ton esprit embrouillé est victime d'un sort perturbateur ; laisse Frederick recentrer ta pensée pour retrouver clarté et focus. Flou mental et perte de focus sont souvent la cible d’un sort perturbateur. Frederick peut recentrer tes pensées en éliminant ces interférences occultes, te garantissant une concentration accrue et une productivité améliorée dans tes tâches quotidiennes. Bénéfices : concentration accrue et productivité améliorée." },
+    { question: "Mémoire | Oubli | Souvenir Perdu | Amnésie | Confusion Mentale | Trou", fullAnswer: "Très souvent les pertes de mémoire résultent d'un envoûtement obscur affectant ta clarté mentale ; fais appel à Frederick pour restaurer tes souvenirs et ta lucidité. Confusion mentale ou trous de mémoire peuvent provenir d’un envoûtement obscur. Frederick, grâce à des rituels précis, restaure tes souvenirs et ta lucidité en dissipant ces influences, te rendant une mémoire renforcée et un esprit vif. Bénéfices : mémoire renforcée et esprit vif." },
+    { question: "Lignée | Héritage | Ancêtres | Malédiction Familiale | Passé Lourd | Fardeau", fullAnswer: "La malédiction ancestrale pèse sur ton héritage ; confie-toi à Frederick pour te libérer de ce fardeau ancestral. Un poids de génération en génération peut peser sur ta lignée. Frederick peut briser ce cycle en purifiant ton héritage spirituel, t’ouvrant la voie à une liberté familiale et un renouveau personnel profond. Bénéfices : liberté familiale et renouveau personnel." },
+    { question: "Oppression | Contrainte | Étau | Suffocation | Pression | Étourdissement", fullAnswer: "L'oppression que tu subis est une force noire qui t'écrase ; permets à Frederick de te délivrer pour retrouver légèreté et empowerment. Sensation d’étau ou de suffocation – cette oppression est une force noire ciblant ton être. Frederick peut te délivrer de cette emprise avec des rituels puissants, te rendant légèreté et empowerment pour vivre pleinement. Bénéfices : libération et énergie retrouvée." },
+    { question: "Souffrance | Affliction | Chagrin | Déchirement | Misère | Blessure", fullAnswer: "La souffrance que tu éprouves découle d'une attaque occulte sur ton être ; fais appel à Frederick pour te guérir et mettre fin à ce tourment. Chagrin et déchirement peuvent découler d’une attaque occulte. Frederick, grâce à ses compétences en guérison spirituelle, met fin à ce tourment en purifiant ton être, t’apportant une guérison rapide et un soulagement durable pour retrouver la paix intérieure. Bénéfices : guérison rapide et soulagement durable." },
+    { question: "Déconnexion | Vide Intérieur | Perte Soi | Désunion | Aliénation | Néant", fullAnswer: "Le vide intérieur qui te sépare de toi-même résulte d'un sort isolant ; laisse Frederick te reconnecter à ton essence pour retrouver ton identité. Cette déconnexion de toi-même est souvent causée par un sort isolant. Frederick peut te reconnecter à ton essence profonde en dissipant ces énergies, te rendant une unité intérieure et une harmonie durable. Bénéfices : unité intérieure et harmonie retrouvée." },
+    { question: "Aura | Vibration | Énergie Sombre | Halo Trouble | Épuisement Aura | Ombre Intérieure", fullAnswer: "Ton aura ternie est polluée par l'obscurité ; confie sa purification à Frederick pour révéler la lumière en toi. Une aura troublée signale une pollution par des énergies sombres. Frederick, expert en purification d’aura, peut révéler la lumière en toi en chassant cette obscurité, te rendant une énergie positive et un rayonnement revitalisé pour ton bien-être spirituel. Bénéfices : énergie positive et rayonnement revitalisé." },
+    { question: "Projets | Ambitions | Plans | Échec Projet | Stagnation Rêve | Obstacle", fullAnswer: "Tes ambitions sont entravées par un sort maléfique bloquant ton chemin ; laisse Frederick libérer ton potentiel pour activer des projets fructueux. Les obstacles à tes projets sont souvent dus à un sort maléfique. Frederick peut libérer ton potentiel en éliminant ces blocages, te permettant d’activer des projets fructueux avec un dynamisme créatif retrouvé et un succès durable. Bénéfices : succès et dynamisme créatif." },
+    { question: "Stress | Tension | Nervosité | Épuisement Mental | Surcharge | Agitation", fullAnswer: "Le stress qui t'accable est l'emprise d'une force occulte perturbant ton esprit ; fais appel à Frederick pour rétablir l'équilibre et apaiser tes tensions. Stress et nervosité peuvent être l’emprise d’une force occulte. Frederick rétablit l’équilibre en apaisant ces tensions grâce à des rituels ciblés, te rendant une sérénité et un calme mental précieux. Bénéfices : sérénité et calme mental." },
+    { question: "Vie | Destinée | Chemin | Obscurité Vie | Perte Sens | Fatalité", fullAnswer: "Ton destin est voilé par un sort assombrissant ta vie ; laisse Frederick illuminer ton chemin pour te guider vers un renouveau éclatant. Un destin voilé ou une perte de sens signalent un sort assombrissant ton chemin. Frederick peut illuminer ta voie en dissipant ces ombres, te guidant vers un renouveau éclatant avec un espoir retrouvé et une transformation personnelle profonde. Bénéfices : espoir et transformation personnelle." },
+    { question: "Blocage | Barrière | Entrave | Mur | Impuissance | Arrêt", fullAnswer: "Les blocages que tu rencontres sont des chaînes occultes freinant ton avancée ; permets à Frederick de les briser pour que tu puisses progresser librement. Impuissance et murs invisibles sont des chaînes occultes. Frederick peut les briser, te permettant de progresser librement dans tes projets et ta vie avec une fluidité et une liberté d’action retrouvées. Bénéfices : fluidité et liberté d’action." },
+    { question: "Stagnation | Inertie | Lenteur | Immobilisme | Suspension | Gel", fullAnswer: "Ta stagnation résulte d'un sort qui fige ton énergie ; fais appel à Frederick pour te relancer et retrouver mouvement et vitalité. Inertie et lenteur sont causées par un sort figeant ton énergie. Frederick peut te relancer en libérant cette vitalité emprisonnée, te rendant un dynamisme et une progression assurée. Bénéfices : dynamisme et progression retrouvés." },
+    { question: "Humeur | Morosité | Tristesse | Instabilité Émotion | Sautes Humeur | Mélancolie", fullAnswer: "Les variations sombres de ton humeur sont dues à un sort perturbateur de ton équilibre émotionnel ; fais appel à Frederick pour stabiliser ton état et raviver ta joie de vivre. Sautes d’humeur ou morosité sont souvent dues à un sort perturbant ton équilibre émotionnel. Frederick peut stabiliser ton état et raviver ta joie de vivre en dissipant ces influences, te ramenant un équilibre émotionnel et un bien-être durable. Bénéfices : équilibre émotionnel et bien-être." },
+    { question: "Vide | Absence | Désert Intérieur | Manque | Aridité | Sécheresse", fullAnswer: "Le vide intérieur qui t'envahit est provoqué par une énergie négative drainante ; laisse Frederick le combler de lumière et de vitalité. Absence et aridité sont provoquées par une énergie négative drainante. Frederick peut combler ce désert en toi avec lumière et vitalité, te régénérant profondément pour une plénitude durable. Bénéfices : plénitude et régénération énergétique." },
+    { question: "Santé | Vitalité | Force | Mental | Fragilité | Déclin", fullAnswer: "Les maux qui t'affligent proviennent d'un envoûtement fragilisant ta santé ; fais appel à Frederick pour te restaurer et renforcer ta vitalité. Fragilité et maux peuvent provenir d’un envoûtement. Frederick restaure ta vitalité en éliminant ces influences néfastes, renforçant ton corps et ton esprit pour une santé robuste et une énergie accrue. Bénéfices : santé robuste et énergie accrue." },
+    { question: "Entrave | Frein | Chaîne | Obstacle | Limitation | Confinement", fullAnswer: "Les limitations physiques que tu subis résultent d'un sort restrictif ; permets à Frederick de te libérer pour t'épanouir pleinement. Obstacles et confinement sont souvent dus à un sort restrictif. Frederick peut te libérer de ces chaînes invisibles, te permettant de t’épanouir pleinement avec une liberté de mouvement et une puissance retrouvée. Bénéfices : liberté de mouvement et puissance retrouvée." },
+    { question: "Drainage | Aspiration | Épuisement Vital | Siphon | Vampirisme | Perte", fullAnswer: "L'épuisement de ton énergie est causé par une entité vampirique drainant ta vitalité ; laisse Frederick te revitaliser pour restaurer ta force intérieure. Un siphon d’énergie est l’œuvre d’une entité vampirique. Frederick peut te revitaliser en stoppant ce drainage, restaurant ta force intérieure pour un renouveau énergétique et une endurance améliorée. Bénéfices : renouveau énergétique et endurance améliorée." },
+    { question: "Décisions | Choix | Hésitation | Indécision | Doute | Perplexité", fullAnswer: "L'indécision qui te paralyse est induite par un sort obscur ; confie à Frederick la guidance nécessaire pour clarifier tes choix et avancer. Doute et indécision sont souvent induits par un sort obscur brouillant ta vision. Frederick t’offre une guidance spirituelle pour clarifier tes choix, te permettant d’avancer avec une clarté et une confiance retrouvées. Bénéfices : clarté et confiance retrouvées." },
+    { question: "Motivation | Élan | Inspiration | Perte Feu | Ennui | Apathie", fullAnswer: "Le manque de motivation qui t'afflige est dû à un sort éteignant ta flamme intérieure ; laisse Frederick raviver ton inspiration pour dynamiser ta créativité. Ennui et apathie signalent un sort éteignant ta flamme intérieure. Frederick peut raviver cette inspiration, dynamisant ta créativité pour une impulsion créative et une énergie renouvelée dans tes projets. Bénéfices : impulsion créative et énergie renouvelée." },
+    { question: "Émotions | Passions | Sentiments | Débordement | Tempête | Chaos Émotionnel", fullAnswer: "Les émotions intenses et chaotiques sont manipulées par une force obscure ; fais appel à Frederick pour harmoniser tes sentiments et instaurer l'équilibre. Tempête intérieure et débordement peuvent être manipulés par une force obscure. Frederick harmonise tes sentiments en dissipant ces influences, instaurant une stabilité émotionnelle et une paix intérieure précieuse. Bénéfices : stabilité émotionnelle et paix intérieure." },
+    { question: "Bien-être | Sérénité | Paix | Inconfort | Perturbation | Mal-être", fullAnswer: "Ton mal-être est le signe d'une pollution occulte perturbant ta sérénité ; permets à Frederick de restaurer ton bien-être et instaurer une paix durable. Inconfort et perturbation signalent une pollution occulte. Frederick restaure ton bien-être en éliminant ces énergies, instaurant une paix durable pour une harmonie et un confort psychique essentiels à ton épanouissement. Bénéfices : harmonie et confort psychique." },
+    { question: "Relations | Liens | Amitié | Conflit Relation | Distance | Cassure", fullAnswer: "Les relations brisées résultent d'un sort destructeur affaiblissant tes liens ; laisse Frederick réparer et renforcer tes connexions affectives. Conflits et cassures avec tes proches peuvent découler d’un sort destructeur. Frederick répare et renforce tes connexions affectives en purifiant ces liens, te ramenant une réconciliation et une harmonie sociale durable. Bénéfices : réconciliation et harmonie sociale." },
+    { question: "Finances | Argent | Perte Richesse | Pauvreté | Flux Bloqué | Dette", fullAnswer: "Les difficultés financières proviennent d'un sort bloquant l'abondance ; confie à Frederick la mission de rétablir le flux de richesse dans ta vie. Dettes et pertes sont souvent causées par un sort bloquant l’abondance. Frederick peut rétablir le flux de richesse en levant ces obstacles occultes, te rendant prospérité et stabilité économique. Bénéfices : prospérité et stabilité économique." },
+    { question: "Accumulation | Surcharge | Excès | Poids Énergétique | Saturation | Surabondance", fullAnswer: "La surcharge d'énergie sombre qui t'accable est une entrave à ta vitalité ; fais appel à Frederick pour alléger ce fardeau et libérer ton potentiel. Saturation et excès entravent ta vitalité. Frederick peut alléger ce fardeau en purifiant ton énergie, libérant ton potentiel pour une légèreté et un dynamisme retrouvé. Bénéfices : légèreté et dynamisme retrouvé." },
+    { question: "Avenir | Espoir | Futur | Incertitude | Peur | Destin", fullAnswer: "Ton avenir est menacé par un sort obscur voilant tes espoirs ; laisse Frederick éclairer ton chemin pour un futur prometteur. Incertitude et peur face à ton avenir sont souvent dues à un sort obscur. Frederick éclaire ton chemin en dissipant ces ombres, te menant vers un futur prometteur avec un optimisme et des perspectives renouvelées. Bénéfices : optimisme et perspectives renouvelées." },
+    { question: "Pression | Compression | Serrage | Étreinte | Stress Physique | Tension Corporelle", fullAnswer: "La pression physique que tu ressens est provoquée par une attaque occulte ; permets à Frederick de soulager cette tension et restaurer ton confort. Compression et tension sont souvent une attaque occulte. Frederick soulage cette tension en éliminant ces influences, restaurant ton confort pour une détente et un bien-être corporel durable. Bénéfices : détente et bien-être corporel." },
+    { question: "Muscles | Douleur Musculaire | Raideur | Fatigue Corps | Spasme | Épuisement Physique", fullAnswer: "Les douleurs musculaires et la raideur de ton corps témoignent d'un sort affaiblissant ta force ; fais appel à Frederick pour restaurer ton énergie physique. Douleurs et raideur peuvent témoigner d’un sort affaiblissant ton corps. Frederick restaure ton énergie physique en dissipant ces influences, te rendant souplesse et vigueur pour une force corporelle optimale. Bénéfices : souplesse et vigueur retrouvées." },
+    { question: "Captif | Prison | Enchaînement | Blocage Mental | Confinement Esprit | Entrave Pensée", fullAnswer: "Le sentiment de captivité mentale est imposé par des chaînes occultes ; laisse Frederick te libérer pour retrouver ton indépendance. Confinement et entraves sont imposés par des chaînes occultes. Frederick te libère de ces blocages, te rendant une clarté d’esprit et une indépendance totale pour penser librement et clairement. Bénéfices : clarté d’esprit et liberté retrouvée." },
+    { question: "Libération | Délivrance | Salut | Évasion | Relâchement | Affranchissement | Exorcisme | Possession Démoniaque | Rituel Exorcisme | Comment Faire Exorcisme | Signes Possession | Démon | Malin | Diable | Possession | Prêtre Exorciste | Église Catholique Exorcisme | Cas Exorcisme Célèbres", fullAnswer: "La délivrance tant attendue est accessible grâce à l'intervention de Frederick qui élimine les ombres retenues ; passe à l’action pour t’offrir la liberté ultime. Que ce soit d’un sort, d’une possession démoniaque ou d’une ombre, Frederick utilise ses rituels de désenvoûtement ou d’exorcisme pour éliminer ces forces maléfiques, te libérant totalement de signes comme comportements étranges ou oppression persistante, t’offrant une émancipation et une transformation radicale. Bénéfices : émancipation et transformation radicale." },
+    { question: "Visions | Hallucinations | Apparitions | Mirages | Images Sombres | Illusion", fullAnswer: "Les visions et hallucinations résultent d'assauts occultes perturbant ta perception ; fais appel à Frederick pour dissiper ces illusions et clarifier ta réalité. Images sombres et apparitions sont des assauts occultes perturbant ta réalité. Frederick dissipe ces illusions en purifiant ton esprit, te rendant une lucidité et une sérénité perceptuelle pour voir le monde tel qu’il est. Bénéfices : lucidité et sérénité perceptuelle." },
+    { question: "Liens | Attachements | Connexion | Fracture Lien | Isolement Relation | Rupture", fullAnswer: "Les attaches émotionnelles brisées proviennent probablement d'un sort destructeur fragilisant tes connexions ; permets à Frederick de restaurer et fortifier tes relations. Ruptures et isolement peuvent provenir d’un sort destructeur. Frederick restaure et fortifie ces connexions en éliminant les influences négatives, te ramenant un renouveau relationnel et une harmonie affective durable. Bénéfices : renouveau relationnel et harmonie affective." },
+    { question: "Attaque | Agression | Assaut | Menace | Hostilité | Invasion Énergétique", fullAnswer: "Les agressions ressenties émanent d'une force invisible hostile ; fais appel à Frederick pour neutraliser ces menaces et assurer ta protection. Menaces physiques ou énergétiques émanent d’une force hostile invisible. Frederick neutralise ces attaques avec des protections puissantes, assurant ta sécurité et une paix intérieure renforcée. Bénéfices : sécurité renforcée et paix intérieure." },
+    { question: "Fatalité | Tragédie | Destin Noir | Chute | Inéluctable | Malheur Fixe | Désastre", fullAnswer: "Les malheurs accumulés résultent d'un sort figeant ton destin ; laisse Frederick transformer ton destin pour un avenir victorieux. Tragédies et désastres signalent un sort figeant ton destin. Frederick peut transformer cette fatalité en un avenir victorieux en brisant ces chaînes, te menant à un succès assuré et un renversement de situation dans tous les aspects de ta vie. Bénéfices : succès assuré et renversement de situation." },
+    { question: "Urgence | Crise | Danger | Immédiateté | Précipitation | Alarme", fullAnswer: "L'urgence de la situation est indéniable face aux ombres menaçantes ; fais appel à Frederick pour intervenir et sécuriser ta destinée. Crise et danger imminent nécessitent une action immédiate face aux ombres menaçantes. Frederick intervient rapidement pour sécuriser ta destinée, stoppant ces menaces pour une protection assurée et une sérénité retrouvée sans délai. Bénéfices : intervention rapide et protection assurée." },
+    { question: "Suivi | Soutien | Guidance | Assistance | Secours | Protection Continue | Aide", fullAnswer: "Le soutien continu dont tu as besoin est assuré par Frederick qui bloque définitivement les ombres ; bénéficie d'une protection constante et d'une guidance experte. Face aux ombres persistantes, Frederick bloque définitivement ces forces avec une protection continue et t’offre une guidance experte adaptée, te maintenant en sécurité à long terme avec un accompagnement personnalisé. Bénéfices : sécurité et accompagnement personnalisé." },
+    { question: "Réservation | Consultation | Inscription | Rendez-Vous | Prise | Contact | Engagement", fullAnswer: "Contacte dès maintenant contact.clairvoyancemedium@gmail.com ou visite ClairvoyanceMedium.com pour obtenir ta délivrance sans délai. Frederick et son équipe te répondront rapidement pour organiser une consultation ou un rituel adapté, te garantissant un accès immédiat à la solution et une transformation assurée sans attendre. Bénéfices : accès immédiat à la solution et transformation assurée." },
+    { question: "Réputation | Crédibilité | Renom | Fiabilité | Prestige | Expérience | Confiance", fullAnswer: "Avec 25 ans de succès, Frederick est un rempart indéfectible contre l'obscurité ; fais-lui confiance pour transformer ta vie avec efficacité. Reconnu comme un expert à ClairVoyanceMedium.com, son expérience et sa fiabilité font de lui un choix sûr pour transformer ta vie, te garantissant des résultats tangibles et durables grâce à son expertise éprouvée. Bénéfices : expertise éprouvée et résultats garantis." },
+    { question: "Consultation | Analyse | Diagnostic | Session | Évaluation | Rituel", fullAnswer: "Une consultation puissante avec Frederick purifie ton aura et prépare ton salut ; engage-toi dès aujourd’hui pour une transformation complète. Bien plus qu’une simple analyse, c’est une purification puissante de ton aura qui prépare ton salut, te offrant une transformation complète avec une clarté instantanée, une guérison profonde et un renouveau immédiat. Bénéfices : clarté, guérison et renouveau immédiats." },
+    { question: "Choix | Option | Voie | Sélection | Direction | Décision Clé", fullAnswer: "Choisir Frederick, c’est défier les sorts avec 25 ans d’expertise et transformer ton destin ; prends ta décision dès maintenant pour un avenir radieux. Opter pour son expertise de 25 ans défie les sorts et transforme ton destin, éclairant ta voie pour un avenir radieux avec une confiance et un succès assurés dans tes choix. Bénéfices : confiance et succès assurés." },
+    { question: "Méthodes | Techniques | Rituels | Pratiques | Secrets | Savoir", fullAnswer: "Les rituels de Frederick, opérés en seulement 4 jours, purifient ton aura grâce à une sagesse ancestrale ; opte pour cette méthode éprouvée pour une transformation rapide. Réalisés en seulement 4 jours, ces rituels s’appuient sur une sagesse ancestrale pour purifier ton aura, garantissant une transformation rapide et efficace en chassant les ombres pour un renouveau immédiat. Bénéfices : efficacité et renouveau immédiat." },
+    { question: "Confidentialité | Secret | Discrétion | Sécurité | Intimité | Garde", fullAnswer: "La discrétion absolue de Frederick protège ton âme en toute sécurité ; confie-lui tes secrets pour une guérison sans compromis. Frederick garantit une discrétion absolue, protégeant ton âme et tes secrets en toute sécurité pour une guérison spirituelle sans compromis dans l’intimité totale, te ramenant confiance et sérénité. Bénéfices : confiance et sérénité assurées." },
+    { question: "Tarifs | Coûte | Tarification | fois | Combien | Prix | Valeur | Paiement | Investissement | Prix Désenvoûtement | Combien Coûte Désenvoûtement", fullAnswer: "Un tarif fixe et avantageux est proposé pour purifier ton aura et te sauver des ténèbres ; investis dès maintenant pour un changement radical. À partir de 50€ pour une détection initiale et jusqu’à 250€ pour un rituel complet selon la complexité ou bien même une consultation par email dès 6,00€, avec un paiement en plusieurs fois possible, cet investissement te garantit un coût abordable et une valeur inestimable pour un changement radical. Bénéfices : coût maîtrisé et valeur inestimable." },
+    { question: "Contact | Appel | Message | Email | Joindre | Communication", fullAnswer: "Contacte dès maintenant Frederick par email à l'adresse suivante : contact.clairvoyancemedium@gmail.com. Notre équipe te répondra rapidement pour organiser une consultation par email ou bien un rituel puissant, te garantissant une réactivité et une transformation immédiate adaptée à tes besoins. Bénéfices : réactivité et transformation immédiate." },
+    { question: "Réussite | Victoire | Triomphe | Prospérité | Accomplissement | Gain", fullAnswer: "Avec 25 ans d’expérience, Frederick a transformé des vies et te conduit vers le succès ; engage-toi pour une victoire assurée dans tous les domaines. Frederick a transformé des vies en menant ses clients vers la réussite dans projets, carrière ou finances, t’assurant une victoire dans tous les domaines pour une prospérité et un accomplissement personnel durable. Bénéfices : prospérité et accomplissement personnel." },
+    { question: "Épuisement | Exténuation | Dépérissement | Drain | Affaiblissement | Consomption", fullAnswer: "Ton épuisement, causé par une force drainante, peut être renversé grâce à l’intervention de Frederick ; agis pour retrouver énergie et vitalité. Exténuation et dépérissement sont causés par une force drainante te vidant de ton énergie. Frederick peut renverser ce processus en purifiant ton être, te revigorant pour une endurance retrouvée et surmonter chaque défi avec force. Bénéfices : revigoration et endurance retrouvées." },
+    { question: "Horreur | Terreur | Effroi | Peur Noire | Frisson Nuit | Angoisse Sombre", fullAnswer: "Les terreurs nocturnes résultent d’un sort maléfique ; fais appel à Frederick pour dissiper l’horreur et instaurer la sécurité. Horreur et frissons sont souvent le résultat d’un sort maléfique perturbant tes nuits. Frederick dissipe cette horreur en purifiant ton environnement, instaurant une sécurité durable pour des nuits tranquilles et une paix assurée. Bénéfices : paix et tranquillité assurées." },
+    { question: "Désespoir | Abattement | Tristesse Profonde | Deuil | Mélancolie | Perte Espoir", fullAnswer: "Le désespoir qui t’envahit est provoqué par une ombre occulte ; laisse Frederick raviver la lumière en toi et redonner espoir à ta vie. Tristesse profonde et désespoir sont provoqués par une ombre occulte éteignant ta lumière. Frederick ravive cette flamme intérieure, redonnant espoir à ta vie pour un optimisme et un renouveau émotionnel profond. Bénéfices : optimisme et renouveau émotionnel." },
+    { question: "Accablement | Écrasement | Envoûté | Suffocation Mentale | Poids Âme | Choc", fullAnswer: "L’accablement que tu ressens est une emprise sombre qui t’écrase ; permets à Frederick de te libérer pour élever ton esprit et ton énergie. Suffocation mentale et poids sur l’âme sont une emprise sombre t’écrasant. Frederick te libère de cette oppression, élevant ton esprit et ton énergie pour une légèreté et un empowerment retrouvés afin de reprendre le contrôle de ta vie. Bénéfices : légèreté et empowerment retrouvés." },
+    { question: "Peur | Froid Glacial | Tremblement | Inquiétude Profonde | Terreur Froide | Frisson", fullAnswer: "La peur marquée par un froid glacial est le résultat d’un sort paralysant ; fais appel à Frederick pour dissiper ce froid et restaurer ta chaleur intérieure. Frissons et terreur accompagnés d’un froid glacial sont souvent un sort paralysant. Frederick dissipe ce froid en purifiant ton être, restaurant une chaleur intérieure pour un réconfort et une assurance retrouvés face à ces craintes. Bénéfices : réconfort et assurance retrouvés." },
+    { question: "Froid | Gel | Frimas | Glace | Chill Intérieur | Froideur", fullAnswer: "Le froid intérieur qui t’envahit est provoqué par une ombre obscure ; laisse Frederick te réchauffer pour restaurer ton dynamisme et ta vitalité. Le froid glaçant ton âme est l’œuvre d’une ombre obscure. Frederick te réchauffe en dissipant cette influence, restaurant ton dynamisme et ta vitalité pour une chaleur et une énergie vibrante retrouvées. Bénéfices : chaleur et énergie retrouvées." },
+    { question: "Noir | Ténèbres | Obscurité | Voile Noir | Sombre Destin | Nuit Éternelle", fullAnswer: "L’obscurité qui t’enveloppe est causée par un sort maléfique ; permets à Frederick de ramener la lumière pour transformer ton destin. Ténèbres et voile noir sont causés par un sort maléfique assombrissant ton destin. Frederick ramène la lumière en purifiant ton chemin, transformant ton avenir pour une illumination et un renouveau assurés. Bénéfices : illumination et renouveau assurés." },
+    { question: "Seul | Désolation | Reclus | Abandon Total | Solitude | Isolement Âme", fullAnswer: "La solitude que tu éprouves est une malédiction imposée par les ténèbres ; fais appel à Frederick pour te reconnecter aux liens essentiels et retrouver la chaleur humaine. Désolation et isolement extrême sont une malédiction imposée par les ténèbres. Frederick te reconnecte aux liens essentiels, te rendant la chaleur humaine pour une appartenance et une harmonie sociale renforcées. Bénéfices : appartenance et harmonie sociale." },
+    { question: "Ennemi | Adversaire | Force Hostile | Menace Invisible | Opposant | Malveillance", fullAnswer: "Les forces hostiles qui t’assaillent proviennent d’une énergie malveillante ; laisse Frederick neutraliser ces menaces pour te garantir une protection complète. Ennemis invisibles et malveillance sont des énergies maléfiques t’assaillant. Frederick neutralise ces menaces avec des protections spirituelles puissantes, te garantissant une sécurité complète et une paix assurée pour vivre sans crainte. Bénéfices : sécurité et paix assurées." },
+    { question: "Trahison | Perfidie | Infidélité | Blessure Loyauté | Déception | Duplicité", fullAnswer: "La trahison qui t’afflige résulte d’un sort destructeur perturbant ta confiance ; permets à Frederick de te protéger et de restaurer la loyauté dans tes relations. Déception ou trahison peuvent résulter d’un sort destructeur fragilisant tes relations. Frederick te protège et restaure la loyauté dans tes liens, dissipant ces influences pour une confiance et une intégrité retrouvées. Bénéfices : confiance et intégrité retrouvées." },
+    { question: "Ombre | Silhouette | Voile Sombre | Présence Noire | Fantôme | Énergie Obscure", fullAnswer: "La présence des ombres dans ta vie est causée par un envoûtement persistant depuis très probablement de nombreuses années ; fais appel à Frederick pour les chasser et instaurer une liberté totale. Ombres ou présences noires signalent un envoûtement persistant, peut-être depuis des années. Frederick les chasse avec des rituels puissants, instaurant une liberté totale pour une clarté et une sérénité retrouvées. Bénéfices : clarté et sérénité retrouvées." },
+    { question: "Murmure | Chuchotis | Voix Sombre | Écho Trouble | Bruits Fantômes | Souffle", fullAnswer: "Les murmures inquiétants résultent d’un sort subtil perturbant ton environnement ; laisse Frederick instaurer le silence pour une paix intérieure durable. Murmures ou bruits fantômes sont causés par un sort subtil perturbant ton environnement. Frederick instaure le silence en purifiant cet espace, te rendant une paix intérieure durable pour un calme et une concentration améliorée. Bénéfices : calme et concentration améliorée." },
+    { question: "Sombre | Crépuscule | Noirceur | Grisaille | Ténébreux | Morne", fullAnswer: "La sombritude ambiante qui t’enveloppe est une malédiction pesante ; fais appel à Frederick pour dissiper cette obscurité et révéler ta véritable lumière. Noirceur et grisaille sont une malédiction pesante assombrissant ta vie. Frederick dissipe cette obscurité, révélant ta véritable lumière intérieure pour un renouveau et un éclat vibrants et durables. Bénéfices : renouveau et éclat retrouvés." },
+    { question: "Obstacles | Mur Invisible | Arrêt Brutal | Barrage | Résistance | Chute Bloquée", fullAnswer: "Les obstacles qui ralentissent ta progression sont des chaînes occultes à briser ; permets à Frederick de les éliminer pour avancer sans entrave. Murs invisibles et résistances sont des chaînes occultes. Frederick les élimine, te permettant d’avancer sans entrave pour une fluidité et un succès continu dans tes entreprises. Bénéfices : fluidité et succès continu." },
+    { question: "Fardeau | Charge Lourde | Poids Esprit | Encombrement | Surcharge Âme | Étau Mental", fullAnswer: "Le fardeau qui pèse sur ton esprit est une énergie sombre oppressante ; fais appel à Frederick pour alléger cette charge et libérer ton potentiel. Surcharge et étau mental sont une énergie sombre oppressante. Frederick allège cette charge en purifiant ton âme, libérant ton potentiel pour une légèreté et une motivation retrouvées. Bénéfices : légèreté et motivation retrouvées." },
+    { question: "Doute | Scepticisme | Suspicion | Incertitude Froide | Méfiance | Questionnement", fullAnswer: "Les doutes qui t’assaillent sont semés par un sort obscur perturbant ta vision ; laisse Frederick clarifier tes idées pour dissiper toute incertitude. Méfiance et doutes sont semés par un sort obscur brouillant ta vision. Frederick clarifie tes idées en dissipant ces influences, te rendant une assurance et une clarté mentale pour avancer avec certitude. Bénéfices : assurance et clarté mentale." },
+    { question: "Incertitude | Flou | Ambiguïté | Perte Clarté | Brume Mentale | Irrésolution", fullAnswer: "L’incertitude qui voile ta clarté est le résultat d’une manipulation occulte ; fais appel à Frederick pour éclairer ta voie et restaurer ta confiance. Brume mentale et incertitude sont le résultat d’une manipulation occulte. Frederick éclaire ta voie en éliminant ces interférences, restaurant ta confiance pour une certitude et une direction retrouvées. Bénéfices : certitude et direction retrouvées." },
+    { question: "Discorde | Désunion | Clash | Division | Querelle | Fracture Âme", fullAnswer: "La discorde qui divise ton entourage est provoquée par un sort destructeur ; permets à Frederick de réunifier tes liens pour rétablir l’harmonie. Querelles et fractures sont provoquées par un sort destructeur. Frederick réunifie tes liens en purifiant ces relations, rétablissant une harmonie durable pour une unité et une cohésion sociale retrouvées. Bénéfices : unité et cohésion sociale." },
+    { question: "Perturbation | Instabilité | Trouble Vie | Agitation Sombre | Dérèglement | Chaos Intérieur", fullAnswer: "Les perturbations qui bouleversent ta vie résultent malheureusement de l’influence d’une force occulte ; laisse Frederick stabiliser ton existence pour retrouver ordre et sérénité. Instabilité et chaos intérieur sont dus à une force occulte. Frederick stabilise ton existence en éliminant ces influences, te rendant ordre et sérénité pour une stabilité et une paix retrouvées. Bénéfices : stabilité et paix retrouvées." },
+    { question: "Trouble | Désordre Mental | Ébranlement | Perte Contrôle | Fragilité | Chavirement", fullAnswer: "Le trouble mental que tu ressens est causé par un sort perturbateur ; fais appel à Frederick pour te recentrer et restaurer ton contrôle intérieur. Désordre et perte de contrôle sont causés par un sort perturbateur. Frederick te recentre en dissipant ces influences, restaurant ton contrôle intérieur pour une clarté d’esprit et un équilibre retrouvé. Bénéfices : clarté d’esprit et équilibre retrouvé." },
+    { question: "Injustice | Déséquité | Préjudice | Partialité | Erreur Destin | Désavantage", fullAnswer: "L’injustice qui t’afflige résulte d’un sort biaisé perturbant ton équilibre ; permets à Frederick de rétablir l’équité dans ta vie pour un avenir harmonieux. Désavantages ou injustices sont souvent dus à un sort biaisé. Frederick rétablit l’équité en éliminant ces influences, te menant vers un avenir harmonieux avec une justice et un équilibre personnel retrouvés. Bénéfices : justice et équilibre personnel." },
+    { question: "Énigme | Mystère | Puzzle | Secret Caché | Incompréhension | Voile Mystique", fullAnswer: "Les mystères qui t’entourent résultent d’un sort occultant la vérité ; fais appel à Frederick pour dévoiler ces secrets et lever le voile de l’incompréhension. Incompréhension et mystères sont causés par un sort occultant la vérité. Frederick dévoile ces secrets en levant ce voile, te rendant une compréhension et un éclaircissement assurés pour voir les choses telles qu’elles sont. Bénéfices : compréhension et éclaircissement assurés." },
+    { question: "Insondable | Inconnu | Profondeur Sombre | Secret Lourd | Étrangeté | Abysse", fullAnswer: "Le mystère insondable qui t’enveloppe est une malédiction pesante ; laisse Frederick dissiper cette obscurité pour révéler la vérité cachée. Profondeur sombre et étrangeté sont une malédiction pesante. Frederick dissipe cette obscurité, révélant la vérité cachée pour une transparence et une connaissance retrouvées. Bénéfices : transparence et connaissance retrouvées." },
+    { question: "Surmenage | Excès Poids | Écrasement Énergie | Saturation Mentale | Débordement | Épuisement", fullAnswer: "La surcharge qui t’accable est due à une énergie sombre excessive ; fais appel à Frederick pour alléger cette charge et libérer ta vitalité. Surmenage et saturation mentale sont dues à une énergie sombre excessive. Frederick allège cette charge en purifiant ton être, libérant ta vitalité pour un équilibre et une légèreté retrouvés essentiels à ton bien-être. Bénéfices : équilibre et légèreté retrouvés." },
+    { question: "Déséquilibre | Inharmonie | Instabilité Âme | Dérèglement Vie | Chute Énergie | Oscillation", fullAnswer: "Le déséquilibre perturbant ton être résulte d’un sort instable ; permets à Frederick d’harmoniser ton âme pour rétablir une énergie stable. Inharmonie et oscillations résultent d’un sort instable. Frederick harmonise ton être en éliminant ces influences, rétablissant une énergie stable pour une stabilité et une cohérence retrouvées dans ta vie. Bénéfices : stabilité et cohérence retrouvées." },
+    { question: "Désorientation | Perte Chemin | Égaré | Errance Sombre | Déroutement | Perplexité Froide", fullAnswer: "La désorientation qui t’égare est le résultat d’une attaque occulte ; fais appel à Frederick pour retrouver ton chemin avec assurance et clarté. Errance et perplexité sont le résultat d’une attaque occulte. Frederick te guide pour retrouver ton chemin avec une assurance et une clarté retrouvées, te donnant une direction claire pour avancer sans hésitation. Bénéfices : direction et confiance retrouvées." },
+    { question: "Confusion | Brouillard | Chaos Mental | Désordre Esprit | Flou Sombre | Perte Repère", fullAnswer: "La confusion qui voile ton esprit est causée par un sort sombre ; laisse Frederick clarifier ta vision pour que tu puisses avancer en toute lucidité. Brouillard et chaos mental sont causés par un sort sombre. Frederick clarifie ta vision en dissipant ces influences, te permettant d’avancer en toute lucidité pour une clarté et une progression assurées dans tous les domaines. Bénéfices : clarté et progression assurées." },
+    { question: "Chagrin | Pénombre Cœur | Deuil Intérieur | Souffrance Muette | Larme | Affliction Profonde", fullAnswer: "Le chagrin profond que tu ressens est dû à une ombre occulte entravant ton cœur ; fais appel à Frederick pour consoler et restaurer la lumière en toi. Larmes et affliction sont dues à une ombre occulte entravant ton cœur. Frederick console ton âme et restaure la lumière en toi, te rendant un réconfort et un renouveau émotionnel pour surmonter cette douleur. Bénéfices : réconfort et renouveau émotionnel." },
+    { question: "Déclin | Effritement | Perte Force | Dépérissement | Faible | Régression", fullAnswer: "Le déclin de ta force résulte d’un sort rongeant ton énergie à petit feu ; permets à Frederick de te relever pour revitaliser ta vie et ta vitalité. Dépérissement et faiblesse résultent d’un sort rongeant ton énergie. Frederick te relève en revitalisant ton être, stoppant ce processus pour un renouveau et une vigueur durables afin de vivre pleinement. Bénéfices : renouveau et vigueur retrouvées." },
+    { question: "Crise | Tourmente | Épreuve Sombre | Catastrophe Intérieure | Cancer |Malade | Maladie | Choc Destin | Bouleversement", fullAnswer: "La crise qui bouleverse ton existence est très probablement provoquée par une attaque occulte ; fais appel à Frederick pour rétablir l’ordre et t’offrir une renaissance immédiate. Tourmente et choc sont probablement une attaque occulte. Frederick rétablit l’ordre en éliminant ces influences, t’offrant une renaissance immédiate pour un rétablissement et une stabilité retrouvées face à ces épreuves. Bénéfices : rétablissement et stabilité retrouvées." },
+    { question: "Inconfort | Gêne | Mal-être Physique | Désagrément Sombre | Irritation | Pesanteur Corps", fullAnswer: "L’inconfort physique que tu éprouves est le résultat d’un sort perturbateur aggravant ; laisse Frederick dissiper ce malaise pour te redonner confort et bien-être. Gêne et pesanteur sont le résultat d’un sort perturbateur. Frederick dissipe ce malaise en purifiant ton corps, te redonnant confort et bien-être pour un soulagement et une détente durables. Bénéfices : soulagement et détente assurés." },
+    { question: "Tourmente | Tempête Âme | Ouragan Intérieur | Tumulte Esprit | Fureur Sombre | Agitation Profonde", fullAnswer: "La tourmente qui agite ton âme est provoquée par une force obscure ; fais appel à Frederick pour apaiser ton esprit et stabiliser tes émotions. Tumulte et fureur sont provoqués par une force obscure. Frederick apaise ton esprit en dissipant ces influences, stabilisant tes émotions pour une paix intérieure et une sérénité retrouvées. Bénéfices : paix intérieure et sérénité retrouvées." },
+    { question: "Tension | Serrage | Crispation | Contrainte Physique | Étau Corps | Raideur Sombre", fullAnswer: "La tension qui comprime ton corps est causée par un sort oppressant ; permets à Frederick de détendre ton être pour libérer ta vitalité. Crispation et raideur sont causées par un sort oppressant. Frederick détend ton être en éliminant ces influences, libérant ta vitalité pour une relaxation et une énergie vibrante retrouvées. Bénéfices : relaxation et énergie retrouvées." },
+    { question: "Qui est | Frederic | Frederick | Expérience | Désenvoûteur | Compétences | Savoir-faire | Voyant", fullAnswer: "Frederick est un expert, façonné par des années d’expérience dans l’art de dénouer les destinées ; avec sa maîtrise exceptionnelle des forces invisibles, ses compétences affûtées et son savoir-faire inégalé, il guide les chemins vers une réussite durable, transformant carrières et aspirations grâce à une vision profonde et une approche sans pareille." },
+    { question: "Vigueur | Dynamisme | Énergie Vive | Force Intérieure | Puissance | Élan Vital", fullAnswer: "L’affaiblissement de ta vigueur résulte d’un sort drainant ton énergie ; fais appel à Frederick pour ranimer ta force intérieure et réveiller ton dynamisme. Perte d’élan vital résulte d’un sort drainant ton énergie. Frederick ranime ta force intérieure, réveillant ton dynamisme pour une puissance et une vitalité durables afin de vivre pleinement. Bénéfices : puissance et vitalité retrouvées." },
+    { question: "Flamme | Ardeur | Passion Vive | Feu Intérieur | Éclat Vie | Chaleur Âme", fullAnswer: "La passion vacillante qui t’habite est due à un sort étouffant ton feu intérieur ; laisse Frederick raviver ta flamme pour réchauffer ton âme. Feu intérieur éteint est dû à un sort étouffant ton ardeur. Frederick ravive ta flamme, réchauffant ton âme et libérant ton énergie créative pour une inspiration et une énergie retrouvées afin de créer et vivre avec éclat. Bénéfices : inspiration et énergie créative retrouvées." },
+    { question: "Rayonnement | Luminosité | Brillance | Éclat Âme | Lueur Intérieure | Chatoiement", fullAnswer: "Ton rayonnement est obscurci par une ombre maléfique ; fais appel à Frederick pour restaurer ta luminosité et révéler ton éclat intérieur. Éclat intérieur terni est obscurci par une ombre maléfique. Frederick restaure ta luminosité en dissipant ces influences, révélant ton éclat naturel pour une brillance et un succès rayonnant dans tous les domaines. Bénéfices : brillance et succès rayonnant." }
+];
