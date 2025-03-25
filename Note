@@ -1,6 +1,6 @@
 <title>Chat IA avec Tracking et Assistant Vocal</title>
-    <meta name="description" content="Chatbot spirituel pour désenvoûtement, protection et purification d’aura par Frederick de ClairVoyanceMedium.com. Retrouvez vitalité et sérénité rapidement pour un tarif unique.">
-    <meta name="keywords" content="envouté, cauchemars, désenvoûtement, protection, purification, nettoyage energetique, clairvoyance, aura, énergie, besoin, aide, sommeil, rituels, spirituel">
+    <meta name="description" content="Chatbot spirituel pour désenvoûtement, ClairVoyanceGPT. Protection et purification d’aura par Frederick de ClairVoyanceMedium.com. Retrouvez vitalité et sérénité rapidement pour un tarif unique.">
+    <meta name="keywords" content="envouté, cauchemars, ClairVoyanceGPT, désenvoûtement, protection, purification, nettoyage energetique, clairvoyance, aura, énergie, besoin, aide, sommeil, rituels, spirituel">
     <style>
         #chat-container {
             position: fixed;
@@ -169,7 +169,7 @@ function trackClick(label, category = 'Chat', value = null) {
 
 // Traductions et messages
 const translations = {
-    greeting: "Bonjour, ravi de t’accueillir ! Je suis le gardien virtuel du Cabinet ClairVoyanceMedium.com, ici pour t'aider à libérer ton âme des voiles obscurs et à éclairer ton chemin de vie. Quelle quête sacrée aimerais-tu découvrir aujourd’hui ?",
+    greeting: "Bonjour, ravi de t’accueillir ! Je suis ClairVoyanceGPT, le gardien virtuel du Cabinet ClairVoyanceMedium.com, ici pour t'aider à libérer ton âme des voiles obscurs et à éclairer ton chemin de vie. Quelle quête sacrée aimerais-tu découvrir aujourd’hui ?",
     thanks: "Je vous en prie.",
     goodbye: "À très bientôt dans la clarté éternelle ! Frederick, ayant aidé des milliers d'âmes, t’entoure de sa vigilance constante. Tu n’es plus seul face aux ombres, car sache que son pouvoir transcende toute obscurité.",
     notUnderstood: "Je n’ai pas bien compris votre question. Pourriez-vous la reformuler s’il vous plaît, peut-être avec d’autres mots, pour m’aider à mieux la comprendre ?",
