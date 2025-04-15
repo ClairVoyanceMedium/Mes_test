@@ -1,3 +1,92 @@
-https://buy.stripe.com/9AQ28w5Zag1p5KE29u
 
-https://buy.stripe.com/5kA6oMfzK9D15KE6pL
+
+
+Instructions de modification du code :
+
+Comporte toi comme le plus grand codeur du monde, personne n'est plus fort que toi et traduit ce code en y apportant ces modifications :
+
+
+
+Remplacement des montants :
+
+Remplacez toutes les occurrences de "6,00€" par "60¥".
+
+Remplacez toutes les occurrences de "15€" par "128¥".
+
+Remplacez toutes les occurrences de "28€" par "226¥".
+
+Remplacement des liens Stripe :
+
+Remplacez "https://buy.stripe.com/14kdRe0EQ4iH1uoaFa" par "https://buy.stripe.com/4gwcNa9bmeXl1uo6oX".
+
+Remplacez "https://buy.stripe.com/dR614scnycPddd66oV" par "https://buy.stripe.com/7sIfZm73edTh4GA00A".
+
+Remplacez "https://buy.stripe.com/28o3cA0EQ5mL0qk14C" par "https://buy.stripe.com/28o6oMafqg1pa0U8x7".
+
+
+
+Traduction complète du code
+
+- Traduire l'intégralité du code dans la langue locale : chinois simplifié
+- Adaptez tout le contenu au marché : 
+chinois
+
+- Remplacer cette ligne dans tout le code : 
+https://clairvoyancemedium.github.io/Consultation_de_voyance_par_email_pas_chere.github.io
+
+par cette ligne : 
+https://clairvoyancemedium.github.io/medium-clairvoyance-by-mail.github.io/
+
+
+
+Ne pas omettre :
+
+Chaque ligne de code doit être prise en compte, y compris les boutons, les descriptions et les contenus associés.
+
+Assurez-vous que toutes les occurrences des montants et des liens mentionnés ci-dessus soient modifiées sans exception.
+
+Conservez la structure et la logique du code existants sans rien oublier  avec notamment une particularité pour le :   <!-- Autres balises meta et liens pour témoignage client -->
+    <script type="application/ld+json">   car il faut que ce soit adapté absolument à la langue et au pays demandée. Donc fait un gros effort et ne loupe aucune ligne est fait de très bonne modifications car tu es un expert pour les traductions de code donc adapte tous le code sans rien oublier à la langue locale
+
+
+je veux absolument que tu laisses cette partie du code toujours comme ca, tu ne traduiras donc jamais cette partie du code bien, c'est interdit (uniquement de <style> a </style>
+<style>
+  @font-face {
+      font-family: 'Cinzel';
+      src: url('https://clairvoyancemedium.github.io/Consultation_de_voyance_par_email_pas_chere.github.io/Cinzel-Regular.woff2') format('woff2'),
+           url('https://clairvoyancemedium.github.io/Consultation_de_voyance_par_email_pas_chere.github.io/Cinzel-Regular.woff') format('woff');
+      font-weight: 400;
+      font-style: normal;
+  }
+
+  @font-face {
+      font-family: 'Playfair Display';
+      src: url('https://clairvoyancemedium.github.io/Consultation_de_voyance_par_email_pas_chere.github.io/PlayfairDisplay-Regular.woff2') format('woff2'),
+           url('https://clairvoyancemedium.github.io/Consultation_de_voyance_par_email_pas_chere.github.io/PlayfairDisplay-Regular.woff') format('woff');
+      font-weight: 400;
+      font-style: normal;
+  }
+
+  /* Application des polices */
+  body {
+      font-family: 'Cinzel', serif;
+  }
+
+  h1, h2 {
+      font-family: 'Playfair Display', serif;
+  }
+</style>
+
+à la, c'est interdit de traduire dans une autre langue
+
+je veux que tu remplisses egalement tous les champs avec des donnees valide dans la langue, du json product et ajoutes des champs json si il en manque pour google et que tu effaces les doublons si y'en a
+
+quand tu parles de Frederick du cabinet ClairVoyanceMedium tu diras toujours Frederick du cabinet ClairVoyanceMedium.com tout en appliquant les modifications demandées.
+
+tu adapteras toujours les prenoms des personnes qui temoignent par des prenoms locaux.
+
+
+
+Code à modifier :
+
+
