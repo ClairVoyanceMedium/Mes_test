@@ -24,6 +24,62 @@ Sections numérotées et cliquables via un sommaire en haut du fichier.
 Encres intelligentes pointant vers les rubriques clés : gélules Victory, services de voyance, avis, simulateur IMC, etc. (8 à 11 max). Les encres doivent être optimiser pour les moteur de recherche pour que quand une personne cherche sur son navigateur un mot clé présent sur le site il tombe directement dans la bonne section grâce aux encres donc faire la bonne stratégie au maximum, le nec plus ultra
 Pas de lien sortant sauf mentions légales. Objectif : convertir.
 
+
+code source pour le design meme police, mes couleur ect...
+
+<!-- Styles CSS optimisés pour mobile et SEO vocal -->
+  <style>
+    @font-face{font-family:'Cinzel';src:url('https://clairvoyancemedium.github.io/Consultation_de_voyance_par_email_pas_chere.github.io/Cinzel-Regular.woff2') format('woff2'),url('https://clairvoyancemedium.github.io/Consultation_de_voyance_par_email_pas_chere.github.io/Cinzel-Regular.woff') format('woff');font-weight:400;font-style:normal;font-display:swap;}
+    @font-face{font-family:'Playfair Display';src:url('https://clairvoyancemedium.github.io/Consultation_de_voyance_par_email_pas_chere.github.io/PlayfairDisplay-Regular.woff2') format('woff2'),url('https://clairvoyancemedium.github.io/Consultation_de_voyance_par_email_pas_chere.github.io/PlayfairDisplay-Regular.woff') format('woff');font-weight:400;font-style:normal;font-display:swap;}
+    :root{--bg:#000;--text:#fff;--accent:#87CEEB;--button-bg:linear-gradient(145deg,#FFB6C1,#FF69B4);--button-txt:#fff;--gold:#FFD700;--shadow:rgba(255,215,0,.7);}
+    body{font-family:'Cinzel',serif;margin:0;padding:0;background:var(--bg);color:var(--text);text-align:center;overflow-x:hidden;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;touch-action:manipulation;} /* Mobile fluidité */
+    header{padding:2rem 0;background:#111;position:relative;box-shadow:0 4px 10px rgba(0,0,0,.8);}
+    h1{font-size:2.2rem;font-weight:400;color:#fff;margin:0;padding:0;text-transform:uppercase;letter-spacing:1px;}
+    h2,h3,h4,h5,h6{color:#BBAE98;text-shadow:0 0 3px var(--shadow);font-weight:400;}
+    h2{font-size:1.8rem;margin-top:1.2rem;}
+    h3{font-size:1.4rem;margin-top:1rem;}
+    .cta-button{display:inline-block;padding:0.8rem 1.2rem;font-size:1.2rem;color:var(--button-txt);background:var(--button-bg);text-decoration:none;border-radius:5px;transition:all .3s ease;margin:0.5rem 0;box-shadow:0 4px 12px rgba(255,105,180,.5);touch-action:manipulation;}
+    .cta-button:hover{transform:scale(1.05);opacity:.95;box-shadow:0 6px 15px rgba(255,105,180,.7);}
+    footer{margin-top:2rem;font-size:.9rem;color:#aaa;padding-bottom:1rem;background:#111;}
+    footer a{color:inherit;text-decoration:none;transition:color .3s ease;}
+    footer a:hover{color:var(--gold);}
+    main{display:flex;flex-direction:column;gap:1rem;align-items:center;padding:1rem;}
+    p,blockquote{max-width:60ch;margin:0 auto 1rem auto;line-height:1.6;text-align:justify;}
+    blockquote{font-family:'Playfair Display',serif;font-style:italic;font-size:1.1rem;color:#fff;padding:1rem;}
+    .avis{margin:1rem auto;}
+    .logo{width:min(85vw,450px);max-height:150px;object-fit:contain;display:block;margin:0 auto;}
+    .playfair-display{font-family:'Playfair Display',serif;font-style:italic;line-height:1.8;font-size:1.2rem;color:#fff;text-align:justify;margin:1.5rem 0;}
+    .cta-buttons-container{display:flex;justify-content:center;flex-wrap:wrap;gap:1rem;margin-top:2rem;}
+    .prix{margin:0.5rem;}
+    .scintillant{display:inline-block;color:var(--gold);font-weight:700;background:linear-gradient(90deg,transparent,rgba(255,255,255,.8),transparent);background-size:200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:etoiles 4s ease-in-out infinite;margin-top:2rem;}
+    @keyframes etoiles { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+    @keyframes pulseGlow { 0% { text-shadow: 2px 2px 5px var(--shadow); } 50% { text-shadow: 2px 2px 10px var(--shadow), 0 0 15px rgba(187, 210, 225, 0.8); } 100% { text-shadow: 2px 2px 5px var(--shadow); } }
+    .content-container { text-align: left; max-width: 800px; margin: 0 auto; padding: 0 1rem; overflow-x: hidden; word-wrap: break-word; }
+    .content-container ul, .content-container ol { padding-left: 20px; }
+    .content-container li { margin-bottom: 8px; }
+    .top-rank { text-align: center; margin-top: 1rem; }
+    .number-one { font-size: 1.8rem; font-weight: 700; color: #BBD2E1; text-shadow: 2px 2px 5px var(--shadow); display: block; animation: pulseGlow 3s ease-in-out infinite; }
+    .thank-you { font-size: 2.5rem; font-family: 'Ephesis', cursive; color: #ffb6c1; text-shadow: 3px 3px 6px rgba(255, 182, 193, 0.6); display: block; margin-top: 0.5rem; transform: rotate(-2deg); }
+    .favorite-button { background: none; border: none; outline: none; cursor: pointer; padding: 0.5rem; transition: transform 0.2s ease; }
+    .favorite-button:hover { transform: scale(1.05); }
+    .cta-container { text-align: left; margin-top: 20px; }
+    .cta-buttons-container { display: flex; justify-content: center; flex-wrap: wrap; gap: 1rem; margin-top: 2rem; }
+    .carousel { max-width: 800px; margin: 0 auto; overflow: hidden; }
+    .carousel blockquote { display: none; }
+    .carousel blockquote.active { display: block; }
+    @media (max-width: 1024px) { body { font-size: 16px; } h1 { font-size: 2rem; } .cta-button { font-size: 1em; padding: 0.5rem 1rem; } .content-container { max-width: 90%; } }
+    @media (max-width: 768px) { body { font-size: 14px; } h1 { font-size: 1.8rem; } .logo { width: 90%; } main { padding: 0.5rem; } .cta-buttons-container { flex-direction: column; gap: 0.8rem; } .content-container { max-width: 100%; padding: 0 0.5rem; } .number-one { font-size: 1.5rem; } .thank-you { font-size: 2rem; } .carousel { max-width: 100%; } }
+    .visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0;}
+  </style>
+
+  <style>
+    section { opacity: 0; transition: opacity 0.5s ease-in; }
+    section.visible { opacity: 1; }
+  </style>
+
+
+
+
 3. Contenus & Vente
 Descriptions longues (40+ lignes) pour chaque service/produit avec CTA puissants et SEO.
 Gélules Victory : toujours désignées par “gélules minceur Victory”.
