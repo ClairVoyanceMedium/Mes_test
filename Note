@@ -1,92 +1,91 @@
+à la lettre pour créer le site GitHub statique le plus performant du monde sur la minceur et la voyance par e-mail, en respectant chaque exigence :
 
+PROMPT DE CRÉATION DU SITE ULTRA-PERFORMANT 2025
+Objectif : Créer une page HTML statique ultra-optimisée pour vendre les gélules minceur Victory et les services de voyance par e-mail, en surpassant tous les concurrents en SEO, UX, design, accessibilité, performance, EEAT, YMYL, référencement mondial, compatibilité vocale et indexation Google.
 
+1. Structure technique et SEO
+Code 100 % HTML, CSS et JS intégré dans un fichier unique.
+Intégration de toutes les balises SEO : title, meta description, h1, h2, h3, JSON-LD (validité jusqu’en 2055).
+Ajout de liens Stripe directs (5 au total).
+Inclusion de backlinks intelligents (dans 2 articles seulement).
+- 1er vers : https://www.clairvoyancemedium.com/
+2eme vers : https://clairvoyancemedium.github.io/online-psychic-readings.github.io/
+(avec mots-clés puissants qui remplace l'adresse du site visuellement), non incitatifs au clic, invisibles pour l'utilisateur (pas de couleur différente ni de mise en avant).
+URLs propres (GitHub style) et structure cocon sémantique simulée.
+Textes avec pyramide inversée, écrits comme par un expert humain, jamais détectables comme générés par IA.
+Articles ultra-SEO 2025, avec mots-clés de longue traîne, synonymes, variantes, réponses aux intentions de recherche, pas de remplissage.
+Intégration d’un mini-blog ultra-rapide, responsive et SEO-friendly.
 
-Instructions de modification du code :
+2. Design & UX
+Design identique au code source fourni (logo, polices, couleurs, encres similaires).
+Ancrage fixe, fluide, discret, qui suit le scroll sans gêner la lecture, optimisé pour mobile.
+Boutons Stripe rose élégant comme dans le code source, sans effet flashy.
+Sections numérotées et cliquables via un sommaire en haut du fichier.
+Encres intelligentes pointant vers les rubriques clés : gélules Victory, services de voyance, avis, simulateur IMC, etc. (8 à 11 max). Les encres doivent être optimiser pour les moteur de recherche pour que quand une personne cherche sur son navigateur un mot clé présent sur le site il tombe directement dans la bonne section grâce aux encres donc faire la bonne stratégie au maximum, le nec plus ultra
+Pas de lien sortant sauf mentions légales. Objectif : convertir.
 
-Comporte toi comme le plus grand codeur du monde, personne n'est plus fort que toi et traduit ce code en y apportant ces modifications :
+3. Contenus & Vente
+Descriptions longues (40+ lignes) pour chaque service/produit avec CTA puissants et SEO.
+Gélules Victory : toujours désignées par “gélules minceur Victory”.
+Simulateur IMC intégré + orientation automatique vers le produit minceur Victory adapté.
+Vidéo promo autoplay avec bouton “Activer le son” discret, sans bordure.
+Tableau comparatif : Victory vs autres produits minceur. Version audio incluse.
+Pop-up anti-abandon très engageant, alterné tous les 10 jours, compatible SEO, espacé entre voyance et minceur.
+Éléments de réassurance : livraison gratuite en ce moment, en 24h, + bandeau 16 000 clients.
+Tous les contenus sont aussi accessibles vocalement, avec boutons audio.
 
+4. Performance & Technique
+Chargement en < 1 seconde.
+Score Lighthouse et GTMetrix > 95 %.
+Compression (gzip/Brotli), lazy loading, cache optimisé.
+Préparation au sitemap.xml automatique.
+Préchargement et préconnexion des ressources essentielles.
+Design responsive + mobile first.
+Prévu pour GitHub Pages, Netlify, Vercel.
+100 % compatible navigateurs mondiaux (Chrome, Safari, Samsung Internet, etc.).
+Sécurité SSL intégrée, balises CSP si nécessaires.
+Faire le nécessaire pour que Google et les moteurs de recherche puisse venir très régulièrement visiter le site
 
+5. Accessibilité et vocalisation
+Site intégralement vocalisé (voix masculine + musique d’intro pour briefing).
+Chaque rubrique, description et article a un bouton audio.
+Préparation au remplacement futur par voix humaine MP3.
+Accessibilité WCAG complète.
 
-Remplacement des montants :
+6. Internationalisation & Traduction
+Module Google Translate automatique invisible pour le visiteur.
+Détection automatique de la langue du navigateur + traduction du site.
+Par défaut : français.
+Compatible pour référencement mondial (Europe, USA, Amérique du Sud, Chine, Inde, Afrique, Israël…).
+Préparation à la traduction vocale automatique dans la langue du visiteur.
+Prise en charge des textes traduits par Google Translate dans les balises et meta SEO.
 
-Remplacez toutes les occurrences de "6,00€" par "60¥".
+7. Tracking et Intelligence
+Tracking complet sur tous les éléments (clics, scroll, CTA, bouton audio, pop-up, vidéo, simulateur).
+Prêt pour Google Analytics 4, Tag Manager, Pixel.
+Prévu pour intégration future d’un ChatIA, emplacement réservé dans le code.
 
-Remplacez toutes les occurrences de "15€" par "128¥".
+8. Produits et services vendus
+Gélules minceur Victory – 1 boîte – 19 €
+Gélules minceur Victory – 2 boîtes – 29,90 €
+Programme minceur personnalisé (par e-mail) – 43 €
+Consultation voyance par e-mail (3 questions) – 15 €
+Consultation voyance par e-mail (5 questions) – 28 €
+Rituel de magie rouge sentimentale – 250 €
+Compatibilité amoureuse – 20 €
+Désenvoûtement puissant – 250 €
 
-Remplacez toutes les occurrences de "28€" par "226¥".
-
-Remplacement des liens Stripe :
-
-Remplacez "https://buy.stripe.com/14kdRe0EQ4iH1uoaFa" par "https://buy.stripe.com/4gwcNa9bmeXl1uo6oX".
-
-Remplacez "https://buy.stripe.com/dR614scnycPddd66oV" par "https://buy.stripe.com/7sIfZm73edTh4GA00A".
-
-Remplacez "https://buy.stripe.com/28o3cA0EQ5mL0qk14C" par "https://buy.stripe.com/28o6oMafqg1pa0U8x7".
-
-
-
-Traduction complète du code
-
-- Traduire l'intégralité du code dans la langue locale : chinois simplifié
-- Adaptez tout le contenu au marché : 
-chinois
-
-- Remplacer cette ligne dans tout le code : 
-https://clairvoyancemedium.github.io/Consultation_de_voyance_par_email_pas_chere.github.io
-
-par cette ligne : 
-https://clairvoyancemedium.github.io/medium-clairvoyance-by-mail.github.io/
-
-
-
-Ne pas omettre :
-
-Chaque ligne de code doit être prise en compte, y compris les boutons, les descriptions et les contenus associés.
-
-Assurez-vous que toutes les occurrences des montants et des liens mentionnés ci-dessus soient modifiées sans exception.
-
-Conservez la structure et la logique du code existants sans rien oublier  avec notamment une particularité pour le :   <!-- Autres balises meta et liens pour témoignage client -->
-    <script type="application/ld+json">   car il faut que ce soit adapté absolument à la langue et au pays demandée. Donc fait un gros effort et ne loupe aucune ligne est fait de très bonne modifications car tu es un expert pour les traductions de code donc adapte tous le code sans rien oublier à la langue locale
-
-
-je veux absolument que tu laisses cette partie du code toujours comme ca, tu ne traduiras donc jamais cette partie du code bien, c'est interdit (uniquement de <style> a </style>
-<style>
-  @font-face {
-      font-family: 'Cinzel';
-      src: url('https://clairvoyancemedium.github.io/Consultation_de_voyance_par_email_pas_chere.github.io/Cinzel-Regular.woff2') format('woff2'),
-           url('https://clairvoyancemedium.github.io/Consultation_de_voyance_par_email_pas_chere.github.io/Cinzel-Regular.woff') format('woff');
-      font-weight: 400;
-      font-style: normal;
-  }
-
-  @font-face {
-      font-family: 'Playfair Display';
-      src: url('https://clairvoyancemedium.github.io/Consultation_de_voyance_par_email_pas_chere.github.io/PlayfairDisplay-Regular.woff2') format('woff2'),
-           url('https://clairvoyancemedium.github.io/Consultation_de_voyance_par_email_pas_chere.github.io/PlayfairDisplay-Regular.woff') format('woff');
-      font-weight: 400;
-      font-style: normal;
-  }
-
-  /* Application des polices */
-  body {
-      font-family: 'Cinzel', serif;
-  }
-
-  h1, h2 {
-      font-family: 'Playfair Display', serif;
-  }
-</style>
-
-à la, c'est interdit de traduire dans une autre langue
-
-je veux que tu remplisses egalement tous les champs avec des donnees valide dans la langue, du json product et ajoutes des champs json si il en manque pour google et que tu effaces les doublons si y'en a
-
-quand tu parles de Frederick du cabinet ClairVoyanceMedium tu diras toujours Frederick du cabinet ClairVoyanceMedium.com tout en appliquant les modifications demandées.
-
-tu adapteras toujours les prenoms des personnes qui temoignent par des prenoms locaux.
-
-
-
-Code à modifier :
-
-
+9. Autres éléments clés
+Pas de détection possible de l’IA.
+Sitemap automatique déclenché à chaque modif.
+Préparation à l’intégration de chat IA vocal multilingue.
+Tous les contenus pensés pour convertir les visiteurs en clients, sans exception.
+Les backlinks sont insérés uniquement dans 2 articles, ultra-discrets, sans incitation au clic, avec ancre naturelle à mots-clés.
+Il faut rassurer sur les données des personnes donc c'est un pur quelque chose pour assurer les données donc fait le maximum pour plaire à Google sans que ça alourdisse ou ça gêne la page. Il faut que tu essaies d'anticiper donc ce que va faire Google dans le futur pour la protection des données et tu le mettras en place
+Également sécuriser le site autant que possible sans rien altérer au site en lui-même donc jouer sur la protection
+C'est obligatoirement que rien n'empêche l'indexation par le moteur de recherche que ce soit Google ou les moteurs de recherche des pays concernés donc soit rosé et essaie de porter le site à son plus haut niveau en terme d'indexation c'est tout ce qui est en ton pouvoir et n'hésite pas à faire des recherches sur le web si tu as besoin de nouvelles techniques ou autre mais je veux le top du top 
+Donc n'oublie surtout pas qu'il faut être numéro 1 sur tous les moteurs de recherche et également sur tous les moteurs de recherche de l'intelligence artificielle comme chat GPT exetera donc fait le mieux et tout ce qui est possible de faire pour se hisser au sommet
+N'hésite pas à dire il ne reste plus que quelques temps avant augmentation des prix pour donner la rareté et l'impression d'urgence
+Pour chaque produit tu donneras les trois bénéfices très forte
+Dans le SAQ il faut que tu répondes aux questions des clients que le client peut donc peut se poser de manière rassurante et persuasive
+Mais bien en valeur la section héro section il faut que le client ait l'impression qu'il trouvera la solution à ses problèmes
