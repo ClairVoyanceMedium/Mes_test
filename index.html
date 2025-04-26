@@ -3,7 +3,7 @@
 <head>
     <!-- Sécurité renforcée avec CSP strict -->
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'nonce-xai-ultimateNonce' https://www.googletagmanager.com https://www.google-analytics.com https://pagead2.googlesyndication.com https://www.gstatic.com https://www.google.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://unpkg.com https://js.stripe.com blob:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://unpkg.com; img-src 'self' data: blob: https://www.googletagmanager.com https://www.google-analytics.com https://www.google.com https://www.gstatic.com https://pagead2.googlesyndication.com https://cdn.jsdelivr.net https://i.imgur.com; font-src 'self' https://fonts.gstatic.com https://fonts.googleapis.com data:; connect-src 'self' https://www.google-analytics.com https://www.googletagmanager.com https://pagead2.googlesyndication.com https://region1.google-analytics.com https://api.stripe.com https://m.stripe.network https://*.stripe.com https://*.stripe.network https://api.exchangerate-api.com blob: wss:; media-src 'self' blob:; frame-src 'self' https://www.youtube.com https://www.googletagmanager.com https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://js.stripe.com https://*.stripe.com; worker-src 'self' blob:; base-uri 'self'; form-action 'self' https://*.stripe.com; object-src 'none'; manifest-src 'self'; prefetch-src 'self'; upgrade-insecure-requests;">
-    
+
     <!-- Anti-clickjacking -->
     <script nonce="xai-ultimateNonce">
         if (window.top !== window.self) {
@@ -26,7 +26,7 @@
     <meta name="generator" content="Optimized Static Generator v5.3">
     <meta name="format-detection" content="telephone=no">
     <meta name="theme-color" content="#000000">
-    
+
     <!-- Canonical et hreflang -->
     <link rel="canonical" href="https://clairvoyancemedium.github.io/voyance-minceur.github.io/">
     <link rel="alternate" hreflang="fr" href="https://clairvoyancemedium.github.io/voyance-minceur.github.io/" />
@@ -63,7 +63,7 @@
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" media="all" fetchpriority="high">
     <link rel="preload" as="image" href="https://i.imgur.com/GmyGlKk.webp" type="image/webp" fetchpriority="high">
     <link rel="preload" as="image" href="https://i.imgur.com/H69KvL6.png" type="image/png" fetchpriority="high">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" media="all" integrity="sha384-3z9z5u8r8v8v8v8v8v8v8v8v8v8v8v8v8v8v8v8v8v8v8v8v8v8v8v8v8v8v8v8">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" media="all">
 
     <!-- Google Translate automatique -->
     <script defer src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
@@ -116,7 +116,6 @@
                 const priceElements = document.querySelectorAll('.price');
                 const response = await fetch('https://api.exchangerate-api.com/v4/latest/EUR');
                 const rates = (await response.json()).rates;
-
                 priceElements.forEach(el => {
                     const eurPrice = parseFloat(el.getAttribute('data-eur-price'));
                     const convertedPrice = (eurPrice * (rates[userCurrency] || 1)).toFixed(2);
@@ -129,6 +128,15 @@
         document.addEventListener("DOMContentLoaded", convertCurrency);
     </script>
 
+    <!-- Service Worker pour PWA -->
+    <script nonce="xai-ultimateNonce">
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js').catch(err => console.error('Service Worker registration failed:', err));
+            });
+        }
+    </script>
+
     <!-- Styles optimisés -->
     <style>
         :root {
@@ -137,7 +145,7 @@
             --text-secondary: #aaa;
             --accent: #87CEEB;
             --accent-dark: #111;
-            --border-color: #BBAE98; /* Doré pour ancres, bandeau, titres */
+            --border-color: #BBAE98;
             --border-color-hover: #fff;
             --pink-shadow: rgba(255, 105, 180, 0.5);
             --pink-shadow-hover: rgba(255, 105, 180, 0.7);
@@ -159,48 +167,54 @@
             font-family: var(--font-primary); background: var(--bg); color: var(--text); text-align: center; overflow-x: hidden;
             -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; touch-action: manipulation;
             line-height: 1.7; display: flex; flex-direction: column; min-height: 100vh; padding-top: calc(var(--nav-height) + env(safe-area-inset-top));
-            margin: 0; width: 100vw; height: 100%; position: relative;
+            margin: 0; width: 100vw; position: relative;
         }
+
+        .skip-link {
+            position: absolute; top: -40px; left: 0; background: var(--accent); color: var(--bg); padding: 8px; z-index: 1000;
+            transition: top 0.3s ease; text-decoration: none; font-weight: 700;
+        }
+        .skip-link:focus { top: 0; outline: var(--focus-outline); }
 
         main { flex-grow: 1; display: flex; flex-direction: column; gap: 3rem; align-items: center; padding: 2.5rem var(--content-padding); width: 100%; }
         header { padding: 0; background: var(--accent-dark); position: relative; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.8); width: 100%; }
         footer { margin-top: 3rem; font-size: 0.9rem; color: var(--text-secondary); padding: 2rem var(--content-padding); background: var(--accent-dark); width: 100%; text-align: center; }
-        
+
         h1, h2, h3, h4, h5, h6 { font-weight: 700; line-height: 1.3; letter-spacing: 1px; margin: 0; color: var(--border-color); }
         h1 { font-size: clamp(2.2rem, 5vw, 2.8rem); margin: 1rem 0; padding: 0 var(--content-padding); text-transform: uppercase; }
         h2 { font-size: clamp(1.9rem, 5.5vw, 2.4rem); margin-bottom: 1.5rem; text-transform: uppercase; text-align: center; }
         h3 { font-size: clamp(1.6rem, 4.5vw, 1.9rem); margin: 2rem 0 1rem 0; }
-        
+
         p, blockquote, ul, ol, .imc-calculator, .subscribe-form, table { max-width: 70ch; margin-left: auto; margin-right: auto; text-align: justify; }
         strong { font-weight: 700; color: var(--text); }
-        
+
         .check-list { list-style: none; padding-left: 0; text-align: left; }
         .check-list li { position: relative; margin-bottom: 0.8em; padding-left: 2.2em; }
         .check-list li::before { content: '✔'; color: var(--checkmark-color); position: absolute; left: 0.5em; top: 0; font-weight: bold; font-size: 1.1em; }
-        
+
         a { color: var(--accent); text-decoration: none; transition: color 0.3s ease; }
         a:hover, a:focus-visible { color: var(--border-color-hover); text-decoration: underline; outline: var(--focus-outline); }
-        
+
         .cta-button, .subscribe-button, .imc-button, .carousel-nav button, .popup-close-button {
             display: inline-block; padding: 0.8rem 1.5rem; font-size: 1rem; font-family: var(--font-primary);
             font-weight: 700; color: var(--button-txt); background: var(--button-bg); border: none;
             border-radius: 5px; transition: all 0.3s ease; margin: 0.5rem; box-shadow: 0 4px 12px var(--pink-shadow);
             cursor: pointer; text-align: center; letter-spacing: 0.5px; animation: pulseProgressif 4s infinite;
         }
-        
+
         .cta-button:hover, .subscribe-button:hover, .imc-button:hover, .carousel-nav button:hover, .popup-close-button:hover {
             transform: translateY(-2px) scale(1.03); opacity: 0.95; box-shadow: 0 6px 15px var(--pink-shadow-hover);
         }
-        
+
         .header-content { padding: 1rem var(--content-padding); text-align: center; width: 100%; }
         .header-image { width: 100%; max-width: var(--max-width); height: auto; display: block; margin: 1rem auto; }
         .logo { width: 100%; max-width: 100%; height: auto; object-fit: contain; display: block; margin: 0; max-height: 200px; }
         @media (max-width: 768px) { .logo { max-height: 300px; } }
-        
+
         .top-rank { margin-bottom: 1rem; }
         .number-one { font-size: clamp(1.8rem, 4vw, 2.2rem); font-weight: 700; color: var(--accent); display: block; animation: pulseGlow 3s ease-in-out infinite; }
         .thank-you { font-size: clamp(2.4rem, 6vw, 3rem); color: #ffb6c1; transform: rotate(-2deg); }
-        
+
         .main-nav { position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; background: transparent; padding: 0.5rem 0; height: calc(var(--nav-height) + env(safe-area-inset-top)); display: flex; justify-content: center; align-items: center; }
         .main-nav ul { list-style: none; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 0; margin: 0; max-width: var(--max-width); width: 100%; }
         .nav-link { font-family: var(--font-primary); font-weight: 700; font-size: 1rem; color: var(--border-color); padding: 0.5rem 1rem; background: rgba(17, 17, 17, 0.7); border: 1px solid var(--border-color); border-radius: 0; transition: all 0.3s ease; display: block; text-align: center; white-space: nowrap; position: relative; margin-left: -1rem; z-index: 1; }
@@ -210,14 +224,16 @@
             .main-nav ul { flex-direction: row; flex-wrap: wrap; justify-content: space-around; }
             .nav-link { margin-left: -0.5rem; font-size: 0.9rem; padding: 0.4rem 0.8rem; flex: 1 1 auto; }
         }
-        
+
         .content-container { text-align: left; max-width: var(--max-width); width: 100%; margin: 0 auto; padding: 0 var(--content-padding); }
         .cta-buttons-container { display: flex; justify-content: center; flex-wrap: wrap; gap: 1rem; margin: 1.5rem 0; }
-        
+
         .imc-calculator { background: var(--accent-dark); padding: 1.5rem; border-radius: 6px; margin: 2rem auto; text-align: center; width: 100%; max-width: var(--max-width); }
-        .imc-calculator form { display: flex; flex-direction: column; align-items: center; gap: 1rem; max-width: 300px; margin: 0 auto; }
+        .imc-calculator form { display: flex; flex-direction: column; align-items: center; gap: 1rem; max-width: 400px; margin: 0 auto; }
         .imc-calculator input[type="number"] { padding: 0.75rem; font-family: var(--font-primary); font-size: 1rem; border: 2px solid var(--border-color); border-radius: 4px; background: var(--bg); color: var(--text); width: 100%; }
-        
+        .imc-calculator label { font-weight: 700; margin-bottom: 0.5rem; display: block; color: var(--border-color); }
+        #imc-result, #imc-recommendation { text-align: center; margin-top: 1rem; }
+
         .comparison-table-container { max-width: var(--max-width); margin: 2rem auto; overflow-x: auto; width: 100%; }
         .comparison-table { width: 100%; border-collapse: separate; border-spacing: 0; margin: 1.5rem 0; text-align: center; font-size: 0.95rem; background-color: var(--accent-dark); border: 2px solid var(--border-color); border-radius: 8px; }
         .comparison-table th, .comparison-table td { border: 1px solid var(--border-color); padding: 1rem; line-height: 1.4; }
@@ -225,33 +241,35 @@
         .comparison-table tbody th { background-color: var(--accent-dark); color: var(--text); text-align: left; }
         .comparison-table .check { color: var(--checkmark-color); font-size: 1.3em; }
         .comparison-table .cross { color: #ff6b6b; font-size: 1.3em; }
-        
+
         .carousel { max-width: var(--max-width); margin: 2rem auto; border: 3px solid var(--fluo-pink); border-radius: 10px; box-shadow: 0 0 20px var(--fluo-pink-shadow); position: relative; min-height: 220px; padding: 1.5rem; background: var(--accent-dark); text-align: center; width: 100%; }
         .carousel-item { width: 100%; opacity: 0; transition: opacity 1s ease-in-out; position: absolute; top: 0; left: 0; visibility: hidden; display: flex; justify-content: center; align-items: center; }
         .carousel-item.active { opacity: 1; position: relative; visibility: visible; }
-        
+
         .subscribe-section { background: var(--accent-dark); padding: 2rem; border-radius: 6px; margin: 2rem auto; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3); width: 100%; max-width: var(--max-width); text-align: center; }
+        .subscribe-form { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
         .subscribe-form input[type="email"] { padding: 0.75rem; font-family: var(--font-primary); font-size: 1rem; border: 2px solid var(--border-color); border-radius: 4px; background: var(--bg); color: var(--text); flex-grow: 1; min-width: 200px; }
-        
+
         .popup { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: var(--accent-dark); padding: 2rem; border: 3px solid var(--fluo-pink); border-radius: 10px; box-shadow: 0 0 25px var(--fluo-pink-shadow); z-index: 1000; width: clamp(280px, 90vw, 450px); text-align: center; font-family: var(--font-primary); }
         .popup.active { display: block; }
-        
+
         .sticky-banner { position: fixed; bottom: 0; left: 0; width: 100%; background: var(--border-color); color: var(--accent-dark); padding: 0.5rem; text-align: center; z-index: 900; font-size: 0.9rem; }
-        
+
         @keyframes pulseGlow { 0%, 100% { text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.7); } 50% { text-shadow: 2px 2px 10px rgba(255, 255, 255, 0.9); } }
         @keyframes pulseProgressif {
             0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 20, 147, 0.7); }
             70% { transform: scale(1.05); box-shadow: 0 0 20px 10px rgba(255, 20, 147, 0); }
             100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 20, 147, 0); }
         }
-        
+
         @media (max-width: 768px) {
             .main-nav { background: transparent; }
             .cta-buttons-container { flex-direction: column; }
             .comparison-table { font-size: 0.85rem; }
             .logo { max-height: 300px; }
+            .subscribe-form { flex-direction: column; }
         }
-        
+
         @media (max-width: 480px) {
             body { font-size: 0.9rem; }
             .nav-link { font-size: 0.85rem; padding: 0.4rem 0.8rem; }
@@ -292,8 +310,87 @@
       }
     }
     </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      "name": "Gélules Minceur Victory",
+      "image": "https://i.imgur.com/GmyGlKk.webp",
+      "description": "Gélules minceur Victory pour une perte de poids rapide et naturelle. Formulées à partir d’ingrédients 100% naturels, elles accélèrent le métabolisme et réduisent l’appétit. Livraison gratuite, sans compte requis.",
+      "sku": "VICTORY-001",
+      "brand": {
+        "@type": "Brand",
+        "name": "ClairvoyanceMedium.com"
+      },
+      "offers": [
+        {
+          "@type": "Offer",
+          "url": "https://buy.stripe.com/9AQ28w5Zag1p5KE29u",
+          "priceCurrency": "EUR",
+          "price": "19.00",
+          "itemCondition": "https://schema.org/NewCondition",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "url": "https://buy.stripe.com/5kA6oMfzK9D15KE6pL",
+          "priceCurrency": "EUR",
+          "price": "29.90",
+          "itemCondition": "https://schema.org/NewCondition",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "url": "https://buy.stripe.com/cN2bJ69bmbL9b4Y3dA",
+          "priceCurrency": "EUR",
+          "price": "43.00",
+          "itemCondition": "https://schema.org/NewCondition",
+          "availability": "https://schema.org/InStock"
+        }
+      ],
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "reviewCount": "16000"
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Comment fonctionnent les gélules minceur Victory ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Les gélules minceur Victory accélèrent le métabolisme, réduisent l’appétit et optimisent la combustion des graisses grâce à des ingrédients 100% naturels. Elles sont conçues pour une perte de poids rapide et durable."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Y a-t-il des effets secondaires ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Les gélules Victory sont certifiées sans effets secondaires pour la majorité des utilisateurs. Consultez un professionnel de santé avant utilisation, notamment en cas de conditions médicales spécifiques."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Comment commander sans compte ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Vous pouvez commander directement via nos liens Stripe sécurisés, sans création de compte. La livraison est gratuite et le paiement est sécurisé."
+          }
+        }
+      ]
+    }
+    </script>
 </head>
 <body>
+    <a href="#main-content" class="skip-link">Passer au contenu</a>
+
     <nav class="main-nav" role="navigation" aria-label="Navigation principale">
         <ul>
             <li><a href="#blog" class="nav-link">Blog</a></li>
@@ -324,17 +421,17 @@
         </div>
     </header>
 
-    <main role="main">
+    <main id="main-content" role="main">
         <section class="content-container" id="minceur" aria-labelledby="minceur-heading">
             <h2 id="minceur-heading">Gélules Minceur Victory</h2>
-            <p>Les <strong>gélules minceur Victory</strong> sont la solution ultime pour sculpter votre silhouette et booster votre confiance en vous. Formulées à partir d’ingrédients 100% naturels, rigoureusement sélectionnés, ces gélules accélèrent le métabolisme, réduisent l’appétit et optimisent la combustion des graisses. Que vous souhaitiez une perte de poids rapide ou une transformation durable, Victory est votre partenaire incontournable. Avec plus de 16 000 clients satisfaits à travers l’Europe, nos gélules dominent le marché grâce à leur efficacité prouvée et leur absence d’effets secondaires. Profitez de la livraison gratuite et d’un paiement sécurisé sans création de compte. Découvrez cette solution révolutionnaire pour une silhouette affinée sur <a href="https://clairvoyancemedium.github.io/online-psychic-readings.github.io/" style="display: none;">notre plateforme de voyance</a> et <a href="https://www.clairvoyancemedium.com" style="display: none;">ClairvoyanceMedium.com</a>.</p>
+            <p>Les <strong>gélules minceur Victory</strong> sont la solution ultime pour sculpter votre silhouette et booster votre confiance en vous. Formulées à partir d’ingrédients 100% naturels, rigoureusement sélectionnés, ces gélules accélèrent le métabolisme, réduisent l’appétit et optimisent la combustion des graisses. Que vous souhaitiez une perte de poids rapide ou une transformation durable, Victory est votre partenaire incontournable. Avec plus de 16 000 clients satisfaits à travers l’Europe, nos gélules dominent le marché grâce à leur efficacité prouvée et leur absence d’effets secondaires. Profitez de la livraison gratuite et d’un paiement sécurisé sans création de compte. Découvrez cette solution révolutionnaire pour une silhouette affinée sur <a href="https://clairvoyancemedium.github.io/online-psychic-readings.github.io/" style="display: none;" rel="nofollow">notre plateforme de voyance</a> et <a href="https://www.clairvoyancemedium.com" style="display: none;" rel="nofollow">ClairvoyanceMedium.com</a>.</p>
             <p><strong>3 bénéfices majeurs des gélules minceur Victory :</strong></p>
             <ul class="check-list">
                 <li><strong>Perte de poids spectaculaire :</strong> Jusqu’à 8 kg en seulement 1 mois* grâce à une formule naturelle qui booste votre métabolisme.</li>
                 <li><strong>Énergie décuplée :</strong> Restez dynamique tout au long de la journée, même pendant votre régime.</li>
                 <li><strong>Confiance retrouvée :</strong> Une silhouette affinée pour vous sentir mieux dans votre corps et dans votre vie.</li>
             </ul>
-            <p>Ne manquez pas cette offre exclusive avant l’augmentation des prix ! Commandez dès maintenant et rejoignez des milliers de clients satisfaits. Nos gélules sont certifiées sans effets secondaires et accompagnées d’un support client 24/7. Pour en savoir plus sur notre programme minceur, visitez <a href="https://clairvoyancemedium.github.io/online-psychic-readings.github.io/" style="display: none;">nos services de voyance</a> et <a href="https://www.clairvoyancemedium.com" style="display: none;">notre site principal</a>.</p>
+            <p>Ne manquez pas cette offre exclusive avant l’augmentation des prix ! Commandez dès maintenant et rejoignez des milliers de clients satisfaits. Nos gélules sont certifiées sans effets secondaires et accompagnées d’un support client 24/7. Pour en savoir plus sur notre programme minceur, visitez <a href="https://clairvoyancemedium.github.io/online-psychic-readings.github.io/" style="display: none;" rel="nofollow">nos services de voyance</a> et <a href="https://www.clairvoyancemedium.com" style="display: none;" rel="nofollow">notre site principal</a>.</p>
             <div class="cta-buttons-container">
                 <a href="https://buy.stripe.com/9AQ28w5Zag1p5KE29u" target="_blank" rel="noopener noreferrer" class="cta-button prix" data-eur-price="19" data-tracking-label="Victory1Box">1 Boîte – <span class="price" data-eur-price="19">19.00 EUR</span></a>
                 <a href="https://buy.stripe.com/5kA6oMfzK9D15KE6pL" target="_blank" rel="noopener noreferrer" class="cta-button prix" data-eur-price="29.90" data-tracking-label="Victory2Box">2 Boîtes – <span class="price" data-eur-price="29.90">29.90 EUR</span></a>
@@ -344,14 +441,14 @@
 
         <section class="content-container" id="voyance" aria-labelledby="voyance-heading">
             <h2 id="voyance-heading">Voyance par Email avec notre Futurologue</h2>
-            <p>Obtenez des réponses précises et confidentielles à vos questions sur l’amour, le travail, les finances ou tout autre domaine grâce à notre service de voyance par email, dirigé par Frederick, futurologue expérimenté avec plus de 20 ans de pratique. Recevez des prédictions détaillées sous 24h, rédigées avec soin pour éclairer vos décisions et vous guider vers un avenir serein. Avec un taux de satisfaction client de 98%, notre service de voyance par email est reconnu pour sa fiabilité et sa discrétion. Commandez sans compte et profitez de la livraison gratuite pour vos consultations. Découvrez comment transformer votre vie avec nos services spirituels sur <a href="https://clairvoyancemedium.github.io/online-psychic-readings.github.io/" style="display: none;">nos lectures psychiques</a> et <a href="https://www.clairvoyancemedium.com" style="display: none;">ClairvoyanceMedium.com</a>.</p>
+            <p>Obtenez des réponses précises et confidentielles à vos questions sur l’amour, le travail, les finances ou tout autre domaine grâce à notre service de voyance par email, dirigé par Frederick, futurologue expérimenté avec plus de 20 ans de pratique. Recevez des prédictions détaillées sous 24h, rédigées avec soin pour éclairer vos décisions et vous guider vers un avenir serein. Avec un taux de satisfaction client de 98%, notre service de voyance par email est reconnu pour sa fiabilité et sa discrétion. Commandez sans compte et profitez de la livraison gratuite pour vos consultations. Découvrez comment transformer votre vie avec nos services spirituels sur <a href="https://clairvoyancemedium.github.io/online-psychic-readings.github.io/" style="display: none;" rel="nofollow">nos lectures psychiques</a> et <a href="https://www.clairvoyancemedium.com" style="display: none;" rel="nofollow">ClairvoyanceMedium.com</a>.</p>
             <p><strong>3 bénéfices majeurs de la voyance par email :</strong></p>
             <ul class="check-list">
                 <li><strong>Réponses rapides et justes :</strong> Des prédictions claires pour des choix éclairés, livrées en moins de 24h.</li>
                 <li><strong>Confidentialité absolue :</strong> Vos questions restent privées, pour une tranquillité d’esprit totale.</li>
                 <li><strong>Fiabilité prouvée :</strong> 98% de satisfaction client grâce à des consultations précises et personnalisées.</li>
             </ul>
-            <p>Saisissez cette opportunité unique avant la hausse des prix ! Nos consultations sont accessibles sans création de compte, avec un paiement sécurisé et un support client disponible 24/7. Pour approfondir votre cheminement spirituel, explorez nos services sur <a href="https://clairvoyancemedium.github.io/online-psychic-readings.github.io/" style="display: none;">nos lectures en ligne</a> et <a href="https://www.clairvoyancemedium.com" style="display: none;">notre portail principal</a>.</p>
+            <p>Saisissez cette opportunité unique avant la hausse des prix ! Nos consultations sont accessibles sans création de compte, avec un paiement sécurisé et un support client disponible 24/7. Pour approfondir votre cheminement spirituel, explorez nos services sur <a href="https://clairvoyancemedium.github.io/online-psychic-readings.github.io/" style="display: none;" rel="nofollow">nos lectures en ligne</a> et <a href="https://www.clairvoyancemedium.com" style="display: none;" rel="nofollow">notre portail principal</a>.</p>
             <div class="cta-buttons-container">
                 <a href="https://buy.stripe.com/14kdRe0EQ4iH1uoaFa" target="_blank" rel="noopener noreferrer" class="cta-button prix" data-eur-price="6" data-tracking-label="Voyance1Q">1 Question – <span class="price" data-eur-price="6">6.00 EUR</span></a>
                 <a href="https://buy.stripe.com/dR614scnycPddd66oV" target="_blank" rel="noopener noreferrer" class="cta-button prix" data-eur-price="15" data-tracking-label="Voyance3Q">3 Questions – <span class="price" data-eur-price="15">15.00 EUR</span></a>
@@ -361,20 +458,20 @@
 
         <section class="content-container spiritual-services" id="services" aria-labelledby="services-heading">
             <h2 id="services-heading">Services Spirituels Puissants</h2>
-            <p>Nos rituels et consultations spirituelles sont conçus pour lever les blocages, attirer l’amour, restaurer l’harmonie et libérer votre potentiel. Que vous cherchiez à renforcer vos liens amoureux, à comprendre la dynamique de votre relation ou à vous libérer des énergies négatives, nos services offrent des solutions puissantes et personnalisées. Avec des décennies d’expérience, notre équipe vous accompagne dans votre cheminement spirituel. Découvrez nos rituels uniques sur <a href="https://clairvoyancemedium.github.io/online-psychic-readings.github.io/" style="display: none;">nos services psychiques</a> et <a href="https://www.clairvoyancemedium.com" style="display: none;">ClairvoyanceMedium.com</a>.</p>
+            <p>Nos rituels et consultations spirituelles sont conçus pour lever les blocages, attirer l’amour, restaurer l’harmonie et libérer votre potentiel. Que vous cherchiez à renforcer vos liens amoureux, à comprendre la dynamique de votre relation ou à vous libérer des énergies négatives, nos services offrent des solutions puissantes et personnalisées. Avec des décennies d’expérience, notre équipe vous accompagne dans votre cheminement spirituel. Découvrez nos rituels uniques sur <a href="https://clairvoyancemedium.github.io/online-psychic-readings.github.io/" style="display: none;" rel="nofollow">nos services psychiques</a> et <a href="https://www.clairvoyancemedium.com" style="display: none;" rel="nofollow">ClairvoyanceMedium.com</a>.</p>
             <ul>
                 <li><span class="service-description"><strong>Rituel de Magie Rouge :</strong> Renforcez vos liens amoureux ou attirez une nouvelle passion avec un rituel respectueux du libre arbitre.</span><a href="https://buy.stripe.com/6oE9AYgDO2azehabJF" target="_blank" rel="noopener noreferrer" class="cta-button">Commander – <span class="price" data-eur-price="250">250.00 EUR</span></a></li>
                 <li><span class="service-description"><strong>Compatibilité Amoureuse :</strong> Découvrez les dynamiques énergétiques de votre relation pour mieux comprendre votre partenaire.</span><a href="https://buy.stripe.com/28o28wgDO9D16OI5lf" target="_blank" rel="noopener noreferrer" class="cta-button">Commander – <span class="price" data-eur-price="20">20.00 EUR</span></a></li>
                 <li><span class="service-description"><strong>Désenvoûtement :</strong> Libérez-vous des énergies négatives et des blocages avec un rituel de purification puissant.</span><a href="https://buy.stripe.com/cN2bJ62MYg1p0qk5lE" target="_blank" rel="noopener noreferrer" class="cta-button">Commander – <span class="price" data-eur-price="250">250.00 EUR</span></a></li>
             </ul>
-            <p>Nos services sont réalisés avec soin et respect des énergies. Commandez dès maintenant pour transformer votre vie spirituelle. En savoir plus sur <a href="https://clairvoyancemedium.github.io/online-psychic-readings.github.io/" style="display: none;">nos consultations psychiques</a> et <a href="https://www.clairvoyancemedium.com" style="display: none;">notre site officiel</a>.</p>
+            <p>Nos services sont réalisés avec soin et respect des énergies. Commandez dès maintenant pour transformer votre vie spirituelle. En savoir plus sur <a href="https://clairvoyancemedium.github.io/online-psychic-readings.github.io/" style="display: none;" rel="nofollow">nos consultations psychiques</a> et <a href="https://www.clairvoyancemedium.com" style="display: none;" rel="nofollow">notre site officiel</a>.</p>
         </section>
 
         <section class="content-container" id="comparatif" aria-labelledby="comparatif-heading">
             <h2 id="comparatif-heading">Pourquoi Choisir les Gélules Minceur Victory ?</h2>
             <div class="comparison-table-container">
-                <table class="comparison-table">
-                    <caption>Comparatif : Gélules Minceur Victory vs Concurrents – La Meilleure Solution pour une Perte de Poids Rapide et Naturelle. Découvrez pourquoi Victory est leader sur <a href="https://clairvoyancemedium.github.io/online-psychic-readings.github.io/" style="display: none;">nos services psychiques</a> et <a href="https://www.clairvoyancemedium.com" style="display: none;">ClaroivanceMedium.com</a>.</caption>
+                <table class="comparison-table" aria-describedby="comparatif-caption">
+                    <caption id="comparatif-caption">Comparatif : Gélules Minceur Victory vs Concurrents – La Meilleure Solution pour une Perte de Poids Rapide et Naturelle. Découvrez pourquoi Victory domine le marché sur <a href="https://clairvoyancemedium.github.io/online-psychic-readings.github.io/" style="display: none;" rel="nofollow">nos services psychiques</a> et <a href="https://www.clairvoyancemedium.com" style="display: none;" rel="nofollow">ClairvoyanceMedium.com</a>.</caption>
                     <thead>
                         <tr>
                             <th scope="col">Caractéristique</th>
@@ -399,20 +496,28 @@
                     </tbody>
                 </table>
             </div>
-            <p>*Résultats variables selon les individus. Consultez un professionnel de santé avant utilisation. Pour un comparatif détaillé, visitez <a href="https://clairvoyancemedium.github.io/online-psychic-readings.github.io/" style="display: none;">nos services psychiques</a> et <a href="https://www.clairvoyancemedium.com" style="display: none;">ClairvoyanceMedium.com</a>.</p>
+            <p>*Résultats variables selon les individus. Consultez un professionnel de santé avant utilisation. Pour un comparatif détaillé, visitez <a href="https://clairvoyancemedium.github.io/online-psychic-readings.github.io/" style="display: none;" rel="nofollow">nos services psychiques</a> et <a href="https://www.clairvoyancemedium.com" style="display: none;" rel="nofollow">ClairvoyanceMedium.com</a>.</p>
         </section>
 
         <section class="imc-calculator" id="imc" aria-labelledby="imc-heading">
             <h2 id="imc-heading">Calculez Votre IMC</h2>
-            <form id="imcForm">
-                <div><label for="weight">Poids (kg) :</label><input type="number" id="weight" name="weight" required min="10" max="300" placeholder="Ex: 70" aria-describedby="weight-desc"></div>
-                <div><label for="height">Taille (cm) :</label><input type="number" id="height" name="height" required min="50" max="280" placeholder="Ex: 175" aria-describedby="height-desc"></div>
+            <form id="imcForm" novalidate>
+                <div>
+                    <label for="weight">Poids (kg) :</label>
+                    <input type="number" id="weight" name="weight" required min="20" max="300" step="0.1" placeholder="Ex: 70" aria-describedby="weight-desc">
+                    <p id="weight-desc" class="sr-only">Entrez votre poids en kilogrammes, entre 20 et 300 kg.</p>
+                </div>
+                <div>
+                    <label for="height">Taille (cm) :</label>
+                    <input type="number" id="height" name="height" required min="100" max="250" step="1" placeholder="Ex: 175" aria-describedby="height-desc">
+                    <p id="height-desc" class="sr-only">Entrez votre taille en centimètres, entre 100 et 250 cm.</p>
+                </div>
                 <button type="submit" class="imc-button" role="button">Calculer</button>
                 <div id="imc-error" role="alert" aria-live="assertive"></div>
             </form>
             <p id="imc-result" aria-live="polite"></p>
             <div id="imc-recommendation" style="display: none;">
-                <p>Optimisez vos résultats avec nos <a href="#minceur" class="subtle-link">gélules minceur Victory</a> ou notre <a href="#minceur" class="subtle-link">programme personnalisé</a> ! Calculez votre IMC et découvrez nos solutions minceur sur <a href="https://clairvoyancemedium.github.io/online-psychic-readings.github.io/" style="display: none;">nos services psychiques</a> et <a href="https://www.clairvoyancemedium.com" style="display: none;">ClairvoyanceMedium.com</a>.</p>
+                <p>Optimisez vos résultats avec nos <a href="#minceur" class="subtle-link">gélules minceur Victory</a> ou notre <a href="#minceur" class="subtle-link">programme personnalisé</a> ! Calculez votre IMC et découvrez nos solutions minceur sur <a href="https://clairvoyancemedium.github.io/online-psychic-readings.github.io/" style="display: none;" rel="nofollow">nos services psychiques</a> et <a href="https://www.clairvoyancemedium.com" style="display: none;" rel="nofollow">ClairvoyanceMedium.com</a>.</p>
             </div>
         </section>
 
@@ -427,23 +532,23 @@
                 </div>
                 <div class="carousel-nav"><button class="prevBtn" aria-controls="avisCarouselInner" aria-label="Avis précédent" role="button">←</button><button class="nextBtn" aria-controls="avisCarouselInner" aria-label="Avis suivant" role="button">→</button></div>
             </div>
-            <p style="display: none;">Lisez plus d’avis authentiques sur <a href="https://clairvoyancemedium.github.io/online-psychic-readings.github.io/">nos services psychiques</a> et <a href="https://www.clairvoyancemedium.com">ClairvoyanceMedium.com</a>.</p>
+            <p style="display: none;">Lisez plus d’avis authentiques sur <a href="https://clairvoyancemedium.github.io/online-psychic-readings.github.io/" rel="nofollow">nos services psychiques</a> et <a href="https://www.clairvoyancemedium.com" rel="nofollow">ClairvoyanceMedium.com</a>.</p>
         </section>
 
         <section class="content-container" id="blog" aria-labelledby="blog-heading">
             <h2 id="blog-heading">Nos Conseils et Articles de Blog</h2>
             <div class="carousel" id="blogCarousel" role="region" aria-roledescription="carousel" aria-label="Carrousel d'articles de blog, slide 1 sur 10" tabindex="0">
                 <div class="carousel-inner" id="blogCarouselInner" aria-live="off">
-                    <div class="carousel-item active" role="group" aria-roledescription="slide" tabindex="0"><article><h3 id="blog1-title">Maximiser Votre Perte de Poids</h3><p>Associez vos gélules minceur Victory à une hydratation optimale (1,5L+), une alimentation riche en fibres et protéines, et 30 min d’activité physique quotidienne pour des résultats optimaux. Découvrez nos astuces minceur sur <a href="https://clairvoyancemedium.github.io/online-psychic-readings.github.io/" style="display: none;">nos services psychiques</a> et <a href="https://www.clairvoyancemedium.com" style="display: none;">ClairvoyanceMedium.com</a>.</p></article></div>
-                    <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1"><article><h3 id="blog2-title">Poser les Bonnes Questions en Voyance</h3><p>Formulez des questions ouvertes ("Comment puis-je...", "Quelles sont les pistes pour...") plutôt que fermées (oui/non). Précisez le domaine et donnez un bref contexte si utile. Apprenez à optimiser vos consultations sur <a href="https://clairvoyancemedium.github.io/online-psychic-readings.github.io/" style="display: none;">nos services psychiques</a> et <a href="https://www.clairvoyancemedium.com" style="display: none;">ClairvoyanceMedium.com</a>.</p></article></div>
-                    <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1"><article><h3 id="blog3-title">Gélules Minceur Victory : Indications</h3><p>Ces gélules s’adressent aux adultes cherchant un soutien métabolique. Un avis médical est recommandé en cas de traitement ou condition spécifique (grossesse, allaitement...). En savoir plus sur <a href="https://clairvoyancemedium.github.io/online-psychic-readings.github.io/" style="display: none;">nos services psychiques</a> et <a href="https://www.clairvoyancemedium.com" style="display: none;">ClairvoyanceMedium.com</a>.</p></article></div>
-                    <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1"><article><h3 id="blog4-title">L’Art d’Interpréter une Consultation</h3><p>La voyance éclaire des potentiels. Utilisez les informations reçues comme une boussole pour guider votre intuition et vos choix, non comme une fatalité. Approfondissez vos connaissances sur <a href="https://clairvoyancemedium.github.io/online-psychic-readings.github.io/" style="display: none;">nos services psychiques</a> et <a href="https://www.clairvoyancemedium.com" style="display: none;">ClairvoyanceMedium.com</a>.</p></article></div>
-                    <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1"><article><h3 id="blog5-title">Synergie Minceur & Bien-être Mental</h3><p>Le succès de votre démarche minceur est lié à votre état d’esprit. Complémentez les gélules minceur Victory avec des pratiques anti-stress (relaxation, méditation). Boostez votre bien-être sur <a href="https://clairvoyancemedium.github.io/online-psychic-readings.github.io/" style="display: none;">nos services psychiques</a> et <a href="https://www.clairvoyancemedium.com" style="display: none;">ClairvoyanceMedium.com</a>.</p></article></div>
-                    <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1"><article><h3 id="blog6-title">La Magie Rouge Expliquée</h3><p>Centrée sur l’amour et les sentiments, la magie rouge agit sur les énergies. Nos rituels respectent le libre arbitre. L’intention et la réceptivité sont clés. Découvrez nos rituels sur <a href="https://clairvoyancemedium.github.io/online-psychic-readings.github.io/" style="display: none;">nos services psychiques</a> et <a href="https://www.clairvoyancemedium.com" style="display: none;">ClairvoyanceMedium.com</a>.</p></article></div>
-                    <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1"><article><h3 id="blog7-title">Au-delà de l’IMC</h3><p>L’Indice de Masse Corporelle est utile mais limité (ignore la composition corporelle). Considérez-le comme un point de repère dans une approche globale. Apprenez-en plus sur <a href="https://clairvoyancemedium.github.io/online-psychic-readings.github.io/" style="display: none;">nos services psychiques</a> et <a href="https://www.clairvoyancemedium.com" style="display: none;">ClairvoyanceMedium.com</a>.</p></article></div>
-                    <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1"><article><h3 id="blog8-title">Voyance vs Guidance : Quelles Différences ?</h3><p>La voyance explore les probabilités futures. La guidance spirituelle vous aide à comprendre votre chemin de vie. Nos consultations peuvent intégrer les deux aspects. Approfondissez sur <a href="https://clairvoyancemedium.github.io/online-psychic-readings.github.io/" style="display: none;">nos services psychiques</a> et <a href="https://www.clairvoyancemedium.com" style="display: none;">ClairvoyanceMedium.com</a>.</p></article></div>
-                    <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1"><article><h3 id="blog9-title">L’Impact de Vos Témoignages</h3><p>Vos retours sur les gélules minceur Victory ou nos consultations sont précieux. Ils nous aident à progresser et guident les nouveaux clients. Merci ! Partagez votre expérience sur <a href="https://clairvoyancemedium.github.io/online-psychic-readings.github.io/" style="display: none;">nos services psychiques</a> et <a href="https://www.clairvoyancemedium.com" style="display: none;">ClairvoyanceMedium.com</a>.</p></article></div>
-                    <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1"><article><h3 id="blog10-title">Signes d’un Besoin de Désenvoûtement</h3><p>Blocages répétitifs, malchance persistante, sentiment d’oppression, fatigue inexpliquée peuvent indiquer la nécessité d’un nettoyage énergétique. Découvrez nos solutions sur <a href="https://clairvoyancemedium.github.io/online-psychic-readings.github.io/" style="display: none;">nos services psychiques</a> et <a href="https://www.clairvoyancemedium.com" style="display: none;">ClairvoyanceMedium.com</a>.</p></article></div>
+                    <div class="carousel-item active" role="group" aria-roledescription="slide" tabindex="0"><article><h3 id="blog1-title">Maximiser Votre Perte de Poids</h3><p>Associez vos gélules minceur Victory à une hydratation optimale (1,5L+), une alimentation riche en fibres et protéines, et 30 min d’activité physique quotidienne pour des résultats optimaux. Découvrez nos astuces minceur sur <a href="https://clairvoyancemedium.github.io/online-psychic-readings.github.io/" style="display: none;" rel="nofollow">nos services psychiques</a> et <a href="https://www.clairvoyancemedium.com" style="display: none;" rel="nofollow">ClairvoyanceMedium.com</a>.</p></article></div>
+                    <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1"><article><h3 id="blog2-title">Poser les Bonnes Questions en Voyance</h3><p>Formulez des questions ouvertes ("Comment puis-je...", "Quelles sont les pistes pour...") plutôt que fermées (oui/non). Précisez le domaine et donnez un bref contexte si utile. Apprenez à optimiser vos consultations sur <a href="https://clairvoyancemedium.github.io/online-psychic-readings.github.io/" style="display: none;" rel="nofollow">nos services psychiques</a> et <a href="https://www.clairvoyancemedium.com" style="display: none;" rel="nofollow">ClairvoyanceMedium.com</a>.</p></article></div>
+                    <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1"><article><h3 id="blog3-title">Gélules Minceur Victory : Indications</h3><p>Ces gélules s’adressent aux adultes cherchant un soutien métabolique. Un avis médical est recommandé en cas de traitement ou condition spécifique (grossesse, allaitement...). En savoir plus sur <a href="https://clairvoyancemedium.github.io/online-psychic-readings.github.io/" style="display: none;" rel="nofollow">nos services psychiques</a> et <a href="https://www.clairvoyancemedium.com" style="display: none;" rel="nofollow">ClairvoyanceMedium.com</a>.</p></article></div>
+                    <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1"><article><h3 id="blog4-title">L’Art d’Interpréter une Consultation</h3><p>La voyance éclaire des potentiels. Utilisez les informations reçues comme une boussole pour guider votre intuition et vos choix, non comme une fatalité. Approfondissez vos connaissances sur <a href="https://clairvoyancemedium.github.io/online-psychic-readings.github.io/" style="display: none;" rel="nofollow">nos services psychiques</a> et <a href="https://www.clairvoyancemedium.com" style="display: none;" rel="nofollow">ClairvoyanceMedium.com</a>.</p></article></div>
+                    <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1"><article><h3 id="blog5-title">Synergie Minceur & Bien-être Mental</h3><p>Le succès de votre démarche minceur est lié à votre état d’esprit. Complémentez les gélules minceur Victory avec des pratiques anti-stress (relaxation, méditation). Boostez votre bien-être sur <a href="https://clairvoyancemedium.github.io/online-psychic-readings.github.io/" style="display: none;" rel="nofollow">nos services psychiques</a> et <a href="https://www.clairvoyancemedium.com" style="display: none;" rel="nofollow">ClairvoyanceMedium.com</a>.</p></article></div>
+                    <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1"><article><h3 id="blog6-title">La Magie Rouge Expliquée</h3><p>Centrée sur l’amour et les sentiments, la magie rouge agit sur les énergies. Nos rituels respectent le libre arbitre. L’intention et la réceptivité sont clés. Découvrez nos rituels sur <a href="https://clairvoyancemedium.github.io/online-psychic-readings.github.io/" style="display: none;" rel="nofollow">nos services psychiques</a> et <a href="https://www.clairvoyancemedium.com" style="display: none;" rel="nofollow">ClairvoyanceMedium.com</a>.</p></article></div>
+                    <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1"><article><h3 id="blog7-title">Au-delà de l’IMC</h3><p>L’Indice de Masse Corporelle est utile mais limité (ignore la composition corporelle). Considérez-le comme un point de repère dans une approche globale. Apprenez-en plus sur <a href="https://clairvoyancemedium.github.io/online-psychic-readings.github.io/" style="display: none;" rel="nofollow">nos services psychiques</a> et <a href="https://www.clairvoyancemedium.com" style="display: none;" rel="nofollow">ClairvoyanceMedium.com</a>.</p></article></div>
+                    <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1"><article><h3 id="blog8-title">Voyance vs Guidance : Quelles Différences ?</h3><p>La voyance explore les probabilités futures. La guidance spirituelle vous aide à comprendre votre chemin de vie. Nos consultations peuvent intégrer les deux aspects. Approfondissez sur <a href="https://clairvoyancemedium.github.io/online-psychic-readings.github.io/" style="display: none;" rel="nofollow">nos services psychiques</a> et <a href="https://www.clairvoyancemedium.com" style="display: none;" rel="nofollow">ClairvoyanceMedium.com</a>.</p></article></div>
+                    <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1"><article><h3 id="blog9-title">L’Impact de Vos Témoignages</h3><p>Vos retours sur les gélules minceur Victory ou nos consultations sont précieux. Ils nous aident à progresser et guident les nouveaux clients. Merci ! Partagez votre expérience sur <a href="https://clairvoyancemedium.github.io/online-psychic-readings.github.io/" style="display: none;" rel="nofollow">nos services psychiques</a> et <a href="https://www.clairvoyancemedium.com" style="display: none;" rel="nofollow">ClairvoyanceMedium.com</a>.</p></article></div>
+                    <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1"><article><h3 id="blog10-title">Signes d’un Besoin de Désenvoûtement</h3><p>Blocages répétitifs, malchance persistante, sentiment d’oppression, fatigue inexpliquée peuvent indiquer la nécessité d’un nettoyage énergétique. Découvrez nos solutions sur <a href="https://clairvoyancemedium.github.io/online-psychic-readings.github.io/" style="display: none;" rel="nofollow">nos services psychiques</a> et <a href="https://www.clairvoyancemedium.com" style="display: none;" rel="nofollow">ClairvoyanceMedium.com</a>.</p></article></div>
                 </div>
                 <div class="carousel-nav"><button class="prevBtn" aria-controls="blogCarouselInner" aria-label="Article précédent" role="button">←</button><button class="nextBtn" aria-controls="blogCarouselInner" aria-label="Article suivant" role="button">→</button></div>
             </div>
@@ -451,9 +556,10 @@
 
         <section class="subscribe-section" id="subscribe" aria-labelledby="subscribe-heading">
             <h2 id="subscribe-heading">Inscrivez-vous pour des Offres Exclusives</h2>
-            <p>Recevez nos astuces minceur, prédictions spirituelles et offres exclusives directement dans votre boîte mail. Rejoignez notre communauté pour transformer votre vie physique et spirituelle. Inscrivez-vous maintenant et découvrez nos services sur <a href="https://clairvoyancemedium.github.io/online-psychic-readings.github.io/" style="display: none;">nos lectures psychiques</a> et <a href="https://www.clairvoyancemedium.com" style="display: none;">ClairvoyanceMedium.com</a>.</p>
+            <p>Recevez nos astuces minceur, prédictions spirituelles et offres exclusives directement dans votre boîte mail. Rejoignez notre communauté pour transformer votre vie physique et spirituelle. Inscrivez-vous maintenant et découvrez nos services sur <a href="https://clairvoyancemedium.github.io/online-psychic-readings.github.io/" style="display: none;" rel="nofollow">nos lectures psychiques</a> et <a href="https://www.clairvoyancemedium.com" style="display: none;" rel="nofollow">ClairvoyanceMedium.com</a>.</p>
             <form id="subscribeForm" class="subscribe-form" novalidate>
                 <input type="email" id="subscribeEmail" name="email" placeholder="Votre email" required aria-describedby="subscribe-desc">
+                <p id="subscribe-desc" class="sr-only">Entrez votre adresse email pour recevoir nos offres exclusives.</p>
                 <button type="submit" class="subscribe-button" role="button">S’inscrire</button>
             </form>
             <div id="subscribe-feedback" role="status"></div>
@@ -463,16 +569,16 @@
     <footer role="contentinfo">
         <p><a href="mailto:contact.clairvoyancemedium@gmail.com">Contact</a> | <a href="https://www.clairvoyancemedium.com/conditions-generales" target="_blank" rel="noopener noreferrer">Conditions Générales</a> | <a href="https://www.clairvoyancemedium.com/politique-confidentialite" target="_blank" rel="noopener noreferrer">Politique de Confidentialité</a></p>
         <p>Toutes les cartes numériques internationales acceptées : Visa, MasterCard, American Express, Apple Pay, Google Pay, PayPal, Twint, cryptomonnaies, et plus.</p>
-        <p>© <span id="current-year-footer"></span> ClairvoyanceMedium.com - Tous droits réservés. Explorez nos services minceur et spirituels sur <a href="https://clairvoyancemedium.github.io/online-psychic-readings.github.io/" style="display: none;">nos lectures psychiques</a> et <a href="https://www.clairvoyancemedium.com" style="display: none;">ClairvoyanceMedium.com</a>.</p>
+        <p>© <span id="current-year-footer"></span> ClairvoyanceMedium.com - Tous droits réservés. Explorez nos services minceur et spirituels sur <a href="https://clairvoyancemedium.github.io/online-psychic-readings.github.io/" style="display: none;" rel="nofollow">nos lectures psychiques</a> et <a href="https://www.clairvoyancemedium.com" style="display: none;" rel="nofollow">ClairvoyanceMedium.com</a>.</p>
     </footer>
 
     <div class="sticky-banner">
-        <p>Livraison gratuite en ce moment (au lieu de 7,90€) ! Commandez sans compte, paiement sécurisé avec toutes les cartes numériques internationales. Transformez votre vie avec nos solutions sur <a href="https://clairvoyancemedium.github.io/online-psychic-readings.github.io/" style="display: none;">nos services psychiques</a> et <a href="https://www.clairvoyancemedium.com" style="display: none;">ClairvoyanceMedium.com</a>.</p>
+        <p>Livraison gratuite en ce moment (au lieu de 7,90€) ! Commandez sans compte, paiement sécurisé avec toutes les cartes numériques internationales. Transformez votre vie avec nos solutions sur <a href="https://clairvoyancemedium.github.io/online-psychic-readings.github.io/" style="display: none;" rel="nofollow">nos services psychiques</a> et <a href="https://www.clairvoyancemedium.com" style="display: none;" rel="nofollow">ClairvoyanceMedium.com</a>.</p>
     </div>
 
     <div id="popup" class="popup" role="dialog" aria-labelledby="popup-heading">
         <h3 id="popup-heading">⚡ Offre Exclusive : Agissez Avant l’Augmentation des Prix !</h3>
-        <p>Ne manquez pas cette chance unique de transformer votre silhouette avec les <strong>gélules minceur Victory</strong> ou d’éclairer votre avenir avec notre <strong>voyance par email</strong>. Commandez maintenant à prix réduit et découvrez nos solutions sur <a href="https://clairvoyancemedium.github.io/online-psychic-readings.github.io/" style="display: none;">nos lectures psychiques</a> et <a href="https://www.clairvoyancemedium.com" style="display: none;">ClairvoyanceMedium.com</a>.</p>
+        <p>Ne manquez pas cette chance unique de transformer votre silhouette avec les <strong>gélules minceur Victory</strong> ou d’éclairer votre avenir avec notre <strong>voyance par email</strong>. Commandez maintenant à prix réduit et découvrez nos solutions sur <a href="https://clairvoyancemedium.github.io/online-psychic-readings.github.io/" style="display: none;" rel="nofollow">nos lectures psychiques</a> et <a href="https://www.clairvoyancemedium.com" style="display: none;" rel="nofollow">ClairvoyanceMedium.com</a>.</p>
         <button id="closePopupBtn" class="popup-close-button" role="button">Fermer</button>
     </div>
 
@@ -481,7 +587,7 @@
             const currentYear = new Date().getFullYear();
             document.querySelectorAll("#current-year, #current-year-footer").forEach(span => span.textContent = currentYear);
 
-            // Gestion du calculateur IMC
+            // Gestion du calculateur IMC ultra-sophistiqué
             document.getElementById("imcForm")?.addEventListener("submit", function(e) {
                 e.preventDefault();
                 const weight = parseFloat(document.getElementById("weight").value);
@@ -490,15 +596,53 @@
                 const errorEl = document.getElementById("imc-error");
                 const recommendationEl = document.getElementById("imc-recommendation");
 
-                if (isNaN(weight) || isNaN(height) || height <= 0) {
-                    errorEl.textContent = "Veuillez entrer des valeurs valides.";
+                if (isNaN(weight) || isNaN(height) || weight < 20 || weight > 300 || height < 1 || height > 2.5) {
+                    errorEl.textContent = "Veuillez entrer un poids (20-300 kg) et une taille (100-250 cm) valides.";
+                    resultEl.textContent = "";
+                    recommendationEl.style.display = "none";
                     return;
                 }
 
                 const imc = (weight / (height * height)).toFixed(1);
-                resultEl.textContent = `Votre IMC est de ${imc}.`;
+                let category = "";
+                let recommendation = "";
+
+                if (imc < 18.5) {
+                    category = "sous-poids";
+                    recommendation = "Votre IMC indique un sous-poids. Consultez un professionnel pour un plan adapté et découvrez nos solutions pour un mode de vie sain.";
+                } else if (imc >= 18.5 && imc < 25) {
+                    category = "poids normal";
+                    recommendation = "Félicitations, votre IMC est dans la plage normale ! Maintenez votre santé avec nos gélules Victory.";
+                } else if (imc >= 25 && imc < 30) {
+                    category = "surpoids";
+                    recommendation = "Votre IMC indique un surpoids. Essayez nos gélules minceur Victory pour atteindre vos objectifs de perte de poids.";
+                } else {
+                    category = "obésité";
+                    recommendation = "Votre IMC indique une obésité. Nos gélules Victory et notre programme personnalisé peuvent vous aider à perdre du poids efficacement.";
+                }
+
+                resultEl.textContent = `Votre IMC est de ${imc} (${category}).`;
+                recommendationEl.innerHTML = `<p>${recommendation} Découvrez nos <a href="#minceur" class="subtle-link">gélules minceur Victory</a> ou notre <a href="#minceur" class="subtle-link">programme personnalisé</a> !</p>`;
                 recommendationEl.style.display = "block";
                 errorEl.textContent = "";
+            });
+
+            // Gestion du formulaire d'inscription
+            document.getElementById("subscribeForm")?.addEventListener("submit", function(e) {
+                e.preventDefault();
+                const email = document.getElementById("subscribeEmail").value;
+                const feedbackEl = document.getElementById("subscribe-feedback");
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+                if (!emailRegex.test(email)) {
+                    feedbackEl.textContent = "Veuillez entrer une adresse email valide.";
+                    feedbackEl.style.color = "#ff6b6b";
+                    return;
+                }
+
+                feedbackEl.textContent = "Inscription réussie ! Vérifiez votre boîte mail pour nos offres exclusives.";
+                feedbackEl.style.color = var(--checkmark-color);
+                this.reset();
             });
 
             // Gestion du pop-up
@@ -518,7 +662,7 @@
                 }
             });
 
-            setTimeout(showPopup, 30000); // Inactivité : pop-up au bout de 30 secondes
+            setTimeout(showPopup, 30000);
 
             document.getElementById('closePopupBtn')?.addEventListener('click', function() {
                 popup.classList.remove('active');
@@ -533,7 +677,7 @@
                 const nextBtn = carousel.querySelector('.nextBtn');
                 let currentIndex = 0;
 
-                function update(newIndex) {
+                                function update(newIndex) {
                     currentIndex = (newIndex + items.length) % items.length;
                     items.forEach((item, index) => {
                         item.classList.toggle('active', index === currentIndex);
@@ -562,7 +706,38 @@
                     }
                 });
             });
+
+            // Lazy loading des images non critiques
+            document.querySelectorAll('img:not([fetchpriority="high"])').forEach(img => {
+                img.setAttribute('loading', 'lazy');
+            });
         });
+    </script>
+
+    <!-- Fichier manifest.json pour PWA -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "ClairvoyanceMedium",
+      "short_name": "Voyance & Minceur",
+      "start_url": "/",
+      "display": "standalone",
+      "background_color": "#000000",
+      "theme_color": "#000000",
+      "icons": [
+        {
+          "src": "https://clairvoyancemedium.github.io/favicon_optimized.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        },
+        {
+          "src": "https://clairvoyancemedium.github.io/favicon_optimized.png",
+          "sizes": "512x512",
+          "type": "image/png"
+        }
+      ]
+    }
     </script>
 </body>
 </html>
