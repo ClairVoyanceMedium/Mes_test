@@ -14,7 +14,7 @@
 
     <!-- Métadonnées essentielles -->
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="last-modified" content="2025-04-26T00:43:48+02:00">
     <meta name="description" content="Site officiel des gélules minceur Victory et voyance par email. Perdez du poids rapidement et obtenez des réponses précises sur l’amour, le travail ou les finances. Livraison gratuite, sans compte requis.">
@@ -23,12 +23,12 @@
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
     <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
     <meta name="google" content="notranslate">
-    <meta name="generator" content="Optimized Static Generator v5.2">
+    <meta name="generator" content="Optimized Static Generator v5.3">
     <meta name="format-detection" content="telephone=no">
     <meta name="theme-color" content="#000000">
     
     <!-- Canonical et icônes -->
-    <link rel="canonical" href="https://clairvoyancemedium.github.io/minceur-voyance.github.io/">
+    <link rel="canonical" href="https://clairvoyancemedium.github.io/voyance-minceur.github.io/">
     <link rel="icon" href="https://clairvoyancemedium.github.io/favicon_optimized.png" type="image/png" sizes="any">
     <link rel="apple-touch-icon" href="https://clairvoyancemedium.github.io/favicon_optimized.png">
     <link rel="manifest" href="/manifest.json">
@@ -45,7 +45,7 @@
     <meta property="og:image" content="https://i.imgur.com/GmyGlKk.webp">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:url" content="https://clairvoyancemedium.github.io/minceur-voyance.github.io/">
+    <meta property="og:url" content="https://clairvoyancemedium.github.io/voyance-minceur.github.io/">
     <meta property="og:type" content="website">
     <meta property="og:locale" content="fr_FR">
     <meta property="og:site_name" content="ClairvoyanceMedium.com">
@@ -145,7 +145,7 @@
             --font-primary: 'Cinzel', serif;
             --max-width: 900px;
             --content-padding: 1rem;
-            --nav-height: 60px;
+            --nav-height: 70px;
             --checkmark-color: #2ecc71;
         }
 
@@ -174,13 +174,13 @@
         .check-list li::before { content: '✔'; color: var(--checkmark-color); position: absolute; left: 0.5em; top: 0; font-weight: bold; font-size: 1.1em; }
         
         a { color: var(--accent); text-decoration: none; transition: color 0.3s ease; }
-        a:hover, a:focus-visible { color: var(--border-color-hover); text-decoration: underline; }
+        a:hover, a:focus-visible { color: var(--border-color-hover); text-decoration: underline; outline: var(--focus-outline); }
         
         .cta-button, .subscribe-button, .imc-button, .carousel-nav button, .popup-close-button {
             display: inline-block; padding: 0.8rem 1.5rem; font-size: 1rem; font-family: var(--font-primary);
             font-weight: 700; color: var(--button-txt); background: var(--button-bg); border: none;
             border-radius: 5px; transition: all 0.3s ease; margin: 0.5rem; box-shadow: 0 4px 12px var(--pink-shadow);
-            cursor: pointer; text-align: center; letter-spacing: 0.5px;
+            cursor: pointer; text-align: center; letter-spacing: 0.5px; animation: pulseProgressif 4s infinite;
         }
         
         .cta-button:hover, .subscribe-button:hover, .imc-button:hover, .carousel-nav button:hover, .popup-close-button:hover {
@@ -198,8 +198,8 @@
         
         .main-nav { position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; background: transparent; padding: 0.5rem 0; height: var(--nav-height); display: flex; justify-content: center; align-items: center; }
         .main-nav ul { list-style: none; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 0; margin: 0; max-width: var(--max-width); }
-        .nav-link { font-family: var(--font-primary); font-weight: 700; font-size: 0.9rem; color: var(--border-color); padding: 0.4rem 0.8rem; background: rgba(17, 17, 17, 0.7); border: 1px solid var(--border-color); border-radius: 0; transition: all 0.3s ease; display: block; text-align: center; white-space: nowrap; position: relative; margin-left: -0.2rem; }
-        .nav-link:hover, .nav-link:focus-visible, .nav-link.active { background: var(--border-color); color: var(--accent-dark); }
+        .nav-link { font-family: var(--font-primary); font-weight: 700; font-size: 1rem; color: var(--border-color); padding: 0.5rem 1rem; background: rgba(17, 17, 17, 0.7); border: 1px solid var(--border-color); border-radius: 0; transition: all 0.3s ease; display: block; text-align: center; white-space: nowrap; position: relative; margin-left: -0.5rem; }
+        .nav-link:hover, .nav-link:focus-visible, .nav-link.active { background: var(--border-color); color: var(--accent-dark); outline: var(--focus-outline); }
         
         .content-container { text-align: left; max-width: var(--max-width); width: 100%; margin: 0 auto; padding: 0 var(--content-padding); }
         .cta-buttons-container { display: flex; justify-content: center; flex-wrap: wrap; gap: 1rem; margin: 1.5rem 0; }
@@ -229,9 +229,14 @@
         .sticky-banner { position: fixed; bottom: 0; left: 0; width: 100%; background: var(--border-color); color: var(--accent-dark); padding: 0.5rem; text-align: center; z-index: 900; font-size: 0.9rem; }
         
         @keyframes pulseGlow { 0%, 100% { text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.7); } 50% { text-shadow: 2px 2px 10px rgba(255, 255, 255, 0.9); } }
+        @keyframes pulseProgressif {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 20, 147, 0.7); }
+            70% { transform: scale(1.05); box-shadow: 0 0 20px 10px rgba(255, 20, 147, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 20, 147, 0); }
+        }
         
         @media (max-width: 768px) {
-            .main-nav { background: transparent; }
+            .main-nav { background: transparent; height: calc(var(--nav-height) + env(safe-area-inset-top)); padding-top: env(safe-area-inset-top); }
             .cta-buttons-container { flex-direction: column; }
             .comparison-table { font-size: 0.85rem; }
             .logo { max-height: 300px; }
@@ -239,7 +244,7 @@
         
         @media (max-width: 480px) {
             body { font-size: 0.9rem; }
-            .nav-link { font-size: 0.75rem; padding: 0.3rem 0.6rem; }
+            .nav-link { font-size: 0.85rem; padding: 0.4rem 0.8rem; }
             .cta-button { padding: 0.6rem 1rem; }
         }
     </style>
@@ -249,28 +254,45 @@
     {
       "@context": "https://schema.org",
       "@type": "WebSite",
-      "@id": "https://clairvoyancemedium.github.io/minceur-voyance.github.io/#website",
-      "url": "https://clairvoyancemedium.github.io/minceur-voyance.github.io/",
+      "@id": "https://clairvoyancemedium.github.io/voyance-minceur.github.io/#website",
+      "url": "https://clairvoyancemedium.github.io/voyance-minceur.github.io/",
       "name": "Gélules Minceur Victory & Voyance par Email",
       "description": "Site officiel des gélules minceur Victory et voyance par email. Transformez votre corps et découvrez votre avenir avec des services optimisés SEO/IA.",
-      "publisher": { "@id": "https://clairvoyancemedium.github.io/minceur-voyance.github.io/#organization" },
-      "potentialAction": { "@type": "SearchAction", "target": "https://clairvoyancemedium.github.io/minceur-voyance.github.io/?q={search_term_string}", "query-input": "required name=search_term_string" },
+      "publisher": { "@id": "https://clairvoyancemedium.github.io/voyance-minceur.github.io/#organization" },
+      "potentialAction": { "@type": "SearchAction", "target": "https://clairvoyancemedium.github.io/voyance-minceur.github.io/?q={search_term_string}", "query-input": "required name=search_term_string" },
       "inLanguage": "fr-FR",
       "validThrough": "2055-12-31"
     }
     </script>
-    <!-- Ajouter d'autres JSON-LD pour Organization, Product, Service, FAQPage, Review, BlogPosting -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SpecialAnnouncement",
+      "name": "Offre exclusive : Prix réduits sur les Gélules Minceur Victory et Voyance par Email",
+      "text": "Profitez de nos offres spéciales en cours avant l'augmentation des prix. Livraison gratuite et paiement sécurisé sans création de compte !",
+      "url": "https://clairvoyancemedium.github.io/voyance-minceur.github.io/",
+      "startDate": "2025-04-26",
+      "endDate": "2025-06-30",
+      "inLanguage": "fr-FR",
+      "category": "https://schema.org/SaleEvent",
+      "publisher": {
+        "@type": "Organization",
+        "name": "ClairvoyanceMedium.com",
+        "url": "https://www.clairvoyancemedium.com"
+      }
+    }
+    </script>
 </head>
 <body>
     <nav class="main-nav" role="navigation" aria-label="Navigation principale">
         <ul>
-            <li><a href="#minceur" class="nav-link">Gélules Minceur Victory</a></li>
-            <li><a href="#voyance" class="nav-link">Voyance par Email</a></li>
-            <li><a href="#services" class="nav-link">Services Spirituels</a></li>
-            <li><a href="#comparatif" class="nav-link">Comparatif Minceur</a></li>
-            <li><a href="#imc" class="nav-link">Calculateur IMC</a></li>
-            <li><a href="#avis" class="nav-link">Avis Clients</a></li>
             <li><a href="#blog" class="nav-link">Blog</a></li>
+            <li><a href="#avis" class="nav-link">Avis Clients</a></li>
+            <li><a href="#imc" class="nav-link">Calculateur IMC</a></li>
+            <li><a href="#comparatif" class="nav-link">Comparatif Minceur</a></li>
+            <li><a href="#services" class="nav-link">Services Spirituels</a></li>
+            <li><a href="#voyance" class="nav-link">Voyance par Email</a></li>
+            <li><a href="#minceur" class="nav-link">Gélules Minceur Victory</a></li>
         </ul>
     </nav>
 
@@ -279,15 +301,15 @@
             <source srcset="https://i.imgur.com/GmyGlKk.webp" type="image/webp">
             <img src="https://i.imgur.com/GmyGlKk.jpg" alt="Logo ClairvoyanceMedium.com - Gélules Minceur Victory et Voyance" class="logo" decoding="async" fetchpriority="high">
         </picture>
-        <picture>
-            <img src="https://i.imgur.com/H69KvL6.png" alt="Bannière promotionnelle - Gélules Minceur Victory et Voyance par Email" class="header-image" decoding="async" fetchpriority="high">
-        </picture>
         <div class="header-content">
             <div class="top-rank">
                 <span class="number-one">N°1 en minceur et voyance en <span id="current-year"></span></span>
                 <span class="thank-you">Votre transformation commence ici !</span>
             </div>
             <h1>Gélules Minceur Victory & Voyance par Email</h1>
+            <picture>
+                <img src="https://i.imgur.com/H69KvL6.png" alt="Bannière promotionnelle - Gélules Minceur Victory et Voyance par Email" class="header-image" decoding="async" fetchpriority="high">
+            </picture>
             <div id="google_translate_element" style="text-align: center; margin-top: 1rem;"></div>
         </div>
     </header>
@@ -372,8 +394,8 @@
         <section class="imc-calculator" id="imc" aria-labelledby="imc-heading">
             <h2 id="imc-heading">Calculez Votre IMC</h2>
             <form id="imcForm">
-                <div><label for="weight">Poids (kg) :</label><input type="number" id="weight" name="weight" required min="10" max="300" placeholder="Ex: 70"></div>
-                <div><label for="height">Taille (cm) :</label><input type="number" id="height" name="height" required min="50" max="280" placeholder="Ex: 175"></div>
+                <div><label for="weight">Poids (kg) :</label><input type="number" id="weight" name="weight" required min="10" max="300" placeholder="Ex: 70" aria-describedby="weight-desc"></div>
+                <div><label for="height">Taille (cm) :</label><input type="number" id="height" name="height" required min="50" max="280" placeholder="Ex: 175" aria-describedby="height-desc"></div>
                 <button type="submit" class="imc-button">Calculer</button>
                 <div id="imc-error" role="alert" aria-live="assertive"></div>
             </form>
@@ -419,7 +441,7 @@
             <h2 id="subscribe-heading">Inscrivez-vous pour des Offres Exclusives</h2>
             <p>Recevez nos astuces minceur et prédictions spirituelles directement dans votre boîte mail.</p>
             <form id="subscribeForm" class="subscribe-form" novalidate>
-                <input type="email" id="subscribeEmail" name="email" placeholder="Votre email" required>
+                <input type="email" id="subscribeEmail" name="email" placeholder="Votre email" required aria-describedby="subscribe-desc">
                 <button type="submit" class="subscribe-button">S’inscrire</button>
             </form>
             <div id="subscribe-feedback" role="status"></div>
@@ -468,14 +490,27 @@
             });
 
             // Gestion du pop-up
-            const popup = document.getElementById("popup");
-            setTimeout(() => {
-                if (!sessionStorage.getItem("popupShown")) {
-                    popup.classList.add("active");
-                    sessionStorage.setItem("popupShown", "true");
+            const popup = document.getElementById('popup');
+            let popupShown = sessionStorage.getItem('popupShown');
+
+            function showPopup() {
+                if (!popupShown) {
+                    popup.classList.add('active');
+                    sessionStorage.setItem('popupShown', 'true');
                 }
-            }, 15000);
-            document.getElementById("closePopupBtn")?.addEventListener("click", () => popup.classList.remove("active"));
+            }
+
+            document.addEventListener('mouseout', function(event) {
+                if (!event.toElement && !event.relatedTarget && event.clientY < 50) {
+                    showPopup();
+                }
+            });
+
+            setTimeout(showPopup, 30000); // Inactivité : pop-up au bout de 30 secondes
+
+            document.getElementById('closePopupBtn')?.addEventListener('click', function() {
+                popup.classList.remove('active');
+            });
 
             // Gestion du carrousel
             const carousels = document.querySelectorAll('.carousel');
@@ -496,6 +531,21 @@
 
                 prevBtn.addEventListener('click', () => update(currentIndex - 1));
                 nextBtn.addEventListener('click', () => update(currentIndex + 1));
+            });
+
+            // Tracking des clics sur les boutons CTA
+            document.querySelectorAll('a.cta-button').forEach(function(button) {
+                button.addEventListener('click', function() {
+                    try {
+                        gtag('event', 'purchase_click', {
+                            'event_category': 'Stripe Buttons',
+                            'event_label': button.getAttribute('data-tracking-label') || 'Unknown Button',
+                            'value': button.getAttribute('data-eur-price') || 0
+                        });
+                    } catch (e) {
+                        console.error('Tracking Stripe button failed', e);
+                    }
+                });
             });
         });
     </script>
