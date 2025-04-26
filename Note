@@ -1,1656 +1,691 @@
-
-https://i.imgur.com/H69KvL6.png
-
-
-à la lettre pour créer le site GitHub statique le plus performant du monde sur la minceur et la voyance par e-mail, en respectant chaque exigence :
-
-PROMPT DE CRÉATION DU SITE ULTRA-PERFORMANT 2025
-Objectif : Créer une page HTML statique ultra-optimisée pour vendre les gélules minceur Victory et les services de voyance par e-mail, en surpassant tous les concurrents en SEO, UX, design, accessibilité, performance, EEAT, YMYL, référencement mondial, compatibilité vocale et indexation Google.
-
-tout devra etre identique niveau design police ect... au code source ci dessous en y apportant les modifications demandes dans son entierte
-
-<!DOCTYPE html>
+Dans ce code :   <!DOCTYPE html>
 <html lang="fr" class="no-js" prefix="og: http://ogp.me/ns#">
 <head>
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://pagead2.googlesyndication.com https://www.gstatic.com https://www.google.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://unpkg.com https://js.stripe.com blob:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://unpkg.com; img-src 'self' data: blob: https://www.googletagmanager.com https://www.google-analytics.com https://www.google.com https://www.gstatic.com https://pagead2.googlesyndication.com https://cdn.jsdelivr.net https://i.imgur.com; font-src 'self' https://fonts.gstatic.com https://fonts.googleapis.com data:; connect-src 'self' https://www.google-analytics.com https://www.googletagmanager.com https://pagead2.googlesyndication.com https://region1.google-analytics.com https://openai.com https://api.openai.com https://cdn.jsdelivr.net https://www.google.com https://gstatic.com https://api.stripe.com https://m.stripe.network https://*.stripe.com https://*.stripe.network blob: wss:; media-src 'self' blob:; frame-src 'self' https://www.youtube.com https://www.googletagmanager.com https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://js.stripe.com https://*.stripe.com; worker-src 'self' blob:; base-uri 'self'; form-action 'self' https://*.stripe.com; object-src 'none'; manifest-src 'self'; prefetch-src 'self';">
-  
-  <!-- Script anti-clickjacking renforcé pour sécurité mobile -->
-  <script nonce="xai-48273">
-    if (window.top !== window.self) {
-      window.top.location = window.self.location;
-      console.warn("Tentative de clickjacking bloquée pour une sécurité optimale.");
-    }
-  </script>
-
-  <!-- Balises meta optimisées pour mobile, SEO, IA et assistants vocaux -->
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes"> <!-- Mobile-first -->
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <meta name="last-modified" content="2025-02-25"> <!-- Fraîcheur pour SEO -->
-  <title>Libérez votre âme des envoûtements avec le rituel de désenvoûtement et protection rapide, reconnu à distance</title>
-  <meta name="description" content="Brisez les chaînes invisibles des envoûtements maléfiques grâce à notre rituel de désenvoûtement puissant et protection rapide, conçu par Frederick du Cabinet ClairvoyanceMedium.com. Purifiez votre esprit, retrouvez la lumière de la chance et érigez une forteresse spirituelle durable pour un renouveau profond et équilibré.">
-  <meta name="keywords" content="désenvoûtement à distance ultra puissant, rituel de désenvoûtement rapide et efficace, symptômes d’envoûtement maléfique à détecter, protection spirituelle contre sorts noirs, comment briser une malédiction à distance, meilleur désenvoûteur mondial a ce jour, purification énergétique mobile puissante, voyance par email pour sortilèges, rituel protection énergies négatives, signes de sortilège à distance, exorcisme, solution contre malédictions ancestrales, guide désenvoûtement spirituel complet">
-  <meta name="author" content="Frederick du Cabinet ClairvoyanceMedium.com">
-  <meta name="robots" content="index, follow">
-  <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
-  <meta name="bingbot" content="index, follow">
-  <meta name="AI-friendly-content" content="true"> <!-- Optimisation IA -->
-  <meta name="speakable" content="https://clairvoyancemedium.github.io/Rituel-desenvoutement-et-protection-rapide.github.io/#faq">
-  <meta name="voice-search-enabled" content="true"> <!-- Assistants vocaux -->
-  <meta name="searchgpt" content="index, follow, AI-friendly">
-  <meta name="format-detection" content="telephone=no"> <!-- Mobile UX -->
-  <meta name="apple-mobile-web-app-capable" content="yes"> <!-- PWA mobile -->
-
-  <!-- Balises Twitter Cards pour viralité mobile -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Libérez Votre Âme avec le Rituel de Désenvoûtement et Protection Rapide N°1 Mondial">
-  <meta name="twitter:description" content="Frederick du Cabinet ClairvoyanceMedium.com dévoile le rituel de désenvoûtement et protection rapide le plus puissant au monde. Brisez les sorts et vivez librement dès aujourd’hui, partout sur Terre.">
-  <meta name="twitter:image" content="https://i.imgur.com/GmyGlKk.webp">
-  <meta name="twitter:site" content="@CabinetVoyance_">
-  <meta name="twitter:creator" content="@CabinetVoyance_">
-
-  <!-- Open Graph pour partage social optimisé mobile -->
-  <meta property="og:title" content="Libérez Votre Âme des Envoûtements avec le Rituel de Désenvoûtement et Protection Rapide le Plus Puissant au Monde">
-  <meta property="og:description" content="Brisez les chaînes invisibles des envoûtements maléfiques avec le rituel de désenvoûtement et protection rapide le plus puissant au monde, conçu par Frederick du Cabinet ClairvoyanceMedium.com. Purifiez votre esprit, retrouvez la lumière de la chance et érigez une forteresse spirituelle durable, où que vous soyez sur Terre.">
-  <meta property="og:image" content="https://i.imgur.com/GmyGlKk.webp">
-  <meta property="og:url" content="https://clairvoyancemedium.github.io/Rituel-desenvoutement-et-protection-rapide.github.io/">
-  <meta property="og:type" content="website">
-  <meta property="og:locale" content="fr_FR">
-  <meta property="og:site_name" content="ClairvoyanceMedium.com">
-
-  <!-- Canonical et icônes optimisés pour mobile -->
-  <link rel="canonical" href="https://clairvoyancemedium.github.io/Rituel-desenvoutement-et-protection-rapide.github.io/">
-  <link rel="icon" href="https://clairvoyancemedium.github.io/favicon_optimized.png" type="image/png" sizes="16x16 32x32 48x48 64x64 128x128" crossorigin="anonymous">
-  <link rel="apple-touch-icon" sizes="180x180" href="https://clairvoyancemedium.github.io/favicon_optimized.png">
-  <link rel="manifest" href="/manifest.json"> <!-- PWA pour mobile -->
-  <meta name="theme-color" content="#000000">
-
-  <!-- Préconnexion et préchargement pour performance mobile -->
-  <link rel="dns-prefetch" href="https://i.imgur.com">
-  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
-  <link rel="dns-prefetch" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display:ital,wght@0,400;1,400&display=swap">
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Ephesis&display=swap" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript><link href="https://fonts.googleapis.com/css2?family=Ephesis&display=swap" rel="stylesheet"></noscript>
-  <link rel="preload" href="https://imgur.com/KBYqPcf.avif" as="image" type="image/avif" crossorigin="anonymous">
-  <link rel="preload" href="https://imgur.com/KBYqPcf.png" as="image" type="image/webp" crossorigin="anonymous">
-  <link rel="preload" as="font" href="https://clairvoyancemedium.github.io/Consultation_de_voyance_par_email_pas_chere.github.io/Cinzel-Regular.woff2" type="font/woff2" crossorigin="anonymous">
-  <link rel="preload" as="font" href="https://clairvoyancemedium.github.io/Consultation_de_voyance_par_email_pas_chere.github.io/PlayfairDisplay-Regular.woff2" type="font/woff2" crossorigin="anonymous">
-  <link rel="preload" as="style" href="styles-critical.css" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript><link href="styles-critical.css" rel="stylesheet"></noscript>
-
-  <!-- Google Ads & Analytics optimisés pour mobile -->
-<script defer src="https://www.googletagmanager.com/gtag/js?id=AW-CONVERSION_ID"></script>
-<script nonce="xai-48273" defer>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  document.addEventListener("DOMContentLoaded", function() {
-    gtag('js', new Date());
-    gtag('config', 'AW-00000000000', {page_path: window.location.pathname, anonymize_ip: true});
-    gtag('event', 'page_view', {'send_to': 'AW-00000000000'});
-  });
-</script>
-
-<script nonce="xai-48273" defer>
-  document.addEventListener("DOMContentLoaded", function() {
-    const conversionId = 'AW-00000000000';
-    const script = document.createElement('script');
-    script.src = `https://www.googleadservices.com/pagead/conversion_async.js?id=${conversionId}`;
-    script.async = true;
-    document.head.appendChild(script);
-    script.onload = function() {
-      window.google_trackConversion = {
-        google_conversion_id: conversionId,
-        google_custom_params: window.google_tag_params || {},
-        google_remarketing_only: true
-      };
-    };
-  });
-</script>
-<noscript>
-  <div style="display:inline;">
-    <img height="1" width="1" style="border-style:none;" alt="Suivi Google Ads" src="https://www.googleadservices.com/pagead/conversion/AW-00000000000/?value=0&currency_code=EUR&label=CONVERSION_LABEL_OPTIONNEL&guid=ON&script=0">
-  </div>
-</noscript>
-
-<script defer src="https://www.googletagmanager.com/gtm.js?id=GTM-P3J6SXCH"></script>
-<script nonce="xai-48273" defer>
-  document.addEventListener("DOMContentLoaded", function() {
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({'gtm.start': new Date().getTime(), event: 'gtm.js'});
-  });
-</script>
-
-<script defer src="https://www.googletagmanager.com/gtag/js?id=G-2RSFE6WL4M"></script>
-<script nonce="xai-48273" defer>
-  document.addEventListener("DOMContentLoaded", function() {
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-2RSFE6WL4M', {
-      'send_page_view': true,
-      'linker': {'domains': ['clairvoyancemedium.com']},
-      'anonymize_ip': true,
-      'page_speed_sample_rate': 100
-    });
-  });
-</script>
-
-  <!-- Styles CSS optimisés pour mobile et SEO vocal -->
-  <style>
-    @font-face{font-family:'Cinzel';src:url('https://clairvoyancemedium.github.io/Consultation_de_voyance_par_email_pas_chere.github.io/Cinzel-Regular.woff2') format('woff2'),url('https://clairvoyancemedium.github.io/Consultation_de_voyance_par_email_pas_chere.github.io/Cinzel-Regular.woff') format('woff');font-weight:400;font-style:normal;font-display:swap;}
-    @font-face{font-family:'Playfair Display';src:url('https://clairvoyancemedium.github.io/Consultation_de_voyance_par_email_pas_chere.github.io/PlayfairDisplay-Regular.woff2') format('woff2'),url('https://clairvoyancemedium.github.io/Consultation_de_voyance_par_email_pas_chere.github.io/PlayfairDisplay-Regular.woff') format('woff');font-weight:400;font-style:normal;font-display:swap;}
-    :root{--bg:#000;--text:#fff;--accent:#87CEEB;--button-bg:linear-gradient(145deg,#FFB6C1,#FF69B4);--button-txt:#fff;--gold:#FFD700;--shadow:rgba(255,215,0,.7);}
-    body{font-family:'Cinzel',serif;margin:0;padding:0;background:var(--bg);color:var(--text);text-align:center;overflow-x:hidden;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;touch-action:manipulation;} /* Mobile fluidité */
-    header{padding:2rem 0;background:#111;position:relative;box-shadow:0 4px 10px rgba(0,0,0,.8);}
-    h1{font-size:2.2rem;font-weight:400;color:#fff;margin:0;padding:0;text-transform:uppercase;letter-spacing:1px;}
-    h2,h3,h4,h5,h6{color:#BBAE98;text-shadow:0 0 3px var(--shadow);font-weight:400;}
-    h2{font-size:1.8rem;margin-top:1.2rem;}
-    h3{font-size:1.4rem;margin-top:1rem;}
-    .cta-button{display:inline-block;padding:0.8rem 1.2rem;font-size:1.2rem;color:var(--button-txt);background:var(--button-bg);text-decoration:none;border-radius:5px;transition:all .3s ease;margin:0.5rem 0;box-shadow:0 4px 12px rgba(255,105,180,.5);touch-action:manipulation;}
-    .cta-button:hover{transform:scale(1.05);opacity:.95;box-shadow:0 6px 15px rgba(255,105,180,.7);}
-    footer{margin-top:2rem;font-size:.9rem;color:#aaa;padding-bottom:1rem;background:#111;}
-    footer a{color:inherit;text-decoration:none;transition:color .3s ease;}
-    footer a:hover{color:var(--gold);}
-    main{display:flex;flex-direction:column;gap:1rem;align-items:center;padding:1rem;}
-    p,blockquote{max-width:60ch;margin:0 auto 1rem auto;line-height:1.6;text-align:justify;}
-    blockquote{font-family:'Playfair Display',serif;font-style:italic;font-size:1.1rem;color:#fff;padding:1rem;}
-    .avis{margin:1rem auto;}
-    .logo{width:min(85vw,450px);max-height:150px;object-fit:contain;display:block;margin:0 auto;}
-    .playfair-display{font-family:'Playfair Display',serif;font-style:italic;line-height:1.8;font-size:1.2rem;color:#fff;text-align:justify;margin:1.5rem 0;}
-    .cta-buttons-container{display:flex;justify-content:center;flex-wrap:wrap;gap:1rem;margin-top:2rem;}
-    .prix{margin:0.5rem;}
-    .scintillant{display:inline-block;color:var(--gold);font-weight:700;background:linear-gradient(90deg,transparent,rgba(255,255,255,.8),transparent);background-size:200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:etoiles 4s ease-in-out infinite;margin-top:2rem;}
-    @keyframes etoiles { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-    @keyframes pulseGlow { 0% { text-shadow: 2px 2px 5px var(--shadow); } 50% { text-shadow: 2px 2px 10px var(--shadow), 0 0 15px rgba(187, 210, 225, 0.8); } 100% { text-shadow: 2px 2px 5px var(--shadow); } }
-    .content-container { text-align: left; max-width: 800px; margin: 0 auto; padding: 0 1rem; overflow-x: hidden; word-wrap: break-word; }
-    .content-container ul, .content-container ol { padding-left: 20px; }
-    .content-container li { margin-bottom: 8px; }
-    .top-rank { text-align: center; margin-top: 1rem; }
-    .number-one { font-size: 1.8rem; font-weight: 700; color: #BBD2E1; text-shadow: 2px 2px 5px var(--shadow); display: block; animation: pulseGlow 3s ease-in-out infinite; }
-    .thank-you { font-size: 2.5rem; font-family: 'Ephesis', cursive; color: #ffb6c1; text-shadow: 3px 3px 6px rgba(255, 182, 193, 0.6); display: block; margin-top: 0.5rem; transform: rotate(-2deg); }
-    .favorite-button { background: none; border: none; outline: none; cursor: pointer; padding: 0.5rem; transition: transform 0.2s ease; }
-    .favorite-button:hover { transform: scale(1.05); }
-    .cta-container { text-align: left; margin-top: 20px; }
-    .cta-buttons-container { display: flex; justify-content: center; flex-wrap: wrap; gap: 1rem; margin-top: 2rem; }
-    .carousel { max-width: 800px; margin: 0 auto; overflow: hidden; }
-    .carousel blockquote { display: none; }
-    .carousel blockquote.active { display: block; }
-    @media (max-width: 1024px) { body { font-size: 16px; } h1 { font-size: 2rem; } .cta-button { font-size: 1em; padding: 0.5rem 1rem; } .content-container { max-width: 90%; } }
-    @media (max-width: 768px) { body { font-size: 14px; } h1 { font-size: 1.8rem; } .logo { width: 90%; } main { padding: 0.5rem; } .cta-buttons-container { flex-direction: column; gap: 0.8rem; } .content-container { max-width: 100%; padding: 0 0.5rem; } .number-one { font-size: 1.5rem; } .thank-you { font-size: 2rem; } .carousel { max-width: 100%; } }
-    .visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0;}
-  </style>
-
-  <style>
-    section { opacity: 0; transition: opacity 0.5s ease-in; }
-    section.visible { opacity: 1; }
-  </style>
-  
-  <!-- Données structurées BreadcrumbList optimisées pour le N°1 mondial -->
-<script type="application/ld+json">
-{
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "name": "Navigation Rituel Désenvoûtement et Protection Rapide",
-    "description": "Parcours de navigation pour le rituel de désenvoûtement et protection rapide numéro 1 par Frederick.",
-    "itemListElement": [
-        {
-            "@type": "ListItem",
-            "position": 1,
-            "name": "Accueil - ClairvoyanceMedium",
-            "item": "https://clairvoyancemedium.github.io/",
-            "image": "https://i.imgur.com/GmyGlKk.webp",
-            "description": "Point d’entrée du site leader en désenvoûtement spirituel."
-        },
-        {
-            "@type": "ListItem",
-            "position": 2,
-            "name": "Rituel Désenvoûtement et Protection Rapide",
-            "item": "https://clairvoyancemedium.github.io/Rituel-desenvoutement-et-protection-rapide.github.io/",
-            "image": "https://i.imgur.com/KBYqPcf.webp",
-            "description": "Service de désenvoûtement à distance le plus puissant au monde."
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'nonce-xai-ultimateNonce' https://www.googletagmanager.com https://www.google-analytics.com https://pagead2.googlesyndication.com https://www.gstatic.com https://www.google.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://unpkg.com https://js.stripe.com blob:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://unpkg.com; img-src 'self' data: blob: https://www.googletagmanager.com https://www.google-analytics.com https://www.google.com https://www.gstatic.com https://pagead2.googlesyndication.com https://cdn.jsdelivr.net https://i.imgur.com; font-src 'self' https://fonts.gstatic.com https://fonts.googleapis.com data:; connect-src 'self' https://www.google-analytics.com https://www.googletagmanager.com https://pagead2.googlesyndication.com https://region1.google-analytics.com https://api.stripe.com https://m.stripe.network https://*.stripe.com https://*.stripe.network blob: wss:; media-src 'self' blob:; frame-src 'self' https://www.youtube.com https://www.googletagmanager.com https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://js.stripe.com https://*.stripe.com; worker-src 'self' blob:; base-uri 'self'; form-action 'self' https://*.stripe.com; object-src 'none'; manifest-src 'self'; prefetch-src 'self';">
+    <script nonce="xai-ultimateNonce">
+        if (window.top !== window.self) {
+            try { window.top.location.replace(window.self.location.href); }
+            catch (e) { console.warn("Clickjacking blocked.", e); }
         }
-    ]
-}
-</script>
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="last-modified" content="2025-04-26T00:43:48+02:00">
+    <title>Gélules Minceur Victory & Voyance Email | Site Officiel Optimisé</title>
+    <meta name="description" content="Site officiel ultra-optimisé SEO/IA des Gélules Minceur Victory et Voyance par Email. Découvrez nos produits, services, avis clients et articles de blog.">
+    <meta name="keywords" content="gélules minceur Victory, voyance par email, programme minceur, consultation voyance, avis clients, blog minceur, blog spiritualité, magie rouge, désenvoûtement, compatibilité amoureuse, calculateur IMC, perte de poids rapide, prédictions voyance précises, optimisation SEO, optimisation AI">
+    <meta name="author" content="ClairvoyanceMedium.com">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta name="google" content="notranslate">
+    <meta name="generator" content="Optimized Static Generator">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="theme-color" content="#000000">
+    <link rel="canonical" href="https://clairvoyancemedium.github.io/minceur-voyance.github.io/">
+    <link rel="icon" href="https://clairvoyancemedium.github.io/favicon_optimized.png" type="image/png" sizes="any">
+    <link rel="apple-touch-icon" href="https://clairvoyancemedium.github.io/favicon_optimized.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@CabinetVoyance_">
+    <meta name="twitter:creator" content="@CabinetVoyance_">
+    <meta name="twitter:title" content="Gélules Minceur Victory & Voyance Email | Site Officiel Optimisé">
+    <meta name="twitter:description" content="Découvrez les Gélules Minceur Victory et la Voyance par Email. Optimisé SEO/IA, avis, blog.">
+    <meta name="twitter:image" content="https://i.imgur.com/GmyGlKk.webp">
+    <meta property="og:title" content="Gélules Minceur Victory & Voyance Email | Site Officiel Optimisé">
+    <meta property="og:description" content="Site officiel optimisé SEO/IA: Gélules Minceur Victory et Voyance par Email. Avis clients et blog inclus.">
+    <meta property="og:image" content="https://i.imgur.com/GmyGlKk.webp">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:url" content="https://clairvoyancemedium.github.io/minceur-voyance.github.io/">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="fr_FR">
+    <meta property="og:site_name" content="ClairvoyanceMedium.com">
 
-  
-  <!-- JSON-LD enrichis (15 FAQ et 15 avis) pour SEO vocal/mobile -->
-  <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {"@type": "Question", "name": "Comment savoir si je suis sous un envoûtement maléfique ?", "acceptedAnswer": {"@type": "Answer", "text": "Les signes spirituels incluent une fatigue chronique qui épuise l’âme, des cauchemars récurrents hantant vos nuits, une malchance persistante bloquant votre destinée, et une oppression invisible pesant sur votre esprit. Frederick révèle ces ombres."}},
-    {"@type": "Question", "name": "Quels sont les symptômes d’un sortilège à distance ?", "acceptedAnswer": {"@type": "Answer", "text": "Des douleurs soudaines sans cause, une anxiété mystique, ou des échecs constants sont des échos d’un sortilège à distance. Un rituel puissant de désenvoûtement rapide les dissipe."}},
-    e via mobile, Frederick invoque les forces sacrées pour vous libérer en 4 jours."}}
-  ]
-}
-  </script>
-  <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Person",
-  "name": "Frederick",
-  "description": "Gardien spirituel et maître en désenvoûtement à distance rapide, Frederick du Cabinet ClairvoyanceMedium.com, fort de 25 ans d’expérience, libère les âmes des envoûtements maléfiques et érige des protections puissantes à travers le monde.",
-  "url": "https://clairvoyancemedium.github.io/Rituel-desenvoutement-et-protection-rapide.github.io/",
-  "image": "https://i.imgur.com/GmyGlKk.webp",
-  "jobTitle": "Maître en Désenvoûtement et Protection Spirituelle",
-  "worksFor": {"@type": "Organization", "name": "ClairvoyanceMedium.com"},
-  "knowsAbout": ["Désenvoûtement à distance rapide", "Rituels spirituels puissants", "Protection énergétique mondiale", "Voyance mobile", "Briser sorts noirs"],
-  "address": {"@type": "PostalAddress", "addressLocality": "Paris", "addressRegion": "Île-de-France", "postalCode": "75002", "addressCountry": "Monde"},
-  "contactPoint": {"@type": "ContactPoint", "email": "contact.clairvoyancemedium@gmail.com", "contactType": "Service Client Mondial", "availableLanguage": ["French", "English"]}
-}
-  </script>
-  <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Product",
-  "name": "Rituel de Désenvoûtement et Protection Rapide",
-  "description": "Le rituel de désenvoûtement et protection rapide le plus puissant au monde, conçu par Frederick du Cabinet ClairvoyanceMedium.com. Libérez votre âme des envoûtements maléfiques, purifiez vos énergies et recevez une protection spirituelle durable en 4 jours seulement.",
-  "image": ["https://imgur.com/KBYqPcf.png", "https://imgur.com/KBYqPcf.png"],
-  "brand": {"@type": "Brand", "name": "ClairvoyanceMedium.com"},
-  "offers": {
-    "@type": "Offer",
-    "price": "250.00",
-    "priceCurrency": "EUR",
-    "availability": "https://schema.org/InStock",
-    "url": "https://clairvoyancemedium.github.io/Rituel-desenvoutement-et-protection-rapide.github.io/",
-    "priceValidUntil": "2055-12-31"
-  },
-  "aggregateRating": {"@type": "AggregateRating", "ratingValue": "4.98", "reviewCount": "1500"},
-  "review": [
-    {"@type": "Review", "author": {"@type": "Person", "name": "Sophie"}, "datePublished": "2025-01-10", "reviewBody": "Les ténèbres de mes cauchemars depuis des années se sont éteintes en 2 semaines. Merci infiniment Frederick.", "reviewRating": {"@type": "Rating", "ratingValue": "5"}},
-    {"@type": "reviewBody": "Une énergie pure m’a envahi après ce désenvoûtement, une sentation inoubliable.", "reviewRating": {"@type": "Rating", "ratingValue": "5"}},
-    {"@type": "Review", "author": {"@type": "Person", "name": "Nina"}, "datePublished": "2025-03-20", "reviewBody": "Frederick m’a guidée vers une vie libérée des ténèbres, merci.", "reviewRating": {"@type": "Rating", "ratingValue": "5"}}
-  ]
-}
-  </script>
-  <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Product",
-  "name": "Détection de Sortilège",
-  "description": "Une analyse spirituelle profonde par Frederick du Cabinet ClairvoyanceMedium.com pour détecter tout sortilège ou malédiction pesant sur votre âme. Recevez une guidance claire pour votre libération.",
-  "image": "https://imgur.com/KBYqPcf.png",
-  "brand": {"@type": "Brand", "name": "ClairvoyanceMedium.com"},
-  "offers": {
-    "@type": "Offer",
-    "price": "50.00",
-    "priceCurrency": "EUR",
-    "availability": "https://schema.org/InStock",
-    "url": "https://clairvoyancemedium.github.io/Rituel-desenvoutement-et-protection-rapide.github.io/"
-  }
-}
-  </script>
-  <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  "name": "Rituel de Désenvoûtement et Protection Rapide",
-  "url": "https://clairvoyancemedium.github.io/Rituel-desenvoutement-et-protection-rapide.github.io/",
-  "potentialAction": {
-    "@type": "SearchAction",
-    "target": "https://clairvoyancemedium.github.io/Rituel-desenvoutement-et-protection-rapide.github.io/?q={search_term_string}",
-    "query-input": "required name=search_term_string"
-  }
-}
-  </script>
-  
-<div style="text-align:center;margin:1rem 0;"><a href="#pourquoi-rituel" role="button" aria-label="En savoir plus sur un rituel particulier" onclick="trackClick('RituelParticulier','CTA',0)" style="font-family:'Cinzel',serif;font-size:1.2rem;color:#BBAE98;text-decoration:none;padding:.5rem 1rem;background:#111;border:1px solid #BBAE98;border-radius:5px;transition:background .3s ease,color .3s ease;display:inline-block;" onmouseover="this.style.background='#BBAE98';this.style.color='#111';" onmouseout="this.style.background='#111';this.style.color='#BBAE98';" onfocus="this.style.outline='2px solid #87CEEB';this.style.outlineOffset='2px';" onblur="this.style.outline='none';">Besoin d’un rituel particulier ?</a></div>
-<nav role="navigation" aria-label="Navigation principale"><ul style="list-style:none;padding:0;display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem;background:#111;padding:1rem;margin:0;max-width:600px;margin-left:auto;margin-right:auto;"><li><a href="#importance-desenvoutement" onclick="trackClick('NavImportance','Navigation',0)" style="font-family:'Cinzel',serif;font-size:1.2rem;color:#BBAE98;text-decoration:none;padding:.5rem 1rem;background:#111;border:1px solid #BBAE98;border-radius:5px;transition:background .3s ease,color .3s ease;flex:1 0 30%;text-align:center;" onmouseover="this.style.background='#BBAE98';this.style.color='#111';" onmouseout="this.style.background='#111';this.style.color='#BBAE98';" onfocus="this.style.outline='2px solid #87CEEB';this.style.outlineOffset='2px';" onblur="this.style.outline='none';">Importance</a></li><li><a href="#pourquoi-rituel" onclick="trackClick('NavPourquoi','Navigation',0)" style="font-family:'Cinzel',serif;font-size:1.2rem;color:#BBAE98;text-decoration:none;padding:.5rem 1rem;background:#111;border:1px solid #BBAE98;border-radius:5px;transition:background .3s ease,color .3s ease;flex:1 0 30%;text-align:center;" onmouseover="this.style.background='#BBAE98';this.style.color='#111';" onmouseout="this.style.background='#111';this.style.color='#BBAE98';" onfocus="this.style.outline='2px solid #87CEEB';this.style.outlineOffset='2px';" onblur="this.style.outline='none';">Symptômes</a></li><li><a href="#bienfaits" onclick="trackClick('NavBienfaits','Navigation',0)" style="font-family:'Cinzel',serif;font-size:1.2rem;color:#BBAE98;text-decoration:none;padding:.5rem 1rem;background:#111;border:1px solid #BBAE98;border-radius:5px;transition:background .3s ease,color .3s ease;flex:1 0 30%;text-align:center;" onmouseover="this.style.background='#BBAE98';this.style.color='#111';" onmouseout="this.style.background='#111';this.style.color='#BBAE98';" onfocus="this.style.outline='2px solid #87CEEB';this.style.outlineOffset='2px';" onblur="this.style.outline='none';">Bienfaits</a></li><li><a href="#detection" onclick="trackClick('NavDetection','Navigation',0)" style="font-family:'Cinzel',serif;font-size:1.2rem;color:#BBAE98;text-decoration:none;padding:.5rem 1rem;background:#111;border:1px solid #BBAE98;border-radius:5px;transition:background .3s ease,color .3s ease;flex:1 0 30%;text-align:center;" onmouseover="this.style.background='#BBAE98';this.style.color='#111';" onmouseout="this.style.background='#111';this.style.color='#BBAE98';" onfocus="this.style.outline='2px solid #87CEEB';this.style.outlineOffset='2px';" onblur="this.style.outline='none';">Détection</a></li><li><a href="#frederick" onclick="trackClick('NavFrederick','Navigation',0)" style="font-family:'Cinzel',serif;font-size:1.2rem;color:#BBAE98;text-decoration:none;padding:.5rem 1rem;background:#111;border:1px solid #BBAE98;border-radius:5px;transition:background .3s ease,color .3s ease;flex:1 0 30%;text-align:center;" onmouseover="this.style.background='#BBAE98';this.style.color='#111';" onmouseout="this.style.background='#111';this.style.color='#BBAE98';" onfocus="this.style.outline='2px solid #87CEEB';this.style.outlineOffset='2px';" onblur="this.style.outline='none';">Frederick</a></li><li><a href="#voyance" onclick="trackClick('NavVoyance','Navigation',0)" style="font-family:'Cinzel',serif;font-size:1.2rem;color:#BBAE98;text-decoration:none;padding:.5rem 1rem;background:#111;border:1px solid #BBAE98;border-radius:5px;transition:background .3s ease,color .3s ease;flex:1 0 30%;text-align:center;" onmouseover="this.style.background='#BBAE98';this.style.color='#111';" onmouseout="this.style.background='#111';this.style.color='#BBAE98';" onfocus="this.style.outline='2px solid #87CEEB';this.style.outlineOffset='2px';" onblur="this.style.outline='none';">Voyance</a></li><li><a href="#avis" onclick="trackClick('NavAvis','Navigation',0)" style="font-family:'Cinzel',serif;font-size:1.2rem;color:#BBAE98;text-decoration:none;padding:.5rem 1rem;background:#111;border:1px solid #BBAE98;border-radius:5px;transition:background .3s ease,color .3s ease;flex:1 0 30%;text-align:center;" onmouseover="this.style.background='#BBAE98';this.style.color='#111';" onmouseout="this.style.background='#111';this.style.color='#BBAE98';" onfocus="this.style.outline='2px solid #87CEEB';this.style.outlineOffset='2px';" onblur="this.style.outline='none';">Avis</a></li><li><a href="#procedure" onclick="trackClick('NavProcedure','Navigation',0)" style="font-family:'Cinzel',serif;font-size:1.2rem;color:#BBAE98;text-decoration:none;padding:.5rem 1rem;background:#111;border:1px solid #BBAE98;border-radius:5px;transition:background .3s ease,color .3s ease;flex:1 0 30%;text-align:center;" onmouseover="this.style.background='#BBAE98';this.style.color='#111';" onmouseout="this.style.background='#111';this.style.color='#BBAE98';" onfocus="this.style.outline='2px solid #87CEEB';this.style.outlineOffset='2px';" onblur="this.style.outline='none';">Procédure</a></li></ul></nav>
-  
-</head>
-<body>
-  <header>
-    <picture>
-  <!-- WebP prioritaire, si pris en charge par le navigateur -->
-  <source
-    srcset="https://i.imgur.com/GmyGlKk.webp"
-    type="image/webp">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://i.imgur.com">
+    <link rel="preconnect" href="https://www.googletagmanager.com">
+    <link rel="dns-prefetch" href="https://js.stripe.com">
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display:ital,wght@0,400;1,400&family=Ephesis&display=swap">
+    <link rel="preload" as="image" href="https://i.imgur.com/GmyGlKk.webp" type="image/webp" fetchpriority="high">
 
-  <!-- JPG de fallback -->
-  <img
-    src="https://i.imgur.com/GmyGlKk.jpg"
-    alt="Logo du rituel de désenvoûtement et de protection, libération spirituelle"
-    width="720"
-    height="720"
-    loading="lazy"
-    decoding="async"
-    fetchpriority="high"
-    style="
-      display: block;
-      margin: 0 auto;
-      width: 720px;       /* Force le logo à 720px si espace disponible */
-      max-width: 100%;    /* Se limite à 100% de l'écran sur les petits écrans */
-      height: auto;">
-</picture>
-    <br>
-    <div class="top-rank">
-      <span class="number-one">Nº 1 sur le web encore en <span id="current-year"></span></span>
-      <span class="thank-you">Parce que l’univers n’accorde sa lumière qu’aux âmes purifiés !</span>
-    </div>
-    <br><br><br>
-    <h1 aria-label="Se libérer des envoûtements grâce au rituel de désenvoûtement et protection rapide">Se libérer des envoûtements grâce au rituel de désenvoûtement et de protection rapide</h1>
-    <br><br>
-    <!-- Premier Bouton Favoris -->
-<div style="text-align: center; margin-top: 20px;">
-  <button class="favorite-button" aria-label="Ajouter ce site à vos favoris" aria-pressed="false">
-    <span class="favorite-text" style="font-family: Arial, sans-serif; font-size: 1em; color: var(--gold);">
-      Ajouter à vos favoris ⭐
-    </span>
-    <br>
-    <br>
-    <span style="color: #87CEEB; font-family: 'Cinzel', serif; text-decoration: underline; font-size: 1.2rem;">
-      www.clairvoyancemedium.com
-    </span>
-    <br>
-    <br>
-      </button>
-    </div>
-    <br><br><br>
+    <script defer src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <script nonce="xai-ultimateNonce">
+        function googleTranslateElementInit() { try { new google.translate.TranslateElement({pageLanguage: 'fr', autoDisplay: false}, 'google_translate_element'); } catch (e) { console.error("Google Translate init failed:", e); } }
+    </script>
+    <script defer src="https://www.googletagmanager.com/gtag/js?id=G-2RSFE6WL4M"></script>
+    <script nonce="xai-ultimateNonce">
+        window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);}
+        document.addEventListener("DOMContentLoaded", function() { try { gtag('js', new Date()); gtag('config', 'G-2RSFE6WL4M', { page_path: window.location.pathname, anonymize_ip: true }); gtag('event', 'page_view', {'send_to': 'G-2RSFE6WL4M', 'page_location': window.location.href}); } catch(e) { console.error("GTag Config failed:", e); } });
+    </script>
+    <script defer src="https://www.googletagmanager.com/gtm.js?id=GTM-P3J6SXCH"></script>
+    <script nonce="xai-ultimateNonce">
+        document.addEventListener("DOMContentLoaded", function() { try { window.dataLayer = window.dataLayer || []; window.dataLayer.push({'gtm.start': new Date().getTime(), event: 'gtm.js'}); } catch (e) { console.error("GTM Start failed:", e); } });
+    </script>
 
-    <figure
-  style="
-    margin: 0 auto;
-    max-width: 1200px;
-    text-align: center;
-    line-height: 1.4;">
-  
-  <!-- Balise <picture> pour prioriser le format WebP, puis fallback PNG -->
-  <picture>
-    <!-- WebP (si le navigateur le supporte) -->
-    <source srcset="https://i.imgur.com/KBYqPcf.webp 1200w" type="image/webp" sizes="(max-width: 768px) 100vw, 1200px">
-    
-    <!-- Fallback PNG -->
-    <img
-      src="https://i.imgur.com/KBYqPcf.png"
-      alt="Rituel divin : désenvoûtement et protection rapide, conçu par Frederick"
-      width="1200"
-      height="600"
-      loading="lazy"
-      decoding="async"
-      style="
-        display: block;
-        width: 100%;
-        height: auto;
-        margin: 0 auto;
-        object-fit: cover;
-        max-width: 100%;">
-  </picture>
-
-  <figcaption
-    style="
-      color: #faf8f0; /* Blanc nacré */
-      font-size: 1rem; /* Texte légèrement agrandi */
-      margin-top: 2rem; /* Espacement supplémentaire entre l'image et le texte */
-      max-width: 80%;
-      margin-left: auto;
-      margin-right: auto;
-      line-height: 1.4;">
-    <strong>Plongez dans le rituel de désenvoûtement et de protection :</strong>
-    brisez toute énergie négative, libérez-vous des sorts malveillants et retrouvez une chance renouvelée.
-    Vivez dans la lumière en profitant d’une paix intérieure durable,
-    d’une harmonie spirituelle profonde et d’un bien-être au quotidien.
-  </figcaption>
-</figure>
-    
-  </header>
-
-  <main>
-    <section style="margin-bottom:2rem;" class="content-container" aria-labelledby="importance-desenvoutement">
-      <h2 id="importance-desenvoutement">L’Importance Sacrée du Désenvoûtement et de la Protection</h2>
-      <p>Dans l’ombre silencieuse du monde, un <strong>envoûtement maléfique</strong> peut s’abattre sur votre âme, tel un voile obscur tissant des chaînes invisibles. La <strong>fatigue chronique</strong> qui éteint votre flamme intérieure, les <strong>cauchemars récurrents</strong> qui murmurent des terreurs ancestrales, la <strong>malchance persistante</strong> qui détourne votre destinée – ces <strong>signes d’un sortilège à distance</strong> sont des appels de l’univers. Sans un <strong>rituel de désenvoûtement puissant</strong> et une <strong>protection spirituelle rapide</strong>, ces énergies maléfiques s’enracinent, éteignant la lumière de votre être.</p>
-      <h3>Pourquoi les Envoûtements Menacent-ils Autant Votre Âme ?</h3>
-      <p>Un <strong>sortilège à distance</strong>, tissé par des forces obscures, ou une <strong>malédiction persistante</strong> héritée des ombres du passé, peut briser vos liens sacrés, détourner vos aspirations et voiler votre esprit d’un brouillard ténébreux. Frederick du Cabinet ClairvoyanceMedium.com, maître des énergies célestes, invoque des <strong>rituels de désenvoûtement à distance efficaces</strong> pour trancher ces chaînes, offrant une <strong>purification énergétique puissante</strong> et une <strong>protection spirituelle durable</strong> qui résonnent à travers le monde.</p>
-      <p>Si votre âme résonne avec ces <strong>symptômes d’un envoûtement maléfique</strong> :</p>
-      <ul>
-        <li><strong>Fatigue chronique</strong> qui éteint lentement votre lumière intérieure</li>
-        <li><strong>Cauchemars récurrents</strong>, murmures sombres troublant vos nuits</li>
-        <li><strong>Malchance persistante</strong> entravant vos pas vers la félicité</li>
-        <li><strong>Sensation d’oppression</strong>, comme un voile maléfique sur votre cœur</li>
-      </ul>
-      <p>Votre esprit est peut-être captif d’un <strong>envoûtement puissant</strong>. Invoquez dès maintenant le <strong>rituel de désenvoûtement et protection rapide</strong> pour libérer votre âme et marcher à nouveau dans la lumière universelle.</p>
-    </section>
-
-    <div style="text-align:center;margin:20px 0;" class="cta-container">
-      <a href="https://buy.stripe.com/cN2bJ62MYg1p0qk5lE" target="_blank" rel="noopener noreferrer" class="cta-button" role="button" tabindex="0" aria-label="Commander un rituel de désenvoûtement et protection rapide" onclick="trackClick('Desenvoutement','Purchase',250)">Rituel de Désenvoûtement + Protection / 250,00€ - Paiement en plusieurs fois possible</a>
-    </div>
-
-    <section style="margin-bottom:2rem;" class="content-container" aria-labelledby="pourquoi-rituel">
-      <h2 id="pourquoi-rituel">Pourquoi Invoquer un Rituel de Désenvoûtement et Protection Rapide ?</h2>
-      <p>Votre chemin de vie est-il assombri par des ombres inexplicables ? Les <strong>énergies négatives</strong> d’un <strong>envoûtement maléfique</strong> peuvent voiler votre esprit, tel un vent glacial éteignant la flamme de votre destinée. Frederick du Cabinet ClairvoyanceMedium.com, gardien des secrets cosmiques, offre un <strong>rituel de désenvoûtement à distance puissant</strong> et une <strong>protection spirituelle rapide</strong> pour disperser ces ténèbres et <strong>purifier votre énergie</strong> avec une force divine.</p>
-      <br>
-<div style="text-align:center;margin-top:20px;">
-  <a href="mailto:contact.clairvoyancemedium@gmail.com"
-     role="button" aria-label="Ouvrir une nouvelle page pour me contacter par email"
-     target="_blank" rel="noopener noreferrer"
-     onclick="trackClick('EmailDarkVioletTxt','CTA',0)"
-     onmouseover="this.style.transform='translateY(-2px) scale(1.05)';this.style.boxShadow='0 6px 15px rgba(216,180,254,.7)';"
-     onmouseout="this.style.transform='none';this.style.boxShadow='0 4px 12px rgba(216,180,254,.5)';"
-     style="
-       display:inline-block;
-       padding:0.5rem 1rem;
-       font-size:clamp(1rem,2.5vw,1.2rem);
-       font-family:'Cinzel',serif;
-       color:#4B0082;
-       background:linear-gradient(145deg,#E6E6FA,#D8B4FE);
-       text-decoration:none;
-       border-radius:9999px;
-       transition:transform .2s, box-shadow .2s;
-       margin:0.5rem auto;
-       box-shadow:0 4px 12px rgba(216,180,254,.5);
-     ">
-    Besoin d'un rituel particulier ? Votre demande ici
-  </a>
-</div>
-
-      <br><br>
-      <h3>Les Symptômes Mystiques d’un Envoûtement Maléfique</h3>
-      <p>Écoutez les murmures de votre âme et reconnaissez ces <strong>signes d’un sortilège à distance</strong> qui appellent une délivrance urgente :</p>
-      <ul>
-        <li><strong>Fatigue chronique et épuisement</strong> drainant votre essence sacrée</li>
-        <li><strong>Cauchemars récurrents</strong>, visions troublantes venues des ombres</li>
-        <li><strong>Malchance persistante</strong>, un voile noir sur vos aspirations</li>
-        <li><strong>Sensation d’oppression</strong>, une main invisible serrant votre cœur</li>
-        <li><strong>Colère ou tristesse inexplicable</strong>, tempêtes intérieures sans origine</li>
-        <li><strong>Blocages professionnels</strong>, murs dressés par des forces occultes</li>
-        <li><strong>Conflits familiaux</strong>, liens sacrés brisés sans raison</li>
-        <li><strong>Sentiment d’être observé</strong>, une présence maléfique dans l’éther</li>
-        <li><strong>Douleurs physiques</strong>, échos d’un sortilège dans votre chair</li>
-        <li><strong>Perte de motivation</strong>, une nuit spirituelle étouffant votre lumière</li>
-      </ul>
-      <p>Ces <strong>symptômes d’un envoûtement maléfique</strong> croissent comme des racines sombres dans votre être. Un <strong>rituel de désenvoûtement efficace</strong> est l’épée céleste qui <strong>brise une malédiction</strong> et vous rend à la lumière.</p>
-      <h3>Un Rituel Divin pour une Libération et une Protection Totale</h3>
-      <p>Pour seulement ce tarif réduit, occasionnel et temporaire <strong>(paiement unique)</strong>, le rituel sacré, invoqué en <strong>4 jours</strong>, déploie :</p>
-      <ul>
-        <li><strong>Destruction des sorts noirs</strong>, flammes purificatrices contre les ténèbres</li>
-        <li><strong>Purification énergétique complète</strong>, un souffle divin dans votre âme</li>
-        <li><strong>Protection spirituelle durable</strong>, un bouclier céleste contre les ombres futures</li>
-        <li><strong>Restauration de votre destin</strong>, un chemin éclairé par la lumière sacrée</li>
-      </ul>
-      <p><strong>Que la lumière triomphe maintenant !</strong> Chaque instant perdu nourrit les <strong>énergies maléfiques</strong>. Ce <strong>rituel de désenvoûtement et protection rapide</strong> est votre salut éternel.</p>
-      <div style="text-align:center;margin-top:20px;" class="cta-container">
-        <a href="https://buy.stripe.com/cN2bJ62MYg1p0qk5lE" target="_blank" rel="noopener noreferrer" class="cta-button" role="button" tabindex="0" aria-label="Commander un rituel de désenvoûtement et protection rapide" onclick="trackClick('Desenvoutement','Purchase',250)">Rituel de Désenvoûtement + Protection / 250,00€ - Paiement en plusieurs fois possible</a>
-      </div>
-    </section>
-
-    <section style="margin-bottom:2rem;" class="content-container" aria-labelledby="bienfaits">
-      <h2 id="bienfaits">Les Bienfaits Célestes d’un Désenvoûtement et d’une Protection Réussis</h2>
-      <p><strong>Retrouver une Paix Intérieure Divine</strong><br>• Dissiper l’oppression suffocante d’un <strong>envoûtement maléfique</strong>, tel un vent sacré chassant les ombres.<br>• Restaurer un <strong>sommeil réparateur</strong>, baigné de rêves célestes libres de terreurs.<br>• Vivre dans une sérénité profonde, affranchi des <strong>énergies négatives</strong> qui obscurcissaient votre âme.</p>
-      <p><strong>Réveiller Chance et Prospérité Cosmique</strong><br>• Briser la <strong>malchance persistante</strong>, un voile sombre qui entravait vos bénédictions.<br>• Attirer des opportunités divines dans l’amour, le travail et l’abondance terrestre.<br>• Triompher là où un <strong>sortilège à distance</strong> avait semé l’échec.</p>
-      <p><strong>Raviver Votre Énergie Vitale Sacrée</strong><br>• Éliminer la <strong>fatigue chronique</strong>, poids occulte qui éteignait votre flamme.<br>• Retrouver une vitalité éclatante, un souffle divin dans chaque fibre de votre être.<br>• Ressentir une puissance intérieure grâce à une <strong>purification énergétique puissante</strong>.</p>
-      <p><strong>Ériger une Forteresse Spirituelle contre les Influences Maléfiques</strong><br>• Invoquer une <strong>protection spirituelle durable</strong>, un rempart contre les sorts noirs futurs.<br>• Neutraliser les <strong>énergies négatives extérieures</strong>, tels des murmures jaloux dissipés par la lumière.<br>• Vivre à l’abri des <strong>malédictions persistantes</strong>, un sanctuaire sacré autour de vous.</p>
-      <p><strong>Réharmoniser Vos Liens Sacrés</strong><br>• Restaurer les relations brisées par un <strong>envoûtement puissant</strong>, un baume céleste sur vos connexions.<br>• Renforcer les liens d’amour et d’amitié dans une harmonie divine.<br>• Attirer des âmes lumineuses grâce à une énergie purifiée.</p>
-      <p><strong>Libérer Votre Esprit des Ombres</strong><br>• Dissoudre les pensées sombres et l’anxiété d’un <strong>sortilège</strong>, un clair-obscur chassé par la lumière.<br>• Retrouver une clarté mentale et une confiance sacrée.<br>• Éliminer les chaînes invisibles des <strong>énergies maléfiques</strong>.</p>
-      <p><strong>Reconstruire une Vie Illuminée</strong><br>• Ouvrir un horizon radieux avec un <strong>désenvoûtement efficace</strong>, un nouveau départ sous les étoiles.<br>• Retrouver la joie et l’élan vital dans chaque souffle.<br>• Marcher librement, affranchi des <strong>envoûtements à distance</strong>.</p>
-      <p>Un <strong>rituel de désenvoûtement et protection rapide</strong> est une pratique céleste qui agit là où les ombres se cachent, vous rendant à la lumière éternelle.</p>
-      <div style="text-align:center;margin-top:20px;" class="cta-container">
-        <a href="https://buy.stripe.com/cN2bJ62MYg1p0qk5lE" target="_blank" rel="noopener noreferrer" class="cta-button" role="button" tabindex="0" aria-label="Commander un rituel de désenvoûtement et protection rapide" onclick="trackClick('Desenvoutement','Purchase',250)">Rituel de Désenvoûtement + Protection / 250,00€</a>
-      </div>
-    </section>
-
-    <section style="margin-bottom:2rem;" class="content-container" aria-labelledby="detection">
-      <h2 id="detection">Détection de Sortilège : Percez les Ombres</h2>
-      <p>Êtes-vous en proie à des perturbations énergétiques inexplicables, à des sensations d'intrusion d'influences occultes ou à des anomalies dans votre quotidien que vous n'arrivez pas à expliquer ? Ne laissez pas ces doutes vous envahir : il est impératif de comprendre si les signes que vous ressentez sont d'origine naturelle ou s'ils témoignent d'une influence extérieure nécessitant un <strong>désenvoutement</strong>. Bénéficiez d'une analyse spirituelle approfondie et personnalisée, réalisée par <strong>Frederick du Cabinet ClairVoyanceMedium.com</strong>, expert en clairvoyance et en harmonisation des énergies. Cette approche vous permettra de déterminer avec précision si votre parcours est simplement jalonné de fluctuations naturelles ou si un <strong>rituel de désenvoutement à distance</strong> s'impose pour restaurer l'équilibre de votre aura et purifier vos chakras. En agissant dès maintenant, vous prenez le contrôle de votre destinée spirituelle et faites le premier pas vers la libération de votre esprit et de votre âme.</p>
-      <div style="text-align:center;margin-top:20px;" class="cta-container">
-        <a href="https://buy.stripe.com/6oE3cAevG5mLgpi7tL" target="_blank" rel="noopener noreferrer" class="cta-button" role="button" tabindex="0" aria-label="Commander une détection de sortilège" onclick="trackClick('DetectionSortilege','Purchase',50)">Détection de Sortilège / 50,00€</a>
-      </div>
-    </section>
-
-    <section style="margin-bottom:2rem;" class="content-container" aria-labelledby="frederick">
-      <h2 id="frederick">Votre gardien céleste : Frederick du Cabinet ClairvoyanceMedium.com</h2>
-      <p>Porteur d’une sagesse vieille de 25 ans, Frederick du Cabinet ClairvoyanceMedium.com est le <strong>meilleur désenvoûteur à distance au monde</strong>, un maître des énergies divines. Avec une maîtrise spirituelle inégalée, il tisse des <strong>rituels de désenvoûtement et protection rapide</strong> pour trancher les <strong>sorts noirs</strong>, offrant une <strong>purification énergétique puissante</strong> et une <strong>protection spirituelle durable</strong>. Son art sacré, empreint d’éthique et de discrétion, illumine les âmes captives à travers les continents.</p>
-    </section>
-
-    <div style="text-align:center;margin-top:20px;" class="cta-container">
-      <button class="favorite-button" aria-label="Ajouter ce site à vos favoris pour un accès rapide" aria-pressed="false">
-        <span class="favorite-text" style="font-family:Arial,sans-serif;font-size:1em;color:var(--gold);">Ajouter à vos favoris ⭐</span>
-        <br><br>
-        <span style="color:#87CEEB;font-family:'Cinzel',serif;text-decoration:underline;font-size:1.2rem;">www.clairvoyancemedium.com</span>
-      </button>
-    </div>
-    <br><br>
-
-    <section style="margin-bottom:2rem;" class="content-container" aria-labelledby="voyance">
-      <h2 id="voyance">Voyance par Email : L’Éveil de Votre Évolution</h2>
-      <p>Découvrez la puissance de la <strong>voyance pure</strong> par email, où des <strong>visions spirituelles instantanées</strong> vous dévoilent en un éclair votre avenir amoureux, professionnel, personnel... Grâce à cette <strong>divination par email</strong>, recevez des <strong>prédictions divinatoires précises</strong> et des <strong>messages intuitifs par flash</strong> qui vous guident dans vos interrogations existentielles. Profitez d'une expérience authentique de <strong>voyance par email</strong> qui combine l'art de la <strong>prédiction spirituelle</strong> et la magie du <strong>flash divinatoire</strong>, pour lever le voile sur les mystères de votre destinée. Laissez-vous porter par la force des <strong>prédictions datées</strong> et explorez en profondeur les secrets de votre vie grâce à une <strong>clairvoyance pure et instantanée</strong>, conçue pour illuminer votre chemin et révéler vos véritables potentiels.</p>
-
-    </section>
-
-    <div class="cta-buttons-container">
-      <a href="https://buy.stripe.com/14kdRe0EQ4iH1uoaFa" target="_blank" rel="noopener noreferrer" class="cta-button prix" onclick="trackClick('VoyanceEmail1Q','Purchase',6)" aria-label="Commander une voyance pour 1 question">1 Question tous domaines / 6,00€</a>
-      <a href="https://buy.stripe.com/dR614scnycPddd66oV" target="_blank" rel="noopener noreferrer" class="cta-button prix" onclick="trackClick('VoyanceEmail3Q','Purchase',15)" aria-label="Commander une voyance pour 3 questions">3 Questions tous domaines / 15,00€</a>
-      <a href="https://buy.stripe.com/28o3cA0EQ5mL0qk14C" target="_blank" rel="noopener noreferrer" class="cta-button prix" onclick="trackClick('VoyanceEmail5Q','Purchase',28)" aria-label="Commander une voyance pour 5 questions">5 Questions tous domaines / 28,00€</a>
-    </div>
-    <br>
-
-    <section style="margin-top:2rem;" class="content-container" aria-labelledby="avis">
-      <p>Avis ⭐⭐⭐⭐⭐ (+ de 1500 âmes libérées dans le monde)</p>
-      <h2 id="avis">Témoignages sur nos Rituels de Désenvoûtement / Protection à distance</h2>
-      <div class="avis carousel">
-  <blockquote class="playfair-display">« Les cauchemars qui hantaient mon âme ont été chassés en 2 semaines par Frederick. Une bénédiction divine ! » — <em>Sophie, 34 ans</em></blockquote>
-  <blockquote class="playfair-display">« La malchance, ce voile sombre, s’est dissipée grâce à ce rituel puissant. » — <em>Luc, 41 ans</em></blockquote>
-  <blockquote class="playfair-display">« Une oppression invisible m’a quittée, libérée par une lumière céleste. » — <em>Marie, 28 ans</em></blockquote>
-  <blockquote class="playfair-display">« Mes voyages sont fluides ; plus aucun obstacle ne m’arrête. » — <em>Christophe, 35 ans</em></blockquote>
-  <blockquote class="playfair-display">« Mon esprit tourmenté s’est calmé ; je vis en paix maintenant. » — <em>Valérie, 32 ans</em></blockquote>
-</div>
-
-      <div style="text-align:center;margin-top:20px;" class="cta-container">
-        <a href="https://buy.stripe.com/cN2bJ62MYg1p0qk5lE" target="_blank" rel="noopener noreferrer" class="cta-button" role="button" tabindex="0" aria-label="Commander un rituel de désenvoûtement et protection rapide" onclick="trackClick('Desenvoutement','Purchase',250)">Désenvoûtement + Protection / 250,00€</a>
-      </div>
-    </section>
-
-    <section style="margin-bottom:2rem;" class="content-container">
-      <p class="scintillant">« Que la clarté divine vienne briser vos chaînes, chasser l’obscurité de vos épreuves et vous préserver pour l’éternité. »</p>
-    </section>
-    <section style="margin-top:2rem;" class="content-container" aria-labelledby="procedure">
-      <h2 id="procedure">Comment Invoquer Votre Rituel de Désenvoûtement et Protection Rapide ?</h2>
-      <p><strong>Comment ce rituel sacré opère-t-il dans le monde ?</strong></p>
-      <p>Pour un <strong>prix exceptionnellement dérisoire en ce moment</strong>, vous ouvrez un portail sacré vers un formulaire où vos <strong>symptômes d’un envoûtement</strong> sont recueillis pour personnaliser ce <strong>rituel de désenvoûtement à distance puissant</strong>, accessible depuis votre mobile ou tout autre appareil.</p>
-      <p><strong>Informations nécessaires pour libérer votre âme :</strong></p>
-      <ul>
-        <li>Votre nom et prénom, clés de votre essence spirituelle</li>
-        <li>Votre date de naissance, empreinte de votre destinée</li>
-        <li>Une photo récente (optionnelle), miroir de votre aura</li>
-        <li>Une description précise de vos <strong>symptômes d’un sortilège</strong></li>
-      </ul>
-      <p><strong>Déroulement mystique du rituel (avec suivi) :</strong></p>
-      <ol>
-        <li><strong>Jour 1 à 4 :</strong> Frederick invoque une <strong>purification énergétique puissante</strong> pour trancher les chaînes occultes.</li>
-        <li><strong>Après 4 jours :</strong> Le rituel s’active, <strong>brisant les sorts noirs</strong> et érigeant une protection.</li>
-        <li><strong>Dans 2 semaines :</strong> Les bienfaits illuminent votre vie, durables pour des années.</li>
-      </ol>
-      <p><strong>Éclairez enfin votre destiné  !</strong> Chaque instant perdu renforce les <strong>énergies maléfiques</strong>. Invoquez ce <strong>rituel de désenvoûtement et protection rapide</strong> pour votre salut éternel. Aucune mention "Voyance" ou "Desenvoutement" n'apparaît sur votre compte bancaire !</p>
-      <p>Après votre paiement, vous serez donc directement redirigé vers une page sur laquelle vous pourrez y saisir toutes les informations nécessaires au rituel de libération et de protection.</p>
-      <div style="text-align:center;margin-top:20px;" class="cta-container">
-      <br>
-        <a href="https://buy.stripe.com/cN2bJ62MYg1p0qk5lE" target="_blank" rel="noopener noreferrer" class="cta-button" role="button" tabindex="0" aria-label="Commander un rituel de désenvoûtement et protection rapide" onclick="trackClick('Desenvoutement','Purchase',250)">Rituel de Désenvoûtement + Protection / 250,00€ - Paiement en plusieurs fois possible</a>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-  <!-- Lien mailto avec ouverture nouvel onglet -->
-  <a href="mailto:contact.clairvoyancemedium@gmail.com" target="_blank" rel="noopener noreferrer" onclick="trackClick('Contact Email','Interaction',0)" style="display:block;margin-bottom:0.5rem;"> CONTACT </a>
-
-  <!-- Lien CGV dans un nouvel onglet -->
-  <a href="https://www.clairvoyancemedium.com/Conditions-Generales-des-Ventes-et-d-Utilisation-ccsaaaaaa.asp"
-     target="_blank"
-     rel="noopener noreferrer"
-     onclick="trackClick('ConditionsGenerales','Interaction',0)">
-    © <span id="current-year"></span> ClairVoyanceMedium.com - Tous droits réservés
-  </a>
-  <br>
-</footer>
-
-<script nonce="xai-48273">
-    document.addEventListener("DOMContentLoaded",function(){document.querySelectorAll("#current-year,#current-year-footer").forEach(e=>e.textContent=new Date().getFullYear());function addToFavorites(e){const t=e.querySelector(".favorite-text");t.innerHTML="⭐ Ajouté !",t.style.color="#FFD700",e.setAttribute("aria-pressed","true"),/iPhone|iPad|iPod/i.test(navigator.userAgent)?alert("Partagez > Ajouter à l’écran d’accueil"):/Android/i.test(navigator.userAgent)?alert("Menu (⋮) > Ajouter à l’écran d’accueil"):alert("Ctrl + D ou Cmd + D");trackClick("Ajout Favoris","Interaction",0);}function trackClick(e,t="CTA",n=null){typeof gtag==="function"?gtag("event","click",{"event_category":t,"event_label":e,"value":n}):console.log("gtag indisponible:",e,t,n);}const t=document.querySelectorAll(".favorite-button");t.forEach(e=>e.addEventListener("click",()=>addToFavorites(e)));const n=document.querySelectorAll(".carousel blockquote");let a=0;n[0].classList.add("active"),setInterval(()=>{n.forEach(e=>e.classList.remove("active")),n[a].classList.add("active"),a=(a+1)%n.length},4e3);});
-  </script>
-
-  <script nonce="xai-48273">
-  document.addEventListener("DOMContentLoaded", () => {
-    const sections = document.querySelectorAll("section");
-    const observer = new IntersectionObserver((entries, observer) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("visible");
-          observer.unobserve(entry.target);
+    <style>
+        :root {
+            --bg: #000; --text: #fff; --text-secondary: #aaa; --accent: #87CEEB; --accent-dark: #111;
+            --gold: #FFD700; --gold-shadow: rgba(255, 215, 0, 0.7); --pink-shadow: rgba(255, 105, 180, 0.5);
+            --pink-shadow-hover: rgba(255, 105, 180, 0.7); --fluo-pink: #FF1493; /* Deep Pink */
+            --fluo-pink-shadow: rgba(255, 20, 147, 0.7); --button-bg: linear-gradient(145deg, #FFB6C1, #FF69B4);
+            --button-txt: #fff; --border-color: #BBAE98; --border-color-hover: #fff; --focus-outline: 2px solid var(--accent);
+            --font-primary: 'Cinzel', serif; --font-secondary: 'Playfair Display', serif; --font-cursive: 'Ephesis', cursive;
+            --max-width: 900px; --content-padding: 1rem; --nav-height: 55px; --checkmark-color: #2ecc71;
         }
-      });
-    }, { threshold: 0.1 });
-    sections.forEach(section => observer.observe(section));
-  });
-</script>
-
-<!-- Google Tag Manager -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXX" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-    // Charger Google Tag Manager (GTM) après le chargement initial
-    var gtmScript = document.createElement("script");
-    gtmScript.src = "https://www.googletagmanager.com/gtm.js?id=GTM-XXXXXX";
-    gtmScript.async = true;
-    document.head.appendChild(gtmScript);
-
-    // Initialisation du dataLayer avant GTM
-    window.dataLayer = window.dataLayer || [];
-    
-    function gtag() { dataLayer.push(arguments); }
-
-    // Charger Google Analytics (GA4) seulement si l'utilisateur interagit
-    function loadGA() {
-        if (!window.gaLoaded) {
-            var gaScript = document.createElement("script");
-            gaScript.src = "https://www.googletagmanager.com/gtag/js?id=G-2RSFE6WL4M";
-            gaScript.async = true;
-            document.head.appendChild(gaScript);
-            
-            gtag('js', new Date());
-            gtag('config', 'G-2RSFE6WL4M', { 'anonymize_ip': true, 'send_page_view': false });
-
-            window.gaLoaded = true;
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; font-size: 100%; -webkit-text-size-adjust: 100%; }
+        body {
+            font-family: var(--font-primary); background: var(--bg); color: var(--text); text-align: center; overflow-x: hidden;
+            -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; touch-action: manipulation;
+            line-height: 1.7; display: flex; flex-direction: column; min-height: 100vh; padding-top: var(--nav-height);
         }
-    }
+        main { flex-grow: 1; display: flex; flex-direction: column; gap: 3rem; align-items: center; padding: 2.5rem var(--content-padding); }
+        header { padding: 0; background: var(--accent-dark); position: relative; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.8); width: 100%; }
+        footer { margin-top: 3rem; font-size: 0.9rem; color: var(--text-secondary); padding: 2rem var(--content-padding); background: var(--accent-dark); width: 100%; text-align: center; }
+        h1, h2, h3, h4, h5, h6 { font-weight: 700; line-height: 1.3; letter-spacing: 1px; margin: 0; }
+        h1 { font-size: clamp(1.8rem, 5vw, 2.2rem); color: var(--text); margin: 1rem 0; padding: 0 var(--content-padding); text-transform: uppercase; }
+        h2 { font-size: clamp(1.7rem, 5.5vw, 2.1rem); color: var(--border-color); text-shadow: 0 0 4px var(--gold-shadow); margin-bottom: 1.5rem; text-transform: uppercase; text-align: center;}
+        h3 { font-size: clamp(1.4rem, 4.5vw, 1.7rem); color: var(--border-color); margin: 2rem 0 1rem 0; }
+        p, blockquote, ul, ol, .imc-calculator, .subscribe-form, table { max-width: 70ch; margin-left: auto; margin-right: auto; text-align: justify; }
+        blockquote { text-align: center; font-family: var(--font-secondary); font-style: italic; }
+        strong { font-weight: 700; color: var(--gold); }
+        .check-list { list-style: none; padding-left: 0; text-align: left; } /* Removed base padding for alignment */
+        .check-list li { position: relative; margin-bottom: 0.8em; padding-left: 2.2em; } /* Increased padding */
+        .check-list li::before { content: '✔'; color: var(--checkmark-color); position: absolute; left: 0.5em; top: 0; font-weight: bold; font-size: 1.1em; }
+        a { color: var(--accent); text-decoration: none; transition: color 0.3s ease, text-decoration 0.3s ease; }
+        a:hover, a:focus-visible { color: var(--gold); text-decoration: underline; }
+        footer a { color: inherit; }
+        footer a:hover, footer a:focus-visible { color: var(--gold); }
+        .subtle-link { color: var(--text); text-decoration: none; }
+        .subtle-link:hover, .subtle-link:focus-visible { color: var(--accent); text-decoration: underline; }
+        .cta-button, .subscribe-button, .imc-button, .carousel-nav button, .popup-close-button { display: inline-block; padding: 0.8rem 1.5rem; font-size: 1rem; font-family: var(--font-primary); font-weight: 700; color: var(--button-txt); background: var(--button-bg); text-decoration: none; border: none; border-radius: 5px; transition: all 0.3s ease; margin: 0.5rem; box-shadow: 0 4px 12px var(--pink-shadow); cursor: pointer; text-align: center; letter-spacing: 0.5px; }
+        .cta-button:hover, .cta-button:focus-visible, .subscribe-button:hover, .subscribe-button:focus-visible, .imc-button:hover, .imc-button:focus-visible, .carousel-nav button:hover, .carousel-nav button:focus-visible, .popup-close-button:hover, .popup-close-button:focus-visible { transform: translateY(-2px) scale(1.03); opacity: 0.95; box-shadow: 0 6px 15px var(--pink-shadow-hover); outline: none; }
+        .cta-button:focus-visible, .subscribe-button:focus-visible, .imc-button:focus-visible, .carousel-nav button:focus-visible, .popup-close-button:focus-visible { box-shadow: 0 0 0 3px var(--bg), 0 0 0 5px var(--accent); }
+        .cta-button.prix { font-size: 1.1rem; }
+        .subscribe-button { font-size: 1.2rem; padding: 1rem 2rem; }
+        .header-content { padding: 1rem var(--content-padding); text-align: center; }
+        .logo { width: 100%; max-width: 100%; height: auto; object-fit: contain; display: block; margin: 0; max-height: 180px; } /* Full width logo */
+        .top-rank { text-align: center; margin-bottom: 1rem; }
+        .number-one { font-size: clamp(1.5rem, 4vw, 1.8rem); font-weight: 700; color: var(--accent); text-shadow: 2px 2px 5px var(--gold-shadow); display: block; animation: pulseGlow 3s ease-in-out infinite; margin-bottom: 0.5rem; }
+        .thank-you { font-size: clamp(2rem, 6vw, 2.5rem); font-family: var(--font-cursive); color: #ffb6c1; text-shadow: 3px 3px 6px rgba(255, 182, 193, 0.6); display: block; margin-top: 0.5rem; transform: rotate(-2deg); }
+        .favorite-button { background: none; border: none; outline: none; cursor: pointer; padding: 0.5rem; transition: transform 0.2s ease; color: var(--gold); font-family: Arial, sans-serif; font-size: 1em; margin-top: 1rem; }
+        .favorite-button:hover, .favorite-button:focus-visible { transform: scale(1.05); outline: none; }
+        .favorite-button .site-link { font-family: var(--font-primary); font-size: 1.2rem; display: block; margin-top: 0.5rem; }
+        .main-nav { position: sticky; top: 0; left: 0; width: 100%; z-index: 900; background: rgba(17, 17, 17, 0.9); backdrop-filter: blur(5px); padding: 0.5rem 0; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.7); height: var(--nav-height); display: flex; justify-content: center; align-items: center; }
+        .main-nav ul { list-style: none; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 0.5rem; margin: 0; max-width: var(--max-width); }
+        .nav-link { font-family: var(--font-primary); font-weight: 700; font-size: 0.9rem; color: var(--border-color); text-decoration: none; padding: 0.4rem 0.8rem; background: transparent; border: 1px solid var(--border-color); border-radius: 20px; transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease; display: block; text-align: center; white-space: nowrap; }
+        .nav-link:hover, .nav-link:focus-visible, .nav-link.active { background: var(--border-color); color: var(--accent-dark); border-color: var(--border-color); text-decoration: none; outline: var(--focus-outline); outline-offset: 2px; }
+        .content-container { text-align: left; max-width: var(--max-width); width: 100%; margin: 0 auto; padding: 0 var(--content-padding); word-wrap: break-word; }
+        .content-container p, .content-container ul:not(.check-list), .content-container ol { text-align: justify; margin-bottom: 1rem; }
+        .cta-buttons-container { display: flex; justify-content: center; flex-wrap: wrap; gap: 1rem; margin: 1.5rem 0; }
+        .imc-calculator { background: var(--accent-dark); padding: 1.5rem; border-radius: 6px; margin: 2rem auto; text-align: center; width: 100%; max-width: var(--max-width); }
+        .imc-calculator form { display: flex; flex-direction: column; align-items: center; gap: 1rem; max-width: 300px; margin: 0 auto; text-align: left; }
+        .imc-calculator label { display: block; margin-bottom: 0.25rem; font-size: 0.9rem; color: var(--text-secondary); }
+        .imc-calculator input[type="number"] { padding: 0.75rem; font-family: var(--font-primary); font-size: 1rem; border: 2px solid var(--gold); border-radius: 4px; background: var(--bg); color: var(--text); width: 100%; -moz-appearance: textfield; }
+        .imc-calculator input[type="number"]::-webkit-outer-spin-button, .imc-calculator input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+        .imc-button { margin-top: 1rem; }
+        #imc-result { margin-top: 1.5rem; font-weight: bold; min-height: 3em; text-align: center; }
+        #imc-error { color: #ff6b6b; font-size: 0.9rem; margin-top: 0.5rem; min-height: 1.2em; text-align: center; }
+        .spiritual-services ul { list-style: none; padding: 0; }
+        .spiritual-services li { margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px dashed var(--border-color); display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem; }
+        .spiritual-services li:last-child { border-bottom: none; }
+        .spiritual-services .service-description { flex-basis: 60%; flex-grow: 1; text-align: left; }
+        .spiritual-services .cta-button { flex-shrink: 0; margin: 0; }
+        .comparison-table-container { max-width: var(--max-width); margin: 2rem auto; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+        .comparison-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; text-align: center; font-size: 0.9rem; background-color: var(--accent-dark); border: 1px solid var(--border-color); }
+        .comparison-table caption { font-size: 1.3em; margin-bottom: 1rem; font-weight: 700; color: var(--border-color); caption-side: top; }
+        .comparison-table th, .comparison-table td { border: 1px solid var(--border-color); padding: 0.8rem 0.6rem; }
+        .comparison-table thead th { background-color: var(--bg); color: var(--gold); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; position: sticky; top: 0; z-index: 1; }
+        .comparison-table tbody th { background-color: var(--bg); color: var(--text-secondary); text-align: left; font-weight: normal; }
+        .comparison-table tbody td { vertical-align: middle; }
+        .comparison-table .price { font-weight: 700; color: var(--gold); font-size: 1.1em; }
+        .comparison-table .check { color: var(--checkmark-color); font-size: 1.2em; }
+        .comparison-table .cross { color: #ff6b6b; font-size: 1.2em; }
+        .carousel { max-width: var(--max-width); margin: 2rem auto; overflow: hidden; border: 3px solid var(--fluo-pink); border-radius: 10px; box-shadow: 0 0 20px var(--fluo-pink-shadow); position: relative; min-height: 220px; padding: 1.5rem; background: var(--accent-dark); }
+        .carousel-inner { position: relative; width: 100%; min-height: 180px; display: flex; justify-content: center; align-items: center; }
+        .carousel-item { width: 100%; opacity: 0; transition: opacity 1s ease-in-out; text-align: center; padding: 0 1rem; word-wrap: break-word; font-size: 1rem; position: absolute; top: 0; left: 0; visibility: hidden; }
+        .carousel-item.active { opacity: 1; position: relative; visibility: visible; }
+        .carousel-item figure { margin: 0; }
+        .carousel-item blockquote { font-family: var(--font-secondary); font-style: italic; font-size: 1.1rem; color: var(--text); margin-bottom: 0.5rem; }
+        .carousel-item figcaption { font-size: 0.9rem; color: var(--text-secondary); font-style: normal; }
+        .carousel-item article { margin: 0; padding: 1rem 0; }
+        .carousel-item article h3 { font-size: 1.2rem; color: var(--gold); margin-bottom: 0.5rem; font-weight: 700; }
+        .carousel-item article p { font-size: 0.95rem; text-align: justify; color: var(--text); }
+        .carousel-nav { margin-top: 1.5rem; display: flex; justify-content: center; gap: 1rem; }
+        .carousel-nav button { background: var(--accent); color: var(--text); border: none; padding: 0.5rem 1rem; cursor: pointer; transition: background 0.3s, transform 0.2s; border-radius: 4px; min-width: 60px; }
+        .carousel-nav button:hover, .carousel-nav button:focus-visible { background: var(--gold); transform: scale(1.1); }
+        .subscribe-section { background: var(--accent-dark); padding: 2rem; border-radius: 6px; margin: 2rem auto; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3); width: 100%; max-width: var(--max-width); }
+        .subscribe-section h2 { margin-bottom: 0.5rem; }
+        .subscribe-section p { margin-bottom: 1.5rem; text-align: center; }
+        .subscribe-form { display: flex; justify-content: center; align-items: stretch; gap: 1rem; flex-wrap: wrap; max-width: 500px; }
+        .subscribe-form label { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+        .subscribe-form input[type="email"] { padding: 0.75rem; font-family: var(--font-primary); font-size: 1rem; border: 2px solid var(--gold); border-radius: 4px; background: var(--bg); color: var(--text); flex-grow: 1; min-width: 200px; }
+        .subscribe-button { flex-shrink: 0; }
+        #subscribe-feedback { margin-top: 1rem; font-weight: bold; min-height: 1.5em; text-align: center; }
+        #subscribe-feedback.success { color: var(--checkmark-color); }
+        #subscribe-feedback.error { color: #ff6b6b; }
+        .popup { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: var(--accent-dark); padding: 2rem; border: 2px solid var(--gold); border-radius: 10px; box-shadow: 0 0 25px var(--pink-shadow-hover); z-index: 1000; width: clamp(280px, 90vw, 450px); text-align: center; }
+        .popup.active { display: block; }
+        .popup p { margin-bottom: 1.5rem; text-align: center; }
+        .popup-close-button { display: block; margin: 0 auto; }
+        @keyframes pulseGlow { 0%, 100% { text-shadow: 2px 2px 5px var(--gold-shadow); } 50% { text-shadow: 2px 2px 10px var(--gold-shadow), 0 0 15px rgba(187, 210, 225, 0.8); } }
+        .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+        @media (max-width: 900px) { .main-nav ul { gap: 0.3rem; padding: 0 0.5rem; } .nav-link { font-size: 0.8rem; padding: 0.3rem 0.6rem; } }
+        @media (max-width: 768px) { body { padding-top: 0; } .main-nav { position: static; height: auto; } .cta-buttons-container { flex-direction: column; gap: 0.8rem; align-items: center; } .spiritual-services li { flex-direction: column; align-items: center; text-align: center; } .spiritual-services .service-description { text-align: center; flex-basis: 100%;} .subscribe-form { flex-direction: column; align-items: stretch; } .imc-calculator form { max-width: 90%; } .carousel-item { padding: 0 0.5rem; } }
+        @media (max-width: 480px) { body { font-size: 0.9rem; } .nav-link { font-size: 0.75rem; padding: 0.3rem 0.5rem; } .cta-button, .subscribe-button, .imc-button, .carousel-nav button, .popup-close-button { padding: 0.6rem 1rem; } .subscribe-button { font-size: 1.1rem; padding: 0.8rem 1.5rem;} h1 { letter-spacing: 0.5px; } }
+        @media print { /* ... print styles ... */ }
+    </style>
 
-    // Charger Google Ads seulement si l'utilisateur fait défiler la page
-    function loadGoogleAds() {
-        if (!window.adsLoaded) {
-            var adsScript = document.createElement("script");
-            adsScript.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js";
-            adsScript.async = true;
-            document.body.appendChild(adsScript);
-            window.adsLoaded = true;
-        }
-    }
-
-    // Événements utilisateurs pour charger GA et Google Ads
-    document.addEventListener("mousemove", loadGA, { once: true });
-    document.addEventListener("scroll", loadGoogleAds, { once: true });
-});
-</script>
-  
-</body>
-</html>
-
-
-
-Code source numero 2 pour avoir la meme newsletter et le meme carousel d'avis 
-
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <!-- Anti-clickjacking -->
-  <script nonce="xai-48273">
-    if (window.top !== window.self) {
-      window.top.location = window.self.location;
-      console.warn("Tentative de clickjacking bloquée.");
-    }
-  </script>
-
-  <!-- Métadonnées optimisées pour SEO et accessibilité -->
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <meta name="last-modified" content="2025-03-10">
-  <meta name="theme-color" content="#1A1A1A">
-  <title>Maximisez vos gains au Loto – Prédictions optimisées par algorithme puissant et flash profond</title>
-  <meta name="description" content="Boostez vos chances au Loto français avec nos grilles optimisées par notre algorithme d’intelligence artificielle le plus puissant de 2025. Prédictions précises basées sur statistiques, machine learning et données historiques pour maximiser vos gains au loto." />
-  <meta name="keywords" content="loto gagnant, prédictions loto, grille loto optimisée, numéro chance, loto français, conseils loto, stratégie loto, gagner au loto, clairvoyance, algorithmes IA, machine learning, prédictions précises, gains maximaux, tirage loto, numéros chanceux, loterie, pronostic" />
-  <meta name="author" content="ClairvoyanceMedium.com">
-  <meta name="robots" content="index,follow">
-  <meta property="og:title" content="Maximisez vos gains au Loto – Prédictions optimisées par IA" />
-  <meta property="og:description" content="Grilles optimisées pour le Loto français basées sur notre algorithme d’intelligence artificielle le plus performant. Tentez votre chance avec nos prédictions exclusives !" />
-  <meta property="og:url" content="https://www.clairvoyancemedium.com/" />
-  <meta property="og:image" content="https://i.imgur.com/GmyGlKk.jpg" />
-  <meta property="og:type" content="website" />
-  <link rel="canonical" href="https://www.clairvoyancemedium.com/" />
-  <link rel="icon" href="https://clairvoyancemedium.github.io/favicon_optimized.png" type="image/png" sizes="32x32">
-  <link rel="preconnect" href="https://clairvoyancemedium.github.io">
-  <link rel="preload" href="https://clairvoyancemedium.github.io/Consultation_de_voyance_par_email_pas_chere.github.io/Cinzel-Regular.woff2" as="font" type="font/woff2" crossorigin>
-
-  <!-- Police Cinzel avec fallback -->
-  <style>
-    @font-face {
-      font-family: 'Cinzel';
-      src: url('https://clairvoyancemedium.github.io/Consultation_de_voyance_par_email_pas_chere.github.io/Cinzel-Regular.woff2') format('woff2');
-      font-weight: 400;
-      font-display: swap;
-    }
-  </style>
-
-  <!-- Styles CSS optimisés -->
-  <style>
-    :root {
-      --gold: #BBAE98;
-      --dark-gold: #8B5A2B;
-      --donation-start: #87CEFA;
-      --donation-end: #F4A460; /* Orange clair */
-      --text-light: #F5F5F5;
-      --bg-dark: #1A1A1A;
-      --section-bg: #2A2A2A;
-      --neon-light: #d3d3d3; /* Gris clair */
-      --neon-reflect: #ff69b4; /* Rose néon */
-    }
-    html {
-      font-size: 16px;
-      scroll-behavior: smooth;
-      -webkit-text-size-adjust: 100%;
-    }
-    body {
-      margin: 0;
-      padding: 20px;
-      font-family: 'Cinzel', serif;
-      background: var(--bg-dark);
-      color: var(--text-light);
-      line-height: 1.6;
-      text-align: center;
-      -webkit-font-smoothing: antialiased;
-    }
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      background: var(--section-bg);
-      padding: 30px;
-      border-radius: 8px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.5);
-    }
-    header {
-      padding: 2rem 0;
-    }
-    header img {
-      width: 720px;
-      height: auto;
-      max-width: 100%;
-      display: block;
-      margin: 0 auto;
-    }
-    /* Nouvelle phrase stylisée sous le logo pour assistants vocaux */
-    .dynamic-phrase {
-      font-family: 'Cinzel', serif;
-      font-style: italic;
-      font-size: 2rem; /* Taille doublée */
-      color: var(--neon-light);
-      text-shadow: 0 0 5px var(--neon-reflect), 0 0 10px var(--neon-reflect);
-      transform: skew(-5deg);
-      margin: 1.5rem 0;
-      padding: 0.5rem;
-    }
-    /* Utilisation de <span lang="fr-FR"> pour les assistants vocaux avec une pause */
-    .dynamic-phrase span {
-      display: inline;
-      font-size: inherit;
-    }
-    .dynamic-phrase .pause {
-      display: inline;
-      margin: 0 0.5rem;
-      /* Pour simuler une pause lors de la lecture vocale */
-      /* Note : la durée réelle de la pause dépendra de l'assistant vocal */
-    }
-    h1 {
-      font-family: 'Cinzel', serif;
-      font-size: 2.5rem;
-      margin: 1.5rem 0;
-      text-transform: uppercase;
-      color: var(--gold);
-      letter-spacing: 1px;
-      min-height: 3rem;
-    }
-    .nav-container {
-      margin: 1rem 0 2rem;
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
-    .nav-container a {
-      font-family: 'Cinzel', serif;
-      color: var(--gold);
-      text-decoration: none;
-      padding: 0.75rem 1.25rem;
-      border: 1px solid var(--gold);
-      border-radius: 4px;
-      transition: background 0.3s;
-      min-width: 120px;
-      text-align: center;
-    }
-    .nav-container a:hover,
-    .nav-container a:focus {
-      background: var(--gold);
-      color: var(--bg-dark);
-      outline: 2px solid var(--donation-start);
-    }
-    .intro-text {
-      font-family: 'Cinzel', serif;
-      font-size: 1.1rem;
-      margin: 2rem auto;
-      max-width: 800px;
-      text-align: center;
-      background: var(--section-bg);
-      color: var(--text-light);
-      padding: 1rem;
-      border-radius: 4px;
-    }
-    /* Dans le texte d'introduction, on affiche désormais "en [mois année]" */
-    .intro-text span.dynamicMonthYear {
-      font-weight: bold;
-    }
-    section {
-      background: var(--section-bg);
-      padding: 2rem;
-      border-radius: 6px;
-      margin: 2rem 0;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-    }
-    .prediction-container {
-      background: var(--gold);
-      color: var(--bg-dark);
-    }
-    .disclaimer {
-      font-family: 'Cinzel', serif;
-      background: var(--section-bg);
-      color: var(--text-light);
-      padding: 1rem;
-      border-radius: 4px;
-      margin: 1rem 0;
-      font-weight: bold;
-      text-align: center;
-    }
-    .result {
-      font-family: 'Cinzel', serif;
-      font-size: 1.75rem;
-      font-weight: bold;
-      margin: 1.5rem 0;
-    }
-    #next-draw-datetime {
-      font-family: 'Cinzel', serif;
-      font-size: 1.25rem;
-    }
-    .btn,
-    .don-btn,
-    .email-btn {
-      font-family: 'Cinzel', serif;
-      display: inline-block;
-      padding: 1rem 2rem;
-      font-size: 1.5rem;
-      border-radius: 4px;
-      text-decoration: none;
-      margin-top: 1rem;
-      cursor: pointer;
-      transition: background 0.3s ease, transform 0.2s;
-      background: var(--gold);
-      color: var(--bg-dark);
-      border: none;
-      min-width: 120px;
-    }
-    .btn:hover,
-    .btn:focus,
-    .don-btn:hover,
-    .don-btn:focus,
-    .email-btn:hover,
-    .email-btn:focus {
-      background: var(--dark-gold);
-      transform: scale(1.05);
-      outline: 2px solid var(--donation-start);
-    }
-    .don-btn,
-    .email-btn {
-      background: linear-gradient(45deg, var(--donation-start), var(--donation-end));
-      border: 2px solid var(--donation-end);
-      color: var(--text-light);
-    }
-    /* Le numéro chance sera entouré de deux étoiles jaunes */
-    .chance-number {
-      color: #FFD700;
-      font-weight: bold;
-    }
-    .don-btn {
-      min-width: 200px;
-      animation: blink 1s infinite;
-    }
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.7; }
-    }
-    .carousel {
-      position: relative;
-      max-width: 100%;
-      min-height: 150px;
-      overflow: hidden;
-      border: 2px solid var(--donation-start);
-      border-radius: 8px;
-      box-shadow: 0 0 15px var(--donation-start), 0 0 15px var(--gold);
-    }
-    .carousel-inner {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    .carousel-item {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      opacity: 0;
-      transition: opacity 0.8s ease-in-out;
-      text-align: center;
-      padding: 1.5rem;
-      word-wrap: break-word;
-      font-size: 1rem;
-    }
-    .carousel-item.active {
-      opacity: 1;
-      position: relative;
-    }
-    .carousel-nav {
-      margin-top: 1rem;
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-    }
-    .carousel-nav button {
-      font-family: 'Cinzel', serif;
-      background: var(--donation-start);
-      color: var(--text-light);
-      border: none;
-      padding: 0.5rem 1rem;
-      cursor: pointer;
-      transition: background 0.3s, transform 0.2s;
-      border-radius: 4px;
-      min-width: 60px;
-    }
-    .carousel-nav button:hover,
-    .carousel-nav button:focus {
-      background: var(--gold);
-      transform: scale(1.1);
-      outline: 2px solid var(--donation-start);
-    }
-    footer {
-      font-family: 'Cinzel', serif;
-      margin-top: 3rem;
-      font-size: 0.9rem;
-      color: #B0B0B0;
-      text-align: center;
-    }
-    footer a {
-      color: var(--gold);
-      text-decoration: none;
-    }
-    footer a:hover,
-    footer a:focus {
-      text-decoration: underline;
-      outline: 2px solid var(--donation-start);
-    }
-    #draggableContact {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      width: 70px;
-      height: 70px;
-      background: linear-gradient(45deg, var(--donation-start), var(--donation-end));
-      border: 2px solid var(--donation-end);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: move;
-      z-index: 1000;
-      touch-action: none;
-    }
-    #draggableContact svg {
-      width: 32px;
-      height: 32px;
-      fill: var(--text-light);
-    }
-    :focus {
-      outline: 2px solid var(--donation-start);
-      outline-offset: 2px;
-    }
-    .subscribe-section {
-      background: var(--section-bg);
-      padding: 2rem;
-      border-radius: 6px;
-      margin: 2rem 0;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-    }
-    .subscribe-section p {
-      font-family: 'Cinzel', serif;
-      font-size: 1.1rem;
-      margin-bottom: 1rem;
-      text-align: center;
-    }
-    .subscribe-section form {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
-    .subscribe-section input[type="email"] {
-      padding: 0.75rem;
-      font-family: 'Cinzel', serif;
-      font-size: 1rem;
-      border: 2px solid var(--gold);
-      border-radius: 4px;
-      background: var(--bg-dark);
-      color: var(--text-light);
-      width: 250px;
-    }
-    .subscribe-section input[type="email"]::placeholder {
-      color: #B0B0B0;
-    }
-    .subscribe-section button {
-      background: linear-gradient(45deg, var(--donation-start), var(--donation-end));
-      border: 2px solid var(--donation-end);
-      color: var(--text-light);
-      padding: 1rem 2rem;
-      font-size: 1.5rem;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: background 0.3s ease, transform 0.2s;
-    }
-    .subscribe-section button:hover {
-      background: var(--dark-gold);
-      transform: scale(1.05);
-    }
-    @media (max-width: 600px) {
-      .container { padding: 15px; }
-      h1 { font-size: 2rem; }
-      h2 { font-size: 1.5rem; }
-      .result { font-size: 1.5rem; }
-      #draggableContact { width: 60px; height: 60px; }
-      .subscribe-section form { flex-direction: column; }
-      .carousel-item { font-size: 0.9rem; padding: 1rem; }
-      .btn, .don-btn, .email-btn, .subscribe-section button {
-        padding: 0.75rem 1.5rem;
-        font-size: 1.2rem;
-      }
-    }
-    section[loading="lazy"] {
-      opacity: 0;
-      transition: opacity 0.5s;
-    }
-    section[loading="lazy"].loaded {
-      opacity: 1;
-    }
-  </style>
-
-  <!-- Données structurées JSON-LD pour SEO -->
-  <script type="application/ld+json">
+    <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "Website",
-      "name": "ClairvoyanceMedium",
-      "url": "https://www.clairvoyancemedium.com/",
-      "description": "Boostez vos chances au Loto français avec nos grilles optimisées par notre algorithme d’intelligence artificielle le plus puissant.",
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": "https://www.clairvoyancemedium.com/search?q={search_term_string}",
-        "query-input": "required name=search_term_string"
-      },
-      "breadcrumb": {
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-          {"@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://www.clairvoyancemedium.com/"},
-          {"@type": "ListItem", "position": 2, "name": "Prédictions Loto", "item": "https://www.clairvoyancemedium.com/"}
-        ]
-      }
+      "@type": "WebSite",
+      "@id": "https://clairvoyancemedium.github.io/minceur-voyance.github.io/#website",
+      "url": "https://clairvoyancemedium.github.io/minceur-voyance.github.io/",
+      "name": "Gélules Minceur Victory & Voyance Email | Site Officiel Optimisé",
+      "description": "Site officiel ultra-optimisé SEO/IA des Gélules Minceur Victory et Voyance par Email. Découvrez nos produits, services, avis clients et articles de blog.",
+      "publisher": { "@id": "https://clairvoyancemedium.github.io/minceur-voyance.github.io/#organization" },
+      "potentialAction": { "@type": "SearchAction", "target": "https://clairvoyancemedium.github.io/minceur-voyance.github.io/?q={search_term_string}", "query-input": "required name=search_term_string" },
+      "inLanguage": "fr-FR"
     }
-  </script>
-
-  <!-- JSON-LD enrichi : FAQPage -->
-  <script type="application/ld+json">
+    </script>
+     <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "@id": "https://clairvoyancemedium.github.io/minceur-voyance.github.io/#organization",
+      "name": "ClairvoyanceMedium.com",
+      "url": "https://clairvoyancemedium.github.io/minceur-voyance.github.io/",
+      "logo": "https://clairvoyancemedium.github.io/favicon_optimized.png",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "email": "contact.clairvoyancemedium@gmail.com",
+        "contactType": "customer support"
+      },
+      "sameAs": [
+        "https://twitter.com/CabinetVoyance_"
+      ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://clairvoyancemedium.github.io/minceur-voyance.github.io/" },
+        { "@type": "ListItem", "position": 2, "name": "Gélules Minceur Victory", "item": "https://clairvoyancemedium.github.io/minceur-voyance.github.io/#minceur" },
+        { "@type": "ListItem", "position": 3, "name": "Voyance par Email", "item": "https://clairvoyancemedium.github.io/minceur-voyance.github.io/#voyance" }
+      ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      "@id": "https://clairvoyancemedium.github.io/minceur-voyance.github.io/#product-gelules",
+      "name": "Gélules Minceur Victory",
+      "description": "Complément alimentaire visant à soutenir la perte de poids en accélérant le métabolisme et en réduisant l'appétit, à utiliser dans le cadre d'un mode de vie sain.",
+      "brand": { "@type": "Brand", "name": "Victory" },
+      "image": "https://i.imgur.com/GmyGlKk.webp",
+      "sku": "VICTORY-GEL-01",
+      "mpn": "VGEL01",
+      "offers": [
+         {"@type": "Offer","url": "https://buy.stripe.com/9AQ28w5Zag1p5KE29u","price": "19.00","priceCurrency": "EUR","availability": "https://schema.org/InStock","name": "1 Boîte"},
+         {"@type": "Offer","url": "https://buy.stripe.com/5kA6oMfzK9D15KE6pL","price": "29.90","priceCurrency": "EUR","availability": "https://schema.org/InStock","name": "2 Boîtes"},
+         {"@type": "Offer","url": "https://buy.stripe.com/cN2bJ69bmbL9b4Y3dA","price": "43.00","priceCurrency": "EUR","availability": "https://schema.org/InStock","name": "Programme Personnalisé"}
+       ],
+       "aggregateRating": {
+         "@type": "AggregateRating",
+         "ratingValue": "4.8",
+         "reviewCount": "4",
+         "bestRating": "5",
+         "worstRating": "4"
+       },
+       "review": [
+         { "@id": "https://clairvoyancemedium.github.io/minceur-voyance.github.io/#review-sophie" },
+         { "@id": "https://clairvoyancemedium.github.io/minceur-voyance.github.io/#review-ahmed" }
+       ]
+    }
+    </script>
+     <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "@id": "https://clairvoyancemedium.github.io/minceur-voyance.github.io/#service-voyance",
+      "serviceType": "Consultation de Voyance par Email",
+      "description": "Obtenez des réponses claires et rapides à vos questions personnelles (amour, travail, finances) par email sous 24h. Service dirigé par Frederick.",
+      "provider": { "@id": "https://clairvoyancemedium.github.io/minceur-voyance.github.io/#organization" },
+      "areaServed": { "@type": "Country", "name": "WW" },
+      "offers": [
+        {"@type": "Offer","url": "https://buy.stripe.com/14kdRe0EQ4iH1uoaFa","price": "6.00","priceCurrency": "EUR","name": "1 Question"},
+        {"@type": "Offer","url": "https://buy.stripe.com/dR614scnycPddd66oV","price": "15.00","priceCurrency": "EUR","name": "3 Questions"},
+        {"@type": "Offer","url": "https://buy.stripe.com/28o3cA0EQ5mL0qk14C","price": "28.00","priceCurrency": "EUR","name": "5 Questions"}
+      ],
+      "aggregateRating": {
+         "@type": "AggregateRating",
+         "ratingValue": "5.0",
+         "reviewCount": "1",
+          "bestRating": "5",
+         "worstRating": "5"
+       },
+       "review": [ { "@id": "https://clairvoyancemedium.github.io/minceur-voyance.github.io/#review-luc" } ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "@id": "https://clairvoyancemedium.github.io/minceur-voyance.github.io/#service-magierouge",
+      "serviceType": "Rituel de Magie Rouge",
+      "description": "Rituel sentimental visant à raviver la flamme amoureuse ou attirer un nouvel amour.",
+      "provider": { "@id": "https://clairvoyancemedium.github.io/minceur-voyance.github.io/#organization" },
+      "offers": {"@type": "Offer","url": "https://buy.stripe.com/6oE9AYgDO2azehabJF","price": "250.00","priceCurrency": "EUR","name": "Rituel Magie Rouge"}
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "@id": "https://clairvoyancemedium.github.io/minceur-voyance.github.io/#service-compatibilite",
+      "serviceType": "Analyse de Compatibilité Amoureuse",
+      "description": "Étude de la compatibilité entre deux personnes sur le plan sentimental.",
+      "provider": { "@id": "https://clairvoyancemedium.github.io/minceur-voyance.github.io/#organization" },
+      "offers": {"@type": "Offer","url": "https://buy.stripe.com/28o28wgDO9D16OI5lf","price": "20.00","priceCurrency": "EUR","name": "Compatibilité Amoureuse"}
+    }
+    </script>
+     <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "@id": "https://clairvoyancemedium.github.io/minceur-voyance.github.io/#service-desenvoutement",
+      "serviceType": "Rituel de Désenvoûtement",
+      "description": "Rituel puissant visant à libérer des énergies négatives, blocages et influences néfastes.",
+      "provider": { "@id": "https://clairvoyancemedium.github.io/minceur-voyance.github.io/#organization" },
+      "offers": {"@type": "Offer","url": "https://buy.stripe.com/cN2bJ62MYg1p0qk5lE","price": "250.00","priceCurrency": "EUR","name": "Désenvoûtement Puissant"},
+       "aggregateRating": {
+         "@type": "AggregateRating",
+         "ratingValue": "5.0",
+         "reviewCount": "1",
+          "bestRating": "5",
+         "worstRating": "5"
+       },
+       "review": [ { "@id": "https://clairvoyancemedium.github.io/minceur-voyance.github.io/#review-marie" } ]
+    }
+    </script>
+    <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "FAQPage",
       "mainEntity": [
-        {"@type": "Question", "name": "Comment fonctionnent les prédictions Loto par IA ?", "acceptedAnswer": {"@type": "Answer", "text": "Notre IA analyse des données historiques, des tendances statistiques et des probabilités pour générer des grilles optimisées, boostant vos chances au Loto français."}},
-        {"@type": "Question", "name": "Les prédictions Loto garantissent-elles un gain ?", "acceptedAnswer": {"@type": "Answer", "text": "Non, ce sont des simulations indicatives basées sur l’IA et l’intuition de Frederick, mais elles maximisent vos opportunités."}},
-        {"@type": "Question", "name": "Pourquoi choisir ClairvoyanceMedium pour le Loto ?", "acceptedAnswer": {"@type": "Answer", "text": "Frederick combine 25 ans d’expertise spirituelle avec une IA de pointe pour offrir des prédictions uniques et précises."}},
-        {"@type": "Question", "name": "Comment recevoir les numéros Loto par e-mail ?", "acceptedAnswer": {"@type": "Answer", "text": "Inscrivez-vous via notre formulaire, et les prédictions vous parviennent directement dans votre boîte e-mail."}},
-        {"@type": "Question", "name": "Combien coûte une prédiction Loto ?", "acceptedAnswer": {"@type": "Answer", "text": "Les prédictions de base sont gratuites via l’inscription. Des services premium, comme la voyance, débutent à 22€."}},
-        {"@type": "Question", "name": "L’IA peut-elle prédire un tirage exact ?", "acceptedAnswer": {"@type": "Answer", "text": "Non, l’IA optimise les grilles mais ne peut garantir un tirage exact, car le Loto reste aléatoire."}},
-        {"@type": "Question", "name": "Frederick utilise-t-il la voyance pour les prédictions ?", "acceptedAnswer": {"@type": "Answer", "text": "Oui, son intuition spirituelle complète l’analyse IA pour des prédictions encore plus puissantes."}},
-        {"@type": "Question", "name": "Les prédictions fonctionnent-elles pour l’Euromillions ?", "acceptedAnswer": {"@type": "Answer", "text": "Non, nos grilles sont optimisées uniquement pour le Loto français, pas l’Euromillions."}},
-        {"@type": "Question", "name": "Comment maximiser mes chances au Loto ?", "acceptedAnswer": {"@type": "Answer", "text": "Utilisez nos grilles IA, jouez régulièrement, et combinez avec une consultation de Frederick pour un ressenti personnalisé."}},
-        {"@type": "Question", "name": "Puis-je demander une voyance Loto par téléphone ?", "acceptedAnswer": {"@type": "Answer", "text": "Oui, pour 22€, Frederick offre une voyance personnalisée par téléphone pour vos numéros chanceux."}},
-        {"@type": "Question", "name": "Les prédictions sont-elles disponibles sur mobile ?", "acceptedAnswer": {"@type": "Answer", "text": "Oui, notre site est optimisé pour mobile, et les voyances par e-mail sont accessibles partout."}},
-        {"@type": "Question", "name": "Quels sont les bienfaits d’un désenvoûtement pour le Loto ?", "acceptedAnswer": {"@type": "Answer", "text": "Un rituel à 250€ brise les blocages spirituels, restaurant votre chance naturelle pour les jeux."}},
-        {"@type": "Question", "name": "Combien de temps pour recevoir une prédiction ?", "acceptedAnswer": {"@type": "Answer", "text": "Les e-mails sont envoyés sous 24h après inscription, selon les tirages."}},
-        {"@type": "Question", "name": "Les prédictions IA sont-elles fiables ?", "acceptedAnswer": {"@type": "Answer", "text": "Elles reposent sur des données solides et l’expertise de Frederick, offrant une fiabilité supérieure aux choix aléatoires."}},
-        {"@type": "Question", "name": "Puis-je utiliser les prédictions depuis l’étranger ?", "acceptedAnswer": {"@type": "Answer", "text": "Oui, nos services sont accessibles mondialement, bien que ciblés sur le Loto français."}}
+        {"@type": "Question","name": "Les Gélules Minceur Victory sont-elles sûres ?","acceptedAnswer": {"@type": "Answer","text": "Les Gélules Minceur Victory sont présentées comme étant à base d'ingrédients naturels. Il est toujours conseillé de consulter un professionnel de santé avant de commencer tout complément alimentaire, notamment en cas de conditions médicales préexistantes."}},
+        {"@type": "Question","name": "Combien de temps pour voir des résultats avec les Gélules Minceur Victory ?","acceptedAnswer": {"@type": "Answer","text": "Des résultats peuvent être observés par certains utilisateurs dès 2 semaines, en complément d'une alimentation saine et d'exercice. Les résultats varient significativement d'une personne à l'autre."}},
+        {"@type": "Question","name": "La voyance par e-mail est-elle confidentielle ?","acceptedAnswer": {"@type": "Answer","text": "Oui, ClairvoyanceMedium.com assure une confidentialité totale de vos questions et des réponses fournies lors des consultations de voyance par e-mail."}},
+        {"@type": "Question","name": "Comment fonctionne le calculateur d'IMC ?","acceptedAnswer": {"@type": "Answer","text": "Notre calculateur utilise la formule standard de l'IMC (poids en kg divisé par la taille en mètres au carré) pour vous donner une indication de votre corpulence. Ce n'est qu'un indicateur général."}}
       ]
     }
-  </script>
-
-  <!-- Google Ads & Remarketing -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-CONVERSION_ID"></script>
-  <script nonce="48273">
-    (function() {
-      const initGoogleAds = ({ conversionId, conversionLabel = null, transactionValue = null, currency = 'EUR' }) => {
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){ dataLayer.push(arguments); }
-        gtag('js', new Date());
-        gtag('config', `AW-${conversionId}`);
-        gtag('event', 'page_view', { 'send_to': `AW-${conversionId}` });
-        if (conversionLabel && transactionValue !== null) {
-          gtag('event', 'conversion', {
-            'send_to': `AW-${conversionId}/${conversionLabel}`,
-            'value': transactionValue,
-            'currency': currency
-          });
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Review",
+        "@id": "https://clairvoyancemedium.github.io/minceur-voyance.github.io/#review-sophie",
+        "itemReviewed": { "@id": "https://clairvoyancemedium.github.io/minceur-voyance.github.io/#product-gelules" },
+        "author": { "@type": "Person", "name": "Sophie D." },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5", "worstRating": "1" },
+        "reviewBody": "Les Gélules Minceur Victory m’ont aidée à perdre 8kg en 1 mois ! Incroyable énergie.",
+        "publisher": { "@id": "https://clairvoyancemedium.github.io/minceur-voyance.github.io/#organization" }
+    }
+    </script>
+     <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Review",
+        "@id": "https://clairvoyancemedium.github.io/minceur-voyance.github.io/#review-luc",
+        "itemReviewed": { "@id": "https://clairvoyancemedium.github.io/minceur-voyance.github.io/#service-voyance" },
+        "author": { "@type": "Person", "name": "Luc M." },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5", "worstRating": "1" },
+        "reviewBody": "La voyance par e-mail m’a donné des réponses claires et précises sur mon avenir amoureux.",
+        "publisher": { "@id": "https://clairvoyancemedium.github.io/minceur-voyance.github.io/#organization" }
+    }
+    </script>
+     <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Review",
+        "@id": "https://clairvoyancemedium.github.io/minceur-voyance.github.io/#review-marie",
+        "itemReviewed": { "@id": "https://clairvoyancemedium.github.io/minceur-voyance.github.io/#service-desenvoutement" },
+        "author": { "@type": "Person", "name": "Marie L." },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5", "worstRating": "1" },
+        "reviewBody": "Le rituel de désenvoûtement a changé ma vie, je me sens enfin libérée et plus sereine !",
+        "publisher": { "@id": "https://clairvoyancemedium.github.io/minceur-voyance.github.io/#organization" }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Review",
+        "@id": "https://clairvoyancemedium.github.io/minceur-voyance.github.io/#review-ahmed",
+        "itemReviewed": { "@id": "https://clairvoyancemedium.github.io/minceur-voyance.github.io/#product-gelules" },
+        "author": { "@type": "Person", "name": "Ahmed K." },
+        "reviewRating": { "@type": "Rating", "ratingValue": "4.5", "bestRating": "5", "worstRating": "1" },
+        "reviewBody": "Programme personnalisé Gélules Minceur Victory : -12kg en 2 mois. Je recommande !",
+        "publisher": { "@id": "https://clairvoyancemedium.github.io/minceur-voyance.github.io/#organization" }
+    }
+    </script>
+    <script type="application/ld+json">
+    [
+        {
+            "@context": "https://schema.org", "@type": "BlogPosting", "@id": "https://clairvoyancemedium.github.io/minceur-voyance.github.io/#blog1",
+            "mainEntityOfPage": "https://clairvoyancemedium.github.io/minceur-voyance.github.io/#blog", "headline": "Optimiser Votre Perte de Poids",
+            "author": { "@id": "https://clairvoyancemedium.github.io/minceur-voyance.github.io/#organization" }, "publisher": { "@id": "https://clairvoyancemedium.github.io/minceur-voyance.github.io/#organization" },
+            "datePublished": "2025-04-25", "dateModified": "2025-04-25", "articleBody": "Maximisez les effets des Gélules Minceur Victory : buvez 1.5L d'eau/jour, privilégiez légumes et protéines, et bougez 30 min quotidiennement."
+        },
+        {
+             "@context": "https://schema.org", "@type": "BlogPosting", "@id": "https://clairvoyancemedium.github.io/minceur-voyance.github.io/#blog2",
+             "mainEntityOfPage": "https://clairvoyancemedium.github.io/minceur-voyance.github.io/#blog", "headline": "Secrets d'une Voyance Efficace",
+             "author": { "@id": "https://clairvoyancemedium.github.io/minceur-voyance.github.io/#organization" }, "publisher": { "@id": "https://clairvoyancemedium.github.io/minceur-voyance.github.io/#organization" },
+             "datePublished": "2025-04-25", "dateModified": "2025-04-25", "articleBody": "Posez des questions ouvertes (Comment...?), soyez précis sur le domaine (amour, travail...), et restez ouvert(e) aux réponses."
         }
-      };
-      const googleAdsConfig = {
-        conversionId: 'AW-00000000000',
-        conversionLabel: 'CONVERSION_LABEL_OPTIONNEL',
-        transactionValue: 0
-      };
-      initGoogleAds(googleAdsConfig);
-    })();
-  </script>
+        // Add JSON-LD for blog posts 3-10 here... (structure identical)
+    ]
+    </script>
 
-  <!-- Script Asynchrone pour Remarketing -->
-  <script nonce="48273">
-    (function() {
-      const conversionId = 'AW-00000000000';
-      var script = document.createElement('script');
-      script.src = `https://www.googleadservices.com/pagead/conversion_async.js?id=${conversionId}`;
-      script.async = true;
-      document.head.appendChild(script);
-      script.onload = function() {
-        var google_trackConversion = {
-          google_conversion_id: conversionId,
-          google_custom_params: window.google_tag_params || {},
-          google_remarketing_only: true
-        };
-      };
-    })();
-  </script>
-
-  <!-- Balise de Sécurité pour Remarketing Google Ads -->
-  <noscript>
-    <div style="display:inline;">
-      <img height="1" width="1" style="border-style:none;" alt=""
-           src="https://www.googleadservices.com/pagead/conversion/CONVERSION_ID/?value=0&amp;currency_code=EUR&amp;label=CONVERSION_LABEL_OPTIONNEL&amp;guid=ON&amp;script=0">
-    </div>
-  </noscript>
-
-  <!-- Google Tag Manager -->
-  <script nonce="48273">
-    (function(w,d,s,l,i){
-      w[l]=w[l]||[];
-      w[l].push({'gtm.start': new Date().getTime(), event:'gtm.js'});
-      var f=d.getElementsByTagName(s)[0],
-          j=d.createElement(s),
-          dl=l!='dataLayer'?'&l='+l:'';
-      j.async=true;
-      j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
-      f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-P3J6SXCH');
-  </script>
-  <!-- End Google Tag Manager -->
-
-  <!-- Google Analytics 4 -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-RZP46D0P7Y"></script>
-  <script nonce="48273">
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){ dataLayer.push(arguments); }
-    gtag('js', new Date());
-    gtag('config', 'G-RZP46D0P7Y', {
-      'send_page_view': true,
-      'linker': { 'domains': ['site1.com', 'site2.com', 'site3.com'] }
-    });
-  </script>
 </head>
-
 <body>
-  <!-- Google Tag Manager (noscript) -->
-  <noscript>
-    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P3J6SXCH" height="0" width="0" style="display:none;visibility:hidden"></iframe>
-  </noscript>
-  
-  <div class="container">
+
     <header role="banner">
-      <picture>
-        <source srcset="https://i.imgur.com/GmyGlKk.webp" type="image/webp" sizes="(max-width: 600px) 100vw, 720px">
-        <img src="https://i.imgur.com/GmyGlKk.jpg" alt="Logo ClairvoyanceMedium" loading="lazy" width="720" height="405" sizes="(max-width: 600px) 100vw, 720px" srcset="https://i.imgur.com/GmyGlKk.jpg 720w, https://i.imgur.com/GmyGlKk.jpg 360w">
-      </picture>
-      <!-- Nouvelle phrase stylisée sous le logo pour assistants vocaux -->
-      <div class="dynamic-phrase">
-        <span lang="fr-FR">Comment gagner au loto en <span id="dynamicDate"></span></span> ?
-      </div>
-      <!-- Boutons de navigation -->
-      <nav class="nav-container" role="navigation" aria-label="Menu principal">
-        <a href="#predictionSection" onclick="trackClick('Nav_Predictions')" aria-label="Générer votre grille de Loto gratuitement">Générer votre grille de Loto gratuitement</a>
-        <a href="#contactSection" onclick="trackClick('Nav_Contact')" aria-label="Une demande particulière pour un jeu de hasard ?">Une demande particulière pour un jeu de hasard ?</a>
-        <a href="#reviewsSection" onclick="trackClick('Nav_Reviews')" aria-label="Avis vérifiés">Avis vérifiés</a>
-        <a href="#servicesSection" onclick="trackClick('Nav_Services')" aria-label="Services nécessaires pour gagner au Loto">Services nécessaires pour gagner au Loto</a>
-      </nav>
-      <div class="intro-text" role="region" aria-label="Introduction">
-        <strong>Boostez vos chances de gagner gros</strong> au <strong>Loto français</strong> grâce à nos <strong>grilles spécialement conçues pour la "Française de jeux"</strong>, ultra-optimisées par la <strong>technologie la plus performante</strong> en <span id="dynamicMonthYear"></span>. Avec nos <strong>analyses historiques précises</strong>, notre <strong>algorithme avancé</strong> de pointe associé à l’<strong>expertise inégalée</strong> de notre voyant Frederick, chaque prédiction est minutieusement élaborée pour vous offrir les <strong>numéros gagnants</strong> et des <strong>stratégies exclusives</strong>. Ne laissez pas passer cette opportunité exceptionnelle d’<strong>augmenter votre potentiel de gain</strong> et de transformer votre vie grâce à des choix intelligents et performants... gratuitement!
-      </div>
+        <picture>
+            <source srcset="https://i.imgur.com/GmyGlKk.webp" type="image/webp">
+            <img src="https://i.imgur.com/GmyGlKk.jpg" alt="Logo ClairvoyanceMedium.com - Gélules Minceur Victory et Voyance" class="logo" decoding="async" fetchpriority="high">
+        </picture>
+        <div class="header-content">
+            <div class="top-rank">
+                <span class="number-one">Leader minceur et voyance en <span id="current-year"></span></span>
+                <span class="thank-you">Votre transformation commence maintenant !</span>
+            </div>
+            <h1>Gélules Minceur Victory &amp; Voyance par E-mail</h1>
+            <button class="favorite-button" id="favoriteBtn" type="button" aria-pressed="false" data-tracking-label="Favoris">
+                 <span class="favorite-text">Ajouter à vos favoris ⭐</span>
+                 <span class="site-link subtle-link" aria-hidden="true">www.clairvoyancemedium.com</span>
+            </button>
+            <div id="google_translate_element" style="text-align: center; margin-top: 1rem;"></div>
+        </div>
     </header>
+
+    <nav class="main-nav" role="navigation" aria-label="Navigation principale">
+        <ul>
+            <li><a href="#minceur" class="nav-link">Gélules Minceur Victory</a></li>
+            <li><a href="#voyance" class="nav-link">Voyance Email</a></li>
+            <li><a href="#services" class="nav-link">Services Spirituels</a></li>
+            <li><a href="#comparatif" class="nav-link">Tableau Comparatif</a></li>
+            <li><a href="#imc" class="nav-link">Calculateur IMC</a></li>
+            <li><a href="#avis" class="nav-link">Avis Clients</a></li>
+            <li><a href="#blog" class="nav-link">Blog</a></li>
+        </ul>
+    </nav>
+
     <main role="main">
-      <section class="prediction-container" id="predictionSection" loading="lazy" aria-label="Section des prédictions">
-        <h2>Générez la grille parfaite gratuitement pour le prochain tirage du Loto (invalide pour l’Euromillions)</h2>
-        <p id="next-draw-datetime"><time id="draw-time" datetime=""></time></p>
-        <p class="result" id="prediction" role="status" aria-live="polite">Chargement...</p>
-        <div class="disclaimer" role="alert">Résultats non garantis</div>
-        <button class="btn" onclick="getAdvancedPredictions(); trackClick('Generate_Grid')" aria-label="Générer une nouvelle grille">Générer une nouvelle grille de Loto gagnante</button>
-      </section>
 
-      <a href="https://buy.stripe.com/aEU3cAgDOeXl7SMbK3" class="don-btn" target="_blank" rel="noopener noreferrer" onclick="trackClick('Donation_Bottom')" aria-label="Faire un don">Faire un don : Quelques euros seulement, de temps en temps, changent la donne ! Soutenez le développement et améliorez nos services pour participer à votre propre changement de vie !</a>
-      
-      <section class="subscribe-section" id="subscribeSection" loading="lazy" aria-label="Inscription à la newsletter">
-        <h2>Recevez des grilles exclusives directement dans votre boîte mail</h2>
-        <p>Inscrivez-vous pour recevoir par e-mail des numéros pour le prochain tirage du Loto (et non l’Euromillions). Si Frédéric du cabinet ClairvoyanceMedium.com a un ressenti fort, vous serez les premiers avertis gratuitement.</p>
-        <form id="subscribeForm" onsubmit="handleSubscribe(event)" aria-label="Formulaire d'inscription à la newsletter">
-          <input type="email" placeholder="Entrez votre e-mail" required aria-label="Adresse e-mail pour inscription">
-          <button type="submit" aria-label="S’inscrire">S’inscrire</button>
-        </form>
-      </section>
+        <section class="content-container" id="minceur" aria-labelledby="minceur-heading">
+            <h2 id="minceur-heading">Gélules Minceur Victory</h2>
+            <p>Les <strong>Gélules Minceur Victory</strong> sont votre partenaire idéal pour sculpter votre silhouette et booster votre confiance. Élaborées à partir d'ingrédients rigoureusement sélectionnés (selon le fabricant), elles sont conçues pour stimuler votre métabolisme, aider à la gestion de l'appétit et optimiser la combustion des graisses.</p>
+            <p><strong>Bénéfices clés des Gélules Minceur Victory :</strong></p>
+            <ul class="check-list">
+                <li>Soutien notable à la perte de poids.</li>
+                <li>Contribution à un niveau d'énergie élevé.</li>
+                <li>Amélioration de la confiance en soi.</li>
+                <li>Formulation pensée pour votre bien-être.</li>
+            </ul>
+            <div class="cta-buttons-container">
+                <a href="https://buy.stripe.com/9AQ28w5Zag1p5KE29u" target="_blank" rel="noopener noreferrer" class="cta-button prix" data-tracking-label="Victory1Box" data-tracking-value="19">1 Boîte Gélules Minceur Victory – 19€</a>
+                <a href="https://buy.stripe.com/5kA6oMfzK9D15KE6pL" target="_blank" rel="noopener noreferrer" class="cta-button prix" data-tracking-label="Victory2Box" data-tracking-value="29.90">2 Boîtes Gélules Minceur Victory – 29,90€</a>
+                <a href="https://buy.stripe.com/cN2bJ69bmbL9b4Y3dA" target="_blank" rel="noopener noreferrer" class="cta-button prix" data-tracking-label="VictoryProgram" data-tracking-value="43">Programme Gélules Minceur Victory – 43€</a>
+            </div>
+        </section>
 
-      <section id="contactSection" loading="lazy" aria-label="Section Contact">
-        <h2>Votre demande particulière</h2>
-        <p>Contactez-nous pour une assistance personnalisée concernant le Loto ou tout autre jeu de hasard (PMU, Euromillions, Keno, Paris sportif, etc.).</p>
-        <a href="mailto:contact.clairvoyancemedium@gmail.com?tracking=suivi" class="email-btn" target="_blank" rel="noopener noreferrer" onclick="trackClick('Email_Contact')" aria-label="Envoyer un e-mail">Envoyer un e-mail</a>
-      </section>
+        <section class="content-container" id="voyance" aria-labelledby="voyance-heading">
+            <h2 id="voyance-heading">Voyance par E-mail</h2>
+            <p>Recevez des éclairages précis sur votre avenir grâce à nos consultations de voyance par e-mail, menées par Frederick. Que vos questions concernent l'amour, la carrière ou vos finances, obtenez des réponses détaillées et confidentielles en 24h (délai indicatif). Un service de <a href="https://clairvoyancemedium.github.io/online-psychic-readings.github.io/" rel="noopener noreferrer" class="subtle-link">voyance en ligne</a> fiable et accessible.</p>
+            <p><strong>Atouts de notre Voyance par Email :</strong></p>
+            <ul class="check-list">
+                <li>Obtention rapide de clarté décisionnelle.</li>
+                <li>Confidentialité garantie de vos échanges.</li>
+                <li>Haut taux de satisfaction client reporté.</li>
+                <li>Simplicité et accessibilité du service.</li>
+            </ul>
+            <div class="cta-buttons-container">
+                <a href="https://buy.stripe.com/14kdRe0EQ4iH1uoaFa" target="_blank" rel="noopener noreferrer" class="cta-button prix" data-tracking-label="Voyance1Q" data-tracking-value="6">Voyance 1 Question – 6€</a>
+                <a href="https://buy.stripe.com/dR614scnycPddd66oV" target="_blank" rel="noopener noreferrer" class="cta-button prix" data-tracking-label="Voyance3Q" data-tracking-value="15">Voyance 3 Questions – 15€</a>
+                <a href="https://buy.stripe.com/28o3cA0EQ5mL0qk14C" target="_blank" rel="noopener noreferrer" class="cta-button prix" data-tracking-label="Voyance5Q" data-tracking-value="28">Voyance 5 Questions – 28€</a>
+            </div>
+        </section>
 
-      <section id="reviewsSection" loading="lazy" aria-label="Section Avis">
-        <h2>Derniers avis de nos utilisateurs ⭐⭐⭐⭐⭐</h2>
-        <div class="carousel" role="region" aria-label="Carrousel d'avis" aria-live="polite" tabindex="0">
-          <div class="carousel-inner" id="carouselInner"></div>
-        </div>
-        <div class="carousel-nav">
-          <button onclick="prevReview(); trackClick('Carousel_Prev')" aria-label="Avis précédent">←</button>
-          <button onclick="nextReview(); trackClick('Carousel_Next')" aria-label="Avis suivant">→</button>
-        </div>
-        <a href="https://buy.stripe.com/aEU3cAgDOeXl7SMbK3" class="don-btn" target="_blank" rel="noopener noreferrer" onclick="trackClick('Donation_Bottom')" aria-label="Faire un don">Faire un don</a>
-      </section>
+        <section class="content-container spiritual-services" id="services" aria-labelledby="services-heading">
+            <h2 id="services-heading">Services Spirituels Puissants</h2>
+            <p>Explorez nos rituels et consultations conçus pour lever les blocages énergétiques, attirer l'amour et la prospérité, et restaurer l'harmonie dans votre vie.</p>
+            <ul>
+                <li> <span class="service-description"><strong>Rituel de Magie Rouge Sentimentale :</strong> Idéal pour renforcer les liens ou attirer une nouvelle relation passionnée.</span> <a href="https://buy.stripe.com/6oE9AYgDO2azehabJF" target="_blank" rel="noopener noreferrer" class="cta-button" data-tracking-label="MagieRouge" data-tracking-value="250">Commander Rituel Amour – 250€</a> </li>
+                <li> <span class="service-description"><strong>Analyse de Compatibilité Amoureuse :</strong> Découvrez les forces et défis de votre relation actuelle ou potentielle.</span> <a href="https://buy.stripe.com/28o28wgDO9D16OI5lf" target="_blank" rel="noopener noreferrer" class="cta-button" data-tracking-label="Compatibilite" data-tracking-value="20">Commander Analyse Duo – 20€</a> </li>
+                <li> <span class="service-description"><strong>Désenvoûtement Énergétique Puissant :</strong> Libérez-vous des influences négatives et retrouvez clarté et sérénité.</span> <a href="https://buy.stripe.com/cN2bJ62MYg1p0qk5lE" target="_blank" rel="noopener noreferrer" class="cta-button" data-tracking-label="Desenvoutement" data-tracking-value="250">Commander Libération – 250€</a> </li>
+            </ul>
+        </section>
 
-      <section id="servicesSection" loading="lazy" aria-label="Section Services">
-        <h2>Nos services exclusifs pour gagner de jolies sommes d'argent grâce au Loto français</h2>
-        <p>Améliorez votre succès avec nos solutions sur-mesure, conçues pour maximiser vos opportunités et prendre une longueur d’avance sur le hasard.</p>
-        <a href="https://www.clairvoyancemedium.com/Voyance-par-telephone-5-minutes-cbaaaaaZa.asp?tracking=suivi" class="btn" target="_blank" rel="noopener noreferrer" onclick="trackClick('Telephone_Voyance_5')" aria-label="Voyance par téléphone 5 min/8,00€">Voyance par téléphone 24h/7jrs au 06.95.46.89.23 - 5 min/8,00€</a>
-        <a href="https://www.clairvoyancemedium.com/Voyance-3-Questions-par-Email-cbaaaaaca.asp?tracking=suivi" class="btn" target="_blank" rel="noopener noreferrer" onclick="trackClick('Email_Voyance_3')" aria-label="Voyance par e-mail - 3 questions/12,00€">Voyance par e-mail - 3 questions/12,00€</a>
-        <a href="https://www.clairvoyancemedium.com/Voyance-par-telephone-20-minutes-cbaaaaapa.asp?tracking=suivi" class="btn" target="_blank" rel="noopener noreferrer" onclick="trackClick('Telephone_Voyance_22')" aria-label="Voyance par téléphone 20 min/22,00€">Voyance par téléphone 24h/7jrs au 06.95.46.89.23 - 20 min/22,00€</a>
-        <a href="https://www.clairvoyancemedium.com/Desenvoutement-et-protection-a-distance-cbaaaaala.asp?tracking=suivi" class="btn" target="_blank" rel="noopener noreferrer" onclick="trackClick('Desenvoutement')" aria-label="Rituel anti-malchance - 150,00€">Rituel anti-malchance pour réussir à gagner aux jeux – 150,00€</a>
-        <a href="https://www.clairvoyancemedium.com/Recevez-1-message-d-un-defunt-cbaaaabka.asp?tracking=suivi" class="btn" target="_blank" rel="noopener noreferrer" onclick="trackClick('Defunt_Message')" aria-label="Appel à un défunt - 17,00€">Appel à un défunt pour vous aider à gagner au Loto - 17,00€</a>
-      </section>
+        <section class="content-container" id="comparatif" aria-labelledby="comparatif-heading">
+             <h2 id="comparatif-heading">Comparatif Rapide des Offres</h2>
+             <div class="comparison-table-container">
+                 <table class="comparison-table">
+                     <caption>Gélules Minceur Victory vs Voyance Email (€)</caption>
+                     <thead>
+                         <tr> <th scope="col">Caractéristique</th> <th scope="col">Gélules Minceur Victory (1)</th> <th scope="col">Gélules Minceur Victory (2)</th> <th scope="col">Prog. Victory</th> <th scope="col">Voyance (1 Q.)</th> <th scope="col">Voyance (3 Q.)</th> <th scope="col">Voyance (5 Q.)</th> </tr>
+                     </thead>
+                     <tbody>
+                         <tr> <th scope="row">Objectif</th> <td>Minceur/Énergie</td> <td>Minceur/Énergie</td> <td>Minceur Perso.</td> <td>Réponse Unique</td> <td>Réponses Multiples</td> <td>Analyse Détaillée</td> </tr>
+                         <tr> <th scope="row">Format</th> <td>Gélules</td> <td>Gélules</td> <td>Gélules+</td> <td>Email</td> <td>Email</td> <td>Email</td> </tr>
+                         <tr> <th scope="row">Volume</th> <td>~1 Mois</td> <td>~2 Mois</td> <td>Variable</td> <td>1 Question</td> <td>3 Questions</td> <td>5 Questions</td> </tr>
+                         <tr> <th scope="row">Prix</th> <td class="price">19,00</td> <td class="price">29,90</td> <td class="price">43,00</td> <td class="price">6,00</td> <td class="price">15,00</td> <td class="price">28,00</td> </tr>
+                         <tr> <th scope="row">€ / Unité</th> <td>19 €/mois</td> <td>14,95 €/mois</td> <td>N/A</td> <td>6 €/Q</td> <td>5 €/Q</td> <td>5,60 €/Q</td> </tr>
+                     </tbody>
+                 </table>
+             </div>
+        </section>
+
+        <section class="imc-calculator" id="imc" aria-labelledby="imc-heading">
+            <h2 id="imc-heading">Calculateur d'Indice de Masse Corporelle (IMC)</h2>
+            <form id="imcForm">
+                <div><label for="weight">Votre Poids (en kg) :</label><input type="number" id="weight" name="weight" required inputmode="decimal" min="10" max="300" placeholder="Ex: 70"></div>
+                <div><label for="height">Votre Taille (en mètres) :</label><input type="number" id="height" name="height" step="0.01" required inputmode="decimal" min="0.5" max="2.8" placeholder="Ex: 1.75"></div>
+                <button type="submit" class="imc-button" data-tracking-label="IMCCalculate">Calculer mon IMC</button>
+                <div id="imc-error" role="alert" aria-live="assertive"></div>
+            </form>
+            <p id="imc-result" aria-live="polite"></p>
+        </section>
+
+        <section class="content-container" id="avis" aria-labelledby="avis-heading">
+            <h2 id="avis-heading">Avis de nos Clients</h2>
+            <div class="carousel" id="avisCarousel" role="region" aria-roledescription="carousel" aria-label="Carrousel d'avis clients" tabindex="0">
+                <div class="carousel-inner" id="avisCarouselInner" aria-live="off">
+                     <div class="carousel-item active" role="group" aria-roledescription="slide"><figure><blockquote>« Très satisfaite des Gélules Minceur Victory. J'ai perdu 8kg le premier mois sans effort démesuré. L'énergie est au rendez-vous! »</blockquote><figcaption>— Sophie D., Paris</figcaption></figure></div>
+                     <div class="carousel-item" role="group" aria-roledescription="slide"><figure><blockquote>« La voyance par e-mail a été une révélation. Des réponses rapides, justes et bienveillantes sur ma situation amoureuse. »</blockquote><figcaption>— Luc M., Lyon</figcaption></figure></div>
+                     <div class="carousel-item" role="group" aria-roledescription="slide"><figure><blockquote>« Après le désenvoûtement, j'ai senti un poids énorme s'enlever. Ma vie a repris des couleurs. Un travail sérieux et efficace. »</blockquote><figcaption>— Marie L., Marseille</figcaption></figure></div>
+                     <div class="carousel-item" role="group" aria-roledescription="slide"><figure><blockquote>« Le programme personnalisé avec les Gélules Minceur Victory est top. -12kg en 2 mois et un suivi appréciable. Je recommande chaudement ! »</blockquote><figcaption>— Ahmed K., Bordeaux</figcaption></figure></div>
+                </div>
+                 <div class="carousel-nav"><button class="prevBtn" aria-controls="avisCarouselInner" aria-label="Avis précédent">←</button><button class="nextBtn" aria-controls="avisCarouselInner" aria-label="Avis suivant">→</button></div>
+            </div>
+        </section>
+
+         <section class="content-container" id="blog" aria-labelledby="blog-heading">
+            <h2 id="blog-heading">Nos Conseils et Articles de Blog</h2>
+             <div class="carousel" id="blogCarousel" role="region" aria-roledescription="carousel" aria-label="Carrousel d'articles de blog" tabindex="0">
+                <div class="carousel-inner" id="blogCarouselInner" aria-live="off">
+                    <div class="carousel-item active" role="group" aria-roledescription="slide"><article><h3 id="blog1-title">Maximiser Votre Perte de Poids</h3><p>Associez vos Gélules Minceur Victory à une hydratation optimale (1,5L+), une alimentation riche en fibres et protéines, et 30 min d'activité physique quotidienne pour des résultats optimaux.</p></article></div>
+                    <div class="carousel-item" role="group" aria-roledescription="slide"><article><h3 id="blog2-title">Poser les Bonnes Questions en Voyance</h3><p>Formulez des questions ouvertes ("Comment puis-je...", "Quelles sont les pistes pour...") plutôt que fermées (oui/non). Précisez le domaine et donnez un bref contexte si utile.</p></article></div>
+                    <div class="carousel-item" role="group" aria-roledescription="slide"><article><h3 id="blog3-title">Gélules Minceur Victory : Indications</h3><p>Ces gélules s'adressent aux adultes cherchant un soutien métabolique. Un avis médical est recommandé en cas de traitement ou condition spécifique (grossesse, allaitement...).</p></article></div>
+                    <div class="carousel-item" role="group" aria-roledescription="slide"><article><h3 id="blog4-title">L'Art d'Interpréter une Consultation</h3><p>La voyance éclaire des potentiels. Utilisez les informations reçues comme une boussole pour guider votre intuition et vos choix, non comme une fatalité.</p></article></div>
+                    <div class="carousel-item" role="group" aria-roledescription="slide"><article><h3 id="blog5-title">Synergie Minceur &amp; Bien-être Mental</h3><p>Le succès de votre démarche minceur est lié à votre état d'esprit. Complémentez les Gélules Minceur Victory avec des pratiques anti-stress (relaxation, méditation).</p></article></div>
+                    <div class="carousel-item" role="group" aria-roledescription="slide"><article><h3 id="blog6-title">La Magie Rouge Expliquée</h3><p>Centrée sur l'amour et les sentiments, la magie rouge agit sur les énergies. Nos rituels respectent le libre arbitre. L'intention et la réceptivité sont clés.</p></article></div>
+                    <div class="carousel-item" role="group" aria-roledescription="slide"><article><h3 id="blog7-title">Au-delà de l'IMC</h3><p>L'Indice de Masse Corporelle est utile mais limité (ignore la composition corporelle). Considérez-le comme un point de repère dans une approche globale.</p></article></div>
+                    <div class="carousel-item" role="group" aria-roledescription="slide"><article><h3 id="blog8-title">Voyance vs Guidance : Quelles Différences ?</h3><p>La voyance explore les probabilités futures. La guidance spirituelle vous aide à comprendre votre chemin de vie. Nos consultations peuvent intégrer les deux aspects.</p></article></div>
+                    <div class="carousel-item" role="group" aria-roledescription="slide"><article><h3 id="blog9-title">L'Impact de Vos Témoignages</h3><p>Vos retours sur les Gélules Minceur Victory ou nos consultations sont précieux. Ils nous aident à progresser et guident les nouveaux clients. Merci !</p></article></div>
+                    <div class="carousel-item" role="group" aria-roledescription="slide"><article><h3 id="blog10-title">Signes d'un Besoin de Désenvoûtement</h3><p>Blocages répétitifs, malchance persistante, sentiment d'oppression, fatigue inexpliquée peuvent indiquer la nécessité d'un nettoyage énergétique.</p></article></div>
+                </div>
+                <div class="carousel-nav"><button class="prevBtn" aria-controls="blogCarouselInner" aria-label="Article précédent">←</button><button class="nextBtn" aria-controls="blogCarouselInner" aria-label="Article suivant">→</button></div>
+            </div>
+        </section>
+
+        <section class="subscribe-section" id="subscribe" aria-labelledby="subscribe-heading">
+            <h2 id="subscribe-heading">Restez Informé(e) : Offres & Conseils Exclusifs</h2>
+            <p>Inscrivez-vous à notre newsletter pour recevoir nos meilleures astuces minceur et nos analyses spirituelles directement par e-mail.</p>
+            <form id="subscribeForm" class="subscribe-form" novalidate>
+                 <label for="subscribeEmail" class="visually-hidden">Votre adresse e-mail</label>
+                 <input type="email" id="subscribeEmail" name="email" placeholder="Entrez votre e-mail ici" required aria-required="true" autocomplete="email">
+                 <button type="submit" class="subscribe-button" id="subscribeBtn" data-tracking-label="NewsletterSubscribe">S’inscrire Maintenant</button>
+            </form>
+             <div id="subscribe-feedback" role="status" aria-live="polite"></div>
+        </section>
+
     </main>
-    
+
     <footer role="contentinfo">
-      <p>© <span id="current-year"></span> ClairvoyanceMedium.com - Tous droits réservés.</p>
-      <p><a href="https://www.clairvoyancemedium.com" target="_blank" rel="noopener noreferrer" onclick="trackClick('Footer_Link')" aria-label="Visitez notre site officiel">www.clairvoyancemedium.com</a></p>
+         <p><a href="mailto:contact.clairvoyancemedium@gmail.com" data-tracking-label="ContactFooter">CONTACT</a> | <a href="https://www.clairvoyancemedium.com/conditions-generales" target="_blank" rel="noopener noreferrer" data-tracking-label="CGVFooter">Conditions Générales</a></p>
+        <p>© <span id="current-year-footer"></span> <a href="https://www.clairvoyancemedium.com/" rel="noopener noreferrer" class="subtle-link">ClairvoyanceMedium.com</a> - Tous droits réservés.</p>
+        <p class="disclaimer" style="font-size: 0.8em; margin-top: 1rem; max-width: 60ch; margin-left: auto; margin-right: auto; text-align: center;">Avertissement : Les résultats individuels des Gélules Minceur Victory peuvent varier. Il est recommandé de consulter un professionnel de la santé avant de commencer tout programme de perte de poids ou de prendre des compléments alimentaires. Les services de voyance, de magie et de désenvoûtement sont proposés à des fins de divertissement et de développement personnel et ne sauraient remplacer un avis médical, juridique ou financier professionnel.</p>
     </footer>
-  </div>
 
-  <div id="draggableContact" aria-label="Contactez-nous par e-mail" role="button" tabindex="0">
-    <a href="mailto:contact.clairvoyancemedium@gmail.com?tracking=suivi" target="_blank" rel="noopener noreferrer" onclick="trackClick('Contact_Icon')" aria-label="Envoyer un e-mail de contact">
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"></path>
-      </svg>
-    </a>
-  </div>
-
-  <!-- Scripts optimisés -->
-  <script defer>
-    // Mise à jour dynamique :
-    // Pour la phrase sous le logo ("comment gagner au loto en [mois année]")
-    const now = new Date();
-    const currentYear = now.getFullYear();
-    const currentMonth = now.toLocaleString('fr-FR', { month: 'long' });
-    // Mise à jour pour la phrase stylisée sous le logo
-    document.getElementById("dynamicDate").textContent = currentMonth + " " + currentYear;
-    // Dans le texte d'introduction, afficher "en [mois année]"
-    document.getElementById("dynamicMonthYear").textContent = currentMonth + " " + currentYear;
-    // Mise à jour du footer (uniquement l'année)
-    document.getElementById("current-year").textContent = currentYear;
-
-    // Fonction de suivi pour tous les boutons et liens
-    function trackClick(eventLabel) {
-      console.log(`Tracking: ${eventLabel}`);
-      if (typeof gtag === 'function') {
-        gtag('event', 'click', { event_category: 'Interaction', event_label: eventLabel, value: 1 });
-      }
-    }
-
-    // Données Loto simulées
-    const lotoData = {
-      history: [
-        { numbers: new Uint8Array([5, 12, 19, 26, 33]), chance: 8 },
-        { numbers: new Uint8Array([7, 13, 22, 41, 38]), chance: 7 },
-        { numbers: new Uint8Array([7, 15, 22, 41, 38]), chance: 9 },
-        { numbers: new Uint8Array([4, 12, 19, 41, 38]), chance: 6 },
-        { numbers: new Uint8Array([5, 13, 19, 41, 33]), chance: 8 }
-      ]
-    };
-    const fetchLotoData = () => Promise.resolve(lotoData);
-
-    // Algorithme optimisé pour générer une grille
-    function computeOptimizedGrid(history) {
-      const freq = new Uint32Array(49);
-      history.forEach(draw => draw.numbers.forEach(num => freq[num - 1]++));
-      const selected = new Uint8Array(5);
-      let count = 0;
-      while (count < 5) {
-        const totalWeight = freq.reduce((a, b) => a + (b + 1), 0);
-        let rnd = Math.random() * totalWeight, cum = 0;
-        for (let i = 0; i < 49; i++) {
-          cum += freq[i] + 1;
-          if (rnd < cum && ![...selected.subarray(0, count)].includes(i + 1)) {
-            selected[count++] = i + 1;
-            break;
-          }
-        }
-      }
-      selected.sort();
-      const chanceFreq = new Uint32Array(10);
-      history.forEach(draw => chanceFreq[draw.chance - 1]++);
-      const totalChanceWeight = chanceFreq.reduce((a, b) => a + (b + 1), 0);
-      let rndChance = Math.random() * totalChanceWeight, cumChance = 0;
-      let chance = 1;
-      for (let i = 0; i < 10; i++) {
-        cumChance += chanceFreq[i] + 1;
-        if (rndChance < cumChance) {
-          chance = i + 1;
-          break;
-        }
-      }
-      return [...selected, chance];
-    }
-
-    // Calcul de la prochaine date de tirage avec horaire dynamique :
-    // Si c'est un jour de tirage (lundi, mercredi, samedi) et avant 20h10, le tirage est aujourd'hui à 20h20.
-    // Sinon, le prochain tirage est affiché avec une heure de 20h10.
-    function getNextDrawDate() {
-      const now = new Date();
-      const drawDays = [1, 3, 6]; // Lundi, Mercredi, Samedi
-      const currentDay = now.getDay();
-      const currentHours = now.getHours();
-      const currentMinutes = now.getMinutes();
-      let nextDraw = new Date(now);
-      let isDrawDay = drawDays.includes(currentDay);
-      if (isDrawDay && (currentHours < 20 || (currentHours === 20 && currentMinutes < 10))) {
-        // Aujourd'hui, tirage à 20h20
-        nextDraw.setHours(20, 20, 0, 0);
-      } else {
-        // Chercher le prochain jour de tirage
-        let daysToAdd = 1;
-        while (!drawDays.includes((currentDay + daysToAdd) % 7)) {
-          daysToAdd++;
-        }
-        nextDraw.setDate(now.getDate() + daysToAdd);
-        // Définir l'heure à 20h10 pour le prochain tirage
-        nextDraw.setHours(20, 10, 0, 0);
-      }
-      return nextDraw;
-    }
-
-    // Mise à jour du DOM pour les prédictions avec balise <time>
-    const predictionEl = document.getElementById("prediction");
-    const nextDrawEl = document.getElementById("next-draw-datetime");
-    async function getAdvancedPredictions() {
-      try {
-        const data = await fetchLotoData();
-        const nextDrawDate = getNextDrawDate();
-        const nextDrawText = nextDrawDate.toLocaleDateString('fr-FR') + ' | ' + nextDrawDate.toLocaleTimeString('fr-FR', {hour: '2-digit', minute:'2-digit'});
-        const isoDate = nextDrawDate.toISOString();
-        document.getElementById("draw-time").textContent = nextDrawText;
-        document.getElementById("draw-time").setAttribute("datetime", isoDate);
-        nextDrawEl.innerHTML = `Prochain tirage du Loto (et non l’Euromillions) : <time id="draw-time" datetime="${isoDate}">${nextDrawText}</time>`;
-        const grid = computeOptimizedGrid(data.history);
-        // Le dernier élément (numéro chance) est entouré de deux étoiles jaunes
-        predictionEl.innerHTML = `${grid.slice(0, 5).join(" - ")} - Chance : **<span class="chance-number">${grid[5]}</span>**`;
-      } catch (error) {
-        console.error("Erreur lors de la génération des prédictions :", error);
-        predictionEl.textContent = "Erreur lors du chargement.";
-      }
-    }
-    getAdvancedPredictions();
-
-    // Carrousel d'avis accessible
-    const reviews = [
-      "« J'ai utilisé cette stratégie et gagné 500 € – simple et efficace. » - Clara, 29 ans (Note : 8/10)",
-      "« Le service m'a permis d'encaisser 300 €. » - Thomas, 35 ans (Note : 7/10)",
-      "« Grâce aux désenvoutements proposés, j'ai gagné au loto 3 semaines après. » - Sophie, 42 ans (Note : 9/10)",
-      "« Quand j'ai vu mes numéros s'afficher... whaou et j'ai gagné 800 €. Service concret et direct. À recommander » - Julien, 31 ans (Note : 8/10)",
-      "« Le site m'aide à gagner au loto plusieurs fois dans l'année. Même sans gros gain, j'en ressens l'impact. » - Élodie, 27 ans (Note : 7/10)",
-      "« J'utilise le service régulièrement et j'ai obtenu 1000 € de gains. » - Marc, 48 ans (Note : 9/10)",
-      "« L'approche est claire : j'ai gagné 600 € et le site est facile à utiliser. » - Aline, 33 ans (Note : 8/10)",
-      "« Ça m'a permis d'encaisser 700 € sans complications. » - Lucas, 39 ans (Note : 8/10)",
-      "« Service fiable, j'ai gagné 850 €. » - Laura, 36 ans (Note : 9/10)",
-      "« Un bon outil pour gagner au loto : j'ai pris 250 € et je suis satisfait. » - Antoine, 28 ans (Note : 7/10)",
-      "« Ce site apporte des résultats concrets : 500 € gagnés et une interface intuitive. » - Valérie, 45 ans (Note : 8/10)",
-      "« J'ai perçu 1900 € en tout sur mon compte, et le service reste simple et direct. » - Pierre, 34 ans (Note : 9/10)",
-      "« Après avoir suivi les désenvoutements, j'ai gagné au loto et touché 7100 € en 2 fois. » - Manon, 26 ans (Note : 8/10)",
-      "« Donne des résultats : 650 € je le recommande. » - Olivier, 51 ans (Note : 8/10)",
-      "« J'ai gagné 350 € et trouvé le site facile à utiliser. » - Chloé, 30 ans (Note : 7/10)",
-      "« Pour réussir au loto, ce site est utile j'ai gagné 750 € et je le trouve pratique. » - Hugo, 37 ans (Note : 8/10)",
-      "« Une bonne expérience, j'ai gagné 800 €. » - Isabelle, 44 ans (Note : 8/10)",
-      "« J'ai reussi à gagner 1200 €, sans complication. » - Nathan, 25 ans (Note : 9/10)",
-      "« De réelles chances : j'ai gagnée 400 € et ça m'a aidé pour payer mes factures. » - Céline, 40 ans (Note : 7/10)",
-      "« Service pratique, 950 € gagnés et des conseils utiles pour avancer. » - Rémi, 32 ans (Note : 8/10)",
-      "« J'aime ce service : j'ai touché 700 € et ça me motive à continuer. » - Élodie, 29 ans (Note : 8/10)",
-      "« Les numéros s'affichent clairement sur le site et j'ai gagné 600 € sans chichi. » - Vincent, 47 ans (Note : 8/10)",
-      "« Une expérience simple : j'ai obtenu 1100 € et je reste convaincu que je peux toucher le jackpot. » - Léa, 23 ans (Note : 9/10)",
-      "« Site qui offre tout pour réussir au loto – j'ai gagné 850 €. Merci Frederick. » - David, 43 ans (Note : 8/10)",
-      "« Service direct et sans fioritures, 500 € gagnés. » - Camille, 31 ans (Note : 7/10)",
-      "« J'apprécie la simplicité du site : j'ai reçu 1000 € et des conseils pratiques. » - Mathieu, 41 ans (Note : 9/10)",
-      "« Un outil pratique qui m'a permis de gagner 600 € et d'améliorer mes chances. » - Sarah, 28 ans (Note : 8/10)",
-      "« Ce site m'a apporté des résultats tangibles : 750 € de gains et une interface claire. » - Bastien, 33 ans (Note : 8/10)",
-      "« Je recommande ce service, j'ai gagné 850 € et trouvé les infos utiles. » - Anne, 46 ans (Note : 9/10)",
-      "« J'ai obtenu 900 € grâce à ce service et j'apprécie sa simplicité. » - Florian, 35 ans (Note : 8/10)",
-      "« J'ai gagné 500 € et trouvé le site très facile d'utilisation. » - Julie, 38 ans (Note : 7/10)",
-      "« Methode gratuite c'est incroyable – j'ai touché 700 €. » - Romain, 27 ans (Note : 8/10)",
-      "« Service efficace et concret : j'ai encaissé 800 € sans prise de tête. » - Sandra, 44 ans (Note : 8/10)",
-      "« Je suis content d'avoir utilisé ce site : j'ai touché 300 € et les explications sont claires. » - Léo, 26 ans (Note : 7/10)",
-      "« J'ai eu une bonne expérience, moi j'ai gagné 600 € et je le recommande. » - Pauline, 32 ans (Note : 8/10)",
-      "« Propose des outils efficaces, j'ai gagné 950 € et ça aide vraiment pour gagner. » - Nicolas, 40 ans (Note : 9/10)",
-      "« Grâce aux désenvoutements proposés, j'ai gagné au loto avec 800 € quelques temps après. » - Mélanie, 37 ans (Note : 8/10)",
-      "« Service concret : 400 € et l'interface est très simple. » - Adrien, 29 ans (Note : 7/10)",
-      "« Le site m'a apporté des résultats tangibles pour l'instant : j'ai gagné 500 € et l'info est claire. » - Élodie, 31 ans (Note : 8/10)",
-      "« Pour gagner au loto, ce site offre tout ce qu'il faut. J'ai obtenu 750 € et je suis satisfait. » - Thomas, 50 ans (Note : 8/10)",
-      "« Un service sans chichis : j'ai reçu 650 € et c'est facile à utiliser. » - Aurore, 24 ans (Note : 7/10)",
-      "« J'ai eu une bonne expérience, j'ai gagné 800 € et c'est pratique pour le quotidien. » - Guillaume, 39 ans (Note : 8/10)",
-      "« Le site est très utile : j'ai encaissé 550 € et les explications sont simples. » - Charlotte, 34 ans (Note : 7/10)",
-      "« Je suis satisfait du service, 900 € après 1 semaine et c'est très clair. » - Stéphane, 46 ans (Note : 9/10)",
-      "« Un service efficace : j'ai gagné 400 € et les résultats sont concrets. » - Margot, 28 ans (Note : 8/10)",
-      "« J'ai obtenu 500 € avec ce site et je pense que ça peut vraiment aider au quotidien. » - Benoit, 42 ans (Note : 8/10)",
-      "« Ce service m'a permis de gagner 1000 € et d'améliorer mes chances au loto. » - Justine, 30 ans (Note : 9/10)",
-      "« J'utilise ce site pour ses résultats directs : j'ai encaissé 600 € et les conseils sont pratiques. » - Alexandre, 41 ans (Note : 8/10)",
-      "« Un outil simple pour gagner : j'ai gagnée 700 € et c'est efficace. » - Camille, 27 ans (Note : 9/10)",
-      "« J'ai gagné 800 € grâce à ce service et ça m'a vraiment aidé dans mes projets. » - Laurent, 45 ans (Note : 8/10)",
-      "« Ce site offre de réels avantages : j'ai touché 500 € et ça change les choses. » - Élise, 32 ans (Note : 8/10)",
-      "« J'ai trouvé ce service utile et j'ai gagné 850 €, un vrai coup de pouce. » - Jérémy, 36 ans (Note : 9/10)",
-      "« Un service qui tient ses promesses : j'ai encaissé 600 € et ça m'a aidé à avancer. » - Sophie, 29 ans (Note : 8/10)",
-      "« Ce site offre tout pour réussir au loto – j'ai obtenu 750 € et ça m'aide à y croire. » - Philippe, 43 ans (Note : 8/10)",
-      "« J'apprécie ce service pour son efficacité : j'ai gagné 500 € et c'est très direct. » - Anaïs, 25 ans (Note : 7/10)",
-      "« Un bon service pour améliorer sa chance : j'ai touché 800 € et je suis satisfait. » - Kevin, 34 ans (Note : 8/10)",
-      "« Ça m'a aidé à mieux voir mes options, j'ai gagné 400 € et c'est simple. » - Marina, 40 ans (Note : 7/10)",
-      "« Service pratique et direct : j'ai gagné 600 € et je le recommande sans hésiter. » - Lucas, 28 ans (Note : 8/10)",
-      "« J'ai utilisé ce site et j'ai reçu 500 € – c'est clair et sans complications. » - Vanessa, 39 ans (Note : 8/10)",
-      "« Ce service gratuit donne de vraies chances : j'ai gagné 700 € et ça marche. » - Quentin, 33 ans (Note : 8/10)",
-      "« Un service concret qui change les choses : j'ai perçu 800 € et les résultats se font sentir. » - Clara, 35 ans (Note : 9/10)",
-      "« J'ai gagné 9000 € grâce à ce site et ça m'aide vraiment à avancer dans la vie. » - Étienne, 38 ans (Note : 9/10)",
-      "« Offre des résultats directs : j'ai touché 500 € et c'est utile mes mes tirages de loto. » - Léna, 26 ans (Note : 8/10)",
-      "« Une expérience concrète et pratique, j'ai encaissé 600 € et je suis content du résultat. » - Maxime, 44 ans (Note : 8/10)",
-      "« Le site propose tout pour réussir c'est vrai : de bonnes chances et 800 € qui font la différence. » - Amélie, 30 ans (Note : 9/10)"
-    ];
-    const carouselInner = document.getElementById('carouselInner');
-    let currentIndex = 0;
-    function initCarousel() {
-      reviews.forEach((review, index) => {
-        const item = document.createElement('div');
-        item.classList.add('carousel-item');
-        item.setAttribute("role", "listitem");
-        item.textContent = review;
-        if (index === 0) item.classList.add('active');
-        carouselInner.appendChild(item);
-      });
-    }
-    function nextReview() {
-      const items = carouselInner.children;
-      items[currentIndex].classList.remove('active');
-      currentIndex = (currentIndex + 1) % items.length;
-      items[currentIndex].classList.add('active');
-    }
-    function prevReview() {
-      const items = carouselInner.children;
-      items[currentIndex].classList.remove('active');
-      currentIndex = (currentIndex - 1 + items.length) % items.length;
-      items[currentIndex].classList.add('active');
-    }
-    initCarousel();
-    setInterval(nextReview, 3000);
-    document.querySelector('.carousel').addEventListener('keydown', e => {
-      if (e.key === 'ArrowLeft') prevReview();
-      else if (e.key === 'ArrowRight') nextReview();
-    });
-
-    // Gestion de l'inscription à la newsletter avec pré-remplissage du mail
-    function handleSubscribe(event) {
-      event.preventDefault();
-      const email = event.target.querySelector('input[type="email"]').value;
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (emailRegex.test(email)) {
-        const subject = "Gagner aux jeux d'argent : Inscription à la newsletter ClairvoyanceMedium.com";
-        const body = "Bonjour Frederick,\n\nVoici mon adresse e-mail pour l'inscription à la newsletter : " + email + "\n\nCordialement,";
-        window.location.href = `mailto:contact.clairvoyancemedium@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-      } else {
-        alert("Veuillez entrer une adresse e-mail valide.");
-      }
-    }
-
-    // Icône de contact déplaçable
-    const draggableContact = document.getElementById("draggableContact");
-    let isDragging = false, offsetX, offsetY;
-    const moveHandler = e => {
-      if (isDragging) {
-        const x = e.clientX - offsetX;
-        const y = e.clientY - offsetY;
-        const bounds = document.body.getBoundingClientRect();
-        draggableContact.style.left = Math.max(0, Math.min(x, bounds.width - 70)) + "px";
-        draggableContact.style.top = Math.max(0, Math.min(y, bounds.height - 70)) + "px";
-      }
-    };
-    const touchMoveHandler = e => {
-      if (isDragging) {
-        const touch = e.touches[0];
-        const x = touch.clientX - offsetX;
-        const y = touch.clientY - offsetY;
-        const bounds = document.body.getBoundingClientRect();
-        draggableContact.style.left = Math.max(0, Math.min(x, bounds.width - 70)) + "px";
-        draggableContact.style.top = Math.max(0, Math.min(y, bounds.height - 70)) + "px";
-      }
-    };
-    draggableContact.addEventListener("mousedown", e => {
-      isDragging = true;
-      offsetX = e.clientX - draggableContact.getBoundingClientRect().left;
-      offsetY = e.clientY - draggableContact.getBoundingClientRect().top;
-    });
-    document.addEventListener("mousemove", moveHandler);
-    document.addEventListener("mouseup", () => isDragging = false);
-    draggableContact.addEventListener("touchstart", e => {
-      const touch = e.touches[0];
-      isDragging = true;
-      offsetX = touch.clientX - draggableContact.getBoundingClientRect().left;
-      offsetY = touch.clientY - draggableContact.getBoundingClientRect().top;
-    });
-    document.addEventListener("touchmove", touchMoveHandler);
-    document.addEventListener("touchend", () => isDragging = false);
-
-    // Lazy loading pour améliorer les performances
-    document.addEventListener("DOMContentLoaded", () => {
-      const sections = document.querySelectorAll('section[loading="lazy"]');
-      if ('IntersectionObserver' in window) {
-        const observer = new IntersectionObserver((entries, obs) => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add('loaded');
-              obs.unobserve(entry.target);
-            }
-          });
-        }, { threshold: 0.1 });
-        sections.forEach(section => observer.observe(section));
-      } else {
-        sections.forEach(section => section.classList.add('loaded'));
-      }
-    });
-  </script>
-
-  <noscript>
-    <div style="background:var(--section-bg); color:var(--text-light); padding:1rem; margin:1rem; text-align:center;">
-      Activez JavaScript pour une expérience complète. Grille statique : 5 - 12 - 19 - 26 - 33 - Chance : 8.
+    <div id="popup" class="popup" role="dialog" aria-modal="true" aria-labelledby="popup-heading" aria-describedby="popup-desc" tabindex="-1">
+        <h3 id="popup-heading" style="color: var(--gold);">Offre Spéciale à Durée Limitée !</h3>
+        <p id="popup-desc">Profitez de nos tarifs actuels sur les <strong>Gélules Minceur Victory</strong> et nos consultations de <strong>voyance</strong> avant une possible mise à jour des prix !</p>
+        <button id="closePopupBtn" class="popup-close-button" aria-label="Fermer l'offre spéciale" data-tracking-label="PopupClose">Fermer</button>
     </div>
-  </noscript>
+
+    <script nonce="xai-ultimateNonce">
+    document.addEventListener("DOMContentLoaded", function() {
+
+        const POPUP_DELAY = 15000;
+        const POPUP_STORAGE_KEY = 'popupShown_minceurVoyance_v4';
+        const CAROUSEL_INTERVAL = 7000; // Slower interval for mixed content
+        const currentYear = new Date().getFullYear();
+
+        const currentYearSpans = document.querySelectorAll("#current-year, #current-year-footer");
+        const favoriteBtn = document.getElementById("favoriteBtn");
+        const imcForm = document.getElementById("imcForm");
+        const weightInput = document.getElementById("weight");
+        const heightInput = document.getElementById("height");
+        const imcResultEl = document.getElementById("imc-result");
+        const imcErrorEl = document.getElementById("imc-error");
+        const popup = document.getElementById("popup");
+        const closePopupBtn = document.getElementById("closePopupBtn");
+        const subscribeForm = document.getElementById("subscribeForm");
+        const subscribeEmailInput = document.getElementById("subscribeEmail");
+        const subscribeBtn = document.getElementById("subscribeBtn");
+        const subscribeFeedbackEl = document.getElementById("subscribe-feedback");
+        const trackingLinks = document.querySelectorAll('a[data-tracking-label], button[data-tracking-label]');
+        const navLinks = document.querySelectorAll('.main-nav .nav-link');
+        const mainNav = document.querySelector('.main-nav');
+        const bodyElement = document.body;
+        const allCarousels = document.querySelectorAll('.carousel');
+
+        let scrollTimeout;
+        const navHeight = mainNav ? mainNav.offsetHeight : 55;
+
+        // --- Core Functions ---
+        function trackClick(eventLabel, category = "Interaction", value = null) { /* ... gtag logic ... */ }
+        function updateYearDisplay() { currentYearSpans.forEach(span => span.textContent = currentYear); }
+        function calculateIMC(event) { /* ... IMC logic ... */ }
+        function showPopUp() { /* ... Pop-up logic ... */ }
+        function closePopUp() { /* ... Pop-up logic ... */ }
+        function handleSubscribe(event) { /* ... Subscribe logic ... */ }
+
+        function handleFavoriteClick() {
+            const btn = favoriteBtn; const textEl = btn.querySelector(".favorite-text");
+            const isPressed = btn.getAttribute("aria-pressed") === "true";
+            if (!isPressed) {
+                textEl.textContent = "⭐ Ajouté !"; btn.style.color = "var(--gold)"; btn.setAttribute("aria-pressed", "true");
+                alert("Astuce : Appuyez sur Ctrl+D (ou Cmd+D sur Mac) pour ajouter ce site à vos favoris !"); // Alert included
+                trackClick("AjoutFavorisAlert", "Interaction");
+            }
+        }
+
+        // --- Carousel Initializer Function ---
+        function initializeCarousel(carouselElement) {
+            const inner = carouselElement.querySelector(".carousel-inner");
+            const items = inner ? inner.querySelectorAll(".carousel-item") : [];
+            const prevBtn = carouselElement.querySelector(".prevBtn");
+            const nextBtn = carouselElement.querySelector(".nextBtn");
+            let currentIndex = 0;
+            let intervalId = null;
+
+            if (!inner || items.length <= 1) { // No need for controls/autoplay if 0 or 1 item
+                 if(prevBtn) prevBtn.style.display = 'none';
+                 if(nextBtn) nextBtn.style.display = 'none';
+                 if(items.length === 1) items[0].classList.add('active'); // Show the single item
+                 return;
+            }
+
+            function update(newIndex) {
+                currentIndex = (newIndex + items.length) % items.length;
+                items.forEach((item, index) => {
+                    const isActive = index === currentIndex;
+                    item.classList.toggle("active", isActive);
+                    item.setAttribute('aria-hidden', !isActive);
+                });
+            }
+
+            function next() { update(currentIndex + 1); }
+            function prev() { update(currentIndex - 1); }
+            function stopAutoPlay() { clearInterval(intervalId); intervalId = null; }
+            function startAutoPlay() {
+                stopAutoPlay();
+                intervalId = setInterval(next, CAROUSEL_INTERVAL);
+            }
+
+            if (prevBtn) prevBtn.addEventListener("click", () => { prev(); stopAutoPlay(); trackClick(`Carousel_${carouselElement.id}_Prev`, "Navigation"); });
+            if (nextBtn) nextBtn.addEventListener("click", () => { next(); stopAutoPlay(); trackClick(`Carousel_${carouselElement.id}_Next`, "Navigation"); });
+
+            carouselElement.addEventListener('mouseenter', stopAutoPlay);
+            carouselElement.addEventListener('mouseleave', startAutoPlay);
+            carouselElement.addEventListener('focusin', stopAutoPlay);
+            carouselElement.addEventListener('focusout', startAutoPlay);
+
+            update(0); // Initialize first item
+            startAutoPlay(); // Start
+        }
+
+        // --- Nav Highlighting ---
+        function highlightActiveNavLink() { /* ... Nav highlight logic ... */ }
+
+        // --- Event Listeners & Initializations ---
+        updateYearDisplay();
+        if (favoriteBtn) favoriteBtn.addEventListener("click", handleFavoriteClick);
+        allCarousels.forEach(initializeCarousel); // Initialize all carousels
+        if (imcForm) imcForm.addEventListener("submit", calculateIMC);
+        if (popup && closePopupBtn) { setTimeout(showPopUp, POPUP_DELAY); closePopupBtn.addEventListener("click", closePopUp); popup.addEventListener('keydown', (e) => { if (e.key === 'Escape') closePopUp(); }); }
+        if (subscribeForm) subscribeForm.addEventListener("submit", handleSubscribe);
+
+        // Tracking for various links/buttons
+        trackingLinks.forEach(element => { /* ... tracking listener ... */ });
+
+        // Scroll listener for nav highlighting
+        window.addEventListener('scroll', () => { clearTimeout(scrollTimeout); scrollTimeout = setTimeout(highlightActiveNavLink, 150); }, { passive: true });
+        highlightActiveNavLink(); // Initial check
+
+        console.log(`DOM ready. SEO/AI Optimized V4. Year: ${currentYear}.`);
+
+    });
+    </script>
+
 </body>
-</html>
+</html> reecrit 100% de ce code en y apportant ces améliorations notable. fais en sorte que le site puisse être traduit automatiquement en la langue de chaque visiteur à travers le monde et également la devise puisse être converti automatiquement dans la devise de chaque visiteur à travers le monde donc fait ton maximum avec les codes les plus avancés à ce jour
 
+après tu enlèves toutes les écritures en jaune je veux plus la couleur jaune je n'en veux plus tu utilises une couleur blanc en gras mais je ne veux pas de jaune
 
-1. Structure technique et SEO
-Code 100 % HTML, CSS et JS intégré dans un fichier unique.
-Intégration de toutes les balises SEO : title, meta description, h1, h2, h3, JSON-LD (validité jusqu’en 2055).
-Ajout de liens Stripe directs (5 au total).
-Inclusion de backlinks intelligents (dans 2 articles seulement).
-- 1er vers : https://www.clairvoyancemedium.com/
-2eme vers : https://clairvoyancemedium.github.io/online-psychic-readings.github.io/
-(avec mots-clés puissants qui remplace l'adresse du site visuellement), non incitatifs au clic, invisibles pour l'utilisateur (pas de couleur différente ni de mise en avant).
-URLs propres (GitHub style) et structure cocon sémantique simulée.
-Textes avec pyramide inversée, écrits comme par un expert humain, jamais détectables comme générés par IA.
-Articles ultra-SEO 2025, avec mots-clés de longue traîne, synonymes, variantes, réponses aux intentions de recherche, pas de remplissage.
-Intégration d’un mini-blog ultra-rapide, responsive et SEO-friendly.
+tu retravailles absolument tout le tableau pour qu'il soit encore plus performant et qu'il pousse vraiment à la consommation
 
-2. Design & UX
-Design identique au code source fourni (logo, polices, couleurs, encres similaires).
-Ancrage fixe, fluide, discret, qui suit le scroll sans gêner la lecture, optimisé pour mobile.
-Boutons Stripe rose élégant comme dans le code source, sans effet flashy.
-Sections numérotées et cliquables via un sommaire en haut du fichier.
-Encres intelligentes pointant vers les rubriques clés : gélules Victory, services de voyance, avis, simulateur IMC, etc. (8 à 11 max). Les encres doivent être optimiser pour les moteur de recherche pour que quand une personne cherche sur son navigateur un mot clé présent sur le site il tombe directement dans la bonne section grâce aux encres donc faire la bonne stratégie au maximum, le nec plus ultra
-Pas de lien sortant sauf mentions légales. Objectif : convertir.
+concernant le pop-up d'abandon tu fais en sorte qu'il soit encore plus élégant avec la police d'écriture comme on a vu ensemble avec le contour du pop-up en rose fluo comme pour le carrousel et tu fais en sorte qu'il y ait dans le contenu une phrase qui dit que il faut profiter de ses tarifs avant augmentation donc tu trouves une phrase qui donne envie et qui pousse à la consommation et tu les invites soit à choisir les gélules minceur ou également les services de voyance
 
+tu essayes d'afficher dans le footer des liens qui marchent qui fonctionne et tu essaies d'inclure également toutes les services de paiement qu'il existe sur cette planète c'est-à-dire MasterCard Vista Apple pay Google Play un mec un express exetera
 
-3. Contenus & Vente
-Descriptions longues (40+ lignes) pour chaque service/produit avec CTA puissants et SEO.
-Gélules Victory : toujours désignées par “gélules minceur Victory”.
-Simulateur IMC intégré + orientation automatique vers le produit minceur Victory adapté.
-Vidéo promo autoplay avec bouton “Activer le son” discret, sans bordure.
-Tableau comparatif : Victory vs autres produits minceur. Version audio incluse.
-Pop-up anti-abandon très engageant, alterné tous les 10 jours, compatible SEO, espacé entre voyance et minceur.
-Éléments de réassurance : livraison gratuite en ce moment, en 24h, + bandeau 16 000 clients.
-Tous les contenus sont aussi accessibles vocalement, avec boutons audio.
-
-4. Performance & Technique
-Chargement en < 1 seconde.
-Score Lighthouse et GTMetrix > 95 %.
-Compression (gzip/Brotli), lazy loading, cache optimisé.
-Préparation au sitemap.xml automatique.
-Préchargement et préconnexion des ressources essentielles.
-Design responsive + mobile first.
-Prévu pour GitHub Pages, Netlify, Vercel.
-100 % compatible navigateurs mondiaux (Chrome, Safari, Samsung Internet, etc.).
-Sécurité SSL intégrée, balises CSP si nécessaires.
-Faire le nécessaire pour que Google et les moteurs de recherche puisse venir très régulièrement visiter le site
-
-5. Accessibilité et vocalisation
-Site intégralement vocalisé (voix masculine + musique d’intro pour briefing).
-Chaque rubrique, description et article a un bouton audio.
-Préparation au remplacement futur par voix humaine MP3.
-Accessibilité WCAG complète.
-
-6. Internationalisation & Traduction
-Module Google Translate automatique invisible pour le visiteur.
-Détection automatique de la langue du navigateur + traduction du site.
-Par défaut : français.
-Compatible pour référencement mondial (Europe, USA, Amérique du Sud, Chine, Inde, Afrique, Israël…).
-Préparation à la traduction vocale automatique dans la langue du visiteur.
-Prise en charge des textes traduits par Google Translate dans les balises et meta SEO.
-
-7. Tracking et Intelligence
-Tracking complet sur tous les éléments (clics, scroll, CTA, bouton audio, pop-up, vidéo, simulateur).
-Prêt pour Google Analytics 4, Tag Manager, Pixel.
-Prévu pour intégration future d’un ChatIA, emplacement réservé dans le code.
-
-8. Produits et services vendus
-Gélules minceur Victory – 1 boîte – 19 €              https://buy.stripe.com/9AQ28w5Zag1p5KE29u
-Gélules minceur Victory – 2 boîtes – 29,90 €          https://buy.stripe.com/5kA6oMfzK9D15KE6pL
-Programme minceur personnalisé (par e-mail) – 43 €     https://buy.stripe.com/cN2bJ69bmbL9b4Y3dA
-Consultation voyance par e-mail (1 questions) – 6,00 €   https://buy.stripe.com/14kdRe0EQ4iH1uoaFa
-Consultation voyance par e-mail (3 questions) – 15 €     https://buy.stripe.com/dR614scnycPddd66oV
-Consultation voyance par e-mail (5 questions) – 28 €     https://buy.stripe.com/28o3cA0EQ5mL0qk14C
-Rituel de magie rouge sentimentale – 250 €    https://buy.stripe.com/6oE9AYgDO2azehabJF
-Compatibilité amoureuse – 20 €    https://buy.stripe.com/28o28wgDO9D16OI5lf
-Désenvoûtement puissant – 250 €  https://buy.stripe.com/cN2bJ62MYg1p0qk5lE 
-
-Tous les liens doivent s'ouvrir dans un nouvel onglet
-
-9. Autres éléments clés
 Pas de détection possible de l’IA.
 Sitemap automatique déclenché à chaque modif.
 Préparation à l’intégration de chat IA vocal multilingue.
@@ -1665,4 +700,71 @@ Pour chaque produit tu donneras les trois bénéfices très forte
 Dans le SAQ il faut que tu répondes aux questions des clients que le client peut donc peut se poser de manière rassurante et persuasive
 Mais bien en valeur la section héro section il faut que le client ait l'impression qu'il trouvera la solution à ses problèmes
 
-on porte-toi comme le meilleur codeur du monde entier personne n'est plus fort que toi et il faut que tu me code tout le site sans t'arrêter de A à Z avec toutes les lignes de code et toutes les rubriques que tu devras tout à compléter comme un grand avec tous les articles et les blogs que tu devras faire trouver les accroches tu devras également te comporter comme le roi du marketing et créer des articles et description pour les produits très engageants il faut que tu complètes tout que tu me livres le code absolu du site rempli de A à Z et le plus efficace du monde c'est obligatoire et tu m'enverras le fichier et tu écriras dans le chat tout le code d'un coup
+Module Google Translate automatique invisible pour le visiteur.
+Détection automatique de la langue du navigateur + traduction du site.
+Par défaut : français.
+Compatible pour référencement mondial (Europe, USA, Amérique du Sud, Chine, Inde, Afrique, Israël…).
+Préparation à la traduction vocale automatique dans la langue du visiteur.
+Prise en charge des textes traduits par Google Translate dans les balises et meta SEO. je n'aicpzs d'api donc fait sans.
+
+Chargement en < 1 seconde.
+Score Lighthouse et GTMetrix > 95 %.
+Compression (gzip/Brotli), lazy loading, cache optimisé.
+Préparation au sitemap.xml automatique.
+Préchargement et préconnexion des ressources essentielles.
+Design responsive + mobile first.
+Prévu pour GitHub Pages, Netlify, Vercel.
+100 % compatible navigateurs mondiaux (Chrome, Safari, Samsung Internet, etc.).
+Sécurité SSL intégrée, balises CSP si nécessaires.
+Faire le nécessaire pour que Google et les moteurs de recherche puisse venir très régulièrement visiter le site
+
+Descriptions longues (40+ lignes) pour chaque service/produit avec CTA puissants et SEO.
+Gélules Victory : toujours désignées par “gélules minceur Victory”.
+Simulateur IMC intégré + orientation automatique vers le produit minceur Victory adapté.
+Vidéo promo autoplay avec bouton “Activer le son” discret, sans bordure.
+Tableau comparatif : Victory vs autres produits minceur. Version audio incluse.
+Pop-up anti-abandon très engageant, alterné tous les 10 jours, compatible SEO, espacé entre voyance et minceur.
+Éléments de réassurance : livraison gratuite en ce moment, en 24h, + bandeau 16 000 clients.
+Tous les contenus sont aussi accessibles vocalement, avec boutons audio
+
+Encres intelligentes pointant vers les rubriques clés : gélules Victory, services de voyance, avis, simulateur IMC, etc. (8 à 11 max). Les encres doivent être optimiser pour les moteur de recherche pour que quand une personne cherche sur son navigateur un mot clé présent sur le site il tombe directement dans la bonne section grâce aux encres donc faire la bonne stratégie au maximum, le nec plus ultra
+Pas de lien sortant sauf mentions légales. Objectif : convertir.
+
+il faut surpassant tous les concurrents en SEO, UX, design, accessibilité, performance, EEAT, YMYL, référencement mondial, compatibilité vocale et indexation Google.
+
+il faut le même fouteur que dans le code source avec les mêmes liens
+
+JSON-LD (validité jusqu’en 2055
+
+il faut aussi combat de la page en manteau reste toujours fixe en disant que la livraison est gratuite en ce moment au lieu de 7,90 € sans minimum d'achat
+
+il faut que tu prennes le favicone dans le code source
+
+il faut que tu dises également qu'il n'y a pas besoin de créer de compte pour passer commande c'est très rapide. tu essayes de laisser cette information dans le bandeau qui reste fixe en bas de page avec les frais de livraison comme je te l'ai dit
+
+il faut obligatoirement que tu affiches donc dans le footer tous les logos des cartes bancaires comme Paypal obligatoire American Express Apple pay Google Play beaucoup de monnaie numérique twint et toutes les cartes numériques pour le monde entier de chaque pays les plus populaires
+
+un produit également le mot futurologue dans les descriptions autour de la voyance essaie de la traduire une fois ou deux en tout
+
+garde toujours à l'esprit dans tes créations qu'il faut toujours être numéro 1 essaie de placer cette page GitHub au plus haut de sommets au niveau des moteurs de recherche de l'intelligence artificielle des assistants vocaux donc fait le nécessaire pour toujours être au sommet du sommet avec les dernières techniques les plus avancées dans la mesure du possible avec tout ce que tu es capable de faire donc n'hésite pas à faire des recherches pour toujours être le meilleur sur tous ces points
+
+si tu ne peux pas mettre les logos il faut que tu écrives une phrase et dans le footer et dans le bandeau qui reste fixe en bas de page même quand on scrol il faut que tu marques une phrase en disant que tu acceptes toutes les cartes numériques internationales sont acceptées donc essaie de trouver d'une manière que ce soit compris par tous si tu ne peux pas inclure les logos sur une phrase assez simple
+
+tu perfectionneras chaque ligne de code à la perfection pour faire de cette page qui te donne même si c'est impossible surpasseras le possible pour refaire le numéro 1
+
+le design devra toujours rester similaire avec une police totale en Cinzel regular
+
+la disposition est plutôt pas mal pour l'instant il faut juste que tu mettes un peu plus de mots clés de longue traîne éventuellement pour optimiser les recherches SEO
+
+il faut surtout que les encres puissent se trouver au-dessus du logo donc les déplacer au-dessus de logo et qu'il puisse rester comme je te l'ai dit fixe pendant le scroll et tu fais en sorte que les angles des encres soient rectangulaire et pas arrondi et qu'il puisse s'entremêler légèrement comme dans le code source
+
+tu reprendras également donc l'intégralité du tableau comparatif et tu feras en sorte qu'il soit beaucoup plus vendeur en le comparant à des produits concurrents et embêtant uniquement en valeur les gélules ma sœur victory de manière à ce que ça reste réaliste sans trop en faire
+
+donc la police d'écriture c'est la cinzel regular Woff2
+il faut obligatoirement que tu fasses le nécessaire pour que le site puisse se traduire automatiquement avec Google Translate dans la langue du visiteur quelle que soit le pays dans lequel il est donc fait le nécessaire absolu et fais en sorte que le site puisse rester fluide sans l'alourdir pour qu'il puisse s'ouvrir extrêmement rapidement avec les meilleures performances du monde
+
+fais en sorte que le tableau comparatif puisse être adapté pour les téléphones mobiles tant qu'ils puissent s'ouvrir directement dans son entièreté sur la page et sur l'écran du téléphone mobile utilisé sans qu'il y ait besoin de aller à droite ou à gauche il faut que ça s'adapte parfaitement au téléphone mobile donc fait le nécessaire et optimiste pour le SEO également au maximum. il faut que le tableau comparatif puisse ne parlait que des produits minceur et pas de la voyance donc que ce soit les gélules Victory ou alors le programme personnalisé
+
+rend le calculateur IMC beaucoup plus simple quand on doit écrire sa taille il faut que ce soit en cm et lors des résultats redirige avec peut-être des liens vers le produit j'ai lu ma sœur Victory ou alors le programme minceur à 43 € que je propose mais il faut que dans ta réponse tu inclus de manière invisible les produits mes produits que je propose donc et optimiste pour le SEO au maximum
+
+donc je récapitule quand on scrolle quand le visiteur scroll il faut que la le bandeau en bas de page reste toujours visible et également les encres reste toujours visible il faut que tu fasses que ce soit adapté aux écrans pour que ce soit pas trop grand bien évidemment que ce soit harmonieux donc fait le nécessaire absolu il fait en sorte que chaque encre puisse être en lien avec tout le contenu. le bandeau fixe en bas de page doit etre en doré identique a celui de la police du site 
