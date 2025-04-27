@@ -980,7 +980,7 @@
                 const closePopupBtn = welcomePopup.querySelector('.popup-close-button');
                 const showPopup = () => {
                     const hasSeenPopup = localStorage.getItem('hasSeenPopup');
-                    if (!hasSeenPopup || (Date.now() - localStorage.getItem('popupTimestamp')) > 24 * 60 * 60 * 1000) {
+                    if (!hasSeenPopup || (Date.now() - localStorage.getItem('popupTimestamp')) > 40 * 1000) {
                         setTimeout(() => {
                             welcomePopup.classList.add('active');
                             welcomePopup.focus();
