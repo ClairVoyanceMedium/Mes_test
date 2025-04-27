@@ -480,6 +480,16 @@
         <li><a href="#frederick" aria-label="Futurologue Frédérick">Frederick</a></li>
     </ul>
 </nav>
+    
+<div class="cookie-consent" id="cookieConsent" role="dialog" aria-labelledby="cookie-consent-heading" style="display: none; position: fixed; bottom: 0; left: 0; right: 0; background: #111; color: #fff; padding: 1rem; z-index: 1100; font-family: var(--font-primary); text-align: center;">
+    <h2 id="cookie-consent-heading" style="font-size: 1.2rem; margin-bottom: 0.5rem;">Gestion des cookies</h2>
+    <p style="font-size: 0.9rem; margin-bottom: 0.8rem;">Nous utilisons des cookies tiers de YouTube pour afficher des vidéos. Ces cookies peuvent inclure du suivi pour la personnalisation et la sécurité. En savoir plus dans notre <a href="https://www.clairvoyancemedium.com/privacy-policy" target="_blank" rel="noopener" style="color: var(--accent);">politique de confidentialité</a> et celle de <a href="http://www.google.co.uk/intl/en-GB/policies/" target="_blank" rel="noopener" style="color: var(--accent);">YouTube</a>.</p>
+    <div style="display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap;">
+        <button id="acceptCookies" class="cta-button" style="padding: 0.6rem 1.2rem; font-size: 0.9rem;" aria-label="Accepter les cookies">Accepter</button>
+        <button id="rejectCookies" class="popup-close-button" style="padding: 0.6rem 1.2rem; font-size: 0.9rem;" aria-label="Refuser les cookies">Refuser</button>
+    </div>
+</div>
+    
 <header role="banner">
     <picture>
         <source srcset="https://i.imgur.com/GmyGlKk.webp 320w, https://i.imgur.com/GmyGlKk.webp 480w, https://i.imgur.com/GmyGlKk.webp 600w" type="image/webp" sizes="(max-width: 600px) 320px, (max-width: 900px) 480px, 600px">
@@ -514,7 +524,7 @@
             <p>Chaque capsule contient des ingrédients 100% naturels sélectionnés pour leur efficacité. Le thé vert accélère la thermogenèse, le garcinia cambogia limite l’absorption des graisses, et le konjac procure une satiété durable. Prenez une capsule avant chaque repas principal avec un grand verre d’eau. Aucun régime strict n’est requis, mais une alimentation équilibrée et une activité physique légère amplifient les effets. Avec 16 000 clients satisfaits, Victory transforme votre silhouette et votre énergie.</p>
             <p>La livraison gratuite et le paiement sécurisé sans création de compte rendent l’achat simple. Chaque lot est testé pour une qualité optimale, et notre support client 24/7 répond à vos questions. Rejoignez ceux qui ont retrouvé confiance et vitalité avec Victory.</p>
             <div class="video-container">
-    <iframe src="https://www.youtube-nocookie.com/embed/9pJxg7UzqqY?vq=hd1080&rel=0" title="Présentation des gélules minceur Victory - Perte de poids rapide et naturelle" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy" aria-label="Vidéo explicative des gélules minceur Victory"></iframe>
+    <iframe data-src="https://www.youtube-nocookie.com/embed/9pJxg7UzqqY?vq=hd1080&rel=0" title="Présentation des gélules minceur Victory - Perte de poids rapide et naturelle" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy" aria-label="Vidéo explicative des gélules minceur Victory"></iframe>
             </div>
             <ul class="check-list">
                 <li><strong>Perte de poids rapide :</strong> Jusqu’à 8 kg en 1 mois*.</li>
@@ -1160,6 +1170,45 @@
                 };
                 window.addEventListener('scroll', updateActiveLink);
                 document.addEventListener('DOMContentLoaded', updateActiveLink);
+
+                // Gestion des cookies
+const cookieConsent = document.getElementById('cookieConsent');
+const acceptCookiesBtn = document.getElementById('acceptCookies');
+const rejectCookiesBtn = document.getElementById('rejectCookies');
+const youtubeIframe = document.querySelector('iframe[data-src*="youtube-nocookie.com"]');
+
+const loadYouTubeIframe = () => {
+    if (youtubeIframe && youtubeIframe.dataset.src) {
+        youtubeIframe.src = youtubeIframe.dataset.src;
+        youtubeIframe.removeAttribute('data-src');
+        gtag('event', 'youtube_iframe_loaded', { consent: 'granted' });
+    }
+};
+
+const showCookieConsent = () => {
+    if (!localStorage.getItem('cookieConsent')) {
+        cookieConsent.style.display = 'block';
+        cookieConsent.focus();
+    } else if (localStorage.getItem('cookieConsent') === 'accepted') {
+        loadYouTubeIframe();
+    }
+};
+
+acceptCookiesBtn.addEventListener('click', () => {
+    localStorage.setItem('cookieConsent', 'accepted');
+    cookieConsent.style.display = 'none';
+    loadYouTubeIframe();
+    gtag('event', 'cookie_consent', { choice: 'accepted' });
+});
+
+rejectCookiesBtn.addEventListener('click', () => {
+    localStorage.setItem('cookieConsent', 'rejected');
+    cookieConsent.style.display = 'none';
+    gtag('event', 'cookie_consent', { choice: 'rejected' });
+});
+
+document.addEventListener('DOMContentLoaded', showCookieConsent);
+                
             </script>
         </body>
     </html>
