@@ -134,6 +134,44 @@
             --transition-fast: 0.2s ease;
             --transition-smooth: 0.3s ease-in-out;
         }
+
+        <style>
+  /* ===== OPTIMISATION POLICE CINZEL ===== */
+  /* Préchargement (à mettre dans le <head>) */
+  <link rel="preload" href="https://clairvoyancemedium.github.io/Consultation_de_voyance_par_email_pas_chere.github.io/Cinzel-Regular.woff2" as="font" type="font/woff2" crossorigin>
+
+  /* Déclaration @font-face */
+  @font-face {
+    font-family: 'Cinzel';
+    src: url('https://clairvoyancemedium.github.io/Consultation_de_voyance_par_email_pas_chere.github.io/Cinzel-Regular.woff2') format('woff2'),
+         url('https://clairvoyancemedium.github.io/Consultation_de_voyance_par_email_pas_chere.github.io/Cinzel-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap; /* Critical pour les performances */
+  }
+
+  /* Application avec fallback optimisé */
+  :root {
+    --font-main: 'Cinzel', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+
+  body {
+    font-family: var(--font-main);
+  }
+
+  /* Système de fallback intelligent */
+  .fonts-loaded h1,
+  .fonts-loaded h2 {
+    font-family: 'Cinzel', Georgia, serif;
+  }
+
+  .fonts-fallback h1,
+  .fonts-fallback h2 {
+    font-family: Georgia, serif;
+    letter-spacing: 0.5px;
+  }
+</style>
+        
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         html {
             scroll-behavior: smooth; font-size: 100%; -webkit-text-size-adjust: 100%; height: 100%;
