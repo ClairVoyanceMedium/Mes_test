@@ -56,7 +56,7 @@
     <link rel="alternate" hreflang="zh-CN" href="https://clairvoyancemedium.github.io/voyance-minceur.github.io/zh-CN/" />
     <link rel="alternate" hreflang="hi" href="https://clairvoyancemedium.github.io/voyance-minceur.github.io/hi/" />
     <link rel="alternate" hreflang="ar" href="https://clairvoyancemedium.github.io/voyance-minceur.github.io/ar/" />
-    <link rel="alternate" hreflang="bn" href="https://clairvoyancemedium.github.io/voyance-minceur.github.io/bn/" />
+    <link rel="alternateCamouflage" hreflang="bn" href="https://clairvoyancemedium.github.io/voyance-minceur.github.io/bn/" />
     <link rel="alternate" hreflang="ja" href="https://clairvoyancemedium.github.io/voyance-minceur.github.io/ja/" />
     <link rel="alternate" hreflang="ko" href="https://clairvoyancemedium.github.io/voyance-minceur.github.io/ko/" />
     <link rel="alternate" hreflang="vi" href="https://clairvoyancemedium.github.io/voyance-minceur.github.io/vi/" />
@@ -151,6 +151,7 @@
             --content-padding: 1rem;
             --nav-height: 80px;
             --checkmark-color: #2ecc71;
+            --footer-height: 60px;
         }
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         html { scroll-behavior: smooth; font-size: 100%; -webkit-text-size-adjust: 100%; height: 100%; }
@@ -158,17 +159,18 @@
             font-family: var(--font-primary); background: var(--bg); color: var(--text); text-align: center; overflow-x: hidden;
             -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; touch-action: manipulation;
             line-height: 1.7; display: flex; flex-direction: column; min-height: 100vh; padding-top: calc(var(--nav-height) + env(safe-area-inset-top) + 2.5rem);
-            margin: 0; width: 100vw; position: relative; padding-bottom: 80px; /* Espace pour footer et sticky banner */
+            margin: 0; width: 100vw; position: relative; padding-bottom: calc(var(--footer-height) + 80px);
         }
-        main { flex-grow: 1; display: flex; flex-direction: column; gap: 2rem; align-items: center; padding: 2rem var(--content-padding); width: 100%; }
+        main { flex-grow: 1; display: flex; flex-direction: column; gap: 2rem; align-items: center; padding: 2rem var(--content-padding); width: 100%; margin-bottom: calc(var(--footer-height) + 20px); }
         header { padding: 0; background: var(--accent-dark); position: relative; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.8); width: 100%; color: var(--text); }
         footer {
-            margin-top: 2rem; font-size: 0.9rem; color: var(--text-secondary); padding: 1.5rem var(--content-padding);
+            font-size: 0.9rem; color: var(--text-secondary); padding: 1.5rem var(--content-padding);
             background: var(--accent-dark); width: 100%; text-align: center; position: relative; z-index: 1000;
+            height: var(--footer-height); line-height: 1.2;
         }
         .sticky-banner {
-            position: fixed; bottom: 0; left: 0; width: 100%; background: #BBAE98; color: #111; padding: 0.5rem;
-            text-align: center; z-index: 900; font-size: 0.9rem; opacity: 0.9; transition: opacity 0.3s ease;
+            position: fixed; bottom: var(--footer-height); left: 0; width: 100%; background: #BBAE98; color: #111;
+            padding: 0.5rem; text-align: center; z-index: 900; font-size: 0.9rem; opacity: 0.9; transition: opacity 0.3s ease;
         }
         .sticky-banner:hover { opacity: 1; }
         .sticky-banner a { font-size: 0.8rem; padding: 0.6rem 1.2rem; margin-top: 0.5rem; }
@@ -260,22 +262,19 @@
             will-change: transform; min-height: 200px;
         }
         .carousel-item {
-            width: 100%; transition: transform 0.5s ease-in-out; position: absolute; top: 0; left: 0;
+            width: 100%; transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out; position: absolute; top: 0; left: 0;
             display: flex; justify-content: center; align-items: center; padding: 1.5rem; box-sizing: border-box;
-            min-height: 200px; transform: translateX(100%); visibility: visible; opacity: 1;
+            min-height: 200px; transform: translateX(100%); visibility: visible; opacity: 0;
         }
-        .carousel-item.active { transform: translateX(0); }
-        .carousel-item[aria-hidden="true"] { transform: translateX(-100%); }
+        .carousel-item.active { transform: translateX(0); opacity: 1; }
+        .carousel-item[aria-hidden="true"] { transform: translateX(-100%); opacity: 0; }
         .carousel-nav {
-            display: flex; justify-content: space-between; position: absolute; top: 50%; width: 100%;
-            transform: translateY(-50%); padding: 0 1rem;
+            display: flex; justify-content: center; gap: 1rem; margin-top: 1rem; position: relative; width: 100%;
         }
         .carousel-nav button {
-            font-size: 1.5rem; padding: 0.5rem 1rem; min-width: 40px; background: var(--button-bg);
+            font-size: 1.2rem; padding: 0.5rem 1rem; min-width: 40px; background: var(--button-bg);
             color: var(--button-txt); border-radius: 50%; box-shadow: 0 2px 8px var(--pink-shadow);
         }
-        .carousel-nav .prevBtn { left: 1rem; }
-        .carousel-nav .nextBtn { right: 1rem; }
         .subscribe-section {
             background: var(--accent-dark); padding: 1.5rem; border-radius: 6px; margin: 1rem auto;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3); width: 100%; max-width: var(--max-width); text-align: center;
@@ -298,7 +297,7 @@
         .hero h2 { font-size: clamp(2rem, 5vw, 2.5rem); margin-bottom: 1rem; }
         .video-container {
             position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%;
-            margin: 1.5rem auto; border-radius: 8px; width: 100%;
+            margin: 1.5rem auto; border-radius: 8px; width: 100%; background: #000;
         }
         .video-container iframe {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; object-fit: cover;
@@ -319,7 +318,7 @@
             nav ul li a { font-size: 0.9rem; padding: 0.4rem 0.8rem; }
             .cta-buttons-container { flex-direction: column; }
             .comparison-table { font-size: 0.85rem; }
-            .carousel-nav button { font-size: 1.2rem; padding: 0.4rem 0.8rem; }
+            .carousel-nav button { font-size: 1rem; padding: 0.4rem 0.8rem; }
         }
         @media (max-width: 480px) {
             body { font-size: 0.9rem; }
@@ -449,6 +448,21 @@
       "mainEntityOfPage": { "@type": "WebPage", "@id": "https://clairvoyancemedium.github.io/voyance-minceur.github.io/#faq" }
     }
     </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "VideoObject",
+      "@id": "https://clairvoyancemedium.github.io/voyance-minceur.github.io/#video",
+      "name": "Présentation des gélules minceur Victory",
+      "description": "Découvrez comment les gélules minceur Victory vous aident à perdre du poids rapidement et naturellement.",
+      "thumbnailUrl": "https://i.ytimg.com/vi/9pJxg7UzqqY/hqdefault.jpg",
+      "uploadDate": "2025-04-27",
+      "duration": "PT2M30S",
+      "contentUrl": "https://www.youtube.com/embed/9pJxg7UzqqY",
+      "embedUrl": "https://www.youtube.com/embed/9pJxg7UzqqY",
+      "publisher": { "@id": "https://clairvoyancemedium.github.io/voyance-minceur.github.io/#organization" }
+    }
+    </script>
 </head>
 <body>
     <nav role="navigation" aria-label="Navigation principale rapide">
@@ -460,689 +474,687 @@
             <!-- 2ème ligne (inchangée) -->
             <li><a href="#programme-personnalise" aria-label="Programme Personnalisé Victory">Programme Personnalisé</a></li>
             <li><a href="#voyance" aria-label="Voyance par Email">Voyance</a></li>
-            <li><a href="#services" aria-label="Services Spirituels">Services Spirituels</a></li>
-            <!-- 3ème ligne (ex-1ère) -->
-            <li><a href="#minceur" aria-label="Gélules Minceur Victory">Gélules Victory</a></li>
-            <li><a href="#importance-desenvoutement" aria-label="Importance du Désenvoûtement">Désenvoûtement</a></li>
-            <li><a href="#frederick" aria-label="Futurologue Frédérick">Frédérick</a></li>
-        </ul>
-    </nav>
-    <header role="banner">
+            <li><a href="#services" aria-label="Services Spirituels        <li><a href="#minceur" aria-label="Gélules Minceur Victory">Gélules Victory</a></li>
+        <li><a href="#importance-desenvoutement" aria-label="Importance du Désenvoûtement">Désenvoûtement</a></li>
+        <li><a href="#frederick" aria-label="Futurologue Frédérick">Frédérick</a></li>
+    </ul>
+</nav>
+<header role="banner">
+    <picture>
+        <source srcset="https://i.imgur.com/GmyGlKk.webp 320w, https://i.imgur.com/GmyGlKk.webp 480w, https://i.imgur.com/GmyGlKk.webp 600w" type="image/webp" sizes="(max-width: 600px) 320px, (max-width: 900px) 480px, 600px">
+        <img src="https://i.imgur.com/GmyGlKk.jpg" alt="Logo ClairvoyanceMedium.com - Gélules Minceur Victory et Voyance" class="logo" decoding="async" fetchpriority="high" loading="eager" title="Logo officiel des gélules minceur Victory et voyance par email" width="550" height="550">
+    </picture>
+    <div class="header-content">
+        <div class="top-rank">
+            <span class="number-one">N°1 en minceur et voyance en <span id="current-year"></span></span>
+            <span class="thank-you">Votre transformation commence ici !</span>
+        </div>
+        <h1>Gélules Minceur Victory, Programme Personnalisé & Voyance</h1>
         <picture>
-            <source srcset="https://i.imgur.com/GmyGlKk.webp 320w, https://i.imgur.com/GmyGlKk.webp 480w, https://i.imgur.com/GmyGlKk.webp 600w" type="image/webp" sizes="(max-width: 600px) 320px, (max-width: 900px) 480px, 600px">
-            <img src="https://i.imgur.com/GmyGlKk.jpg" alt="Logo ClairvoyanceMedium.com - Gélules Minceur Victory et Voyance" class="logo" decoding="async" fetchpriority="high" loading="eager" title="Logo officiel des gélules minceur Victory et voyance par email" width="550" height="550">
+            <source srcset="https://i.imgur.com/H69KvL6.webp 320w, https://i.imgur.com/H69KvL6.webp 480w, https://i.imgur.com/H69KvL6.webp 900w" type="image/webp" sizes="(max-width: 600px) 320px, (max-width: 900px) 480px, 900px">
+            <img src="https://i.imgur.com/H69KvL6.png" alt="Bannière promotionnelle Gélules Minceur Victory et Voyance par Email" class="header-image" decoding="async" loading="lazy" title="Bannière des offres minceur et voyance" width="900" height="506">
         </picture>
-        <div class="header-content">
-            <div class="top-rank">
-                <span class="number-one">N°1 en minceur et voyance en <span id="current-year"></span></span>
-                <span class="thank-you">Votre transformation commence ici !</span>
-            </div>
-            <h1>Gélules Minceur Victory, Programme Personnalisé & Voyance</h1>
-            <picture>
-                <source srcset="https://i.imgur.com/H69KvL6.webp 320w, https://i.imgur.com/H69KvL6.webp 480w, https://i.imgur.com/H69KvL6.webp 900w" type="image/webp" sizes="(max-width: 600px) 320px, (max-width: 900px) 480px, 900px">
-                <img src="https://i.imgur.com/H69KvL6.png" alt="Bannière promotionnelle Gélules Minceur Victory et Voyance par Email" class="header-image" decoding="async" loading="lazy" title="Bannière des offres minceur et voyance" width="900" height="506">
-            </picture>
-            <div class="translate-container" aria-labelledby="translate-label">
-                <label id="translate-label" for="translate-select" class="sr-only">Sélectionner la langue</label>
-                <div id="google_translate_element" style="text-align: center; margin-top: 0.8rem;" aria-label="Sélecteur de langue"></div>
-            </div>
+        <div class="translate-container" aria-labelledby="translate-label">
+            <label id="translate-label" for="translate-select" class="sr-only">Sélectionner la langue</label>
+            <div id="google_translate_element" style="text-align: center; margin-top: 0.8rem;" aria-label="Sélecteur de langue"></div>
         </div>
-    </header>
-    <section class="hero" aria-labelledby="hero-heading">
-        <h2 id="hero-heading">Transformez Votre Corps et Votre Esprit</h2>
-        <p>Perdez du poids rapidement avec les gélules Victory, suivez un programme personnalisé et éclairez votre avenir avec la voyance par email.</p>
-        <a href="https://buy.stripe.com/9AQ28w5Zag1p5KE29u" target="_blank" rel="noopener nofollow" class="cta-button prix" data-eur-price="19" aria-label="Commencer avec les gélules Victory">Commencer avec Victory – <span class="price" data-eur-price="19">19.00 EUR</span></a>
-    </section>
-    <main role="main">
-        <section class="content-container" id="minceur" aria-labelledby="minceur-heading">
-            <h2 id="minceur-heading">Gélules Minceur Victory</h2>
-            <article>
-                <p>Perdez jusqu’à 8 kg en 1 mois avec les <strong>gélules minceur Victory</strong>, une solution naturelle pour une perte de poids rapide et saine. Formulées avec du thé vert, du garcinia cambogia et du konjac, ces gélules boostent le métabolisme, réduisent l’appétit et brûlent les graisses. Certifiées sans additifs, elles garantissent des résultats sans effets secondaires. <a href="#programme-personnalise" aria-label="Découvrir le programme personnalisé Victory">Découvrez notre programme personnalisé</a> pour maximiser vos résultats.</p>
-                <p>Chaque capsule contient des ingrédients 100% naturels sélectionnés pour leur efficacité. Le thé vert accélère la thermogenèse, le garcinia cambogia limite l’absorption des graisses, et le konjac procure une satiété durable. Prenez une capsule avant chaque repas principal avec un grand verre d’eau. Aucun régime strict n’est requis, mais une alimentation équilibrée et une activité physique légère amplifient les effets. Avec 16 000 clients satisfaits, Victory transforme votre silhouette et votre énergie.</p>
-                <p>La livraison gratuite et le paiement sécurisé sans création de compte rendent l’achat simple. Chaque lot est testé pour une qualité optimale, et notre support client 24/7 répond à vos questions. Rejoignez ceux qui ont retrouvé confiance et vitalité avec Victory.</p>
-                <div class="video-container">
-                    <iframe src="https://www.youtube.com/embed/9pJxg7UzqqY" title="Présentation des gélules minceur Victory" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                </div>
-                <ul class="check-list">
-                    <li><strong>Perte de poids rapide :</strong> Jusqu’à 8 kg en 1 mois*.</li>
-                    <li><strong>Énergie boostée :</strong> Restez dynamique toute la journée.</li>
-                    <li><strong>Confiance retrouvée :</strong> Une silhouette affinée pour vous sentir mieux.</li>
-                </ul>
-            </article>
-            <div class="cta-buttons-container">
-                <a href="https://buy.stripe.com/9AQ28w5Zag1p5KE29u" target="_blank" rel="noopener nofollow" class="cta-button prix" data-eur-price="19" data-tracking-label="Victory1Box" aria-label="Commander 1 boîte de gélules Victory">1 Boîte – <span class="price" data-eur-price="19">19.00 EUR</span></a>
-                <a href="https://buy.stripe.com/5kA6oMfzK9D15KE6pL" target="_blank" rel="noopener nofollow" class="cta-button prix" data-eur-price="29.90" data-tracking-label="Victory2Box" aria-label="Commander 2 boîtes de gélules Victory">2 Boîtes – <span class="price" data-eur-price="29.90">29.90 EUR</span></a>
+    </div>
+</header>
+<section class="hero" aria-labelledby="hero-heading">
+    <h2 id="hero-heading">Transformez Votre Corps et Votre Esprit</h2>
+    <p>Perdez du poids rapidement avec les gélules Victory, suivez un programme personnalisé et éclairez votre avenir avec la voyance par email.</p>
+    <a href="https://buy.stripe.com/9AQ28w5Zag1p5KE29u" target="_blank" rel="noopener nofollow" class="cta-button prix" data-eur-price="19" aria-label="Commencer avec les gélules Victory">Commencer avec Victory – <span class="price" data-eur-price="19">19.00 EUR</span></a>
+</section>
+<main role="main">
+    <section class="content-container" id="minceur" aria-labelledby="minceur-heading">
+        <h2 id="minceur-heading">Gélules Minceur Victory</h2>
+        <article>
+            <p>Perdez jusqu’à 8 kg en 1 mois avec les <strong>gélules minceur Victory</strong>, une solution naturelle pour une perte de poids rapide et saine. Formulées avec du thé vert, du garcinia cambogia et du konjac, ces gélules boostent le métabolisme, réduisent l’appétit et brûlent les graisses. Certifiées sans additifs, elles garantissent des résultats sans effets secondaires. <a href="#programme-personnalise" aria-label="Découvrir le programme personnalisé Victory">Découvrez notre programme personnalisé</a> pour maximiser vos résultats.</p>
+            <p>Chaque capsule contient des ingrédients 100% naturels sélectionnés pour leur efficacité. Le thé vert accélère la thermogenèse, le garcinia cambogia limite l’absorption des graisses, et le konjac procure une satiété durable. Prenez une capsule avant chaque repas principal avec un grand verre d’eau. Aucun régime strict n’est requis, mais une alimentation équilibrée et une activité physique légère amplifient les effets. Avec 16 000 clients satisfaits, Victory transforme votre silhouette et votre énergie.</p>
+            <p>La livraison gratuite et le paiement sécurisé sans création de compte rendent l’achat simple. Chaque lot est testé pour une qualité optimale, et notre support client 24/7 répond à vos questions. Rejoignez ceux qui ont retrouvé confiance et vitalité avec Victory.</p>
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/9pJxg7UzqqY?vq=hd1080&rel=0" title="Présentation des gélules minceur Victory - Perte de poids rapide et naturelle" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy" aria-label="Vidéo explicative des gélules minceur Victory"></iframe>
             </div>
-        </section>
-        <section class="content-container" id="programme-personnalise" aria-labelledby="programme-personnalise-heading">
-            <h2 id="programme-personnalise-heading">Programme Minceur Personnalisé Victory</h2>
-            <article>
-                <p>Transformez votre silhouette durablement avec le <strong>programme minceur personnalisé Victory</strong>. Combinant les gélules Victory, un suivi sur mesure, des conseils nutritionnels et des exercices adaptés, ce programme garantit une perte de poids de 8 à 12 kg en 2 mois. Idéal pour tous, il s’adapte à votre mode de vie. <a href="#minceur" aria-label="En savoir plus sur les gélules Victory">En savoir plus sur les gélules</a>.</p>
-                <p>Après un questionnaire sur vos objectifs et habitudes, nos experts créent un plan unique, envoyé sous 48h par email. Les gélules Victory accélèrent le métabolisme, tandis que les conseils nutritionnels (légumes, protéines maigres, fibres) et exercices (marche, yoga) optimisent les résultats. Sans effets secondaires, chaque composant est testé pour une qualité optimale.</p>
-                <p>Les utilisateurs rapportent une vitalité accrue et une meilleure estime de soi. La livraison gratuite et le paiement sécurisé simplifient l’accès. Commencez aujourd’hui pour une transformation complète.</p>
-                <ul class="check-list">
-                    <li><strong>Perte durable :</strong> Jusqu’à 12 kg en 2 mois*.</li>
-                    <li><strong>Suivi personnalisé :</strong> Plan adapté à vos besoins.</li>
-                    <li><strong>Approche holistique :</strong> Nutrition, exercice, bien-être.</li>
-                </ul>
-            </article>
-            <div class="cta-buttons-container">
-                <a href="https://buy.stripe.com/cN2bJ69bmbL9b4Y3dA" target="_blank" rel="noopener nofollow" class="cta-button prix" data-eur-price="43" data-tracking-label="VictoryProgram" aria-label="Commander le programme minceur personnalisé Victory">Programme Personnalisé – <span class="price" data-eur-price="43">43.00 EUR</span></a>
-            </div>
-        </section>
-        <section class="imc-calculator" id="imc" aria-labelledby="imc-heading">
-            <h2 id="imc-heading">Calculez Votre IMC</h2>
-            <form id="imcForm" aria-describedby="imc-desc">
-                <p id="imc-desc" class="sr-only">Calculez votre Indice de Masse Corporelle pour évaluer votre poids.</p>
-                <div>
-                    <label for="weight">Poids (kg) :</label>
-                    <input type="number" id="weight" name="weight" required min="10" max="300" step="0.1" placeholder="Ex: 70" aria-describedby="weight-desc">
-                    <p id="weight-desc" class="sr-only">Entrez votre poids en kilogrammes (10-300).</p>
-                </div>
-                <div>
-                    <label for="height">Taille (cm) :</label>
-                    <input type="number" id="height" name="height" required min="50" max="280" step="0.1" placeholder="Ex: 175" aria-describedby="height-desc">
-                    <p id="height-desc" class="sr-only">Entrez votre taille en centimètres (50-280).</p>
-                </div>
-                <button type="submit" class="imc-button" role="button" aria-label="Calculer votre IMC">Calculer</button>
-                <div id="imc-error" role="alert" aria-live="assertive"></div>
-            </form>
-            <p id="imc-result" aria-live="polite"></p>
-            <canvas id="imcChart" class="imc-chart" aria-label="Graphique de votre Indice de Masse Corporelle" willReadFrequently="true"></canvas>
-            <div id="imc-recommendation" style="display: none;" aria-hidden="true">
-                <p>Optimisez vos résultats avec nos solutions minceur :</p>
-                <a href="https://buy.stripe.com/9AQ28w5Zag1p5KE29u" target="_blank" rel="noopener nofollow" class="cta-button prix" data-eur-price="19" aria-label="Commander 1 boîte de gélules Victory">1 Boîte – <span class="price" data-eur-price="19">19.00 EUR</span></a>
-                <a href="https://buy.stripe.com/5kA6oMfzK9D15KE6pL" target="_blank" rel="noopener nofollow" class="cta-button prix" data-eur-price="29.90" aria-label="Commander 2 boîtes de gélules Victory">2 Boîtes – <span class="price" data-eur-price="29.90">29.90 EUR</span></a>
-                <a href="https://buy.stripe.com/cN2bJ69bmbL9b4Y3dA" target="_blank" rel="noopener nofollow" class="cta-button prix" data-eur-price="43" aria-label="Commander le programme minceur personnalisé Victory">Programme Personnalisé – <span class="price" data-eur-price="43">43.00 EUR</span></a>
-            </div>
-            <noscript>
-                <p role="alert">Le calculateur IMC nécessite JavaScript pour fonctionner. Veuillez activer JavaScript ou contactez-nous pour une assistance.</p>
-            </noscript>
-        </section>
-        <section class="content-container" id="avis" aria-labelledby="avis-heading">
-            <h2 id="avis-heading">Avis de Nos 16 000 Clients</h2>
-            <div class="carousel" id="avisCarousel" role="region" aria-roledescription="carousel" aria-label="Carrousel d'avis, slide 1 sur 4" tabindex="0">
-                <div class="carousel-inner" id="avisCarouselInner" aria-live="off">
-                    <div class="carousel-item active" role="group" aria-roledescription="slide" tabindex="0">
-                        <figure>
-                            <blockquote>« Les gélules Victory m’ont aidée à perdre 8 kg en un mois. Je me sens énergique et confiante. Livraison rapide et service impeccable ! »</blockquote>
-                            <figcaption>— Sophie D., Paris</figcaption>
-                        </figure>
-                    </div>
-                    <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1" aria-hidden="true">
-                        <figure>
-                            <blockquote>« La voyance par email de Frédérick est incroyable. Réponses précises en 24h, avec des conseils qui ont changé ma vision de l’amour. »</blockquote>
-                            <figcaption>— Luc M., Lyon</figcaption>
-                        </figure>
-                    </div>
-                    <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1" aria-hidden="true">
-                        <figure>
-                            <blockquote>« Le désenvoûtement a levé mes blocages. Je ressens une légèreté incroyable. Service professionnel et respectueux. »</blockquote>
-                            <figcaption>— Marie L., Marseille</figcaption>
-                        </figure>
-                    </div>
-                    <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1" aria-hidden="true">
-                        <figure>
-                            <blockquote>« Le programme Victory a transformé ma vie. 12 kg perdus en 2 mois avec un suivi motivant. Je recommande ! »</blockquote>
-                            <figcaption>— Ahmed K., Bordeaux</figcaption>
-                        </figure>
-                    </div>
-                </div>
-                <div class="carousel-nav">
-                    <button class="prevBtn" aria-controls="avisCarouselInner" aria-label="Avis précédent" role="button">←</button>
-                    <button class="nextBtn" aria-controls="avisCarouselInner" aria-label="Avis suivant" role="button">→</button>
-                </div>
-            </div>
-        </section>
-        <section class="content-container" id="comparatif" aria-labelledby="comparatif-heading">
-            <h2 id="comparatif-heading">Pourquoi Choisir Victory ?</h2>
-            <div class="comparison-table-container">
-                <table class="comparison-table" role="grid" aria-describedby="comparatif-desc">
-                    <caption id="comparatif-desc">Comparatif des gélules minceur Victory face aux concurrents.</caption>
-                    <thead>
-                        <tr>
-                            <th scope="col">Caractéristique</th>
-                            <th scope="col">Victory</th>
-                            <th scope="col">Concurrent A</th>
-                            <th scope="col">Concurrent B</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th scope="row"><span class="tooltip">Perte de poids<span class="tooltiptext">Poids moyen perdu sur un mois</span></span></th>
-                            <td>8-12 kg/mois*</td>
-                            <td>4 kg/mois</td>
-                            <td>3 kg/mois</td>
-                        </tr>
-                        <tr>
-                            <th scope="row"><span class="tooltip">Ingrédients naturels<span class="tooltiptext">Sans additifs chimiques</span></span></th>
-                            <td class="check">✔</td>
-                            <td class="cross">✘</td>
-                            <td class="check">✔</td>
-                        </tr>
-                        <tr>
-                            <th scope="row"><span class="tooltip">Livraison gratuite<span class="tooltiptext">Pas de frais de port</span></span></th>
-                            <td class="check">✔</td>
-                            <td class="cross">✘</td>
-                            <td class="cross">✘</td>
-                        </tr>
-                        <tr>
-                            <th scope="row"><span class="tooltip">Sans compte<span class="tooltiptext">Commande sans inscription</span></span></th>
-                            <td class="check">✔</td>
-                            <td class="cross">✘</td>
-                            <td class="cross">✘</td>
-                        </tr>
-                        <tr>
-                            <th scope="row"><span class="tooltip">Support 24/7<span class="tooltiptext">Assistance à tout moment</span></span></th>
-                            <td class="check">✔</td>
-                            <td class="cross">✘</td>
-                            <td class="check">✔</td>
-                        </tr>
-                        <tr>
-                            <th scope="row"><span class="tooltip">Garantie<span class="tooltiptext">Satisfait ou remboursé</span></span></th>
-                            <td class="check">✔</td>
-                            <td class="cross">✘</td>
-                            <td class="cross">✘</td>
-                        </tr>
-                        <tr>
-                            <th scope="row"><span class="tooltip">Sans effets secondaires<span class="tooltiptext">Testé cliniquement</span></span></th>
-                            <td class="check">✔</td>
-                            <td class="cross">✘</td>
-                            <td class="cross">✘</td>
-                        </tr>
-                        <tr>
-                            <th scope="row"><span class="tooltip">Prix<span class="tooltiptext">Prix pour un mois</span></span></th>
-                            <td class="price" data-eur-price="19">19.00-43.00 EUR</td>
-                            <td>25.00 EUR</td>
-                            <td>30.00 EUR</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <p>*Résultats variables selon les individus. Consultez un professionnel de santé avant utilisation.</p>
-        </section>
-        <section class="content-container" id="voyance" aria-labelledby="voyance-heading">
-            <h2 id="voyance-heading">Voyance par Email</h2>
-            <article>
-                <p>Obtenez des prédictions précises en 24h avec notre <strong>voyance par email</strong>, dirigée par Frédérick, futurologue avec 20 ans d’expérience. Posez vos questions sur l’amour, le travail ou les finances et recevez des réponses détaillées et confidentielles. Découvrez nos <a href="https://clairvoyancemedium.github.io/online-psychic-readings.github.io/" target="_blank" rel="nofollow" aria-label="Consultations de voyance en ligne précises">consultations de voyance en ligne précises</a> pour une expérience immersive. <a href="#frederick" aria-label="En savoir plus sur Frédérick">En savoir plus sur Frédérick</a>.</p>
-                <p>Frédérick combine intuition, astrologie et lecture énergétique pour des prédictions fiables (98% de satisfaction). Posez vos questions à votre rythme et relisez les réponses autant que nécessaire. Chaque consultation offre des conseils pratiques et des perspectives spirituelles adaptées.</p>
-                <p>Vos données sont protégées par des protocoles stricts. Que vous soyez novice ou habitué, nos options (1, 3 ou 5 questions) s’adaptent à vos besoins. Pour approfondir vos lectures, explorez nos <a href="https://clairvoyancemedium.github.io/spiritual-guidance.github.io/" target="_blank" rel="nofollow" aria-label="Services de guidance spirituelle">services de guidance spirituelle</a>.</p>
-                <ul class="check-list">
-                    <li><strong>Réponses rapides :</strong> Prédictions en moins de 24h.</li>
-                    <li><strong>Confidentialité :</strong> Données protégées.</li>
-                    <li><strong>Fiabilité :</strong> 98% de satisfaction.</li>
-                </ul>
-            </article>
-            <div class="cta-buttons-container">
-                <a href="https://buy.stripe.com/14kdRe0EQ4iH1uoaFa" target="_blank" rel="noopener nofollow" class="cta-button prix" data-eur-price="6" data-tracking-label="Voyance1Q" aria-label="Commander une consultation voyance 1 question">1 Question – <span class="price" data-eur-price="6">6.00 EUR</span></a>
-                <a href="https://buy.stripe.com/dR614scnycPddd66oV" target="_blank" rel="noopener nofollow" class="cta-button prix" data-eur-price="15" data-tracking-label="Voyance3Q" aria-label="Commander une consultation voyance 3 questions">3 Questions – <span class="price" data-eur-price="15">15.00 EUR</span></a>
-                <a href="https://buy.stripe.com/28o3cA0EQ5mL0qk14C" target="_blank" rel="noopener nofollow" class="cta-button prix" data-eur-price="28" data-tracking-label="Voyance5Q" aria-label="Commander une consultation voyance 5 questions">5 Questions – <span class="price" data-eur-price="28">28.00 EUR</span></a>
-            </div>
-        </section>
-        <section class="content-container" id="services" aria-labelledby="services-heading">
-            <h2 id="services-heading">Services Spirituels</h2>
-            <article>
-                <p>Levez les blocages et attirez l’amour avec nos <strong>services spirituels</strong>. Nos rituels de magie rouge et désenvoûtement, réalisés par des experts, restaurent votre énergie. <a href="#importance-desenvoutement" aria-label="En savoir plus sur le désenvoûtement">Découvrez l’importance du désenvoûtement</a>.</p>
-                <p>Le rituel de magie rouge renforce les liens amoureux ou attire une nouvelle passion. Le désenvoûtement élimine les énergies négatives. Chaque service est personnalisé avec un suivi détaillé, garantissant des résultats alignés avec vos intentions spirituelles.</p>
-                <p>Nos pratiques s’appuient sur des traditions ancestrales et sont adaptées aux besoins modernes. Que vous cherchiez à raviver une relation, à protéger votre énergie ou à analyser la compatibilité amoureuse, nos experts vous accompagnent avec éthique et confidentialité. Pour un soutien spirituel complémentaire, explorez nos <a href="https://clairvoyancemedium.github.io/spiritual-guidance.github.io/" target="_blank" rel="nofollow" aria-label="Services de guidance spirituelle">services de guidance spirituelle</a>.</p>
-            </article>
-            <div style="margin-top: 1.5rem;"></div> <!-- Espace ajouté -->
-            <ul>
-                <li><span class="service-description"><strong>Magie Rouge :</strong> Ravivez l’amour.</span><a href="https://buy.stripe.com/6oE9AYgDO2azehabJF" target="_blank" rel="noopener nofollow" class="cta-button" data-eur-price="250" aria-label="Commander un rituel de magie rouge">Commander – <span class="price" data-eur-price="250">250.00 EUR</span></a></li>
-                <li><span class="service-description"><strong>Compatibilité Amoureuse :</strong> Analysez votre relation.</span><a href="https://buy.stripe.com/28o28wgDO9D16OI5lf" target="_blank" rel="noopener nofollow" class="cta-button" data-eur-price="20" aria-label="Commander une analyse de compatibilité amoureuse">Commander – <span class="price" data-eur-price="20">20.00 EUR</span></a></li>
-                <li><span class="service-description"><strong>Désenvoûtement :</strong> Libérez-vous des blocages.</span><a href="https://buy.stripe.com/cN2bJ62MYg1p0qk5lE" target="_blank" rel="noopener nofollow" class="cta-button" data-eur-price="250" aria-label="Commander un rituel de désenvoûtement">Commander – <span class="price" data-eur-price="250">250.00 EUR</span></a></li>
+            <ul class="check-list">
+                <li><strong>Perte de poids rapide :</strong> Jusqu’à 8 kg en 1 mois*.</li>
+                <li><strong>Énergie boostée :</strong> Restez dynamique toute la journée.</li>
+                <li><strong>Confiance retrouvée :</strong> Une silhouette affinée pour vous sentir mieux.</li>
             </ul>
-        </section>
-        <section class="content-container" id="blog" aria-labelledby="blog-heading">
-            <h2 id="blog-heading">Conseils & Blog</h2>
-            <div class="carousel" id="blogCarousel" role="region" aria-roledescription="carousel" aria-label="Carrousel d'articles de blog, slide 1 sur 10" tabindex="0">
-                <div class="carousel-inner" id="blogCarouselInner" aria-live="off">
-                    <div class="carousel-item active" role="group" aria-roledescription="slide" tabindex="0">
-                        <article>
-                            <h3 id="blog1-title">Optimiser Votre Perte de Poids</h3>
-                            <p>Boostez les gélules Victory avec 1,5L d’eau par jour, des aliments riches en fibres (légumes, fruits) et 30 min de marche quotidienne. <a href="#minceur" aria-label="En savoir plus sur les gélules Victory">En savoir plus</a>.</p>
-                        </article>
-                    </div>
-                    <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1" aria-hidden="true">
-                        <article>
-                            <h3 id="blog2-title">Poser les Bonnes Questions en Voyance</h3>
-                            <p>Privilégiez des questions ouvertes comme « Comment améliorer ma carrière ? » pour des prédictions précises. <a href="#voyance" aria-label="En savoir plus sur la voyance par email">En savoir plus</a>.</p>
-                        </article>
-                    </div>
-                    <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1" aria-hidden="true">
-                        <article>
-                                <h3 id="blog3-title">Les Bienfaits du Désenvoûtement</h3>
-                                <p>Libérez-vous des énergies négatives pour retrouver sérénité et équilibre. Nos rituels éthiques sont adaptés à vos besoins. <a href="#importance-desenvoutement" aria-label="En savoir plus sur le désenvoûtement">En savoir plus</a>.</p>
-                            </article>
-                        </div>
-                        <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1" aria-hidden="true">
-                            <article>
-                                <h3 id="blog4-title">Nutrition pour Énergie</h3>
-                                <p>Incorporez des aliments riches en fer (épinards, lentilles) pour booster votre vitalité avec Victory. <a href="#minceur" aria-label="En savoir plus sur les gélules Victory">En savoir plus</a>.</p>
-                            </article>
-                        </div>
-                        <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1" aria-hidden="true">
-                            <article>
-                                <h3 id="blog5-title">Méditation et Voyance</h3>
-                                <p>Une méditation de 10 min avant votre consultation améliore la clarté des prédictions. <a href="#voyance" aria-label="En savoir plus sur la voyance par email">En savoir plus</a>.</p>
-                            </article>
-                        </div>
-                        <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1" aria-hidden="true">
-                            <article>
-                                <h3 id="blog6-title">Exercices pour Minceur</h3>
-                                <p>Complétez Victory avec des exercices doux comme le yoga pour tonifier votre corps. <a href="#programme-personnalise" aria-label="En savoir plus sur le programme personnalisé">En savoir plus</a>.</p>
-                            </article>
-                        </div>
-                        <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1" aria-hidden="true">
-                            <article>
-                                <h3 id="blog7-title">Amour et Magie Rouge</h3>
-                                <p>Renforcez vos liens amoureux avec des rituels éthiques de magie rouge. <a href="#services" aria-label="En savoir plus sur les services spirituels">En savoir plus</a>.</p>
-                            </article>
-                        </div>
-                        <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1" aria-hidden="true">
-                            <article>
-                                <h3 id="blog8-title">Confiance en Soi</h3>
-                                <p>La perte de poids avec Victory booste l’estime de soi. Adoptez des affirmations positives quotidiennes. <a href="#minceur" aria-label="En savoir plus sur les gélules Victory">En savoir plus</a>.</p>
-                            </article>
-                        </div>
-                        <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1" aria-hidden="true">
-                            <article>
-                                <h3 id="blog9-title">Signes Astrologiques</h3>
-                                <p>Comment votre signe influence vos choix amoureux ? Demandez une analyse personnalisée. <a href="#voyance" aria-label="En savoir plus sur la voyance par email">En savoir plus</a>.</p>
-                            </article>
-                        </div>
-                        <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1" aria-hidden="true">
-                            <article>
-                                <h3 id="blog10-title">Équilibre Énergétique</h3>
-                                <p>Un désenvoûtement régulier maintient votre énergie positive. <a href="#importance-desenvoutement" aria-label="En savoir plus sur le désenvoûtement">En savoir plus</a>.</p>
-                            </article>
-                        </div>
-                    </div>
-                    <div class="carousel-nav">
-                        <button class="prevBtn" aria-controls="blogCarouselInner" aria-label="Article précédent" role="button">←</button>
-                        <button class="nextBtn" aria-controls="blogCarouselInner" aria-label="Article suivant" role="button">→</button>
-                    </div>
+        </article>
+        <div class="cta-buttons-container">
+            <a href="https://buy.stripe.com/9AQ28w5Zag1p5KE29u" target="_blank" rel="noopener nofollow" class="cta-button prix" data-eur-price="19" data-tracking-label="Victory1Box" aria-label="Commander 1 boîte de gélules Victory">1 Boîte – <span class="price" data-eur-price="19">19.00 EUR</span></a>
+            <a href="https://buy.stripe.com/5kA6oMfzK9D15KE6pL" target="_blank" rel="noopener nofollow" class="cta-button prix" data-eur-price="29.90" data-tracking-label="Victory2Box" aria-label="Commander 2 boîtes de gélules Victory">2 Boîtes – <span class="price" data-eur-price="29.90">29.90 EUR</span></a>
+        </div>
+    </section>
+    <section class="content-container" id="programme-personnalise" aria-labelledby="programme-personnalise-heading">
+        <h2 id="programme-personnalise-heading">Programme Minceur Personnalisé Victory</h2>
+        <article>
+            <p>Transformez votre silhouette durablement avec le <strong>programme minceur personnalisé Victory</strong>. Combinant les gélules Victory, un suivi sur mesure, des conseils nutritionnels et des exercices adaptés, ce programme garantit une perte de poids de 8 à 12 kg en 2 mois. Idéal pour tous, il s’adapte à votre mode de vie. <a href="#minceur" aria-label="En savoir plus sur les gélules Victory">En savoir plus sur les gélules</a>.</p>
+            <p>Après un questionnaire sur vos objectifs et habitudes, nos experts créent un plan unique, envoyé sous 48h par email. Les gélules Victory accélèrent le métabolisme, tandis que les conseils nutritionnels (légumes, protéines maigres, fibres) et exercices (marche, yoga) optimisent les résultats. Sans effets secondaires, chaque composant est testé pour une qualité optimale.</p>
+            <p>Les utilisateurs rapportent une vitalité accrue et une meilleure estime de soi. La livraison gratuite et le paiement sécurisé simplifient l’accès. Commencez aujourd’hui pour une transformation complète.</p>
+            <ul class="check-list">
+                <li><strong>Perte durable :</strong> Jusqu’à 12 kg en 2 mois*.</li>
+                <li><strong>Suivi personnalisé :</strong> Plan adapté à vos besoins.</li>
+                <li><strong>Approche holistique :</strong> Nutrition, exercice, bien-être.</li>
+            </ul>
+        </article>
+        <div class="cta-buttons-container">
+            <a href="https://buy.stripe.com/cN2bJ69bmbL9b4Y3dA" target="_blank" rel="noopener nofollow" class="cta-button prix" data-eur-price="43" data-tracking-label="VictoryProgram" aria-label="Commander le programme minceur personnalisé Victory">Programme Personnalisé – <span class="price" data-eur-price="43">43.00 EUR</span></a>
+        </div>
+    </section>
+    <section class="imc-calculator" id="imc" aria-labelledby="imc-heading">
+        <h2 id="imc-heading">Calculez Votre IMC</h2>
+        <form id="imcForm" aria-describedby="imc-desc">
+            <p id="imc-desc" class="sr-only">Calculez votre Indice de Masse Corporelle pour évaluer votre poids.</p>
+            <div>
+                <label for="weight">Poids (kg) :</label>
+                <input type="number" id="weight" name="weight" required min="10" max="300" step="0.1" placeholder="Ex: 70" aria-describedby="weight-desc">
+                <p id="weight-desc" class="sr-only">Entrez votre poids en kilogrammes (10-300).</p>
+            </div>
+            <div>
+                <label for="height">Taille (cm) :</label>
+                <input type="number" id="height" name="height" required min="50" max="280" step="0.1" placeholder="Ex: 175" aria-describedby="height-desc">
+                <p id="height-desc" class="sr-only">Entrez votre taille en centimètres (50-280).</p>
+            </div>
+            <button type="submit" class="imc-button" role="button" aria-label="Calculer votre IMC">Calculer</button>
+            <div id="imc-error" role="alert" aria-live="assertive"></div>
+        </form>
+        <p id="imc-result" aria-live="polite"></p>
+        <canvas id="imcChart" class="imc-chart" aria-label="Graphique de votre Indice de Masse Corporelle" willReadFrequently="true"></canvas>
+        <div id="imc-recommendation" style="display: none;" aria-hidden="true">
+            <p>Optimisez vos résultats avec nos solutions minceur :</p>
+            <a href="https://buy.stripe.com/9AQ28w5Zag1p5KE29u" target="_blank" rel="noopener nofollow" class="cta-button prix" data-eur-price="19" aria-label="Commander 1 boîte de gélules Victory">1 Boîte – <span class="price" data-eur-price="19">19.00 EUR</span></a>
+            <a href="https://buy.stripe.com/5kA6oMfzK9D15KE6pL" target="_blank" rel="noopener nofollow" class="cta-button prix" data-eur-price="29.90" aria-label="Commander 2 boîtes de gélules Victory">2 Boîtes – <span class="price" data-eur-price="29.90">29.90 EUR</span></a>
+            <a href="https://buy.stripe.com/cN2bJ69bmbL9b4Y3dA" target="_blank" rel="noopener nofollow" class="cta-button prix" data-eur-price="43" aria-label="Commander le programme minceur personnalisé Victory">Programme Personnalisé – <span class="price" data-eur-price="43">43.00 EUR</span></a>
+        </div>
+        <noscript>
+            <p role="alert">Le calculateur IMC nécessite JavaScript pour fonctionner. Veuillez activer JavaScript ou contactez-nous pour une assistance.</p>
+        </noscript>
+    </section>
+    <section class="content-container" id="avis" aria-labelledby="avis-heading">
+        <h2 id="avis-heading">Avis de Nos 16 000 Clients</h2>
+        <div class="carousel" id="avisCarousel" role="region" aria-roledescription="carousel" aria-label="Carrousel d'avis, slide 1 sur 4" tabindex="0">
+            <div class="carousel-inner" id="avisCarouselInner" aria-live="off">
+                <div class="carousel-item active" role="group" aria-roledescription="slide" tabindex="0">
+                    <figure>
+                        <blockquote>« Les gélules Victory m’ont aidée à perdre 8 kg en un mois. Je me sens énergique et confiante. Livraison rapide et service impeccable ! »</blockquote>
+                        <figcaption>— Sophie D., Paris</figcaption>
+                    </figure>
                 </div>
-            </section>
-            <section class="subscribe-section" id="subscribe" aria-labelledby="subscribe-heading">
-                <h2 id="subscribe-heading">Inscrivez-vous à Notre Newsletter</h2>
-                <p>Recevez des conseils minceur, des prédictions astrologiques et des offres exclusives chaque semaine.</p>
-                <form class="subscribe-form" id="subscribeForm" aria-describedby="subscribe-desc">
-                    <p id="subscribe-desc" class="sr-only">Inscrivez-vous pour recevoir nos newsletters.</p>
-                    <div style="display: flex; gap: 0.5rem; max-width: 500px; margin: 0 auto; flex-wrap: wrap; justify-content: center;">
-                        <input type="email" id="email" name="email" required placeholder="Votre email" aria-label="Entrez votre adresse email">
-                        <button type="submit" class="subscribe-button" role="button" aria-label="S'inscrire à la newsletter">S'inscrire</button>
-                    </div>
-                    <p id="subscribe-error" role="alert" aria-live="assertive"></p>
-                </form>
-                <p style="font-size: 0.8rem; margin-top: 0.5rem;">Nous respectons votre vie privée. Désinscription facile à tout moment.</p>
-            </section>
-            <section class="content-container" id="importance-desenvoutement" aria-labelledby="desenvoutement-heading">
-                <h2 id="desenvoutement-heading">L’Importance du Désenvoûtement</h2>
-                <article>
-                    <p>Le <strong>désenvoûtement</strong> est un rituel puissant pour éliminer les énergies négatives qui bloquent votre vie. Ces influences invisibles, souvent causées par le stress, les conflits ou des intentions extérieures, peuvent affecter votre bien-être, vos relations ou vos projets. Nos experts, avec 20 ans d’expérience, réalisent des rituels éthiques et personnalisés pour restaurer votre équilibre énergétique.</p>
-                    <p>Le processus commence par une analyse énergétique pour identifier les blocages. Le rituel, réalisé à distance, utilise des techniques ancestrales (bougies, encens, prières spécifiques) adaptées à votre situation. Vous recevez un rapport détaillé sous 48h, avec des conseils pour maintenir une énergie positive. Aucun prérequis n’est nécessaire, et le respect de votre libre arbitre est garanti.</p>
-                    <p>Les bienfaits incluent une légèreté mentale, une meilleure clarté dans vos décisions et une protection contre les influences négatives futures. 92% des clients rapportent une amélioration significative après un rituel. Commandez dès maintenant pour libérer votre potentiel.</p>
-                    <ul class="check-list">
-                        <li><strong>Libération rapide :</strong> Résultats dès la première séance.</li>
-                        <li><strong>Protection durable :</strong> Énergie positive renforcée.</li>
-                        <li><strong>Confidentialité :</strong> Rituel discret et sécurisé.</li>
-                    </ul>
-                </article>
-                <div class="cta-buttons-container">
-                    <a href="https://buy.stripe.com/cN2bJ62MYg1p0qk5lE" target="_blank" rel="noopener nofollow" class="cta-button prix" data-eur-price="250" data-tracking-label="Desenvoutement" aria-label="Commander un rituel de désenvoûtement">Commander – <span class="price" data-eur-price="250">250.00 EUR</span></a>
+                <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1" aria-hidden="true">
+                    <figure>
+                        <blockquote>« La voyance par email de Frédérick est incroyable. Réponses précises en 24h, avec des conseils qui ont changé ma vision de l’amour. »</blockquote>
+                        <figcaption>— Luc M., Lyon</figcaption>
+                    </figure>
                 </div>
-            </section>
-            <section class="content-container" id="frederick" aria-labelledby="frederick-heading">
-                <h2 id="frederick-heading">Frédérick, Votre Futurologue</h2>
-                <article>
-                    <p>Frédérick, futurologue depuis 20 ans, guide vos choix avec une précision remarquable. Son intuition et son approche empathique en font un guide de confiance pour des milliers de clients. <a href="#voyance" aria-label="En savoir plus sur la voyance par email">Découvrez la voyance par email</a>.</p>
-                    <p>Formé à l’astrologie, la numérologie et la lecture énergétique, Frédérick combine des techniques ancestrales et modernes pour des prédictions claires sur l’amour, le travail ou la spiritualité. Chaque consultation est personnalisée, avec des conseils pratiques pour avancer. Sa philosophie : éclairer sans juger, en respectant votre libre arbitre.</p>
-                    <p>Ses rituels de désenvoûtement et magie rouge, réalisés avec éthique, libèrent des blocages et attirent des énergies positives. Rejoignez les 16 000 clients qui ont transformé leur vie grâce à ses insights.</p>
-                    <ul class="check-list">
-                        <li><strong>Expertise reconnue :</strong> 20 ans d’expérience, 98% de satisfaction.</li>
-                        <li><strong>Approche personnalisée :</strong> Réponses adaptées à vos besoins.</li>
-                        <li><strong>Confidentialité :</strong> Sécurité et respect garantis.</li>
-                    </ul>
-                </article>
-                <div class="cta-buttons-container">
-                    <a href="https://buy.stripe.com/14kdRe0EQ4iH1uoaFa" target="_blank" rel="noopener nofollow" class="cta-button prix" data-eur-price="6" data-tracking-label="Voyance1Q" aria-label="Commander une consultation voyance 1 question avec Frédérick">1 Question – <span class="price" data-eur-price="6">6.00 EUR</span></a>
+                <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1" aria-hidden="true">
+                    <figure>
+                        <blockquote>« Le désenvoûtement a levé mes blocages. Je ressens une légèreté incroyable. Service professionnel et respectueux. »</blockquote>
+                        <figcaption>— Marie L., Marseille</figcaption>
+                    </figure>
                 </div>
-            </section>
-        </main>
-        <div class="popup" id="welcomePopup" role="dialog" aria-labelledby="popup-heading" aria-modal="true" tabindex="-1">
-            <h2 id="popup-heading">Ne Partez Pas Sans Votre Offre !</h2>
-            <p>Transformez votre vie avec les gélules Victory et la voyance par email. Profitez de <strong>10% de réduction</strong> sur votre première commande avec le code <strong>VICTORY10</strong>.</p>
-            <div class="cta-buttons-container">
-                <a href="https://buy.stripe.com/9AQ28w5Zag1p5KE29u" target="_blank" rel="noopener nofollow" class="popup-action-button prix" data-eur-price="19" aria-label="Commander maintenant avec 10% de réduction">Commander Maintenant</a>
-                <button class="popup-close-button" aria-label="Fermer la fenêtre contextuelle">Fermer</button>
+                <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1" aria-hidden="true">
+                    <figure>
+                        <blockquote>« Le programme Victory a transformé ma vie. 12 kg perdus en 2 mois avec un suivi motivant. Je recommande ! »</blockquote>
+                        <figcaption>— Ahmed K., Bordeaux</figcaption>
+                    </figure>
+                </div>
+            </div>
+            <div class="carousel-nav">
+                <button class="prevBtn" aria-controls="avisCarouselInner" aria-label="Avis précédent" role="button">←</button>
+                <button class="nextBtn" aria-controls="avisCarouselInner" aria-label="Avis suivant" role="button">→</button>
             </div>
         </div>
-        <div class="sticky-banner" role="complementary" aria-label="Bannière promotionnelle fixe">
-            <p><strong>Offre Spéciale :</strong> Livraison gratuite sur toutes les commandes !</p>
-            <a href="https://buy.stripe.com/9AQ28w5Zag1p5KE29u" target="_blank" rel="noopener nofollow" class="cta-button prix" data-eur-price="19" aria-label="Commander maintenant avec livraison gratuite">Commander Maintenant – <span class="price" data-eur-price="19">19.00 EUR</span></a>
+    </section>
+    <section class="content-container" id="comparatif" aria-labelledby="comparatif-heading">
+        <h2 id="comparatif-heading">Pourquoi Choisir Victory ?</h2>
+        <div class="comparison-table-container">
+            <table class="comparison-table" role="grid" aria-describedby="comparatif-desc">
+                <caption id="comparatif-desc">Comparatif des gélules minceur Victory face aux concurrents.</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">Caractéristique</th>
+                        <th scope="col">Victory</th>
+                        <th scope="col">Concurrent A</th>
+                        <th scope="col">Concurrent B</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row"><span class="tooltip">Perte de poids<span class="tooltiptext">Poids moyen perdu sur un mois</span></span></th>
+                        <td>8-12 kg/mois*</td>
+                        <td>4 kg/mois</td>
+                        <td>3 kg/mois</td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><span class="tooltip">Ingrédients naturels<span class="tooltiptext">Sans additifs chimiques</span></span></th>
+                        <td class="check">✔</td>
+                        <td class="cross">✘</td>
+                        <td class="check">✔</td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><span class="tooltip">Livraison gratuite<span class="tooltiptext">Pas de frais de port</span></span></th>
+                        <td class="check">✔</td>
+                        <td class="cross">✘</td>
+                        <td class="cross">✘</td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><span class="tooltip">Sans compte<span class="tooltiptext">Commande sans inscription</span></span></th>
+                        <td class="check">✔</td>
+                        <td class="cross">✘</td>
+                        <td class="cross">✘</td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><span class="tooltip">Support 24/7<span class="tooltiptext">Assistance à tout moment</span></span></th>
+                        <td class="check">✔</td>
+                        <td class="cross">✘</td>
+                        <td class="check">✔</td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><span class="tooltip">Garantie<span class="tooltiptext">Satisfait ou remboursé</span></span></th>
+                        <td class="check">✔</td>
+                        <td class="cross">✘</td>
+                        <td class="cross">✘</td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><span class="tooltip">Sans effets secondaires<span class="tooltiptext">Testé cliniquement</span></span></th>
+                        <td class="check">✔</td>
+                        <td class="cross">✘</td>
+                        <td class="cross">✘</td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><span class="tooltip">Prix<span class="tooltiptext">Prix pour un mois</span></span></th>
+                        <td class="price" data-eur-price="19">19.00-43.00 EUR</td>
+                        <td>25.00 EUR</td>
+                        <td>30.00 EUR</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-        <footer role="contentinfo">
-            <p>© <span id="footer-year"></span> ClairvoyanceMedium.com. Tous droits réservés.</p>
-        </footer>
-        <script nonce="xai-ultimateNonce">
-            // Mise à jour de l'année
-            const yearElements = document.querySelectorAll('#current-year, #footer-year');
-            yearElements.forEach(el => el.textContent = new Date().getFullYear());
+        <p>*Résultats variables selon les individus. Consultez un professionnel de santé avant utilisation.</p>
+    </section>
+    <section class="content-container" id="voyance" aria-labelledby="voyance-heading">
+        <h2 id="voyance-heading">Voyance par Email</h2>
+        <article>
+            <p>Obtenez des prédictions précises en 24h avec notre <strong>voyance par email</strong>, dirigée par Frédérick, futurologue avec 20 ans d’expérience. Posez vos questions sur l’amour, le travail ou les finances et recevez des réponses détaillées et confidentielles. Découvrez nos <a href="https://clairvoyancemedium.github.io/online-psychic-readings.github.io/" target="_blank" rel="nofollow" aria-label="Consultations de voyance en ligne précises">consultations de voyance en ligne précises</a> pour une expérience immersive. <a href="#frederick" aria-label="En savoir plus sur Frédérick">En savoir plus sur Frédérick</a>.</p>
+            <p>Frédérick combine intuition, astrologie et lecture énergétique pour des prédictions fiables (98% de satisfaction). Posez vos questions à votre rythme et relisez les réponses autant que nécessaire. Chaque consultation offre des conseils pratiques et des perspectives spirituelles adaptées.</p>
+            <p>Vos données sont protégées par des protocoles stricts. Que vous soyez novice ou habitué, nos options (1, 3 ou 5 questions) s’adaptent à vos besoins. Pour approfondir vos lectures, explorez nos <a href="https://clairvoyancemedium.github.io/spiritual-guidance.github.io/" target="_blank" rel="nofollow" aria-label="Services de guidance spirituelle">services de guidance spirituelle</a>.</p>
+            <ul class="check-list">
+                <li><strong>Réponses rapides :</strong> Prédictions en moins de 24h.</li>
+                <li><strong>Confidentialité :</strong> Données protégées.</li>
+                <li><strong>Fiabilité :</strong> 98% de satisfaction.</li>
+            </ul>
+        </article>
+        <div class="cta-buttons-container">
+            <a href="https://buy.stripe.com/14kdRe0EQ4iH1uoaFa" target="_blank" rel="noopener nofollow" class="cta-button prix" data-eur-price="6" data-tracking-label="Voyance1Q" aria-label="Commander une consultation voyance 1 question">1 Question – <span class="price" data-eur-price="6">6.00 EUR</span></a>
+            <a href="https://buy.stripe.com/dR614scnycPddd66oV" target="_blank" rel="noopener nofollow" class="cta-button prix" data-eur-price="15" data-tracking-label="Voyance3Q" aria-label="Commander une consultation voyance 3 questions">3 Questions – <span class="price" data-eur-price="15">15.00 EUR</span></a>
+            <a href="https://buy.stripe.com/28o3cA0EQ5mL0qk14C" target="_blank" rel="noopener nofollow" class="cta-button prix" data-eur-price="28" data-tracking-label="Voyance5Q" aria-label="Commander une consultation voyance 5 questions">5 Questions – <span class="price" data-eur-price="28">28.00 EUR</span></a>
+        </div>
+    </section>
+    <section class="content-container" id="services" aria-labelledby="services-heading">
+        <h2 id="services-heading">Services Spirituels</h2>
+        <article>
+            <p>Levez les blocages et attirez l’amour avec nos <strong>services spirituels</strong>. Nos rituels de magie rouge et désenvoûtement, réalisés par des experts, restaurent votre énergie. <a href="#importance-desenvoutement" aria-label="En savoir plus sur le désenvoûtement">Découvrez l’importance du désenvoûtement</a>.</p>
+            <p>Le rituel de magie rouge renforce les liens amoureux ou attire une nouvelle passion. Le désenvoûtement élimine les énergies négatives. Chaque service est personnalisé avec un suivi détaillé, garantissant des résultats alignés avec vos intentions spirituelles.</p>
+            <p>Nos pratiques s’appuient sur des traditions ancestrales et sont adaptées aux besoins modernes. Que vous cherchiez à raviver une relation, à protéger votre énergie ou à analyser la compatibilité amoureuse, nos experts vous accompagnent avec éthique et confidentialité. Pour un soutien spirituel complémentaire, explorez nos <a href="https://clairvoyancemedium.github.io/spiritual-guidance.github.io/" target="_blank" rel="nofollow" aria-label="Services de guidance spirituelle">services de guidance spirituelle</a>.</p>
+        </article>
+        <div style="margin-top: 1.5rem;"></div>
+        <ul>
+            <li><span class="service-description"><strong>Magie Rouge :</strong> Ravivez l’amour.</span><a href="https://buy.stripe.com/6oE9AYgDO2azehabJF" target="_blank" rel="noopener nofollow" class="cta-button" data-eur-price="250" aria-label="Commander un rituel de magie rouge">Commander – <span class="price" data-eur-price="250">250.00 EUR</span></a></li>
+            <li><span class="service-description"><strong>Compatibilité Amoureuse :</strong> Analysez votre relation.</span><a href="https://buy.stripe.com/28o28wgDO9D16OI5lf" target="_blank" rel="noopener nofollow" class="cta-button" data-eur-price="20" aria-label="Commander une analyse de compatibilité amoureuse">Commander – <span class="price" data-eur-price="20">20.00 EUR</span></a></li>
+                        <li><span class="service-description"><strong>Désenvoûtement :</strong> Libérez-vous des énergies négatives.</span><a href="https://buy.stripe.com/cN2bJ62MYg1p0qk5lE" target="_blank" rel="noopener nofollow" class="cta-button" data-eur-price="250" aria-label="Commander un rituel de désenvoûtement">Commander – <span class="price" data-eur-price="250">250.00 EUR</span></a></li>
+                    </ul>
+                </section>
+                <section class="content-container" id="blog" aria-labelledby="blog-heading">
+                    <h2 id="blog-heading">Blog Minceur et Spiritualité</h2>
+                    <div class="carousel" id="blogCarousel" role="region" aria-roledescription="carousel" aria-label="Carrousel d'articles, slide 1 sur 10" tabindex="0">
+                        <div class="carousel-inner" id="blogCarouselInner" aria-live="off">
+                            <div class="carousel-item active" role="group" aria-roledescription="slide" tabindex="0">
+                                <article>
+                                    <h3 id="blog1-title">Comment Perdre du Poids Rapidement</h3>
+                                    <p>Adoptez les gélules Victory et une routine simple pour perdre jusqu’à 8 kg en un mois. <a href="#minceur" aria-label="En savoir plus sur les gélules Victory">En savoir plus</a>.</p>
+                                </article>
+                            </div>
+                            <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1" aria-hidden="true">
+                                <article>
+                                    <h3 id="blog2-title">Astrologie et Amour</h3>
+                                    <p>Découvrez comment votre signe influence vos relations amoureuses avec une voyance personnalisée. <a href="#voyance" aria-label="En savoir plus sur la voyance par email">En savoir plus</a>.</p>
+                                </article>
+                            </div>
+                            <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1" aria-hidden="true">
+                                <article>
+                                    <h3 id="blog3-title">Les Bienfaits du Désenvoûtement</h3>
+                                    <p>Libérez-vous des énergies négatives pour retrouver sérénité et équilibre. <a href="#importance-desenvoutement" aria-label="En savoir plus sur le désenvoûtement">En savoir plus</a>.</p>
+                                </article>
+                            </div>
+                            <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1" aria-hidden="true">
+                                <article>
+                                    <h3 id="blog4-title">Nutrition pour Énergie</h3>
+                                    <p>Incorporez des aliments riches en fer pour booster votre vitalité avec Victory. <a href="#minceur" aria-label="En savoir plus sur les gélules Victory">En savoir plus</a>.</p>
+                                </article>
+                            </div>
+                            <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1" aria-hidden="true">
+                                <article>
+                                    <h3 id="blog5-title">Méditation et Voyance</h3>
+                                    <p>Une méditation de 10 min avant une consultation améliore la clarté des prédictions. <a href="#voyance" aria-label="En savoir plus sur la voyance par email">En savoir plus</a>.</p>
+                                </article>
+                            </div>
+                            <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1" aria-hidden="true">
+                                <article>
+                                    <h3 id="blog6-title">Exercices pour Minceur</h3>
+                                    <p>Complétez Victory avec du yoga pour tonifier votre corps. <a href="#programme-personnalise" aria-label="En savoir plus sur le programme personnalisé">En savoir plus</a>.</p>
+                                </article>
+                            </div>
+                            <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1" aria-hidden="true">
+                                <article>
+                                    <h3 id="blog7-title">Amour et Magie Rouge</h3>
+                                    <p>Renforcez vos liens amoureux avec des rituels éthiques. <a href="#services" aria-label="En savoir plus sur les services spirituels">En savoir plus</a>.</p>
+                                </article>
+                            </div>
+                            <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1" aria-hidden="true">
+                                <article>
+                                    <h3 id="blog8-title">Confiance en Soi</h3>
+                                    <p>La perte de poids avec Victory booste l’estime de soi. <a href="#minceur" aria-label="En savoir plus sur les gélules Victory">En savoir plus</a>.</p>
+                                </article>
+                            </div>
+                            <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1" aria-hidden="true">
+                                <article>
+                                    <h3 id="blog9-title">Signes Astrologiques</h3>
+                                    <p>Comment votre signe influence vos choix amoureux ? <a href="#voyance" aria-label="En savoir plus sur la voyance par email">En savoir plus</a>.</p>
+                                </article>
+                            </div>
+                            <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1" aria-hidden="true">
+                                <article>
+                                    <h3 id="blog10-title">Équilibre Énergétique</h3>
+                                    <p>Un désenvoûtement régulier maintient votre énergie positive. <a href="#importance-desenvoutement" aria-label="En savoir plus sur le désenvoûtement">En savoir plus</a>.</p>
+                                </article>
+                            </div>
+                        </div>
+                        <div class="carousel-nav">
+                            <button class="prevBtn" aria-controls="blogCarouselInner" aria-label="Article précédent" role="button">←</button>
+                            <button class="nextBtn" aria-controls="blogCarouselInner" aria-label="Article suivant" role="button">→</button>
+                        </div>
+                    </div>
+                </section>
+                <section class="subscribe-section" id="subscribe" aria-labelledby="subscribe-heading">
+                    <h2 id="subscribe-heading">Inscrivez-vous à Notre Newsletter</h2>
+                    <p>Recevez des conseils minceur, des prédictions astrologiques et des offres exclusives chaque semaine.</p>
+                    <form class="subscribe-form" id="subscribeForm" aria-describedby="subscribe-desc">
+                        <p id="subscribe-desc" class="sr-only">Inscrivez-vous pour recevoir nos newsletters.</p>
+                        <div style="display: flex; gap: 0.5rem; max-width: 500px; margin: 0 auto; flex-wrap: wrap; justify-content: center;">
+                            <input type="email" id="email" name="email" required placeholder="Votre email" aria-label="Entrez votre adresse email">
+                            <button type="submit" class="subscribe-button" role="button" aria-label="S'inscrire à la newsletter">S'inscrire</button>
+                        </div>
+                        <p id="subscribe-error" role="alert" aria-live="assertive"></p>
+                    </form>
+                    <p style="font-size: 0.8rem; margin-top: 0.5rem;">Nous respectons votre vie privée. Désinscription facile à tout moment.</p>
+                </section>
+                <section class="content-container" id="importance-desenvoutement" aria-labelledby="desenvoutement-heading">
+                    <h2 id="desenvoutement-heading">L’Importance du Désenvoûtement</h2>
+                    <article>
+                        <p>Le <strong>désenvoûtement</strong> est un rituel puissant pour éliminer les énergies négatives qui bloquent votre vie. Ces influences, causées par le stress, les conflits ou des intentions extérieures, peuvent affecter votre bien-être, vos relations ou vos projets. Nos experts, avec 20 ans d’expérience, réalisent des rituels éthiques et personnalisés pour restaurer votre équilibre énergétique.</p>
+                        <p>Le processus commence par une analyse énergétique pour identifier les blocages. Le rituel, réalisé à distance, utilise des techniques ancestrales (bougies, encens, prières spécifiques) adaptées à votre situation. Vous recevez un rapport détaillé sous 48h, avec des conseils pour maintenir une énergie positive. Aucun prérequis n’est nécessaire, et le respect de votre libre arbitre est garanti.</p>
+                        <p>Les bienfaits incluent une légèreté mentale, une meilleure clarté dans vos décisions et une protection contre les influences négatives futures. 92% des clients rapportent une amélioration significative après un rituel. Commandez dès maintenant pour libérer votre potentiel.</p>
+                        <ul class="check-list">
+                            <li><strong>Libération rapide :</strong> Résultats dès la première séance.</li>
+                            <li><strong>Protection durable :</strong> Énergie positive renforcée.</li>
+                            <li><strong>Confidentialité :</strong> Rituel discret et sécurisé.</li>
+                        </ul>
+                    </article>
+                    <div class="cta-buttons-container">
+                        <a href="https://buy.stripe.com/cN2bJ62MYg1p0qk5lE" target="_blank" rel="noopener nofollow" class="cta-button prix" data-eur-price="250" data-tracking-label="Desenvoutement" aria-label="Commander un rituel de désenvoûtement">Commander – <span class="price" data-eur-price="250">250.00 EUR</span></a>
+                    </div>
+                </section>
+                <section class="content-container" id="frederick" aria-labelledby="frederick-heading">
+                    <h2 id="frederick-heading">Frédérick, Votre Futurologue</h2>
+                    <article>
+                        <p>Frédérick, futurologue depuis 20 ans, guide vos choix avec une précision remarquable. Son intuition et son approche empathique en font un guide de confiance pour 16 000 clients. <a href="#voyance" aria-label="En savoir plus sur la voyance par email">Découvrez la voyance par email</a>.</p>
+                        <p>Formé à l’astrologie, la numérologie et la lecture énergétique, Frédérick combine des techniques ancestrales et modernes pour des prédictions claires sur l’amour, le travail ou la spiritualité. Chaque consultation est personnalisée, avec des conseils pratiques pour avancer.</p>
+                        <p>Ses rituels de désenvoûtement et magie rouge, réalisés avec éthique, libèrent des blocages et attirent des énergies positives. Rejoignez ceux qui ont transformé leur vie grâce à ses insights.</p>
+                        <ul class="check-list">
+                            <li><strong>Expertise reconnue :</strong> 20 ans d’expérience, 98% de satisfaction.</li>
+                            <li><strong>Approche personnalisée :</strong> Réponses adaptées à vos besoins.</li>
+                            <li><strong>Confidentialité :</strong> Sécurité et respect garantis.</li>
+                        </ul>
+                    </article>
+                    <div class="cta-buttons-container">
+                        <a href="https://buy.stripe.com/14kdRe0EQ4iH1uoaFa" target="_blank" rel="noopener nofollow" class="cta-button prix" data-eur-price="6" data-tracking-label="Voyance1Q" aria-label="Commander une consultation voyance 1 question avec Frédérick">1 Question – <span class="price" data-eur-price="6">6.00 EUR</span></a>
+                    </div>
+                </section>
+            </main>
+            <div class="popup" id="welcomePopup" role="dialog" aria-labelledby="popup-heading" aria-modal="true" tabindex="-1">
+                <h2 id="popup-heading">Ne Partez Pas Sans Votre Offre !</h2>
+                <p>Transformez votre vie avec les gélules Victory et la voyance par email. Profitez de <strong>10% de réduction</strong> avec le code <strong>VICTORY10</strong>.</p>
+                <div class="cta-buttons-container">
+                    <a href="https://buy.stripe.com/9AQ28w5Zag1p5KE29u" target="_blank" rel="noopener nofollow" class="popup-action-button prix" data-eur-price="19" aria-label="Commander maintenant avec 10% de réduction">Commander Maintenant</a>
+                    <button class="popup-close-button" aria-label="Fermer la fenêtre contextuelle">Fermer</button>
+                </div>
+            </div>
+            <div class="sticky-banner" role="complementary" aria-label="Bannière promotionnelle fixe">
+                <p><strong>Offre Spéciale :</strong> Livraison gratuite sur toutes les commandes !</p>
+                <a href="https://buy.stripe.com/9AQ28w5Zag1p5KE29u" target="_blank" rel="noopener nofollow" class="cta-button prix" data-eur-price="19" aria-label="Commander maintenant avec livraison gratuite">Commander Maintenant – <span class="price" data-eur-price="19">19.00 EUR</span></a>
+            </div>
+            <footer role="contentinfo">
+                <p>© <span id="footer-year"></span> ClairvoyanceMedium.com. Tous droits réservés.</p>
+            </footer>
+            <script nonce="xai-ultimateNonce">
+                // Mise à jour de l'année
+                const yearElements = document.querySelectorAll('#current-year, #footer-year');
+                yearElements.forEach(el => el.textContent = new Date().getFullYear());
 
-            // Conversion des prix
-            const convertPrices = async () => {
-                const priceElements = document.querySelectorAll('.price');
-                try {
-                    const cachedCurrency = localStorage.getItem('currency');
-                    const cachedRates = localStorage.getItem('exchangeRates');
-                    let currency = cachedCurrency || 'EUR';
-                    let rates = cachedRates ? JSON.parse(cachedRates) : null;
+                // Conversion des prix
+                const convertPrices = async () => {
+                    const priceElements = document.querySelectorAll('.price');
+                    try {
+                        const cachedCurrency = localStorage.getItem('currency');
+                        const cachedRates = localStorage.getItem('exchangeRates');
+                        let currency = cachedCurrency || 'EUR';
+                        let rates = cachedRates ? JSON.parse(cachedRates) : null;
 
-                    if (!rates || (Date.now() - localStorage.getItem('ratesTimestamp')) > 24 * 60 * 60 * 1000) {
-                        const response = await fetch('https://api.exchangerate-api.com/v4/latest/EUR', { signal: AbortSignal.timeout(5000) });
-                        const data = await response.json();
-                        rates = data.rates;
-                        localStorage.setItem('exchangeRates', JSON.stringify(rates));
-                        localStorage.setItem('ratesTimestamp', Date.now());
-                    }
-
-                    const userCurrencyResponse = await fetch('https://ipapi.co/json/', { signal: AbortSignal.timeout(5000) });
-                    const userData = await userCurrencyResponse.json();
-                    currency = userData.currency || 'EUR';
-                    localStorage.setItem('currency', currency);
-
-                    priceElements.forEach(el => {
-                        const eurPrice = parseFloat(el.dataset.eurPrice);
-                        if (!isNaN(eurPrice)) {
-                            const convertedPrice = (eurPrice * (rates[currency] || 1)).toFixed(2);
-                            el.textContent = `${convertedPrice} ${currency}`;
+                        if (!rates || (Date.now() - localStorage.getItem('ratesTimestamp')) > 24 * 60 * 60 * 1000) {
+                            const response = await fetch('https://api.exchangerate-api.com/v4/latest/EUR', { signal: AbortSignal.timeout(5000) });
+                            const data = await response.json();
+                            rates = data.rates;
+                            localStorage.setItem('exchangeRates', JSON.stringify(rates));
+                            localStorage.setItem('ratesTimestamp', Date.now());
                         }
-                    });
-                } catch (e) {
-                    console.error('Price conversion failed:', e);
-                    priceElements.forEach(el => {
-                        const eurPrice = el.dataset.eurPrice;
-                        el.textContent = `${eurPrice} EUR`;
-                    });
-                }
-            };
-            document.addEventListener('DOMContentLoaded', convertPrices);
 
-            // A/B Testing
-            const abTest = () => {
-                const testGroup = Math.random() < 0.5 ? 'A' : 'B';
-                const ctaButtons = document.querySelectorAll('.cta-button');
-                ctaButtons.forEach(btn => btn.style.background = 'linear-gradient(145deg, #FFB6C1, #FF69B4)');
-                gtag('event', 'ab_test', { test_group: testGroup });
-            };
-            document.addEventListener('DOMContentLoaded', abTest);
+                        const userCurrencyResponse = await fetch('https://ipapi.co/json/', { signal: AbortSignal.timeout(5000) });
+                        const userData = await userCurrencyResponse.json();
+                        currency = userData.currency || 'EUR';
+                        localStorage.setItem('currency', currency);
 
-            // Gestion du carrousel
-            const setupCarousel = (carouselId, prevBtnClass, nextBtnClass, innerClass) => {
-                const carousel = document.getElementById(carouselId);
-                const inner = document.getElementById(innerClass);
-                const items = inner.querySelectorAll('.carousel-item');
-                const prevBtn = carousel.querySelector(`.${prevBtnClass}`);
-                const nextBtn = carousel.querySelector(`.${nextBtnClass}`);
-                let currentIndex = 0;
-                let intervalId = null;
-
-                const updateCarousel = () => {
-                    items.forEach((item, index) => {
-                        item.classList.toggle('active', index === currentIndex);
-                        item.setAttribute('tabindex', index === currentIndex ? '0' : '-1');
-                        item.setAttribute('aria-hidden', index !== currentIndex);
-                        item.style.transform = `translateX(${(index - currentIndex) * 100}%)`;
-                        item.style.opacity = index === currentIndex ? '1' : '0';
-                        item.style.visibility = index === currentIndex ? 'visible' : 'hidden';
-                    });
-                    carousel.setAttribute('aria-label', `${carouselId.includes('avis') ? 'Carrousel d\'avis' : 'Carrousel d\'articles'}, slide ${currentIndex + 1} sur ${items.length}`);
-                    inner.style.transform = `translateX(0)`; // Pas de translate sur inner, géré par items
-                    inner.style.contain = 'strict';
-                    gtag('event', 'carousel_view', { carousel: carouselId, slide: currentIndex + 1 });
+                        priceElements.forEach(el => {
+                            const eurPrice = parseFloat(el.dataset.eurPrice);
+                            if (!isNaN(eurPrice)) {
+                                const convertedPrice = (eurPrice * (rates[currency] || 1)).toFixed(2);
+                                el.textContent = `${convertedPrice} ${currency}`;
+                            }
+                        });
+                    } catch (e) {
+                        console.error('Price conversion failed:', e);
+                        priceElements.forEach(el => {
+                            const eurPrice = el.dataset.eurPrice;
+                            el.textContent = `${eurPrice} EUR`;
+                        });
+                    }
                 };
+                document.addEventListener('DOMContentLoaded', convertPrices);
 
-                const moveToNext = () => {
-                    currentIndex = (currentIndex + 1) % items.length;
-                    updateCarousel();
+                // A/B Testing
+                const abTest = () => {
+                    const testGroup = Math.random() < 0.5 ? 'A' : 'B';
+                    const ctaButtons = document.querySelectorAll('.cta-button');
+                    ctaButtons.forEach(btn => btn.style.background = 'linear-gradient(145deg, #FFB6C1, #FF69B4)');
+                    gtag('event', 'ab_test', { test_group: testGroup });
                 };
+                document.addEventListener('DOMContentLoaded', abTest);
 
-                const moveToPrev = () => {
-                    currentIndex = (currentIndex - 1 + items.length) % items.length;
-                    updateCarousel();
-                };
+                // Gestion des carrousels
+                const setupCarousel = (carouselId, prevBtnClass, nextBtnClass, innerClass) => {
+                    const carousel = document.getElementById(carouselId);
+                    const inner = document.getElementById(innerClass);
+                    const items = inner.querySelectorAll('.carousel-item');
+                    const prevBtn = carousel.querySelector(`.${prevBtnClass}`);
+                    const nextBtn = carousel.querySelector(`.${nextBtnClass}`);
+                    let currentIndex = 0;
+                    let intervalId = null;
 
-                const startAutoSlide = () => {
-                    intervalId = setInterval(moveToNext, 5000);
-                };
+                    const updateCarousel = () => {
+                        items.forEach((item, index) => {
+                            item.classList.toggle('active', index === currentIndex);
+                            item.setAttribute('tabindex', index === currentIndex ? '0' : '-1');
+                            item.setAttribute('aria-hidden', index !== currentIndex);
+                            item.style.transform = `translateX(${(index - currentIndex) * 100}%)`;
+                            item.style.opacity = index === currentIndex ? '1' : '0';
+                            item.style.visibility = index === currentIndex ? 'visible' : 'hidden';
+                        });
+                        carousel.setAttribute('aria-label', `${carouselId.includes('avis') ? 'Carrousel d\'avis' : 'Carrousel d\'articles'}, slide ${currentIndex + 1} sur ${items.length}`);
+                        inner.style.transform = `translateX(0)`;
+                        inner.style.contain = 'strict';
+                        gtag('event', 'carousel_view', { carousel: carouselId, slide: currentIndex + 1 });
+                    };
 
-                const stopAutoSlide = () => {
-                    clearInterval(intervalId);
-                };
+                    const moveToNext = () => {
+                        currentIndex = (currentIndex + 1) % items.length;
+                        updateCarousel();
+                    };
 
-                prevBtn.addEventListener('click', () => {
-                    stopAutoSlide();
-                    moveToPrev();
-                    startAutoSlide();
-                });
+                    const moveToPrev = () => {
+                        currentIndex = (currentIndex - 1 + items.length) % items.length;
+                        updateCarousel();
+                    };
 
-                nextBtn.addEventListener('click', () => {
-                    stopAutoSlide();
-                    moveToNext();
-                    startAutoSlide();
-                });
+                    const startAutoSlide = () => {
+                        intervalId = setInterval(moveToNext, 5000);
+                    };
 
-                carousel.addEventListener('focusin', stopAutoSlide);
-                carousel.addEventListener('focusout', startAutoSlide);
+                    const stopAutoSlide = () => {
+                        clearInterval(intervalId);
+                    };
 
-                // Navigation clavier
-                carousel.addEventListener('keydown', (e) => {
-                    if (e.key === 'ArrowLeft') {
+                    prevBtn.addEventListener('click', () => {
                         stopAutoSlide();
                         moveToPrev();
                         startAutoSlide();
-                    } else if (e.key === 'ArrowRight') {
+                    });
+
+                    nextBtn.addEventListener('click', () => {
                         stopAutoSlide();
                         moveToNext();
                         startAutoSlide();
-                    }
-                });
+                    });
 
-                // Forcer recalcul après chargement
-                window.addEventListener('resize', updateCarousel);
-                startAutoSlide();
-                updateCarousel();
-            };
+                    carousel.addEventListener('focusin', stopAutoSlide);
+                    carousel.addEventListener('focusout', startAutoSlide);
 
-            document.addEventListener('DOMContentLoaded', () => {
-                setupCarousel('avisCarousel', 'prevBtn', 'nextBtn', 'avisCarouselInner');
-                setupCarousel('blogCarousel', 'prevBtn', 'nextBtn', 'blogCarouselInner');
-            });
-
-            // Popup anti-abandon
-            const welcomePopup = document.getElementById('welcomePopup');
-            const closePopupBtn = welcomePopup.querySelector('.popup-close-button');
-            const showPopup = () => {
-                const hasSeenPopup = localStorage.getItem('hasSeenPopup');
-                if (!hasSeenPopup) {
-                    setTimeout(() => {
-                        welcomePopup.classList.add('active');
-                        welcomePopup.focus();
-                        localStorage.setItem('hasSeenPopup', 'true');
-                        gtag('event', 'popup_view', { popup: 'welcomePopup' });
-                    }, 3000);
-                }
-            };
-            const showExitIntentPopup = () => {
-                document.addEventListener('mouseleave', () => {
-                    if (!welcomePopup.classList.contains('active') && !localStorage.getItem('hasSeenPopup')) {
-                        welcomePopup.classList.add('active');
-                        welcomePopup.focus();
-                        localStorage.setItem('hasSeenPopup', 'true');
-                        gtag('event', 'popup_view_exit_intent', { popup: 'welcomePopup' });
-                    }
-                }, { once: true });
-            };
-            const closePopup = () => {
-                welcomePopup.classList.remove('active');
-                document.querySelector('main').focus();
-                gtag('event', 'popup_close', { popup: 'welcomePopup' });
-            };
-            closePopupBtn.addEventListener('click', closePopup);
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape' && welcomePopup.classList.contains('active')) {
-                    closePopup();
-                }
-            });
-            document.addEventListener('DOMContentLoaded', () => {
-                showPopup();
-                showExitIntentPopup();
-            });
-
-            // Calculateur IMC
-            const imcForm = document.getElementById('imcForm');
-            const imcResult = document.getElementById('imcResult');
-            const imcError = document.getElementById('imcError');
-            const imcRecommendation = document.getElementById('imcRecommendation');
-            let imcChartInstance = null;
-
-            const createIMCChart = (imc) => {
-                const ctx = document.getElementById('imcChart').getContext('2d');
-                if (imcChartInstance) {
-                    imcChartInstance.destroy();
-                }
-                try {
-                    imcChartInstance = new Chart(ctx, {
-                        type: 'bar',
-                        data: {
-                            labels: ['Votre IMC', 'IMC Normal', 'Surpoids', 'Obésité'],
-                            datasets: [{
-                                label: 'Valeur IMC',
-                                data: [imc, 24.9, 29.9, 39.9],
-                                backgroundColor: [
-                                    imc < 18.5 ? '#FF6B6B' : imc < 25 ? '#2ECC71' : imc < 30 ? '#F1C40F' : '#E74C3C',
-                                    'rgba(46, 204, 113, 0.3)',
-                                    'rgba(241, 196, 15, 0.3)',
-                                    'rgba(231, 76, 60, 0.3)'
-                                ],
-                                borderColor: ['#fff', '#fff', '#fff', '#fff'],
-                                borderWidth: 1
-                            }]
-                        },
-                        options: {
-                            responsive: true,
-                            maintainAspectRatio: false,
-                            scales: {
-                                y: { beginAtZero: true, max: 50, title: { display: true, text: 'IMC' } }
-                            },
-                            plugins: {
-                                legend: { display: false },
-                                title: { display: true, text: 'Votre Indice de Masse Corporelle' }
-                            }
+                    carousel.addEventListener('keydown', (e) => {
+                        if (e.key === 'ArrowLeft') {
+                            stopAutoSlide();
+                            moveToPrev();
+                            startAutoSlide();
+                        } else if (e.key === 'ArrowRight') {
+                            stopAutoSlide();
+                            moveToNext();
+                            startAutoSlide();
                         }
                     });
-                    gtag('event', 'imc_chart_rendered', { imc });
-                } catch (e) {
-                    console.error('Chart.js failed:', e);
-                    imcError.textContent = 'Erreur lors de l\'affichage du graphique. Veuillez réessayer.';
-                }
-            };
 
-            imcForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                imcError.textContent = '';
-                imcResult.textContent = '';
-                imcRecommendation.style.display = 'none';
-                imcRecommendation.setAttribute('aria-hidden', 'true');
+                    window.addEventListener('resize', updateCarousel);
+                    startAutoSlide();
+                    updateCarousel();
+                };
 
-                const weight = parseFloat(document.getElementById('weight').value);
-                const height = parseFloat(document.getElementById('height').value) / 100;
+                document.addEventListener('DOMContentLoaded', () => {
+                    setupCarousel('avisCarousel', 'prevBtn', 'nextBtn', 'avisCarouselInner');
+                    setupCarousel('blogCarousel', 'prevBtn', 'nextBtn', 'blogCarouselInner');
+                });
 
-                if (isNaN(weight) || isNaN(height) || weight < 10 || weight > 300 || height < 0.5 || height > 2.8) {
-                    imcError.textContent = 'Veuillez entrer un poids (10-300 kg) et une taille (50-280 cm) valides.';
-                    gtag('event', 'imc_error', { error: 'invalid_input' });
-                    return;
-                }
+                // Popup anti-abandon
+                const welcomePopup = document.getElementById('welcomePopup');
+                const closePopupBtn = welcomePopup.querySelector('.popup-close-button');
+                const showPopup = () => {
+                    const hasSeenPopup = localStorage.getItem('hasSeenPopup');
+                    if (!hasSeenPopup || (Date.now() - localStorage.getItem('popupTimestamp')) > 24 * 60 * 60 * 1000) {
+                        setTimeout(() => {
+                            welcomePopup.classList.add('active');
+                            welcomePopup.focus();
+                            localStorage.setItem('hasSeenPopup', 'true');
+                            localStorage.setItem('popupTimestamp', Date.now());
+                            gtag('event', 'popup_view', { popup: 'welcomePopup' });
+                        }, 3000);
+                    }
+                };
+                const showExitIntentPopup = () => {
+                    document.addEventListener('mouseleave', (e) => {
+                        if (e.clientY <= 0 && !welcomePopup.classList.contains('active') && (!localStorage.getItem('hasSeenPopup') || (Date.now() - localStorage.getItem('popupTimestamp')) > 24 * 60 * 60 * 1000)) {
+                            welcomePopup.classList.add('active');
+                            welcomePopup.focus();
+                            localStorage.setItem('hasSeenPopup', 'true');
+                            localStorage.setItem('popupTimestamp', Date.now());
+                            gtag('event', 'popup_view_exit_intent', { popup: 'welcomePopup' });
+                        }
+                    }, { once: true });
+                };
+                const closePopup = () => {
+                    welcomePopup.classList.remove('active');
+                    document.querySelector('main').focus();
+                    gtag('event', 'popup_close', { popup: 'welcomePopup' });
+                };
+                closePopupBtn.addEventListener('click', closePopup);
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape' && welcomePopup.classList.contains('active')) {
+                        closePopup();
+                    }
+                });
+                document.addEventListener('DOMContentLoaded', () => {
+                    showPopup();
+                    showExitIntentPopup();
+                });
 
-                try {
-                    const imc = (weight / (height * height)).toFixed(1);
-                    let category = '';
-                    if (imc < 18.5) category = 'Insuffisance pondérale';
-                    else if (imc < 25) category = 'Poids normal';
-                    else if (imc < 30) category = 'Surpoids';
-                    else category = 'Obésité';
+                // Calculateur IMC
+                const imcForm = document.getElementById('imcForm');
+                const imcResult = document.getElementById('imcResult');
+                const imcError = document.getElementById('imcError');
+                const imcRecommendation = document.getElementById('imcRecommendation');
+                let imcChartInstance = null;
 
-                    imcResult.textContent = `Votre IMC est de ${imc} (${category}).`;
-                    createIMCChart(imc);
-                    imcRecommendation.style.display = 'block';
-                    imcRecommendation.setAttribute('aria-hidden', 'false');
-                    gtag('event', 'imc_calculated', { imc, category });
-                } catch (e) {
-                    imcError.textContent = 'Erreur lors du calcul de l\'IMC. Veuillez réessayer.';
-                    console.error('IMC calculation failed:', e);
-                    gtag('event', 'imc_error', { error: e.message });
-                }
-            });
-
-            // Gestion des performances Web Vitals
-            webVitals.getCLS((metric) => {
-                console.log('CLS:', metric.value);
-                gtag('event', 'web_vitals', { name: 'CLS', value: metric.value });
-            });
-            webVitals.getLCP((metric) => {
-                console.log('LCP:', metric.value);
-                gtag('event', 'web_vitals', { name: 'LCP', value: metric.value });
-            });
-            webVitals.getFID((metric) => {
-                console.log('FID:', metric.value);
-                gtag('event', 'web_vitals', { name: 'FID', value: metric.value });
-            });
-
-            // Suppression du no-js
-            document.documentElement.classList.remove('no-js');
-
-            // Pings sitemap
-            const pingSitemap = async () => {
-                const sitemapUrl = 'https://clairvoyancemedium.github.io/voyance-minceur.github.io/sitemap.xml';
-                const pingUrls = [
-                    `http://www.google.com/ping?sitemap=${encodeURIComponent(sitemapUrl)}`,
-                    `http://www.bing.com/ping?sitemap=${encodeURIComponent(sitemapUrl)}`,
-                    `https://webmaster.yandex.com/ping?sitemap=${encodeURIComponent(sitemapUrl)}`
-                ];
-                for (const url of pingUrls) {
+                const createIMCChart = (imc) => {
+                    const ctx = document.getElementById('imcChart').getContext('2d');
+                    if (imcChartInstance) {
+                        imcChartInstance.destroy();
+                    }
                     try {
-                        await fetch(url);
-                        console.log(`Ping sent to ${url}`);
+                        imcChartInstance = new Chart(ctx, {
+                            type: 'bar',
+                            data: {
+                                labels: ['Votre IMC', 'IMC Normal', 'Surpoids', 'Obésité'],
+                                datasets: [{
+                                    label: 'Valeur IMC',
+                                    data: [imc, 24.9, 29.9, 39.9],
+                                    backgroundColor: [
+                                        imc < 18.5 ? '#FF6B6B' : imc < 25 ? '#2ECC71' : imc < 30 ? '#F1C40F' : '#E74C3C',
+                                        'rgba(46, 204, 113, 0.3)',
+                                        'rgba(241, 196, 15, 0.3)',
+                                        'rgba(231, 76, 60, 0.3)'
+                                    ],
+                                    borderColor: ['#fff', '#fff', '#fff', '#fff'],
+                                    borderWidth: 1
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                scales: {
+                                    y: { beginAtZero: true, max: 50, title: { display: true, text: 'IMC' } }
+                                },
+                                plugins: {
+                                    legend: { display: false },
+                                    title: { display: true, text: 'Votre Indice de Masse Corporelle' }
+                                }
+                            }
+                        });
+                        gtag('event', 'imc_chart_rendered', { imc });
                     } catch (e) {
-                        console.error(`Ping failed for ${url}:`, e);
+                        console.error('Chart.js failed:', e);
+                        imcError.textContent = 'Erreur lors de l\'affichage du graphique. Veuillez réessayer.';
                     }
-                }
-            };
-            document.addEventListener('DOMContentLoaded', pingSitemap);
+                };
 
-            // Gestion de l'ancre active
-            const updateActiveLink = () => {
-                const navLinks = document.querySelectorAll('nav[role="navigation"] ul li a');
-                const sections = document.querySelectorAll('section[id]');
-                let currentSection = null;
+                imcForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    imcError.textContent = '';
+                    imcResult.textContent = '';
+                    imcRecommendation.style.display = 'none';
+                    imcRecommendation.setAttribute('aria-hidden', 'true');
 
-                sections.forEach(section => {
-                    const rect = section.getBoundingClientRect();
-                    if (rect.top <= window.innerHeight / 2 && rect.bottom >= 0) {
-                        currentSection = section;
+                    const weight = parseFloat(document.getElementById('weight').value);
+                    const height = parseFloat(document.getElementById('height').value) / 100;
+
+                    if (isNaN(weight) || isNaN(height) || weight < 10 || weight > 300 || height < 0.5 || height > 2.8) {
+                        imcError.textContent = 'Veuillez entrer un poids (10-300 kg) et une taille (50-280 cm) valides.';
+                        gtag('event', 'imc_error', { error: 'invalid_input' });
+                        return;
+                    }
+
+                    try {
+                        const imc = (weight / (height * height)).toFixed(1);
+                        let category = '';
+                        if (imc < 18.5) category = 'Insuffisance pondérale';
+                        else if (imc < 25) category = 'Poids normal';
+                        else if (imc < 30) category = 'Surpoids';
+                        else category = 'Obésité';
+
+                        imcResult.textContent = `Votre IMC est de ${imc} (${category}).`;
+                        createIMCChart(imc);
+                        imcRecommendation.style.display = 'block';
+                        imcRecommendation.setAttribute('aria-hidden', 'false');
+                        gtag('event', 'imc_calculated', { imc, category });
+                    } catch (e) {
+                        imcError.textContent = 'Erreur lors du calcul de l\'IMC. Veuillez réessayer.';
+                        console.error('IMC calculation failed:', e);
+                        gtag('event', 'imc_error', { error: e.message });
                     }
                 });
 
-                navLinks.forEach(link => {
-                    link.removeAttribute('aria-current');
-                    if (currentSection && link.getAttribute('href') === `#${currentSection.id}`) {
-                        link.setAttribute('aria-current', 'page');
-                    }
+                // Gestion des performances Web Vitals
+                webVitals.getCLS((metric) => {
+                    console.log('CLS:', metric.value);
+                    gtag('event', 'web_vitals', { name: 'CLS', value: metric.value });
                 });
-            };
-            window.addEventListener('scroll', updateActiveLink);
-            document.addEventListener('DOMContentLoaded', updateActiveLink);
-        </script>
-    </body>
-</html>
+                webVitals.getLCP((metric) => {
+                    console.log('LCP:', metric.value);
+                    gtag('event', 'web_vitals', { name: 'LCP', value: metric.value });
+                });
+                webVitals.getFID((metric) => {
+                    console.log('FID:', metric.value);
+                    gtag('event', 'web_vitals', { name: 'FID', value: metric.value });
+                });
+
+                // Suppression du no-js
+                document.documentElement.classList.remove('no-js');
+
+                // Pings sitemap
+                const pingSitemap = async () => {
+                    const sitemapUrl = 'https://clairvoyancemedium.github.io/voyance-minceur.github.io/sitemap.xml';
+                    const pingUrls = [
+                        `http://www.google.com/ping?sitemap=${encodeURIComponent(sitemapUrl)}`,
+                        `http://www.bing.com/ping?sitemap=${encodeURIComponent(sitemapUrl)}`,
+                        `https://webmaster.yandex.com/ping?sitemap=${encodeURIComponent(sitemapUrl)}`
+                    ];
+                    for (const url of pingUrls) {
+                        try {
+                            await fetch(url);
+                            console.log(`Ping sent to ${url}`);
+                        } catch (e) {
+                            console.error(`Ping failed for ${url}:`, e);
+                        }
+                    }
+                };
+                document.addEventListener('DOMContentLoaded', pingSitemap);
+
+                // Gestion de l'ancre active
+                const updateActiveLink = () => {
+                    const navLinks = document.querySelectorAll('nav[role="navigation"] ul li a');
+                    const sections = document.querySelectorAll('section[id]');
+                    let currentSection = null;
+
+                    sections.forEach(section => {
+                        const rect = section.getBoundingClientRect();
+                        if (rect.top <= window.innerHeight / 2 && rect.bottom >= 0) {
+                            currentSection = section;
+                        }
+                    });
+
+                    navLinks.forEach(link => {
+                        link.removeAttribute('aria-current');
+                        if (currentSection && link.getAttribute('href') === `#${currentSection.id}`) {
+                            link.setAttribute('aria-current', 'page');
+                        }
+                    });
+                };
+                window.addEventListener('scroll', updateActiveLink);
+                document.addEventListener('DOMContentLoaded', updateActiveLink);
+            </script>
+        </body>
+    </html>
