@@ -1323,6 +1323,20 @@
         <p>Les résultats varient selon les individus. Consultez un professionnel de santé avant utilisation des gélules Victory. Les services de voyance et spirituels sont à but de divertissement.</p>
     </footer>
 
+    <script>
+// Vérification du chargement de la police cinzel
+document.fonts.load('1em Cinzel').then(() => {
+  document.documentElement.classList.add('fonts-loaded');
+});
+
+// Fallback après 1 seconde
+setTimeout(() => {
+  if (!document.documentElement.classList.contains('fonts-loaded')) {
+    document.documentElement.classList.add('fonts-fallback');
+  }
+}, 1000);
+</script>
+    
     <script nonce="xai-premium2025">
         // Current year for footer and top-rank
         const currentYear = new Date().getFullYear();
