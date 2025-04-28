@@ -13,3 +13,32 @@ retour affectif faire revenir l'amour de sa vie 250€   https://buy.stripe.com/
 étude de compatibilité amoureuse développée  20€    https://buy.stripe.com/28o28wgDO9D16OI5lf
 
 dans les tarifs à 250 € de plus stipule bien que le paiement en plusieurs fois est possible lors du paiement
+
+
+
+pour la newsletter
+<section class="subscribe-section" id="subscribeSection" loading="lazy" aria-label="Inscription à la newsletter">
+        <h2>Recevez des grilles exclusives directement dans votre boîte mail</h2>
+        <p>Inscrivez-vous pour recevoir par e-mail des numéros pour le prochain tirage du Loto (et non l’Euromillions). Si Frédéric du cabinet ClairvoyanceMedium.com a un ressenti fort, vous serez les premiers avertis gratuitement.</p>
+        <form id="subscribeForm" onsubmit="handleSubscribe(event)" aria-label="Formulaire d'inscription à la newsletter">
+          <input type="email" placeholder="Entrez votre e-mail" required aria-label="Adresse e-mail pour inscription">
+          <button type="submit" aria-label="S’inscrire">S’inscrire</button>
+        </form>
+      </section>
+
+// Gestion de l'inscription à la newsletter avec pré-remplissage du mail
+    function handleSubscribe(event) {
+      event.preventDefault();
+      const email = event.target.querySelector('input[type="email"]').value;
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (emailRegex.test(email)) {
+        const subject = "Gagner aux jeux d'argent : Inscription à la newsletter ClairvoyanceMedium.com";
+        const body = "Bonjour Frederick,\n\nVoici mon adresse e-mail pour l'inscription à la newsletter : " + email + "\n\nCordialement,";
+        window.location.href = `mailto:contact.clairvoyancemedium@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      } else {
+        alert("Veuillez entrer une adresse e-mail valide.");
+      }
+    }
+
+
+
