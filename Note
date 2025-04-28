@@ -135,6 +135,34 @@ CopierModifier
 report-uri /csp-report-endpoint;
 
 
+SEO (Référencement)
+
+Balises méta : Ajoutez des méta descriptions uniques pour chaque section (au lieu de répéter la même).
+
+Structured Data : Enrichissez le schema.org (ex: ajoutez Review pour les témoignages).
+
+Liens internes : Liez les sections du blog aux produits pertinents (ex: "Comment perdre 10 kg" → Gélules Victory).
+
+Microdonnées : Ajoutez itemprop aux éléments clés (prix, disponibilité).
+
+
+ARIA : Ajoutez aria-live="polite" aux éléments dynamiques (calculateur IMC).
+
+Navigation clavier : Assurez-vous que tous les éléments interactifs sont focusables.
+
+Transcripts : Ajoutez des transcripts pour les contenus audio.
+
+Formulaire simplifié : Réduisez les champs du calculateur IMC (poids/taille suffisent).
+
+Citation client tronquée (libérée d’un poids invisible.).
+Erreur de syntaxe dans le JSON-LD (virgule superflue avant }).
+Le logo en haut de page a loading="eager" mais devrait être loading="lazy"
+
+
+
+
+
+
 
 
 
