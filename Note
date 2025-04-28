@@ -21,7 +21,7 @@ reecrit 100% du code entierement de A a Z sans rien toucher au design ou emplace
 
 ameliore drastiquement la detection de langue du visiteur pour la traduction  automatique du site et la detection de la devise et l'adapter  en fonction du lieu du visiteur et fait en sorte que la somme convertis soit toujours identique au prix affiche sur mon site exemple prix affiche sur mon site 15€ et si apres la cobersion dans la devise du visiteur ca fait l'equivalent a 15,67€ alors tu convertira a mon prix affiche soit 15€  dans botre exemple. fait donc les meilleur pratique a ce jour pour mettre ca en place.
 
- les boutons "ecouter" doivent etre plus petit avec un ecouteur a cote est de couleur gris anthracite ecriture blanche et doivent lire la totalite des descriptions, avis et blog pas que les titres. toutes la section. Tu placeras donc ces boutons écouter. En haut de la description entre la description et le titre de la section, c'est très important.
+ les boutons "ecouter" doivent etre plus petit avec un ecouteur a cote est de couleur gris anthracite ecriture blanche et doivent lire la totalite des descriptions, avis et blog pas que les titres. toutes la section. Tu placeras donc ces boutons écouter a la droite du titre mais pas collé, c'est très important.
 
 les articles du blog doivent etre dans un carousel identique a celui des avis avec l'emplacement du blog actuel avec par contre le contour du carousel doit etre lui de la maniere que celui des avis mais en bleu ciel clair. devekoppe chaque article complement optimisé seo.
 
