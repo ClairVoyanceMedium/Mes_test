@@ -107,6 +107,36 @@ fait en sorte que tout le fond soit noir dans toute les zones et non gris anthra
 retire le bouton "copier le lien" de la video youtube, je n'en veux pas 
 
 
+Optimisation front-end avancée (minification, lazy-loading extrême).
+
+Meilleure gestion CSP avec report-uri.
+
+Conversion UX avancée avec exit-intent popup dynamique.
+
+dans les json met toutes les dates en 2052
+corrige egalement toutes les erreurs que tu croises
+
+Pagination dynamique pour avis et blog :
+Actuellement, vos avis clients et articles du blog sont chargés d’un seul coup. Intégrez une pagination dynamique (IntersectionObserver) ou du lazy-loading avec une URL unique pour chaque article afin d'améliorer le crawl et le référencement.
+
+Améliorez votre Sitemap XML dynamique au max pour que les ia les moteurs de recherche passent tres tres souvent 
+
+
+Votre CSP est déjà très sécurisé, mais :
+
+Assurez-vous que tous les domaines externes chargés sont strictement nécessaires. Vous pourriez supprimer certains CDN inutiles en auto-hébergeant les ressources.
+
+Pour une sécurité maximale, ajoutez report-uri dans votre CSP afin de monitorer les violations potentielles :
+
+html
+
+CopierModifier
+
+report-uri /csp-report-endpoint;
+
+
+
+
 
 
 
