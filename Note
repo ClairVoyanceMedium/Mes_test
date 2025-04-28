@@ -9,14 +9,6 @@ reecrit 100% du code entierement de A a Z sans rien toucher au design ou emplace
       font-style: normal;
   }
 
-  @font-face {
-      font-family: 'Playfair Display';
-      src: url('https://clairvoyancemedium.github.io/Consultation_de_voyance_par_email_pas_chere.github.io/PlayfairDisplay-Regular.woff2') format('woff2'),
-           url('https://clairvoyancemedium.github.io/Consultation_de_voyance_par_email_pas_chere.github.io/PlayfairDisplay-Regular.woff') format('woff');
-      font-weight: 400;
-      font-style: normal;
-  }
-
   /* Application des polices */
   body {
       font-family: 'Cinzel', serif;
