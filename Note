@@ -32,6 +32,7 @@ agrandi au max la video youtube
 
 le calculateur imc  bug et s'ouvre en blanc donc corrige en enlevant l'effet fait du basic et leger mais dans les resultats tu renvois toujours un lien vers les gelules victory avec en plus une posologie a prendre et donc un traitement Victory a prendre en fonction des resultats.
 
+tout doit etre 100% responsive pour mobile (photo, banniere ect...)
 
 integre obligatoirement les bon liens avec les bons tarifs pour chaque bouton qui pointent vers stripe : ils doivent tous etre inclu
    -   
