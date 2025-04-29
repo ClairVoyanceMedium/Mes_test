@@ -34,6 +34,9 @@ le calculateur imc  bug et s'ouvre en blanc donc corrige en enlevant l'effet fai
 
 tout doit etre 100% responsive pour mobile (photo, banniere ect...)
 
+prepare le code pour qu'il soit ultra performant  pour le sitemap xml international
+
+fait les boutins ecouter sans angle arrondi en gris anthracite avec contour fin dore
 integre obligatoirement les bon liens avec les bons tarifs pour chaque bouton qui pointent vers stripe : ils doivent tous etre inclu
    -   
 1 question de voyance par email tout domaine 6 €  https://buy.stripe.com/14kdRe0EQ4iH1uoaFa
