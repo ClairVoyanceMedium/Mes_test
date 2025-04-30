@@ -1467,5 +1467,39 @@
         webVitals.getFID((metric) => console.log('FID:', metric));
         webVitals.getLCP((metric) => console.log('LCP:', metric));
     </script>
+
+<script nonce="xai-premium2025">
+document.addEventListener("DOMContentLoaded", function() {
+    const buttons = document.querySelectorAll(".audio-button");
+
+    buttons.forEach(button => {
+        button.addEventListener("click", () => {
+            const ids = button.getAttribute("data-text-id").split(",");
+            let textToRead = "";
+
+            ids.forEach(id => {
+                let element = document.getElementById(id.trim());
+
+                if (!element) {
+                    element = document.querySelector(id.trim());
+                }
+
+                if (element) {
+                    textToRead += element.innerText + " ";
+                }
+            });
+
+            if (textToRead.trim() !== "") {
+                const utterance = new SpeechSynthesisUtterance(textToRead);
+                utterance.lang = "fr-FR";
+                speechSynthesis.speak(utterance);
+            } else {
+                console.error("Aucun texte trouvé pour les identifiants:", ids);
+            }
+        });
+    });
+});
+</script>
+    
 </body>
 </html>
