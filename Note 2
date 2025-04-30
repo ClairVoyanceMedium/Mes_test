@@ -52,6 +52,7 @@ Concernant la newsletter tu intégreras obligatoirement ce code pour la newslett
 
 Dans le footer essaie de cacher tout ce qui est politique. de confidentialité et cetera et également retire le fait que le site est créé par Grock et surtout le site il ne faut jamais que tu stipules que les paiements sont par stripe. Tu le marque nulle part. Tu dis simplement que les paiements acceptés sont Paypal. Google paye Apple pay Visa MasterCard mais tu ne parles pas de  stripe.
 
+Quand tu parleras de l'année en cours, c'est-à-dire que ce soit dans le footer ou dans les bannières de cookies ou autre tu mettras toujours la détection automatique de l'année comme avec le span. C'est très important. Dès que tu parles de Nice 2025. Il faut que ça détecte automatiquement l'année. partout surtout le site où l'année 2025 est présente
 
 
 <!DOCTYPE html>
