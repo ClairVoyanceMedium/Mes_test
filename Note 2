@@ -1,113 +1,62 @@
 
-Votre mission est de réécrire intégralement à 100 % le code HTML actuel en respectant scrupuleusement ces consignes précises, sans oublier ni supprimer aucune ligne existante, sauf indication explicite ici. Vous devez optimiser, améliorer, et structurer clairement chaque élément selon les meilleures pratiques actuelles en développement web :
+Votre mission impérative est de réécrire intégralement à 100 % chaque ligne du code HTML actuel avec une exigence absolue, en respectant strictement les instructions détaillées ci-dessous. Aucun oubli, aucune suppression, aucune modification non autorisée ne sera tolérée. Votre travail doit représenter l’excellence technologique absolue et anticiper toutes les pratiques de pointe jusqu'en 2025 :
 
-Responsivité Totale :
+1. **Responsivité Totale Obligatoire :**
+- Le site doit obligatoirement couvrir intégralement tous les écrans (mobiles, tablettes, ordinateurs, montres, lunettes connectées).
+- Chaque élément (images, vidéos, carrousels, sticky) doit être totalement adaptatif, optimisé pour toutes les résolutions.
+- Les ancres doivent rester fixes et visibles à tout moment du défilement, sans chevauchement ou déplacement.
 
-Le site doit parfaitement occuper tout l'écran sur mobiles, tablettes, ordinateurs, montres et lunettes connectées.
+2. **Boutons et Tracking Obligatoire :**
+- Intégrez précisément ces boutons obligatoires :
+  - 1 question voyance (6 €) : https://buy.stripe.com/14kdRe0EQ4iH1uoaFa
+  - 3 questions voyance (15 €) : https://buy.stripe.com/dR614scnycPddd66oV
+  - 5 questions voyance (28 €) : https://buy.stripe.com/28o3cA0EQ5mL0qk14C
+- Remplacez obligatoirement le bouton "magie rouge" par "magie sentimentale".
+- Chaque bouton doit disposer d'un tracking Google Analytics 4 ultra-précis et performant.
 
-Tous les éléments doivent être 100 % adaptatifs, y compris images, vidéos, carrousels, et éléments sticky.
+3. **SEO et Performance Mondiale 2025 :**
+- Mettez en œuvre toutes les meilleures pratiques SEO futures connues jusqu'en 2025 (balises sémantiques, données structurées enrichies, schema.org complet).
+- Prévoyez l'optimisation maximale pour indexation anticipée par Google et toutes intelligences artificielles (ChatGPT inclus).
+- Implémentez obligatoirement une solution technologique innovante pour la détection automatique et optimale des langues afin que le site soit référencé mondialement de manière automatique et devienne numéro 1 sur tous les moteurs de recherche dans chaque pays du monde.
 
-Les encres (ancres) doivent rester toujours visibles en haut lors du scroll vertical, sans mouvement ni chevauchement.
+4. **Accessibilité Vocale Totale :**
+- Tous les textes, titres, articles, et boutons doivent être lisibles vocalement sur absolument tous les appareils et navigateurs existants, récents ou anciens.
+- Les boutons "Écouter" doivent être impérativement centrés entre chaque titre et paragraphe avec espacement harmonieux et internationalement compatibles.
 
-Boutons et Tracking :
+5. **Carrousels Automatisés Obligatoires :**
+- Carrousels (avis et blog) avec défilement automatique impératif toutes les 8 secondes, boucle infinie, flèches fixes.
+- Suppression impérative des boutons "lire la suite" du carrousel blog, avec articles strictement limités à 5-6 lignes visibles immédiatement.
 
-Intégrez précisément les boutons suivants :
+6. **Modifications Spécifiques Impératives :**
+- Suppression totale des lignes rouges "offres exclusives".
+- Intervertissez obligatoirement la première et troisième ligne d'ancrage.
+- Intégration obligatoire ultra-optimisée de deux backlinks directement dans le contenu principal (footer interdit).
 
-1 question voyance (6 €) : https://buy.stripe.com/14kdRe0EQ4iH1uoaFa
+7. **Newsletter Obligatoire :**
+- Intégrez exactement, sans modification d’emplacement ni de destination mail, le formulaire newsletter fourni avec son script précis.
 
-3 questions voyance (15 €) : https://buy.stripe.com/dR614scnycPddd66oV
+8. **Footer Impératif :**
+- Masquez impérativement les mentions légales et politique de confidentialité.
+- Supprimez toute mention "créé par Grock".
+- Ne mentionnez jamais Stripe. Paiements acceptés uniquement : PayPal, Google Pay, Apple Pay, Visa, MasterCard.
 
-5 questions voyance (28 €) : https://buy.stripe.com/28o3cA0EQ5mL0qk14C
+9. **Année Automatique Obligatoire :**
+- Utilisez impérativement une balise automatique JavaScript (span) pour afficher l’année courante partout (footer, cookies, etc.).
 
-Remplacez impérativement le bouton "magie rouge" par "magie sentimentale".
+10. **Téléchargement Obligatoire de Raccourci :**
+- Bouton obligatoire permettant le téléchargement direct d'un raccourci vers l'écran d’accueil du visiteur, avec icône officielle ClairvoyanceMedium.com, intitulé précisément "Raccourci sur votre page d'accueil".
 
-Chaque bouton doit disposer d'un tracking précis et optimisé pour Google Analytics 4.
+11. **Police Cinzel Regular Obligatoire :**
+- Police intégrée directement en HTML (aucune externalisation autorisée).
+- Design des boutons audio strictement inchangé (gris contour doré). Bouton "Activer le son" impérativement déplacé au-dessus, en haut à droite de la vidéo YouTube.
 
-Optimisation SEO et Performance :
+12. **Compatibilité Universelle Obligatoire :**
+- Compatibilité absolue avec tous navigateurs mondiaux modernes et anciens (Chrome, Firefox, Safari, Edge, etc.), tous appareils.
+- Contenu entièrement intégré dans un seul fichier HTML, aucun fichier externe autorisé.
 
-Appliquez les meilleures pratiques SEO actuelles (balises sémantiques, données structurées, balises schema.org enrichies).
+Enfin, désignation impérative : nommez toujours Frédéric comme "clairvoyant et futurologue reconnu" à chaque mention.
 
-Prévoyez une optimisation pour anticiper l'avenir, notamment pour l'indexation rapide et fréquente par Google et les intelligences artificielles (ChatGPT, etc.).
-
-Accessibilité Vocale Universelle :
-
-Tous les textes (titres, paragraphes, articles de blog, boutons) doivent pouvoir être lus à haute voix sur tous les appareils et navigateurs, y compris anciens.
-
-Les boutons "Écouter" doivent être placés entre chaque titre et paragraphe avec un espacement harmonieux et fonctionnels internationalement.
-
-Carrousels Automatisés :
-
-Les carrousels (avis et blog) doivent défiler automatiquement toutes les 8 secondes, en boucle infinie, sans changer la position des flèches.
-
-Supprimez totalement les boutons "lire la suite" du carrousel blog. Limitez chaque article du blog à 5-6 lignes directement visibles dans le carrousel.
-
-Modifications Spécifiques :
-
-Supprimez toutes les lignes rouges d'"offres exclusives" du site.
-
-Intervertissez les lignes d'ancrage (première avec la troisième).
-
-Intégrez de manière intelligente et efficace deux backlinks directement dans le contenu (pas dans le footer).
-
-Newsletter :
-
-Intégrez exactement, sans modification d'emplacement ni de destination mail, le formulaire newsletter fourni avec son script.
-
-
-<section class="subscribe-section" id="subscribeSection" loading="lazy" aria-label="Inscription à la newsletter">
-        <h2>Recevez des grilles exclusives directement dans votre boîte mail</h2>
-        <p>Inscrivez-vous pour recevoir par e-mail des numéros pour le prochain tirage du Loto (et non l’Euromillions). Si Frédéric du cabinet ClairvoyanceMedium.com a un ressenti fort, vous serez les premiers avertis gratuitement.</p>
-        <form id="subscribeForm" onsubmit="handleSubscribe(event)" aria-label="Formulaire d'inscription à la newsletter">
-          <input type="email" placeholder="Entrez votre e-mail" required aria-label="Adresse e-mail pour inscription">
-          <button type="submit" aria-label="S’inscrire">S’inscrire</button>
-        </form>
-      </section>
-
-// Gestion de l'inscription à la newsletter avec pré-remplissage du mail
-    function handleSubscribe(event) {
-      event.preventDefault();
-      const email = event.target.querySelector('input[type="email"]').value;
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (emailRegex.test(email)) {
-        const subject = "Gagner aux jeux d'argent : Inscription à la newsletter ClairvoyanceMedium.com";
-        const body = "Bonjour Frederick,\n\nVoici mon adresse e-mail pour l'inscription à la newsletter : " + email + "\n\nCordialement,";
-        window.location.href = `mailto:contact.clairvoyancemedium@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-      } else {
-        alert("Veuillez entrer une adresse e-mail valide.");
-      }
-
-Footer :
-
-Cachez les mentions de politique de confidentialité et autres informations similaires.
-
-Retirez complètement la mention "créé par Grock".
-
-Ne mentionnez jamais Stripe explicitement. Indiquez seulement que les paiements acceptés sont PayPal, Google Pay, Apple Pay, Visa, MasterCard.
-
-Date Automatique :
-
-Utilisez obligatoirement une balise automatique (span JavaScript) pour afficher l'année en cours sur toutes les mentions du site (footer, cookies, etc.).
-
-Téléchargement sur Page d'Accueil :
-
-Créez obligatoirement un bouton permettant de télécharger directement un raccourci du site sur l’écran d'accueil du visiteur, avec l'icône officielle du cabinet ClairvoyanceMedium.com, et intitulé explicitement "Raccourci sur votre page d'accueil".
-
-Police et Style :
-
-Utilisez obligatoirement la police Cinzel Regular partout sur le site, intégrée directement en HTML (aucun CDN externe).
-
-Le design des boutons doit rester exactement tel quel, notamment les boutons audio (gris avec contour doré). Placez seulement le bouton "Activer le son" au-dessus de la vidéo YouTube, en haut à droite.
-
-Compatibilité Maximale :
-
-Assurez une compatibilité totale avec tous les navigateurs modernes et anciens (Chrome, Firefox, Safari, Edge, etc.), tous les types d'appareils, et une performance optimale.
-
-Intégrez tout le contenu directement en HTML sans aucun fichier externe.
-
-Enfin, désignez impérativement Frédéric comme "clairvoyant et futurologue reconnu" à chaque mention.
-
-Votre réalisation doit représenter le summum de l'excellence technique actuelle et future en développement web, sans compromis.
-
+Votre travail final doit atteindre un niveau d'excellence inégalé, anticipant toutes les technologies web prévues d'ici 2025, sans exception.
 
 
 
