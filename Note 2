@@ -1,45 +1,58 @@
-tu es un expert dans le code, ta misson est de réécrire tout le code à 100 % sans oublier une seule ligne deja presente dans ligne de code sans oublier de reecrire une seule let fait en sorte que le site puisse prendre sur mobile et peut-être sur tablette toute la l'intégralité du téléphone de l'écran du téléphone du visiteur sur le web casse toutes les notifications toutes les icônes du téléphone pour que ça puisse être performant. Autant que tu peux et faire en sorte que quand on croule. Vers le bas et le haut les encres ne soient pas cachés, il faut que ça reste fixe. en tout cas qu'on voit l'entièreté des encres quand on se croule vers le bas vers le haut, il ne faut pas que ça bouge.
 
-Fais en sorte également que le téléphone. Que le site pissette sur téléphone mobile entièrement responsive et qui s'adapte totalement. au téléphone mobile au tablette donc fait en sorte que les images les également. les éléments sticky puisse être adapté et qui ça puisse ne pas prendre. trop de place qui fait que l'écran n'est pas adapté donc fait le tout le nécessaire et optimise au maximum. pour les moteurs de recherche également fait le net plus ultra car tu es le meilleur sur tous les navigateur du monde que ce soit chrome, mozilla ect...
+Votre mission est de réécrire intégralement à 100 % le code HTML actuel en respectant scrupuleusement ces consignes précises, sans oublier ni supprimer aucune ligne existante, sauf indication explicite ici. Vous devez optimiser, améliorer, et structurer clairement chaque élément selon les meilleures pratiques actuelles en développement web :
 
-fais tout le nécessaire pour que la page qui te puisse être téléchargeable directement sur la page d'accueil du client avec les avec l'icône du cabinet donc fourni et tu créeras un bouton raccourci qui s'appellera donc raccourci sur votre page d'accueil
+Responsivité Totale :
 
-Fais en sorte que tous les boutons écouter puisse fonctionner parce que là il ne fonctionne pas. Ils disent que le réseau n'est pas bon donc fais en sorte que ça puisse fonctionner au maximum et ne change pas l'esthétisme des boutons, ils sont très bien comme ça ils sont très jolies. Comme ça, je ne veux pas que ça change. Par contre, il faut que tu les places au milieu maintenant entre le titre. Et la description paragraphe, tu le mets entre. Entre chaque titre et paragraphe au milieu avec un espace pour que ce soit pas trop serré.
+Le site doit parfaitement occuper tout l'écran sur mobiles, tablettes, ordinateurs, montres et lunettes connectées.
 
-interverti la ligne des encres la première ligne des encres avec la troisième ligne des encres interverti les
+Tous les éléments doivent être 100 % adaptatifs, y compris images, vidéos, carrousels, et éléments sticky.
 
-fais tout ce qu'il est possible de faire à ce jour et n'hésite pas à faire une étude pour ça pour faire en sorte que Google et les moteurs de recherche et les intelligences artificielles comme chaque GPT et compagnie puisse passer extrêmement régulièrement régulièrement sur le site donc fais le top du top le maximum
+Les encres (ancres) doivent rester toujours visibles en haut lors du scroll vertical, sans mouvement ni chevauchement.
 
-Fais donc en sorte que tout puisse être lu donc en audio les articles les titres. Comme on l'a vu ensemble. Pour l'ensemble des téléphones mobiles sur tous les navigateurs du monde même les anciens sur tous les ordinateurs portables et les ordinateurs. classiques et également sur les tablettes et même sur les montres donc fait le nécessaire Et même sur les lunettes connectées, donc débrouille-toi pour faire en sorte que tout puisses être lu à haute voix surtout ses appareils.
+Boutons et Tracking :
 
-Dans le code actuel, tu n'enlève donc rien. Tu laisses les lignes comme ça, tu les retravailles pour les améliorer comme je te l'ai dit en apportant uniquement les modifications mais tu supprimes rien ou tu ne déplaces rien sans que je te l'ai dit. C'est très important. 
+Intégrez précisément les boutons suivants :
 
-intègre également très intelligemment les deux backlink qu'il y a intègre-les donc dans le corps pour que ce soit ultra efficace mais surtout pas dans le footer, c'est interdit. Pour que ce soit ultra efficace pour le backlink pour les liens. Fais quelque chose d'Optimal le plus efficace.
+1 question voyance (6 €) : https://buy.stripe.com/14kdRe0EQ4iH1uoaFa
 
-retire tous les offres exclusives sur le site en rouge l'agent veux plus il ne faut plus ces lignes là
+3 questions voyance (15 €) : https://buy.stripe.com/dR614scnycPddd66oV
 
-fais en sorte donc que les boutons d'ancrage puissent être détecté par Google et par les moteurs de recherche avec les sections adéquates pour être mené directement dans la bonne section de l'ancrage donc fait le nécessaire
+5 questions voyance (28 €) : https://buy.stripe.com/28o3cA0EQ5mL0qk14C
 
-Et fais en sorte dans les carrousels d'avis que les avis ou les blogs puissent défiler. toutes les 8 secondes éternellement avec toujours les deux flèches positionnées au même endroit sans y toucher. Mais il faut que ça puisse défiler tout seul tous les 8 secondes que ce soit le carrousel D'avis ou le carrousel de blog.
+Remplacez impérativement le bouton "magie rouge" par "magie sentimentale".
 
-laisse un espace entre chaque titre est son paragraphe mais egalement avec le haut du titre piur qur ce sout harmonieux
+Chaque bouton doit disposer d'un tracking précis et optimisé pour Google Analytics 4.
 
-Il faut obligatoirement que le site connaisse les meilleures techniques. avec une vision pour le futur pour l'optimisation SEO performance accessibilité, il faut que tu prévois tout. Pour que le site puisse être premier même dans le futur avant tout le monde précurseur. anticipe donc l'avenir
+Optimisation SEO et Performance :
 
-la video youtube Juste tu essayes de l'agrandir un peu et tu déplace le bouton Activer le son. Au-dessus car là où il est on a il cache les boutons. YouTube donc fait en sorte qu'il soit en haut à droite de la vidéo pareil dans un bouton gris avec le contour doré comme pour les boutons écouter le même design.
+Appliquez les meilleures pratiques SEO actuelles (balises sémantiques, données structurées, balises schema.org enrichies).
 
-Il faut obligatoirement que tu intègres ces boutons. Avec ses intitulés et ses liens dans les bonnes sections car il en manque.
-1 question de voyance par email tout domaine 6 €  https://buy.stripe.com/14kdRe0EQ4iH1uoaFa
-3 questions de voyance par email tout domaine 15 €   https://buy.stripe.com/dR614scnycPddd66oV
-5 questions de voyance par email tout domaine 28€   https://buy.stripe.com/28o3cA0EQ5mL0qk14C
-Tu remplaceras donc le bouton magie rouge par magie sentimentale.
+Prévoyez une optimisation pour anticiper l'avenir, notamment pour l'indexation rapide et fréquente par Google et les intelligences artificielles (ChatGPT, etc.).
 
-Il faut qu'il y ait pour chaque bucklet. 5 bucklets pour chaque description
+Accessibilité Vocale Universelle :
 
-Il faut que chaque bouton puisse être avec un tracking puissant et efficace pour Google Analytics 4.
+Tous les textes (titres, paragraphes, articles de blog, boutons) doivent pouvoir être lus à haute voix sur tous les appareils et navigateurs, y compris anciens.
 
-Concernant la newsletter tu intégreras obligatoirement ce code pour la newsletter précisément avec précision au meme endroit. Et tu peux l'optimiser pour le tracking. Les performances et autres mais il faut vraiment que ce soit. cette newsletter là qui pointe vers mon adresse mail comme c'est sans toucher
-      -   pour la newsletter
+Les boutons "Écouter" doivent être placés entre chaque titre et paragraphe avec un espacement harmonieux et fonctionnels internationalement.
+
+Carrousels Automatisés :
+
+Les carrousels (avis et blog) doivent défiler automatiquement toutes les 8 secondes, en boucle infinie, sans changer la position des flèches.
+
+Supprimez totalement les boutons "lire la suite" du carrousel blog. Limitez chaque article du blog à 5-6 lignes directement visibles dans le carrousel.
+
+Modifications Spécifiques :
+
+Supprimez toutes les lignes rouges d'"offres exclusives" du site.
+
+Intervertissez les lignes d'ancrage (première avec la troisième).
+
+Intégrez de manière intelligente et efficace deux backlinks directement dans le contenu (pas dans le footer).
+
+Newsletter :
+
+Intégrez exactement, sans modification d'emplacement ni de destination mail, le formulaire newsletter fourni avec son script.
+
 
 <section class="subscribe-section" id="subscribeSection" loading="lazy" aria-label="Inscription à la newsletter">
         <h2>Recevez des grilles exclusives directement dans votre boîte mail</h2>
@@ -63,10 +76,39 @@ Concernant la newsletter tu intégreras obligatoirement ce code pour la newslett
         alert("Veuillez entrer une adresse e-mail valide.");
       }
 
+Footer :
 
-Dans le footer essaie de cacher tout ce qui est politique. de confidentialité et cetera et également retire le fait que le site est créé par Grock et surtout le site il ne faut jamais que tu stipules que les paiements sont par stripe. Tu le marque nulle part. Tu dis simplement que les paiements acceptés sont Paypal. Google paye Apple pay Visa MasterCard mais tu ne parles pas de  stripe.
+Cachez les mentions de politique de confidentialité et autres informations similaires.
 
-Quand tu parleras de l'année en cours, c'est-à-dire que ce soit dans le footer ou dans les bannières de cookies ou autre tu mettras toujours la détection automatique de l'année comme avec le span. C'est très important. Dès que tu parles de Nice 2025. Il faut que ça détecte automatiquement l'année. partout surtout le site où l'année 2025 est présente
+Retirez complètement la mention "créé par Grock".
+
+Ne mentionnez jamais Stripe explicitement. Indiquez seulement que les paiements acceptés sont PayPal, Google Pay, Apple Pay, Visa, MasterCard.
+
+Date Automatique :
+
+Utilisez obligatoirement une balise automatique (span JavaScript) pour afficher l'année en cours sur toutes les mentions du site (footer, cookies, etc.).
+
+Téléchargement sur Page d'Accueil :
+
+Créez obligatoirement un bouton permettant de télécharger directement un raccourci du site sur l’écran d'accueil du visiteur, avec l'icône officielle du cabinet ClairvoyanceMedium.com, et intitulé explicitement "Raccourci sur votre page d'accueil".
+
+Police et Style :
+
+Utilisez obligatoirement la police Cinzel Regular partout sur le site, intégrée directement en HTML (aucun CDN externe).
+
+Le design des boutons doit rester exactement tel quel, notamment les boutons audio (gris avec contour doré). Placez seulement le bouton "Activer le son" au-dessus de la vidéo YouTube, en haut à droite.
+
+Compatibilité Maximale :
+
+Assurez une compatibilité totale avec tous les navigateurs modernes et anciens (Chrome, Firefox, Safari, Edge, etc.), tous les types d'appareils, et une performance optimale.
+
+Intégrez tout le contenu directement en HTML sans aucun fichier externe.
+
+Enfin, désignez impérativement Frédéric comme "clairvoyant et futurologue reconnu" à chaque mention.
+
+Votre réalisation doit représenter le summum de l'excellence technique actuelle et future en développement web, sans compromis.
+
+
 
 
 <!DOCTYPE html>
