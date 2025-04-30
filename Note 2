@@ -15,6 +15,42 @@ laisse un espace entre chaque titre est son paragraphe mais egalement avec le ha
 la video youtube Juste tu essayes de l'agrandir un peu et tu déplace le bouton Activer le son. Au-dessus car là où il est on a il cache les boutons. YouTube donc fait en sorte qu'il soit en haut à droite de la vidéo pareil dans un bouton gris avec le contour doré comme pour les boutons écouter le même design.
 
 Il faut obligatoirement que tu intègres ces boutons. Avec ses intitulés et ses liens dans les bonnes sections car il en manque.
+1 question de voyance par email tout domaine 6 €  https://buy.stripe.com/14kdRe0EQ4iH1uoaFa
+3 questions de voyance par email tout domaine 15 €   https://buy.stripe.com/dR614scnycPddd66oV
+5 questions de voyance par email tout domaine 28€   https://buy.stripe.com/28o3cA0EQ5mL0qk14C
+Tu remplaceras donc le bouton magie rouge par magie sentimentale.
+
+Il faut qu'il y ait pour chaque bucklet. 5 bucklets pour chaque description
+
+Il faut que chaque bouton puisse être avec un tracking puissant et efficace pour Google Analytics 4.
+
+Concernant la newsletter tu intégreras obligatoirement ce code pour la newsletter précisément avec précision au meme endroit. Et tu peux l'optimiser pour le tracking. Les performances et autres mais il faut vraiment que ce soit. cette newsletter là qui pointe vers mon adresse mail comme c'est sans toucher
+      -   pour la newsletter
+
+<section class="subscribe-section" id="subscribeSection" loading="lazy" aria-label="Inscription à la newsletter">
+        <h2>Recevez des grilles exclusives directement dans votre boîte mail</h2>
+        <p>Inscrivez-vous pour recevoir par e-mail des numéros pour le prochain tirage du Loto (et non l’Euromillions). Si Frédéric du cabinet ClairvoyanceMedium.com a un ressenti fort, vous serez les premiers avertis gratuitement.</p>
+        <form id="subscribeForm" onsubmit="handleSubscribe(event)" aria-label="Formulaire d'inscription à la newsletter">
+          <input type="email" placeholder="Entrez votre e-mail" required aria-label="Adresse e-mail pour inscription">
+          <button type="submit" aria-label="S’inscrire">S’inscrire</button>
+        </form>
+      </section>
+
+// Gestion de l'inscription à la newsletter avec pré-remplissage du mail
+    function handleSubscribe(event) {
+      event.preventDefault();
+      const email = event.target.querySelector('input[type="email"]').value;
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (emailRegex.test(email)) {
+        const subject = "Gagner aux jeux d'argent : Inscription à la newsletter ClairvoyanceMedium.com";
+        const body = "Bonjour Frederick,\n\nVoici mon adresse e-mail pour l'inscription à la newsletter : " + email + "\n\nCordialement,";
+        window.location.href = `mailto:contact.clairvoyancemedium@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      } else {
+        alert("Veuillez entrer une adresse e-mail valide.");
+      }
+
+
+Dans le footer essaie de cacher tout ce qui est politique. de confidentialité et cetera et également retire le fait que le site est créé par Grock et surtout le site il ne faut jamais que tu stipules que les paiements sont par stripe. Tu le marque nulle part. Tu dis simplement que les paiements acceptés sont Paypal. Google paye Apple pay Visa MasterCard mais tu ne parles pas de  stripe.
 
 
 
