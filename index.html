@@ -11,7 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="last-modified" content="2025-04-29T00:00:00+02:00">
-    <meta name="description" content="Transformez votre vie avec les gélules minceur Victory pour perdre du poids rapidement et naturellement, et découvrez votre avenir avec la voyance par email pas chère de Frédéric, clairvoyant et futurologue reconnu. Livraison gratuite, paiement sécurisé, 16 000 clients satisfaits.">
+    <meta name="description" content="Transformez votre vie avec les gélules minceur Victory pour perdre du poids rapidement et naturellement, et découvrez votre avenir avec la voyance par email pas chère de Frédéric, clairvoyant et futurologue reconnu. Livraison gratuite, paiement sécurisé, plus de 9000 clients satisfaits.">
     <meta name="keywords" content="gélules minceur Victory, perdre du poids rapidement, voyance par email pas chère, programme minceur personnalisé, désenvoûtement efficace, magie sentimentale, compatibilité amoureuse, calculateur IMC, Frédéric clairvoyant et futurologue reconnu">
     <meta name="author" content="ClairvoyanceMedium.com">
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
@@ -69,7 +69,7 @@
     <meta name="twitter:site" content="@CabinetVoyance_">
     <meta name="twitter:creator" content="@CabinetVoyance_">
     <meta name="twitter:title" content="Gélules Minceur Victory & Voyance par Email Pas Chère | Transformez Votre Vie">
-    <meta name="twitter:description" content="Perdez jusqu'à 12 kg en 2 mois avec les gélules minceur Victory et recevez des prédictions précises par email en 24h de Frédéric, clairvoyant et futurologue reconnu. Livraison gratuite, 16 000 clients satisfaits !">
+    <meta name="twitter:description" content="Perdez jusqu'à 12 kg en 2 mois avec les gélules minceur Victory et recevez des prédictions précises par email en 24h de Frédéric, clairvoyant et futurologue reconnu. Livraison gratuite, plus de 9000 clients satisfaits !">
     <meta name="twitter:image" content="https://i.imgur.com/GmyGlKk.webp">
     <meta property="og:title" content="Gélules Minceur Victory & Voyance par Email Pas Chère | Transformez Votre Vie">
     <meta property="og:description" content="Gélules minceur Victory, programme personnalisé et voyance par email pas chère pour une transformation physique et spirituelle. Par Frédéric, clairvoyant et futurologue reconnu. Livraison gratuite, paiement sécurisé.">
@@ -89,11 +89,11 @@
     <link rel="dns-prefetch" href="https://fonts.googleapis.com">
     <link rel="preload" as="image" href="https://i.imgur.com/GmyGlKk.webp" fetchpriority="high" imagesrcset="https://i.imgur.com/GmyGlKk.webp 320w, https://i.imgur.com/GmyGlKk.webp 480w, https://i.imgur.com/GmyGlKk.webp 600w" imagesizes="(max-width: 600px) 320px, (max-width: 900px) 480px, 600px">
     <link rel="preload" as="image" href="https://i.imgur.com/H69KvL6.webp" fetchpriority="high" imagesrcset="https://i.imgur.com/H69KvL6.webp 320w, https://i.imgur.com/H69KvL6.webp 480w, https://i.imgur.com/H69KvL6.webp 900w" imagesizes="(max-width: 600px) 320px, (max-width: 900px) 480px, 900px">
-    <link rel="preload" as="font" href="/Cinzel-Regular.woff2" type="font/woff2" crossorigin>
+    <link rel="preload" as="font" href="/fonts/Cinzel-Regular.woff2" type="font/woff2" crossorigin>
     <style>
         @font-face {
             font-family: 'Cinzel';
-            src: url('/Cinzel-Regular.woff2') format('woff2');
+            src: url('/fonts/Cinzel-Regular.woff2') format('woff2');
             font-weight: 400;
             font-style: normal;
             font-display: swap;
@@ -212,10 +212,11 @@
             transform: scale(0.98);
         }
         .audio-button {
-            display: inline-flex; align-items: center; padding: 0.5rem 1rem; font-size: 0.85rem;
+            display: inline-flex; align-items: center; justify-content: center; 
+            padding: 0.5rem 1rem; font-size: 0.85rem;
             font-family: var(--font-primary); font-weight: 400; color: #fff; background: var(--audio-button-bg);
             border: 1px solid var(--audio-button-border); border-radius: 0; transition: all var(--transition-smooth);
-            cursor: pointer; text-align: center; margin-left: 1rem; vertical-align: middle;
+            cursor: pointer; text-align: center; margin: 0.5rem auto; width: 120px; max-width: 100%;
         }
         .audio-button::before {
             content: '🔊'; margin-right: 0.5rem; font-size: 1rem;
@@ -459,11 +460,30 @@
             color: #ff6b6b; font-size: 0.9rem; margin: 0.5rem 0;
         }
         .title-container {
-            display: flex; align-items: center; justify-content: center; gap: 1rem;
+            display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+            margin-bottom: 1rem;
         }
         .imc-image {
             width: 100%; max-width: var(--max-width); height: auto; display: block; margin: 1rem auto;
             aspect-ratio: 16/9; object-fit: cover;
+        }
+        .audio-button-container {
+            display: flex; justify-content: center; width: 100%;
+            margin: 0.5rem 0;
+        }
+        .voyance-section {
+            margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border-color);
+        }
+        .install-button {
+            display: inline-block; padding: 0.9rem 1.7rem; font-size: 1.1rem; font-family: var(--font-primary);
+            font-weight: 700; color: var(--button-txt); background: var(--audio-button-bg); 
+            border: 1px solid var(--audio-button-border); border-radius: 5px; 
+            transition: all var(--transition-smooth); margin: 0.8rem auto;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3); cursor: pointer; text-align: center;
+            letter-spacing: 0.5px;
+        }
+        .install-button:hover {
+            background: #444; transform: translateY(-2px) scale(1.03);
         }
     </style>
     <script defer src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
@@ -487,17 +507,12 @@
 <body>
     <nav role="navigation" aria-label="Navigation principale">
         <ul>
-            <li><a href="#voyance" aria-label="Consulter la voyance par email">Voyance</a></li>
             <li><a href="#minceur" aria-label="Découvrir les gélules minceur Victory">Gélules Victory</a></li>
             <li><a href="#programme-personnalise" aria-label="Explorer le programme minceur personnalisé">Programme Personnalisé</a></li>
-            <li><a href="#services" aria-label="Voir les services spirituels">Services Spirituels</a></li>
-            <li><a href="#importance-desenvoutement" aria-label="Comprendre le désenvoûtement">Désenvoûtement</a></li>
-            <li><a href="#frederick" aria-label="Rencontrer Frédéric clairvoyant et futurologue reconnu">Frédéric</a></li>
-            <li><a href="#avis" aria-label="Lire les avis clients">Avis</a></li>
             <li><a href="#imc" aria-label="Calculer votre IMC">Calculateur IMC</a></li>
             <li><a href="#comparaison" aria-label="Voir la comparaison des solutions minceur">Comparatif</a></li>
+            <li><a href="#avis" aria-label="Lire les avis clients">Avis</a></li>
             <li><a href="#blog" aria-label="Lire le blog minceur et spiritualité">Blog</a></li>
-            <li><a href="#subscribe" aria-label="S'inscrire à la newsletter">Newsletter</a></li>
         </ul>
     </nav>
 
@@ -525,6 +540,9 @@
                 <source srcset="https://i.imgur.com/H69KvL6.webp 320w, https://i.imgur.com/H69KvL6.webp 480w, https://i.imgur.com/H69KvL6.webp 900w" type="image/webp" sizes="(max-width: 600px) 320px, (max-width: 900px) 480px, 900px">
                 <img src="https://i.imgur.com/H69KvL6.png" alt="Bannière promotionnelle Gélules Minceur Victory et Voyance par Email" class="header-image" decoding="async" loading="lazy" title="Bannière des offres minceur et voyance" width="900" height="506">
             </picture>
+            <div class="audio-button-container">
+                <button class="audio-button" data-text-id="hero-heading,hero article" aria-label="Écouter la présentation">Écouter</button>
+            </div>
             <div class="translate-container" aria-labelledby="translate-label">
                 <label id="translate-label" for="translate-select" class="sr-only">Sélectionner la langue</label>
                 <div id="google_translate_element" style="text-align: center; margin-top: 0.8rem;" aria-label="Sélecteur de langue"></div>
@@ -535,10 +553,9 @@
     <section class="hero" aria-labelledby="hero-heading">
         <div class="title-container">
             <h2 id="hero-heading">Transformez Votre Corps et Votre Esprit</h2>
-            <button class="audio-button" data-text-id="hero-heading,hero article" aria-label="Écouter la présentation">Écouter</button>
         </div>
         <article class="audio-text">
-            <p>Perdez jusqu'à 12 kg en 2 mois avec les <strong>gélules minceur Victory</strong>, une solution naturelle pour <strong>perdre du poids rapidement</strong> et durablement. Éclairez votre avenir avec la <strong>voyance par email pas chère</strong> de Frédéric, clairvoyant et futurologue reconnu avec 20 ans d'expérience. Nos services incluent des programmes minceur personnalisés, des rituels de <strong>magie sentimentale</strong> pour <strong>faire revenir son ex</strong> ou renforcer votre couple, et des <strong>désenvoûtements efficaces</strong> pour libérer votre énergie. Livraison gratuite, paiement sécurisé, et 16 000 clients satisfaits à travers le monde.</p>
+            <p>Perdez jusqu'à 12 kg en 2 mois avec les <strong>gélules minceur Victory</strong>, une solution naturelle pour <strong>perdre du poids rapidement</strong> et durablement. Éclairez votre avenir avec la <strong>voyance par email pas chère</strong> de Frédéric, clairvoyant et futurologue reconnu avec 20 ans d'expérience. Nos services incluent des programmes minceur personnalisés, des rituels de <strong>magie sentimentale</strong> pour <strong>faire revenir son ex</strong> ou renforcer votre couple, et des <strong>désenvoûtements efficaces</strong> pour libérer votre énergie. Livraison gratuite, paiement sécurisé, et plus de 9000 clients satisfaits à travers le monde.</p>
             <p>Les gélules Victory, riches en thé vert, garcinia cambogia et konjac, accélèrent votre métabolisme et réduisent l'appétit, vous aidant à <strong>maigrir rapidement</strong> sans régime restrictif. Nos consultations de voyance par email, disponibles à partir de 6 €, offrent des réponses précises en 24h sur l'amour, la carrière ou les finances. Découvrez également nos services de <strong>compatibilité amoureuse</strong> pour <strong>savoir si votre couple est solide</strong> et nos rituels pour <strong>retrouver l'amour</strong>. Transformez votre vie dès aujourd'hui avec des solutions éprouvées.</p>
             <p class="urgency-notice">⏰ Offre limitée : Prix valables jusqu'au 30 avril 2025 !</p>
         </article>
@@ -548,44 +565,14 @@
             <a href="https://buy.stripe.com/dR614scnycPddd66oV" target="_blank" rel="noopener nofollow" class="cta-button prix" data-eur-price="15" aria-label="Commander une voyance par email 3 questions">3 Questions Voyance – <span class="price" data-eur-price="15">15.00 EUR</span></a>
             <a href="https://buy.stripe.com/28o3cA0EQ5mL0qk14C" target="_blank" rel="noopener nofollow" class="cta-button prix" data-eur-price="28" aria-label="Commander une voyance par email 5 questions">5 Questions Voyance – <span class="price" data-eur-price="28">28.00 EUR</span></a>
         </div>
-        <button class="cta-button" id="downloadShortcut" style="margin-top: 1rem;" aria-label="Télécharger le raccourci vers l'écran d'accueil">
-            <span>Raccourci sur votre page d'accueil</span>
-        </button>
     </section>
 
     <main role="main">
-        <section class="content-container" id="voyance" aria-labelledby="voyance-heading">
-            <div class="title-container">
-                <h2 id="voyance-heading">Voyance par Email Pas Chère</h2>
-                <button class="audio-button" data-text-id="voyance-heading,voyance article" aria-label="Écouter la section Voyance par Email">Écouter</button>
-            </div>
-            <article class="audio-text" itemscope itemtype="https://schema.org/Service">
-                <meta itemprop="name" content="Voyance par Email Pas Chère">
-                <meta itemprop="description" content="Voyance par email précise et abordable à partir de 6 €, réponses en 24h sur amour, carrière, finances. Par Frédéric, clairvoyant et futurologue reconnu avec 20 ans d'expérience.">
-                <meta itemprop="provider" content="ClairvoyanceMedium.com">
-                <p>La <strong>voyance par email pas chère</strong> de Frédéric, clairvoyant et futurologue reconnu avec 20 ans d'expérience, vous offre des réponses précises et rapides sur tous les aspects de votre vie : amour, carrière, finances ou avenir. À partir de seulement 6 €, recevez une consultation détaillée sous 24h, directement dans votre boîte mail.</p>
-                <p>Chaque réponse est rédigée avec soin, combinant intuition, tarologie et astrologie pour vous fournir des prédictions fiables et des conseils pratiques. Posez une question spécifique ou demandez une analyse complète de votre situation. Par exemple, découvrez si <strong>votre couple est compatible</strong>, si une opportunité professionnelle se profile, ou comment surmonter un blocage personnel.</p>
-                <p>La voyance par email est idéale pour ceux qui recherchent discrétion et flexibilité. Pas besoin de rendez-vous ou de conversation en direct : envoyez votre question via notre formulaire sécurisé, et Frédéric vous répondra avec des insights profonds et personnalisés. Nos clients apprécient la clarté des réponses et la rapidité du service, avec 98 % de satisfaction.</p>
-                <p>Le paiement sécurisé garantit une transaction fluide et confidentielle. Vous pouvez poser jusqu'à 3 questions par consultation, selon l'offre choisie, pour explorer plusieurs aspects de votre vie. Notre service est disponible dans plus de 30 langues grâce à l'intégration de Google Translate, rendant la voyance accessible à tous, partout dans le monde.</p>
-                <p>Pour ceux qui souhaitent aller plus loin, combinez la voyance avec nos services de <strong>magie sentimentale</strong> ou de <strong>désenvoûtement efficace</strong> pour lever les blocages spirituels et attirer des énergies positives. Transformez votre avenir dès maintenant avec une voyance claire et abordable.</p>
-                <ul class="check-list">
-                    <li><strong>Réponses rapides :</strong> Prédictions détaillées en 24h.</li>
-                    <li><strong>Abordable :</strong> À partir de 6 € par question.</li>
-                    <li><strong>Confidentialité :</strong> Service sécurisé et discret.</li>
-                    <li><strong>Expertise :</strong> 20 ans d'expérience en futurologie.</li>
-                </ul>
-                <p class="urgency-notice">⏰ Offre exclusive : Prix valables jusqu'au 30 avril 2025 !</p>
-            </article>
-            <div class="cta-buttons-container">
-                <a href="https://buy.stripe.com/14kdRe0EQ4iH1uoaFa" target="_blank" rel="noopener nofollow" class="cta-button prix" data-eur-price="6" data-tracking-label="Voyance1Question" aria-label="Commander une voyance par email 1 question">1 Question – <span class="price" data-eur-price="6">6.00 EUR</span></a>
-                <a href="https://buy.stripe.com/dR614scnycPddd66oV" target="_blank" rel="noopener nofollow" class="cta-button prix" data-eur-price="15" data-tracking-label="Voyance3Questions" aria-label="Commander une voyance par email 3 questions">3 Questions – <span class="price" data-eur-price="15">15.00 EUR</span></a>
-                <a href="https://buy.stripe.com/28o3cA0EQ5mL0qk14C" target="_blank" rel="noopener nofollow" class="cta-button prix" data-eur-price="28" data-tracking-label="Voyance5Questions" aria-label="Commander une voyance par email 5 questions">5 Questions – <span class="price" data-eur-price="28">28.00 EUR</span></a>
-            </div>
-        </section>
-
         <section class="content-container" id="minceur" aria-labelledby="minceur-heading">
             <div class="title-container">
                 <h2 id="minceur-heading">Gélules Minceur Victory</h2>
+            </div>
+            <div class="audio-button-container">
                 <button class="audio-button" data-text-id="minceur-heading,minceur article" aria-label="Écouter la section Gélules Victory">Écouter</button>
             </div>
             <article class="audio-text" itemscope itemtype="https://schema.org/Product">
@@ -593,10 +580,10 @@
                 <meta itemprop="description" content="Gélules minceur Victory pour perdre du poids rapidement et naturellement, jusqu'à 12 kg en 2 mois. Ingrédients 100% naturels, livraison gratuite, paiement sécurisé.">
                 <meta itemprop="brand" content="ClairvoyanceMedium.com">
                 <meta itemprop="image" content="https://i.imgur.com/GmyGlKk.webp">
-                <meta itemprop="aggregateRating" content="{ '@type': 'AggregateRating', 'ratingValue': '4.9', 'reviewCount': '16000' }">
+                <meta itemprop="aggregateRating" content="{ '@type': 'AggregateRating', 'ratingValue': '4.9', 'reviewCount': '9000' }">
                 <p>Les <strong>gélules minceur Victory</strong> sont la solution ultime pour <strong>perdre du poids rapidement</strong> et durablement. Grâce à une formule naturelle à base de thé vert, garcinia cambogia et konjac, ces gélules vous aident à <strong>maigrir efficacement</strong>, avec des résultats visibles dès les premières semaines. Perdez jusqu'à 12 kg en 2 mois sans régime draconien, tout en boostant votre énergie et votre confiance.</p>
                 <p>Chaque capsule est conçue pour une absorption optimale, sans additifs ni effets secondaires. Prenez une gélule avant chaque repas principal avec un grand verre d'eau pour maximiser les effets. Les ingrédients agissent en synergie pour accélérer le métabolisme, réduire l'appétit et brûler les graisses. Par exemple, le thé vert stimule la thermogenèse, tandis que le konjac, riche en fibres, procure une sensation de satiété durable.</p>
-                <p>Nos gélules sont idéales pour ceux qui cherchent un <strong>régime minceur</strong> sans frustration. Une alimentation équilibrée et une activité physique légère, comme la marche ou le yoga, suffisent pour obtenir des résultats impressionnants. Avec 16 000 clients satisfaits, les gélules Victory sont reconnues pour leur efficacité et leur qualité. Chaque lot est testé rigoureusement pour garantir une sécurité optimale.</p>
+                <p>Nos gélules sont idéales pour ceux qui cherchent un <strong>régime minceur</strong> sans frustration. Une alimentation équilibrée et une activité physique légère, comme la marche ou le yoga, suffisent pour obtenir des résultats impressionnants. Avec plus de 9000 clients satisfaits, les gélules Victory sont reconnues pour leur efficacité et leur qualité. Chaque lot est testé rigoureusement pour garantir une sécurité optimale.</p>
                 <p>En complément, les gélules Victory améliorent votre bien-être global. Elles favorisent une meilleure digestion, réduisent la fatigue et renforcent votre estime de soi. Imaginez-vous avec une silhouette affinée, pleine d'énergie et prête à relever tous les défis. Nos clients rapportent non seulement une perte de poids, mais aussi une transformation de leur mode de vie vers plus de santé et de vitalité.</p>
                 <p>La livraison est gratuite sous 24h, avec un suivi en temps réel pour votre tranquillité. Le paiement sécurisé ne nécessite pas de compte, garantissant une expérience simple et confidentielle. Notre support client 24/7 répond à vos questions en moins de 2 heures, vous accompagnant à chaque étape de votre parcours minceur.</p>
                 <p>Intégrer les gélules Victory dans votre routine est un choix stratégique pour <strong>perdre du poids efficacement et naturellement</strong>. Elles sont plus qu'un simple complément : elles sont un catalyseur pour une vie plus saine. Rejoignez les milliers de personnes qui ont transformé leur corps et leur esprit avec Victory.</p>
@@ -624,6 +611,8 @@
         <section class="content-container" id="programme-personnalise" aria-labelledby="programme-personnalise-heading">
             <div class="title-container">
                 <h2 id="programme-personnalise-heading">Programme Minceur Personnalisé Victory</h2>
+            </div>
+            <div class="audio-button-container">
                 <button class="audio-button" data-text-id="programme-personnalise-heading,programme-personnalise article" aria-label="Écouter la section Programme Personnalisé">Écouter</button>
             </div>
             <article class="audio-text" itemscope itemtype="https://schema.org/Product">
@@ -657,6 +646,8 @@
             </picture>
             <div class="title-container">
                 <h2 id="imc-heading">Calculez Votre IMC</h2>
+            </div>
+            <div class="audio-button-container">
                 <button class="audio-button" data-text-id="imc-heading,imc article" aria-label="Écouter la section Calculateur IMC">Écouter</button>
             </div>
             <article class="audio-text">
@@ -697,6 +688,8 @@
         <section class="content-container comparison-table-container" id="comparaison" aria-labelledby="comparaison-heading">
             <div class="title-container">
                 <h2 id="comparaison-heading">Comparaison des Solutions Minceur</h2>
+            </div>
+            <div class="audio-button-container">
                 <button class="audio-button" data-text-id="comparaison-heading,comparaison article" aria-label="Écouter la section Comparaison des Solutions Minceur">Écouter</button>
             </div>
             <article class="audio-text">
@@ -781,11 +774,13 @@
 
         <section class="content-container" id="avis" aria-labelledby="avis-heading">
             <div class="title-container">
-                <h2 id="avis-heading">Avis de Nos 16 000 Clients</h2>
+                <h2 id="avis-heading">Avis de Nos Plus de 9000 Clients</h2>
+            </div>
+            <div class="audio-button-container">
                 <button class="audio-button" data-text-id="avis-heading,avis article,avisCarouselInner" aria-label="Écouter la section Avis Clients">Écouter</button>
             </div>
             <article class="audio-text">
-                <p>Nos clients témoignent de transformations incroyables grâce aux <strong>gélules minceur Victory</strong>, à la <strong>voyance par email pas chère</strong> et à nos services spirituels comme le <strong>désenvoûtement efficace</strong> et la <strong>magie sentimentale</strong>. Avec une note moyenne de 4.9/5 basée sur 16 000 avis, notre engagement envers la qualité et la satisfaction est reconnu mondialement.</p>
+                <p>Nos clients témoignent de transformations incroyables grâce aux <strong>gélules minceur Victory</strong>, à la <strong>voyance par email pas chère</strong> et à nos services spirituels comme le <strong>désenvoûtement efficace</strong> et la <strong>magie sentimentale</strong>. Avec une note moyenne de 4.9/5 basée sur plus de 9000 avis, notre engagement envers la qualité et la satisfaction est reconnu mondialement.</p>
                 <p>Découvrez les retours authentiques de clients de toute la France, âgés de 18 à 65 ans, qui ont retrouvé confiance, énergie et clarté grâce à nos solutions. Chaque avis reflète une expérience unique, avec des résultats concrets en minceur et spiritualité.</p>
             </article>
             <div class="carousel" id="avisCarousel" role="region" aria-roledescription="carousel" aria-label="Carrousel d'avis, slide 1 sur 30" tabindex="0">
@@ -850,96 +845,6 @@
                             <figcaption>— Mathieu C., 33 ans, Rennes</figcaption>
                         </figure>
                     </div>
-                    <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1" aria-hidden="true">
-                        <figure>
-                            <blockquote>« La voyance par email m'a donné des réponses claires sur mon avenir amoureux. »</blockquote>
-                            <figcaption>— Sarah M., 27 ans, Dijon</figcaption>
-                        </figure>
-                    </div>
-                    <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1" aria-hidden="true">
-                        <figure>
-                            <blockquote>« Le programme personnalisé est un game-changer. J'ai retrouvé ma confiance ! »</blockquote>
-                            <figcaption>— Nicolas F., 40 ans, Grenoble</figcaption>
-                        </figure>
-                    </div>
-                    <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1" aria-hidden="true">
-                        <figure>
-                            <blockquote>« Grâce à la magie sentimentale, mon ex est revenu. Merci Frédéric ! »</blockquote>
-                            <figcaption>— Chloé L., 31 ans, Montpellier</figcaption>
-                        </figure>
-                    </div>
-                    <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1" aria-hidden="true">
-                        <figure>
-                            <blockquote>« Les gélules Victory m'ont aidé à perdre 12 kg. Je recommande à 100 % ! »</blockquote>
-                            <figcaption>— Antoine D., 38 ans, Angers</figcaption>
-                        </figure>
-                    </div>
-                    <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1" aria-hidden="true">
-                        <figure>
-                            <blockquote>« La voyance de Frédéric m'a éclairé sur mes finances. Service incroyable. »</blockquote>
-                            <figcaption>— Léa P., 29 ans, Reims</figcaption>
-                        </figure>
-                    </div>
-                    <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1" aria-hidden="true">
-                        <figure>
-                            <blockquote>« Le programme Victory est facile à suivre et super efficace. »</blockquote>
-                            <figcaption>— Hugo S., 34 ans, Metz</figcaption>
-                        </figure>
-                    </div>
-                    <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1" aria-hidden="true">
-                        <figure>
-                            <blockquote>« Le désenvoûtement m'a redonné une paix intérieure. »</blockquote>
-                            <figcaption>— Manon R., 36 ans, Clermont-Ferrand</figcaption>
-                        </figure>
-                    </div>
-                    <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1" aria-hidden="true">
-                        <figure>
-                            <blockquote>« Les gélules Victory sont un vrai coup de pouce pour maigrir. »</blockquote>
-                            <figcaption>— Lucas B., 32 ans, Le Havre</figcaption>
-                        </figure>
-                    </div>
-                    <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1" aria-hidden="true">
-                        <figure>
-                            <blockquote>« La voyance par email est rapide et précise. Je suis bluffée. »</blockquote>
-                            <figcaption>— Zoé T., 25 ans, Brest</figcaption>
-                        </figure>
-                    </div>
-                    <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1" aria-hidden="true">
-                        <figure>
-                            <blockquote>« Le programme personnalisé m'a transformé physiquement et mentalement. »</blockquote>
-                            <figcaption>— Victor M., 39 ans, Tours</figcaption>
-                        </figure>
-                    </div>
-                    <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1" aria-hidden="true">
-                        <figure>
-                            <blockquote>« La magie sentimentale a sauvé ma relation. Merci ! »</blockquote>
-                            <figcaption>— Inès G., 28 ans, Amiens</figcaption>
-                        </figure>
-                    </div>
-                    <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1" aria-hidden="true">
-                        <figure>
-                            <blockquote>« Les gélules Victory m'ont aidé à perdre 8 kg rapidement. »</blockquote>
-                            <figcaption>— Raphaël L., 35 ans, Nancy</figcaption>
-                        </figure>
-                    </div>
-                    <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1" aria-hidden="true">
-                        <figure>
-                            <blockquote>« La voyance m'a donné confiance en mes choix. »</blockquote>
-                            <figcaption>— Maëlle C., 30 ans, Caen</figcaption>
-                        </figure>
-                    </div>
-                    <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1" aria-hidden="true">
-                        <figure>
-                            <blockquote>« Le programme Victory est parfait pour un mode de vie sain. »</blockquote>
-                            <figcaption>— Paul V., 41 ans, Rouen</figcaption>
-                        </figure>
-                    </div>
-                    <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1" aria-hidden="true">
-                        <figure>
-                            <blockquote>« Le désenvoûtement m'a libéré d'énergies négatives. »</blockquote>
-                            <figcaption>— Anaïs F., 33 ans, Perpignan</figcaption>
-                        </figure>
-                    </div>
                 </div>
                 <div class="carousel-nav">
                     <button class="prev" aria-label="Avis précédent">❮</button>
@@ -952,88 +857,11 @@
             </div>
         </section>
 
-        <section class="content-container" id="services" aria-labelledby="services-heading">
-            <div class="title-container">
-                <h2 id="services-heading">Services Spirituels</h2>
-                <button class="audio-button" data-text-id="services-heading,services article" aria-label="Écouter la section Services Spirituels">Écouter</button>
-            </div>
-            <article class="audio-text" itemscope itemtype="https://schema.org/Service">
-                <meta itemprop="name" content="Services Spirituels">
-                <meta itemprop="description" content="Services spirituels incluant magie sentimentale, désenvoûtement efficace, compatibilité amoureuse pour renforcer votre couple ou retrouver l'amour.">
-                <meta itemprop="provider" content="ClairvoyanceMedium.com">
-                <p>Nos <strong>services spirituels</strong> vous accompagnent pour surmonter les obstacles émotionnels et spirituels, en vous offrant des solutions puissantes pour <strong>retrouver l'amour</strong>, renforcer votre couple ou libérer votre énergie. Chaque service est conçu par Frédéric, clairvoyant et futurologue reconnu, pour répondre à vos besoins spécifiques.</p>
-                <h3>Magie Sentimentale</h3>
-                <div class="service-description">Utilisez la <strong>magie sentimentale</strong> pour <strong>faire revenir votre ex</strong>, raviver la flamme dans votre couple ou attirer l'amour véritable. Nos rituels, basés sur des traditions ancestrales, sont personnalisés pour maximiser leur efficacité.</div>
-                <button class="audio-button" data-text-id="services article h3:nth-of-type(1),services article div:nth-of-type(1)" aria-label="Écouter la description de la magie sentimentale">Écouter</button>
-                <a href="https://buy.stripe.com/6oEeVi8Zm1exb4Y6pM" target="_blank" rel="noopener nofollow" class="cta-button prix" data-eur-price="25" data-tracking-label="MagieSentimentale" aria-label="Commander un rituel de magie sentimentale">Rituel – <span class="price" data-eur-price="25">25.00 EUR</span></a>
-
-                <h3>Désenvoûtement Efficace</h3>
-                <div class="service-description">Le <strong>désenvoûtement efficace</strong> libère votre esprit et votre corps des énergies négatives, maléfices ou blocages. Ce rituel puissant vous redonne vitalité et sérénité, avec des résultats ressentis dès les premiers jours.</div>
-                <button class="audio-button" data-text-id="services article h3:nth-of-type(2),services article div:nth-of-type(2)" aria-label="Écouter la description du désenvoûtement">Écouter</button>
-                <a href="https://buy.stripe.com/00gcNa1IU5mL6OIeV4" target="_blank" rel="noopener nofollow" class="cta-button prix" data-eur-price="30" data-tracking-label="Desenvoutement" aria-label="Commander un rituel de désenvoûtement">Rituel – <span class="price" data-eur-price="30">30.00 EUR</span></a>
-
-                <h3>Compatibilité Amoureuse</h3>
-                <div class="service-description">Découvrez si <strong>votre couple est compatible</strong> grâce à notre analyse astrologique et numérologique. Cette étude approfondie vous aide à comprendre les forces et faiblesses de votre relation pour un avenir harmonieux.</div>
-                <button class="audio-button" data-text-id="services article h3:nth-of-type(3),services article div:nth-of-type(3)" aria-label="Écouter la description de la compatibilité amoureuse">Écouter</button>
-                <a href="https://buy.stripe.com/eVabJ6aRq2iB3CAdR6" target="_blank" rel="noopener nofollow" class="cta-button prix" data-eur-price="20" data-tracking-label="CompatibiliteAmoureuse" aria-label="Commander une analyse de compatibilité amoureuse">Analyse – <span class="price" data-eur-price="20">20.00 EUR</span></a>
-
-                <p>Tous nos services sont réalisés avec une intention pure et une confidentialité totale. Les rituels et analyses sont envoyés par email sous 48h, avec des instructions claires pour maximiser leur impact. Le paiement sécurisé et le support client 24/7 garantissent une expérience fluide.</p>
-                <p>Que vous cherchiez à <strong>retrouver l'amour</strong>, à surmonter des blocages ou à renforcer votre couple, nos services spirituels sont une porte vers une vie plus épanouie. Complétez-les avec une <strong>voyance par email</strong> pour des conseils personnalisés.</p>
-                <p class="urgency-notice">⏰ Offre limitée : Prix valables jusqu'au 30 avril 2025 !</p>
-            </article>
-        </section>
-
-        <section class="content-container" id="importance-desenvoutement" aria-labelledby="desenvoutement-heading">
-            <div class="title-container">
-                <h2 id="desenvoutement-heading">L'Importance du Désenvoûtement</h2>
-                <button class="audio-button" data-text-id="desenvoutement-heading,desenvoutement article" aria-label="Écouter la section Importance du Désenvoûtement">Écouter</button>
-            </div>
-            <article class="audio-text">
-                <p>Le <strong>désenvoûtement efficace</strong> est un rituel essentiel pour libérer votre esprit et votre corps des énergies négatives, maléfices ou influences extérieures. Ces blocages peuvent se manifester par de la fatigue chronique, des échecs répétés, des conflits relationnels ou un sentiment d'oppression.</p>
-                <p>Frédéric, clairvoyant et futurologue reconnu avec 20 ans d'expérience, utilise des techniques ancestrales combinées à une approche moderne pour purifier votre aura et restaurer votre énergie vitale. Le rituel est effectué à distance et personnalisé selon votre situation, avec des résultats souvent ressentis dès les premiers jours.</p>
-                <p>Le processus est simple : après votre commande, vous recevez un email sous 48h avec des instructions pour préparer le rituel (par exemple, allumer une bougie ou réciter une intention). Le désenvoûtement agit comme un nettoyage énergétique, vous libérant des poids invisibles et vous ouvrant à de nouvelles opportunités.</p>
-                <p>Ce service est particulièrement recommandé si vous ressentez un blocage persistant ou si vous traversez une période difficile. En complément, une <strong>voyance par email</strong> peut identifier les causes profondes de vos obstacles, tandis que la <strong>magie sentimentale</strong> peut renforcer vos relations après la purification.</p>
-                <p>Avec un taux de satisfaction de 95 % parmi nos clients, le désenvoûtement est une étape clé pour retrouver sérénité et confiance. Le paiement sécurisé et la livraison des instructions sous 48h garantissent une expérience fluide.</p>
-                <ul class="check-list">
-                    <li><strong>Libération rapide :</strong> Résultats dès les premiers jours.</li>
-                    <li><strong>Personnalisé :</strong> Adapté à votre situation unique.</li>
-                    <li><strong>Confidentialité :</strong> Rituel effectué à distance.</li>
-                </ul>
-                <p class="urgency-notice">⏰ Offre exclusive : Prix valables jusqu'au 30 avril 2025 !</p>
-                <p>Commencez votre transformation spirituelle dès aujourd'hui avec un <strong>désenvoûtement efficace</strong>.</p>
-            </article>
-            <div class="cta-buttons-container">
-                <a href="https://buy.stripe.com/00gcNa1IU5mL6OIeV4" target="_blank" rel="noopener nofollow" class="cta-button prix" data-eur-price="30" data-tracking-label="Desenvoutement" aria-label="Commander un rituel de désenvoûtement">Rituel Désenvoûtement – <span class="price" data-eur-price="30">30.00 EUR</span></a>
-            </div>
-        </section>
-
-        <section class="content-container" id="frederick" aria-labelledby="frederick-heading">
-            <div class="title-container">
-                <h2 id="frederick-heading">Frédéric, Clairvoyant et Futurologue Reconnu</h2>
-                <button class="audio-button" data-text-id="frederick-heading,frederick article" aria-label="Écouter la section Frédéric Clairvoyant et Futurologue">Écouter</button>
-            </div>
-            <article class="audio-text" itemscope itemtype="https://schema.org/Person">
-                <meta itemprop="name" content="Frédéric">
-                <meta itemprop="jobTitle" content="Clairvoyant et Futurologue Reconnu">
-                <p><strong>Frédéric</strong> est un clairvoyant et futurologue reconnu avec 20 ans d'expérience en voyance, tarologie, astrologie et rituels spirituels. Basé en France, il a aidé plus de 16 000 clients à travers le monde à éclairer leur avenir et à surmonter leurs défis personnels.</p>
-                <p>Sa méthode unique combine intuition, analyse astrologique et pratiques ésotériques pour offrir des prédictions précises et des solutions concrètes. Que ce soit pour une <strong>voyance par email pas chère</strong>, un rituel de <strong>magie sentimentale</strong> ou un <strong>désenvoûtement efficace</strong>, Frédéric travaille avec une intention pure et une écoute attentive.</p>
-                <p>Son approche est accessible et bienveillante, adaptée aussi bien aux novices qu'aux habitués des arts divinatoires. Chaque consultation ou rituel est personnalisé, garantissant des résultats qui résonnent avec votre situation unique. Frédéric est également connu pour sa réactivité, répondant aux demandes de voyance en 24h et livrant les rituels sous 48h.</p>
-                <p>En plus de ses services spirituels, Frédéric partage ses connaissances à travers notre <a href="#blog" class="backlink" aria-label="Blog minceur et spiritualité">blog</a>, où il propose des articles sur la spiritualité, l'amour et le bien-être. Sa mission est de vous guider vers une vie plus épanouie, en harmonie avec votre corps et votre esprit.</p>
-                <p>Rejoignez les milliers de clients qui font confiance à Frédéric pour transformer leur vie. Contactez-le dès aujourd'hui via une <strong>voyance par email</strong> ou un rituel spirituel.</p>
-                <ul class="check-list">
-                    <li><strong>Expertise :</strong> 20 ans en futurologie et arts divinatoires.</li>
-                    <li><strong>Personnalisation :</strong> Solutions adaptées à vos besoins.</li>
-                    <li><strong>Réputation :</strong> 16 000 clients satisfaits mondialement.</li>
-                </ul>
-            </article>
-            <div class="cta-buttons-container">
-                <a href="https://buy.stripe.com/14kdRe0EQ4iH1uoaFa" target="_blank" rel="noopener nofollow" class="cta-button prix" data-eur-price="6" data-tracking-label="Voyance1Question" aria-label="Commander une voyance par email 1 question">1 Question Voyance – <span class="price" data-eur-price="6">6.00 EUR</span></a>
-            </div>
-        </section>
-
         <section class="content-container" id="blog" aria-labelledby="blog-heading">
             <div class="title-container">
                 <h2 id="blog-heading">Blog Minceur et Spiritualité</h2>
+            </div>
+            <div class="audio-button-container">
                 <button class="audio-button" data-text-id="blog-heading,blog article,blogCarouselInner" aria-label="Écouter la section Blog">Écouter</button>
             </div>
             <article class="audio-text">
@@ -1086,10 +914,12 @@
         <section class="subscribe-section" id="subscribe" aria-labelledby="subscribe-heading">
             <div class="title-container">
                 <h2 id="subscribe-heading">Inscrivez-vous à Notre Newsletter</h2>
+            </div>
+            <div class="audio-button-container">
                 <button class="audio-button" data-text-id="subscribe-heading,subscribe article" aria-label="Écouter la section Newsletter">Écouter</button>
             </div>
             <article class="audio-text">
-                <p>Rejoignez notre communauté de 16 000 abonnés et recevez chaque semaine des conseils exclusifs pour <strong>perdre du poids rapidement</strong>, booster votre bien-être et approfondir votre spiritualité. Notre newsletter inclut des astuces minceur, des prédictions astrologiques, et des offres spéciales sur les <strong>gélules Victory</strong> et la <strong>voyance par email</strong>.</p>
+                <p>Rejoignez notre communauté de plus de 9000 abonnés et recevez chaque semaine des conseils exclusifs pour <strong>perdre du poids rapidement</strong>, booster votre bien-être et approfondir votre spiritualité. Notre newsletter inclut des astuces minceur, des prédictions astrologiques, et des offres spéciales sur les <strong>gélules Victory</strong> et la <strong>voyance par email</strong>.</p>
                 <p>Inscrivez-vous en 10 secondes avec votre email. Pas de spam, juste du contenu inspirant et personnalisé. Vous pouvez vous désinscrire à tout moment en un clic.</p>
                 <p class="urgency-notice">⏰ Inscrivez-vous maintenant pour recevoir une réduction exclusive sur votre prochaine commande !</p>
             </article>
@@ -1108,6 +938,37 @@
             </form>
         </section>
 
+        <div class="voyance-section" id="voyance" aria-labelledby="voyance-heading">
+            <div class="title-container">
+                <h2 id="voyance-heading">Voyance par Email Pas Chère</h2>
+            </div>
+            <div class="audio-button-container">
+                <button class="audio-button" data-text-id="voyance-heading,voyance article" aria-label="Écouter la section Voyance par Email">Écouter</button>
+            </div>
+            <article class="audio-text" itemscope itemtype="https://schema.org/Service">
+                <meta itemprop="name" content="Voyance par Email Pas Chère">
+                <meta itemprop="description" content="Voyance par email précise et abordable à partir de 6 €, réponses en 24h sur amour, carrière, finances. Par Frédéric, clairvoyant et futurologue reconnu avec 20 ans d'expérience.">
+                <meta itemprop="provider" content="ClairvoyanceMedium.com">
+                <p>La <strong>voyance par email pas chère</strong> de Frédéric, clairvoyant et futurologue reconnu avec 20 ans d'expérience, vous offre des réponses précises et rapides sur tous les aspects de votre vie : amour, carrière, finances ou avenir. À partir de seulement 6 €, recevez une consultation détaillée sous 24h, directement dans votre boîte mail.</p>
+                <p>Chaque réponse est rédigée avec soin, combinant intuition, tarologie et astrologie pour vous fournir des prédictions fiables et des conseils pratiques. Posez une question spécifique ou demandez une analyse complète de votre situation. Par exemple, découvrez si <strong>votre couple est compatible</strong>, si une opportunité professionnelle se profile, ou comment surmonter un blocage personnel.</p>
+                <p>La voyance par email est idéale pour ceux qui recherchent discrétion et flexibilité. Pas besoin de rendez-vous ou de conversation en direct : envoyez votre question via notre formulaire sécurisé, et Frédéric vous répondra avec des insights profonds et personnalisés. Nos clients apprécient la clarté des réponses et la rapidité du service, avec 98 % de satisfaction.</p>
+                <p>Le paiement sécurisé garantit une transaction fluide et confidentielle. Vous pouvez poser jusqu'à 3 questions par consultation, selon l'offre choisie, pour explorer plusieurs aspects de votre vie. Notre service est disponible dans plus de 30 langues grâce à l'intégration de Google Translate, rendant la voyance accessible à tous, partout dans le monde.</p>
+                <p>Pour ceux qui souhaitent aller plus loin, combinez la voyance avec nos services de <strong>magie sentimentale</strong> ou de <strong>désenvoûtement efficace</strong> pour lever les blocages spirituels et attirer des énergies positives. Transformez votre avenir dès maintenant avec une voyance claire et abordable.</p>
+                <ul class="check-list">
+                    <li><strong>Réponses rapides :</strong> Prédictions détaillées en 24h.</li>
+                    <li><strong>Abordable :</strong> À partir de 6 € par question.</li>
+                    <li><strong>Confidentialité :</strong> Service sécurisé et discret.</li>
+                    <li><strong>Expertise :</strong> 20 ans d'expérience en futurologie.</li>
+                </ul>
+                <p class="urgency-notice">⏰ Offre exclusive : Prix valables jusqu'au 30 avril 2025 !</p>
+            </article>
+            <div class="cta-buttons-container">
+                <a href="https://buy.stripe.com/14kdRe0EQ4iH1uoaFa" target="_blank" rel="noopener nofollow" class="cta-button prix" data-eur-price="6" data-tracking-label="Voyance1Question" aria-label="Commander une voyance par email 1 question">1 Question – <span class="price" data-eur-price="6">6.00 EUR</span></a>
+                <a href="https://buy.stripe.com/dR614scnycPddd66oV" target="_blank" rel="noopener nofollow" class="cta-button prix" data-eur-price="15" data-tracking-label="Voyance3Questions" aria-label="Commander une voyance par email 3 questions">3 Questions – <span class="price" data-eur-price="15">15.00 EUR</span></a>
+                <a href="https://buy.stripe.com/28o3cA0EQ5mL0qk14C" target="_blank" rel="noopener nofollow" class="cta-button prix" data-eur-price="28" data-tracking-label="Voyance5Questions" aria-label="Commander une voyance par email 5 questions">5 Questions – <span class="price" data-eur-price="28">28.00 EUR</span></a>
+            </div>
+        </div>
+
         <div class="popup exit-intent-popup" id="exitIntentPopup" role="dialog" aria-labelledby="popup-heading" aria-hidden="true">
             <h2 id="popup-heading">Ne Partez Pas Sans Votre Offre Exclusive !</h2>
             <p>Obtenez 10 % de réduction sur votre première commande de <strong>gélules Victory</strong> ou de <strong>voyance par email</strong>. Transformez votre vie dès aujourd'hui !</p>
@@ -1123,6 +984,14 @@
         <p>Offre spéciale : 10 % de réduction sur votre première commande ! Livraison gratuite sous 24h.</p>
         <a href="https://buy.stripe.com/9AQ28w5Zag1p5KE29u" target="_blank" rel="noopener nofollow" class="cta-button prix" data-eur-price="19" data-tracking-label="StickyBannerVictory" aria-label="Commander maintenant avec réduction">Commander Maintenant</a>
     </div>
+
+    <section class="subscribe-section">
+        <h2>Installez notre application</h2>
+        <p>Ajoutez ClairvoyanceMedium.com à votre écran d'accueil pour un accès rapide à nos services.</p>
+        <button class="install-button" id="installButton" aria-label="Installer l'application sur l'écran d'accueil">
+            Installer l'application
+        </button>
+    </section>
 
     <footer role="contentinfo">
         <p>&copy; <span id="footer-year"></span> ClairvoyanceMedium.com. Tous droits réservés.</p>
@@ -1273,6 +1142,19 @@
             else category = 'Obésité';
 
             imcResult.innerHTML = `Votre IMC est de <strong>${imc}</strong> (${category}).`;
+            
+            // Recommandation de gélules basée sur l'IMC
+            let gelulesRecommendation = '';
+            if (imc >= 25) {
+                gelulesRecommendation = 'Nous recommandons 3 gélules Victory par jour (matin, midi et soir) pendant 3 mois pour une perte de poids optimale.';
+            } else if (imc >= 18.5) {
+                gelulesRecommendation = 'Nous recommandons 2 gélules Victory par jour (matin et soir) pendant 2 mois pour affiner votre silhouette.';
+            } else {
+                gelulesRecommendation = 'Votre IMC est dans la fourchette normale. Consultez un professionnel de santé avant toute utilisation.';
+            }
+            
+            imcResult.innerHTML += `<p>${gelulesRecommendation}</p>`;
+            
             imcRecommendation.style.display = 'block';
             imcRecommendation.setAttribute('aria-hidden', 'false');
 
@@ -1318,21 +1200,13 @@
             }
 
             try {
-                // Simulation d'appel API (remplacer par votre endpoint réel)
-                const response = await fetch('/api/subscribe', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email })
-                });
-
-                if (response.ok) {
-                    subscribeResult.textContent = 'Inscription réussie ! Vérifiez votre email pour confirmer.';
-                    subscribeForm.reset();
-                } else {
-                    subscribeResult.textContent = 'Erreur lors de l'inscription. Veuillez réessayer.';
-                }
+                // Envoi de l'email pré-rempli
+                window.location.href = `mailto:contact.clairvoyancemedium@gmail.com?subject=Inscription%20%C3%A0%20la%20newsletter&body=Je%20souhaite%20m'inscrire%20%C3%A0%20votre%20newsletter.%0D%0A%0D%0AEmail%20:%20${encodeURIComponent(email)}`;
+                
+                subscribeResult.textContent = 'Merci pour votre inscription !';
+                subscribeForm.reset();
             } catch (error) {
-                subscribeResult.textContent = 'Erreur réseau. Veuillez réessayer plus tard.';
+                subscribeResult.textContent = 'Erreur lors de l\'inscription. Veuillez réessayer.';
             }
         });
 
@@ -1359,98 +1233,75 @@
             }
         });
 
-        // Détection de langue et devise
-        async function detectLanguageAndCurrency() {
-            try {
-                const response = await fetch('https://ipapi.co/json/');
-                const data = await response.json();
-                const userCountry = data.country_code;
-                const userCurrency = {
-                    'US': 'USD', 'GB': 'GBP', 'CA': 'CAD', 'AU': 'AUD', 'IN': 'INR', 'JP': 'JPY',
-                    'CN': 'CNY', 'RU': 'RUB', 'BR': 'BRL', 'ZA': 'ZAR', 'default': 'EUR'
-                }[userCountry] || 'EUR';
-
-                // Mise à jour des prix en fonction de la devise
-                const priceElements = document.querySelectorAll('.prix');
-                priceElements.forEach(async (el) => {
-                    const eurPrice = parseFloat(el.dataset.eurPrice);
-                    if (userCurrency !== 'EUR') {
-                        try {
-                            const rateResponse = await fetch(`https://api.exchangerate-api.com/v4/latest/EUR`);
-                            const rateData = await rateResponse.json();
-                            const rate = rateData.rates[userCurrency];
-                            const convertedPrice = (eurPrice * rate).toFixed(2);
-                            el.querySelector('.price').textContent = `${convertedPrice} ${userCurrency}`;
-                        } catch (error) {
-                            console.error('Erreur lors de la conversion de devise:', error);
-                        }
-                    }
-                });
-
-                // Suggestion de langue
-                const userLanguage = data.languages.split(',')[0].split('-')[0];
-                if (userLanguage !== 'fr' && document.getElementById('google_translate_element')) {
-                    const translateSelect = document.querySelector('.goog-te-combo');
-                    if (translateSelect) {
-                        translateSelect.value = userLanguage;
-                        translateSelect.dispatchEvent(new Event('change'));
-                    }
-                }
-            } catch (error) {
-                console.error('Erreur lors de la détection de localisation:', error);
-            }
-        }
-
-        window.addEventListener('load', detectLanguageAndCurrency);
-
         // Gestion des boutons audio
         const audioButtons = document.querySelectorAll('.audio-button');
         let currentAudio = null;
 
         audioButtons.forEach(button => {
-            button.addEventListener('click', async () => {
+            button.addEventListener('click', () => {
                 const textIds = button.dataset.textId.split(',');
-                const textElements = textIds.map(id => document.getElementById(id) || document.querySelector(id));
-                const text = textElements.map(el => el?.innerText || '').join(' ').trim();
+                let textToRead = '';
+                
+                textIds.forEach(id => {
+                    const element = document.getElementById(id.trim());
+                    if (element) {
+                        textToRead += element.textContent + ' ';
+                    } else {
+                        // Si ce n'est pas un ID, essayez de le traiter comme un sélecteur CSS
+                        const elements = document.querySelectorAll(id.trim());
+                        elements.forEach(el => {
+                            textToRead += el.textContent + ' ';
+                        });
+                    }
+                });
 
-                if (!text) return;
+                if (!textToRead.trim()) return;
 
                 if (currentAudio) {
                     currentAudio.pause();
                     currentAudio = null;
                 }
 
-                try {
-                    const response = await fetch('https://api.streamelements.com/kappa/v2/speech', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ text, voice: 'fr-FR-Wavenet-A' })
-                    });
-
-                    if (response.ok) {
-                        const audioBlob = await response.blob();
-                        const audioUrl = URL.createObjectURL(audioBlob);
-                        currentAudio = new Audio(audioUrl);
-                        currentAudio.play();
-                        currentAudio.onended = () => URL.revokeObjectURL(audioUrl);
-                    } else {
-                        alert('Erreur lors de la génération de l'audio.');
+                if ('speechSynthesis' in window) {
+                    const utterance = new SpeechSynthesisUtterance(textToRead);
+                    utterance.lang = 'fr-FR';
+                    utterance.rate = 1;
+                    utterance.pitch = 1;
+                    
+                    // Trouver une voix française
+                    const voices = window.speechSynthesis.getVoices();
+                    const frenchVoice = voices.find(voice => voice.lang.includes('fr') || voice.lang.includes('FR'));
+                    if (frenchVoice) {
+                        utterance.voice = frenchVoice;
                     }
-                } catch (error) {
-                    console.error('Erreur audio:', error);
-                    alert('Erreur réseau. Veuillez réessayer.');
+                    
+                    currentAudio = utterance;
+                    window.speechSynthesis.speak(utterance);
+                } else {
+                    alert('La synthèse vocale n\'est pas supportée par votre navigateur.');
                 }
             });
         });
 
-        // Téléchargement du raccourci
-        document.getElementById('downloadShortcut').addEventListener('click', () => {
-            const link = document.createElement('a');
-            link.href = 'https://clairvoyancemedium.com/shortcut';
-            link.download = 'ClairvoyanceMedium.url';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+        // Installation de l'application
+        let deferredPrompt;
+        const installButton = document.getElementById('installButton');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installButton.style.display = 'block';
+        });
+
+        installButton.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    installButton.textContent = 'Installation en cours...';
+                }
+                deferredPrompt = null;
+            }
         });
 
         // Google Analytics
@@ -1466,48 +1317,24 @@
         webVitals.getCLS((metric) => console.log('CLS:', metric));
         webVitals.getFID((metric) => console.log('FID:', metric));
         webVitals.getLCP((metric) => console.log('LCP:', metric));
+
+        // Tracking de tous les boutons
+        document.querySelectorAll('button, a[href]').forEach(button => {
+            button.addEventListener('click', function() {
+                const label = this.getAttribute('data-tracking-label') || 
+                             this.textContent.trim().substring(0, 50) || 
+                             this.getAttribute('aria-label') || 
+                             'bouton_sans_label';
+                
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'click', {
+                        'event_category': 'engagement',
+                        'event_label': label
+                    });
+                }
+                console.log('Bouton cliqué:', label);
+            });
+        });
     </script>
-
-<script nonce="xai-premium2025">
-function playContent(button) {
-    if (!('speechSynthesis' in window)) {
-        alert("Votre navigateur ne prend pas en charge la lecture audio.");
-        return;
-    }
-
-    // Stoppe toute lecture précédente pour éviter le chevauchement
-    window.speechSynthesis.cancel();
-
-    const textIds = button.getAttribute('data-text-id').split(',');
-    let contentToRead = [];
-
-    textIds.forEach(id => {
-        const element = document.getElementById(id.trim());
-        if (element) {
-            contentToRead.push(element.innerText);
-        }
-    });
-
-    if (contentToRead.length > 0) {
-        const fullContent = contentToRead.join('. '); // Joint clairement titre et article
-        const utterance = new SpeechSynthesisUtterance(fullContent);
-
-        const voices = window.speechSynthesis.getVoices();
-        utterance.voice = voices.find(voice => voice.lang.includes('fr')) || voices[0];
-
-        utterance.lang = 'fr-FR';
-        utterance.pitch = 1;
-        utterance.rate = 1;
-
-        window.speechSynthesis.speak(utterance);
-    } else {
-        alert("Le contenu à lire n'a pas été trouvé.");
-    }
-}
-
-// Précharger les voix pour assurer une compatibilité optimale
-window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
-</script>
-    
 </body>
 </html>
