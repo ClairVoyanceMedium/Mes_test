@@ -90,14 +90,35 @@
     <link rel="preload" as="image" href="https://i.imgur.com/GmyGlKk.webp" fetchpriority="high" imagesrcset="https://i.imgur.com/GmyGlKk.webp 320w, https://i.imgur.com/GmyGlKk.webp 480w, https://i.imgur.com/GmyGlKk.webp 600w" imagesizes="(max-width: 600px) 320px, (max-width: 900px) 480px, 600px">
     <link rel="preload" as="image" href="https://i.imgur.com/H69KvL6.webp" fetchpriority="high" imagesrcset="https://i.imgur.com/H69KvL6.webp 320w, https://i.imgur.com/H69KvL6.webp 480w, https://i.imgur.com/H69KvL6.webp 900w" imagesizes="(max-width: 600px) 320px, (max-width: 900px) 480px, 900px">
     <link rel="preload" as="font" href="/fonts/Cinzel-Regular.woff2" type="font/woff2" crossorigin>
+    
     <style>
-        @font-face {
-            font-family: 'Cinzel';
-            src: url('/fonts/Cinzel-Regular.woff2') format('woff2');
-            font-weight: 400;
-            font-style: normal;
-            font-display: swap;
-        }
+  @font-face {
+      font-family: 'Cinzel';
+      src: url('https://clairvoyancemedium.github.io/Consultation_de_voyance_par_email_pas_chere.github.io/Cinzel-Regular.woff2') format('woff2'),
+           url('https://clairvoyancemedium.github.io/Consultation_de_voyance_par_email_pas_chere.github.io/Cinzel-Regular.woff') format('woff');
+      font-weight: 400;
+      font-style: normal;
+  }
+
+  @font-face {
+      font-family: 'Playfair Display';
+      src: url('https://clairvoyancemedium.github.io/Consultation_de_voyance_par_email_pas_chere.github.io/PlayfairDisplay-Regular.woff2') format('woff2'),
+           url('https://clairvoyancemedium.github.io/Consultation_de_voyance_par_email_pas_chere.github.io/PlayfairDisplay-Regular.woff') format('woff');
+      font-weight: 400;
+      font-style: normal;
+  }
+
+  /* Application des polices */
+  body {
+      font-family: 'Cinzel', serif;
+  }
+
+  h1, h2 {
+      font-family: 'Playfair Display', serif;
+  }
+</style>
+    
+    <style>
         :root {
             --bg: #000;
             --text: #fff;
@@ -1073,6 +1094,19 @@
             });
         });
 
+// Gestion de l'inscription à la newsletter avec pré-remplissage du mail
+    function handleSubscribe(event) {
+      event.preventDefault();
+      const email = event.target.querySelector('input[type="email"]').value;
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (emailRegex.test(email)) {
+        const subject = "Gagner aux jeux d'argent : Inscription à la newsletter ClairvoyanceMedium.com";
+        const body = "Bonjour Frederick,\n\nVoici mon adresse e-mail pour l'inscription à la newsletter : " + email + "\n\nCordialement,";
+        window.location.href = `mailto:contact.clairvoyancemedium@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      } else {
+        alert("Veuillez entrer une adresse e-mail valide.");
+      }
+            
         // Mise à jour de l'année dans le footer et le header
         const currentYear = new Date().getFullYear();
         document.getElementById('current-year').textContent = currentYear;
