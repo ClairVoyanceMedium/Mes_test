@@ -1392,15 +1392,212 @@
         });
 
         // Gestion des cookies pour la vidéo YouTube
-        const cookieConsent = document.getElementById('cookieConsent');
-        const acceptCookies = document.getElementById('acceptCookies');
-        const rejectCookies = document.getElementById('rejectCookies');
-        const videoContainer = document.querySelector('.video-container iframe');
+const cookieConsent = document.getElementById('cookieConsent');
+const acceptCookies = document.getElementById('acceptCookies');
+const rejectCookies = document.getElementById('rejectCookies');
+const videoContainer = document.querySelector('.video-container iframe');
+const videoError = document.getElementById('video-error');
 
-        if (!localStorage.getItem('cookieConsent')) {
-            cookieConsent.style.display = 'block';
-        }
+// Vérifie si le consentement existe déjà
+try {
+    if (!localStorage.getItem('cookieConsent') {
+        cookieConsent.style.display = 'block';
+    }
+} catch (e) {
+    console.error('Erreur d\'accès au localStorage:', e);
+    // Fallback si localStorage n'est pas disponible
+    cookieConsent.style.display = 'block';
+}
 
-        acceptCookies.addEventListener('click', () => {
+// Gestion du clic sur "Accepter"
+if (acceptCookies) {
+    acceptCookies.addEventListener('click', () => {
+        try {
             localStorage.setItem('cookieConsent', 'accepted');
             cookieConsent.style.display = 'none';
+            
+            // Activer la vidéo si elle existe
+            if (videoContainer) {
+                try {
+                    videoContainer.src = videoContainer.src.replace('autoplay=0', 'autoplay=1');
+                } catch (e) {
+                    console.error('Erreur lors de l\'activation de la vidéo:', e);
+                }
+            }
+        } catch (e) {
+            console.error('Erreur lors de l\'acceptation des cookies:', e);
+        }
+    });
+}
+
+// Gestion du clic sur "Refuser"
+if (rejectCookies) {
+    rejectCookies.addEventListener('click', () => {
+        try {
+            localStorage.setItem('cookieConsent', 'rejected');
+            cookieConsent.style.display = 'none';
+            
+            // Afficher l'erreur vidéo si l'élément existe
+            if (videoError) {
+                videoError.style.display = 'block';
+            }
+        } catch (e) {
+            console.error('Erreur lors du rejet des cookies:', e);
+        }
+    });
+}
+
+        // Gestion du mute toggle pour la vidéo
+        const muteToggle = document.querySelector('.mute-toggle');
+        if (muteToggle && videoContainer) {
+            muteToggle.addEventListener('click', () => {
+                const isMuted = videoContainer.src.includes('mute=1');
+                videoContainer.src = videoContainer.src.replace(
+                    isMuted ? 'mute=1' : 'mute=0',
+                    isMuted ? 'mute=0' : 'mute=1'
+                );
+                muteToggle.textContent = isMuted ? 'Désactiver le son' : 'Activer le son';
+            });
+        }
+
+        // Gestion du formulaire d'inscription
+        const subscribeForm = document.getElementById('subscribeForm');
+        if (subscribeForm) {
+            subscribeForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const email = document.getElementById('email').value;
+                const message = document.getElementById('subscribe-message');
+                
+                if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                    message.textContent = 'Merci pour votre inscription ! Vérifiez votre email pour confirmer.';
+                    message.style.color = 'var(--checkmark-color)';
+                    trackClick('Newsletter_Subscription');
+                    
+                    // Réinitialiser le formulaire
+                    subscribeForm.reset();
+                } else {
+                    message.textContent = 'Veuillez entrer une adresse email valide.';
+                    message.style.color = '#ff6b6b';
+                }
+            });
+        }
+
+        // Gestion de la popup d'intention de sortie
+        let exitIntentTriggered = false;
+        document.addEventListener('mouseout', (e) => {
+            if (!exitIntentTriggered && e.clientY < 0) {
+                document.getElementById('exitIntentPopup').classList.add('active');
+                exitIntentTriggered = true;
+                trackClick('Exit_Intent_Popup_Shown');
+            }
+        });
+
+        document.querySelectorAll('.popup-close-button').forEach(button => {
+            button.addEventListener('click', () => {
+                button.closest('.popup').classList.remove('active');
+            });
+        });
+
+        // Gestion du bouton d'installation d'application
+        const installButton = document.querySelector('.install-button');
+        if (installButton) {
+            installButton.addEventListener('click', () => {
+                trackClick('Install_App_Button');
+                alert('Notre application est disponible sur le Play Store et l\'App Store. Recherchez "ClairvoyanceMedium" pour la télécharger.');
+            });
+        }
+
+        // Gestion du drag and drop pour le contact flottant
+        const draggable = document.getElementById('draggableContact');
+        if (draggable) {
+            let isDragging = false;
+            let offsetX, offsetY;
+
+            draggable.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                offsetX = e.clientX - draggable.getBoundingClientRect().left;
+                offsetY = e.clientY - draggable.getBoundingClientRect().top;
+                draggable.style.cursor = 'grabbing';
+            });
+
+            document.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                
+                draggable.style.left = `${e.clientX - offsetX}px`;
+                draggable.style.top = `${e.clientY - offsetY}px`;
+            });
+
+            document.addEventListener('mouseup', () => {
+                isDragging = false;
+                draggable.style.cursor = 'grab';
+            });
+
+            // Accessibilité au clavier
+            draggable.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    window.location.href = 'mailto:contact.clairvoyancemedium@gmail.com';
+                }
+            });
+        }
+
+        // Initialisation de Google Analytics
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-2RSFE6WL4M');
+
+        // Suivi des performances avec Web Vitals
+        if (typeof webVitals !== 'undefined') {
+            webVitals.getCLS(console.log);
+            webVitals.getFID(console.log);
+            webVitals.getLCP(console.log);
+        }
+
+        // Conversion des prix selon la géolocalisation
+        function convertPrices() {
+            const prices = document.querySelectorAll('.prix');
+            const userCurrency = navigator.language === 'en-US' ? 'USD' : 
+                               navigator.language === 'es-ES' ? 'EUR' : 
+                               navigator.language === 'de-DE' ? 'EUR' : 'EUR';
+            
+            const exchangeRates = {
+                'USD': 1.18,
+                'EUR': 1,
+                'GBP': 0.86
+            };
+
+            prices.forEach(priceElement => {
+                const eurPrice = parseFloat(priceElement.dataset.eurPrice);
+                if (userCurrency !== 'EUR' && exchangeRates[userCurrency]) {
+                    const convertedPrice = (eurPrice * exchangeRates[userCurrency]).toFixed(2);
+                    priceElement.querySelector('.price').textContent = `${convertedPrice} ${userCurrency}`;
+                }
+            });
+        }
+
+        // Appel initial et vérification périodique
+        convertPrices();
+        setInterval(convertPrices, 3600000); // Toutes les heures
+
+        // Gestion des événements de clic pour le suivi
+        document.querySelectorAll('a[data-tracking-label]').forEach(link => {
+            link.addEventListener('click', function() {
+                trackClick(this.dataset.trackingLabel);
+            });
+        });
+
+        // Animation du bouton sticky en bas de page
+        const stickyBanner = document.querySelector('.sticky-banner');
+        if (stickyBanner) {
+            let direction = 1;
+            setInterval(() => {
+                const currentOpacity = parseFloat(stickyBanner.style.opacity || 0.9);
+                if (currentOpacity >= 0.95) direction = -1;
+                if (currentOpacity <= 0.85) direction = 1;
+                stickyBanner.style.opacity = (currentOpacity + direction * 0.01).toString();
+            }, 100);
+        }
+    </script>
+</body>
+</html>
+    
