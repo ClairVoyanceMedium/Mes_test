@@ -13,6 +13,28 @@ inclut tous les liens que tu trouveras donc juste en bas incluer et mets-les dan
 il faut donc que je n'ai pas besoin d'inclure un fichier externe pour que le site marche il faut que tu essaies de tout intégrer dans le html donc pour les meilleures solutions et développe comme je te l'ai dit chaque section chaque paragraphe avec un maximum de mots clés ultra efficace pour être le meilleur du monde entier et perfectionne les performances qui sont catastrophiques donc étudie tout ça pour faire en sorte que ce soit le meilleur
 
 
+<style>
+  @font-face {
+      font-family: 'Cinzel';
+      src: url('https://clairvoyancemedium.github.io/Consultation_de_voyance_par_email_pas_chere.github.io/Cinzel-Regular.woff2') format('woff2'),
+           url('https://clairvoyancemedium.github.io/Consultation_de_voyance_par_email_pas_chere.github.io/Cinzel-Regular.woff') format('woff');
+      font-weight: 400;
+      font-style: normal;
+  }
+
+  /* Application des polices */
+  body {
+      font-family: 'Cinzel', serif;
+  }
+
+  h1, h2 {
+      font-family: 'Playfair Display', serif;
+  }
+</style>
+
+ameliore drastiquement la detection de langue du visiteur pour la traduction  automatique du site et la detection de la devise et l'adapter  en fonction du lieu du visiteur et fait en sorte que la somme convertis soit toujours identique au prix affiche sur mon site exemple prix affiche sur mon site 15€ et si apres la cobersion dans la devise du visiteur ca fait l'equivalent a 15,67€ alors tu convertira a mon prix affiche soit 15€  dans botre exemple. fait donc les meilleur pratique a ce jour pour mettre ca en place.
+
+
 
 
 
