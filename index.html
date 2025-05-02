@@ -165,8 +165,7 @@
             margin-bottom: calc(var(--footer-height) + 20px);
         }
         header {
-            padding: 2rem 0 0 0; /* Ajout d'espace au-dessus du logo */
-            background: var(--bg); position: relative;
+            padding: 0; background: var(--bg); position: relative;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.8); width: 100%; color: var(--text);
         }
         footer {
@@ -270,8 +269,7 @@
         }
         .logo {
             width: 100%; max-width: 450px; height: auto; object-fit: contain; display: block;
-            margin: 0 auto 2rem auto; /* Ajout d'espace sous le logo */
-            aspect-ratio: 1/1;
+            margin: 0 auto; aspect-ratio: 1/1;
         }
         @media (min-width: 768px) { .logo { max-width: 550px; } }
         .top-rank { margin-bottom: 1rem; }
@@ -1166,18 +1164,12 @@
 
     <!-- Scripts optimisés -->
     <script defer>
-        // Mise à jour dynamique :
-        // Pour la phrase sous le logo ("comment gagner au loto en [mois année]")
-        const now = new Date();
-        const currentYear = now.getFullYear();
-        const currentMonth = now.toLocaleString('fr-FR', { month: 'long' });
-        // Mise à jour pour la phrase stylisée sous le logo
-        document.getElementById("dynamicDate").textContent = currentMonth + " " + currentYear;
-        // Dans le texte d'introduction, afficher "en [mois année]"
-        document.getElementById("dynamicMonthYear").textContent = currentMonth + " " + currentYear;
-        // Mise à jour du footer (uniquement l'année)
-        document.getElementById("current-year").textContent = currentYear;
-        document.getElementById("footer-year").textContent = currentYear;
+        // Mise à jour dynamique de l'année
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentYear = new Date().getFullYear();
+            document.getElementById('current-year').textContent = currentYear;
+            document.getElementById('footer-year').textContent = currentYear;
+        });
 
         // Fonction de suivi pour tous les boutons et liens
         function trackClick(eventLabel) {
@@ -1198,326 +1190,367 @@
         }
 
         // Gestion des boutons audio améliorée
-        const audioButtons = document.querySelectorAll('.audio-button');
-        let currentAudio = null;
+        document.addEventListener('DOMContentLoaded', function() {
+            const audioButtons = document.querySelectorAll('.audio-button');
+            let currentAudio = null;
 
-        audioButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const textIds = button.dataset.textId.split(',');
-                let textContent = '';
+            audioButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const textIds = button.dataset.textId.split(',');
+                    let textContent = '';
 
-                textIds.forEach(id => {
-                    const element = document.getElementById(id) || document.querySelector(id);
-                    if (element) {
-                        if (element.classList.contains('carousel-inner')) {
-                            // Pour les carrousels, lire uniquement l'élément actif
-                            const activeItem = element.querySelector('.carousel-item.active');
-                            if (activeItem) {
-                                textContent += activeItem.innerText + ' ';
+                    textIds.forEach(id => {
+                        const element = document.getElementById(id) || document.querySelector(id);
+                        if (element) {
+                            if (element.classList.contains('carousel-inner')) {
+                                // Pour les carrousels, lire uniquement l'élément actif
+                                const activeItem = element.querySelector('.carousel-item.active');
+                                if (activeItem) {
+                                    textContent += activeItem.innerText + ' ';
+                                }
+                            } else {
+                                textContent += element.innerText + ' ';
                             }
-                        } else {
-                            textContent += element.innerText + ' ';
                         }
-                    }
-                });
+                    });
 
-                if (currentAudio) {
-                    currentAudio.pause();
-                    currentAudio = null;
-                    button.textContent = 'Écouter';
-                    button.setAttribute('aria-label', 'Écouter le texte');
-                    return;
-                }
-
-                if ('speechSynthesis' in window) {
-                    const utterance = new SpeechSynthesisUtterance(textContent);
-                    utterance.lang = 'fr-FR';
-                    utterance.rate = 1.0;
-                    utterance.pitch = 1.0;
-                    utterance.volume = 1.0;
-
-                    utterance.onend = () => {
+                    if (currentAudio) {
+                        speechSynthesis.cancel();
+                        currentAudio = null;
                         button.textContent = 'Écouter';
                         button.setAttribute('aria-label', 'Écouter le texte');
-                        currentAudio = null;
-                    };
+                        return;
+                    }
 
-                    speechSynthesis.speak(utterance);
-                    currentAudio = utterance;
-                    button.textContent = 'Arrêter';
-                    button.setAttribute('aria-label', 'Arrêter la lecture audio');
-                } else {
-                    alert('La synthèse vocale n\'est pas prise en charge par votre navigateur.');
-                }
+                    if ('speechSynthesis' in window) {
+                        const utterance = new SpeechSynthesisUtterance(textContent);
+                        utterance.lang = 'fr-FR';
+                        utterance.rate = 1.0;
+                        utterance.pitch = 1.0;
+                        utterance.volume = 1.0;
+
+                        utterance.onend = function() {
+                            button.textContent = 'Écouter';
+                            button.setAttribute('aria-label', 'Écouter le texte');
+                            currentAudio = null;
+                        };
+
+                        speechSynthesis.speak(utterance);
+                        currentAudio = utterance;
+                        button.textContent = 'Arrêter';
+                        button.setAttribute('aria-label', 'Arrêter la lecture audio');
+                    } else {
+                        alert('La synthèse vocale n\'est pas prise en charge par votre navigateur.');
+                    }
+                });
             });
         });
 
         // Calculateur IMC fonctionnel
-        document.getElementById('imcForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const weight = parseFloat(document.getElementById('weight').value);
-            const height = parseFloat(document.getElementById('height').value) / 100; // conversion en mètres
-            
-            if (isNaN(weight)) {
-                document.getElementById('imc-error').textContent = 'Veuillez entrer un poids valide';
-                return;
+        document.addEventListener('DOMContentLoaded', function() {
+            const imcForm = document.getElementById('imcForm');
+            if (imcForm) {
+                imcForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const weight = parseFloat(document.getElementById('weight').value);
+                    const height = parseFloat(document.getElementById('height').value) / 100; // conversion en mètres
+                    const imcError = document.getElementById('imc-error');
+                    const imcResult = document.getElementById('imc-result');
+                    const imcRecommendation = document.getElementById('imc-recommendation');
+                    
+                    // Validation des entrées
+                    if (isNaN(weight) || weight < 10 || weight > 300) {
+                        imcError.textContent = 'Veuillez entrer un poids valide entre 10 et 300 kg';
+                        imcResult.innerHTML = '';
+                        imcRecommendation.style.display = 'none';
+                        imcRecommendation.setAttribute('aria-hidden', 'true');
+                        return;
+                    }
+                    
+                    if (isNaN(height) || height < 0.5 || height > 2.8) {
+                        imcError.textContent = 'Veuillez entrer une taille valide entre 50 et 280 cm';
+                        imcResult.innerHTML = '';
+                        imcRecommendation.style.display = 'none';
+                        imcRecommendation.setAttribute('aria-hidden', 'true');
+                        return;
+                    }
+                    
+                    // Calcul de l'IMC
+                    const imc = weight / (height * height);
+                    let resultText = '';
+                    let recommendation = '';
+                    
+                    if (imc < 18.5) {
+                        resultText = `Votre IMC est ${imc.toFixed(1)} (Insuffisance pondérale)`;
+                        recommendation = 'Prenez 1 gélule Victory le matin pour stimuler votre appétit de manière saine.';
+                    } else if (imc < 25) {
+                        resultText = `Votre IMC est ${imc.toFixed(1)} (Poids normal)`;
+                        recommendation = 'Prenez 1 gélule Victory avant le déjeuner pour maintenir votre poids idéal.';
+                    } else if (imc < 30) {
+                        resultText = `Votre IMC est ${imc.toFixed(1)} (Surpoids)`;
+                        recommendation = 'Prenez 1 gélule Victory matin et soir pour vous aider à perdre du poids progressivement.';
+                    } else {
+                        resultText = `Votre IMC est ${imc.toFixed(1)} (Obésité)`;
+                        recommendation = 'Prenez 1 gélule Victory avant chaque repas principal (3 fois/jour) pour une action optimale.';
+                    }
+                    
+                    imcError.textContent = '';
+                    imcResult.innerHTML = `
+                        <p><strong>${resultText}</strong></p>
+                        <p>${recommendation}</p>
+                    `;
+                    
+                    imcRecommendation.style.display = 'block';
+                    imcRecommendation.setAttribute('aria-hidden', 'false');
+                });
             }
-            
-            if (isNaN(height)) {
-                document.getElementById('imc-error').textContent = 'Veuillez entrer une taille valide';
-                return;
-            }
-            
-            const imc = weight / (height * height);
-            let resultText = '';
-            let recommendation = '';
-            
-            if (imc < 18.5) {
-                resultText = `Votre IMC est ${imc.toFixed(1)} (Insuffisance pondérale)`;
-                recommendation = 'Prenez 1 gélule Victory le matin pour stimuler votre appétit de manière saine.';
-            } else if (imc < 25) {
-                resultText = `Votre IMC est ${imc.toFixed(1)} (Poids normal)`;
-                recommendation = 'Prenez 1 gélule Victory avant le déjeuner pour maintenir votre poids idéal.';
-            } else if (imc < 30) {
-                resultText = `Votre IMC est ${imc.toFixed(1)} (Surpoids)`;
-                recommendation = 'Prenez 1 gélule Victory matin et soir pour vous aider à perdre du poids progressivement.';
-            } else {
-                resultText = `Votre IMC est ${imc.toFixed(1)} (Obésité)`;
-                recommendation = 'Prenez 1 gélule Victory avant chaque repas principal (3 fois/jour) pour une action optimale.';
-            }
-            
-            document.getElementById('imc-error').textContent = '';
-            document.getElementById('imc-result').innerHTML = `
-                <p><strong>${resultText}</strong></p>
-                <p>${recommendation}</p>
-            `;
-            
-            document.getElementById('imc-recommendation').style.display = 'block';
-            document.getElementById('imc-recommendation').setAttribute('aria-hidden', 'false');
         });
 
         // Gestion des carrousels améliorée
-        function setupCarousel(carouselId) {
-            const carousel = document.getElementById(carouselId);
-            if (!carousel) return;
+        document.addEventListener('DOMContentLoaded', function() {
+            function setupCarousel(carouselId) {
+                const carousel = document.getElementById(carouselId);
+                if (!carousel) return;
 
-            const inner = carousel.querySelector('.carousel-inner');
-            const items = carousel.querySelectorAll('.carousel-item');
-            const prevBtn = carousel.querySelector('.prev');
-            const nextBtn = carousel.querySelector('.next');
-            let currentIndex = 0;
+                const inner = carousel.querySelector('.carousel-inner');
+                const items = carousel.querySelectorAll('.carousel-item');
+                const prevBtn = carousel.querySelector('.prev');
+                const nextBtn = carousel.querySelector('.next');
+                let currentIndex = 0;
 
-            function updateCarousel() {
-                items.forEach((item, index) => {
-                    item.setAttribute('aria-hidden', index !== currentIndex);
-                    item.tabIndex = index === currentIndex ? 0 : -1;
-                    item.classList.toggle('active', index === currentIndex);
-                    
-                    if (index === currentIndex) {
-                        item.style.transform = 'translateX(0)';
-                        item.style.opacity = '1';
-                    } else if (index < currentIndex) {
-                        item.style.transform = 'translateX(-100%)';
-                        item.style.opacity = '0';
-                    } else {
-                        item.style.transform = 'translateX(100%)';
-                        item.style.opacity = '0';
-                    }
+                function updateCarousel() {
+                    items.forEach((item, index) => {
+                        item.setAttribute('aria-hidden', index !== currentIndex);
+                        item.tabIndex = index === currentIndex ? 0 : -1;
+                        item.classList.toggle('active', index === currentIndex);
+                        
+                        if (index === currentIndex) {
+                            item.style.transform = 'translateX(0)';
+                            item.style.opacity = '1';
+                        } else if (index < currentIndex) {
+                            item.style.transform = 'translateX(-100%)';
+                            item.style.opacity = '0';
+                        } else {
+                            item.style.transform = 'translateX(100%)';
+                            item.style.opacity = '0';
+                        }
+                    });
+
+                    // Mise à jour de l'ARIA
+                    carousel.setAttribute('aria-label', `${carouselId.replace('Carousel', '')} carrousel, slide ${currentIndex + 1} sur ${items.length}`);
+                }
+
+                function nextSlide() {
+                    currentIndex = (currentIndex + 1) % items.length;
+                    updateCarousel();
+                }
+
+                function prevSlide() {
+                    currentIndex = (currentIndex - 1 + items.length) % items.length;
+                    updateCarousel();
+                }
+
+                if (prevBtn) prevBtn.addEventListener('click', prevSlide);
+                if (nextBtn) nextBtn.addEventListener('click', nextSlide);
+
+                // Navigation au clavier
+                carousel.addEventListener('keydown', function(e) {
+                    if (e.key === 'ArrowRight') nextSlide();
+                    if (e.key === 'ArrowLeft') prevSlide();
                 });
 
-                // Mise à jour de l'ARIA
-                carousel.setAttribute('aria-label', `${carouselId.replace('Carousel', '')} carrousel, slide ${currentIndex + 1} sur ${items.length}`);
-            }
-
-            function nextSlide() {
-                currentIndex = (currentIndex + 1) % items.length;
+                // Initialisation
                 updateCarousel();
             }
 
-            function prevSlide() {
-                currentIndex = (currentIndex - 1 + items.length) % items.length;
-                updateCarousel();
-            }
+            // Initialisation des carrousels
+            setupCarousel('avisCarousel');
+            setupCarousel('blogCarousel');
+            setupCarousel('david-carousel');
 
-            if (prevBtn) prevBtn.addEventListener('click', prevSlide);
-            if (nextBtn) nextBtn.addEventListener('click', nextSlide);
-
-            // Navigation au clavier
-            carousel.addEventListener('keydown', (e) => {
-                if (e.key === 'ArrowRight') nextSlide();
-                if (e.key === 'ArrowLeft') prevSlide();
-            });
-
-            // Initialisation
-            updateCarousel();
-        }
-
-        // Initialisation des carrousels
-        setupCarousel('avisCarousel');
-        setupCarousel('blogCarousel');
-        setupCarousel('david-carousel');
-
-        // Gestion du "Lire la suite" dans le blog carousel
-        document.querySelectorAll('.read-more-btn').forEach(button => {
-            button.addEventListener('click', function() {
-                const content = this.previousElementSibling;
-                const isExpanded = this.getAttribute('aria-expanded') === 'true';
-                
-                content.style.display = isExpanded ? 'none' : 'block';
-                this.setAttribute('aria-expanded', !isExpanded);
-                this.textContent = isExpanded ? 'Lire la suite' : 'Réduire';
+            // Gestion du "Lire la suite" dans le blog carousel
+            document.querySelectorAll('.read-more-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const content = this.previousElementSibling;
+                    const isExpanded = this.getAttribute('aria-expanded') === 'true';
+                    
+                    content.style.display = isExpanded ? 'none' : 'block';
+                    this.setAttribute('aria-expanded', !isExpanded);
+                    this.textContent = isExpanded ? 'Lire la suite' : 'Réduire';
+                    
+                    // Ajustement de la hauteur du carrousel
+                    const carouselItem = this.closest('.carousel-item');
+                    if (carouselItem) {
+                        carouselItem.style.height = isExpanded ? 'auto' : 'fit-content';
+                    }
+                });
             });
         });
 
         // Gestion des cookies pour la vidéo YouTube
-        const cookieConsent = document.getElementById('cookieConsent');
-        const acceptCookies = document.getElementById('acceptCookies');
-        const rejectCookies = document.getElementById('rejectCookies');
-        const videoContainer = document.querySelector('.video-container iframe');
-        const videoError = document.getElementById('video-error');
+        document.addEventListener('DOMContentLoaded', function() {
+            const cookieConsent = document.getElementById('cookieConsent');
+            const acceptCookies = document.getElementById('acceptCookies');
+            const rejectCookies = document.getElementById('rejectCookies');
+            const videoContainer = document.querySelector('.video-container iframe');
+            const videoError = document.getElementById('video-error');
 
-        // Vérifie si le consentement existe déjà
-        try {
-            if (!localStorage.getItem('cookieConsent')) {
+            // Vérifie si le consentement existe déjà
+            try {
+                if (!localStorage.getItem('cookieConsent')) {
+                    cookieConsent.style.display = 'block';
+                }
+            } catch (e) {
+                console.error('Erreur d\'accès au localStorage:', e);
+                // Fallback si localStorage n'est pas disponible
                 cookieConsent.style.display = 'block';
             }
-        } catch (e) {
-            console.error('Erreur d\'accès au localStorage:', e);
-            // Fallback si localStorage n'est pas disponible
-            cookieConsent.style.display = 'block';
-        }
 
-        // Gestion du clic sur "Accepter"
-        if (acceptCookies) {
-            acceptCookies.addEventListener('click', () => {
-                try {
-                    localStorage.setItem('cookieConsent', 'accepted');
-                    cookieConsent.style.display = 'none';
-                    
-                    // Activer la vidéo si elle existe
-                    if (videoContainer) {
-                        try {
-                            videoContainer.src = videoContainer.src.replace('autoplay=0', 'autoplay=1');
-                        } catch (e) {
-                            console.error('Erreur lors de l\'activation de la vidéo:', e);
+            // Gestion du clic sur "Accepter"
+            if (acceptCookies) {
+                acceptCookies.addEventListener('click', function() {
+                    try {
+                        localStorage.setItem('cookieConsent', 'accepted');
+                        cookieConsent.style.display = 'none';
+                        
+                        // Activer la vidéo si elle existe
+                        if (videoContainer) {
+                            try {
+                                videoContainer.src = videoContainer.src.replace('autoplay=0', 'autoplay=1');
+                            } catch (e) {
+                                console.error('Erreur lors de l\'activation de la vidéo:', e);
+                            }
                         }
+                    } catch (e) {
+                        console.error('Erreur lors de l\'acceptation des cookies:', e);
                     }
-                } catch (e) {
-                    console.error('Erreur lors de l\'acceptation des cookies:', e);
-                }
-            });
-        }
+                });
+            }
 
-        // Gestion du clic sur "Refuser"
-        if (rejectCookies) {
-            rejectCookies.addEventListener('click', () => {
-                try {
-                    localStorage.setItem('cookieConsent', 'rejected');
-                    cookieConsent.style.display = 'none';
-                    
-                    // Afficher l'erreur vidéo si l'élément existe
-                    if (videoError) {
-                        videoError.style.display = 'block';
+            // Gestion du clic sur "Refuser"
+            if (rejectCookies) {
+                rejectCookies.addEventListener('click', function() {
+                    try {
+                        localStorage.setItem('cookieConsent', 'rejected');
+                        cookieConsent.style.display = 'none';
+                        
+                        // Afficher l'erreur vidéo si l'élément existe
+                        if (videoError) {
+                            videoError.style.display = 'block';
+                        }
+                    } catch (e) {
+                        console.error('Erreur lors du rejet des cookies:', e);
                     }
-                } catch (e) {
-                    console.error('Erreur lors du rejet des cookies:', e);
-                }
-            });
-        }
-
-        // Gestion du mute toggle pour la vidéo
-        const muteToggle = document.querySelector('.mute-toggle');
-        if (muteToggle && videoContainer) {
-            muteToggle.addEventListener('click', () => {
-                const isMuted = videoContainer.src.includes('mute=1');
-                videoContainer.src = videoContainer.src.replace(
-                    isMuted ? 'mute=1' : 'mute=0',
-                    isMuted ? 'mute=0' : 'mute=1'
-                );
-                muteToggle.textContent = isMuted ? 'Désactiver le son' : 'Activer le son';
-            });
-        }
-
-        // Gestion du formulaire d'inscription
-        const subscribeForm = document.getElementById('subscribeForm');
-        if (subscribeForm) {
-            subscribeForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                const email = document.getElementById('email').value;
-                const message = document.getElementById('subscribe-message');
-                
-                if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-                    message.textContent = 'Merci pour votre inscription ! Vérifiez votre email pour confirmer.';
-                    message.style.color = 'var(--checkmark-color)';
-                    trackClick('Newsletter_Subscription');
-                    
-                    // Réinitialiser le formulaire
-                    subscribeForm.reset();
-                } else {
-                    message.textContent = 'Veuillez entrer une adresse email valide.';
-                    message.style.color = '#ff6b6b';
-                }
-            });
-        }
-
-        // Gestion de la popup d'intention de sortie
-        let exitIntentTriggered = false;
-        document.addEventListener('mouseout', (e) => {
-            if (!exitIntentTriggered && e.clientY < 0) {
-                document.getElementById('exitIntentPopup').classList.add('active');
-                exitIntentTriggered = true;
-                trackClick('Exit_Intent_Popup_Shown');
+                });
             }
         });
 
-        document.querySelectorAll('.popup-close-button').forEach(button => {
-            button.addEventListener('click', () => {
-                button.closest('.popup').classList.remove('active');
+        // Gestion du mute toggle pour la vidéo
+        document.addEventListener('DOMContentLoaded', function() {
+            const muteToggle = document.querySelector('.mute-toggle');
+            if (muteToggle) {
+                const videoContainer = document.querySelector('.video-container iframe');
+                if (videoContainer) {
+                    muteToggle.addEventListener('click', function() {
+                        const isMuted = videoContainer.src.includes('mute=1');
+                        videoContainer.src = videoContainer.src.replace(
+                            isMuted ? 'mute=1' : 'mute=0',
+                            isMuted ? 'mute=0' : 'mute=1'
+                        );
+                        muteToggle.textContent = isMuted ? 'Désactiver le son' : 'Activer le son';
+                    });
+                }
+            }
+        });
+
+        // Gestion du formulaire d'inscription
+        document.addEventListener('DOMContentLoaded', function() {
+            const subscribeForm = document.getElementById('subscribeForm');
+            if (subscribeForm) {
+                subscribeForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const email = document.getElementById('email').value;
+                    const message = document.getElementById('subscribe-message');
+                    
+                    if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                        message.textContent = 'Merci pour votre inscription ! Vérifiez votre email pour confirmer.';
+                        message.style.color = 'var(--checkmark-color)';
+                        trackClick('Newsletter_Subscription');
+                        
+                        // Réinitialiser le formulaire
+                        subscribeForm.reset();
+                    } else {
+                        message.textContent = 'Veuillez entrer une adresse email valide.';
+                        message.style.color = '#ff6b6b';
+                    }
+                });
+            }
+        });
+
+        // Gestion de la popup d'intention de sortie
+        document.addEventListener('DOMContentLoaded', function() {
+            let exitIntentTriggered = false;
+            document.addEventListener('mouseout', function(e) {
+                if (!exitIntentTriggered && e.clientY < 0) {
+                    document.getElementById('exitIntentPopup').classList.add('active');
+                    exitIntentTriggered = true;
+                    trackClick('Exit_Intent_Popup_Shown');
+                }
+            });
+
+            document.querySelectorAll('.popup-close-button').forEach(button => {
+                button.addEventListener('click', function() {
+                    button.closest('.popup').classList.remove('active');
+                });
             });
         });
 
         // Gestion du bouton d'installation d'application
-        const installButton = document.querySelector('.install-button');
-        if (installButton) {
-            installButton.addEventListener('click', () => {
-                trackClick('Install_App_Button');
-                alert('Notre application est disponible sur le Play Store et l\'App Store. Recherchez "ClairvoyanceMedium" pour la télécharger.');
-            });
-        }
+        document.addEventListener('DOMContentLoaded', function() {
+            const installButton = document.querySelector('.install-button');
+            if (installButton) {
+                installButton.addEventListener('click', function() {
+                    trackClick('Install_App_Button');
+                    alert('Notre application est disponible sur le Play Store et l\'App Store. Recherchez "ClairvoyanceMedium" pour la télécharger.');
+                });
+            }
+        });
 
         // Gestion du drag and drop pour le contact flottant
-        const draggable = document.getElementById('draggableContact');
-        if (draggable) {
-            let isDragging = false;
-            let offsetX, offsetY;
+        document.addEventListener('DOMContentLoaded', function() {
+            const draggable = document.getElementById('draggableContact');
+            if (draggable) {
+                let isDragging = false;
+                let offsetX, offsetY;
 
-            draggable.addEventListener('mousedown', (e) => {
-                isDragging = true;
-                offsetX = e.clientX - draggable.getBoundingClientRect().left;
-                offsetY = e.clientY - draggable.getBoundingClientRect().top;
-                draggable.style.cursor = 'grabbing';
-            });
+                draggable.addEventListener('mousedown', function(e) {
+                    isDragging = true;
+                    offsetX = e.clientX - draggable.getBoundingClientRect().left;
+                    offsetY = e.clientY - draggable.getBoundingClientRect().top;
+                    draggable.style.cursor = 'grabbing';
+                });
 
-            document.addEventListener('mousemove', (e) => {
-                if (!isDragging) return;
-                
-                draggable.style.left = `${e.clientX - offsetX}px`;
-                draggable.style.top = `${e.clientY - offsetY}px`;
-            });
+                document.addEventListener('mousemove', function(e) {
+                    if (!isDragging) return;
+                    
+                    draggable.style.left = `${e.clientX - offsetX}px`;
+                    draggable.style.top = `${e.clientY - offsetY}px`;
+                });
 
-            document.addEventListener('mouseup', () => {
-                isDragging = false;
-                draggable.style.cursor = 'grab';
-            });
+                document.addEventListener('mouseup', function() {
+                    isDragging = false;
+                    draggable.style.cursor = 'grab';
+                });
 
-            // Accessibilité au clavier
-            draggable.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    window.location.href = 'mailto:contact.clairvoyancemedium@gmail.com';
-                }
-            });
-        }
+                // Accessibilité au clavier
+                draggable.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        window.location.href = 'mailto:contact.clairvoyancemedium@gmail.com';
+                    }
+                });
+            }
+        });
 
         // Initialisation de Google Analytics
         window.dataLayer = window.dataLayer || [];
@@ -1566,16 +1599,18 @@
         });
 
         // Animation du bouton sticky en bas de page
-        const stickyBanner = document.querySelector('.sticky-banner');
-        if (stickyBanner) {
-            let direction = 1;
-            setInterval(() => {
-                const currentOpacity = parseFloat(stickyBanner.style.opacity || 0.9);
-                if (currentOpacity >= 0.95) direction = -1;
-                if (currentOpacity <= 0.85) direction = 1;
-                stickyBanner.style.opacity = (currentOpacity + direction * 0.01).toString();
-            }, 100);
-        }
+        document.addEventListener('DOMContentLoaded', function() {
+            const stickyBanner = document.querySelector('.sticky-banner');
+            if (stickyBanner) {
+                let direction = 1;
+                setInterval(function() {
+                    const currentOpacity = parseFloat(stickyBanner.style.opacity || 0.9);
+                    if (currentOpacity >= 0.95) direction = -1;
+                    if (currentOpacity <= 0.85) direction = 1;
+                    stickyBanner.style.opacity = (currentOpacity + direction * 0.01).toString();
+                }, 100);
+            }
+        });
     </script>
 </body>
 </html>
