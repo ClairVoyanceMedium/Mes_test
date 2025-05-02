@@ -64,7 +64,6 @@
     <link rel="sitemap" type="application/xml" href="/sitemap.xml">
     <link rel="icon" href="/favicon_optimized.webp" type="image/webp" sizes="any">
     <link rel="apple-touch-icon" href="/favicon_optimized.webp">
-    <link rel="manifest" href="/manifest.json">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@CabinetVoyance_">
     <meta name="twitter:creator" content="@CabinetVoyance_">
@@ -518,19 +517,6 @@
         .voyance-section {
             margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border-color);
         }
-        .install-button {
-            display: inline-block; padding: 1.08rem 2.04rem; /* Augmentation de 20% */
-            font-size: 1.32rem; /* Augmentation de 20% */
-            font-family: var(--font-primary);
-            font-weight: 700; color: var(--button-txt); background: var(--audio-button-bg);
-            border: 1px solid var(--audio-button-border); border-radius: 5px;
-            transition: all var(--transition-smooth); margin: 0.8rem auto;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3); cursor: pointer; text-align: center;
-            letter-spacing: 0.5px;
-        }
-        .install-button:hover {
-            background: #444; transform: translateY(-2px) scale(1.03);
-        }
         .translate-container {
             margin: 1.5rem auto;
         }
@@ -589,7 +575,6 @@
             <li><a href="#blog" aria-label="Lire le blog minceur et spiritualité">Blog</a></li>
             <li><a href="#subscribe" aria-label="S'inscrire à la newsletter">Newsletter</a></li>
             <li><a href="#spiritual-services" aria-label="Découvrir les services spirituels">Services Spirituels</a></li>
-            <li><a href="#install-app" aria-label="Installer l'application">Installer l'App</a></li>
         </ul>
     </nav>
 
@@ -1061,23 +1046,6 @@
                 <a href="https://buy.stripe.com/eVa6oM2J2aH5c0Q8wM" target="_blank" rel="noopener nofollow" class="cta-button prix" data-eur-price="9" data-tracking-label="CompatibiliteAmoureuse" aria-label="Commander une compatibilité amoureuse">Compatibilité Amoureuse – <span class="price" data-eur-price="9">9.00 EUR</span></a>
             </div>
         </section>
-
-        <section class="content-container" id="install-app" aria-labelledby="install-app-heading">
-            <div class="title-container">
-                <h2 id="install-app-heading">Installer Notre Application</h2>
-            </div>
-            <div class="audio-button-container">
-                <button class="audio-button" data-text-id="install-app-heading,install-app article" aria-label="Écouter la section Installer l'Application">Écouter</button>
-            </div>
-            <article class="audio-text">
-                <p>Transformez votre expérience avec notre <strong>application mobile</strong>, disponible pour iOS et Android. Suivez votre parcours minceur, accédez à des conseils personnalisés et recevez des notifications pour ne jamais manquer une offre exclusive.</p>
-                <p>L'application intègre un suivi de votre progression, des rappels pour prendre vos gélules Victory et un accès direct aux services spirituels de Frederick. Simple, intuitive et sécurisée, elle vous accompagne partout.</p>
-                <p>Téléchargez-la dès maintenant et bénéficiez d'une réduction de 5% sur votre prochaine commande en utilisant le code <strong>APP5</strong> à la validation.</p>
-            </article>
-            <div class="cta-buttons-container">
-                <button class="install-button" aria-label="Installer l'application mobile">Installer l'App</button>
-            </div>
-        </section>
     </main>
 
     <div class="sticky-banner" aria-label="Bannière promotionnelle">
@@ -1233,35 +1201,6 @@
         }
 
         window.addEventListener('load', updatePrices);
-
-        // Gestion de l'installation de l'application (PWA)
-        let deferredPrompt = null;
-        const installButton = document.querySelector('.install-button');
-
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            installButton.style.display = 'inline-block';
-        });
-
-        installButton.addEventListener('click', async () => {
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                const { outcome } = await deferredPrompt.userChoice;
-                if (outcome === 'accepted') {
-                    console.log('Application installée');
-                } else {
-                    console.log('Installation refusée');
-                }
-                deferredPrompt = null;
-                installButton.style.display = 'none';
-            }
-        });
-
-        window.addEventListener('appinstalled', () => {
-            console.log('PWA installée avec succès');
-            installButton.style.display = 'none';
-        });
 
         // Google Analytics avec tracking amélioré
         window.dataLayer = window.dataLayer || [];
@@ -1485,20 +1424,6 @@
                     iframe.src = iframe.src.replace(/mute=[01]/, `mute=${muteParam}`);
                     this.textContent = muteParam === '1' ? 'Activer le son' : 'Désactiver le son';
                 }
-            });
-        }
-    </script>
-
-    <!-- Manifest pour PWA -->
-    <link rel="manifest" href="/manifest.json">
-    <script nonce="xai-premium2025">
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js').then(registration => {
-                    console.log('Service Worker enregistré:', registration);
-                }).catch(error => {
-                    console.error('Erreur d\'enregistrement du Service Worker:', error);
-                });
             });
         }
     </script>
