@@ -16,7 +16,7 @@ et dans les ingrédients les ingrédients que tu donnes ne sont pas bon donc il 
 l'annonciateur ne fonctionne pas elle ne pointe pas vers mon adresse email dans une nouvelle page comme dans le code que je t'avais envoyé
 rien ne fonctionne sur le site que tu as fait rien du tout il y a pas un bouton qui fonctionne donc garde le graphisme design et tout comme ça en apportant juste ces petites améliorations mais tu ne touche à rien sinon et tu fais en sorte que tout puisse marcher c'est pas normal vérifie fait un diagnostic des erreurs et corrige-moi tout ça on ne peut plus tourner en rond c'est fini plus de temps à perdre il faut que ce soit opérationnel tout de suite que ça marche tout de suite
 vérifie si c'est le le CSP qui bloque quelque chose qui empêche le site de fonctionne correctement mais trouve la solution obligatoirement
-
+corrige du les erreurs de fonctionnalites et ameliore 
 
 Le code HTML semble être une page statique bien structurée pour un site de commerce électronique promouvant des gélules minceur et des services spirituels. Il inclut des fonctionnalités comme un calculateur d'IMC, des carrousels, des formulaires, et des intégrations tierces (Google Translate, YouTube, Stripe, Google Analytics). Cependant, l'affirmation "rien ne fonctionne" peut indiquer des problèmes liés au JavaScript, aux intégrations tierces, à la réactivité, ou à des erreurs côté client/serveur.
 Problèmes potentiels identifiés
