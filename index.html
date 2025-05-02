@@ -165,7 +165,8 @@
             margin-bottom: calc(var(--footer-height) + 20px);
         }
         header {
-            padding: 0; background: var(--bg); position: relative;
+            padding: 2rem 0 0 0; /* Ajout d'espace au-dessus du logo */
+            background: var(--bg); position: relative;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.8); width: 100%; color: var(--text);
         }
         footer {
@@ -269,7 +270,8 @@
         }
         .logo {
             width: 100%; max-width: 450px; height: auto; object-fit: contain; display: block;
-            margin: 0 auto; aspect-ratio: 1/1;
+            margin: 0 auto 2rem auto; /* Ajout d'espace sous le logo */
+            aspect-ratio: 1/1;
         }
         @media (min-width: 768px) { .logo { max-width: 550px; } }
         .top-rank { margin-bottom: 1rem; }
@@ -1151,11 +1153,11 @@
         <p><a href="/politique-confidentialite" aria-label="Lire la politique de confidentialité">Politique de Confidentialité</a> | 
            <a href="/conditions-utilisation" aria-label="Lire les conditions d'utilisation">Conditions d'Utilisation</a> | 
            <a href="/mentions-legales" aria-label="Lire les mentions légales">Mentions Légales</a></p>
-        <p>Contact : <a href="mailto:contact.clairvoyancemedium@gmail.com">contact.clairvoyancemedium@gmail.com</a></p>
+        <p>Contact : <a href="mailto:contact.clairvoyancemedium@gmail.com" target="_blank">contact.clairvoyancemedium@gmail.com</a></p>
     </footer>
 
     <div id="draggableContact" aria-label="Contactez-nous par e-mail" role="button" tabindex="0">
-        <a href="mailto:contact.clairvoyancemedium@gmail.com?tracking=suivi" target="_blank" rel="noopener noreferrer" onclick="trackClick('Contact_Icon')" aria-label="Envoyer un e-mail de contact">
+        <a href="mailto:contact.clairvoyancemedium@gmail.com" target="_blank" rel="noopener noreferrer" onclick="trackClick('Contact_Icon')" aria-label="Envoyer un e-mail de contact">
           <svg viewBox="0 0 24 24" aria-hidden="true">
             <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"></path>
           </svg>
@@ -1250,19 +1252,19 @@
             });
         });
 
-        // Calculateur IMC fonctionnel sans JavaScript
+        // Calculateur IMC fonctionnel
         document.getElementById('imcForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
             const weight = parseFloat(document.getElementById('weight').value);
             const height = parseFloat(document.getElementById('height').value) / 100; // conversion en mètres
             
-            if (isNaN(weight) {
+            if (isNaN(weight)) {
                 document.getElementById('imc-error').textContent = 'Veuillez entrer un poids valide';
                 return;
             }
             
-            if (isNaN(height) {
+            if (isNaN(height)) {
                 document.getElementById('imc-error').textContent = 'Veuillez entrer une taille valide';
                 return;
             }
@@ -1305,7 +1307,6 @@
             const prevBtn = carousel.querySelector('.prev');
             const nextBtn = carousel.querySelector('.next');
             let currentIndex = 0;
-            let autoScrollInterval;
 
             function updateCarousel() {
                 items.forEach((item, index) => {
@@ -1339,25 +1340,8 @@
                 updateCarousel();
             }
 
-            function startAutoScroll() {
-                autoScrollInterval = setInterval(nextSlide, 8000);
-            }
-
-            function stopAutoScroll() {
-                clearInterval(autoScrollInterval);
-            }
-
-            if (prevBtn) prevBtn.addEventListener('click', () => {
-                prevSlide();
-                stopAutoScroll();
-                startAutoScroll();
-            });
-            
-            if (nextBtn) nextBtn.addEventListener('click', () => {
-                nextSlide();
-                stopAutoScroll();
-                startAutoScroll();
-            });
+            if (prevBtn) prevBtn.addEventListener('click', prevSlide);
+            if (nextBtn) nextBtn.addEventListener('click', nextSlide);
 
             // Navigation au clavier
             carousel.addEventListener('keydown', (e) => {
@@ -1367,11 +1351,6 @@
 
             // Initialisation
             updateCarousel();
-            startAutoScroll();
-
-            // Pause on hover
-            carousel.addEventListener('mouseenter', stopAutoScroll);
-            carousel.addEventListener('mouseleave', startAutoScroll);
         }
 
         // Initialisation des carrousels
@@ -1392,60 +1371,60 @@
         });
 
         // Gestion des cookies pour la vidéo YouTube
-const cookieConsent = document.getElementById('cookieConsent');
-const acceptCookies = document.getElementById('acceptCookies');
-const rejectCookies = document.getElementById('rejectCookies');
-const videoContainer = document.querySelector('.video-container iframe');
-const videoError = document.getElementById('video-error');
+        const cookieConsent = document.getElementById('cookieConsent');
+        const acceptCookies = document.getElementById('acceptCookies');
+        const rejectCookies = document.getElementById('rejectCookies');
+        const videoContainer = document.querySelector('.video-container iframe');
+        const videoError = document.getElementById('video-error');
 
-// Vérifie si le consentement existe déjà
-try {
-    if (!localStorage.getItem('cookieConsent') {
-        cookieConsent.style.display = 'block';
-    }
-} catch (e) {
-    console.error('Erreur d\'accès au localStorage:', e);
-    // Fallback si localStorage n'est pas disponible
-    cookieConsent.style.display = 'block';
-}
-
-// Gestion du clic sur "Accepter"
-if (acceptCookies) {
-    acceptCookies.addEventListener('click', () => {
+        // Vérifie si le consentement existe déjà
         try {
-            localStorage.setItem('cookieConsent', 'accepted');
-            cookieConsent.style.display = 'none';
-            
-            // Activer la vidéo si elle existe
-            if (videoContainer) {
+            if (!localStorage.getItem('cookieConsent')) {
+                cookieConsent.style.display = 'block';
+            }
+        } catch (e) {
+            console.error('Erreur d\'accès au localStorage:', e);
+            // Fallback si localStorage n'est pas disponible
+            cookieConsent.style.display = 'block';
+        }
+
+        // Gestion du clic sur "Accepter"
+        if (acceptCookies) {
+            acceptCookies.addEventListener('click', () => {
                 try {
-                    videoContainer.src = videoContainer.src.replace('autoplay=0', 'autoplay=1');
+                    localStorage.setItem('cookieConsent', 'accepted');
+                    cookieConsent.style.display = 'none';
+                    
+                    // Activer la vidéo si elle existe
+                    if (videoContainer) {
+                        try {
+                            videoContainer.src = videoContainer.src.replace('autoplay=0', 'autoplay=1');
+                        } catch (e) {
+                            console.error('Erreur lors de l\'activation de la vidéo:', e);
+                        }
+                    }
                 } catch (e) {
-                    console.error('Erreur lors de l\'activation de la vidéo:', e);
+                    console.error('Erreur lors de l\'acceptation des cookies:', e);
                 }
-            }
-        } catch (e) {
-            console.error('Erreur lors de l\'acceptation des cookies:', e);
+            });
         }
-    });
-}
 
-// Gestion du clic sur "Refuser"
-if (rejectCookies) {
-    rejectCookies.addEventListener('click', () => {
-        try {
-            localStorage.setItem('cookieConsent', 'rejected');
-            cookieConsent.style.display = 'none';
-            
-            // Afficher l'erreur vidéo si l'élément existe
-            if (videoError) {
-                videoError.style.display = 'block';
-            }
-        } catch (e) {
-            console.error('Erreur lors du rejet des cookies:', e);
+        // Gestion du clic sur "Refuser"
+        if (rejectCookies) {
+            rejectCookies.addEventListener('click', () => {
+                try {
+                    localStorage.setItem('cookieConsent', 'rejected');
+                    cookieConsent.style.display = 'none';
+                    
+                    // Afficher l'erreur vidéo si l'élément existe
+                    if (videoError) {
+                        videoError.style.display = 'block';
+                    }
+                } catch (e) {
+                    console.error('Erreur lors du rejet des cookies:', e);
+                }
+            });
         }
-    });
-}
 
         // Gestion du mute toggle pour la vidéo
         const muteToggle = document.querySelector('.mute-toggle');
@@ -1600,4 +1579,3 @@ if (rejectCookies) {
     </script>
 </body>
 </html>
-    
