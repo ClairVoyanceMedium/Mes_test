@@ -8,7 +8,7 @@ fais en sorte dans le pop-up d'abandon qu'il reste comme il est actuellement il 
 fais en sorte que l'année se met à jour automatiquement chaque année que ce soit dans le footer dans les articles ou n'importe où d'autres où il y a l'année il faut qu'elle soit mise automatiquement à jour chaque année donc fait le nécessaire partout où l'année est inscrite
 ne touche à aucun contenu ou au design ou à la police actuelle il faut que tout reste identiquement pareil c'est juste ces améliorations améliore également aussi les performances et les bonnes pratiques si tu peux sans toucher au design du site ou aux performances actuelles
 dans le carrousel David et renomme lencarroussel david en carousel d'avis, il faut mettre le prénom de la personne ainsi que la première lettre de son nom de famille et son âge et c'est tout et fais en sorte que les deux boutons droite et gauche du Carrousel puisse être hors zone d'affichage de la vie c'est-à-dire mais le en dessous des avis parce que là ça cache l'avis
-
+rajoute des champs dans le tableau comparatif rajoute pour chaque article description où c'est présent un peu plus de bullets
 
 
 code à modifier en intégralité à réécrire
