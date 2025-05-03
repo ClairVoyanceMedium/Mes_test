@@ -1,79 +1,17 @@
+réécris 100 % du code sans oublier une seule ligne dans son intégralité en y apportant les modifications ci-dessous
 
-
-réécris 100 % du code sans toucher au design et en incluant toutes les recommandations ci-dessous et il faut que tu écrives Bienne évidemment toutes les lignes de code de A à Z sans en oublier une seule mais en rajoutant s'il faut pour que ce soit le plus efficace du monde tu es en expert et tu comprends ce que je te dis sans difficulté et tu réécriras 100 % du code avec les demandes ci-dessous
-
-la bannière des cookies ne s'affiche pas donc fait en sorte qu'elle puisse s'afficher une fois et que ça puisse garder en mémoire la validation du visiteur de l'utilisateur donc ça s'affiche une fois et ensuite qui n'est plus besoin de Ré accepter les prochaines fois
-essaie de faire en sorte que l'application puisse installer sur la page d'accueil donc sur le téléphone portable ou la tablette du visiteur en cliquant sur Installer app sans avoir à besoin d'installer un code particulier moi en au DGS ou autre il faut que tout soit inclus dans le html donc débrouille-toi pour faire en sorte que ça puisse se faire et concernant
-la newsletter ne s'affiche pas il y a un message d'erreur donc fait en sorte que quand la personne rentre son adresse email et que ça il clique sur Valider il faut que ça arrive directement sur ma boîte email avec un message et un email qui s'ouvre automatiquement vers mon contact email donc avec un message pré-rempli et l'adresse email de contact est : contact.clairvoyancemedium@gmail.com
-fais en sorte également de pouvoir augmenter le score des performances car ils sont catastrophiques sur Pages inside sans perdre en qualité ni au design actuel
-laisse deux petits espaces de moi entre le logo et les les encres duo qui sont très bien positionnés donc laisse-les comme ça agrandi juste un petit peu la taille un tout petit peu de d'un peu près 15 %
-fais en sorte que chaque description de produit d'articles de blog ou autre en tout cas toutes les descriptions doivent être beaucoup plus longues qu'actuellement et inclus un maximum de mots clés de longue traîne les plus recherchées sur le web donc fais une recherche et écris les deux manières pyramide inversée avec Coco sémantique obligatoire
-inclus la police cinzel regular dont tu trouveras le code juste en bas
-inclut tous les liens que tu trouveras donc juste en bas incluer et mets-les dans la bonne section donc souvent voyance par email service spirituel donc faut soit très riche et mets les deux backlink obligatoire bien situé surtout pas dans le footer avec des encres ultra optimisé il faut être numéro 1 sur Google
-il faut donc que je n'ai pas besoin d'inclure un fichier externe pour que le site marche il faut que tu essaies de tout intégrer dans le html donc pour les meilleures solutions et développe comme je te l'ai dit chaque section chaque paragraphe avec un maximum de mots clés ultra efficace pour être le meilleur du monde entier et perfectionne les performances qui sont catastrophiques donc étudie tout ça pour faire en sorte que ce soit le meilleur
-
-
-<style>
-  @font-face {
-      font-family: 'Cinzel';
-      src: url('https://clairvoyancemedium.github.io/Consultation_de_voyance_par_email_pas_chere.github.io/Cinzel-Regular.woff2') format('woff2'),
-           url('https://clairvoyancemedium.github.io/Consultation_de_voyance_par_email_pas_chere.github.io/Cinzel-Regular.woff') format('woff');
-      font-weight: 400;
-      font-style: normal;
-  }
-
-  /* Application des polices */
-  body {
-      font-family: 'Cinzel', serif;
-  }
-
-  h1, h2 {
-      font-family: 'Playfair Display', serif;
-  }
-</style>
-
-ameliore drastiquement la detection de langue du visiteur pour la traduction  automatique du site et la detection de la devise et l'adapter  en fonction du lieu du visiteur et fait en sorte que la somme convertis soit toujours identique au prix affiche sur mon site exemple prix affiche sur mon site 15€ et si apres la cobersion dans la devise du visiteur ca fait l'equivalent a 15,67€ alors tu convertira a mon prix affiche soit 15€  dans botre exemple. fait donc les meilleur pratique a ce jour pour mettre ca en place.
-
-integre obligatoirement les bon liens avec les bons tarifs pour chaque bouton qui pointent vers stripe : ils doivent tous etre inclu
-   -   
-1 question de voyance par email tout domaine 6 €  https://buy.stripe.com/14kdRe0EQ4iH1uoaFa
-3 questions de voyance par email tout domaine 15 €   https://buy.stripe.com/dR614scnycPddd66oV
-5 questions de voyance par email tout domaine 28€   https://buy.stripe.com/28o3cA0EQ5mL0qk14C
-Tu remplaceras donc le bouton magie rouge par magie sentimentale.
-
-
-Dans toutes tes descriptions autour de la voyance que ce soit par email ou même la voyance de compatibilité amoureuse et même le désenfoutement ou le rituel pour retrouver son ex, il faut que lorsque tu rédige la description. détaillée, il faut que tu intègres également les bénéfices des gélules Victory dans sa donc, tu peux parler de la minceur et autres. en relation avec donc ces domaines donc c'est le mieux du mieux et fait plus de 50 lignes pour les descriptions et il faut bien que tu démarres en haut tout ce qui est autour de la masseur, c'est-à-dire les gélules. Les gélules masseur la vidéo exetera tout ce qui autour de la masseur et dans la deuxième partie donc comme c'est actuellement tu fais toute la partie pour la voyance avec la balance par email, tu mets tout ça tous les liens mais en général ne touche pas à la disposition. La disposition actuelle est très bonne donc ne touche pas simplement. Des descriptions et des sections s'il manque que ce dans la partie. Voyance par email donc plus vers le bas du site dans la deuxième partie c'est très important de ne pas mélanger les deux catégories, sinon tu ne touche à rien. Du tout, c'est-à-dire que ce soit la police le design l'emplacement même actuel, tu n'y touche pas. Tu rajoutes simplement les descriptions. des nouvelles sections dans dans la deuxième partie du site donc comme je viens de te le dire. Et tu fais des déceptions donc détaillé très importante. avec un maximum de mots clés de longue traîne entre autres mais il faut être le plus performant de la planète. pour les moteurs de recherche les intelligences artificielles et autres et bien évidemment comme je te l'ai dit, il faut que tout soit lisible. Avec le bouton écouter. en totalité titre et description et même le tarif
-
-Inclusion de backlinks intelligents (dans 2 articles seulement).
-- 1er vers : https://www.clairvoyancemedium.com/
-2eme vers : https://clairvoyancemedium.github.io/online-psychic-readings.github.io/
-(avec mots-clés puissants qui remplace l'adresse du site visuellement), non incitatifs au clic, invisibles pour l'utilisateur (pas de couleur différente ni de mise en avant).
-dans le corps pour etre ultra performant
-
-
-met le json partout où c'est stratégiquement très intéressant de le mettre et complète les au maximum que ce soit pour la page le créateur et tout mais tous les json possible et imaginables
-
-développe le cocon sémantique et des pyramides inversée ultra efficace ultra performante pour toutes les descriptions qui doit faire environ 40 litres chacune entre 40 et 60 lignes chacune les plus efficaces possibles au monde donc prends ton temps et fait des études s'il faut mais il faut que ce soit ultra efficace en cours on s'est menti la meilleure stratégie au monde pour attirer du trafic ultra qualifié
-il faut lors de la rédaction des descriptions donc pour chaque description en question il faut que tu inclus donc le mot clé pour donc les gélules et tout ce qui est autour de la masseur tu essaies d'inclure dans les descriptions le mot clé perdre du poids rapidement comment perdre du poids régime minceur gélule efficace maigrir rapidement perdre du poids efficacement et naturellement des mots comme ça et dans les descriptions pour tout ce qui est autour de la voyance tu fais voyance par email pas cher voyance par email sérieuse il faut vraiment que le maître mot puisse être ultra performant donc le désenvoutement tu fais des envoûtement pas cher des emboutements efficaces et rapides désenvoûtement par des envoûteurs sérieux compatibilité amoureuse donc tu fais tout ce qui est compatibilité amoureuse efficace connaître son futur sentimental savoir si son couple est solide comment savoir si son couple est solide et autres et tout ce qui est magie sentimentale tu fais comment faire revenir son ex naturellement comment faire renaître l'amour des mots comme ça et tu as un coup tu fais des articles ultra développé il faut que ce soit parfait et efficace pour le SEO et tu fais bien évidemment tout ça en pyramide inversée et elle est qu'à coco sémantique ultra
-
-Avant de commencer réfléchis bien à chaque point pour que chaque ligne soit. ultra efficace pour le monde entier pour le SEO pour les intelligences artificielles et pour les assistants vocaux donc étudier chaque. Avec minutie pour faire en sorte que personne ne puisse faire un site mieux que le tien. Car tu es le meilleur alors prouve-le obligatoirement. Et fais tout pour que la police signale regular puisse être active.
-
-pour chaque article paragraphe il faut que tu fasses une étude poussée des mots les plus recherchés sur Google tu rechercheras sur le web éventuellement des mots qui sont le plus recherché et tu les inclura dans les bonnes section paragraphe pour gagner en SEO
-
-développe le cocon sémantique et des pyramides inversée ultra efficace ultra performante pour toutes les descriptions qui doit faire environ 40 litres chacune entre 40 et 60 lignes chacune les plus efficaces possibles au monde donc prends ton temps et fait des études s'il faut mais il faut que ce soit ultra efficace en cours on s'est menti la meilleure stratégie au monde pour attirer du trafic ultra qualifié
-il faut lors de la rédaction des descriptions donc pour chaque description en question il faut que tu inclus donc le mot clé pour donc les gélules et tout ce qui est autour de la masseur tu essaies d'inclure dans les descriptions le mot clé perdre du poids rapidement comment perdre du poids régime minceur gélule efficace maigrir rapidement perdre du poids efficacement et naturellement des mots comme ça et dans les descriptions pour tout ce qui est autour de la voyance tu fais voyance par email pas cher voyance par email sérieuse il faut vraiment que le maître mot puisse être ultra performant donc le désenvoutement tu fais des envoûtement pas cher des emboutements efficaces et rapides désenvoûtement par des envoûteurs sérieux compatibilité amoureuse donc tu fais tout ce qui est compatibilité amoureuse efficace connaître son futur sentimental savoir si son couple est solide comment savoir si son couple est solide et autres et tout ce qui est magie sentimentale tu fais comment faire revenir son ex naturellement comment faire renaître l'amour des mots comme ça et tu as un coup tu fais des articles ultra développé il faut que ce soit parfait et efficace pour le SEO et tu fais bien évidemment tout ça en pyramide inversée et elle est qu'à coco sémantique ultra
-
-integre le clickjacking
-
-code a reecrire intégralement acec les ameliorations demandées
-
-développe le cocon sémantique et des pyramides inversée ultra efficace ultra performante pour toutes les descriptions qui doit faire environ 40 litres chacune entre 40 et 60 lignes chacune les plus efficaces possibles au monde donc prends ton temps et fait des études s'il faut mais il faut que ce soit ultra efficace en cours on s'est menti la meilleure stratégie au monde pour attirer du trafic ultra qualifié
-il faut lors de la rédaction des descriptions donc pour chaque description en question il faut que tu inclus donc le mot clé pour donc les gélules et tout ce qui est autour de la masseur tu essaies d'inclure dans les descriptions le mot clé perdre du poids rapidement comment perdre du poids régime minceur gélule efficace maigrir rapidement perdre du poids efficacement et naturellement des mots comme ça et dans les descriptions pour tout ce qui est autour de la voyance tu fais voyance par email pas cher voyance par email sérieuse il faut vraiment que le maître mot puisse être ultra performant donc le désenvoutement tu fais des envoûtement pas cher des emboutements efficaces et rapides désenvoûtement par des envoûteurs sérieux compatibilité amoureuse donc tu fais tout ce qui est compatibilité amoureuse efficace connaître son futur sentimental savoir si son couple est solide comment savoir si son couple est solide et autres et tout ce qui est magie sentimentale tu fais comment faire revenir son ex naturellement comment faire renaître l'amour des mots comme ça et tu as un coup tu fais des articles ultra développé il faut que ce soit parfait et efficace pour le SEO et tu fais bien évidemment tout ça en pyramide inversée et elle est qu'à coco sémantique ultra
+dans ce code fait en sorte que le sticky en bas de page puisse avoir une croix en haut à droite pour fermer le sticky et faire en sorte qu'il puisse revenir toutes les 35 secondes
+déplace le logo en dessous des encres avec un peu plus d'espace pour que ce soit beaucoup plus harmonieux parce que là ça touche les encres c'est pas beau
+fais en sorte que l'encre accueille puisse mener tout en haut de la page quand on clique dessus
+sur la vidéo YouTube retire le bouton Activer le son je n'en veux plus nulle part ce bouton pour les vidéos YouTube
+fais en sorte dans le pop-up d'abandon qu'il reste comme il est actuellement il faut absolument qu'il reste le même sauf fait en sorte donc il y ait plus de bouton Activer le son et fais en sorte que la vidéo se lance automatiquement dès que le pop-up apparaît fais en sorte que le pop-up apparaît toutes les 35 secondes dans la version mobile sur tous les navigateurs du monde entier
+fais en sorte que l'année se met à jour automatiquement chaque année que ce soit dans le footer dans les articles ou n'importe où d'autres où il y a l'année il faut qu'elle soit mise automatiquement à jour chaque année donc fait le nécessaire partout où l'année est inscrite
+ne touche à aucun contenu ou au design ou à la police actuelle il faut que tout reste identiquement pareil c'est juste ces améliorations améliore également aussi les performances et les bonnes pratiques si tu peux sans toucher au design du site ou aux performances actuelles
 
 
 
 
-
+code à modifier en intégralité à réécrire
 
 
 
