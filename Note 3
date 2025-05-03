@@ -1,28 +1,23 @@
 réécris 100 % du code sans oublier une seule ligne dans son intégralité en y apportant les modifications ci-dessous
 
-dans ce code fait en sorte que le sticky en bas de page puisse avoir une croix en haut à droite pour fermer le sticky et faire en sorte qu'il puisse revenir toutes les 35 secondes
-le logo en dessous des encres avec un peu plus d'espace pour que ce soit beaucoup plus harmonieux parce que là ça touche les encres c'est pas beau
-fais en sorte que l'encre accueille puisse mener tout en haut de la page quand on clique dessus
-sur la vidéo YouTube retire le bouton Activer le son je n'en veux plus nulle part ce bouton pour les vidéos YouTube
-fais en sorte dans le pop-up d'abandon qu'il reste comme il est actuellement il faut absolument qu'il reste le même sauf fait en sorte donc il y ait plus de bouton Activer le son et fais en sorte que la vidéo se lance automatiquement dès que le pop-up apparaît fais en sorte que le pop-up apparaît toutes les 35 secondes dans la version mobile sur tous les navigateurs du monde entier
-il faut que le pop-up anti-abandon puisse s'adapter parfaitement à la taille de chaque écran sinon tu le laisses comme il est sans y toucher
-fais en sorte que l'année se met à jour automatiquement chaque année que ce soit dans le footer dans les articles ou n'importe où d'autres où il y a l'année il faut qu'elle soit mise automatiquement à jour chaque année donc fait le nécessaire partout où l'année est inscrite
-ne touche à aucun contenu ou au design ou à la police actuelle il faut que tout reste identiquement pareil c'est juste ces améliorations améliore également aussi les performances et les bonnes pratiques si tu peux sans toucher au design du site ou aux performances actuelles
-dans le carrousel David et renomme lencarroussel david en carousel d'avis, il faut mettre le prénom de la personne ainsi que la première lettre de son nom de famille et son âge et c'est tout et fais en sorte que les deux boutons droite et gauche du Carrousel puisse être hors zone d'affichage de la vie c'est-à-dire mais le en dessous des avis parce que là ça cache l'avis
-rajoute des champs dans le tableau comparatif rajoute pour chaque article description où c'est présent un peu plus de bullets
-il faut bien comprendre qu'il ne faut changer aucun article ou Description ça doit être les mêmes avec le même nombre de lignes tu ne dois pas y toucher sauf pour apporter des modifications sur l'année 2025 éventuellement pour qu'elle soit automatique
-il faut que dans le premier paragraphe dans les premières lignes tu puisses mettre un maximum d'informations et de l'intention de recherche que ce soit pour la minceur ou même la voyance donc débrouille-toi pour faire en sorte qu'il y a un maximum de mots clés de longue traîne et autres pour répondre aux intentions de recherche assez rapidement peut etre dans la section hero
-la bannière sticky donc toi toujours être fixe sur l'écran avec le la petite croix pour fermer la stikeez collante mais il faut donc comme je te l'ai dit que le sticky collant revient tous les 35 secondes mais dès qu'on ouvre la page il faut qu'elle reste fixe quand on scroll en haut et en bas jusqu'à ce que la personne appuie sur la croix s'il y a un lapit pas sur la croix il faut toujours qu'elle reste fixe et s'il appuie sur la croix il faut qu'elle réapparaisse au bout de 35 secondes
-de touche surtout pas au lecteur audio c'est-à-dire au bouton écouter ça doit lire comme c'est actuellement tu ne dois pas modifier ça c'est interdit
-tu peux juste améliorer le bouton pause pour qu'il puisse être fonctionnel quand on appuie sur pause mais c'est tout tu ne touche pas au contenu à lire ça doit dire l'article et le titre comme c'est actuellement c'est très important
-il faut qu'on puisse activer le son de la vidéo YouTube assez facilement sans bouton intrusif donc c'est le nécessaire pour pouvoir mettre le son sur les vidéos YouTube que ce soit sur le site ou dans le pop-up anti abandon
-fais en sorte dans le carrousel D'avis client que le prénom ainsi que la première lettre de son nom de famille et ça son âge puisse apparaître sous chaque avis
-il faut obligatoirement que le logo se positionne en dessous les encres du haut de la page
-il faut que quand on appuie sur le bouton pause et qu'on réappuie sur play il faut que ça puisse reprendre là où on a mis pause la lecture
-le pop-up anti abandon doit obligatoirement contenir la vidéo Youtube qui se lance automatiquement et il faut que la pissette responsive que ça ça s'adapte à chaque écran mobile à chaque écran et il faut donc un bouton fermé bien évidemment avec un bouton qui dirige vers les gélules Victory et un autre vers les services spirituels c'est très important
-intègre un bouton Activer le son pour les vidéos YouTube c'est très important
-il faut obligatoirement adapter la taille de la police d'écriture dans les avis et les mettre en italique ou en forme pour que tout puisse apparaître dans le carrousel c'est-à-dire qu'on puisse également voir la ligne avec le prénom la première lettre d'une famille est l'âge de la personne
-il faut obligatoirement que le sticky collant avec la croix en haut à droite sans gêner l'écriture puisse réapparaître toutes les 35 secondes une fois qu'on a cliqué sur la croix automatiquement
+
+
+Les boutons .audio-button lisent le titre (h2 ou h3) et le contenu complet (balises p, li, blockquote, figcaption) des sections ou carrousels spécifiés via data-text-id.
+
+Le script JavaScript utilise querySelectorAll('h2, h3, p, li, blockquote, figcaption') pour capturer tout le texte pertinent, garantissant une lecture complète.
+
+L'état de lecture est géré avec la classe playing et l'icône dynamique ( ou ).
+
+Carrousel d'avis agrandi :
+Le carrousel #avisCarousel a une min-height: 360px (contre 280px précédemment) et un padding: 2.5rem.
+
+Les éléments .carousel-item ont une min-height: 280px pour afficher les témoignages complets, y compris les noms (figcaption).
+
+Les tailles de police sont augmentées (blockquote: clamp(1.2rem, 3.5vw, 1.4rem), figcaption: clamp(1rem, 3vw, 1.2rem)) pour une meilleure lisibilité.
+
+
+
+
 
 code à modifier en intégralité à réécrire
 
