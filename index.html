@@ -22,7 +22,7 @@
     <meta name="theme-color" content="#000000">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Gélules Minceur Victory & Services Spirituels | ClairvoyanceMedium 2025</title>
+    <title>Gélules Minceur Victory & Services Spirituels | ClairvoyanceMedium <span id="meta-year"></span></title>
     <link rel="canonical" href="https://clairvoyancemedium.github.io/voyance-minceur.github.io/" hreflang="x-default">
     <link rel="alternate" hreflang="fr" href="https://clairvoyancemedium.github.io/voyance-minceur.github.io/fr/" />
     <link rel="alternate" hreflang="en" href="https://clairvoyancemedium.github.io/voyance-minceur.github.io/en/" />
@@ -67,10 +67,10 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@CabinetVoyance_">
     <meta name="twitter:creator" content="@CabinetVoyance_">
-    <meta name="twitter:title" content="Gélules Minceur Victory & Services Spirituels 2025">
+    <meta name="twitter:title" content="Gélules Minceur Victory & Services Spirituels <span id='twitter-year'></span>">
     <meta name="twitter:description" content="Transformez votre corps avec les gélules Victory (60 gélules de chitine) et votre esprit avec les services spirituels de Frederick. Livraison gratuite !">
     <meta name="twitter:image" content="https://i.imgur.com/GmyGlKk.webp">
-    <meta property="og:title" content="Gélules Minceur Victory & Services Spirituels 2025">
+    <meta property="og:title" content="Gélules Minceur Victory & Services Spirituels <span id='og-year'></span>">
     <meta property="og:description" content="Perdez du poids avec les gélules Victory (60 gélules de chitine) et découvrez la voyance, désenvoûtement et magie sentimentale par Frederick. 9000+ clients satisfaits.">
     <meta property="og:image" content="https://i.imgur.com/GmyGlKk.webp">
     <meta property="og:image:width" content="1200">
@@ -171,11 +171,17 @@
         .sticky-banner {
             position: fixed; bottom: var(--footer-height); left: 0; width: 100%; background: #BBAE98;
             color: #111; padding: 0.75rem; text-align: center; z-index: 900; font-size: 0.95rem;
-            opacity: 0.95; transition: opacity var(--transition-smooth);
+            opacity: 0.95; transition: opacity var(--transition-smooth); position: relative;
         }
 
         .sticky-banner:hover { opacity: 1; }
         .sticky-banner a { font-size: 0.85rem; padding: 0.7rem 1.4rem; margin-top: 0.6rem; }
+        .sticky-close {
+            position: absolute; top: 5px; right: 10px; background: none; border: none;
+            font-size: 1.2rem; cursor: pointer; color: #111; transition: color var(--transition-fast);
+        }
+
+        .sticky-close:hover { color: #fff; }
         h1, h2, h3, h4, h5, h6 {
             font-family: var(--font-heading); font-weight: 700; line-height: 1.3;
             letter-spacing: 1px; margin: 0; color: var(--border-color); min-height: 3.5rem;
@@ -289,7 +295,7 @@
 
         .logo {
             width: 100%; max-width: 500px; height: auto; object-fit: contain; display: block;
-            margin: 0 auto; aspect-ratio: 1/1;
+            margin: 2rem auto; aspect-ratio: 1/1;
         }
 
         @media (min-width: 768px) { .logo { max-width: 600px; } }
@@ -430,7 +436,7 @@
         }
 
         .carousel-nav {
-            display: flex; justify-content: center; gap: 1.2rem; margin-top: 1.2rem;
+            display: flex; justify-content: center; gap: 1.2rem; margin-top: 2rem;
             position: relative; width: 100%;
         }
 
@@ -469,17 +475,6 @@
         .video-container iframe {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;
             object-fit: cover;
-        }
-
-        .video-container .mute-toggle {
-            position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.7); color: #fff; padding: 0.6rem 1.2rem;
-            border-radius: 6px; cursor: pointer; font-size: 0.95rem;
-            transition: background var(--transition-fast);
-        }
-
-        .video-container .mute-toggle:hover {
-            background: rgba(0, 0, 0, 0.9);
         }
 
         .scroll-to-next {
@@ -595,10 +590,10 @@
         });
     </script>
 </head>
-<body>
+<body id="top">
     <nav role="navigation" aria-label="Navigation principale">
         <ul>
-            <li><a href="#hero" aria-label="Découvrir la transformation">Accueil</a></li>
+            <li><a href="#top" aria-label="Retourner en haut de la page">Accueil</a></li>
             <li><a href="#minceur" aria-label="Découvrir les gélules minceur Victory">Gélules Victory</a></li>
             <li><a href="#programme-personnalise" aria-label="Explorer le programme minceur personnalisé">Programme Personnalisé</a></li>
             <li><a href="#imc" aria-label="Calculer votre IMC">Calculateur IMC</a></li>
@@ -620,19 +615,19 @@
     </div>
 
     <header role="banner">
-        <picture>
-            <source srcset="https://i.imgur.com/GmyGlKk.webp 320w, https://i.imgur.com/GmyGlKk.webp 480w, https://i.imgur.com/GmyGlKk.webp 600w" type="image/webp" sizes="(max-width: 600px) 320px, (max-width: 900px) 480px, 600px">
-            <img src="https://i.imgur.com/GmyGlKk.jpg" alt="Logo ClairvoyanceMedium.com - Gélules Minceur Victory et Services Spirituels" class="logo" decoding="async" fetchpriority="high" loading="lazy" title="Logo officiel des gélules minceur Victory et services spirituels" width="600" height="600">
-        </picture>
         <div class="header-content">
             <div class="top-rank">
                 <span class="number-one">N°1 en Minceur et Spiritualité en <span id="current-year"></span></span>
                 <span class="thank-you">Votre transformation commence maintenant !</span>
             </div>
-            <h1>Gélules Minceur Victory & Services Spirituels 2025</h1>
+            <h1>Gélules Minceur Victory & Services Spirituels <span id="header-year"></span></h1>
             <picture>
                 <source srcset="https://i.imgur.com/H69KvL6.webp 320w, https://i.imgur.com/H69KvL6.webp 480w, https://i.imgur.com/H69KvL6.webp 900w" type="image/webp" sizes="(max-width: 600px) 320px, (max-width: 900px) 480px, 900px">
                 <img src="https://i.imgur.com/H69KvL6.png" alt="Bannière promotionnelle Gélules Minceur Victory et Services Spirituels" class="header-image" decoding="async" loading="lazy" title="Bannière des offres minceur et spiritualité" width="900" height="506">
+            </picture>
+            <picture>
+                <source srcset="https://i.imgur.com/GmyGlKk.webp 320w, https://i.imgur.com/GmyGlKk.webp 480w, https://i.imgur.com/GmyGlKk.webp 600w" type="image/webp" sizes="(max-width: 600px) 320px, (max-width: 900px) 480px, 600px">
+                <img src="https://i.imgur.com/GmyGlKk.jpg" alt="Logo ClairvoyanceMedium.com - Gélules Minceur Victory et Services Spirituels" class="logo" decoding="async" fetchpriority="high" loading="lazy" title="Logo officiel des gélules minceur Victory et services spirituels" width="600" height="600">
             </picture>
             <div class="translate-container" aria-labelledby="translate-label">
                 <div id="google_translate_element" style="text-align: center; margin-top: 0.9rem;" aria-label="Sélecteur de langue"></div>
@@ -645,13 +640,13 @@
 
     <section class="hero" id="hero" aria-labelledby="hero-heading">
         <div class="title-container">
-            <h2 id="hero-heading">Transformez Votre Corps et Votre Esprit en 2025</h2>
+            <h2 id="hero-heading">Transformez Votre Corps et Votre Esprit en <span id="hero-year"></span></h2>
         </div>
         <article class="audio-text">
-            <p><strong>Perdez jusqu'à 12 kg en 2 mois</strong> avec les <a href="#minceur">gélules minceur Victory</a> (60 gélules par boîte, à base de chitine dosée efficacement pour des résultats optimaux). Ces gélules 100% naturelles boostent votre métabolisme, réduisent l’appétit et favorisent le bien-être mental tout en augmentant votre énergie. Des milliers de clients rapportent des retours très positifs.</p>
-            <p>Complétez votre transformation physique avec les <a href="#spiritual-services">services spirituels</a> de Frederick, clairvoyant reconnu avec 20 ans d’expérience. Que ce soit par une <a href="#spiritual-services">voyance par email</a>, un <a href="#spiritual-services">désenvoûtement</a>, une <a href="#spiritual-services">magie sentimentale</a> ou une analyse de <a href="#spiritual-services">compatibilité amoureuse</a>, Frederick vous guide vers l’équilibre émotionnel et spirituel.</p>
+            <p><strong>Perdez jusqu'à 12 kg en 2 mois</strong> avec les <a href="#minceur">gélules minceur Victory</a> (60 gélules de chitine), idéales pour maigrir rapidement, perdre du poids naturellement, et retrouver une silhouette affinée. Ces gélules 100% naturelles, à base de chitine, thé vert, et garcinia cambogia, boostent votre métabolisme, réduisent l’appétit, et favorisent le bien-être mental tout en augmentant votre énergie. Parfaites pour un programme minceur efficace, elles conviennent à ceux cherchant une perte de poids rapide sans régime strict. Des milliers de clients rapportent des résultats visibles dès 2 semaines.</p>
+            <p>Complétez votre transformation physique avec les <a href="#spiritual-services">services spirituels</a> de Frederick, clairvoyant reconnu avec 20 ans d’expérience. Que ce soit par une <a href="#spiritual-services">voyance par email pas chère</a>, un <a href="#spiritual-services">désenvoûtement puissant</a>, une <a href="#spiritual-services">magie sentimentale pour retour affectif</a>, ou une analyse de <a href="#spiritual-services">compatibilité amoureuse</a>, Frederick vous guide vers l’équilibre émotionnel, la sérénité spirituelle, et des relations harmonieuses.</p>
             <p>Avec <strong>livraison gratuite</strong> dans le monde entier, un paiement sécurisé via Stripe, et plus de <strong>9000 clients satisfaits</strong>, ClairvoyanceMedium.com est votre partenaire pour une transformation totale. Rejoignez notre communauté et commencez votre voyage dès aujourd’hui !</p>
-            <p class="urgency-notice">⏰ Offre exclusive : Prix valables jusqu’au 30 avril 2025 !</p>
+            <p class="urgency-notice">⏰ Offre exclusive : Prix valables jusqu’au 30 avril <span id="urgency-year"></span> !</p>
         </article>
         <div class="cta-buttons-container">
             <a href="https://buy.stripe.com/9AQ28w5Zag1p5KE29u" target="_blank" rel="noopener nofollow" class="cta-button" data-tracking-label="Victory1Box" aria-label="Commander 1 boîte de gélules Victory">1 Boîte Victory – 19,00 €</a>
@@ -684,13 +679,12 @@
                     <li><strong>Santé mentale :</strong> Clarté et réduction du stress.</li>
                     <li><strong>Sécurité garantie :</strong> Sans additifs, testé cliniquement.</li>
                 </ul>
-                <p class="urgency-notice">⏰ Offre limitée : Commandez avant le 30 avril 2025 !</p>
+                <p class="urgency-notice">⏰ Offre limitée : Commandez avant le 30 avril <span id="minceur-urgency-year"></span> !</p>
                 <p>*Les résultats peuvent varier. Consultez un professionnel de santé.</p>
                 <p class="backlink">Source : <a href="https://www.sante-nutrition.fr" class="backlink">Santé Nutrition</a></p>
             </article>
             <div class="video-container">
                 <iframe src="https://www.youtube-nocookie.com/embed/9pJxg7UzqqY?si=O4CBsGma7fL5XJPe&vq=hd1080&rel=0&autoplay=0&mute=1" title="Présentation des gélules minceur Victory" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy" aria-label="Vidéo des gélules minceur Victory"></iframe>
-                <button class="mute-toggle" aria-label="Activer/Désactiver le son">Activer le son</button>
                 <p id="video-error" role="alert" aria-live="assertive" style="color: #ff6b6b; display: none;">Erreur de chargement de la vidéo. Veuillez accepter les cookies.</p>
             </div>
             <div class="cta-buttons-container">
@@ -720,7 +714,7 @@
                     <li><strong>Approche globale :</strong> Nutrition, exercice, bien-être.</li>
                     <li><strong>Facile à suivre :</strong> Résultats sans contraintes.</li>
                 </ul>
-                <p class="urgency-notice">⏰ Offre exclusive : Prix valables jusqu’au 30 avril 2025 !</p>
+                <p class="urgency-notice">⏰ Offre exclusive : Prix valables jusqu’au 30 avril <span id="programme-urgency-year"></span> !</p>
                 <p>*Les résultats peuvent varier. Consultez un professionnel.</p>
             </article>
             <div class="cta-buttons-container">
@@ -795,6 +789,45 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <tr>
+                        <th scope="row">Description</th>
+                        <td>
+                            <ul class="check-list">
+                                <li>60 gélules de chitine</li>
+                                <li>Perte de 8-12 kg en 2 mois</li>
+                                <li>100% naturel, sans OGM</li>
+                                <li>Boost métabolisme et énergie</li>
+                                <li>Réduit l’appétit</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul class="check-list">
+                                <li>Plan personnalisé</li>
+                                <li>Perte de 8-12 kg en 2 mois</li>
+                                <li>Inclut gélules Victory</li>
+                                <li>Menus et exercices adaptés</li>
+                                <li>Support 24/7</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul class="check-list">
+                                <li>Restrictions alimentaires</li>
+                                <li>Perte de 3-6 kg en 2 mois</li>
+                                <li>Pas de compléments inclus</li>
+                                <li>Conseils généraux</li>
+                                <li>Difficile à maintenir</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul class="check-list">
+                                <li>Compléments variés</li>
+                                <li>Perte de 2-5 kg en 2 mois</li>
+                                <li>Contient additifs</li>
+                                <li>Peu d’accompagnement</li>
+                                <li>Résultats inconstants</li>
+                            </ul>
+                        </td>
+                    </tr>
                     <tr>
                         <th scope="row">Perte de poids (2 mois)</th>
                         <td>8-12 kg*</td>
@@ -875,65 +908,67 @@
                     <div class="carousel-item active" role="group" aria-roledescription="slide" tabindex="0">
                         <figure>
                             <blockquote>« Les gélules Victory m’ont aidée à perdre 10 kg en 6 semaines ! Je me sens plus légère et pleine d’énergie. »</blockquote>
-                            <figcaption>— Sophie L., 34 ans, Paris</figcaption>
+                            <figcaption>— Sophie L., 34 ans</figcaption>
                         </figure>
                     </div>
                     <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1" aria-hidden="true">
                         <figure>
                             <blockquote>« La voyance par email de Frederick m’a guidée dans mes choix amoureux. Un service exceptionnel ! »</blockquote>
-                            <figcaption>— Claire M., 29 ans, Lyon</figcaption>
+                            <figcaption>— Claire M., 29 ans</figcaption>
                         </figure>
                     </div>
                     <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1" aria-hidden="true">
                         <figure>
                             <blockquote>« Le programme personnalisé est incroyable. J’ai perdu 8 kg et je me sens en harmonie avec moi-même. »</blockquote>
-                            <figcaption>— Julien T., 42 ans, Bordeaux</figcaption>
+                            <figcaption>— Julien T., 42 ans</figcaption>
                         </figure>
                     </div>
                     <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1" aria-hidden="true">
                         <figure>
-                            <blockquote>« Grâce au désenvoûtement, j’ai retrouvé ma sérénité. Frederick est un vrai professionnel. »</blockquote>
-                            <figcaption>— Amandine R., 37 ans, Marseille</figcaption>
+                            <blockquote>« Le désenvoûtement m’a libéré d’un poids émotionnel. Frederick est un guide exceptionnel. »</blockquote>
+                            <figcaption>— Amélie B., 37 ans</figcaption>
                         </figure>
                     </div>
                     <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1" aria-hidden="true">
                         <figure>
-                            <blockquote>« Les gélules Victory et le programme m’ont transformée. 12 kg en moins et une confiance retrouvée ! »</blockquote>
-                            <figcaption>— Émilie D., 31 ans, Toulouse</figcaption>
+                            <blockquote>« J’ai perdu 12 kg avec Victory et retrouvé confiance en moi. Merci ! »</blockquote>
+                            <figcaption>— Lucas P., 30 ans</figcaption>
                         </figure>
                     </div>
                     <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1" aria-hidden="true">
                         <figure>
-                            <blockquote>« La magie sentimentale a renforcé mon couple. Je recommande Frederick à 100 % ! »</blockquote>
-                            <figcaption>— Laura B., 28 ans, Nice</figcaption>
+                            <blockquote>« La magie sentimentale a renforcé mon couple. Résultats incroyables ! »</blockquote>
+                            <figcaption>— Élodie C., 33 ans</figcaption>
                         </figure>
                     </div>
                     <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1" aria-hidden="true">
                         <figure>
-                            <blockquote>« J’ai perdu 9 kg avec Victory et je me sens plus forte mentalement grâce à la voyance. »</blockquote>
-                            <figcaption>— Camille S., 36 ans, Strasbourg</figcaption>
+                            <blockquote>« Les gélules Victory sont faciles à prendre et efficaces. -9 kg en 2 mois ! »</blockquote>
+                            <figcaption>— Marie D., 45 ans</figcaption>
                         </figure>
                     </div>
                     <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1" aria-hidden="true">
                         <figure>
-                            <blockquote>« Le programme est facile à suivre, et les résultats sont incroyables. 11 kg en moins ! »</blockquote>
-                            <figcaption>— Lucas P., 40 ans, Lille</figcaption>
+                            <blockquote>« La voyance de Frederick m’a éclairé sur mon avenir professionnel. »</blockquote>
+                            <figcaption>— Thomas R., 28 ans</figcaption>
                         </figure>
                     </div>
                     <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1" aria-hidden="true">
                         <figure>
-                            <blockquote>« La compatibilité amoureuse m’a aidée à mieux comprendre mon partenaire. Un service unique. »</blockquote>
-                            <figcaption>— Mathilde V., 33 ans, Rennes</figcaption>
+                            <blockquote>« Le programme m’a appris à manger sainement tout en perdant du poids. »</blockquote>
+                            <figcaption>— Camille S., 39 ans</figcaption>
                         </figure>
                     </div>
                     <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1" aria-hidden="true">
                         <figure>
-                            <blockquote>« Victory et la voyance m’ont offert une transformation physique et spirituelle. Merci ! »</blockquote                        <figcaption>— Sarah G., 35 ans, Nantes</figcaption>
-                    </figure>
+                            <blockquote>« Compatibilité amoureuse précise, j’ai trouvé l’âme sœur grâce à Frederick. »</blockquote>
+                            <figcaption>— Nicolas V., 31 ans</figcaption>
+                        </figure>
+                    </div>
                 </div>
-                <div class="carousel-nav" role="group" aria-label="Contrôles du carrousel d’avis">
-                    <button class="prev" aria-label="Avis précédent">←</button>
-                    <button class="next" aria-label="Avis suivant">→</button>
+                <div class="carousel-nav">
+                    <button class="carousel-prev" aria-label="Témoignage précédent" data-direction="prev">←</button>
+                    <button class="carousel-next" aria-label="Témoignage suivant" data-direction="next">→</button>
                 </div>
             </div>
         </section>
@@ -946,81 +981,54 @@
                 <button class="audio-button" data-text-id="blog-heading,blog article,blogCarouselInner" aria-label="Écouter la section Blog">Écouter</button>
             </div>
             <article class="audio-text">
-                <p>Explorez notre blog pour des astuces sur la <strong>perte de poids</strong>, le bien-être mental, et la spiritualité. Nos articles vous guident vers une vie équilibrée avec des conseils pratiques et des insights spirituels. Plongez dans nos derniers contenus !</p>
+                <p>Découvrez nos <a href="#blog">articles inspirants</a> sur la <strong>minceur</strong>, le bien-être, et la spiritualité. Apprenez à combiner les <a href="#minceur">gélules Victory</a>, des exercices comme le yoga, et des pratiques spirituelles pour une vie équilibrée.</p>
             </article>
-            <div class="carousel blog-carousel" id="blogCarousel" role="region" aria-roledescription="carousel" aria-label="Carrousel d’articles de blog, slide 1 sur 5" tabindex="0">
+            <div class="carousel blog-carousel" id="blogCarousel" role="region" aria-roledescription="carousel" aria-label="Carrousel d’articles de blog, slide 1 sur 3" tabindex="0">
                 <div class="carousel-inner" id="blogCarouselInner" aria-live="off">
                     <div class="carousel-item active" role="group" aria-roledescription="slide" tabindex="0">
-                        <h3>5 Astuces pour Booster Votre Métabolisme</h3>
-                        <p>Découvrez comment des habitudes simples comme boire du thé vert ou marcher 30 minutes par jour peuvent accélérer votre perte de poids avec les <a href="#minceur">gélules Victory</a>.</p>
-                        <a href="#article" class="cta-button" aria-label="Lire l’article sur le métabolisme">Lire plus</a>
+                        <h3>5 Exercices Simples pour Booster Votre Minceur</h3>
+                        <p>Marche rapide, yoga, et étirements à intégrer avec les gélules Victory pour maximiser votre perte de poids.</p>
+                        <a href="#article" class="scroll-to-next" aria-label="Lire l’article complet">Lire plus</a>
                     </div>
                     <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1" aria-hidden="true">
-                        <h3>La Puissance de la Voyance pour l’Équilibre</h3>
-                        <p>Apprenez comment la <a href="#spiritual-services">voyance par email</a> peut clarifier vos choix de vie et renforcer votre confiance.</p>
-                        <a href="#spiritual-services" class="cta-button" aria-label="Lire l’article sur la voyance">Lire plus</a>
+                        <h3>Comment la Voyance Peut Guider Vos Choix</h3>
+                        <p>La voyance par email de Frederick aide à prendre des décisions éclairées dans votre vie personnelle et professionnelle.</p>
+                        <a href="#spiritual-services" class="scroll-to-next" aria-label="Découvrir la voyance">En savoir plus</a>
                     </div>
                     <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1" aria-hidden="true">
-                        <h3>Yoga et Minceur : Une Combinaison Gagnante</h3>
-                        <p>Explorez des postures de yoga qui complètent le <a href="#programme-personnalise">programme Victory</a> pour affiner votre silhouette.</p>
-                        <a href="#article" class="cta-button" aria-label="Lire l’article sur le yoga">Lire plus</a>
-                    </div>
-                    <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1" aria-hidden="true">
-                        <h3>Comment le Désenvoûtement Change Votre Vie</h3>
-                        <p>Un <a href="#spiritual-services">désenvoûtement</a> peut libérer vos énergies négatives et ouvrir la voie à la sérénité.</p>
-                        <a href="#spiritual-services" class="cta-button" aria-label="Lire l’article sur le désenvoûtement">Lire plus</a>
-                    </div>
-                    <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1" aria-hidden="true">
-                        <h3>Amour et Compatibilité : Les Secrets Révélés</h3>
-                        <p>Découvrez comment l’analyse de <a href="#spiritual-services">compatibilité amoureuse</a> peut renforcer vos relations.</p>
-                        <a href="#spiritual-services" class="cta-button" aria-label="Lire l’article sur la compatibilité">Lire plus</a>
+                        <h3>Équilibre Émotionnel et Perte de Poids</h3>
+                        <p>Comment les services spirituels et les gélules Victory favorisent une transformation globale.</p>
+                        <a href="#article" class="scroll-to-next" aria-label="Lire l’article complet">Lire plus</a>
                     </div>
                 </div>
-                <div class="carousel-nav" role="group" aria-label="Contrôles du carrousel de blog">
-                    <button class="prev" aria-label="Article précédent">←</button>
-                    <button class="next" aria-label="Article suivant">→</button>
+                <div class="carousel-nav">
+                    <button class="carousel-prev" aria-label="Article précédent" data-direction="prev">←</button>
+                    <button class="carousel-next" aria-label="Article suivant" data-direction="next">→</button>
                 </div>
             </div>
         </section>
 
-        <section class="content-container article-section" id="article" aria-labelledby="article-heading">
+        <section class="content-container" id="article" aria-labelledby="article-heading">
             <div class="title-container">
-                <h2 id="article-heading">Les Bienfaits de la Minceur et de la Voyance en 2025</h2>
+                <h2 id="article-heading">Minceur et Spiritualité : Le Duo Gagnant en <span id="article-year"></span></h2>
             </div>
             <div class="audio-button-container">
-                <button class="audio-button" data-text-id="article-heading,article-content" aria-label="Écouter l’article sur la minceur et la voyance">Écouter</button>
+                <button class="audio-button" data-text-id="article-heading,article-content" aria-label="Écouter l’article Minceur et Spiritualité">Écouter</button>
             </div>
-            <article class="audio-text" id="article-content" itemscope itemtype="https://schema.org/Article">
-                <meta itemprop="headline" content="Les Bienfaits de la Minceur et de la Voyance en 2025">
-                <meta itemprop="description" content="Découvrez comment la perte de poids avec les gélules Victory et les services spirituels de voyance transforment votre vie physique et émotionnelle.">
-                <meta itemprop="author" content="ClairvoyanceMedium.com">
-                <meta itemprop="datePublished" content="2025-05-03">
-                <p>En 2025, adopter un mode de vie sain et équilibré est plus qu’une tendance : c’est une nécessité. La <strong>perte de poids</strong> et la <strong>voyance</strong> offrent une approche holistique pour transformer votre corps et votre esprit. Cet article explore les bienfaits de ces pratiques, soutenus par les <a href="#minceur">gélules Victory</a> et les services spirituels de Frederick.</p>
-                <h3>Pourquoi la Minceur Transforme Votre Vie</h3>
-                <p>Perdre du poids avec les gélules Victory (60 gélules de chitine par boîte) va au-delà de l’esthétique. La chitine, un ingrédient naturel, réduit l’absorption des graisses, favorisant une perte de 8 à 12 kg en 2 mois. Les bienfaits incluent :</p>
+            <article id="article-content" class="audio-text">
+                <h3>Pourquoi Associer Minceur et Spiritualité ?</h3>
+                <p>En <span id="article-sub-year"></span>, transformer son corps et son esprit est une démarche globale. Les <a href="#minceur">gélules minceur Victory</a> offrent une perte de poids rapide grâce à des ingrédients naturels comme la chitine, tandis que les <a href="#spiritual-services">services spirituels</a> de Frederick, comme la voyance ou le désenvoûtement, libèrent des blocages émotionnels.</p>
+                <p>La <strong>minceur</strong> ne se limite pas à perdre du poids. Une alimentation riche en légumes, fruits, et protéines, combinée à des exercices comme la marche rapide (30 min/jour) ou le yoga, amplifie les effets des gélules Victory. Nos clients rapportent une peau lumineuse et une énergie renouvelée.</p>
+                <p>La <strong>spiritualité</strong> joue un rôle clé. Une voyance par email peut révéler des obstacles cachés, tandis qu’un désenvoûtement élimine les énergies négatives. La magie sentimentale renforce les relations, et la compatibilité amoureuse guide vers des partenaires idéaux.</p>
+                <h3>Conseils Pratiques pour 2025</h3>
                 <ul class="check-list">
-                    <li><strong>Santé physique :</strong> Réduction des risques de maladies cardiovasculaires et de diabète.</li>
-                    <li><strong>Énergie accrue :</strong> Les ingrédients comme le thé vert boostent votre vitalité.</li>
-                    <li><strong>Confiance en soi :</strong> Une silhouette affinée renforce l’estime de soi.</li>
-                    <li><strong>Santé mentale :</strong> Moins de stress et une meilleure clarté d’esprit.</li>
+                    <li><strong>Minceur :</strong> Prenez 2 gélules Victory par jour avec un grand verre d’eau.</li>
+                    <li><strong>Exercice :</strong> Intégrez 30 min de marche ou yoga quotidiennement.</li>
+                    <li><strong>Nutrition :</strong> Favorisez les aliments à faible indice glycémique.</li>
+                    <li><strong>Spiritualité :</strong> Consultez Frederick pour une voyance ou un désenvoûtement.</li>
                 </ul>
-                <p>Associer les gélules à des activités comme la <strong>marche rapide</strong> (30 min/jour) ou le <strong>yoga</strong> amplifie ces effets. Les clients rapportent une peau plus lumineuse, une digestion améliorée, et un sommeil de qualité. Pour des résultats optimaux, le <a href="#programme-personnalise">programme personnalisé Victory</a> propose des menus adaptés et des exercices sur mesure.</p>
-                <p>La minceur n’est pas seulement physique : elle libère l’esprit. En perdant du poids, vous gagnez en légèreté émotionnelle, prête à affronter les défis de 2025. Découvrez plus de conseils sur <a href="https://www.sante-nutrition.fr" class="backlink">Santé Nutrition</a>.</p>
-                <h3>La Voyance : Une Clé pour l’Équilibre Émotionnel</h3>
-                <p>La voyance, pratiquée par Frederick, clairvoyant expérimenté, est un outil puissant pour harmoniser votre vie. Ses services incluent :</p>
-                <ul class="check-list">
-                    <li><strong>Voyance par email :</strong> Réponses précises à vos questions en 48h.</li>
-                    <li><strong>Désenvoûtement :</strong> Libération des énergies négatives.</li>
-                    <li><strong>Magie sentimentale :</strong> Renforcement des liens amoureux.</li>
-                    <li><strong>Compatibilité amoureuse :</strong> Analyse des relations pour des choix éclairés.</li>
-                </ul>
-                <p>La voyance aide à clarifier vos objectifs, apaiser les doutes, et renforcer votre intuition. Par exemple, une séance de désenvoûtement peut dissoudre les blocages émotionnels, tandis que la magie sentimentale ravive la passion. Les clients décrivent une sérénité retrouvée et des décisions plus alignées avec leurs aspirations.</p>
-                <p>En combinant voyance et minceur, vous travaillez sur deux fronts : le corps et l’âme. La perte de poids booste votre confiance, tandis que la voyance vous guide vers des choix épanouissants. Ensemble, ils créent une synergie pour une vie harmonieuse.</p>
-                <h3>Comment Intégrer Minceur et Voyance en 2025</h3>
-                <p>Commencez par les <a href="#minceur">gélules Victory</a> pour une perte de poids rapide et durable. Intégrez des habitudes saines comme la marche rapide ou le yoga, détaillées dans notre <a href="#blog">blog</a>. Parallèlement, explorez les <a href="#spiritual-services">services spirituels</a> de Frederick pour aligner vos énergies.</p>
-                <p>Le <a href="#programme-personnalise">programme personnalisé Victory</a> est idéal pour une approche globale, combinant nutrition, exercice, et bien-être mental. Pour la voyance, une consultation par email est un excellent point de départ, avec des réponses livrées en 48h.</p>
-                <p>En 2025, la transformation holistique est à portée de main. Avec <strong>livraison gratuite</strong>, un paiement sécurisé via Stripe, et plus de <strong>9000 clients satisfaits</strong>, ClairvoyanceMedium.com vous accompagne. Rejoignez notre communauté et transformez votre vie dès aujourd’hui !</p>
-                <p class="backlink">Source : <a href="https://www.bienetre-spirituel.fr" class="backlink">Bien-être Spirituel</a></p>
+                <p>En <span id="article-end-year"></span>, adoptez cette approche pour une vie équilibrée. Commandez vos gélules et explorez nos services spirituels dès aujourd’hui !</p>
+                <p class="backlink">Source : <a href="https://www.sante-nutrition.fr" class="backlink">Santé Nutrition</a></p>
             </article>
             <div class="cta-buttons-container">
                 <a href="https://buy.stripe.com/9AQ28w5Zag1p5KE29u" target="_blank" rel="noopener nofollow" class="cta-button" data-tracking-label="Victory1Box" aria-label="Commander 1 boîte de gélules Victory">1 Boîte – 19,00 €</a>
@@ -1030,165 +1038,225 @@
 
         <section class="content-container voyance-section" id="spiritual-services" aria-labelledby="spiritual-services-heading">
             <div class="title-container">
-                <h2 id="spiritual-services-heading">Services Spirituels par Frederick</h2>
+                <h2 id="spiritual-services-heading">Services Spirituels de Frederick : Voyance et Plus</h2>
             </div>
             <div class="audio-button-container">
                 <button class="audio-button" data-text-id="spiritual-services-heading,spiritual-services article" aria-label="Écouter la section Services Spirituels">Écouter</button>
             </div>
-            <article class="audio-text" itemscope itemtype="https://schema.org/Service">
-                <meta itemprop="name" content="Services Spirituels de Frederick">
-                <meta itemprop="description" content="Voyance par email, désenvoûtement, magie sentimentale et compatibilité amoureuse par Frederick, clairvoyant expérimenté.">
-                <meta itemprop="provider" content="ClairvoyanceMedium.com">
-                <p>Frederick, clairvoyant avec 20 ans d’expérience, vous guide vers l’harmonie émotionnelle et spirituelle. Ses services incluent :</p>
-                <ul class="check-list">
-                    <li><strong>Voyance par email :</strong> Réponses détaillées à vos questions en 48h.</li>
-                    <li><strong>Désenvoûtement :</strong> Libération des énergies négatives pour une vie apaisée.</li>
-                    <li><strong>Magie sentimentale :</strong> Renforcement des liens amoureux ou retour affectif.</li>
-                    <li><strong>Compatibilité amoureuse :</strong> Analyse astrologique pour des relations équilibrées.</li>
-                </ul>
-                <p>Chaque service est personnalisé, livré avec soin, et soutenu par un support 24/7. Avec <strong>livraison gratuite</strong> pour les rapports numériques et un paiement sécurisé via Stripe, commencez votre voyage spirituel dès aujourd’hui.</p>
-                <p class="urgency-notice">⏰ Offre exclusive : Prix valables jusqu’au 30 avril 2025 !</p>
+            <article class="audio-text">
+                <p>Frederick, clairvoyant avec 20 ans d’expérience, propose des <a href="#spiritual-services">services spirituels</a> pour guider votre vie émotionnelle et spirituelle. Chaque service est conçu pour apporter clarté, harmonie, et sérénité.</p>
+                <h3>Voyance par Email</h3>
+                <p>Recevez une lecture précise de votre avenir en 24-48h. Posez jusqu’à 3 questions sur l’amour, le travail, ou la santé. Frederick utilise ses dons pour des prédictions fiables. <strong>12,00 €</strong></p>
+                <h3>Désenvoûtement</h3>
+                <p>Libérez-vous des énergies négatives ou maléfices. Ce rituel puissant restaure votre équilibre énergétique. Résultats ressentis en 7 jours. <strong>35,00 €</strong></p>
+                <h3>Magie Sentimentale</h3>
+                <p>Attirez l’amour ou renforcez une relation avec un rituel personnalisé. Idéal pour les retours affectifs. Résultats en 14 jours. <strong>45,00 €</strong></p>
+                <h3>Compatibilité Amoureuse</h3>
+                <p>Analysez votre compatibilité avec un partenaire via une étude astrologique et numérologique. Livré en 48h. <strong>20,00 €</strong></p>
+                <p>Avec <strong>livraison gratuite</strong> des rapports et un paiement sécurisé via Stripe, transformez votre vie spirituelle dès aujourd’hui. Contactez-nous pour un accompagnement personnalisé !</p>
+                <p class="urgency-notice">⏰ Offre limitée : Réservez avant le 30 avril <span id="spiritual-urgency-year"></span> !</p>
             </article>
+            <div class="video-container">
+                <iframe src="https://www.youtube-nocookie.com/embed/7pJxg7UzqqY?si=O4CBsGma7fL5XJPe&vq=hd1080&rel=0&autoplay=0&mute=1" title="Présentation des services spirituels de Frederick" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy" aria-label="Vidéo des services spirituels"></iframe>
+                <p id="spiritual-video-error" role="alert" aria-live="assertive" style="color: #ff6b6b; display: none;">Erreur de chargement de la vidéo. Veuillez accepter les cookies.</p>
+            </div>
             <div class="cta-buttons-container">
-                <a href="https://buy.stripe.com/8wM7sQ8Zm7sV8UM6pM" target="_blank" rel="noopener nofollow" class="cta-button" data-tracking-label="VoyanceEmail" aria-label="Commander une voyance par email">Voyance Email – 29,00 €</a>
-                <a href="https://buy.stripe.com/3cseWKcLI2g52sAbJ1" target="_blank" rel="noopener nofollow" class="cta-button" data-tracking-label="Desenvoutement" aria-label="Commander un désenvoûtement">Désenvoûtement – 49,00 €</a>
+                <a href="https://buy.stripe.com/3cs9AM9bm8AVgCcdTd" target="_blank" rel="noopener nofollow" class="cta-button" data-tracking-label="VoyanceEmail" aria-label="Commander une voyance par email">Voyance – 12,00 €</a>
+                <a href="https://buy.stripe.com/4gweWadnS8AV4IAcOQ" target="_blank" rel="noopener nofollow" class="cta-button" data-tracking-label="Desenvoutement" aria-label="Commander un désenvoûtement">Désenvoûtement – 35,00 €</a>
+                <a href="https://buy.stripe.com/8wM28w5Zag1pfA84ho" target="_blank" rel="noopener nofollow" class="cta-button" data-tracking-label="MagieSentimentale" aria-label="Commander une magie sentimentale">Magie Sentimentale – 45,00 €</a>
+                <a href="https://buy.stripe.com/eVabJ69bmbL9e64eVv" target="_blank" rel="noopener nofollow" class="cta-button" data-tracking-label="CompatibiliteAmoureuse" aria-label="Commander une compatibilité amoureuse">Compatibilité – 20,00 €</a>
             </div>
         </section>
     </main>
 
-    <div class="popup exit-intent-popup" id="exitIntentPopup" role="dialog" aria-labelledby="popup-heading" style="display: none;">
-        <h2 id="popup-heading">Ne Partez Pas Sans Votre Transformation !</h2>
-        <p>Regardez cette vidéo pour découvrir comment les <a href="#minceur">gélules Victory</a> et la <a href="#spiritual-services">voyance</a> peuvent changer votre vie.</p>
-        <div class="video-container">
-            <iframe src="https://www.youtube-nocookie.com/embed/9pJxg7UzqqY?si=O4CBsGma7fL5XJPe&vq=hd1080&rel=0&autoplay=1&mute=0" title="Vidéo promotionnelle Gélules Victory et Voyance" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy" aria-label="Vidéo promotionnelle"></iframe>
-            <button class="mute-toggle" aria-label="Activer/Désactiver le son">Désactiver le son</button>
-        </div>
-        <div class="cta-buttons-container">
-            <a href="https://buy.stripe.com/9AQ28w5Zag1p5KE29u" target="_blank" rel="noopener nofollow" class="popup-action-button" data-tracking-label="Victory1BoxPopup" aria-label="Commander 1 boîte de gélules Victory">1 Boîte – 19,00 €</a>
-            <button class="popup-close-button" id="closePopup" aria-label="Fermer la fenêtre contextuelle">Fermer</button>
-        </div>
+    <div class="sticky-banner" id="stickyBanner" role="dialog" aria-labelledby="banner-heading">
+        <h2 id="banner-heading" class="sr-only">Offre promotionnelle</h2>
+        <p>🎁 Offre spéciale : 1 boîte Victory à 19,00 €, livraison gratuite ! Valable jusqu’au 30 avril <span id="banner-year"></span>.</p>
+        <a href="https://buy.stripe.com/9AQ28w5Zag1p5KE29u" target="_blank" rel="noopener nofollow" class="cta-button" data-tracking-label="StickyBannerVictory" aria-label="Commander 1 boîte de gélules Victory">Commander Maintenant</a>
+        <button class="sticky-close" aria-label="Fermer la bannière promotionnelle">✕</button>
     </div>
 
-    <div class="sticky-banner" role="complementary" aria-label="Offre promotionnelle">
-        <p>🎁 Offre 2025 : Livraison gratuite sur toutes les commandes !</p>
-        <a href="https://buy.stripe.com/9AQ28w5Zag1p5KE29u" target="_blank" rel="noopener nofollow" class="cta-button" data-tracking-label="StickyBanner" aria-label="Commander maintenant">Commander maintenant</a>
+    <div class="popup exit-intent-popup" id="exitIntentPopup" role="dialog" aria-labelledby="popup-heading" aria-hidden="true">
+        <h2 id="popup-heading">Ne Partez Pas Sans Votre Transformation !</h2>
+        <p>Perdez jusqu’à 12 kg en 2 mois avec les gélules Victory ou découvrez la voyance de Frederick. Offre exclusive jusqu’au 30 avril <span id="popup-year"></span> !</p>
+        <div class="video-container">
+            <iframe id="popupVideo" src="https://www.youtube-nocookie.com/embed/9pJxg7UzqqY?si=O4CBsGma7fL5XJPe&vq=hd1080&rel=0&autoplay=1&mute=1" title="Offre exclusive gélules Victory et services spirituels" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy" aria-label="Vidéo promotionnelle"></iframe>
+            <p id="popup-video-error" role="alert" aria-live="assertive" style="color: #ff6b6b; display: none;">Erreur de chargement de la vidéo. Veuillez accepter les cookies.</p>
+        </div>
+        <div class="cta-buttons-container">
+            <a href="https://buy.stripe.com/9AQ28w5Zag1p5KE29u" target="_blank" rel="noopener nofollow" class="popup-action-button" data-tracking-label="PopupVictory" aria-label="Commander 1 boîte de gélules Victory">1 Boîte – 19,00 €</a>
+            <a href="#spiritual-services" class="popup-action-button" aria-label="Découvrir les services spirituels">Services Spirituels</a>
+            <button class="popup-close-button" aria-label="Fermer la fenêtre contextuelle">Fermer</button>
+        </div>
     </div>
 
     <footer role="contentinfo">
-        <p>&copy; <span id="footer-year"></span> ClairvoyanceMedium.com. Tous droits réservés.</p>
-        <p><a href="/politique-confidentialite" aria-label="Lire la politique de confidentialité">Politique de confidentialité</a> | <a href="/conditions-utilisation" aria-label="Lire les conditions d’utilisation">Conditions d’utilisation</a> | <a href="/contact" aria-label="Contacter le support">Contact</a></p>
+        <p>© <span id="footer-year"></span> ClairvoyanceMedium.com – Tous droits réservés. <a href="/mentions-legales" aria-label="Consulter les mentions légales">Mentions légales</a> | <a href="/politique-confidentialite" aria-label="Consulter la politique de confidentialité">Confidentialité</a> | <a href="/conditions-generales" aria-label="Consulter les conditions générales">CGV</a></p>
+        <p>Contact : <a href="mailto:support@clairvoyancemedium.com" aria-label="Contacter le support par email">support@clairvoyancemedium.com</a> | Livraison gratuite mondiale | Paiement sécurisé via Stripe</p>
     </footer>
 
     <script nonce="xai-premium2025">
-        document.getElementById('current-year').textContent = new Date().getFullYear();
-        document.getElementById('footer-year').textContent = new Date().getFullYear();
+        // Automatic Year Update
+        const updateYears = () => {
+            const currentYear = new Date().getFullYear();
+            const yearElements = document.querySelectorAll('#current-year, #header-year, #hero-year, #urgency-year, #minceur-urgency-year, #programme-urgency-year, #article-year, #article-sub-year, #article-end-year, #spiritual-urgency-year, #banner-year, #popup-year, #footer-year, #meta-year, #twitter-year, #og-year');
+            yearElements.forEach(el => {
+                el.textContent = currentYear;
+            });
+        };
+        updateYears();
+        setInterval(updateYears, 86400000); // Update daily
 
-        function googleTranslateElementInit() {
-            new google.translate.TranslateElement({
-                pageLanguage: 'fr',
-                includedLanguages: 'en,es,de,it,pt,nl,sv,da,fi,no,pl,cs,hu,ro,sk,sl,hr,bg,el,et,lv,lt,ga,mt,ru,zh-CN,hi,ar,bn,ja,ko,vi,th,ms,tr,sw',
-                layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
-                autoDisplay: false
-            }, 'google_translate_element');
-        }
-
+        // Cookie Consent Management
         const cookieConsent = document.getElementById('cookieConsent');
         const acceptCookies = document.getElementById('acceptCookies');
         const rejectCookies = document.getElementById('rejectCookies');
+        const videos = document.querySelectorAll('iframe[src*="youtube-nocookie"]');
+        const videoErrors = document.querySelectorAll('#video-error, #spiritual-video-error, #popup-video-error');
+
         if (!localStorage.getItem('cookieConsent')) {
             cookieConsent.style.display = 'block';
         }
+
         acceptCookies.addEventListener('click', () => {
             localStorage.setItem('cookieConsent', 'accepted');
             cookieConsent.style.display = 'none';
-            document.querySelectorAll('.video-container iframe').forEach(iframe => {
-                iframe.src = iframe.src.replace('mute=1', 'mute=0');
+            videos.forEach(video => {
+                video.src = video.src.replace('mute=1', 'mute=0');
             });
+            videoErrors.forEach(error => error.style.display = 'none');
         });
+
         rejectCookies.addEventListener('click', () => {
             localStorage.setItem('cookieConsent', 'rejected');
             cookieConsent.style.display = 'none';
-            document.querySelectorAll('.video-container iframe').forEach(iframe => {
-                document.getElementById('video-error').style.display = 'block';
-            });
+            videoErrors.forEach(error => error.style.display = 'block');
         });
 
-        const muteToggles = document.querySelectorAll('.mute-toggle');
-        muteToggles.forEach(toggle => {
-            toggle.addEventListener('click', () => {
-                const iframe = toggle.previousElementSibling;
-                const isMuted = iframe.src.includes('mute=1');
-                iframe.src = isMuted ? iframe.src.replace('mute=1', 'mute=0') : iframe.src.replace('mute=0', 'mute=1');
-                toggle.textContent = isMuted ? 'Désactiver le son' : 'Activer le son';
-            });
+        // Sticky Banner Management
+        const stickyBanner = document.getElementById('stickyBanner');
+        const stickyClose = document.querySelector('.sticky-close');
+        let bannerTimeout;
+
+        const showStickyBanner = () => {
+            stickyBanner.style.display = 'block';
+            bannerTimeout = setTimeout(showStickyBanner, 35000);
+        };
+
+        stickyClose.addEventListener('click', () => {
+            stickyBanner.style.display = 'none';
+            clearTimeout(bannerTimeout);
+            bannerTimeout = setTimeout(showStickyBanner, 35000);
         });
 
-        const audioButtons = document.querySelectorAll('.audio-button');
-        let currentAudio = null;
-        audioButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const textIds = button.getAttribute('data-text-id').split(',');
-                let textToRead = '';
-                textIds.forEach(id => {
-                    const elements = document.querySelectorAll(`#${id}, #${id} p, #${id} h2, #${id} h3, #${id} li, #${id} blockquote`);
-                    elements.forEach(el => textToRead += el.textContent + ' ');
+        // Exit Intent Popup
+        const exitIntentPopup = document.getElementById('exitIntentPopup');
+        const popupCloseButton = document.querySelector('.popup-close-button');
+        let popupTimeout;
+
+        const showExitIntentPopup = () => {
+            if (window.innerWidth <= 768) { // Mobile devices
+                exitIntentPopup.classList.add('active');
+                exitIntentPopup.setAttribute('aria-hidden', 'false');
+                popupTimeout = setTimeout(showExitIntentPopup, 35000);
+            }
+        };
+
+        const hideExitIntentPopup = () => {
+            exitIntentPopup.classList.remove('active');
+            exitIntentPopup.setAttribute('aria-hidden', 'true');
+            clearTimeout(popupTimeout);
+            popupTimeout = setTimeout(showExitIntentPopup, 35000);
+        };
+
+        popupCloseButton.addEventListener('click', hideExitIntentPopup);
+
+        // Exit Intent Detection for Desktop
+        document.addEventListener('mouseout', (e) => {
+            if (e.relatedTarget === null && e.clientY <= 0 && window.innerWidth > 768) {
+                exitIntentPopup.classList.add('active');
+                exitIntentPopup.setAttribute('aria-hidden', 'false');
+            }
+        });
+
+        // Show popup on mobile after 35 seconds
+        if (window.innerWidth <= 768) {
+            setTimeout(showExitIntentPopup, 35000);
+        }
+
+        // Carousel Functionality
+        const carousels = document.querySelectorAll('.carousel');
+        carousels.forEach(carousel => {
+            const inner = carousel.querySelector('.carousel-inner');
+            const items = inner.querySelectorAll('.carousel-item');
+            const prevButton = carousel.querySelector('.carousel-prev');
+            const nextButton = carousel.querySelector('.carousel-next');
+            let currentIndex = 0;
+
+            const updateCarousel = () => {
+                items.forEach((item, index) => {
+                    item.classList.toggle('active', index === currentIndex);
+                    item.setAttribute('aria-hidden', index !== currentIndex);
+                    item.setAttribute('tabindex', index === currentIndex ? '0' : '-1');
                 });
-                if (currentAudio) {
-                    currentAudio.pause();
-                    currentAudio = null;
-                    audioButtons.forEach(btn => btn.classList.remove('playing'));
-                }
-                if (!button.classList.contains('playing')) {
-                    const utterance = new SpeechSynthesisUtterance(textToRead);
-                    utterance.lang = 'fr-FR';
-                    utterance.rate = 1;
-                    utterance.pitch = 1;
-                    window.speechSynthesis.speak(utterance);
-                    button.classList.add('playing');
-                    currentAudio = utterance;
-                    utterance.onend = () => {
-                        button.classList.remove('playing');
-                        currentAudio = null;
-                    };
-                }
+                carousel.setAttribute('aria-label', `Carrousel, slide ${currentIndex + 1} sur ${items.length}`);
+            };
+
+            prevButton.addEventListener('click', () => {
+                currentIndex = (currentIndex - 1 + items.length) % items.length;
+                updateCarousel();
             });
+
+            nextButton.addEventListener('click', () => {
+                currentIndex = (currentIndex + 1) % items.length;
+                updateCarousel();
+            });
+
+            updateCarousel();
         });
 
+        // IMC Calculator
         const imcForm = document.getElementById('imcForm');
         const imcResult = document.getElementById('imcResult');
-        const imcRecommendation = document.getElementById('imcRecommendation');
-        const imcError = document.getElementById('imcError');
         const imcChart = document.getElementById('imcChart').getContext('2d');
-        let chartInstance = null;
-        imcForm.addEventListener('submit', e => {
+        const imcRecommendation = document.getElementById('imc-recommendation');
+        const imcError = document.getElementById('imc-error');
+
+        let imcChartInstance;
+
+        imcForm.addEventListener('submit', (e) => {
             e.preventDefault();
             const weight = parseFloat(document.getElementById('weight').value);
             const height = parseFloat(document.getElementById('height').value) / 100;
+
             if (isNaN(weight) || isNaN(height) || weight < 10 || weight > 300 || height < 0.5 || height > 2.8) {
                 imcError.textContent = 'Veuillez entrer un poids (10-300 kg) et une taille (50-280 cm) valides.';
                 return;
             }
+
             imcError.textContent = '';
             const imc = (weight / (height * height)).toFixed(1);
             let category = '';
+
             if (imc < 18.5) category = 'Insuffisance pondérale';
             else if (imc < 25) category = 'Poids normal';
             else if (imc < 30) category = 'Surpoids';
             else category = 'Obésité';
-            imcResult.innerHTML = `Votre IMC : <strong>${imc}</strong> (${category})`;
+
+            imcResult.textContent = `Votre IMC est ${imc} (${category}).`;
             imcRecommendation.style.display = 'block';
             imcRecommendation.setAttribute('aria-hidden', 'false');
-            if (chartInstance) chartInstance.destroy();
-            chartInstance = new Chart(imcChart, {
+
+            if (imcChartInstance) imcChartInstance.destroy();
+
+            imcChartInstance = new Chart(imcChart, {
                 type: 'bar',
                 data: {
                     labels: ['Votre IMC', 'Insuffisance', 'Normal', 'Surpoids', 'Obésité'],
                     datasets: [{
                         label: 'IMC',
                         data: [imc, 18.5, 25, 30, 40],
-                        backgroundColor: ['#87CEEB', '#FFB6C1', '#2ecc71', '#ff6b6b', '#e74c3c'],
-                        borderColor: ['#fff'],
-                        borderWidth: 1
+                        backgroundColor: ['#87CEEB', '#FF69B4', '#2ecc71', '#ff6b6b', '#e74c3c'],
                     }]
                 },
                 options: {
@@ -1199,86 +1267,102 @@
                     },
                     plugins: {
                         legend: { display: false },
-                        title: { display: true, text: 'Votre IMC Comparé aux Catégories', font: { size: 16 } }
+                        title: { display: true, text: 'Votre IMC en Contexte' }
                     }
                 }
             });
         });
 
-        function initCarousel(carouselId, innerId) {
-            const carousel = document.getElementById(carouselId);
-            const inner = document.getElementById(innerId);
-            const items = inner.querySelectorAll('.carousel-item');
-            const prev = carousel.querySelector('.prev');
-            const next = carousel.querySelector('.next');
-            let currentIndex = 0;
-            let isTransitioning = false;
-            function updateCarousel() {
-                if (isTransitioning) return;
-                isTransitioning = true;
-                items.forEach((item, index) => {
-                    item.classList.remove('active');
-                    item.setAttribute('aria-hidden', 'true');
-                    item.setAttribute('tabindex', '-1');
-                    item.style.transform = `translateX(${index < currentIndex ? -100 : 100}%)`;
-                    item.style.opacity = '0';
-                });
-                items[currentIndex].classList.add('active');
-                items[currentIndex].setAttribute('aria-hidden', 'false');
-                items[currentIndex].setAttribute('tabindex', '0');
-                items[currentIndex].style.transform = 'translateX(0)';
-                items[currentIndex].style.opacity = '1';
-                carousel.setAttribute('aria-label', `Carrousel, slide ${currentIndex + 1} sur ${items.length}`);
-                setTimeout(() => { isTransitioning = false; }, 600);
-            }
-            prev.addEventListener('click', () => {
-                if (isTransitioning) return;
-                currentIndex = (currentIndex - 1 + items.length) % items.length;
-                updateCarousel();
-            });
-            next.addEventListener('click', () => {
-                if (isTransitioning) return;
-                currentIndex = (currentIndex + 1) % items.length;
-                updateCarousel();
-            });
-            setInterval(() => {
-                currentIndex = (currentIndex + 1) % items.length;
-                updateCarousel();
-            }, 5000);
-            updateCarousel();
-        }
-        initCarousel('avisCarousel', 'avisCarouselInner');
-        initCarousel('blogCarousel', 'blogCarouselInner');
+        // Text-to-Speech
+        const audioButtons = document.querySelectorAll('.audio-button');
+        let currentSpeech = null;
 
-        const popup = document.getElementById('exitIntentPopup');
-        const closePopup = document.getElementById('closePopup');
-        let hasShownPopup = false;
-        document.addEventListener('mouseout', e => {
-            if (!hasShownPopup && e.relatedTarget === null && e.clientY <= 0) {
-                if (localStorage.getItem('cookieConsent') === 'accepted') {
-                    popup.style.display = 'block';
-                    hasShownPopup = true;
+        audioButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const textIds = button.dataset.textId.split(',');
+                const texts = textIds.map(id => document.getElementById(id)?.textContent || document.querySelector(`#${id} .audio-text`)?.textContent).filter(Boolean);
+                const text = texts.join(' ');
+
+                if (currentSpeech) {
+                    speechSynthesis.cancel();
+                    currentSpeech = null;
+                    button.classList.remove('playing');
+                    button.textContent = 'Écouter';
+                    return;
                 }
-            }
-        });
-        closePopup.addEventListener('click', () => {
-            popup.style.display = 'none';
+
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'fr-FR';
+                utterance.rate = 1;
+                utterance.pitch = 1;
+
+                utterance.onend = () => {
+                    button.classList.remove('playing');
+                    button.textContent = 'Écouter';
+                    currentSpeech = null;
+                };
+
+                speechSynthesis.speak(utterance);
+                currentSpeech = utterance;
+                button.classList.add('playing');
+                button.textContent = 'Arrêter';
+            });
         });
 
+        // Google Translate
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'fr',
+                includedLanguages: 'en,es,de,it,pt,nl,sv,da,fi,no,pl,cs,hu,ro,sk,sl,hr,bg,el,et,lv,lt,ga,mt,ru,zh-CN,hi,ar,bn,ja,ko,vi,th,ms,tr,sw',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+                autoDisplay: false
+            }, 'google_translate_element');
+        }
+
+        // Google Analytics
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
         gtag('config', 'G-2RSFE6WL4M');
 
-        document.querySelectorAll('a[data-tracking-label]').forEach(link => {
-            link.addEventListener('click', () => {
-                gtag('event', 'click', {
-                    'event_category': 'CTA',
-                    'event_label': link.getAttribute('data-tracking-label'),
-                    'value': 1
-                });
+        // Debounced Scroll Event
+        let lastScroll = 0;
+        const handleScroll = () => {
+            const currentScroll = window.pageYOffset;
+            if (Math.abs(currentScroll - lastScroll) > 50) {
+                lastScroll = currentScroll;
+                // Add scroll-related logic if needed
+            }
+        };
+
+        const debounce = (func, wait) => {
+            let timeout;
+            return (...args) => {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => func.apply(this, args), wait);
+            };
+        };
+
+        window.addEventListener('scroll', debounce(handleScroll, 100));
+
+        // Lazy Loading for Additional Resources
+        const lazyImages = document.querySelectorAll('img[loading="lazy"]');
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    img.src = img.dataset.src || img.src;
+                    observer.unobserve(img);
+                }
             });
-        });
+        }, { rootMargin: '0px 0px 100px 0px' });
+
+        lazyImages.forEach(img => observer.observe(img));
+
+        // Web Vitals
+        webVitals.getCLS((metric) => console.log('CLS:', metric.value));
+        webVitals.getFID((metric) => console.log('FID:', metric.value));
+        webVitals.getLCP((metric) => console.log('LCP:', metric.value));
     </script>
 </body>
 </html>
