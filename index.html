@@ -265,7 +265,7 @@
         }
         .logo {
             width: 100%; max-width: 500px; height: auto; object-fit: contain; display: block;
-            margin: 2rem auto 3rem auto; aspect-ratio: 1/1;
+            margin: 2rem auto; aspect-ratio: 1/1;
         }
         @media (min-width: 768px) { .logo { max-width: 600px; } }
         .top-rank { margin-bottom: 1.2rem; }
@@ -289,7 +289,6 @@
             font-family: var(--font-primary); color: var(--border-color); text-decoration: none;
             padding: 0.7rem 1.4rem; border: 2px solid var(--border-color); border-radius: 6px;
             transition: all var(--transition-smooth); background: transparent; font-size: 1.25rem;
-            display: inline-block; white-space: nowrap;
         }
         nav ul li a:hover, nav ul li a:focus-visible {
             background-color: var(--border-color); color: var(--bg); outline: var(--focus-outline);
@@ -363,22 +362,15 @@
             width: 100%; overflow: hidden; contain: paint;
         }
         .carousel.blog-carousel { border-color: #87CEEB; }
-        .carousel#avisCarousel {
-            min-height: 360px; padding: 2.5rem;
-        }
         .carousel-inner {
             width: 100%; height: 100%; position: relative; overflow: hidden; display: flex;
             align-items: center; will-change: transform; min-height: 220px;
         }
-        .carousel#avisCarousel .carousel-inner { min-height: 280px; }
         .carousel-item {
             width: 100%; transition: transform 0.6s ease-in-out, opacity 0.6s ease-in-out;
             position: absolute; top: 0; left: 0; display: flex; flex-direction: column; justify-content: center;
             align-items: center; padding: 2rem; box-sizing: border-box; min-height: 220px;
             transform: translateX(100%); visibility: visible; opacity: 0;
-        }
-        .carousel#avisCarousel .carousel-item {
-            min-height: 280px; padding: 2.5rem;
         }
         .carousel-item.active {
             transform: translateX(0); opacity: 1;
@@ -390,10 +382,10 @@
             display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
         }
         .carousel-item blockquote {
-            font-size: clamp(1.2rem, 3.5vw, 1.4rem); line-height: 1.5; font-style: italic;
+            font-size: clamp(1rem, 3vw, 1.2rem); line-height: 1.5; font-style: italic;
         }
         .carousel-item figcaption {
-            font-size: clamp(1rem, 3vw, 1.2rem); color: var(--text-secondary); font-style: italic;
+            font-size: clamp(0.9rem, 2.5vw, 1rem); color: var(--text-secondary); font-style: italic;
         }
         .carousel-nav {
             display: flex; justify-content: center; gap: 1.2rem; margin-top: 1.2rem;
@@ -408,16 +400,13 @@
             display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
             background: var(--bg); padding: 2rem; border: 3px solid #FF69B4;
             border-radius: 12px; box-shadow: 0 0 30px var(--pink-shadow); z-index: 1000;
-            width: clamp(300px, 90vw, 600px); text-align: center; font-family: var(--font-primary);
+            width: clamp(300px, 90vw, 550px); text-align: center; font-family: var(--font-primary);
             animation: popupFadeIn 0.6s ease-in-out;
         }
         .popup.active { display: block; }
         .exit-intent-popup {
             background: var(--bg); padding: 2.5rem; border-radius: 12px;
-            box-shadow: 0 0 35px var(--pink-shadow); max-width: 600px;
-        }
-        .exit-intent-popup .video-container {
-            margin: 1.5rem auto;
+            box-shadow: 0 0 35px var(--pink-shadow); max-width: 550px;
         }
         @media (max-width: 768px) {
             .exit-intent-popup {
@@ -482,17 +471,13 @@
         }
         @media (max-width: 768px) {
             nav[role="navigation"] { padding: 0.6rem 0; }
-            nav ul { gap: 0.4rem; flex-direction: column; align-items: center; }
+            nav ul { gap: 0.4rem; }
             nav ul li a { font-size: 1.1rem; padding: 0.5rem 1rem; }
             .cta-buttons-container { flex-direction: column; }
             .comparison-table { font-size: 0.9rem; }
             .carousel-nav button { font-size: 1.3rem; padding: 0.5rem 1rem; }
             .popup { width: clamp(280px, 95vw, 420px); }
             .audio-button { font-size: 1rem; padding: 0.5rem 1rem; }
-            .carousel#avisCarousel { min-height: 320px; }
-            .carousel#avisCarousel .carousel-item { min-height: 240px; }
-            .carousel-item blockquote { font-size: clamp(1rem, 3vw, 1.2rem); }
-            .carousel-item figcaption { font-size: clamp(0.9rem, 2.5vw, 1rem); }
         }
         @media (max-width: 480px) {
             body { font-size: 0.95rem; }
@@ -501,8 +486,6 @@
             h1 { font-size: clamp(2.2rem, 5.5vw, 2.8rem); }
             h2 { font-size: clamp(2rem, 5vw, 2.4rem); }
             .audio-button { font-size: 0.9rem; padding: 0.4rem 0.8rem; }
-            .carousel#avisCarousel { min-height: 300px; }
-            .carousel#avisCarousel .carousel-item { min-height: 220px; }
         }
         .sr-only {
             position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
@@ -823,70 +806,70 @@
                 <button class="audio-button" data-text-id="avis-heading,avis article,avisCarouselInner" aria-label="Écouter la section Avis Clients">Écouter</button>
             </div>
             <article class="audio-text">
-                <p>Nos 9000+ clients satisfaits témoignent de l’efficacité des <a href="#minceur">gélules minceur Victory</a> et des <a href="#spiritual-services">services spirituels</a> de Frederick. Découvrez leurs expériences authentiques ci-dessous dans notre carrousel. Que ce soit pour perdre du poids rapidement ou retrouver un équilibre émotionnel grâce à la voyance, au désenvoûtement, ou à la magie sentimentale, nos solutions ont transformé des vies. Lisez leurs histoires et rejoignez notre communauté !</p>
+                <p>Avec une note de 4.9/5, nos clients partagent leurs succès avec les <a href="#minceur">gélules Victory</a>, le <a href="#programme-personnalise">programme personnalisé</a>, et les <a href="#spiritual-services">services spirituels</a>. Leurs témoignages inspirants prouvent l’efficacité de nos solutions. Lisez leurs histoires !</p>
             </article>
             <div class="carousel" id="avisCarousel" role="region" aria-roledescription="carousel" aria-label="Carrousel d’avis clients, slide 1 sur 10" tabindex="0">
                 <div class="carousel-inner" id="avisCarouselInner" aria-live="off">
                     <div class="carousel-item active" role="group" aria-roledescription="slide" tabindex="0">
                         <figure>
-                            <blockquote>« Les gélules Victory m’ont transformée ! J’ai perdu 10 kg en 6 semaines et je me sens pleine d’énergie. »</blockquote>
-                            <figcaption>Sophie L., 29 ans</figcaption>
+                            <blockquote>« Les gélules Victory m’ont aidée à perdre 10 kg en 6 semaines ! Je me sens plus légère et pleine d’énergie. »</blockquote>
+                            <figcaption>Sophie L., 34 ans</figcaption>
                         </figure>
                     </div>
                     <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1" aria-hidden="true">
                         <figure>
-                            <blockquote>« La voyance par email m’a donné des réponses claires sur mon avenir. Frederick est exceptionnel ! »</blockquote>
-                            <figcaption>Julien M., 34 ans</figcaption>
+                            <blockquote>« La voyance par email de Frederick m’a guidée dans mes choix amoureux. Un service exceptionnel ! »</blockquote>
+                            <figcaption>Claire M., 29 ans</figcaption>
                         </figure>
                     </div>
                     <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1" aria-hidden="true">
                         <figure>
-                            <blockquote>« Le programme personnalisé est génial ! J’ai perdu 8 kg et je mange mieux sans frustration. »</blockquote>
-                            <figcaption>Clara T., 27 ans</figcaption>
+                            <blockquote>« Le programme personnalisé est incroyable. J’ai perdu 8 kg et je me sens en harmonie avec moi-même. »</blockquote>
+                            <figcaption>Julien T., 42 ans</figcaption>
                         </figure>
                     </div>
                     <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1" aria-hidden="true">
                         <figure>
-                            <blockquote>« La compatibilité amoureuse m’a aidé à mieux comprendre mon partenaire. Service rapide et précis ! »</blockquote>
-                            <figcaption>Emma B., 31 ans</figcaption>
+                            <blockquote>« Grâce au désenvoûtement, j’ai retrouvé ma sérénité. Frederick est un vrai professionnel. »</blockquote>
+                            <figcaption>Amandine R., 37 ans</figcaption>
                         </figure>
                     </div>
                     <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1" aria-hidden="true">
-                        <figure>
-                            <blockquote>« J’ai perdu 12 kg avec Victory et je me sens transformée. Ma peau est plus belle aussi ! »</blockquote>
-                            <figcaption>Laura P., 28 ans</figcaption>
-                        </figure>
-                    </div>
-                    <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1" aria-hidden="true">
-                        <figure>
-                            <blockquote>« La magie sentimentale a renforcé mon couple. Frederick est incroyable, merci ! »</blockquote>
-                            <figcaption>Marie D., 40 ans</figcaption>
-                        </figure>
-                    </div>
-                    <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1" aria-hidden="true">
-                        <figure>
-                            <blockquote>« Le programme minceur m’a donné des conseils pratiques. J’ai perdu 9 kg sans frustration. »</blockquote>
-                            <figcaption>Thomas G., 35 ans</figcaption>
-                        </figure>
-                    </div>
-                    <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1" aria-hidden="true">
-                        <figure>
-                            <blockquote>« Les gélules sont faciles à prendre et efficaces. J’ai vu des résultats en 2 semaines ! »</blockquote>
-                            <figcaption>Camille S., 26 ans</figcaption>
-                        </figure>
-                    </div>
-                    <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1" aria-hidden="true">
-                        <figure>
-                            <blockquote>« La voyance par email est abordable et précise. J’ai enfin des réponses claires ! »</blockquote>
-                            <figcaption>Lucas V., 33 ans</figcaption>
-                        </figure>
-                    </div>
-                    <div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1" aria-hidden="true">
-                        <figure>
-                            <blockquote>« Le désenvoûtement m’a libéré d’un poids. Je me sens plus léger et confiant ! »</blockquote>
-                            <figcaption>Paul R., 38 ans</figcaption>
-                        </figure>
-                    </div>
+    <figure>
+        <blockquote>« La compatibilité amoureuse m’a aidé à mieux comprendre mon partenaire. Service rapide et précis ! »</blockquote>
+        <figcaption>Emma B., 31 ans</figcaption>
+    </figure>
+</div>
+<div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1" aria-hidden="true">
+    <figure>
+        <blockquote>« J’ai perdu 12 kg avec Victory et je me sens transformée. Ma peau est plus belle aussi ! »</blockquote>
+        <figcaption>Laura P., 28 ans</figcaption>
+    </figure>
+</div>
+<div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1" aria-hidden="true">
+    <figure>
+        <blockquote>« La magie sentimentale a renforcé mon couple. Frederick est incroyable, merci ! »</blockquote>
+        <figcaption>Marie D., 40 ans</figcaption>
+    </figure>
+</div>
+<div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1" aria-hidden="true">
+    <figure>
+        <blockquote>« Le programme minceur m’a donné des conseils pratiques. J’ai perdu 9 kg sans frustration. »</blockquote>
+        <figcaption>Thomas G., 35 ans</figcaption>
+    </figure>
+</div>
+<div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1" aria-hidden="true">
+    <figure>
+        <blockquote>« Les gélules sont faciles à prendre et efficaces. J’ai vu des résultats en 2 semaines ! »</blockquote>
+        <figcaption>Camille S., 26 ans</figcaption>
+    </figure>
+</div>
+<div class="carousel-item" role="group" aria-roledescription="slide" tabindex="-1" aria-hidden="true">
+    <figure>
+        <blockquote>« La voyance par email est abordable et précise. J’ai enfin des réponses claires ! »</blockquote>
+        <figcaption>Lucas V., 33 ans</figcaption>
+    </figure>
+</div>
                 </div>
                 <div class="carousel-nav">
                     <button class="prev" aria-label="Témoignage précédent">←</button>
@@ -957,7 +940,7 @@
                 <meta itemprop="image" content="https://i.imgur.com/H69KvL6.webp">
                 <p>Perdre du poids rapidement tout en retrouvant un équilibre émotionnel et spirituel est possible avec une approche holistique. Voici un guide complet pour transformer votre corps et votre esprit en <span id="article-year"></span>.</p>
                 <h3>1. Adoptez les Gélules Minceur Victory</h3>
-                <p>Les <a hacker="#minceur">gélules Victory</a> (60 gélules de chitine) permettent de perdre jusqu’à 12 kg en 2 mois. Leur formule naturelle à base de chitine, thé vert, et garcinia cambogia réduit l’appétit, accélère le métabolisme, et améliore la digestion. Prenez 2 gélules par jour avec un grand verre d’eau pour des résultats visibles dès 2 semaines.</p>
+                <p>Les <a href="#minceur">gélules Victory</a> (60 gélules de chitine) permettent de perdre jusqu’à 12 kg en 2 mois. Leur formule naturelle à base de chitine, thé vert, et garcinia cambogia réduit l’appétit, accélère le métabolisme, et améliore la digestion. Prenez 2 gélules par jour avec un grand verre d’eau pour des résultats visibles dès 2 semaines.</p>
                 <p>Associez-les à une alimentation riche en légumes, protéines maigres, et bonnes graisses. Évitez les sucres rapides et privilégiez les aliments à faible indice glycémique.</p>
                 <h3>2. Intégrez des Activités Physiques Simples</h3>
                 <p>La <strong>marche rapide</strong> (30 min/jour) et le <strong>yoga</strong> sont idéaux pour brûler des calories tout en réduisant le stress. Le yoga, en particulier, favorise la connexion corps-esprit, essentielle pour une perte de poids durable. Essayez des poses comme la posture du chien tête en bas ou la planche.</p>
@@ -1019,10 +1002,6 @@
     <div class="popup exit-intent-popup" id="exitIntentPopup" role="dialog" aria-labelledby="popup-heading" aria-hidden="true">
         <h2 id="popup-heading">Ne Partez Pas Sans Votre Transformation !</h2>
         <p>Rejoignez 9000+ clients satisfaits et commencez à perdre du poids avec les <a href="#minceur">gélules Victory</a> ou trouvez des réponses avec la <a href="#spiritual-services">voyance de Frederick</a>. Offre exclusive jusqu’au 30 avril <span id="popup-year"></span> !</p>
-        <div class="video-container">
-            <iframe src="https://www.youtube-nocookie.com/embed/9pJxg7UzqqY?si=O4CBsGma7fL5XJPe&vq=hd1080&rel=0&autoplay=0&mute=1" title="Vidéo promotionnelle pour les gélules Victory et services spirituels" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy" aria-label="Vidéo des gélules Victory et services spirituels"></iframe>
-            <button class="mute-toggle" aria-label="Activer/Désactiver le son">Activer le son</button>
-        </div>
         <div class="cta-buttons-container">
             <a href="https://buy.stripe.com/9AQ28w5Zag1p5KE29u" target="_blank" rel="noopener nofollow" class="popup-action-button" data-tracking-label="PopupVictory1Box" aria-label="Commander 1 boîte de gélules Victory">1 Boîte – 19,00 €</a>
             <a href="#spiritual-services" class="popup-action-button" aria-label="Découvrir les services spirituels">Services Spirituels</a>
@@ -1045,7 +1024,7 @@
             function googleTranslateElementInit() {
                 new google.translate.TranslateElement({
                     pageLanguage: 'fr',
-                    includedLanguages: 'en,es,de,it,pt,nl,sv,da,fi,no,pl,cs,hu,ro,sk,sl,hr,bg,el,et,lv,lt,ga,mt,ru,zh-CN,hi,ar,bn,ja,ko,vi,th,ms,tr,sw',
+                    includedLanguages: 'en,es,de,it,pt,nl,sv,da,fi,no,pl,cs,hu,ro,sk,sl,hr,bg,el,et,lv,lt,ga,mt,ru,zh-CN,hi,ar,bn,ja,ko, urbanos,th,ms,tr,sw',
                     layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
                     autoDisplay: false
                 }, 'google_translate_element');
@@ -1071,14 +1050,8 @@
 
             const stickyBanner = document.getElementById('stickyBanner');
             const stickyClose = stickyBanner.querySelector('.sticky-close');
-            let stickyTimeout;
-            function showStickyBanner() {
-                stickyBanner.style.display = 'flex';
-            }
             stickyClose.addEventListener('click', () => {
                 stickyBanner.style.display = 'none';
-                clearTimeout(stickyTimeout);
-                stickyTimeout = setTimeout(showStickyBanner, 35000);
             });
 
             const exitPopup = document.getElementById('exitIntentPopup');
@@ -1177,14 +1150,7 @@
             audioButtons.forEach(button => {
                 button.addEventListener('click', () => {
                     const textIds = button.getAttribute('data-text-id').split(',');
-                    const textElements = textIds.map(id => {
-                        const el = document.getElementById(id) || document.querySelector(id);
-                        if (!el) return null;
-                        if (el.tagName.toLowerCase() === 'h2' || el.tagName.toLowerCase() === 'h3') {
-                            return el;
-                        }
-                        return el.querySelectorAll('h2, h3, p, li, blockquote, figcaption');
-                    }).flat().filter(el => el);
+                    const textElements = textIds.map(id => document.getElementById(id) || document.querySelector(id)).filter(el => el);
                     const text = textElements.map(el => el.innerText).join(' ');
                     const utterance = new SpeechSynthesisUtterance(text);
                     utterance.lang = 'fr-FR';
@@ -1207,14 +1173,12 @@
                 });
             });
 
-            const videoIframes = document.querySelectorAll('.video-container iframe');
-            videoIframes.forEach(iframe => {
-                const muteToggle = iframe.parentElement.querySelector('.mute-toggle');
-                muteToggle.addEventListener('click', () => {
-                    const isMuted = iframe.src.includes('mute=1');
-                    iframe.src = isMuted ? iframe.src.replace('mute=1', 'mute=0') : iframe.src.replace('mute=0', 'mute=1');
-                    muteToggle.textContent = isMuted ? 'Désactiver le son' : 'Activer le son';
-                });
+            const videoIframe = document.querySelector('.video-container iframe');
+            const muteToggle = document.querySelector('.mute-toggle');
+            muteToggle.addEventListener('click', () => {
+                const isMuted = videoIframe.src.includes('mute=1');
+                videoIframe.src = isMuted ? videoIframe.src.replace('mute=1', 'mute=0') : videoIframe.src.replace('mute=0', 'mute=1');
+                muteToggle.textContent = isMuted ? 'Désactiver le son' : 'Activer le son';
             });
 
             window.dataLayer = window.dataLayer || [];
