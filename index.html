@@ -571,7 +571,9 @@
             margin: 4rem auto; aspect-ratio: 1/1;
         }
         @media (min-width: 768px) { .logo { max-width: 600px; } }
-        .top-rank { margin-bottom: 1.2rem; }
+        .top-rank {
+            margin-bottom: 0.5rem; /* Réduit encore plus la marge inférieure */
+            margin-top: -1rem;     /* Augmente la marge supérieure négative pour remonter davantage */
         .number-one {
             font-size: clamp(1.8rem, 4vw, 2.2rem); font-weight: 400; color: var(--text);
             display: block; animation: pulseGlow 2.8s ease-in-out infinite;
