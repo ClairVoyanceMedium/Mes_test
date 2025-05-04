@@ -1331,14 +1331,21 @@
     </main>
 
     <!-- Popup Anti-Abandon -->
-    <div class="popup exit-intent-popup" id="exitIntentPopup" role="dialog" aria-labelledby="popup-heading">
-        <h2 id="popup-heading">Ne Partez Pas Sans Votre Transformation !</h2>
-        <p>Perdez jusqu’à 12 kg en 2 mois avec les gélules Victory ou trouvez des réponses à vos questions avec la voyance par email de Frederick. Offres exclusives valables jusqu’au 30 avril <span id="popup-urgency-year"></span> !</p>
-        <div class="cta-buttons-container">
-            <a href="https://buy.stripe.com/9AQ28w5Zag1p5KE29u" target="_blank" rel="noopener nofollow" class="popup-action-button" data-tracking-label="PopupVictory" aria-label="Commander les gélules Victory depuis le popup">Gélules Victory – 19,00 €</a>
-            <a href="https://buy.stripe.com/00g7uQ9bm2oJ9SU4gP" target="_blank" rel="noopener nofollow" class="popup-action-button" data-tracking-label="PopupVoyance" aria-label="Commander une voyance par email depuis le popup">Voyance Email – 9,90 €</a>
+    <div class="popup exit-intent-popup" id="exitIntentPopup" role="dialog" aria-labelledby="popup-heading" aria-hidden="true" style="display: none;">
+        <div class="title-container">
+            <h2 id="popup-heading">Ne Partez Pas Sans Votre Transformation !</h2>
         </div>
-        <button class="popup-close-button" aria-label="Fermer le popup">Non, merci</button>
+        <p>Regardez cette vidéo exclusive pour découvrir comment les <strong>gélules Victory</strong> et les services spirituels de Frederick peuvent changer votre vie. Perdez jusqu’à 12 kg et trouvez l’équilibre émotionnel dès aujourd’hui !</p>
+        <div class="video-container">
+            <iframe src="https://www.youtube-nocookie.com/embed/9pJxg7UzqqY?si=O4CBsGma7fL5XJPe&vq=hd1080&rel=0&autoplay=0&mute=0" title="Vidéo promotionnelle des gélules Victory" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy" aria-label="Vidéo promotionnelle"></iframe>
+            <button class="mute-toggle" aria-label="Activer/Désactiver le son">Activer le son</button>
+            <p id="popup-video-error" role="alert" aria-live="assertive" style="color: #ff6b6b; display: none;">Erreur de chargement de la vidéo. Veuillez réessayer.</p>
+        </div>
+        <div class="cta-buttons-container">
+            <a href="https://buy.stripe.com/9AQ28w5Zag1p5KE29u" target="_blank" rel="noopener nofollow" class="popup-action-button" data-tracking-label="PopupVictory1Box" aria-label="Commander 1 boîte de gélules Victory">Commander Victory – 19,00 €</a>
+            <a href="https://buy.stripe.com/custom-3questions-email" target="_blank" rel="noopener nofollow" class="popup-action-button" data-tracking-label="PopupVoyance3Questions" aria-label="Commander une voyance par email 3 questions">Voyance 3 Questions – 15,00 €</a>
+            <button class="popup-close-button" id="closePopup" aria-label="Fermer la fenêtre contextuelle">Fermer</button>
+        </div>
     </div>
 
     <!-- Bannière Sticky -->
@@ -1568,17 +1575,35 @@
             });
         }
 
-        // Popup Anti-Abandon
+        // Gestion du popup exit-intent
         const exitIntentPopup = document.getElementById('exitIntentPopup');
-        const popupClose = exitIntentPopup.querySelector('.popup-close-button');
-        let popupShown = false;
-
+        const closePopup = document.getElementById('closePopup');
+        let hasShownPopup = false;
+        let popupTimeout;
         function showPopup() {
-            if (!popupShown && !localStorage.getItem('popupClosed')) {
-                exitIntentPopup.classList.add('active');
-                popupShown = true;
-            }
+            exitIntentPopup.style.display = 'block';
+            exitIntentPopup.classList.add('active');
+            exitIntentPopup.setAttribute('aria-hidden', 'false');
+            hasShownPopup = true;
+            closePopup.focus();
         }
+        function hidePopup() {
+            exitIntentPopup.classList.remove('active');
+            setTimeout(() => {
+                exitIntentPopup.style.display = 'none';
+                exitIntentPopup.setAttribute('aria-hidden', 'true');
+                popupTimeout = setTimeout(showPopup, 40000); // Réapparition après 40s
+            }, 300);
+        }
+        document.addEventListener('mouseleave', (e) => {
+            if (e.clientY <= 0 && !hasShownPopup) {
+                showPopup();
+            }
+        });
+        closePopup.addEventListener('click', () => {
+            clearTimeout(popupTimeout);
+            hidePopup();
+        });
 
         document.addEventListener('mouseleave', (e) => {
             if (e.clientY <= 0) showPopup();
