@@ -1647,26 +1647,43 @@
             setTimeout(() => localStorage.removeItem('popupClosed'), 24 * 60 * 60 * 1000);
         });
 
-        // Bannière Sticky
-        const stickyBanner = document.getElementById('stickyBanner');
-        const stickyClose = stickyBanner.querySelector('.sticky-close');
-        let lastScroll = 0;
+        // Bannière Sticky Gestion de la bannière sticky avec réapparition toutes les 30s
+const stickyBanner = document.getElementById('stickyBanner');
+const stickyClose = document.querySelector('.sticky-close');
+let stickyTimer;
 
-        window.addEventListener('scroll', () => {
-            const currentScroll = window.pageYOffset;
-            if (currentScroll > 300 && currentScroll < lastScroll && !localStorage.getItem('stickyClosed')) {
-                stickyBanner.classList.add('active');
-            } else {
-                stickyBanner.classList.remove('active');
-            }
-            lastScroll = currentScroll;
-        });
+function showStickyBanner() {
+  // Vérifie si la bannière n'est pas déjà active
+  if (!stickyBanner.classList.contains('active')) {
+    stickyBanner.classList.add('active');
+  }
+}
 
-        stickyClose.addEventListener('click', () => {
-            stickyBanner.classList.remove('active');
-            localStorage.setItem('stickyClosed', 'true');
-            setTimeout(() => localStorage.removeItem('stickyClosed'), 24 * 60 * 60 * 1000);
-        });
+function startStickyTimer() {
+  // Planifie la réapparition toutes les 30 secondes (30000 ms)
+  stickyTimer = setTimeout(() => {
+    showStickyBanner();
+  }, 30000); // 30 secondes
+}
+
+// Affiche la bannière au scroll après 300px
+window.addEventListener('scroll', () => {
+  const currentScroll = window.pageYOffset;
+  if (currentScroll > 300 && !stickyBanner.classList.contains('active')) {
+    showStickyBanner();
+  }
+});
+
+// Fermeture de la bannière + démarrage du timer
+stickyClose.addEventListener('click', () => {
+  stickyBanner.classList.remove('active');
+  startStickyTimer(); // Redémarre le compte à rebours
+});
+
+// Au chargement de la page, vérifie si le timer doit démarrer
+window.addEventListener('load', () => {
+  startStickyTimer();
+});
 
         // Web Vitals
         if (typeof webVitals !== 'undefined') {
