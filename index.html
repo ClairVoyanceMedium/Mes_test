@@ -561,7 +561,6 @@
         .audio-button-container{display:flex;justify-content:center;width:100%;margin:2rem 0;gap:.6rem}
         .voyance-section{margin-top:3.5rem;padding-top:2.5rem;border-top:2px solid var(--border-color)}
         .translate-container{margin:2rem auto}
-        .cookie-consent{position:fixed;bottom:0;left:0;right:0;background:#111;color:#fff;padding:1.2rem;z-index:1200;font-family:var(--font-primary);text-align:center;display:none}
     </style>
 
     <!-- Scripts deferrés -->
@@ -1012,21 +1011,6 @@
         const currentYear = new Date().getFullYear();
         document.querySelectorAll('#header-year, #header-title-year, #hero-year, #urgency-year, #minceur-urgency-year, #programme-urgency-year, #spiritual-urgency-year, #footer-year').forEach(el => el.textContent = currentYear);
 
-        // Gestion du cookie consent
-        const cookieConsent = document.getElementById('cookieConsent');
-        const acceptCookies = document.getElementById('acceptCookies');
-        const rejectCookies = document.getElementById('rejectCookies');
-        if (!localStorage.getItem('cookieConsent')) {
-            cookieConsent.style.display = 'block';
-        }
-        acceptCookies.addEventListener('click', () => {
-            localStorage.setItem('cookieConsent', 'accepted');
-            cookieConsent.style.display = 'none';
-        });
-        rejectCookies.addEventListener('click', () => {
-            localStorage.setItem('cookieConsent', 'rejected');
-            cookieConsent.style.display = 'none';
-        });
 
         // Gestion du sticky banner
         const stickyBanner = document.getElementById('stickyBanner');
