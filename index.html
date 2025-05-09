@@ -399,7 +399,7 @@
             --font-primary: 'Cinzel', serif;
             --max-width: 900px;
             --content-padding: 1.5rem;
-            --nav-height: 80px;
+            --nav-height: 120px;
             --checkmark-color: #2ecc71;
             --cross-color: #ff6b6b;
             --footer-height: 80px;
@@ -561,9 +561,7 @@
         .audio-button-container{display:flex;justify-content:center;width:100%;margin:2rem 0;gap:.6rem}
         .voyance-section{margin-top:3.5rem;padding-top:2.5rem;border-top:2px solid var(--border-color)}
         .translate-container{margin:2rem auto}
-        .offer-banner {
-    position: sticky;
-    top: var(--nav-height);
+        .nav-offer {
     width: 100%;
     max-width: var(--max-width);
     margin: 0 auto;
@@ -571,31 +569,30 @@
     color: var(--text);
     padding: 0.5rem var(--content-padding);
     text-align: center;
-    z-index: 950;
     font-family: var(--font-primary);
     font-size: clamp(1rem, 2.5vw, 1.2rem);
     line-height: 1.5;
 }
-.offer-banner p {
+.nav-offer p {
     margin: 0;
 }
-.offer-banner strong {
+.nav-offer strong {
     font-weight: 700;
 }
 @media (max-width: 768px) {
-    .offer-banner {
+    .nav-offer {
         font-size: clamp(0.9rem, 2vw, 1rem);
         padding: 0.4rem var(--content-padding);
     }
 }
 @media (prefers-contrast: high) {
-    .offer-banner {
+    .nav-offer {
         color: var(--text);
         background: var(--bg);
     }
 }
 @media (prefers-reduced-motion: reduce) {
-    .offer-banner {
+    .nav-offer {
         transition: none;
     }
 }
@@ -623,10 +620,11 @@
             <li><a href="#article" aria-label="Lire l’article sur la minceur et la voyance">Articles</a></li>
             <li><a href="#spiritual-services" aria-label="Découvrir les services spirituels">Voyance par email sérieuse 6,00€</a></li>
         </ul>
-    </nav>
-<div class="offer-banner" aria-label="Offre spéciale : Livraison gratuite si paiement par PayPal">
+        <div class="offer-banner" aria-label="Offre spéciale : Livraison gratuite si paiement par PayPal">
     <p><strong>En ce moment</strong> : Livraison gratuite si paiement par PayPal</p>
-</div>
+        </div>
+    </nav>
+
 
     <!-- En-tête -->
     <header role="banner" id="top">
