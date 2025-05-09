@@ -1037,7 +1037,7 @@ closePopup.addEventListener('click', () => {
     youtubePopup.classList.remove('active');
     youtubePopup.setAttribute('aria-hidden', 'true');
     // Réafficher la pop-up après 90 secondes
-    setTimeout(showPopup, 90000);
+    setTimeout(showPopup, 140000);
 });
 
 // Fermeture par touche Échap
@@ -1045,7 +1045,7 @@ youtubePopup.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
         youtubePopup.classList.remove('active');
         youtubePopup.setAttribute('aria-hidden', 'true');
-        setTimeout(showPopup, 90000);
+        setTimeout(showPopup, 140000);
     }
 });
 
