@@ -1144,139 +1144,13 @@ window.addEventListener('load', showPopup);
         });
 
         // Gestion du calculateur IMC
-        <!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculateur IMC Victory</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        /* CSS intégré optimisé */
-        body {
-            font-family: 'Arial', sans-serif;
-            background: #1e1e1e;
-            color: #fff;
-            padding: 20px;
-            line-height: 1.6;
-        }
-        #imc-form {
-            background: #2d2d2d;
-            padding: 20px;
-            border-radius: 10px;
-            max-width: 500px;
-            margin: 0 auto;
-        }
-        input, button {
-            padding: 10px;
-            margin: 5px 0;
-            border-radius: 5px;
-            border: none;
-            width: 100%;
-        }
-        button {
-            background: #FF69B4;
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-        button:hover {
-            background: #e8499e;
-        }
-        .error {
-            color: #ff6b6b;
-            display: none;
-            font-size: 0.8em;
-        }
-        #imc-recommendation {
-            background: #2d2d2d;
-            padding: 20px;
-            border-radius: 10px;
-            margin-top: 20px;
-            position: relative;
-        }
-        .imc-result strong {
-            color: #FF69B4;
-        }
-        .history {
-            margin-top: 20px;
-            padding-top: 15px;
-            border-top: 1px dashed #555;
-            font-size: 0.9em;
-            opacity: 0.8;
-        }
-        .progress {
-            font-weight: bold;
-            color: #FF69B4;
-            margin: 10px 0;
-        }
-        .goal-gauge {
-            background: #333;
-            height: 30px;
-            margin: 15px 0;
-            position: relative;
-            border-radius: 15px;
-            overflow: hidden;
-        }
-        .gauge-fill {
-            background: linear-gradient(90deg, #EF5350, #FF69B4);
-            height: 100%;
-            transition: width 1s;
-            width: 0;
-        }
-        .goal-gauge span {
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 0.8em;
-        }
-        #share-btn {
-            background: #4FC3F7;
-            width: auto;
-            display: inline-block;
-            padding: 8px 15px;
-            margin-top: 10px;
-        }
-        .posology {
-            background: rgba(255,105,180,0.1);
-            padding: 10px;
-            border-radius: 5px;
-            margin-top: 10px;
-        }
-    </style>
-</head>
-<body>
-    <form id="imc-form">
-        <h2>Calculateur IMC Victory</h2>
-        <label for="height">Taille (cm)</label>
-        <input type="number" id="height" placeholder="Ex: 175" required>
-        <div id="height-error" class="error">Veuillez entrer une taille entre 100cm et 250cm</div>
-        
-        <label for="weight">Poids (kg)</label>
-        <input type="number" id="weight" placeholder="Ex: 70" required>
-        <div id="weight-error" class="error">Veuillez entrer un poids entre 30kg et 300kg</div>
-        
-        <button type="submit">Calculer mon IMC</button>
-    </form>
-
-    <div id="imc-recommendation" style="display: none;">
-        <!-- Résultats dynamiques ici -->
-    </div>
-
-    <canvas id="imc-chart" height="200"></canvas>
-
-    <script>
-        // Gestion du calculateur IMC - Version Premium
         const imcForm = document.getElementById('imc-form');
         const heightInput = document.getElementById('height');
         const weightInput = document.getElementById('weight');
         const imcRecommendation = document.getElementById('imc-recommendation');
-        const imcChartCanvas = document.getElementById('imc-chart');
+        const imcChart = document.getElementById('imc-chart').getContext('2d');
         let chartInstance = null;
 
-        // Fonction de validation
         function validateInput(input, min, max, errorElement) {
             const value = parseFloat(input.value);
             if (isNaN(value) || value < min || value > max) {
@@ -1287,63 +1161,6 @@ window.addEventListener('load', showPopup);
             return true;
         }
 
-        // Sauvegarde l'historique
-        function saveToHistory(imc, category) {
-            const history = JSON.parse(localStorage.getItem('imcHistory') || '[]');
-            history.unshift({ 
-                date: new Date().toLocaleDateString(), 
-                imc, 
-                category 
-            });
-            localStorage.setItem('imcHistory', JSON.stringify(history.slice(0, 5)));
-        }
-
-        // Crée le graphique dynamique
-        function createIMCChart(imcValue) {
-            if (chartInstance) chartInstance.destroy();
-
-            chartInstance = new Chart(imcChartCanvas.getContext('2d'), {
-                type: 'bar',
-                data: {
-                    labels: ['Votre IMC', 'Objectif (22)'],
-                    datasets: [{
-                        label: 'IMC',
-                        data: [imcValue, 22],
-                        backgroundColor: [
-                            getIMCColor(imcValue),
-                            '#66BB6A'
-                        ],
-                        borderColor: '#fff',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            max: Math.max(40, Math.ceil(imcValue + 5)),
-                            ticks: { color: '#fff' }
-                        },
-                        x: { ticks: { color: '#fff' } }
-                    },
-                    plugins: {
-                        legend: { labels: { color: '#fff' } },
-                        tooltip: { callbacks: { label: ctx => `${ctx.dataset.label}: ${ctx.raw}` } }
-                    }
-                }
-            });
-        }
-
-        // Couleur selon IMC
-        function getIMCColor(imc) {
-            if (imc < 18.5) return '#4FC3F7';
-            if (imc < 25) return '#66BB6A';
-            if (imc < 30) return '#FFA726';
-            return '#EF5350';
-        }
-
-        // Gestion de la soumission
         imcForm.addEventListener('submit', (e) => {
             e.preventDefault();
             const heightValid = validateInput(heightInput, 100, 250, document.getElementById('height-error'));
@@ -1354,93 +1171,88 @@ window.addEventListener('load', showPopup);
                 const weight = parseFloat(weightInput.value);
                 const imc = (weight / (height * height)).toFixed(1);
 
-                // Calcul du poids idéal
-                const idealWeightMin = (18.5 * (height * height)).toFixed(1);
-                const idealWeightMax = (24.9 * (height * height)).toFixed(1);
-
-                // Détermination catégorie
                 let category, recommendation, posology;
                 if (imc < 18.5) {
                     category = 'Insuffisance pondérale';
-                    recommendation = 'Votre IMC indique une insuffisance pondérale.';
-                    posology = 'Conseil : 2 gélules Victory par jour pour stimuler l\'appétit.';
+                    recommendation = 'Votre IMC indique une insuffisance pondérale. Consultez un professionnel pour un plan adapté.';
+                    posology = '';
                 } else if (imc < 25) {
                     category = 'Poids normal';
-                    recommendation = 'Félicitations ! Votre IMC est idéal.';
-                    posology = 'Option : 4 gélules Victory les jours de repas copieux (2 matin/soir).';
+                    recommendation = 'Votre IMC est idéal. Maintenez votre poids avec une alimentation équilibrée associée à 4 gélules de Victory minceur pour les jours de "plaisir". 2 le matin/soir.';
+                    posology = '';
                 } else if (imc < 30) {
                     category = 'Surpoids';
-                    recommendation = 'Solution : <a href="#minceur" style="color:#FF69B4">gélules Victory</a> pour une perte rapide.';
-                    posology = 'Posologie : 2 gélules avant chaque repas (6/jour) pendant 3 mois.';
+                    recommendation = 'Vous êtes en surpoids. Essayez les <a href="#minceur">gélules Victory</a> pour une perte de poids naturelle et rapide.';
+                    posology = 'Posologie : 2 gélules Victory par jour (main/midi/soir) avec un verre d’eau.  Soit 6 par jour, pendant 3 mois.';
                 } else {
                     category = 'Obésité';
-                    recommendation = 'Solution complète : <a href="#programme" style="color:#FF69B4">Programme Victory</a> + gélules.';
-                    posology = 'Intensif : 2 gélules/repas + coaching (6/jour pendant 4 mois).';
+                    recommendation = 'Votre IMC indique une obésité. Le <a href="#programme-personnalise">programme personnalisé Victory</a> est idéal pour vous associé aux gélules minceur Victory';
+                    posology = 'Posologie : 2 gélules Victory par jour à chaque repas, combinées au programme personnalisé Victory.  Soit 6 gélules par jour, pendant 4 mois.';
                 }
 
-                // Historique et progression
-                saveToHistory(imc, category);
-                const history = JSON.parse(localStorage.getItem('imcHistory') || '[]');
-                const lastIMC = history[1]?.imc;
-                let progressText = '';
-                if (lastIMC) {
-                    const diff = (imc - lastIMC).toFixed(1);
-                    progressText = diff > 0 ? 
-                        `<p class="progress">⚠️ +${diff} depuis votre dernière visite</p>` : 
-                        `<p class="progress">✓ ${Math.abs(diff)} points de moins !</p>`;
-                }
-
-                // Affichage des résultats
-                imcRecommendation.style.display = 'block';
                 imcRecommendation.innerHTML = `
-                    <div class="imc-result">
-                        <p>Votre IMC : <strong>${imc}</strong> (${category})</p>
-                        <p>${recommendation} <small>Poids idéal pour votre taille : ${idealWeightMin}kg - ${idealWeightMax}kg</small></p>
-                        <div class="posology">${posology}</div>
-                        ${progressText}
-                        <div class="goal-gauge">
-                            <div class="gauge-fill" style="width: ${Math.min(100, (imc / 22) * 100)}%"></div>
-                            <span>Objectif : IMC 22</span>
-                        </div>
-                        <button id="share-btn">Partager mes résultats</button>
-                    </div>
-                    ${history.length > 1 ? `
-                    <div class="history">
-                        <h4>Historique :</h4>
-                        ${history.slice(1).map(item => `
-                            <p>${item.date} - IMC ${item.imc} (${item.category})</p>
-                        `).join('')}
-                    </div>` : ''}
+                    <p>Votre IMC : <strong>${imc}</strong> (${category})</p>
+                    <p>${recommendation}</p>
+                    <p>${posology}</p>
                 `;
 
-                // Graphique
-                createIMCChart(parseFloat(imc));
-
-                // Bouton de partage
-                document.getElementById('share-btn')?.addEventListener('click', () => {
-                    if (navigator.share) {
-                        navigator.share({
-                            title: 'Mon IMC Victory',
-                            text: `Mon IMC est ${imc} (${category}) - Calculez le vôtre !`,
-                            url: window.location.href
-                        });
-                    } else {
-                        navigator.clipboard.writeText(`Mon IMC Victory : ${imc} (${category}) - Objectif 22 !`);
-                        alert('Résultat copié !');
+                if (chartInstance) chartInstance.destroy();
+                chartInstance = new Chart(imcChart, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Votre IMC', 'IMC Normal'],
+                        datasets: [{
+                            label: 'IMC',
+                            data: [imc, 22],
+                            backgroundColor: ['#FF69B4', '#87CEEB'],
+                            borderColor: ['#fff', '#fff'],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: { beginAtZero: true, max: 40 },
+                            x: { ticks: { color: '#fff' } }
+                        },
+                        plugins: { legend: { labels: { color: '#fff' } } }
                     }
                 });
             }
         });
 
-        // Animation au chargement
-        document.addEventListener('DOMContentLoaded', () => {
-            imcChartCanvas.style.opacity = '0';
-            setTimeout(() => {
-                imcChartCanvas.style.transition = 'opacity 1s';
-                imcChartCanvas.style.opacity = '1';
-            }, 500);
+        // Gestion des boutons audio
+        const audioButtons = document.querySelectorAll('.audio-button');
+        let currentUtterance = null;
+
+        audioButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const textIds = button.dataset.textId.split(',');
+                const texts = textIds.map(id => {
+                    const elements = document.querySelectorAll(`#${id},.${id},[id*="${id}"]`);
+                    return Array.from(elements).map(el => el.textContent.trim()).join(' ');
+                }).join(' ');
+
+                if (button.classList.contains('play-button')) {
+                    if (currentUtterance) {
+                        speechSynthesis.cancel();
+                    }
+                    currentUtterance = new SpeechSynthesisUtterance(texts);
+                    currentUtterance.lang = 'fr-FR';
+                    currentUtterance.rate = 1;
+                    currentUtterance.pitch = 1;
+                    speechSynthesis.speak(currentUtterance);
+
+                    button.style.display = 'none';
+                    button.nextElementSibling.style.display = 'inline-flex';
+                    button.nextElementSibling.classList.add('playing');
+                } else {
+                    speechSynthesis.cancel();
+                    button.style.display = 'none';
+                    button.previousElementSibling.style.display = 'inline-flex';
+                    button.classList.remove('playing');
+                }
+            });
         });
-    
 
         // Gestion du bouton mute pour la vidéo
         const muteToggle = document.querySelector('.mute-toggle');
