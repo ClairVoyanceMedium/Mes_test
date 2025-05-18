@@ -1371,6 +1371,20 @@ window.addEventListener('load', showPopup);
             }), '*');
         });
 
+        // Gestion de l'inscription à la newsletter avec pré-remplissage du mail
+    function handleSubscribe(event) {
+      event.preventDefault();
+      const email = event.target.querySelector('input[type="email"]').value;
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (emailRegex.test(email)) {
+        const subject = "Gagner aux jeux d'argent : Inscription à la newsletter ClairvoyanceMedium.com";
+        const body = "Bonjour Frederick,\n\nVoici mon adresse e-mail pour l'inscription à la newsletter : " + email + "\n\nCordialement,";
+        window.location.href = `mailto:contact.clairvoyancemedium@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      } else {
+        alert("Veuillez entrer une adresse e-mail valide.");
+      }
+    }
+
         // Gestion de la traduction Google
         function googleTranslateElementInit() {
             new google.translate.TranslateElement({
