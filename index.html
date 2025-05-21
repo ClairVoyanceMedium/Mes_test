@@ -1339,14 +1339,14 @@ function trackClick(label, category = 'Chat', value = null) {
 
 // Traductions et messages
 const translations = {
-    greeting: "Bonjour, ravi de t’accueillir ! Je suis le gardien virtuel du Cabinet ClairVoyanceMedium.com, ici pour t'aider à libérer ton âme des voiles obscurs et à éclairer ton chemin de vie. Quelle quête sacrée aimerais-tu découvrir aujourd’hui ?",
-    thanks: "Je vous en prie.",
-    goodbye: "À très bientôt dans la clarté éternelle ! Frederick, ayant aidé des milliers d'âmes, t’entoure de sa vigilance constante. Tu n’es plus seul face aux ombres, car sache que son pouvoir transcende toute obscurité.",
-    notUnderstood: "Je n’ai pas bien compris votre question. Pourriez-vous la reformuler s’il vous plaît, peut-être avec d’autres mots, pour m’aider à mieux la comprendre ?",
-    notUnderstoodAfter: "Il semble que nous ayons du mal à nous comprendre. Peut-être est-il temps d’envisager un désenvoûtement profond et complet pour rétablir l’équilibre de toutes vos énergies. Nos services débutent à 50€ pour une détection, 250€ pour un rituel total et dès 6,00€ pour une consultation par email. Vous retrouverez toutes ces aides sur le site.",
-    grave: "Votre situation semble extrêmement préoccupante. Il est impératif d'agir immédiatement. Je vous recommande de prendre les mesures nécessaires sans attendre. Ne laissez plus l'ombre prendre le dessus éternellement.",
-    agree: "D’accord, n’hésitez pas à poser d’autres questions.",
-};
+        greeting: "Bienvenue dans l'univers du cabinet ClairVoyanceMedium.com ! Je suis ClairVoyanceGPT, votre guide pour retrouver vitalité, minceur et sérénité grâce aux solutions minceur Victory et aux autres solutions spirituelles proposées par nos services. Comment puis-je vous aider aujourd'hui ?",
+        thanks: "Avec plaisir, je suis là pour vous guider !",
+        goodbye: "À bientôt pour poursuivre votre chemin vers la victoire intérieure et extérieure avec Victory !",
+        notUnderstood: "Je n'ai pas bien compris votre demande. Pourriez-vous reformuler ou préciser votre question ?",
+        notUnderstoodAfter: "Il semble que nous ayons du mal à nous comprendre. Découvrez nos <a href='#minceur'>gélules Victory Minceur</a> ou notre <a href='#programme-personnalise'>programme personnalisé</a> pour un bien-être total. Des options spirituelles comme la voyance par email ou l'étude de votre compatibilité amoureuse sont également à votre service !",
+        grave: "Votre situation semble sérieuse. Agissez dès maintenant avec nos solutions Victory pour retrouver équilibre et énergie. Explorez nos programmes sur le site !",
+        agree: "Parfait, comment puis-je vous aider davantage ?"
+    };
 
 // Base de connaissances avec "Bénéfices" remplacé par des synonymes
 const knowledgeBase = [
@@ -1541,7 +1541,7 @@ function getResponse(userMsg) {
     else if (lowerMsg === "contact" || lowerMsg.startsWith("contact")) {
         nonUnderstoodCount = 0;
         trackClick("ContactRequest", "Interaction", 0);
-        return "Contacte dès maintenant Frederick par email à l'adresse suivante : contact.clairvoyancemedium@gmail.com. Notre équipe te répondra rapidement pour organiser une consultation par email ou bien un rituel puissant, te garantissant une réactivité et une transformation immédiate adaptée à tes besoins. Avantages : réactivité et transformation immédiate.";
+        return "Contacte dès maintenant Frederick par email : contact.clairvoyancemedium@gmail.com. Notre équipe te répondra très rapidement te garantissant une transformation adaptée à tes besoins. Avantages : réactivité et amélioration de soi.";
     } 
     // Autres réponses de base
     else if (lowerMsg === "bonjour") {
