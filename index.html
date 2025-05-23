@@ -826,17 +826,21 @@
             </picture>
         </section>
 <!-- ✅ Version minimaliste avec astérisque -->
-<div class="medical-ref" style="font-size:12px; color:#6a737d; line-height:1.4; margin:15px 0 5px;">
-    <span style="font-weight:500;">* Source et référence médicale :</span>
-    <a href="https://www.mayoclinic.org/healthy-lifestyle/weight-loss/in-depth/mayo-clinic-diet/art-20045460" 
-       target="_blank" 
-       rel="noopener external" 
-       style="color:#3a5f8a; text-decoration:none;"
-       title="Étude Mayo Clinic sur les régimes durables"
-       itemprop="citation">
-       Mayo Clinic, 2023
-    </a>
+<!-- ✅ Version avec confirmation de clic -->
+<div class="medical-ref" style="font-size:12px; color:#6a737d; line-height:1.4; margin:5px 0; display:flex; flex-direction:column; gap:2px;" itemscope itemtype="https://schema.org/CreativeWork">
+    <span style="font-weight:500;">* Référence médicale :</span>
+    <span onclick="confirmNavigation()" style="color:#3a5f8a; cursor:pointer; text-decoration:none;" title="Étude Mayo Clinic sur les régimes durables" itemprop="citation">
+        Mayo Clinic, 2023
+    </span>
 </div>
+
+<script>
+function confirmNavigation() {
+    if(confirm('Vous allez quitter notre site pour accéder à la source Mayo Clinic. Continuer ?')) {
+        window.open('https://www.mayoclinic.org/healthy-lifestyle/weight-loss/in-depth/mayo-clinic-diet/art-20045460', '_blank', 'noopener');
+    }
+}
+</script>
         <section class="content-container" id="comparaison" aria-labelledby="comparaison-heading">
             <div class="title-container">
                 <h2 id="comparaison-heading">Pourquoi Choisir les gélules minceur Victory ?</h2>
