@@ -621,8 +621,13 @@
             <li><a href="#spiritual-services" aria-label="Découvrir les services spirituels">Services Spirituels  -  15,00€</a></li>
         </ul>
         </ul>
-<div class="offer-banner" aria-label="Offre spéciale : Livraison gratuite pour tout paiement par PayPal, GooglePay, ApplePay, Visa, Mastercard, American Express">
-    <p><strong>En ce moment</strong> : <span style="color:#FF69B4; text-shadow:0 0 10px #FF69B4, 0 0 20px #FF69B4, 0 0 30px #FF69B4; animation:neon-flicker 1.5s infinite alternate;">Livraison gratuite</span> sans minimum d'achat uniquement pour les paiements par PayPal, GooglePay, ApplePay, Visa, Les Paiements en 4x, Mastercard, American Express... Sans inscription obligatoire ou validation ! Rapide et sécurisé</p>
+<div class="offer-banner-container">
+  <input type="checkbox" id="offer-banner-toggle" class="offer-banner-toggle">
+  <div class="offer-banner" aria-label="Offre spéciale : Livraison gratuite pour tout paiement par PayPal, GooglePay, ApplePay, Visa, Mastercard, American Express">
+    <p><strong>En ce moment</strong> : <span style="color:#FF69B4;text-shadow:0 0 10px #FF69B4,0 0 20px #FF69B4,0 0 30px #FF69B4;animation:neon-flicker 1.5s infinite alternate">Livraison gratuite</span> sans minimum d'achat uniquement pour les paiements par PayPal, GooglePay, ApplePay, Visa, Les Paiements en 4x, Mastercard, American Express... Sans inscription obligatoire ou validation ! Rapide et sécurisé</p>
+    <label for="offer-banner-toggle" style="background:none;border:none;color:#fff;font-size:16px;cursor:pointer;padding:0 10px;margin-left:auto" aria-label="Fermer le bandeau">×</label>
+  </div>
+  <style>.offer-banner-container{position:relative}.offer-banner-toggle{display:none}.offer-banner{display:flex;align-items:center;justify-content:space-between;padding:10px 15px;background-color:#333;color:#fff}.offer-banner p{margin:0;padding-right:10px}.offer-banner-toggle:checked+.offer-banner{display:none}@keyframes neon-flicker{0%,19%,21%,23%,25%,54%,56%,100%{text-shadow:0 0 10px #FF69B4,0 0 20px #FF69B4,0 0 30px #FF69B4}20%,24%,55%{text-shadow:none}}</style>
 </div>
     </nav>
 
