@@ -826,26 +826,18 @@
             </picture>
         </section>
 
-<!-- ✅ Version SEO-friendly à 2 lignes avec protection contre les clics accidentels -->
-<div class="medical-ref" style="font-size:12px; color:#6a737d; margin:5px 0;" itemscope itemtype="https://schema.org/CreativeWork">
-    <div style="display:inline-block; font-weight:500;">* Référence médicale :</div>
-    <a href="#mayo-confirm" 
-       onclick="return false;" 
-       style="color:#3a5f8a; text-decoration:none; cursor:pointer;"
+<!-- ✅ Version minimaliste avec astérisque -->
+<div class="medical-ref" style="font-size:12px; color:#6a737d; line-height:1.4; margin:15px 0 5px;">
+    <span style="font-weight:500;">* Référence médicale :</span>
+    <a href="https://www.mayoclinic.org/healthy-lifestyle/weight-loss/in-depth/mayo-clinic-diet/art-20045460" 
+       target="_blank" 
+       rel="noopener external" 
+       style="color:#3a5f8a; text-decoration:none;"
        title="Étude Mayo Clinic sur les régimes durables"
-       itemprop="citation"
-       id="mayo-link">
+       itemprop="citation">
        Mayo Clinic, 2023
     </a>
 </div>
-
-<script>
-document.getElementById('mayo-link').addEventListener('click', function(e) {
-    if(confirm('Confirmez-vous vouloir consulter la source officielle Mayo Clinic ?')) {
-        window.open('https://www.mayoclinic.org/healthy-lifestyle/weight-loss/in-depth/mayo-clinic-diet/art-20045460', '_blank', 'noopener noreferrer');
-    }
-});
-</script>
         
         <section class="content-container" id="comparaison" aria-labelledby="comparaison-heading">
             <div class="title-container">
