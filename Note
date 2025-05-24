@@ -1,3 +1,15 @@
+<!-- ✅ Version minimaliste avec astérisque -->
+<div class="medical-ref" style="font-size:12px; color:#6a737d; line-height:1.4; margin:15px 0 5px;">
+    <span style="font-weight:500;">* Source officielle et Référence médicale :</span>
+    <a href="https://www.mayoclinic.org/healthy-lifestyle/weight-loss/in-depth/mayo-clinic-diet/art-20045460" 
+       target="_blank" 
+       rel="noopener external" 
+       style="color:#3a5f8a; text-decoration:none;"
+       title="Étude Mayo Clinic sur les régimes durables"
+       itemprop="citation">
+       Mayo Clinic, 2023
+    </a>
+</div>
 <!-- ✅ Citation presse scientifique - Ultra optimisée SEO/IA 2025 -->
 <div class="press-reference" itemscope itemtype="https://schema.org/CreativeWork"
      style="font-size:0.8rem; color:#5a6573; line-height:1.6; margin:1.5rem 0;">
