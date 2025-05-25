@@ -1196,7 +1196,8 @@
     <!-- Pop-up anti abandon -->
     <div class="popup exit-intent-popup" id="youtubePopup" role="dialog" aria-labelledby="popup-heading">
         <h2 id="popup-heading">+ de 60% prennent soin de leur poids trop tard !</h2>
-    <!-- Bloc vidéo promotionnelle des gélules Victory avec tracking -->
+   
+        <!-- Bloc vidéo promotionnelle des gélules Victory avec tracking -->
 <div class="popup-video-container" 
      id="victory-video-container"
      style="max-width: 960px; margin: 2rem auto; position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 16px; box-shadow: 0 0 20px rgba(0,0,0,0.3); background-color: #000;"
@@ -1218,6 +1219,11 @@
     style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
   </iframe>
 </div>
+
+<!-- Légende visible sous la vidéo (SEO et UX) -->
+<p style="text-align:center; font-size:1rem; color:#555; margin-top:1rem;">
+  🎥 Regardez cette vidéo pour découvrir comment <strong>les gélules Victory</strong> aident à <em>perdre du poids rapidement</em> tout en retrouvant un <em>ventre plat</em> et une <em>énergie naturelle</em>.
+</p>
 
 <!-- Forcer HD avec YouTube Iframe API -->
 <script>
@@ -1251,12 +1257,27 @@
   <p>Découvrez les avis clients, la composition naturelle et l’efficacité cliniquement prouvée de cette solution française pour la perte de poids.</p>
 </div>
 
-<!-- Bloc invisible SEO pour Google (mots-clés longue traîne & bénéfices produit) -->
-<div style="position:absolute; left:-9999px; top:-9999px;">
-  <h1>Vidéo officielle des gélules minceur Victory</h1>
-  <p>Les <strong>gélules minceur Victory</strong> sont une solution naturelle pour <em>perdre du poids rapidement</em>, affiner la silhouette et retrouver un <strong>ventre plat</strong>. Cette vidéo montre les résultats réels, les témoignages clients, et les effets scientifiquement observés de cette formule innovante.</p>
-  <p>Fabriquées selon les normes européennes, elles conviennent aux hommes et femmes souhaitant <strong>maigrir efficacement</strong> sans contraintes alimentaires extrêmes. Visionnez la vidéo pour comprendre pourquoi elles sont si populaires en France, Belgique, Suisse et au Canada.</p>
-</div>
+<!-- Données structurées JSON-LD pour indexation vidéo -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "VideoObject",
+  "name": "Vidéo des gélules minceur Victory",
+  "description": "Découvrez comment les gélules minceur Victory aident à perdre du poids rapidement et naturellement. Résultats visibles : ventre plat, silhouette affinée, énergie retrouvée.",
+  "thumbnailUrl": "https://img.youtube.com/vi/Dj-pfiIzB44/maxresdefault.jpg",
+  "uploadDate": "2024-05-01",
+  "embedUrl": "https://www.youtube-nocookie.com/embed/Dj-pfiIzB44",
+  "contentUrl": "https://www.clairvoyancemedium.com",
+  "publisher": {
+    "@type": "Organization",
+    "name": "ClairvoyanceMedium.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.clairvoyancemedium.com/logo.png"
+    }
+  }
+}
+</script>
 
         <div class="cta-buttons-container">
             <a href="https://buy.stripe.com/5kA6oMfzK9D15KE6pL" target="_blank" rel="noopener nofollow" class="cta-button" data-tracking-label="PopupVictory" aria-label="Commander les gélules Victory depuis le pop-up">
