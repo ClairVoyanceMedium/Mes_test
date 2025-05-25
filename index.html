@@ -2314,81 +2314,202 @@ window.addEventListener('load', showPopup);
         });
 
         // Gestion du calculateur IMC
-        const imcForm = document.getElementById('imc-form');
-        const heightInput = document.getElementById('height');
-        const weightInput = document.getElementById('weight');
-        const imcRecommendation = document.getElementById('imc-recommendation');
-        const imcChart = document.getElementById('imc-chart').getContext('2d');
-        let chartInstance = null;
+        // Gestion du calculateur IMC
+document.addEventListener('DOMContentLoaded', function() {
+    const imcForm = document.getElementById('imc-form');
+    const heightInput = document.getElementById('height');
+    const weightInput = document.getElementById('weight');
+    const imcRecommendation = document.getElementById('imc-recommendation');
+    
+    // Création dynamique du canvas si il n'existe pas
+    if (!document.getElementById('imc-chart')) {
+        const chartContainer = document.createElement('div');
+        chartContainer.style.position = 'relative';
+        chartContainer.style.height = '300px';
+        chartContainer.style.margin = '20px 0';
+        
+        const canvas = document.createElement('canvas');
+        canvas.id = 'imc-chart';
+        canvas.width = '400';
+        canvas.height = '300';
+        
+        chartContainer.appendChild(canvas);
+        imcForm.parentNode.insertBefore(chartContainer, imcForm.nextSibling);
+    }
+    
+    const imcChartCtx = document.getElementById('imc-chart').getContext('2d');
+    let chartInstance = null;
 
-        function validateInput(input, min, max, errorElement) {
-            const value = parseFloat(input.value);
-            if (isNaN(value) || value < min || value > max) {
-                errorElement.style.display = 'block';
-                return false;
-            }
-            errorElement.style.display = 'none';
-            return true;
+    // Fonction pour sauvegarder le résultat IMC dans localStorage
+    function saveIMCResult(imc, category) {
+        const result = {
+            imc: imc,
+            category: category,
+            date: new Date().toLocaleDateString('fr-FR', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            })
+        };
+        localStorage.setItem('lastIMCResult', JSON.stringify(result));
+    }
+
+    // Fonction pour charger le dernier résultat IMC
+    function loadLastIMCResult() {
+        const savedResult = localStorage.getItem('lastIMCResult');
+        if (savedResult) {
+            return JSON.parse(savedResult);
+        }
+        return null;
+    }
+
+    // Fonction pour créer ou mettre à jour le graphique
+    function updateChart(currentIMC) {
+        const lastResult = loadLastIMCResult();
+        const labels = ['Votre IMC', 'IMC Normal'];
+        const data = [currentIMC, 22];
+        const backgroundColors = ['#FF69B4', '#87CEEB'];
+        
+        if (lastResult) {
+            labels.unshift('Dernier IMC');
+            data.unshift(lastResult.imc);
+            backgroundColors.unshift('#9370DB');
         }
 
-        imcForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const heightValid = validateInput(heightInput, 100, 250, document.getElementById('height-error'));
-            const weightValid = validateInput(weightInput, 30, 300, document.getElementById('weight-error'));
+        const chartData = {
+            labels: labels,
+            datasets: [{
+                label: 'IMC',
+                data: data,
+                backgroundColor: backgroundColors,
+                borderColor: ['#fff', '#fff'],
+                borderWidth: 1
+            }]
+        };
 
-            if (heightValid && weightValid) {
-                const height = parseFloat(heightInput.value) / 100;
-                const weight = parseFloat(weightInput.value);
-                const imc = (weight / (height * height)).toFixed(1);
-
-                let category, recommendation, posology;
-                if (imc < 18.5) {
-                    category = 'Insuffisance pondérale';
-                    recommendation = 'Votre IMC indique une insuffisance pondérale. Consultez un professionnel pour un plan adapté.';
-                    posology = '';
-                } else if (imc < 25) {
-                    category = 'Poids normal';
-                    recommendation = 'Votre IMC est idéal. Maintenez votre poids avec une alimentation équilibrée associée à 4 gélules de Victory minceur pour les jours de "plaisir". 2 le matin/soir.';
-                    posology = '';
-                } else if (imc < 30) {
-                    category = 'Surpoids';
-                    recommendation = 'Vous êtes en surpoids. Essayez les <a href="#minceur">gélules Victory</a> pour une perte de poids naturelle et rapide.';
-                    posology = 'Posologie : 2 gélules Victory par jour (matin/midi/soir) avec un verre d’eau.  Soit 6 par jour, pendant 3 mois pour retrouver un corps parfaitement svelte.';
-                } else {
-                    category = 'Obésité';
-                    recommendation = 'Votre IMC indique une obésité. Le <a href="#programme-personnalise">programme personnalisé Victory</a> est idéal pour vous associé aux gélules minceur Victory';
-                    posology = 'Posologie : 2 gélules Victory par jour à chaque repas, combinées au programme personnalisé Victory.  Soit 6 gélules par jour, pendant 4 mois pour retrouver votre poids idéal.';
-                }
-
-                imcRecommendation.innerHTML = `
-                    <p>Votre IMC : <strong>${imc}</strong> (${category})</p>
-                    <p>${recommendation}</p>
-                    <p>${posology}</p>
-                `;
-
-                if (chartInstance) chartInstance.destroy();
-                chartInstance = new Chart(imcChart, {
-                    type: 'bar',
-                    data: {
-                        labels: ['Votre IMC', 'IMC Normal'],
-                        datasets: [{
-                            label: 'IMC',
-                            data: [imc, 22],
-                            backgroundColor: ['#FF69B4', '#87CEEB'],
-                            borderColor: ['#fff', '#fff'],
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        scales: {
-                            y: { beginAtZero: true, max: 40 },
-                            x: { ticks: { color: '#fff' } }
-                        },
-                        plugins: { legend: { labels: { color: '#fff' } } }
+        const options = {
+            scales: {
+                y: { 
+                    beginAtZero: true, 
+                    max: 40,
+                    ticks: { color: '#fff' }
+                },
+                x: { 
+                    ticks: { 
+                        color: '#fff',
+                        font: {
+                            weight: 'bold'
+                        }
                     }
-                });
+                }
+            },
+            plugins: { 
+                legend: { 
+                    labels: { 
+                        color: '#fff',
+                        font: {
+                            weight: 'bold'
+                        }
+                    } 
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            let label = context.dataset.label || '';
+                            if (label) {
+                                label += ': ';
+                            }
+                            if (context.parsed.y !== null) {
+                                label += context.parsed.y;
+                            }
+                            if (context.dataIndex === 0 && lastResult) {
+                                label += ` (${lastResult.date})`;
+                            }
+                            return label;
+                        }
+                    }
+                }
             }
-        });
+        };
+
+        if (chartInstance) {
+            chartInstance.data = chartData;
+            chartInstance.options = options;
+            chartInstance.update();
+        } else {
+            chartInstance = new Chart(imcChartCtx, {
+                type: 'bar',
+                data: chartData,
+                options: options
+            });
+        }
+    }
+
+    // Affichage du dernier résultat au chargement
+    const lastResult = loadLastIMCResult();
+    if (lastResult) {
+        imcRecommendation.innerHTML = `
+            <p>Dernier calcul (${lastResult.date}) : <strong>${lastResult.imc}</strong> (${lastResult.category})</p>
+            <p>Nouveau calcul :</p>
+        `;
+        updateChart(parseFloat(lastResult.imc));
+    }
+
+    // Gestion de la soumission du formulaire
+    imcForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const heightValid = validateInput(heightInput, 100, 250, document.getElementById('height-error'));
+        const weightValid = validateInput(weightInput, 30, 300, document.getElementById('weight-error'));
+
+        if (heightValid && weightValid) {
+            const height = parseFloat(heightInput.value) / 100;
+            const weight = parseFloat(weightInput.value);
+            const imc = (weight / (height * height)).toFixed(1);
+
+            let category, recommendation, posology;
+            if (imc < 18.5) {
+                category = 'Insuffisance pondérale';
+                recommendation = 'Votre IMC indique une insuffisance pondérale. Consultez un professionnel pour un plan adapté.';
+                posology = '';
+            } else if (imc < 25) {
+                category = 'Poids normal';
+                recommendation = 'Votre IMC est idéal. Maintenez votre poids avec une alimentation équilibrée associée à 4 gélules de Victory minceur pour les jours de "plaisir". 2 le matin/soir.';
+                posology = '';
+            } else if (imc < 30) {
+                category = 'Surpoids';
+                recommendation = 'Vous êtes en surpoids. Essayez les <a href="#minceur">gélules Victory</a> pour une perte de poids naturelle et rapide.';
+                posology = 'Posologie : 2 gélules Victory par jour (matin/midi/soir) avec un verre d\'eau. Soit 6 par jour, pendant 3 mois pour retrouver un corps parfaitement svelte.';
+            } else {
+                category = 'Obésité';
+                recommendation = 'Votre IMC indique une obésité. Le <a href="#programme-personnalise">programme personnalisé Victory</a> est idéal pour vous associé aux gélules minceur Victory';
+                posology = 'Posologie : 2 gélules Victory par jour à chaque repas, combinées au programme personnalisé Victory. Soit 6 gélules par jour, pendant 4 mois pour retrouver votre poids idéal.';
+            }
+
+            imcRecommendation.innerHTML = `
+                <p>Votre IMC : <strong>${imc}</strong> (${category})</p>
+                <p>${recommendation}</p>
+                <p>${posology}</p>
+            `;
+
+            saveIMCResult(imc, category);
+            updateChart(parseFloat(imc));
+        }
+    });
+
+    // Fonction de validation des entrées (conservée à l'identique)
+    function validateInput(input, min, max, errorElement) {
+        const value = parseFloat(input.value);
+        if (isNaN(value) || value < min || value > max) {
+            errorElement.style.display = 'block';
+            return false;
+        }
+        errorElement.style.display = 'none';
+        return true;
+    }
+});
 
         // Gestion des boutons audio
         const audioButtons = document.querySelectorAll('.audio-button');
