@@ -1198,6 +1198,7 @@
         <h2 id="popup-heading">+ de 60% prennent soin de leur poids trop tard !</h2>
     <!-- Bloc vidéo promotionnelle des gélules Victory avec tracking -->
 <div class="popup-video-container" 
+     id="victory-video-container"
      style="max-width: 960px; margin: 2rem auto; position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 16px; box-shadow: 0 0 20px rgba(0,0,0,0.3); background-color: #000;"
      data-gtm-video="victory-minceur-video"
      data-gtm-category="Engagement"
@@ -1205,6 +1206,7 @@
      data-gtm-label="Video-Minute-Victory-Dj-pfiIzB44">
 
   <iframe 
+    id="victoryVideo"
     src="https://www.youtube-nocookie.com/embed/Dj-pfiIzB44?rel=0&vq=hd1080&autoplay=1&mute=0&enablejsapi=1" 
     title="Vidéo officielle des gélules minceur Victory – perte de poids rapide et ventre plat" 
     frameborder="0" 
@@ -1215,6 +1217,38 @@
     aria-label="Vidéo : Gélules minceur Victory – solution naturelle pour maigrir vite"
     style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
   </iframe>
+</div>
+
+<!-- Forcer HD avec YouTube Iframe API -->
+<script>
+  // Charger l’API JS YouTube
+  let tag = document.createElement('script');
+  tag.src = "https://www.youtube.com/iframe_api";
+  let firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+  let player;
+  function onYouTubeIframeAPIReady() {
+    player = new YT.Player('victoryVideo', {
+      events: {
+        'onReady': function (event) {
+          try {
+            event.target.setPlaybackQuality('hd1080'); // forcer la qualité
+            event.target.playVideo();
+          } catch (e) {
+            console.warn("Qualité non forcée", e);
+          }
+        }
+      }
+    });
+  }
+</script>
+
+<!-- Bloc invisible SEO -->
+<div style="position:absolute; left:-9999px; top:-9999px;">
+  <h1>Vidéo officielle des gélules minceur Victory</h1>
+  <p>Les <strong>gélules minceur Victory</strong> vous aident à perdre du poids rapidement et durablement. Cette vidéo montre des résultats concrets : <em>ventre plat</em>, <em>silhouette affinée</em>, <em>énergie retrouvée</em>. Sans régime drastique, la formule agit efficacement.</p>
+  <p>Découvrez les avis clients, la composition naturelle et l’efficacité cliniquement prouvée de cette solution française pour la perte de poids.</p>
 </div>
 
 <!-- Bloc invisible SEO pour Google (mots-clés longue traîne & bénéfices produit) -->
