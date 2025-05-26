@@ -2373,10 +2373,24 @@ window.addEventListener('load', showPopup);
             }, 'google_translate_element');
         }
 
+// Fonction de suivi des clics Google Analytics
+  function trackClick(label, category = 'CTA', value = null) {
+    if (typeof gtag === 'function') {
+      gtag('event', 'click', {
+        'event_category': category,
+        'event_label': label,
+        'value': value
+      });
+    } else {
+      console.log("gtag non disponible, trackClick:", label, category, value);
+    }
+  }
+    
         // Gestion des erreurs vidéo
         videoIframe.addEventListener('error', () => {
             document.getElementById('video-error').style.display = 'block';
         });
+
 
         // Web Vitals
         webVitals.getCLS((metric) => console.log('CLS:', metric.value));
