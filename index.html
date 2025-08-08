@@ -1,661 +1,335 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulaire d' expédition à remplir</title>
-    <!-- Importation des polices Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="icon" href="favicon_optimized.png" type="image/png" sizes="16x16 32x32 48x48 64x64 128x128" crossorigin="anonymous">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background: #fff;
-            color: #000;
-        }
-        .logo-container {
-            text-align: center;
-            margin: 15px 0;
-        }
-        .logo {
-            max-width: 255px;
-            height: auto;
-            border-radius: 8px;
-        }
-        .form-container {
-            max-width: 500px;
-            margin: 15px auto;
-            padding: 15px;
-            background: #f9f9f9;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
-            text-align: center;
-            font-family: 'Cinzel', serif;
-            font-size: 24px;
-            margin-bottom: 25px;
-        }
-        label {
-            font-weight: bold;
-            margin: 10px 0 5px;
-            display: block;
-        }
-        input, select, textarea, button {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-        textarea {
-            font-family: 'Playfair Display', serif;
-            font-size: 16px;
-            margin-bottom: 20px;
-        }
-        button {
-            background: #ff69b4;
-            color: #fff;
-            cursor: pointer;
-            border: none;
-        }
-        button:hover {
-            background: #ff85c1;
-        }
-        .contact-link {
-            text-align: center;
-            font-size: 14px;
-        }
-        .contact-link a {
-            color: #000;
-            text-decoration: none;
-        }
-        #google_translate_element {
-            margin-bottom: 15px;
-            text-align: center;
-        }
-        .responsive-img {
-            max-width: 100%;
-            height: auto;
-            display: block;
-            margin: 0 auto;
-        }
-        #payment-confirmation {
-            text-align: center;
-            margin-top: 10px;
-            font-size: 16px;
-            font-weight: bold;
-            color: green;
-        }
-        /* Styles pour les champs d'adresse */
-        #country, #region, #city, #address-line1, #address-line2, #postal-code {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-        /* Styles pour le sélecteur de préfixe téléphonique */
-        .phone-container {
-            display: flex;
-            gap: 10px;
-        }
-        #phone-prefix {
-            width: 30%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        #telephone {
-            width: 70%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mailer GitHub‑only — Single‑File</title>
+  <style>
+    :root{--bg:#fff;--fg:#111;--muted:#666;--b:#e5e7eb;--pri:#111;--ok:#0a0;--err:#b00}
+    *{box-sizing:border-box}
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--fg);max-width:1100px;margin:24px auto;padding:0 16px}
+    h1{font-size:22px;margin:0 0 10px}
+    h2{font-size:18px;margin:16px 0 8px}
+    fieldset{border:1px solid var(--b);border-radius:10px;margin:14px 0;padding:12px}
+    legend{padding:0 6px}
+    label{display:block;margin:8px 0 4px;font-weight:600}
+    input,textarea,select{width:100%;padding:9px 10px;border:1px solid #cbd5e1;border-radius:8px;font:inherit}
+    textarea{min-height:130px}
+    .row{display:grid;gap:12px;grid-template-columns:1fr 1fr}
+    .row3{display:grid;gap:12px;grid-template-columns:1fr 1fr 1fr}
+    .muted{color:var(--muted);font-size:13px}
+    .btn{background:var(--pri);color:#fff;border:0;border-radius:10px;padding:10px 14px;cursor:pointer}
+    .btn.secondary{background:#525252}
+    .btn.small{padding:6px 10px;border-radius:8px;font-size:13px}
+    .chips{display:flex;gap:8px;flex-wrap:wrap}
+    .chip{display:inline-flex;align-items:center;gap:6px;border:1px solid #cbd5e1;border-radius:999px;padding:6px 10px}
+    .time{display:flex;gap:8px;align-items:center}
+    .nowrap{white-space:nowrap}
+    .ok{color:var(--ok)}
+    .err{color:var(--err)}
+    code{background:#f6f8fa;padding:2px 6px;border-radius:6px}
+    .grid{display:grid;gap:8px}
+    .divider{height:1px;background:#eee;margin:12px 0}
+    .badge{display:inline-block;font-size:12px;border:1px solid #ddd;border-radius:999px;padding:2px 8px}
+  </style>
 </head>
 <body>
-    <div class="logo-container">
-        <img src="https://i.imgur.com/ajZF0ae.jpg" alt="ClairVoyanceMedium" class="responsive-img">
+  <h1>Mailer GitHub‑only — <span class="badge">1 fichier</span></h1>
+  <p class="muted">UI statique hébergée sur GitHub Pages. Cette page <b>bootstrappe</b> automatiquement votre dépôt (workflow Actions + script d’envoi) et vous permet de <b>créer/planifier</b> des campagnes e‑mail. Les identifiants SMTP restent dans les <b>Secrets</b> du dépôt (jamais dans la page).</p>
+
+  <fieldset>
+    <legend>0) Connexion au dépôt</legend>
+    <div class="row">
+      <div>
+        <label>Owner</label>
+        <input id="owner" placeholder="ex: votre-pseudo" />
+      </div>
+      <div>
+        <label>Repo</label>
+        <input id="repo" placeholder="ex: mailer" />
+      </div>
     </div>
-    <!-- Google Translate Widget -->
-    <div id="google_translate_element"></div>
-    <div class="form-container">
-        <div id="google_translate_element"></div>
-        <div id="payment-confirmation">
-            Merci ! Votre paiement a bien été reçu
+    <div class="row">
+      <div>
+        <label>Branche</label>
+        <input id="branch" value="main" />
+      </div>
+      <div>
+        <label>Token personnel GitHub (PAT) — <span class="muted">scope: <code>contents:write</code> pour ce dépôt</span></label>
+        <input id="pat" type="password" placeholder="ghp_…" />
+      </div>
+    </div>
+    <button id="saveConn" class="btn secondary">Enregistrer localement</button>
+    <span id="connStatus" class="muted"></span>
+    <div class="muted" style="margin-top:6px">Le PAT est stocké dans votre navigateur (localStorage). Vous pouvez ne pas l’enregistrer et le coller à chaque session.</div>
+  </fieldset>
+
+  <fieldset>
+    <legend>1) Bootstrap du dépôt (auto‑création des fichiers)</legend>
+    <p class="muted">Cliquez pour créer/mettre à jour automatiquement : <code>.github/workflows/mailer.yml</code>, <code>mailer/package.json</code>, <code>mailer/send.js</code>. Ensuite, ajoutez vos <b>Secrets</b> d’envoi dans <i>Settings → Secrets → Actions</i>.</p>
+    <div class="row">
+      <button id="bootstrap" class="btn">Créer/Mettre à jour les fichiers</button>
+      <button id="checkFiles" class="btn secondary">Vérifier la présence des fichiers</button>
+    </div>
+    <div id="bootLog" class="muted" style="margin-top:8px"></div>
+  </fieldset>
+
+  <fieldset>
+    <legend>2) Paramètres de campagne</legend>
+    <div class="row">
+      <div>
+        <label>Nom interne</label>
+        <input id="name" placeholder="ex: Lancement Août" />
+      </div>
+      <div>
+        <label>Fournisseur</label>
+        <select id="provider">
+          <option value="gmail">gmail</option>
+          <option value="outlook">outlook</option>
+          <option value="smtp">smtp</option>
+        </select>
+        <div class="muted">Configurez les Secrets correspondants dans le dépôt.</div>
+      </div>
+    </div>
+    <div class="row">
+      <div>
+        <label>Objet</label>
+        <input id="subject" placeholder="Vous avez reçu un message" />
+      </div>
+      <div>
+        <label>From (optionnel)</label>
+        <input id="from" placeholder="Nom <expediteur@domaine.com>" />
+      </div>
+    </div>
+    <label>HTML du message (utilisé tel quel, sans modification)</label>
+    <textarea id="html" placeholder="Collez ici votre HTML complet…"></textarea>
+    <label>Pièces jointes (URLs https, une par ligne) — optionnel</label>
+    <textarea id="attachments" placeholder="https://exemple.com/fichier.pdf"></textarea>
+
+    <div class="row3">
+      <div>
+        <label>Quota / jour</label>
+        <input id="dailyLimit" type="number" value="100" min="1" />
+      </div>
+      <div>
+        <label>Max par exécution</label>
+        <input id="maxPerRun" type="number" value="25" min="1" />
+      </div>
+      <div>
+        <label>Ordre d’envoi</label>
+        <select id="order">
+          <option value="alpha">alphabétique</option>
+          <option value="asIs">tel que fourni</option>
+        </select>
+      </div>
+    </div>
+    <div class="row3">
+      <div>
+        <label>Date de début (Europe/Paris)</label>
+        <input id="startDate" type="date" />
+      </div>
+      <div>
+        <label>Jours autorisés</label>
+        <div class="chips">
+          <label class="chip"><input type="checkbox" class="day" value="1"> Lun</label>
+          <label class="chip"><input type="checkbox" class="day" value="2" checked> Mar</label>
+          <label class="chip"><input type="checkbox" class="day" value="3"> Mer</label>
+          <label class="chip"><input type="checkbox" class="day" value="4" checked> Jeu</label>
+          <label class="chip"><input type="checkbox" class="day" value="5" checked> Ven</label>
+          <label class="chip"><input type="checkbox" class="day" value="6"> Sam</label>
+          <label class="chip"><input type="checkbox" class="day" value="0"> Dim</label>
         </div>
-        <br>
-        <h1>Votre voyance privée par email</h1>
-        <form id="formulaire" action="https://formspree.io/f/xjkkkywn" method="POST">
-            <label for="nom">Nom / Prénom :</label>
-            <input type="text" id="nom" name="nom" required>
-            <label for="email">Email :</label>
-            <input type="email" id="email" name="email" required>
-            <label for="telephone">Téléphone :</label>
-            <div class="phone-container">
-                <select id="phone-prefix" name="phone_prefix" required>
-                    <option value="">Indicatif</option>
-                    <option value="+93">Afghanistan (+93)</option>
-                    <option value="+355">Albanie (+355)</option>
-                    <option value="+213">Algérie (+213)</option>
-                    <option value="+49">Allemagne (+49)</option>
-                    <option value="+376">Andorre (+376)</option>
-                    <option value="+244">Angola (+244)</option>
-                    <option value="+54">Argentine (+54)</option>
-                    <option value="+374">Arménie (+374)</option>
-                    <option value="+61">Australie (+61)</option>
-                    <option value="+43">Autriche (+43)</option>
-                    <option value="+994">Azerbaïdjan (+994)</option>
-                    <option value="+1-242">Bahamas (+1-242)</option>
-                    <option value="+973">Bahreïn (+973)</option>
-                    <option value="+880">Bangladesh (+880)</option>
-                    <option value="+1-246">Barbade (+1-246)</option>
-                    <option value="+375">Biélorussie (+375)</option>
-                    <option value="+32">Belgique (+32)</option>
-                    <option value="+501">Belize (+501)</option>
-                    <option value="+229">Bénin (+229)</option>
-                    <option value="+975">Bhoutan (+975)</option>
-                    <option value="+591">Bolivie (+591)</option>
-                    <option value="+387">Bosnie-Herzégovine (+387)</option>
-                    <option value="+267">Botswana (+267)</option>
-                    <option value="+55">Brésil (+55)</option>
-                    <option value="+673">Brunei (+673)</option>
-                    <option value="+359">Bulgarie (+359)</option>
-                    <option value="+226">Burkina Faso (+226)</option>
-                    <option value="+257">Burundi (+257)</option>
-                    <option value="+855">Cambodge (+855)</option>
-                    <option value="+237">Cameroun (+237)</option>
-                    <option value="+1">Canada (+1)</option>
-                    <option value="+238">Cap-Vert (+238)</option>
-                    <option value="+236">République centrafricaine (+236)</option>
-                    <option value="+56">Chili (+56)</option>
-                    <option value="+86">Chine (+86)</option>
-                    <option value="+357">Chypre (+357)</option>
-                    <option value="+57">Colombie (+57)</option>
-                    <option value="+269">Comores (+269)</option>
-                    <option value="+242">Congo (+242)</option>
-                    <option value="+243">Congo (RDC) (+243)</option>
-                    <option value="+82">Corée du Sud (+82)</option>
-                    <option value="+506">Costa Rica (+506)</option>
-                    <option value="+225">Côte d'Ivoire (+225)</option>
-                    <option value="+385">Croatie (+385)</option>
-                    <option value="+53">Cuba (+53)</option>
-                    <option value="+45">Danemark (+45)</option>
-                    <option value="+253">Djibouti (+253)</option>
-                    <option value="+1-809">République dominicaine (+1-809)</option>
-                    <option value="+20">Égypte (+20)</option>
-                    <option value="+503">Salvador (+503)</option>
-                    <option value="+971">Émirats arabes unis (+971)</option>
-                    <option value="+593">Équateur (+593)</option>
-                    <option value="+291">Érythrée (+291)</option>
-                    <option value="+34">Espagne (+34)</option>
-                    <option value="+372">Estonie (+372)</option>
-                    <option value="+1">États-Unis (+1)</option>
-                    <option value="+251">Éthiopie (+251)</option>
-                    <option value="+679">Fidji (+679)</option>
-                    <option value="+358">Finlande (+358)</option>
-                    <option value="+33">France (+33)</option>
-                    <option value="+241">Gabon (+241)</option>
-                    <option value="+220">Gambie (+220)</option>
-                    <option value="+995">Géorgie (+995)</option>
-                    <option value="+233">Ghana (+233)</option>
-                    <option value="+30">Grèce (+30)</option>
-                    <option value="+1-473">Grenade (+1-473)</option>
-                    <option value="+502">Guatemala (+502)</option>
-                    <option value="+224">Guinée (+224)</option>
-                    <option value="+240">Guinée équatoriale (+240)</option>
-                    <option value="+245">Guinée-Bissau (+245)</option>
-                    <option value="+592">Guyana (+592)</option>
-                    <option value="+509">Haïti (+509)</option>
-                    <option value="+504">Honduras (+504)</option>
-                    <option value="+36">Hongrie (+36)</option>
-                    <option value="+91">Inde (+91)</option>
-                    <option value="+62">Indonésie (+62)</option>
-                    <option value="+98">Iran (+98)</option>
-                    <option value="+964">Irak (+964)</option>
-                    <option value="+353">Irlande (+353)</option>
-                    <option value="+354">Islande (+354)</option>
-                    <option value="+972">Israël (+972)</option>
-                    <option value="+39">Italie (+39)</option>
-                    <option value="+1-876">Jamaïque (+1-876)</option>
-                    <option value="+81">Japon (+81)</option>
-                    <option value="+962">Jordanie (+962)</option>
-                    <option value="+7">Kazakhstan (+7)</option>
-                    <option value="+254">Kenya (+254)</option>
-                    <option value="+996">Kirghizistan (+996)</option>
-                    <option value="+686">Kiribati (+686)</option>
-                    <option value="+965">Koweït (+965)</option>
-                    <option value="+856">Laos (+856)</option>
-                    <option value="+266">Lesotho (+266)</option>
-                    <option value="+371">Lettonie (+371)</option>
-                    <option value="+961">Liban (+961)</option>
-                    <option value="+231">Liberia (+231)</option>
-                    <option value="+218">Libye (+218)</option>
-                    <option value="+423">Liechtenstein (+423)</option>
-                    <option value="+370">Lituanie (+370)</option>
-                    <option value="+352">Luxembourg (+352)</option>
-                    <option value="+389">Macédoine du Nord (+389)</option>
-                    <option value="+261">Madagascar (+261)</option>
-                    <option value="+265">Malawi (+265)</option>
-                    <option value="+60">Malaisie (+60)</option>
-                    <option value="+960">Maldives (+960)</option>
-                    <option value="+223">Mali (+223)</option>
-                    <option value="+356">Malte (+356)</option>
-                    <option value="+212">Maroc (+212)</option>
-                    <option value="+692">Îles Marshall (+692)</option>
-                    <option value="+230">Maurice (+230)</option>
-                    <option value="+222">Mauritanie (+222)</option>
-                    <option value="+52">Mexique (+52)</option>
-                    <option value="+691">Micronésie (+691)</option>
-                    <option value="+373">Moldavie (+373)</option>
-                    <option value="+377">Monaco (+377)</option>
-                    <option value="+976">Mongolie (+976)</option>
-                    <option value="+382">Monténégro (+382)</option>
-                    <option value="+258">Mozambique (+258)</option>
-                    <option value="+95">Myanmar (+95)</option>
-                    <option value="+264">Namibie (+264)</option>
-                    <option value="+674">Nauru (+674)</option>
-                    <option value="+977">Népal (+977)</option>
-                    <option value="+31">Pays-Bas (+31)</option>
-                    <option value="+64">Nouvelle-Zélande (+64)</option>
-                    <option value="+505">Nicaragua (+505)</option>
-                    <option value="+227">Niger (+227)</option>
-                    <option value="+234">Nigeria (+234)</option>
-                    <option value="+47">Norvège (+47)</option>
-                    <option value="+968">Oman (+968)</option>
-                    <option value="+256">Ouganda (+256)</option>
-                    <option value="+998">Ouzbékistan (+998)</option>
-                    <option value="+92">Pakistan (+92)</option>
-                    <option value="+680">Palaos (+680)</option>
-                    <option value="+507">Panama (+507)</option>
-                    <option value="+675">Papouasie-Nouvelle-Guinée (+675)</option>
-                    <option value="+595">Paraguay (+595)</option>
-                    <option value="+51">Pérou (+51)</option>
-                    <option value="+63">Philippines (+63)</option>
-                    <option value="+48">Pologne (+48)</option>
-                    <option value="+351">Portugal (+351)</option>
-                    <option value="+974">Qatar (+974)</option>
-                    <option value="+40">Roumanie (+40)</option>
-                    <option value="+44">Royaume-Uni (+44)</option>
-                    <option value="+7">Russie (+7)</option>
-                    <option value="+250">Rwanda (+250)</option>
-                    <option value="+1-869">Saint-Kitts-et-Nevis (+1-869)</option>
-                    <option value="+1-758">Sainte-Lucie (+1-758)</option>
-                    <option value="+1-784">Saint-Vincent-et-les-Grenadines (+1-784)</option>
-                    <option value="+685">Samoa (+685)</option>
-                    <option value="+378">Saint-Marin (+378)</option>
-                    <option value="+239">Sao Tomé-et-Principe (+239)</option>
-                    <option value="+966">Arabie saoudite (+966)</option>
-                    <option value="+221">Sénégal (+221)</option>
-                    <option value="+381">Serbie (+381)</option>
-                    <option value="+248">Seychelles (+248)</option>
-                    <option value="+232">Sierra Leone (+232)</option>
-                    <option value="+65">Singapour (+65)</option>
-                    <option value="+421">Slovaquie (+421)</option>
-                    <option value="+386">Slovénie (+386)</option>
-                    <option value="+677">Îles Salomon (+677)</option>
-                    <option value="+252">Somalie (+252)</option>
-                    <option value="+27">Afrique du Sud (+27)</option>
-                    <option value="+211">Soudan du Sud (+211)</option>
-                    <option value="+94">Sri Lanka (+94)</option>
-                    <option value="+249">Soudan (+249)</option>
-                    <option value="+597">Suriname (+597)</option>
-                    <option value="+46">Suède (+46)</option>
-                    <option value="+41">Suisse (+41)</option>
-                    <option value="+963">Syrie (+963)</option>
-                    <option value="+992">Tadjikistan (+992)</option>
-                    <option value="+255">Tanzanie (+255)</option>
-                    <option value="+66">Thaïlande (+66)</option>
-                    <option value="+670">Timor oriental (+670)</option>
-                    <option value="+228">Togo (+228)</option>
-                    <option value="+676">Tonga (+676)</option>
-                    <option value="+1-868">Trinité-et-Tobago (+1-868)</option>
-                    <option value="+216">Tunisie (+216)</option>
-                    <option value="+90">Turquie (+90)</option>
-                    <option value="+993">Turkménistan (+993)</option>
-                    <option value="+688">Tuvalu (+688)</option>
-                    <option value="+380">Ukraine (+380)</option>
-                    <option value="+598">Uruguay (+598)</option>
-                    <option value="+678">Vanuatu (+678)</option>
-                    <option value="+58">Venezuela (+58)</option>
-                    <option value="+84">Vietnam (+84)</option>
-                    <option value="+967">Yémen (+967)</option>
-                    <option value="+260">Zambie (+260)</option>
-                    <option value="+263">Zimbabwe (+263)</option>
-                </select>
-                <input type="tel" id="telephone" name="telephone" placeholder="Numéro de téléphone" required>
-            </div>
-            <!-- Adresse de livraison -->
-            <label for="country">Pays :</label>
-            <select id="country" name="country" required>
-                <option value="">-- Sélectionnez votre pays --</option>
-                <option value="AF">Afghanistan</option>
-                <option value="AL">Albanie</option>
-                <option value="DZ">Algérie</option>
-                <option value="DE">Allemagne</option>
-                <option value="AD">Andorre</option>
-                <option value="AO">Angola</option>
-                <option value="AR">Argentine</option>
-                <option value="AM">Arménie</option>
-                <option value="AU">Australie</option>
-                <option value="AT">Autriche</option>
-                <option value="AZ">Azerbaïdjan</option>
-                <option value="BS">Bahamas</option>
-                <option value="BH">Bahreïn</option>
-                <option value="BD">Bangladesh</option>
-                <option value="BB">Barbade</option>
-                <option value="BY">Biélorussie</option>
-                <option value="BE">Belgique</option>
-                <option value="BZ">Belize</option>
-                <option value="BJ">Bénin</option>
-                <option value="BT">Bhoutan</option>
-                <option value="BO">Bolivie</option>
-                <option value="BA">Bosnie-Herzégovine</option>
-                <option value="BW">Botswana</option>
-                <option value="BR">Brésil</option>
-                <option value="BN">Brunei</option>
-                <option value="BG">Bulgarie</option>
-                <option value="BF">Burkina Faso</option>
-                <option value="BI">Burundi</option>
-                <option value="KH">Cambodge</option>
-                <option value="CM">Cameroun</option>
-                <option value="CA">Canada</option>
-                <option value="CV">Cap-Vert</option>
-                <option value="CF">République centrafricaine</option>
-                <option value="CL">Chili</option>
-                <option value="CN">Chine</option>
-                <option value="CY">Chypre</option>
-                <option value="CO">Colombie</option>
-                <option value="KM">Comores</option>
-                <option value="CG">Congo</option>
-                <option value="CD">Congo (RDC)</option>
-                <option value="KR">Corée du Sud</option>
-                <option value="CR">Costa Rica</option>
-                <option value="CI">Côte d'Ivoire</option>
-                <option value="HR">Croatie</option>
-                <option value="CU">Cuba</option>
-                <option value="DK">Danemark</option>
-                <option value="DJ">Djibouti</option>
-                <option value="DO">République dominicaine</option>
-                <option value="EG">Égypte</option>
-                <option value="SV">Salvador</option>
-                <option value="AE">Émirats arabes unis</option>
-                <option value="EC">Équateur</option>
-                <option value="ER">Érythrée</option>
-                <option value="ES">Espagne</option>
-                <option value="EE">Estonie</option>
-                <option value="US">États-Unis</option>
-                <option value="ET">Éthiopie</option>
-                <option value="FJ">Fidji</option>
-                <option value="FI">Finlande</option>
-                <option value="FR">France</option>
-                <option value="GA">Gabon</option>
-                <option value="GM">Gambie</option>
-                <option value="GE">Géorgie</option>
-                <option value="GH">Ghana</option>
-                <option value="GR">Grèce</option>
-                <option value="GD">Grenade</option>
-                <option value="GT">Guatemala</option>
-                <option value="GN">Guinée</option>
-                <option value="GQ">Guinée équatoriale</option>
-                <option value="GW">Guinée-Bissau</option>
-                <option value="GY">Guyana</option>
-                <option value="HT">Haïti</option>
-                <option value="HN">Honduras</option>
-                <option value="HU">Hongrie</option>
-                <option value="IN">Inde</option>
-                <option value="ID">Indonésie</option>
-                <option value="IR">Iran</option>
-                <option value="IQ">Irak</option>
-                <option value="IE">Irlande</option>
-                <option value="IS">Islande</option>
-                <option value="IL">Israël</option>
-                <option value="IT">Italie</option>
-                <option value="JM">Jamaïque</option>
-                <option value="JP">Japon</option>
-                <option value="JO">Jordanie</option>
-                <option value="KZ">Kazakhstan</option>
-                <option value="KE">Kenya</option>
-                <option value="KG">Kirghizistan</option>
-                <option value="KI">Kiribati</option>
-                <option value="KW">Koweït</option>
-                <option value="LA">Laos</option>
-                <option value="LS">Lesotho</option>
-                <option value="LV">Lettonie</option>
-                <option value="LB">Liban</option>
-                <option value="LR">Liberia</option>
-                <option value="LY">Libye</option>
-                <option value="LI">Liechtenstein</option>
-                <option value="LT">Lituanie</option>
-                <option value="LU">Luxembourg</option>
-                <option value="MK">Macédoine du Nord</option>
-                <option value="MG">Madagascar</option>
-                <option value="MW">Malawi</option>
-                <option value="MY">Malaisie</option>
-                <option value="MV">Maldives</option>
-                <option value="ML">Mali</option>
-                <option value="MT">Malte</option>
-                <option value="MA">Maroc</option>
-                <option value="MH">Îles Marshall</option>
-                <option value="MU">Maurice</option>
-                <option value="MR">Mauritanie</option>
-                <option value="MX">Mexique</option>
-                <option value="FM">Micronésie</option>
-                <option value="MD">Moldavie</option>
-                <option value="MC">Monaco</option>
-                <option value="MN">Mongolie</option>
-                <option value="ME">Monténégro</option>
-                <option value="MZ">Mozambique</option>
-                <option value="MM">Myanmar</option>
-                <option value="NA">Namibie</option>
-                <option value="NR">Nauru</option>
-                <option value="NP">Népal</option>
-                <option value="NL">Pays-Bas</option>
-                <option value="NZ">Nouvelle-Zélande</option>
-                <option value="NI">Nicaragua</option>
-                <option value="NE">Niger</option>
-                <option value="NG">Nigeria</option>
-                <option value="NO">Norvège</option>
-                <option value="OM">Oman</option>
-                <option value="UG">Ouganda</option>
-                <option value="UZ">Ouzbékistan</option>
-                <option value="PK">Pakistan</option>
-                <option value="PW">Palaos</option>
-                <option value="PA">Panama</option>
-                <option value="PG">Papouasie-Nouvelle-Guinée</option>
-                <option value="PY">Paraguay</option>
-                <option value="PE">Pérou</option>
-                <option value="PH">Philippines</option>
-                <option value="PL">Pologne</option>
-                <option value="PT">Portugal</option>
-                <option value="QA">Qatar</option>
-                <option value="RO">Roumanie</option>
-                <option value="GB">Royaume-Uni</option>
-                <option value="RU">Russie</option>
-                <option value="RW">Rwanda</option>
-                <option value="KN">Saint-Kitts-et-Nevis</option>
-                <option value="LC">Sainte-Lucie</option>
-                <option value="VC">Saint-Vincent-et-les-Grenadines</option>
-                <option value="WS">Samoa</option>
-                <option value="SM">Saint-Marin</option>
-                <option value="ST">Sao Tomé-et-Principe</option>
-                <option value="SA">Arabie saoudite</option>
-                <option value="SN">Sénégal</option>
-                <option value="RS">Serbie</option>
-                <option value="SC">Seychelles</option>
-                <option value="SL">Sierra Leone</option>
-                <option value="SG">Singapour</option>
-                <option value="SK">Slovaquie</option>
-                <option value="SI">Slovénie</option>
-                <option value="SB">Îles Salomon</option>
-                <option value="SO">Somalie</option>
-                <option value="ZA">Afrique du Sud</option>
-                <option value="SS">Soudan du Sud</option>
-                <option value="LK">Sri Lanka</option>
-                <option value="SD">Soudan</option>
-                <option value="SR">Suriname</option>
-                <option value="SE">Suède</option>
-                <option value="CH">Suisse</option>
-                <option value="SY">Syrie</option>
-                <option value="TJ">Tadjikistan</option>
-                <option value="TZ">Tanzanie</option>
-                <option value="TH">Thaïlande</option>
-                <option value="TL">Timor oriental</option>
-                <option value="TG">Togo</option>
-                <option value="TO">Tonga</option>
-                <option value="TT">Trinité-et-Tobago</option>
-                <option value="TN">Tunisie</option>
-                <option value="TR">Turquie</option>
-                <option value="TM">Turkménistan</option>
-                <option value="TV">Tuvalu</option>
-                <option value="UA">Ukraine</option>
-                <option value="UY">Uruguay</option>
-                <option value="VU">Vanuatu</option>
-                <option value="VE">Venezuela</option>
-                <option value="VN">Vietnam</option>
-                <option value="YE">Yémen</option>
-                <option value="ZM">Zambie</option>
-                <option value="ZW">Zimbabwe</option>
-            </select>
-            <label for="region">Région / État :</label>
-            <input type="text" id="region" name="region" placeholder="Entrez votre région ou état" required>
-            <label for="city">Ville :</label>
-            <input type="text" id="city" name="city" placeholder="Entrez votre ville" required>
-            <label for="address-line1">Adresse (ligne 1) :</label>
-            <input type="text" id="address-line1" name="address_line1" placeholder="Numéro et nom de la rue" required>
-            <label for="address-line2">Adresse (ligne 2, facultatif) :</label>
-            <input type="text" id="address-line2" name="address_line2" placeholder="Appartement, étage, etc.">
-            <label for="postal-code">Code postal :</label>
-            <input type="text" id="postal-code" name="postal_code" placeholder="Entrez votre code postal" required>
-            <label for="questions">Informations complémentaires (facultatif) :</label>
-            <textarea id="questions" name="questions" rows="5"></textarea>
-            <button type="submit">Envoyer</button>
-            <div class="contact-link">
-                <a href="mailto:contact.clairvoyancemedium@gmail.com">Contact ClairVoyanceMedium.com</a>
-            </div>
-        </form>
+      </div>
+      <div>
+        <label>Fenêtres horaires (Europe/Paris)</label>
+        <div id="windows" class="grid"></div>
+        <button id="addWin" class="btn secondary small" type="button">+ Ajouter fenêtre</button>
+      </div>
     </div>
-    <script>
-        function googleTranslateElementInit() {
-            new google.translate.TranslateElement({
-                pageLanguage: 'fr',
-                includedLanguages: 'aut,en,es,zh-CN,hi,ar,pt,ru,ja,de,ko,vi,it,tr,pl,uk,nl,mlt,cyp,svk,th,fr,sv,cs,el,da,fi,he,hu,id,ms,no,ro,sk,sl,af,bg,hr,lt,lv,sr,et,ta,te,sw,zu,fa,lo,my,ne,xh,yo',
-                layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
-                autoDisplay: false
-            }, 'google_translate_element');
-        }
+  </fieldset>
 
-        async function detectLanguageByIP() {
-            try {
-                const response = await fetch('https://ipapi.co/json/');
-                const data = await response.json();
-                const countryCode = data.country_code.toLowerCase();
-                const langMap = {
-                    us: 'en', fr: 'fr', es: 'es', de: 'de', it: 'it', ru: 'ru', il: 'he',
-                    cn: 'zh-CN', jp: 'ja', kr: 'ko', in: 'hi', pt: 'pt', ar: 'ar', vi: 'vi'
-                };
-                const detectedLanguage = langMap[countryCode] || 'en';
-                autoTranslate(detectedLanguage);
-            } catch (error) {
-                console.error('IP-based detection failed, falling back to browser language:', error);
-                const fallbackLang = navigator.language.split('-')[0];
-                autoTranslate(fallbackLang);
-            }
-        }
+  <fieldset>
+    <legend>3) Contacts</legend>
+    <div class="row">
+      <div>
+        <label>Collez des e‑mails (1 par ligne) ou CSV (email,prenom,nom)</label>
+        <textarea id="contacts" placeholder="alice@example.com\nbob@example.com, Bob, Martin"></textarea>
+      </div>
+      <div>
+        <label>Statut</label>
+        <div id="stats" class="muted">0 valides • 0 doublons supprimés</div>
+        <div style="margin-top:8px"><button id="analyze" class="btn secondary" type="button">Analyser & Dédupliquer</button></div>
+      </div>
+    </div>
+  </fieldset>
 
-        function autoTranslate(detectedLanguage) {
-            setTimeout(() => {
-                const translateCombo = document.querySelector('.goog-te-combo');
-                if (translateCombo) {
-                    translateCombo.value = detectedLanguage;
-                    translateCombo.dispatchEvent(new Event('change'));
-                }
-            }, 2000);
-        }
+  <fieldset>
+    <legend>4) Créer & pousser la campagne</legend>
+    <div class="row">
+      <button id="create" class="btn">Créer la campagne (commit dans <code>campaigns/</code>)</button>
+      <button id="download" class="btn secondary">Télécharger le JSON</button>
+    </div>
+    <div id="out" class="muted" style="margin-top:8px"></div>
+  </fieldset>
 
-        function loadGoogleTranslateScript() {
-            const script = document.createElement('script');
-            script.src = "https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
-            script.async = true;
-            script.onload = detectLanguageByIP;
-            script.onerror = () => {
-                document.getElementById('google_translate_element').innerHTML =
-                    '<p style="color: red; text-align: center;">Traduction indisponible. Veuillez réessayer plus tard.</p>';
-            };
-            document.body.appendChild(script);
-        }
+  <div class="divider"></div>
+  <p class="muted">Rappel : ajoutez vos Secrets dans le dépôt selon le fournisseur choisi. Gmail/Outlook ont des limites strictes — utilisez des quotas/jours/fenêtres pour étaler l’envoi.</p>
 
-        // Détection du pays pour pré-remplir le sélecteur de pays et le préfixe téléphonique
-        function detectCountry() {
-            fetch('https://ipapi.co/json/')
-                .then(response => response.json())
-                .then(data => {
-                    const countryCode = data.country_code;
-                    // Pré-remplir le sélecteur de pays
-                    const countrySelect = document.getElementById('country');
-                    if (countryCode) {
-                        countrySelect.value = countryCode;
-                    }
-                    // Pré-remplir le préfixe téléphonique
-                    const phonePrefixSelect = document.getElementById('phone-prefix');
-                    const prefixMap = {
-                        'AF': '+93', 'AL': '+355', 'DZ': '+213', 'DE': '+49', 'AD': '+376',
-                        'AO': '+244', 'AR': '+54', 'AM': '+374', 'AU': '+61', 'AT': '+43',
-                        'AZ': '+994', 'BS': '+1-242', 'BH': '+973', 'BD': '+880', 'BB': '+1-246',
-                        'BY': '+375', 'BE': '+32', 'BZ': '+501', 'BJ': '+229', 'BT': '+975',
-                        'BO': '+591', 'BA': '+387', 'BW': '+267', 'BR': '+55', 'BN': '+673',
-                        'BG': '+359', 'BF': '+226', 'BI': '+257', 'KH': '+855', 'CM': '+237',
-                        'CA': '+1', 'CV': '+238', 'CF': '+236', 'CL': '+56', 'CN': '+86',
-                        'CY': '+357', 'CO': '+57', 'KM': '+269', 'CG': '+242', 'CD': '+243',
-                        'KR': '+82', 'CR': '+506', 'CI': '+225', 'HR': '+385', 'CU': '+53',
-                        'DK': '+45', 'DJ': '+253', 'DO': '+1-809', 'EG': '+20', 'SV': '+503',
-                        'AE': '+971', 'EC': '+593', 'ER': '+291', 'ES': '+34', 'EE': '+372',
-                        'US': '+1', 'ET': '+251', 'FJ': '+679', 'FI': '+358', 'FR': '+33',
-                        'GA': '+241', 'GM': '+220', 'GE': '+995', 'GH': '+233', 'GR': '+30',
-                        'GD': '+1-473', 'GT': '+502', 'GN': '+224', 'GQ': '+240', 'GW': '+245',
-                        'GY': '+592', 'HT': '+509', 'HN': '+504', 'HU': '+36', 'IN': '+91',
-                        'ID': '+62', 'IR': '+98', 'IQ': '+964', 'IE': '+353', 'IS': '+354',
-                        'IL': '+972', 'IT': '+39', 'JM': '+1-876', 'JP': '+81', 'JO': '+962',
-                        'KZ': '+7', 'KE': '+254', 'KG': '+996', 'KI': '+686', 'KW': '+965',
-                        'LA': '+856', 'LS': '+266', 'LV': '+371', 'LB': '+961', 'LR': '+231',
-                        'LY': '+218', 'LI': '+423', 'LT': '+370', 'LU': '+352', 'MK': '+389',
-                        'MG': '+261', 'MW': '+265', 'MY': '+60', 'MV': '+960', 'ML': '+223',
-                        'MT': '+356', 'MA': '+212', 'MH': '+692', 'MU': '+230', 'MR': '+222',
-                        'MX': '+52', 'FM': '+691', 'MD': '+373', 'MC': '+377', 'MN': '+976',
-                        'ME': '+382', 'MZ': '+258', 'MM': '+95', 'NA': '+264', 'NR': '+674',
-                        'NP': '+977', 'NL': '+31', 'NZ': '+64', 'NI': '+505', 'NE': '+227',
-                        'NG': '+234', 'NO': '+47', 'OM': '+968', 'UG': '+256', 'UZ': '+998',
-                        'PK': '+92', 'PW': '+680', 'PA': '+507', 'PG': '+675', 'PY': '+595',
-                        'PE': '+51', 'PH': '+63', 'PL': '+48', 'PT': '+351', 'QA': '+974',
-                        'RO': '+40', 'GB': '+44', 'RU': '+7', 'RW': '+250', 'KN': '+1-869',
-                        'LC': '+1-758', 'VC': '+1-784', 'WS': '+685', 'SM': '+378',
-                        'ST': '+239', 'SA': '+966', 'SN': '+221', 'RS': '+381', 'SC': '+248',
-                        'SL': '+232', 'SG': '+65', 'SK': '+421', 'SI': '+386', 'SB': '+677',
-                        'SO': '+252', 'ZA': '+27', 'SS': '+211', 'LK': '+94', 'SD': '+249',
-                        'SR': '+597', 'SE': '+46', 'CH': '+41', 'SY': '+963', 'TJ': '+992',
-                        'TZ': '+255', 'TH': '+66', 'TL': '+670', 'TG': '+228', 'TO': '+676',
-                        'TT': '+1-868', 'TN': '+216', 'TR': '+90', 'TM': '+993', 'TV': '+688',
-                        'UA': '+380', 'UY': '+598', 'VU': '+678', 'VE': '+58', 'VN': '+84',
-                        'YE': '+967', 'ZM': '+260', 'ZW': '+263'
-                    };
-                    if (prefixMap[countryCode]) {
-                        phonePrefixSelect.value = prefixMap[countryCode];
-                    }
-                })
-                .catch(error => {
-                    console.error('Erreur lors de la détection du pays:', error);
-                });
-        }
+<script>
+// ======= Utilitaires =======
+const ls = window.localStorage;
+const byId = id => document.getElementById(id);
+const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/i;
+const todayISO = () => new Date().toISOString().slice(0,10);
 
-        document.addEventListener("DOMContentLoaded", () => {
-            loadGoogleTranslateScript();
-            detectCountry();
-        });
-    </script>
+function b64(str){return btoa(unescape(encodeURIComponent(str)));}
+function enc(obj){return b64(JSON.stringify(obj,null,2));}
+
+function ghHeaders(pat){
+  return {'Authorization':`Bearer ${pat}`,'Accept':'application/vnd.github+json'};
+}
+
+async function ghGet(owner,repo,path,branch,pat){
+  const r = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${encodeURIComponent(path)}?ref=${encodeURIComponent(branch)}`, {headers: ghHeaders(pat)});
+  if(r.status===404) return null;
+  if(!r.ok){throw new Error(`GET ${path}: ${r.status}`)}
+  return r.json();
+}
+
+async function ghPut(owner,repo,path,branch,pat,content,message){
+  // si existe, inclure sha pour update
+  let sha = undefined;
+  const existing = await ghGet(owner,repo,path,branch,pat);
+  if(existing && existing.sha) sha = existing.sha;
+  const r = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${encodeURIComponent(path)}`,{
+    method:'PUT',
+    headers: ghHeaders(pat),
+    body: JSON.stringify({message, content: b64(content), branch, sha})
+  });
+  if(!r.ok){const t = await r.text(); throw new Error(`PUT ${path}: ${t}`)}
+  return r.json();
+}
+
+// ======= Contenus bootstrap embarqués =======
+const WORKFLOW_YML = `name: Mailer\n\non:\n  push:\n    paths:\n      - 'campaigns/**'\n  schedule:\n    - cron: '*/5 * * * *'\n\npermissions:\n  contents: write\n\njobs:\n  send:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - uses: actions/setup-node@v4\n        with:\n          node-version: '20'\n      - name: Install deps\n        working-directory: mailer\n        run: npm i\n      - name: Run sender\n        working-directory: mailer\n        env:\n          GITHUB_TOKEN: \${{ secrets.GITHUB_TOKEN }}\n          GMAIL_USER: \${{ secrets.GMAIL_USER }}\n          GMAIL_PASS: \${{ secrets.GMAIL_PASS }}\n          GMAIL_FROM: \${{ secrets.GMAIL_FROM }}\n          OUTLOOK_USER: \${{ secrets.OUTLOOK_USER }}\n          OUTLOOK_PASS: \${{ secrets.OUTLOOK_PASS }}\n          OUTLOOK_FROM: \${{ secrets.OUTLOOK_FROM }}\n          SMTP_HOST: \${{ secrets.SMTP_HOST }}\n          SMTP_PORT: \${{ secrets.SMTP_PORT }}\n          SMTP_SECURE: \${{ secrets.SMTP_SECURE }}\n          SMTP_USER: \${{ secrets.SMTP_USER }}\n          SMTP_PASS: \${{ secrets.SMTP_PASS }}\n          SMTP_FROM: \${{ secrets.SMTP_FROM }}\n        run: node send.js\n`;
+
+const PACKAGE_JSON = `{
+  "name": "gh-mailer",
+  "version": "1.0.0",
+  "private": true,
+  "type": "commonjs",
+  "dependencies": { "nodemailer": "^6.9.13" }
+}`;
+
+const SEND_JS = `const fs = require('fs');\nconst path = require('path');\nconst nodemailer = require('nodemailer');\n\nconst REPO_ROOT = process.cwd();\nconst CAMPAIGNS_DIR = path.join(REPO_ROOT, 'campaigns');\nconst STATE_DIR = path.join(REPO_ROOT, 'state');\n\nfunction ensureDirs(){\n  if(!fs.existsSync(CAMPAIGNS_DIR)) fs.mkdirSync(CAMPAIGNS_DIR,{recursive:true});\n  if(!fs.existsSync(STATE_DIR)) fs.mkdirSync(STATE_DIR,{recursive:true});\n}\n\nfunction loadJson(p){ try{ return JSON.parse(fs.readFileSync(p,'utf8')); }catch(e){ return null; } }\nfunction saveJson(p,obj){ fs.mkdirSync(path.dirname(p),{recursive:true}); fs.writeFileSync(p, JSON.stringify(obj,null,2)); }\n\nfunction nowParis(){ const s=new Date().toLocaleString('sv-SE',{timeZone:'Europe/Paris',hour12:false}); const [d,t]=s.split(' '); return {date:d,time:t}; }\nfunction weekdayNumParis(){ const map={Sun:0,Mon:1,Tue:2,Wed:3,Thu:4,Fri:5,Sat:6}; const s=new Date().toLocaleString('en-US',{timeZone:'Europe/Paris',weekday:'short'}); return map[s]; }\nfunction timeInRange(t,start,end){ return (t>=start && t<=end); }\n\nfunction buildTransport(provider){\n  if(provider==='gmail'){ return nodemailer.createTransport({ host:'smtp.gmail.com', port:465, secure:true, auth:{user:process.env.GMAIL_USER, pass:process.env.GMAIL_PASS} }); }\n  if(provider==='outlook'){ return nodemailer.createTransport({ host:'smtp.office365.com', port:587, secure:false, auth:{user:process.env.OUTLOOK_USER, pass:process.env.OUTLOOK_PASS} }); }\n  return nodemailer.createTransport({ host:process.env.SMTP_HOST, port:parseInt(process.env.SMTP_PORT||'587',10), secure:String(process.env.SMTP_SECURE||'false')==='true', auth:{user:process.env.SMTP_USER, pass:process.env.SMTP_PASS} });\n}\n\nasync function sendOne(transporter, from, to, subject, html, attachments){\n  const opts = { from: from||undefined, to, subject, html, attachments:(attachments||[]).map(url=>({ filename: require('path').basename(url.split('?')[0]), path:url })) };\n  return transporter.sendMail(opts);\n}\n\nfunction withinWindows(schedule){\n  const todayNum = weekdayNumParis();\n  if(Array.isArray(schedule?.days) && schedule.days.length>0 && !schedule.days.includes(todayNum)) return false;\n  const { time } = nowParis(); const hhmm = time.slice(0,5);\n  const wins = Array.isArray(schedule?.windows) && schedule.windows.length>0 ? schedule.windows : [{start:'00:00', end:'23:59'}];\n  return wins.some(w=> timeInRange(hhmm, w.start, w.end));\n}\n\nasync function main(){\n  ensureDirs();\n  const files = fs.existsSync(CAMPAIGNS_DIR)? fs.readdirSync(CAMPAIGNS_DIR).filter(f=>f.endsWith('.json')) : [];\n  if(files.length===0){ console.log('No campaigns'); return; }\n\n  for(const f of files){\n    const c = loadJson(path.join(CAMPAIGNS_DIR,f)); if(!c) continue;\n    const { date } = nowParis(); if(c.startDate && c.startDate > date){ console.log('['+c.id+'] startDate future, skip'); continue; }\n    if(!withinWindows(c.schedule)){ console.log('['+c.id+'] hors fenetre'); continue; }\n\n    const statePath = path.join(STATE_DIR, c.id+'.json');\n    const s = loadJson(statePath) || { id:c.id, cursor:0, sentTotal:0, perDay:{}, completed:false };\n    if(s.completed){ console.log('['+c.id+'] deja termine'); continue; }\n\n    const recipients = Array.isArray(c.recipients)? c.recipients : [];\n    if(s.cursor >= recipients.length){ s.completed=true; saveJson(statePath,s); console.log('['+c.id+'] termine'); continue; }\n\n    const today = nowParis().date; const todaySent = s.perDay[today]||0;\n    const dailyLimit = Math.max(1, c?.limits?.dailyLimit || 100);\n    const maxPerRun = Math.max(1, c?.limits?.maxPerRun || 25);\n    const canToday = Math.max(0, dailyLimit - todaySent);\n    if(canToday===0){ console.log('['+c.id+'] quota journalier atteint'); continue; }\n\n    const toSendNow = Math.min(maxPerRun, canToday, recipients.length - s.cursor);\n    if(toSendNow<=0){ console.log('['+c.id+'] rien a envoyer'); continue; }\n\n    const provider = c.provider || 'smtp';\n    const transporter = buildTransport(provider);\n    const from = c.from || process.env[provider.toUpperCase()+'_FROM'] || process.env[provider.toUpperCase()+'_USER'];\n\n    let ok=0, fail=0; const errors=[];\n    for(let i=0;i<toSendNow;i++){\n      const r = recipients[s.cursor + i]; const to = r.email;\n      try{ await sendOne(transporter, from, to, c.subject, c.html, c.attachments); ok++; }\n      catch(e){ fail++; errors.push({to, error:String(e)}); }\n    }\n\n    s.cursor += (ok+fail); s.sentTotal += ok; s.perDay[today] = todaySent + ok; if(s.cursor >= recipients.length) s.completed=true;\n    saveJson(statePath, s);\n    console.log('['+c.id+'] sent ok='+ok+' fail='+fail+' cursor='+s.cursor+'/'+recipients.length);\n\n    if(errors.length){ const errPath = path.join(STATE_DIR, c.id+'-'+today+'.errors.json'); saveJson(errPath, errors); }\n  }\n\n  const { execSync } = require('child_process');\n  try{\n    execSync('git config user.name "github-actions"');\n    execSync('git config user.email "github-actions@users.noreply.github.com"');\n    execSync('git add state');\n    const diff = execSync('git status --porcelain').toString().trim();\n    if(diff){ execSync('git commit -m "chore(state): update [skip ci]"'); execSync('git push'); }\n    else { console.log('No state changes to commit'); }\n  }catch(e){ console.log('Git push skipped/failed:', String(e.message||e)); }\n}\n\nmain().catch(e=>{ console.error(e); process.exit(1); });\n`;
+
+// ======= Initialisation UI =======
+(function initConn(){ byId('owner').value = ls.getItem('owner')||''; byId('repo').value = ls.getItem('repo')||''; byId('branch').value = ls.getItem('branch')||'main'; byId('pat').value = ls.getItem('pat')||''; })();
+byId('saveConn').onclick = ()=>{ ls.setItem('owner', byId('owner').value.trim()); ls.setItem('repo', byId('repo').value.trim()); ls.setItem('branch', byId('branch').value.trim()||'main'); if(byId('pat').value.trim()) ls.setItem('pat', byId('pat').value.trim()); byId('connStatus').textContent='Enregistré'; setTimeout(()=>byId('connStatus').textContent='',2000); };
+
+const windowsDiv = byId('windows');
+function addWindowRow(start='09:00', end='12:00'){
+  const wrap = document.createElement('div'); wrap.className='time';
+  wrap.innerHTML = `<input type="time" class="winStart" value="${start}"> à <input type="time" class="winEnd" value="${end}"> <button type="button" class="btn secondary small del">Suppr</button>`;
+  wrap.querySelector('.del').onclick = ()=>wrap.remove();
+  windowsDiv.appendChild(wrap);
+}
+addWindowRow('09:00','12:00'); addWindowRow('14:00','17:00');
+byId('addWin').onclick = ()=>addWindowRow('09:00','12:00');
+
+// ======= Bootstrap dépôt =======
+byId('checkFiles').onclick = async ()=>{
+  const owner=byId('owner').value.trim(), repo=byId('repo').value.trim(), branch=byId('branch').value.trim()||'main', pat=byId('pat').value.trim();
+  if(!owner||!repo||!pat){ byId('bootLog').innerHTML='<span class="err">owner/repo/PAT requis</span>'; return; }
+  try{
+    const paths=[ '.github/workflows/mailer.yml', 'mailer/package.json', 'mailer/send.js' ];
+    const results = await Promise.all(paths.map(p=>ghGet(owner,repo,p,branch,pat)));
+    const lines = results.map((r,i)=> `${paths[i]} : ${r?'OK':'manquant'}`).join('<br>');
+    byId('bootLog').innerHTML = lines;
+  }catch(e){ byId('bootLog').innerHTML = `<span class="err">${e.message}</span>`; }
+};
+
+byId('bootstrap').onclick = async ()=>{
+  const owner=byId('owner').value.trim(), repo=byId('repo').value.trim(), branch=byId('branch').value.trim()||'main', pat=byId('pat').value.trim();
+  if(!owner||!repo||!pat){ byId('bootLog').innerHTML='<span class="err">owner/repo/PAT requis</span>'; return; }
+  try{
+    await ghPut(owner,repo,'.github/workflows/mailer.yml',branch,pat,WORKFLOW_YML,'ci(actions): add mailer workflow');
+    await ghPut(owner,repo,'mailer/package.json',branch,pat,PACKAGE_JSON,'chore(mailer): package.json');
+    await ghPut(owner,repo,'mailer/send.js',branch,pat,SEND_JS,'feat(mailer): sender script');
+    byId('bootLog').innerHTML = '<span class="ok">Fichiers créés/mis à jour. Ajoutez maintenant les <b>Secrets</b> SMTP et créez votre campagne.</span>';
+  }catch(e){ byId('bootLog').innerHTML = `<span class="err">${e.message}</span>`; }
+};
+
+// ======= Contacts =======
+function parseContacts(raw){
+  const lines = raw.split(/\r?\n/).map(l=>l.trim()).filter(Boolean);
+  const rows = [];
+  for(const l of lines){
+    const parts = l.split(',').map(x=>x.trim()).filter(Boolean);
+    if(parts.length===0) continue;
+    const email = parts[0];
+    if(emailRe.test(email)) rows.push({email, prenom: parts[1]||'', nom: parts[2]||''});
+  }
+  return rows;
+}
+let lastContacts=[];
+byId('analyze').onclick = ()=>{
+  const rows=parseContacts(byId('contacts').value);
+  const seen=new Set(); const dedup=[]; let dups=0;
+  for(const r of rows){ const k=r.email.toLowerCase(); if(seen.has(k)){dups++; continue;} seen.add(k); dedup.push(r); }
+  if(byId('order').value==='alpha') dedup.sort((a,b)=>a.email.localeCompare(b.email));
+  lastContacts = dedup; byId('stats').textContent = `${dedup.length} valides • ${dups} doublons supprimés`;
+};
+
+// ======= Campagne =======
+function buildCampaign(){
+  const id = `cmp_${Date.now()}`;
+  const days = Array.from(document.querySelectorAll('.day:checked')).map(x=>parseInt(x.value,10));
+  const starts = Array.from(document.querySelectorAll('.winStart')).map(el=>el.value);
+  const ends = Array.from(document.querySelectorAll('.winEnd')).map(el=>el.value);
+  const wins = starts.map((s,i)=>({start:s, end: ends[i]}));
+  return {
+    id,
+    createdAt: new Date().toISOString(),
+    tz: 'Europe/Paris',
+    startDate: byId('startDate').value || todayISO(),
+    name: byId('name').value.trim() || id,
+    provider: byId('provider').value,
+    subject: byId('subject').value.trim() || 'Vous avez reçu un message',
+    from: byId('from').value.trim() || null,
+    html: byId('html').value, // non modifié
+    attachments: byId('attachments').value.split(/\r?\n/).map(x=>x.trim()).filter(Boolean),
+    limits: {
+      dailyLimit: Math.max(1, parseInt(byId('dailyLimit').value,10) || 100),
+      maxPerRun: Math.max(1, parseInt(byId('maxPerRun').value,10) || 25)
+    },
+    schedule: { days, windows: wins },
+    order: byId('order').value,
+    recipients: lastContacts
+  };
+}
+
+async function commitCampaign(c){
+  const owner=byId('owner').value.trim(), repo=byId('repo').value.trim(), branch=byId('branch').value.trim()||'main', pat=byId('pat').value.trim();
+  if(!owner||!repo||!pat) throw new Error('owner/repo/PAT manquant');
+  if(!Array.isArray(c.recipients) || c.recipients.length===0) throw new Error('Aucun contact valide. Cliquez d\'abord sur « Analyser ».');
+  const path = `campaigns/${c.id}.json`;
+  await ghPut(owner,repo,path,branch,pat,JSON.stringify(c,null,2),`feat(campaign): ${c.name}`);
+}
+
+byId('create').onclick = async ()=>{
+  try{
+    const c = buildCampaign();
+    await commitCampaign(c);
+    byId('out').innerHTML = '<span class="ok">Campagne poussée. Le workflow va s\'exécuter (et ensuite toutes les 5 min) dans les fenêtres autorisées sans dépasser votre quota/jour.</span>';
+  }catch(e){ byId('out').innerHTML = `<span class="err">${e.message}</span>`; }
+};
+
+byId('download').onclick = ()=>{
+  const c = buildCampaign();
+  const blob = new Blob([JSON.stringify(c,null,2)], {type:'application/json'});
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `${c.id}.json`; a.click();
+};
+</script>
 </body>
 </html>
