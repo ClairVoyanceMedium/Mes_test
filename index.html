@@ -1,335 +1,1035 @@
-<!doctype html>
-<html lang="fr">
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Mailer GitHub‑only — Single‑File</title>
-  <style>
-    :root{--bg:#fff;--fg:#111;--muted:#666;--b:#e5e7eb;--pri:#111;--ok:#0a0;--err:#b00}
-    *{box-sizing:border-box}
-    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--fg);max-width:1100px;margin:24px auto;padding:0 16px}
-    h1{font-size:22px;margin:0 0 10px}
-    h2{font-size:18px;margin:16px 0 8px}
-    fieldset{border:1px solid var(--b);border-radius:10px;margin:14px 0;padding:12px}
-    legend{padding:0 6px}
-    label{display:block;margin:8px 0 4px;font-weight:600}
-    input,textarea,select{width:100%;padding:9px 10px;border:1px solid #cbd5e1;border-radius:8px;font:inherit}
-    textarea{min-height:130px}
-    .row{display:grid;gap:12px;grid-template-columns:1fr 1fr}
-    .row3{display:grid;gap:12px;grid-template-columns:1fr 1fr 1fr}
-    .muted{color:var(--muted);font-size:13px}
-    .btn{background:var(--pri);color:#fff;border:0;border-radius:10px;padding:10px 14px;cursor:pointer}
-    .btn.secondary{background:#525252}
-    .btn.small{padding:6px 10px;border-radius:8px;font-size:13px}
-    .chips{display:flex;gap:8px;flex-wrap:wrap}
-    .chip{display:inline-flex;align-items:center;gap:6px;border:1px solid #cbd5e1;border-radius:999px;padding:6px 10px}
-    .time{display:flex;gap:8px;align-items:center}
-    .nowrap{white-space:nowrap}
-    .ok{color:var(--ok)}
-    .err{color:var(--err)}
-    code{background:#f6f8fa;padding:2px 6px;border-radius:6px}
-    .grid{display:grid;gap:8px}
-    .divider{height:1px;background:#eee;margin:12px 0}
-    .badge{display:inline-block;font-size:12px;border:1px solid #ddd;border-radius:999px;padding:2px 8px}
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>PGI Send — Newsletter pro 2025++ (GitHub Pages + Actions)</title>
+<style>
+  :root{
+    --bg:#0f0f12;
+    --panel:#17171c;
+    --muted:#a9abb6;
+    --text:#f1f3f9;
+    --accent:#FF6B3B;     /* orange saumon */
+    --neon:#19ffdc;       /* fluo bouton */
+    --neon2:#7afcff;      /* fluo alt */
+    --danger:#ff3b6b;
+    --ok:#24d17e;
+    --warn:#ffcf40;
+    --border:#25262d;
+    --input:#101116;
+    --shadow:0 10px 30px rgba(0,0,0,.45);
+  }
+  [data-theme="light"]{
+    --bg:#f8f9fb; --panel:#ffffff; --text:#15161a;
+    --muted:#4b4f59; --border:#e9edf3; --input:#f1f3f7; --shadow:0 10px 25px rgba(16,26,36,.08);
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;background:var(--bg);color:var(--text);font:500 15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;letter-spacing:.1px;
+  }
+  header{
+    display:flex;align-items:center;justify-content:space-between;gap:16px;
+    padding:18px 20px;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--bg);z-index:5;
+  }
+  .brand{display:flex;align-items:center;gap:14px}
+  .logo{
+    width:36px;height:36px;border-radius:10px;background:
+      radial-gradient(120% 120% at 10% 10%, var(--neon) 0%, transparent 40%),
+      radial-gradient(120% 120% at 90% 90%, var(--accent) 0%, transparent 40%),
+      linear-gradient(135deg, #111, #222);
+    box-shadow:0 0 0 2px rgba(255,255,255,.06), inset 0 0 25px rgba(255,255,255,.05);
+  }
+  h1{font-size:18px;margin:0}
+  .tag{font-size:12px;color:var(--muted)}
+  .wrap{max-width:1200px;margin:0 auto;padding:22px}
+  .grid{display:grid;grid-template-columns:1.1fr .9fr;gap:18px}
+  @media(max-width:1000px){.grid{grid-template-columns:1fr}}
+  .card{
+    background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:16px;box-shadow:var(--shadow)
+  }
+  .card h2{margin:0 0 8px 0;font-size:17px}
+  .row{display:flex;gap:10px;flex-wrap:wrap}
+  label{font-size:13px;color:var(--muted)}
+  input[type=text],input[type=password],input[type=number],input[type=time],input[type=email],textarea,select{
+    width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--border);background:var(--input);color:var(--text);outline:none
+  }
+  textarea{min-height:110px;resize:vertical}
+  .btn{
+    appearance:none;border:none;border-radius:12px;padding:11px 15px;color:#0b0d10;font-weight:700;
+    background:linear-gradient(135deg,var(--neon),var(--neon2));
+    box-shadow:0 10px 25px rgba(25,255,220,.25), inset 0 -2px 0 rgba(0,0,0,.1);cursor:pointer
+  }
+  .btn.secondary{
+    background:linear-gradient(135deg,#ffd2c2,var(--accent));color:#1b0d0b;box-shadow:0 10px 25px rgba(255,107,59,.22)
+  }
+  .btn.ghost{background:transparent;color:var(--text);border:1px dashed var(--border)}
+  .btn.danger{background:linear-gradient(135deg,#ff98b0,var(--danger));color:#23040c}
+  .btn.ok{background:linear-gradient(135deg,#b9ffd7,var(--ok));color:#052116}
+  .muted{color:var(--muted)}
+  .toolbar{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
+  .tbtn{padding:8px 10px;border-radius:8px;border:1px solid var(--border);background:var(--input);cursor:pointer}
+  .editor{border:1px solid var(--border);border-radius:12px;overflow:hidden}
+  .editor .area{min-height:260px;padding:14px;background:#0d0f13}
+  [data-theme="light"] .editor .area{background:#fff}
+  .codeview{display:none}
+  table{width:100%;border-collapse:collapse}
+  th,td{padding:8px 10px;border-bottom:1px solid var(--border);vertical-align:top}
+  th{font-size:12px;color:var(--muted);text-align:left}
+  .pill{display:inline-block;padding:2px 8px;border-radius:999px;border:1px solid var(--border);font-size:12px;color:var(--muted)}
+  .switch{display:inline-flex;align-items:center;gap:8px}
+  .switch input{appearance:none;width:42px;height:24px;border-radius:20px;background:#2a2d38;position:relative;outline:none;cursor:pointer}
+  .switch input:checked{background:var(--accent)}
+  .switch input:before{content:"";position:absolute;left:3px;top:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:.2s}
+  .switch input:checked:before{transform:translateX(18px)}
+  .hint{font-size:12px;color:var(--muted)}
+  .kbd{font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;background:#0c0d11;border:1px solid var(--border);padding:2px 6px;border-radius:6px}
+  .recs{font-size:13px;line-height:1.45;background:rgba(255,107,59,.08);border:1px dashed var(--accent);padding:10px;border-radius:10px}
+  .note{font-size:12px;color:var(--muted);margin-top:8px}
+  .list{max-height:260px;overflow:auto;border:1px solid var(--border);border-radius:12px}
+  .badge{font-size:12px;background:var(--accent);color:#160a07;border-radius:8px;padding:2px 8px;font-weight:800}
+  .sep{height:1px;background:var(--border);margin:10px 0}
+  .calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}
+  .slot{border:1px dashed var(--border);padding:10px;border-radius:10px}
+  .slot .row{gap:8px}
+  .flex{display:flex;gap:10px}
+  .grow{flex:1}
+  .right{margin-left:auto}
+</style>
 </head>
 <body>
-  <h1>Mailer GitHub‑only — <span class="badge">1 fichier</span></h1>
-  <p class="muted">UI statique hébergée sur GitHub Pages. Cette page <b>bootstrappe</b> automatiquement votre dépôt (workflow Actions + script d’envoi) et vous permet de <b>créer/planifier</b> des campagnes e‑mail. Les identifiants SMTP restent dans les <b>Secrets</b> du dépôt (jamais dans la page).</p>
+<header>
+  <div class="brand">
+    <div class="logo" aria-hidden="true"></div>
+    <div>
+      <h1>PGI Send</h1>
+      <div class="tag">GitHub Pages + Actions • 0€ • 2025++</div>
+    </div>
+  </div>
+  <label class="switch" title="Mode clair / sombre">
+    <span>Mode sombre</span>
+    <input id="themeToggle" type="checkbox" checked />
+  </label>
+</header>
 
-  <fieldset>
-    <legend>0) Connexion au dépôt</legend>
-    <div class="row">
-      <div>
-        <label>Owner</label>
-        <input id="owner" placeholder="ex: votre-pseudo" />
-      </div>
-      <div>
-        <label>Repo</label>
-        <input id="repo" placeholder="ex: mailer" />
-      </div>
-    </div>
-    <div class="row">
-      <div>
-        <label>Branche</label>
-        <input id="branch" value="main" />
-      </div>
-      <div>
-        <label>Token personnel GitHub (PAT) — <span class="muted">scope: <code>contents:write</code> pour ce dépôt</span></label>
-        <input id="pat" type="password" placeholder="ghp_…" />
-      </div>
-    </div>
-    <button id="saveConn" class="btn secondary">Enregistrer localement</button>
-    <span id="connStatus" class="muted"></span>
-    <div class="muted" style="margin-top:6px">Le PAT est stocké dans votre navigateur (localStorage). Vous pouvez ne pas l’enregistrer et le coller à chaque session.</div>
-  </fieldset>
+<div class="wrap">
 
-  <fieldset>
-    <legend>1) Bootstrap du dépôt (auto‑création des fichiers)</legend>
-    <p class="muted">Cliquez pour créer/mettre à jour automatiquement : <code>.github/workflows/mailer.yml</code>, <code>mailer/package.json</code>, <code>mailer/send.js</code>. Ensuite, ajoutez vos <b>Secrets</b> d’envoi dans <i>Settings → Secrets → Actions</i>.</p>
-    <div class="row">
-      <button id="bootstrap" class="btn">Créer/Mettre à jour les fichiers</button>
-      <button id="checkFiles" class="btn secondary">Vérifier la présence des fichiers</button>
-    </div>
-    <div id="bootLog" class="muted" style="margin-top:8px"></div>
-  </fieldset>
-
-  <fieldset>
-    <legend>2) Paramètres de campagne</legend>
-    <div class="row">
-      <div>
-        <label>Nom interne</label>
-        <input id="name" placeholder="ex: Lancement Août" />
-      </div>
-      <div>
-        <label>Fournisseur</label>
-        <select id="provider">
-          <option value="gmail">gmail</option>
-          <option value="outlook">outlook</option>
-          <option value="smtp">smtp</option>
-        </select>
-        <div class="muted">Configurez les Secrets correspondants dans le dépôt.</div>
-      </div>
-    </div>
-    <div class="row">
-      <div>
-        <label>Objet</label>
-        <input id="subject" placeholder="Vous avez reçu un message" />
-      </div>
-      <div>
-        <label>From (optionnel)</label>
-        <input id="from" placeholder="Nom <expediteur@domaine.com>" />
-      </div>
-    </div>
-    <label>HTML du message (utilisé tel quel, sans modification)</label>
-    <textarea id="html" placeholder="Collez ici votre HTML complet…"></textarea>
-    <label>Pièces jointes (URLs https, une par ligne) — optionnel</label>
-    <textarea id="attachments" placeholder="https://exemple.com/fichier.pdf"></textarea>
-
-    <div class="row3">
-      <div>
-        <label>Quota / jour</label>
-        <input id="dailyLimit" type="number" value="100" min="1" />
-      </div>
-      <div>
-        <label>Max par exécution</label>
-        <input id="maxPerRun" type="number" value="25" min="1" />
-      </div>
-      <div>
-        <label>Ordre d’envoi</label>
-        <select id="order">
-          <option value="alpha">alphabétique</option>
-          <option value="asIs">tel que fourni</option>
-        </select>
-      </div>
-    </div>
-    <div class="row3">
-      <div>
-        <label>Date de début (Europe/Paris)</label>
-        <input id="startDate" type="date" />
-      </div>
-      <div>
-        <label>Jours autorisés</label>
-        <div class="chips">
-          <label class="chip"><input type="checkbox" class="day" value="1"> Lun</label>
-          <label class="chip"><input type="checkbox" class="day" value="2" checked> Mar</label>
-          <label class="chip"><input type="checkbox" class="day" value="3"> Mer</label>
-          <label class="chip"><input type="checkbox" class="day" value="4" checked> Jeu</label>
-          <label class="chip"><input type="checkbox" class="day" value="5" checked> Ven</label>
-          <label class="chip"><input type="checkbox" class="day" value="6"> Sam</label>
-          <label class="chip"><input type="checkbox" class="day" value="0"> Dim</label>
+  <div class="grid">
+    <!-- COL 1 -->
+    <section class="card">
+      <h2>1) Dépôt GitHub & sécurité</h2>
+      <div class="row">
+        <div class="grow">
+          <label>Propriétaire (owner)</label>
+          <input id="ghOwner" type="text" placeholder="ex : ton-compte" />
+        </div>
+        <div class="grow">
+          <label>Dépôt (repo)</label>
+          <input id="ghRepo" type="text" placeholder="ex : pgi-send" />
+        </div>
+        <div style="width:140px">
+          <label>Branche</label>
+          <input id="ghBranch" type="text" value="main" />
         </div>
       </div>
-      <div>
-        <label>Fenêtres horaires (Europe/Paris)</label>
-        <div id="windows" class="grid"></div>
-        <button id="addWin" class="btn secondary small" type="button">+ Ajouter fenêtre</button>
+      <div class="row">
+        <div class="grow">
+          <label>Token personnel GitHub (PAT) <span class="pill">scope: repo</span></label>
+          <input id="ghToken" type="password" placeholder="ghp_..." />
+          <div class="note">Stocké localement (localStorage). Non envoyé ailleurs.</div>
+        </div>
+        <div class="grow">
+          <label>Clé de chiffrement des contacts (PGI_ENC_KEY)</label>
+          <input id="encKey" type="password" placeholder="Choisis une phrase secrète robuste" />
+          <div class="note">Ajoute la même valeur dans <b>Settings → Secrets → Actions</b> sous le nom <b>PGI_ENC_KEY</b>.</div>
+        </div>
       </div>
-    </div>
-  </fieldset>
+      <div class="row">
+        <button class="btn secondary" id="btnBootstrap">Créer / mettre à jour l’automatisation (Actions)</button>
+        <button class="btn ghost" id="btnCheck">Vérifier l’état du dépôt</button>
+        <button class="btn" id="btnSaveCfg">Sauver la configuration locale</button>
+      </div>
+      <div id="repoStatus" class="note"></div>
+    </section>
 
-  <fieldset>
-    <legend>3) Contacts</legend>
+    <!-- COL 2 -->
+    <section class="card">
+      <h2>2) Fournisseur & recommandations</h2>
+      <div class="row">
+        <div class="grow">
+          <label>Fournisseur d’envoi</label>
+          <select id="provider">
+            <option value="gmail">Gmail</option>
+            <option value="outlook">Outlook</option>
+            <option value="smtp">SMTP générique / autre fournisseur (Zoho, Infomaniak, IONOS, Mailgun…)</option>
+          </select>
+        </div>
+        <div class="grow">
+          <label>Adresse d’expéditeur (From)</label>
+          <input id="fromEmail" type="email" placeholder="ex : contact@tondomaine.com" />
+        </div>
+        <div class="grow">
+          <label>Objet de la newsletter</label>
+          <input id="subject" type="text" placeholder="Vous avez reçu un message" />
+        </div>
+      </div>
+      <div class="sep"></div>
+      <div id="providerRecs" class="recs"></div>
+      <div class="note">⚠️ Les identifiants SMTP se mettent en <b>Secrets</b> côté GitHub : GMAIL_USER/PASS/FROM, OUTLOOK_USER/PASS/FROM, ou SMTP_HOST/PORT/SECURE/USER/PASS/FROM. Ils ne sont jamais stockés ici.</div>
+    </section>
+  </div>
+
+  <section class="card">
+    <h2>3) Éditeur de contenu (visuel + HTML brut)</h2>
+    <div class="toolbar">
+      <button class="tbtn" onclick="execCmd('bold')"><b>B</b></button>
+      <button class="tbtn" onclick="execCmd('italic')"><i>I</i></button>
+      <button class="tbtn" onclick="execCmd('underline')"><u>U</u></button>
+      <button class="tbtn" onclick="execCmd('insertUnorderedList')">• Liste</button>
+      <button class="tbtn" onclick="execCmd('insertOrderedList')">1. Liste</button>
+      <button class="tbtn" onclick="makeLink()">🔗 Lien</button>
+      <button class="tbtn" onclick="insertImage()">🖼️ Image (URL)</button>
+      <button class="tbtn" onclick="applyHeading('h2')">H2</button>
+      <button class="tbtn" onclick="applyHeading('p')">Parag.</button>
+      <button class="tbtn" onclick="undo()">↶</button>
+      <button class="tbtn" onclick="redo()">↷</button>
+      <button class="tbtn" onclick="toggleHtml()"></> HTML</button>
+      <button class="tbtn" onclick="copyRaw()">📋 Copier HTML</button>
+    </div>
+    <div class="editor">
+      <div id="editor" class="area" contenteditable="true" spellcheck="false">
+        <h2 style="margin:0 0 12px 0">Exemple PGI Send</h2>
+        <p>Bienvenue ! Ceci est un éditeur visuel. Ajoutez <b>images cliquables</b>, <a href="#">liens</a>, boutons, etc. Le HTML sera envoyé <b>à l’identique</b>.</p>
+        <p><a href="https://clairvoyancemedium.com" style="background:#FF6B3B;color:#1b0d0b;padding:10px 16px;border-radius:10px;text-decoration:none;font-weight:800">Bouton exemple</a></p>
+      </div>
+      <textarea id="editorCode" class="area codeview" placeholder="HTML brut ici..."></textarea>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>4) Contacts (import, tri, cases à cocher, ajout manuel)</h2>
     <div class="row">
-      <div>
-        <label>Collez des e‑mails (1 par ligne) ou CSV (email,prenom,nom)</label>
-        <textarea id="contacts" placeholder="alice@example.com\nbob@example.com, Bob, Martin"></textarea>
+      <div class="grow">
+        <label>Coller des emails (CSV ou simple liste “email,prenom,nom”)</label>
+        <textarea id="contactsPaste" placeholder="email1@ex.com,Jean,Dupont
+email2@ex.com,Marie,Durand"></textarea>
       </div>
-      <div>
-        <label>Statut</label>
-        <div id="stats" class="muted">0 valides • 0 doublons supprimés</div>
-        <div style="margin-top:8px"><button id="analyze" class="btn secondary" type="button">Analyser & Dédupliquer</button></div>
+      <div style="width:280px">
+        <label>Importer un fichier .csv</label>
+        <input id="contactsFile" type="file" accept=".csv" />
+        <div class="row" style="margin-top:8px">
+          <button class="btn" id="btnParse">Analyser & dédupliquer</button>
+          <button class="btn ghost" id="btnClear">Vider</button>
+        </div>
       </div>
     </div>
-  </fieldset>
 
-  <fieldset>
-    <legend>4) Créer & pousser la campagne</legend>
+    <div class="row" style="margin:10px 0">
+      <div class="grow flex">
+        <div class="grow">
+          <label>Ajouter un email à la volée</label>
+          <input id="addEmail" type="text" placeholder="email@ex.com, Prénom, Nom (facultatif)" />
+        </div>
+        <button class="btn secondary" onclick="addOne()">Ajouter</button>
+      </div>
+      <div class="pill right"><span id="stats">0 contacts</span></div>
+    </div>
+
+    <div class="list">
+      <table id="tblContacts">
+        <thead><tr>
+          <th style="width:34px"><input type="checkbox" id="chkAll" /></th>
+          <th>Email</th><th>Prénom</th><th>Nom</th><th>État</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="row" style="margin-top:10px">
+      <button class="btn ok" onclick="exportSelection()">Exporter CSV (sélection)</button>
+      <div class="note">Les contacts sont **chiffrés AES-256-GCM** dans les fichiers de campagne.</div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>5) Planification avancée (par jour, à la minute près)</h2>
+    <div class="note">Règle des *slots* : <b>de</b> HH:MM <b>à</b> HH:MM • <b>X mails</b> toutes les <b>Y minutes</b>. Plusieurs slots par jour possibles.</div>
+    <div class="calendar" id="cal"></div>
+  </section>
+
+  <section class="card">
+    <h2>6) Campagne & automatisation</h2>
     <div class="row">
-      <button id="create" class="btn">Créer la campagne (commit dans <code>campaigns/</code>)</button>
-      <button id="download" class="btn secondary">Télécharger le JSON</button>
+      <div class="grow">
+        <label>Nom de la campagne</label>
+        <input id="campaignName" type="text" placeholder="Promo Septembre" />
+      </div>
+      <div style="width:200px">
+        <label>Limite / jour (optionnel)</label>
+        <input id="dailyLimit" type="number" min="0" placeholder="ex : 100" />
+      </div>
+      <div style="width:220px">
+        <label>Délai entre mails (ms)</label>
+        <input id="delayMs" type="number" min="0" value="2000" />
+      </div>
     </div>
-    <div id="out" class="muted" style="margin-top:8px"></div>
-  </fieldset>
+    <div class="row" style="margin-top:10px">
+      <button class="btn secondary" id="btnSaveCampaign">Créer / mettre à jour la campagne</button>
+      <button class="btn" id="btnListCampaigns">Lister campagnes</button>
+      <button class="btn ghost" id="btnPause">Pause</button>
+      <button class="btn ghost" id="btnResume">Reprendre</button>
+      <button class="btn danger" id="btnStop">Arrêt définitif</button>
+    </div>
+    <div class="note">Le dépôt contiendra <code>campaigns/*.json</code> (chiffré), un dossier <code>state/</code> pour le suivi, et l’automatisation dans <code>.github/workflows/</code>.</div>
+  </section>
 
-  <div class="divider"></div>
-  <p class="muted">Rappel : ajoutez vos Secrets dans le dépôt selon le fournisseur choisi. Gmail/Outlook ont des limites strictes — utilisez des quotas/jours/fenêtres pour étaler l’envoi.</p>
+  <section class="card">
+    <h2>7) Tableau de bord</h2>
+    <div id="dash" class="row"></div>
+  </section>
+
+</div>
 
 <script>
-// ======= Utilitaires =======
-const ls = window.localStorage;
-const byId = id => document.getElementById(id);
-const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/i;
-const todayISO = () => new Date().toISOString().slice(0,10);
+/* ============================
+   THEME
+============================ */
+const themeToggle = document.getElementById('themeToggle');
+themeToggle.addEventListener('change',()=> {
+  document.documentElement.setAttribute('data-theme', themeToggle.checked?'dark':'light');
+  localStorage.setItem('pgi_theme', themeToggle.checked?'dark':'light');
+});
+(function initTheme(){
+  const t = localStorage.getItem('pgi_theme'); 
+  if(t){ document.documentElement.setAttribute('data-theme', t); themeToggle.checked=(t==='dark'); }
+})();
 
-function b64(str){return btoa(unescape(encodeURIComponent(str)));}
-function enc(obj){return b64(JSON.stringify(obj,null,2));}
+/* ============================
+   GLOBAL STATE
+============================ */
+let CONTACTS = [];   // [{email,prenom,nom,checked:true}]
+let CURRENT_CAMPAIGN_ID = null;
+const DAYS = ['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];
 
-function ghHeaders(pat){
-  return {'Authorization':`Bearer ${pat}`,'Accept':'application/vnd.github+json'};
+/* ============================
+   UTILITAIRES
+============================ */
+const $ = sel => document.querySelector(sel);
+const $$ = sel => Array.from(document.querySelectorAll(sel));
+const enc = str => btoa(unescape(encodeURIComponent(str)));
+const dec = b64 => decodeURIComponent(escape(atob(b64)));
+const fmt = (n) => n.toLocaleString('fr-FR');
+
+function notify(msg, ok=true){
+  const el = document.createElement('div');
+  el.textContent = msg;
+  el.style.position='fixed'; el.style.right='16px'; el.style.bottom='16px';
+  el.style.background = ok ? 'linear-gradient(135deg,#b9ffd7,#24d17e)' : 'linear-gradient(135deg,#ff9fb4,#ff3b6b)';
+  el.style.color = '#05130c'; el.style.padding='10px 14px'; el.style.borderRadius='10px';
+  el.style.boxShadow='var(--shadow)'; el.style.zIndex='9999'; el.style.fontWeight='800';
+  document.body.appendChild(el); setTimeout(()=>el.remove(),3000);
 }
 
-async function ghGet(owner,repo,path,branch,pat){
-  const r = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${encodeURIComponent(path)}?ref=${encodeURIComponent(branch)}`, {headers: ghHeaders(pat)});
-  if(r.status===404) return null;
-  if(!r.ok){throw new Error(`GET ${path}: ${r.status}`)}
-  return r.json();
-}
-
-async function ghPut(owner,repo,path,branch,pat,content,message){
-  // si existe, inclure sha pour update
-  let sha = undefined;
-  const existing = await ghGet(owner,repo,path,branch,pat);
-  if(existing && existing.sha) sha = existing.sha;
-  const r = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${encodeURIComponent(path)}`,{
-    method:'PUT',
-    headers: ghHeaders(pat),
-    body: JSON.stringify({message, content: b64(content), branch, sha})
-  });
-  if(!r.ok){const t = await r.text(); throw new Error(`PUT ${path}: ${t}`)}
-  return r.json();
-}
-
-// ======= Contenus bootstrap embarqués =======
-const WORKFLOW_YML = `name: Mailer\n\non:\n  push:\n    paths:\n      - 'campaigns/**'\n  schedule:\n    - cron: '*/5 * * * *'\n\npermissions:\n  contents: write\n\njobs:\n  send:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - uses: actions/setup-node@v4\n        with:\n          node-version: '20'\n      - name: Install deps\n        working-directory: mailer\n        run: npm i\n      - name: Run sender\n        working-directory: mailer\n        env:\n          GITHUB_TOKEN: \${{ secrets.GITHUB_TOKEN }}\n          GMAIL_USER: \${{ secrets.GMAIL_USER }}\n          GMAIL_PASS: \${{ secrets.GMAIL_PASS }}\n          GMAIL_FROM: \${{ secrets.GMAIL_FROM }}\n          OUTLOOK_USER: \${{ secrets.OUTLOOK_USER }}\n          OUTLOOK_PASS: \${{ secrets.OUTLOOK_PASS }}\n          OUTLOOK_FROM: \${{ secrets.OUTLOOK_FROM }}\n          SMTP_HOST: \${{ secrets.SMTP_HOST }}\n          SMTP_PORT: \${{ secrets.SMTP_PORT }}\n          SMTP_SECURE: \${{ secrets.SMTP_SECURE }}\n          SMTP_USER: \${{ secrets.SMTP_USER }}\n          SMTP_PASS: \${{ secrets.SMTP_PASS }}\n          SMTP_FROM: \${{ secrets.SMTP_FROM }}\n        run: node send.js\n`;
-
-const PACKAGE_JSON = `{
-  "name": "gh-mailer",
-  "version": "1.0.0",
-  "private": true,
-  "type": "commonjs",
-  "dependencies": { "nodemailer": "^6.9.13" }
-}`;
-
-const SEND_JS = `const fs = require('fs');\nconst path = require('path');\nconst nodemailer = require('nodemailer');\n\nconst REPO_ROOT = process.cwd();\nconst CAMPAIGNS_DIR = path.join(REPO_ROOT, 'campaigns');\nconst STATE_DIR = path.join(REPO_ROOT, 'state');\n\nfunction ensureDirs(){\n  if(!fs.existsSync(CAMPAIGNS_DIR)) fs.mkdirSync(CAMPAIGNS_DIR,{recursive:true});\n  if(!fs.existsSync(STATE_DIR)) fs.mkdirSync(STATE_DIR,{recursive:true});\n}\n\nfunction loadJson(p){ try{ return JSON.parse(fs.readFileSync(p,'utf8')); }catch(e){ return null; } }\nfunction saveJson(p,obj){ fs.mkdirSync(path.dirname(p),{recursive:true}); fs.writeFileSync(p, JSON.stringify(obj,null,2)); }\n\nfunction nowParis(){ const s=new Date().toLocaleString('sv-SE',{timeZone:'Europe/Paris',hour12:false}); const [d,t]=s.split(' '); return {date:d,time:t}; }\nfunction weekdayNumParis(){ const map={Sun:0,Mon:1,Tue:2,Wed:3,Thu:4,Fri:5,Sat:6}; const s=new Date().toLocaleString('en-US',{timeZone:'Europe/Paris',weekday:'short'}); return map[s]; }\nfunction timeInRange(t,start,end){ return (t>=start && t<=end); }\n\nfunction buildTransport(provider){\n  if(provider==='gmail'){ return nodemailer.createTransport({ host:'smtp.gmail.com', port:465, secure:true, auth:{user:process.env.GMAIL_USER, pass:process.env.GMAIL_PASS} }); }\n  if(provider==='outlook'){ return nodemailer.createTransport({ host:'smtp.office365.com', port:587, secure:false, auth:{user:process.env.OUTLOOK_USER, pass:process.env.OUTLOOK_PASS} }); }\n  return nodemailer.createTransport({ host:process.env.SMTP_HOST, port:parseInt(process.env.SMTP_PORT||'587',10), secure:String(process.env.SMTP_SECURE||'false')==='true', auth:{user:process.env.SMTP_USER, pass:process.env.SMTP_PASS} });\n}\n\nasync function sendOne(transporter, from, to, subject, html, attachments){\n  const opts = { from: from||undefined, to, subject, html, attachments:(attachments||[]).map(url=>({ filename: require('path').basename(url.split('?')[0]), path:url })) };\n  return transporter.sendMail(opts);\n}\n\nfunction withinWindows(schedule){\n  const todayNum = weekdayNumParis();\n  if(Array.isArray(schedule?.days) && schedule.days.length>0 && !schedule.days.includes(todayNum)) return false;\n  const { time } = nowParis(); const hhmm = time.slice(0,5);\n  const wins = Array.isArray(schedule?.windows) && schedule.windows.length>0 ? schedule.windows : [{start:'00:00', end:'23:59'}];\n  return wins.some(w=> timeInRange(hhmm, w.start, w.end));\n}\n\nasync function main(){\n  ensureDirs();\n  const files = fs.existsSync(CAMPAIGNS_DIR)? fs.readdirSync(CAMPAIGNS_DIR).filter(f=>f.endsWith('.json')) : [];\n  if(files.length===0){ console.log('No campaigns'); return; }\n\n  for(const f of files){\n    const c = loadJson(path.join(CAMPAIGNS_DIR,f)); if(!c) continue;\n    const { date } = nowParis(); if(c.startDate && c.startDate > date){ console.log('['+c.id+'] startDate future, skip'); continue; }\n    if(!withinWindows(c.schedule)){ console.log('['+c.id+'] hors fenetre'); continue; }\n\n    const statePath = path.join(STATE_DIR, c.id+'.json');\n    const s = loadJson(statePath) || { id:c.id, cursor:0, sentTotal:0, perDay:{}, completed:false };\n    if(s.completed){ console.log('['+c.id+'] deja termine'); continue; }\n\n    const recipients = Array.isArray(c.recipients)? c.recipients : [];\n    if(s.cursor >= recipients.length){ s.completed=true; saveJson(statePath,s); console.log('['+c.id+'] termine'); continue; }\n\n    const today = nowParis().date; const todaySent = s.perDay[today]||0;\n    const dailyLimit = Math.max(1, c?.limits?.dailyLimit || 100);\n    const maxPerRun = Math.max(1, c?.limits?.maxPerRun || 25);\n    const canToday = Math.max(0, dailyLimit - todaySent);\n    if(canToday===0){ console.log('['+c.id+'] quota journalier atteint'); continue; }\n\n    const toSendNow = Math.min(maxPerRun, canToday, recipients.length - s.cursor);\n    if(toSendNow<=0){ console.log('['+c.id+'] rien a envoyer'); continue; }\n\n    const provider = c.provider || 'smtp';\n    const transporter = buildTransport(provider);\n    const from = c.from || process.env[provider.toUpperCase()+'_FROM'] || process.env[provider.toUpperCase()+'_USER'];\n\n    let ok=0, fail=0; const errors=[];\n    for(let i=0;i<toSendNow;i++){\n      const r = recipients[s.cursor + i]; const to = r.email;\n      try{ await sendOne(transporter, from, to, c.subject, c.html, c.attachments); ok++; }\n      catch(e){ fail++; errors.push({to, error:String(e)}); }\n    }\n\n    s.cursor += (ok+fail); s.sentTotal += ok; s.perDay[today] = todaySent + ok; if(s.cursor >= recipients.length) s.completed=true;\n    saveJson(statePath, s);\n    console.log('['+c.id+'] sent ok='+ok+' fail='+fail+' cursor='+s.cursor+'/'+recipients.length);\n\n    if(errors.length){ const errPath = path.join(STATE_DIR, c.id+'-'+today+'.errors.json'); saveJson(errPath, errors); }\n  }\n\n  const { execSync } = require('child_process');\n  try{\n    execSync('git config user.name "github-actions"');\n    execSync('git config user.email "github-actions@users.noreply.github.com"');\n    execSync('git add state');\n    const diff = execSync('git status --porcelain').toString().trim();\n    if(diff){ execSync('git commit -m "chore(state): update [skip ci]"'); execSync('git push'); }\n    else { console.log('No state changes to commit'); }\n  }catch(e){ console.log('Git push skipped/failed:', String(e.message||e)); }\n}\n\nmain().catch(e=>{ console.error(e); process.exit(1); });\n`;
-
-// ======= Initialisation UI =======
-(function initConn(){ byId('owner').value = ls.getItem('owner')||''; byId('repo').value = ls.getItem('repo')||''; byId('branch').value = ls.getItem('branch')||'main'; byId('pat').value = ls.getItem('pat')||''; })();
-byId('saveConn').onclick = ()=>{ ls.setItem('owner', byId('owner').value.trim()); ls.setItem('repo', byId('repo').value.trim()); ls.setItem('branch', byId('branch').value.trim()||'main'); if(byId('pat').value.trim()) ls.setItem('pat', byId('pat').value.trim()); byId('connStatus').textContent='Enregistré'; setTimeout(()=>byId('connStatus').textContent='',2000); };
-
-const windowsDiv = byId('windows');
-function addWindowRow(start='09:00', end='12:00'){
-  const wrap = document.createElement('div'); wrap.className='time';
-  wrap.innerHTML = `<input type="time" class="winStart" value="${start}"> à <input type="time" class="winEnd" value="${end}"> <button type="button" class="btn secondary small del">Suppr</button>`;
-  wrap.querySelector('.del').onclick = ()=>wrap.remove();
-  windowsDiv.appendChild(wrap);
-}
-addWindowRow('09:00','12:00'); addWindowRow('14:00','17:00');
-byId('addWin').onclick = ()=>addWindowRow('09:00','12:00');
-
-// ======= Bootstrap dépôt =======
-byId('checkFiles').onclick = async ()=>{
-  const owner=byId('owner').value.trim(), repo=byId('repo').value.trim(), branch=byId('branch').value.trim()||'main', pat=byId('pat').value.trim();
-  if(!owner||!repo||!pat){ byId('bootLog').innerHTML='<span class="err">owner/repo/PAT requis</span>'; return; }
+/* ============================
+   REPO CONFIG (local)
+============================ */
+const cfg = {
+  owner: $('#ghOwner'),
+  repo: $('#ghRepo'),
+  branch: $('#ghBranch'),
+  token: $('#ghToken'),
+  encKey: $('#encKey')
+};
+(function loadCfg(){
   try{
-    const paths=[ '.github/workflows/mailer.yml', 'mailer/package.json', 'mailer/send.js' ];
-    const results = await Promise.all(paths.map(p=>ghGet(owner,repo,p,branch,pat)));
-    const lines = results.map((r,i)=> `${paths[i]} : ${r?'OK':'manquant'}`).join('<br>');
-    byId('bootLog').innerHTML = lines;
-  }catch(e){ byId('bootLog').innerHTML = `<span class="err">${e.message}</span>`; }
+    const s = JSON.parse(localStorage.getItem('pgi_cfg')||'{}');
+    cfg.owner.value=s.owner||''; cfg.repo.value=s.repo||''; cfg.branch.value=s.branch||'main';
+    cfg.token.value=s.token||''; cfg.encKey.value=s.encKey||'';
+  }catch(e){}
+})();
+$('#btnSaveCfg').onclick = ()=>{
+  localStorage.setItem('pgi_cfg', JSON.stringify({
+    owner:cfg.owner.value.trim(),
+    repo:cfg.repo.value.trim(),
+    branch:cfg.branch.value.trim(),
+    token:cfg.token.value.trim(),
+    encKey:cfg.encKey.value
+  }));
+  notify('Configuration locale enregistrée');
 };
 
-byId('bootstrap').onclick = async ()=>{
-  const owner=byId('owner').value.trim(), repo=byId('repo').value.trim(), branch=byId('branch').value.trim()||'main', pat=byId('pat').value.trim();
-  if(!owner||!repo||!pat){ byId('bootLog').innerHTML='<span class="err">owner/repo/PAT requis</span>'; return; }
-  try{
-    await ghPut(owner,repo,'.github/workflows/mailer.yml',branch,pat,WORKFLOW_YML,'ci(actions): add mailer workflow');
-    await ghPut(owner,repo,'mailer/package.json',branch,pat,PACKAGE_JSON,'chore(mailer): package.json');
-    await ghPut(owner,repo,'mailer/send.js',branch,pat,SEND_JS,'feat(mailer): sender script');
-    byId('bootLog').innerHTML = '<span class="ok">Fichiers créés/mis à jour. Ajoutez maintenant les <b>Secrets</b> SMTP et créez votre campagne.</span>';
-  }catch(e){ byId('bootLog').innerHTML = `<span class="err">${e.message}</span>`; }
-};
+/* ============================
+   PROVIDER RECOMMENDATIONS
+============================ */
+function providerAdvice(v){
+  if(v==='gmail') return `
+  <b>Gmail — recommandations anti-spam / anti-ban</b><br>
+  • Quota conseillé : 100 / jour (perso), jusqu’à 500 en Workspace.<br>
+  • Débit : 1 mail / 60 s (sécurisé) • <span class="badge">PGI propose 2s à 60s, ajustable</span><br>
+  • SPF/DKIM/DMARC obligatoires si domaine perso • Mot de passe d’application (2FA).<br>
+  • Variez l’objet / contenu (merge tags), évitez mots trigger spam, ajoutez désinscription.
+  `;
+  if(v==='outlook') return `
+  <b>Outlook / Microsoft 365 — recommandations</b><br>
+  • Quota conseillé : 200–300 / jour (perso) • 500+ en 365 selon policy.<br>
+  • Débit : 1 mail / 120 s (sécurisé) • Attention HTML trop lourd et liens raccourcis.<br>
+  • SPF/DKIM recommandés • Variez le contenu, images optimisées.
+  `;
+  return `
+  <b>SMTP générique / autres fournisseurs (Zoho, Infomaniak, IONOS, Mailgun…)</b><br>
+  • Respectez le quota de votre fournisseur (ex. Infomaniak 300/jour, IONOS 250/jour, Mailgun 10k/jour free).<br>
+  • SPF/DKIM/DMARC configurés • Ajoutez mentions légales + lien de désinscription.<br>
+  • Débit : 1 mail / 0.5–10 s selon tolérance • Ajustez dans “Délai entre mails (ms)”.
+  `;
+}
+const provider = $('#provider'); const recs = $('#providerRecs');
+provider.onchange = ()=>{ recs.innerHTML = providerAdvice(provider.value); };
+recs.innerHTML = providerAdvice(provider.value);
 
-// ======= Contacts =======
-function parseContacts(raw){
-  const lines = raw.split(/\r?\n/).map(l=>l.trim()).filter(Boolean);
+/* ============================
+   SIMPLE WYSIWYG
+============================ */
+function syncToCode(){
+  const code = $('#editorCode'); const ed = $('#editor');
+  code.value = ed.innerHTML.trim();
+}
+function syncFromCode(){
+  const code = $('#editorCode'); const ed = $('#editor');
+  ed.innerHTML = code.value;
+}
+function toggleHtml(){
+  const code = $('#editorCode'); const ed = $('#editor');
+  if(code.classList.contains('codeview')){
+    syncToCode(); code.classList.remove('codeview'); ed.style.display='none'; code.style.display='block';
+  }else{
+    syncFromCode(); code.classList.add('codeview'); ed.style.display='block'; code.style.display='none';
+  }
+}
+function execCmd(cmd){ document.execCommand(cmd,false,null); syncToCode(); }
+function applyHeading(tag){
+  document.execCommand('formatBlock', false, tag);
+  syncToCode();
+}
+function makeLink(){
+  const url = prompt("URL du lien ?");
+  if(url){ document.execCommand('createLink', false, url); syncToCode(); }
+}
+function insertImage(){
+  const url = prompt("URL de l'image ?");
+  if(url){ document.execCommand('insertImage', false, url); syncToCode(); }
+}
+function undo(){ document.execCommand('undo',false,null); syncToCode(); }
+function redo(){ document.execCommand('redo',false,null); syncToCode(); }
+function copyRaw(){ syncToCode(); const ta=$('#editorCode'); const prev=ta.style.display;
+  ta.style.display='block'; ta.select(); document.execCommand('copy'); ta.style.display=prev; notify('HTML copié');
+}
+
+/* ============================
+   CONTACTS
+============================ */
+const tblBody = $('#tblContacts tbody');
+$('#chkAll').addEventListener('change', e=>{
+  CONTACTS.forEach(c=>c.checked=e.target.checked); renderContacts();
+});
+$('#btnClear').onclick = ()=>{ CONTACTS=[]; renderContacts(); $('#contactsPaste').value=''; $('#contactsFile').value=''; };
+$('#btnParse').onclick = parseAndAdd;
+
+function parseCSV(text){
+  // tolère ; ou , et guillemets simples
+  const lines = text.split(/\r?\n/).map(l=>l.trim()).filter(Boolean);
   const rows = [];
   for(const l of lines){
-    const parts = l.split(',').map(x=>x.trim()).filter(Boolean);
-    if(parts.length===0) continue;
-    const email = parts[0];
-    if(emailRe.test(email)) rows.push({email, prenom: parts[1]||'', nom: parts[2]||''});
+    const parts = l.split(/[,;]\s*/); // simple
+    const email = (parts[0]||'').trim();
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) continue;
+    rows.push({
+      email: email.toLowerCase(),
+      prenom: (parts[1]||'').trim(),
+      nom: (parts[2]||'').trim(),
+      checked: true
+    });
   }
   return rows;
 }
-let lastContacts=[];
-byId('analyze').onclick = ()=>{
-  const rows=parseContacts(byId('contacts').value);
-  const seen=new Set(); const dedup=[]; let dups=0;
-  for(const r of rows){ const k=r.email.toLowerCase(); if(seen.has(k)){dups++; continue;} seen.add(k); dedup.push(r); }
-  if(byId('order').value==='alpha') dedup.sort((a,b)=>a.email.localeCompare(b.email));
-  lastContacts = dedup; byId('stats').textContent = `${dedup.length} valides • ${dups} doublons supprimés`;
-};
-
-// ======= Campagne =======
-function buildCampaign(){
-  const id = `cmp_${Date.now()}`;
-  const days = Array.from(document.querySelectorAll('.day:checked')).map(x=>parseInt(x.value,10));
-  const starts = Array.from(document.querySelectorAll('.winStart')).map(el=>el.value);
-  const ends = Array.from(document.querySelectorAll('.winEnd')).map(el=>el.value);
-  const wins = starts.map((s,i)=>({start:s, end: ends[i]}));
-  return {
-    id,
-    createdAt: new Date().toISOString(),
-    tz: 'Europe/Paris',
-    startDate: byId('startDate').value || todayISO(),
-    name: byId('name').value.trim() || id,
-    provider: byId('provider').value,
-    subject: byId('subject').value.trim() || 'Vous avez reçu un message',
-    from: byId('from').value.trim() || null,
-    html: byId('html').value, // non modifié
-    attachments: byId('attachments').value.split(/\r?\n/).map(x=>x.trim()).filter(Boolean),
-    limits: {
-      dailyLimit: Math.max(1, parseInt(byId('dailyLimit').value,10) || 100),
-      maxPerRun: Math.max(1, parseInt(byId('maxPerRun').value,10) || 25)
-    },
-    schedule: { days, windows: wins },
-    order: byId('order').value,
-    recipients: lastContacts
-  };
+function parseAndAdd(){
+  const pasted = $('#contactsPaste').value.trim();
+  const file = $('#contactsFile').files[0];
+  if(pasted) CONTACTS = CONTACTS.concat(parseCSV(pasted));
+  if(file){
+    const r = new FileReader();
+    r.onload = ()=>{ CONTACTS = CONTACTS.concat(parseCSV(r.result)); CONTACTS = dedup(CONTACTS); sortContacts(); renderContacts(); };
+    r.readAsText(file);
+  } else{
+    CONTACTS = dedup(CONTACTS); sortContacts(); renderContacts();
+  }
+}
+function dedup(list){
+  const m=new Map(); for(const c of list){ if(!m.has(c.email)) m.set(c.email,c); }
+  return Array.from(m.values());
+}
+function sortContacts(){ CONTACTS.sort((a,b)=>a.email.localeCompare(b.email,'fr')); }
+function renderContacts(){
+  tblBody.innerHTML='';
+  CONTACTS.forEach((c,i)=>{
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><input type="checkbox" ${c.checked?'checked':''} data-ix="${i}"></td>
+      <td>${maskEmail(c.email)}</td>
+      <td>${escapeHtml(c.prenom||'')}</td>
+      <td>${escapeHtml(c.nom||'')}</td>
+      <td>${c.checked?'<span class="badge">ON</span>':'<span class="pill">OFF</span>'}</td>`;
+    tblBody.appendChild(tr);
+  });
+  tblBody.querySelectorAll('input[type=checkbox]').forEach(ch=>{
+    ch.addEventListener('change', e=>{
+      const ix = +e.target.getAttribute('data-ix');
+      CONTACTS[ix].checked = e.target.checked;
+      renderContacts();
+    });
+  });
+  $('#stats').textContent = `${fmt(CONTACTS.length)} contacts (sélectionnés: ${fmt(CONTACTS.filter(c=>c.checked).length)})`;
+}
+function addOne(){
+  const v = $('#addEmail').value.trim();
+  if(!v) return;
+  const parts = v.split(/[,;]\s*/);
+  const email = parts[0]||'';
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return notify('Email invalide', false);
+  CONTACTS.push({email:email.toLowerCase(), prenom:(parts[1]||''), nom:(parts[2]||''), checked:true});
+  CONTACTS = dedup(CONTACTS); sortContacts(); renderContacts();
+  $('#addEmail').value='';
+}
+function maskEmail(e){ // masquage visuel côté UI
+  const [u,d] = e.split('@'); const m = u.length>3 ? u.slice(0,2)+'***'+u.slice(-1) : u[0]+'*';
+  const dd = d.replace(/(^.).+(\..+$)/, (_,a,b)=> a+'***'+b);
+  return m+'@'+dd;
+}
+function escapeHtml(s){return s.replace(/[&<>"']/g,m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m]))}
+function exportSelection(){
+  const rows = CONTACTS.filter(c=>c.checked).map(c=>[c.email,c.prenom||'',c.nom||''].join(','));
+  const blob = new Blob([rows.join('\n')],{type:'text/csv;charset=utf-8'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='contacts_selection.csv'; a.click();
 }
 
-async function commitCampaign(c){
-  const owner=byId('owner').value.trim(), repo=byId('repo').value.trim(), branch=byId('branch').value.trim()||'main', pat=byId('pat').value.trim();
-  if(!owner||!repo||!pat) throw new Error('owner/repo/PAT manquant');
-  if(!Array.isArray(c.recipients) || c.recipients.length===0) throw new Error('Aucun contact valide. Cliquez d\'abord sur « Analyser ».');
-  const path = `campaigns/${c.id}.json`;
-  await ghPut(owner,repo,path,branch,pat,JSON.stringify(c,null,2),`feat(campaign): ${c.name}`);
+/* ============================
+   PLANIFICATION (slots par jour)
+============================ */
+const cal = $('#cal');
+const daySlots = [[],[],[],[],[],[],[]]; // 0..6 (Lun..Dim)
+function renderCalendar(){
+  cal.innerHTML='';
+  for(let d=0; d<7; d++){
+    const box = document.createElement('div');
+    box.className='slot';
+    box.innerHTML = `<div class="row" style="align-items:center;justify-content:space-between">
+        <div><b>${DAYS[d]}</b></div>
+        <button class="tbtn" onclick="addSlot(${d})">+ Ajouter un créneau</button>
+      </div>
+      <div id="slots_${d}"></div>`;
+    cal.appendChild(box);
+    redrawSlots(d);
+  }
+}
+function addSlot(d){
+  daySlots[d].push({ start:'09:00', end:'12:00', every:2, batch:2, active:true });
+  redrawSlots(d);
+}
+function delSlot(d,i){ daySlots[d].splice(i,1); redrawSlots(d); }
+function redrawSlots(d){
+  const wrap = $('#slots_'+d); wrap.innerHTML='';
+  daySlots[d].forEach((s,i)=>{
+    const row = document.createElement('div');
+    row.className='row';
+    row.innerHTML = `
+      <div class="grow">
+        <label>De</label><input type="time" value="${s.start}" data-k="start" data-d="${d}" data-i="${i}">
+      </div>
+      <div class="grow">
+        <label>À</label><input type="time" value="${s.end}" data-k="end" data-d="${d}" data-i="${i}">
+      </div>
+      <div style="width:140px"><label>Toutes les (min)</label><input type="number" min="1" value="${s.every}" data-k="every" data-d="${d}" data-i="${i}"></div>
+      <div style="width:160px"><label>Quantité / tick</label><input type="number" min="1" value="${s.batch}" data-k="batch" data-d="${d}" data-i="${i}"></div>
+      <div style="width:120px"><label>Actif</label><select data-k="active" data-d="${d}" data-i="${i}"><option value="true" ${s.active?'selected':''}>Oui</option><option value="false" ${!s.active?'selected':''}>Non</option></select></div>
+      <div style="width:52px"><button class="tbtn" onclick="delSlot(${d},${i})">🗑</button></div>
+    `;
+    wrap.appendChild(row);
+  });
+  wrap.querySelectorAll('input,select').forEach(el=>{
+    el.addEventListener('input', e=>{
+      const d=+el.getAttribute('data-d'), i=+el.getAttribute('data-i'), k=el.getAttribute('data-k');
+      daySlots[d][i][k] = (k==='every'||k==='batch') ? +el.value : (k==='active'? (el.value==='true'): el.value);
+    });
+  });
+}
+renderCalendar();
+
+/* ============================
+   CRYPTO (AES-256-GCM via WebCrypto)
+============================ */
+async function deriveKey(passphrase, saltB){
+  const enc = new TextEncoder().encode(passphrase);
+  const keyMat = await crypto.subtle.importKey('raw', enc, 'PBKDF2', false, ['deriveKey']);
+  return crypto.subtle.deriveKey(
+    {name:'PBKDF2', salt:saltB, iterations:100000, hash:'SHA-256'},
+    keyMat, {name:'AES-GCM', length:256}, false, ['encrypt','decrypt']
+  );
+}
+function b64ab(buf){ return btoa(String.fromCharCode(...new Uint8Array(buf))); }
+function abFromB64(b64){ return Uint8Array.from(atob(b64), c=>c.charCodeAt(0)).buffer; }
+
+async function encryptContacts(contacts, passphrase){
+  const payload = JSON.stringify(contacts);
+  const iv = crypto.getRandomValues(new Uint8Array(12));
+  const salt = crypto.getRandomValues(new Uint8Array(16));
+  const key = await deriveKey(passphrase, salt);
+  const ct = await crypto.subtle.encrypt({name:'AES-GCM', iv}, key, new TextEncoder().encode(payload));
+  // WebCrypto retourne CT||TAG (tag 16 octets en fin)
+  return { iv:b64ab(iv), salt:b64ab(salt), data:b64ab(ct), algo:'AES-256-GCM', kdf:'PBKDF2-SHA256', it:100000, tagLen:128 };
 }
 
-byId('create').onclick = async ()=>{
+/* ============================
+   GITHUB API (contents)
+============================ */
+function ghHeaders(){ return {
+  'Authorization':'token '+cfg.token.value.trim(),
+  'Accept':'application/vnd.github+json'
+};}
+const ghBase = () => `https://api.github.com/repos/${encodeURIComponent(cfg.owner.value.trim())}/${encodeURIComponent(cfg.repo.value.trim())}`;
+
+async function ghGet(path){
+  const r = await fetch(`${ghBase()}/${path}?ref=${encodeURIComponent(cfg.branch.value.trim())}`, {headers:ghHeaders()});
+  if(!r.ok) return null; return r.json();
+}
+async function ghPutFile(path, contentStr, message){
+  const url = `${ghBase()}/contents/${encodeURIComponent(path)}`;
+  // fetch existing sha
+  let sha = null;
+  const curr = await ghGet(`contents/${encodeURIComponent(path)}`);
+  if(curr && curr.sha) sha = curr.sha;
+  const body = { message, content: enc(contentStr), branch: cfg.branch.value.trim() };
+  if(sha) body.sha = sha;
+  const r = await fetch(url,{ method:'PUT', headers:{...ghHeaders(),'Content-Type':'application/json'}, body:JSON.stringify(body)});
+  if(!r.ok){ const t=await r.text(); throw new Error(`PUT ${path} → ${r.status}: ${t}`); }
+  return r.json();
+}
+async function ghListDir(path){
+  const r = await ghGet(`contents/${encodeURIComponent(path)}`);
+  if(!r || !Array.isArray(r)) return [];
+  return r.filter(x=>x.type==='file').map(x=>x.name);
+}
+
+/* ============================
+   AUTOMATION FILES (bootstrap)
+============================ */
+function workflowYml(){
+return `name: PGI Mailer
+on:
+  push:
+    paths:
+      - 'campaigns/**'
+      - 'state/**'
+  schedule:
+    - cron: '*/5 * * * *'
+concurrency:
+  group: pgi-mailer
+  cancel-in-progress: false
+env:
+  TZ: Europe/Paris
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      - name: Install deps
+        working-directory: mailer
+        run: npm install
+      - name: Send batch
+        working-directory: mailer
+        env:
+          PROVIDER: \${{ vars.PROVIDER }}
+          GMAIL_USER: \${{ secrets.GMAIL_USER }}
+          GMAIL_PASS: \${{ secrets.GMAIL_PASS }}
+          GMAIL_FROM: \${{ secrets.GMAIL_FROM }}
+          OUTLOOK_USER: \${{ secrets.OUTLOOK_USER }}
+          OUTLOOK_PASS: \${{ secrets.OUTLOOK_PASS }}
+          OUTLOOK_FROM: \${{ secrets.OUTLOOK_FROM }}
+          SMTP_HOST: \${{ secrets.SMTP_HOST }}
+          SMTP_PORT: \${{ secrets.SMTP_PORT }}
+          SMTP_SECURE: \${{ secrets.SMTP_SECURE }}
+          SMTP_USER: \${{ secrets.SMTP_USER }}
+          SMTP_PASS: \${{ secrets.SMTP_PASS }}
+          SMTP_FROM: \${{ secrets.SMTP_FROM }}
+          PGI_ENC_KEY: \${{ secrets.PGI_ENC_KEY }}
+        run: node send.js
+`;
+}
+function pkgJson(){
+return `{
+  "name": "pgi-send-mailer",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "nodemailer": "^6.9.14",
+    "date-fns-tz": "^2.0.0"
+  }
+}`;
+}
+function sendJs(){
+return `import fs from 'fs/promises';
+import path from 'path';
+import crypto from 'crypto';
+import nodemailer from 'nodemailer';
+import { utcToZonedTime, zonedTimeToUtc, format } from 'date-fns-tz';
+
+const ROOT = process.cwd();
+const CAMP_DIR = path.join(ROOT,'..','campaigns');
+const STATE_DIR = path.join(ROOT,'..','state');
+const TZ = 'Europe/Paris';
+
+async function ensureDirs(){
+  await fs.mkdir(CAMP_DIR,{recursive:true});
+  await fs.mkdir(STATE_DIR,{recursive:true});
+}
+
+function todayKey(d=new Date()){
+  const z = utcToZonedTime(d, TZ);
+  return format(z,'yyyy-MM-dd',{timeZone:TZ});
+}
+
+async function listCampaigns(){
   try{
-    const c = buildCampaign();
-    await commitCampaign(c);
-    byId('out').innerHTML = '<span class="ok">Campagne poussée. Le workflow va s\'exécuter (et ensuite toutes les 5 min) dans les fenêtres autorisées sans dépasser votre quota/jour.</span>';
-  }catch(e){ byId('out').innerHTML = `<span class="err">${e.message}</span>`; }
+    const files = await fs.readdir(CAMP_DIR);
+    return files.filter(f=>f.endsWith('.json')).map(f=>path.join(CAMP_DIR,f));
+  }catch{ return []; }
+}
+
+async function readJson(p){
+  return JSON.parse(await fs.readFile(p,'utf8'));
+}
+async function writeJson(p, obj, msg=''){
+  await fs.writeFile(p, JSON.stringify(obj,null,2));
+}
+
+function parseHM(s){ const [h,m]=s.split(':').map(n=>+n); return {h,m}; }
+function isNowInSlot(slot, now){
+  const {h:sh,m:sm}=parseHM(slot.start), {h:eh,m:em}=parseHM(slot.end);
+  const z = utcToZonedTime(now,TZ);
+  const H=z.getHours(), M=z.getMinutes();
+  const startM = sh*60+sm, endM = eh*60+em, curM=H*60+M;
+  return slot.active && curM>=startM && curM<=endM;
+}
+function nextAlignedTick(slot, now){
+  const {h:sh,m:sm} = parseHM(slot.start);
+  const z = utcToZonedTime(now,TZ);
+  const base = new Date(z); base.setHours(sh,sm,0,0);
+  const every = Math.max(1, +slot.every|0);
+  let t = new Date(base);
+  while(t <= z){
+    t = new Date(t.getTime() + every*60000);
+  }
+  return t;
+}
+
+function buildTransport(provider){
+  if(provider==='gmail'){
+    return nodemailer.createTransport({
+      host: 'smtp.gmail.com', port: 465, secure: true,
+      auth: { user: process.env.GMAIL_USER, pass: process.env.GMAIL_PASS }
+    });
+  }
+  if(provider==='outlook'){
+    return nodemailer.createTransport({
+      host: 'smtp.office365.com', port: 587, secure: false,
+      auth: { user: process.env.OUTLOOK_USER, pass: process.env.OUTLOOK_PASS }
+    });
+  }
+  // generic
+  return nodemailer.createTransport({
+    host: process.env.SMTP_HOST, port: +(process.env.SMTP_PORT||587),
+    secure: String(process.env.SMTP_SECURE||'false')==='true',
+    auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS }
+  });
+}
+
+function fromAddress(provider, specified){
+  if(specified) return specified;
+  if(provider==='gmail') return process.env.GMAIL_FROM || process.env.GMAIL_USER;
+  if(provider==='outlook') return process.env.OUTLOOK_FROM || process.env.OUTLOOK_USER;
+  return process.env.SMTP_FROM || process.env.SMTP_USER;
+}
+
+// AES-256-GCM decryption (PBKDF2-SHA256 same params as UI)
+function b64ToBuf(b64){ return Buffer.from(b64,'base64'); }
+function decryptRecipients(encBundle){
+  const pass = process.env.PGI_ENC_KEY;
+  if(!pass) throw new Error('PGI_ENC_KEY absente (secret required)');
+  const salt = b64ToBuf(encBundle.salt);
+  const iv = b64ToBuf(encBundle.iv);
+  const data = b64ToBuf(encBundle.data);
+  const key = crypto.pbkdf2Sync(Buffer.from(pass,'utf8'), salt, encBundle.it||100000, 32, 'sha256');
+  // WebCrypto returns ct||tag (tag 16 bytes)
+  const tagLen = (encBundle.tagLen||128)/8;
+  const tag = data.slice(data.length-tagLen);
+  const ct = data.slice(0, data.length-tagLen);
+  const decipher = crypto.createDecipheriv('aes-256-gcm', key, iv);
+  decipher.setAuthTag(tag);
+  const dec = Buffer.concat([decipher.update(ct), decipher.final()]);
+  return JSON.parse(dec.toString('utf8'));
+}
+
+async function loadState(id){
+  const p = path.join(STATE_DIR, id+'.json');
+  try{ return JSON.parse(await fs.readFile(p,'utf8')); }catch{ return { id, cursor:0, perDay:{}, completed:false, nextTickAt:null, status:'active', lastError:null }; }
+}
+async function saveState(st){ const p = path.join(STATE_DIR, st.id+'.json'); await writeJson(p, st); }
+
+function providerDefaultDelay(provider){
+  if(provider==='gmail') return 2000; // conservateur
+  if(provider==='outlook') return 3000;
+  return 1000;
+}
+
+async function sendOne(tr, from, to, subject, html){
+  await tr.sendMail({ from, to, subject, html });
+}
+
+async function run(){
+  await ensureDirs();
+  const files = await listCampaigns();
+  if(!files.length){ console.log('No campaigns'); return; }
+
+  for(const f of files){
+    const camp = await readJson(f);
+    const id = camp.id;
+    const state = await loadState(id);
+
+    if(camp.status==='stopped'){ state.completed=true; await saveState(state); continue; }
+    if(camp.status==='paused'){ await saveState(state); continue; }
+    if(state.completed){ continue; }
+
+    // decrypt recipients
+    let recipients = [];
+    try{
+      recipients = decryptRecipients(camp.encryptedRecipients);
+    }catch(e){
+      state.lastError = 'Decrypt error: '+e.message;
+      await saveState(state);
+      continue;
+    }
+    // filter checked + not sent yet
+    recipients = recipients.filter(x=>x.checked);
+    if(state.cursor >= recipients.length){ state.completed=true; await saveState(state); continue; }
+
+    // time window & slot logic
+    const now = new Date();
+    const z = utcToZonedTime(now,TZ);
+    const dow = (z.getDay()+6)%7; // 0=Mon..6=Sun
+    const slots = (camp.slots||{})[dow]||[];
+    const activeSlots = slots.filter(s=>s.active && isNowInSlot(s, now));
+    if(!activeSlots.length){ continue; }
+
+    // choose first active slot
+    const slot = activeSlots[0];
+
+    // per-day limit
+    const key = todayKey(now);
+    state.perDay[key] = state.perDay[key]||0;
+    const dailyLimit = +camp.dailyLimit || Infinity;
+    const remainToday = Math.max(0, dailyLimit - state.perDay[key]);
+
+    // frequency gate
+    const nowTs = z.getTime();
+    let nextTick = state.nextTickAt ? new Date(state.nextTickAt) : null;
+    if(!nextTick){
+      // align next tick after now based on slot.every
+      nextTick = nextAlignedTick(slot, now);
+    }
+    if(nowTs + 1000 < nextTick.getTime()){
+      // not time yet
+      await saveState(state);
+      continue;
+    }
+
+    const batch = Math.max(1, +slot.batch|0);
+    let toSend = Math.min(batch, recipients.length - state.cursor, remainToday);
+    if(toSend<=0){ await saveState(state); continue; }
+
+    const provider = camp.provider || 'gmail';
+    const tr = buildTransport(provider);
+    const subj = camp.subject || 'Vous avez reçu un message';
+    const from = fromAddress(provider, camp.fromEmail);
+    const html = camp.html || '<p>(vide)</p>';
+    const delay = +camp.delayMs>0 ? +camp.delayMs : providerDefaultDelay(provider);
+    let ok=0, fail=0;
+
+    for(let i=0;i<toSend;i++){
+      const item = recipients[state.cursor];
+      const to = item.email;
+      try{
+        await sendOne(tr, from, to, subj, personalize(html,item));
+        ok++;
+      }catch(e){
+        fail++;
+        state.lastError = 'Send fail to '+to+': '+e.message;
+      }
+      state.cursor++;
+      state.perDay[key] = (state.perDay[key]||0)+1;
+      await sleep(delay);
+    }
+
+    if(state.cursor>=recipients.length){ state.completed=true; }
+    // schedule next tick by frequency minutes
+    const everyMin = Math.max(1, +slot.every|0);
+    const nt = new Date(z.getTime() + everyMin*60000);
+    state.nextTickAt = nt.toISOString();
+    await saveState(state);
+    console.log(\`Campaign \${id}: sent ok=\${ok} fail=\${fail}; cursor=\${state.cursor}/\${recipients.length}\`);
+  }
+}
+
+function personalize(html,item){
+  return html.replaceAll('{{email}}', item.email)
+             .replaceAll('{{prenom}}', item.prenom||'')
+             .replaceAll('{{nom}}', item.nom||'');
+}
+const sleep = (ms)=> new Promise(r=>setTimeout(r,ms));
+
+await run().catch(e=>{ console.error('Fatal',e); });
+`;
+}
+
+/* ============================
+   BOOTSTRAP BUTTONS
+============================ */
+$('#btnBootstrap').onclick = async ()=>{
+  try{
+    if(!cfg.owner.value || !cfg.repo.value || !cfg.token.value) return notify('Owner / Repo / Token requis', false);
+    await ghPutFile('.github/workflows/mailer.yml', workflowYml(), 'PGI: bootstrap workflow');
+    await ghPutFile('mailer/package.json', pkgJson(), 'PGI: add package.json');
+    await ghPutFile('mailer/send.js', sendJs(), 'PGI: add send.js');
+    await ghPutFile('README.md', '# PGI Send\\n\\nAutomatisation d\\'envoi email via GitHub Actions.', 'PGI: readme');
+    notify('Automatisation prête (workflow + mailer)');
+  }catch(e){
+    notify('Erreur bootstrap: '+e.message, false);
+  }
 };
 
-byId('download').onclick = ()=>{
-  const c = buildCampaign();
-  const blob = new Blob([JSON.stringify(c,null,2)], {type:'application/json'});
-  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `${c.id}.json`; a.click();
+$('#btnCheck').onclick = async ()=>{
+  try{
+    const files = await ghListDir('campaigns');
+    $('#repoStatus').innerHTML = files.length ? 'Campagnes existantes : '+files.join(', ') : 'Aucune campagne';
+    notify('Dépôt OK');
+  }catch(e){ notify('Erreur: '+e.message,false); }
 };
+
+/* ============================
+   BUILD CAMPAIGN JSON + PUSH
+============================ */
+$('#btnSaveCampaign').onclick = async ()=>{
+  try{
+    const name = $('#campaignName').value.trim() || 'Campagne';
+    if(!CONTACTS.length) return notify('Ajoute des contacts', false);
+    const selected = CONTACTS; // we encrypt full list including checked flags
+    if(!cfg.encKey.value) return notify('Clé de chiffrement requise', false);
+    const encPack = await encryptContacts(selected, cfg.encKey.value);
+    const camp = {
+      id: 'cmp_'+Date.now(),
+      name,
+      provider: $('#provider').value,
+      fromEmail: $('#fromEmail').value.trim(),
+      subject: $('#subject').value.trim() || 'Vous avez reçu un message',
+      html: $('#editor').innerHTML.trim(),
+      dailyLimit: +($('#dailyLimit').value||0),
+      delayMs: +($('#delayMs').value||0),
+      slots: daySlots, // 0..6 arrays of slots
+      createdAt: new Date().toISOString(),
+      status: 'active',
+      encryptedRecipients: encPack,
+      meta: { algo: 'AES-256-GCM', ui:'PGI Send v1.0.0' }
+    };
+    const path = `campaigns/${camp.id}.json`;
+    await ghPutFile(path, JSON.stringify(camp,null,2), `PGI: create campaign ${camp.name}`);
+    CURRENT_CAMPAIGN_ID = camp.id;
+    notify('Campagne créée et poussée 👍');
+  }catch(e){
+    notify('Erreur campagne: '+e.message, false);
+  }
+};
+
+$('#btnListCampaigns').onclick = async ()=>{
+  try{
+    const files = await ghListDir('campaigns');
+    const dash = $('#dash'); dash.innerHTML='';
+    if(!files.length){ dash.textContent='Aucune campagne.'; return; }
+    for(const f of files){
+      const p = await ghGet('contents/'+encodeURIComponent('campaigns/'+f));
+      const json = JSON.parse(atob(p.content));
+      const card = document.createElement('div'); card.className='card'; card.style.flex='1 1 360px';
+      card.innerHTML = `<div class="row" style="justify-content:space-between;align-items:center">
+        <div><b>${escapeHtml(json.name)}</b> <span class="pill">${f.replace('.json','')}</span></div>
+        <div class="pill">${json.status||'active'}</div>
+      </div>
+      <div class="note">Créée: ${new Date(json.createdAt).toLocaleString('fr-FR')}</div>
+      <div class="row" style="margin-top:8px">
+        <button class="btn" onclick="loadCampaign('${f}')">Charger</button>
+        <button class="btn ghost" onclick="duplicateCampaign('${f}')">Dupliquer</button>
+      </div>`;
+      $('#dash').appendChild(card);
+    }
+  }catch(e){ notify('Erreur listage: '+e.message,false); }
+};
+
+window.loadCampaign = async (fname)=>{
+  try{
+    const p = await ghGet('contents/'+encodeURIComponent('campaigns/'+fname));
+    const json = JSON.parse(atob(p.content));
+    CURRENT_CAMPAIGN_ID = json.id;
+    $('#campaignName').value = json.name||'';
+    $('#provider').value = json.provider||'gmail'; provider.onchange();
+    $('#fromEmail').value = json.fromEmail||'';
+    $('#subject').value = json.subject||'';
+    $('#editor').innerHTML = json.html||'';
+    $('#dailyLimit').value = json.dailyLimit||'';
+    $('#delayMs').value = json.delayMs||'';
+    // slots
+    for(let i=0;i<7;i++){ daySlots[i] = (json.slots||[])[i]||[]; }
+    renderCalendar();
+    notify('Campagne chargée');
+  }catch(e){ notify('Erreur: '+e.message,false); }
+};
+
+window.duplicateCampaign = async (fname)=>{
+  try{
+    const p = await ghGet('contents/'+encodeURIComponent('campaigns/'+fname));
+    const json = JSON.parse(atob(p.content));
+    json.id = 'cmp_'+Date.now();
+    json.name = (json.name||'Campagne')+' (copie)';
+    json.createdAt = new Date().toISOString();
+    const path = `campaigns/${json.id}.json`;
+    await ghPutFile(path, JSON.stringify(json,null,2), `PGI: duplicate ${json.name}`);
+    notify('Copie créée');
+  }catch(e){ notify('Erreur: '+e.message,false); }
+};
+
+/* ============================
+   PAUSE / RESUME / STOP
+============================ */
+async function updateStatus(status){
+  if(!CURRENT_CAMPAIGN_ID) return notify('Charge une campagne (ou crée-en une)', false);
+  try{
+    const path = `campaigns/${CURRENT_CAMPAIGN_ID}.json`;
+    const p = await ghGet('contents/'+encodeURIComponent(path));
+    const json = JSON.parse(atob(p.content));
+    json.status = status;
+    await ghPutFile(path, JSON.stringify(json,null,2), `PGI: ${status} campaign`);
+    notify('Statut mis à jour: '+status);
+  }catch(e){ notify('Erreur statut: '+e.message,false); }
+}
+$('#btnPause').onclick = ()=>updateStatus('paused');
+$('#btnResume').onclick = ()=>updateStatus('active');
+$('#btnStop').onclick = ()=>updateStatus('stopped');
 </script>
 </body>
 </html>
