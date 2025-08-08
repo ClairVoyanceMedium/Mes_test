@@ -1,1461 +1,554 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" data-theme="light">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PGI Send - Email Campaign Manager</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/quill@1.3.7/dist/quill.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/quill@1.3.7/dist/quill.snow.css" rel="stylesheet">
-    <style>
-        :root {
-            --primary-color: #FF6B3B;
-            --bg-dark: #1a1a1a;
-            --bg-secondary: #2d2d2d;
-            --text-light: #f8f9fa;
-            --accent-green: #00ff88;
-            --accent-purple: #8b5cf6;
-        }
-        
-        body {
-            background-color: var(--bg-dark);
-            color: var(--text-light);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        .card {
-            background-color: var(--bg-secondary);
-            border: 1px solid #444;
-        }
-        
-        .btn-primary {
-            background-color: var(--primary-color);
-            border-color: var(--primary-color);
-        }
-        
-        .btn-primary:hover {
-            background-color: #e55a32;
-            border-color: #e55a32;
-        }
-        
-        .btn-success {
-            background-color: var(--accent-green);
-            border-color: var(--accent-green);
-            color: #000;
-        }
-        
-        .form-control, .form-select {
-            background-color: var(--bg-dark);
-            border-color: #444;
-            color: var(--text-light);
-        }
-        
-        .form-control:focus, .form-select:focus {
-            background-color: var(--bg-dark);
-            border-color: var(--primary-color);
-            color: var(--text-light);
-            box-shadow: 0 0 0 0.25rem rgba(255, 107, 59, 0.25);
-        }
-        
-        .table-dark {
-            --bs-table-bg: var(--bg-secondary);
-        }
-        
-        .navbar {
-            background-color: var(--bg-secondary) !important;
-        }
-        
-        .alert-info {
-            background-color: rgba(13, 202, 240, 0.1);
-            border-color: #0dcaf0;
-            color: #9eeaf9;
-        }
-        
-        .alert-warning {
-            background-color: rgba(255, 193, 7, 0.1);
-            border-color: #ffc107;
-            color: #ffecb5;
-        }
-        
-        .masked-email {
-            font-family: monospace;
-        }
-        
-        .schedule-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-        
-        .day-schedule {
-            border: 1px solid #444;
-            padding: 1rem;
-            border-radius: 0.5rem;
-            background-color: var(--bg-dark);
-        }
-        
-        .slot-item {
-            background-color: var(--bg-secondary);
-            border: 1px solid #555;
-            border-radius: 0.25rem;
-            padding: 0.5rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        #editor {
-            background-color: white;
-            color: black;
-        }
-        
-        .progress {
-            background-color: var(--bg-dark);
-        }
-        
-        .text-primary {
-            color: var(--primary-color) !important;
-        }
-    </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>PGI Send — 2025++ (GitHub Pages + Actions)</title>
+<style>
+  :root{
+    --bg:#f8f9fb; --panel:#ffffff; --text:#15161a; --muted:#4b4f59;
+    --accent:#FF6B3B;           /* orange saumon */
+    --neon:#19ffdc;             /* fluo bouton */
+    --neon2:#7afcff;            /* fluo alt */
+    --danger:#ff3b6b; --ok:#24d17e; --warn:#ffcf40;
+    --border:#e9edf3; --input:#f1f3f7; --shadow:0 10px 25px rgba(16,26,36,.08);
+  }
+  [data-theme="dark"]{
+    --bg:#0f0f12; --panel:#17171c; --text:#f1f3f9; --muted:#a9abb6;
+    --border:#25262d; --input:#101116; --shadow:0 10px 30px rgba(0,0,0,.45);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);font:500 15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial}
+  header{
+    display:flex;align-items:center;justify-content:space-between;gap:16px;
+    padding:18px 20px;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--bg);z-index:5
+  }
+  .brand{display:flex;align-items:center;gap:14px}
+  .logo{width:36px;height:36px;border-radius:10px;background:
+      radial-gradient(120% 120% at 10% 10%, var(--neon) 0%, transparent 40%),
+      radial-gradient(120% 120% at 90% 90%, var(--accent) 0%, transparent 40%),
+      linear-gradient(135deg, #111, #222)}
+  h1{font-size:18px;margin:0}
+  .tag{font-size:12px;color:var(--muted)}
+  .wrap{max-width:1200px;margin:0 auto;padding:22px}
+  .grid{display:grid;grid-template-columns:1.1fr .9fr;gap:18px}
+  @media(max-width:1000px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:16px;box-shadow:var(--shadow)}
+  .card h2{margin:0 0 8px 0;font-size:17px}
+  .row{display:flex;gap:10px;flex-wrap:wrap}
+  label{font-size:13px;color:var(--muted)}
+  input[type=text],input[type=password],input[type=number],input[type=time],input[type=email],textarea,select{
+    width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--border);background:var(--input);color:var(--text);outline:none
+  }
+  textarea{min-height:110px;resize:vertical}
+  .btn{
+    appearance:none;border:none;border-radius:12px;padding:11px 15px;color:#0b0d10;font-weight:800;
+    background:linear-gradient(135deg,var(--neon),var(--neon2));
+    box-shadow:0 10px 22px rgba(25,255,220,.22), inset 0 -2px 0 rgba(0,0,0,.1);cursor:pointer
+  }
+  .btn.secondary{background:linear-gradient(135deg,#ffd2c2,var(--accent));color:#1b0d0b;box-shadow:0 10px 22px rgba(255,107,59,.22)}
+  .btn.ghost{background:transparent;color:var(--text);border:1px dashed var(--border)}
+  .btn.danger{background:linear-gradient(135deg,#ff98b0,var(--danger));color:#23040c}
+  .btn.ok{background:linear-gradient(135deg,#b9ffd7,var(--ok));color:#052116}
+  .muted{color:var(--muted)} .sep{height:1px;background:var(--border);margin:10px 0}
+  .toolbar{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
+  .tbtn{padding:8px 10px;border-radius:8px;border:1px solid var(--border);background:var(--input);cursor:pointer}
+  .editor{border:1px solid var(--border);border-radius:12px;overflow:hidden}
+  .editor .area{min-height:260px;padding:14px;background:var(--panel)}
+  .codeview{display:none}
+  table{width:100%;border-collapse:collapse}
+  th,td{padding:8px 10px;border-bottom:1px solid var(--border);vertical-align:top}
+  th{font-size:12px;color:var(--muted);text-align:left}
+  .pill{display:inline-block;padding:2px 8px;border-radius:999px;border:1px solid var(--border);font-size:12px;color:var(--muted)}
+  .switch{display:inline-flex;align-items:center;gap:8px}
+  .switch input{appearance:none;width:42px;height:24px;border-radius:20px;background:#dfe3ea;position:relative;outline:none;cursor:pointer}
+  [data-theme="dark"] .switch input{background:#2a2d38}
+  .switch input:checked{background:var(--accent)}
+  .switch input:before{content:"";position:absolute;left:3px;top:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:.2s}
+  .switch input:checked:before{transform:translateX(18px)}
+  .hint{font-size:12px;color:var(--muted)}
+  .recs{font-size:13px;line-height:1.45;background:rgba(255,107,59,.08);border:1px dashed var(--accent);padding:10px;border-radius:10px}
+  .list{max-height:260px;overflow:auto;border:1px solid var(--border);border-radius:12px}
+  .badge{font-size:12px;background:var(--accent);color:#160a07;border-radius:8px;padding:2px 8px;font-weight:800}
+  .calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}
+  .slot{border:1px dashed var(--border);padding:10px;border-radius:10px}
+  .slot .row{gap:8px}
+  .flex{display:flex;gap:10px}
+  .grow{flex:1}
+  .right{margin-left:auto}
+</style>
 </head>
 <body>
-    <nav class="navbar navbar-dark sticky-top">
-        <div class="container-fluid">
-            <span class="navbar-brand mb-0 h1">
-                <i class="fas fa-paper-plane text-primary"></i> PGI Send
-            </span>
-            <div class="d-flex">
-                <button class="btn btn-sm btn-outline-light me-2" onclick="exportConfig()">
-                    <i class="fas fa-download"></i> Export Config
-                </button>
-                <input type="file" id="importConfig" accept=".json" style="display: none;" onchange="importConfig(event)">
-                <button class="btn btn-sm btn-outline-light" onclick="document.getElementById('importConfig').click()">
-                    <i class="fas fa-upload"></i> Import Config
-                </button>
-            </div>
-        </div>
-    </nav>
+<header>
+  <div class="brand">
+    <div class="logo" aria-hidden="true"></div>
+    <div>
+      <h1>PGI Send</h1>
+      <div class="tag">GitHub Pages + Actions • 0€ • 2025++</div>
+    </div>
+  </div>
+  <label class="switch" title="Mode clair / sombre">
+    <span>Mode sombre</span>
+    <input id="themeToggle" type="checkbox" />
+  </label>
+</header>
 
-    <div class="container-fluid py-4">
-        <!-- Repository & Security -->
-        <div class="card mb-4">
-            <div class="card-header">
-                <h5><i class="fab fa-github"></i> Repository & Security</h5>
-            </div>
-            <div class="card-body">
-                <div class="row g-3">
-                    <div class="col-md-3">
-                        <label class="form-label">Owner</label>
-                        <input type="text" class="form-control" id="repoOwner" placeholder="username">
-                    </div>
-                    <div class="col-md-3">
-                        <label class="form-label">Repository</label>
-                        <input type="text" class="form-control" id="repoName" placeholder="repo-name">
-                    </div>
-                    <div class="col-md-2">
-                        <label class="form-label">Branch</label>
-                        <input type="text" class="form-control" id="repoBranch" value="main">
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label">GitHub PAT</label>
-                        <input type="password" class="form-control" id="githubPat" placeholder="ghp_...">
-                    </div>
-                </div>
-                <div class="row g-3 mt-2">
-                    <div class="col-md-6">
-                        <label class="form-label">Encryption Key</label>
-                        <input type="password" class="form-control" id="encryptionKey" placeholder="Your secret encryption key">
-                    </div>
-                    <div class="col-md-6 d-flex align-items-end">
-                        <button class="btn btn-primary me-2" onclick="bootstrapRepository()">
-                            <i class="fas fa-rocket"></i> Bootstrap
-                        </button>
-                        <button class="btn btn-outline-light me-2" onclick="verifyRepository()">
-                            <i class="fas fa-check"></i> Verify
-                        </button>
-                        <button class="btn btn-outline-success" onclick="saveLocalConfig()">
-                            <i class="fas fa-save"></i> Save Local
-                        </button>
-                    </div>
-                </div>
-                <div id="repoStatus" class="mt-3"></div>
-            </div>
-        </div>
+<div class="wrap">
 
-        <!-- Provider & Recommendations -->
-        <div class="card mb-4">
-            <div class="card-header">
-                <h5><i class="fas fa-envelope"></i> Email Provider & Anti-Spam Recommendations</h5>
-            </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-3">
-                        <label class="form-label">Provider</label>
-                        <select class="form-select" id="emailProvider" onchange="updateRecommendations()">
-                            <option value="gmail">Gmail</option>
-                            <option value="outlook">Outlook</option>
-                            <option value="smtp">Generic SMTP</option>
-                        </select>
-                    </div>
-                    <div class="col-md-9">
-                        <div id="providerRecommendations"></div>
-                    </div>
-                </div>
-            </div>
+  <div class="grid">
+    <!-- COL 1 -->
+    <section class="card">
+      <h2>1) Dépôt GitHub & sécurité</h2>
+      <div class="row">
+        <div class="grow"><label>Propriétaire (owner)</label><input id="ghOwner" type="text" placeholder="ex : ton-compte" /></div>
+        <div class="grow"><label>Dépôt (repo)</label><input id="ghRepo" type="text" placeholder="ex : pgi-send" /></div>
+        <div style="width:140px"><label>Branche</label><input id="ghBranch" type="text" value="main" /></div>
+      </div>
+      <div class="row">
+        <div class="grow">
+          <label>Token personnel GitHub (PAT) <span class="pill">scope: repo + workflow</span></label>
+          <input id="ghToken" type="password" placeholder="ghp_..." />
+          <div class="hint">Stocké localement (localStorage). Non envoyé ailleurs.</div>
         </div>
-
-        <!-- Email Editor -->
-        <div class="card mb-4">
-            <div class="card-header d-flex justify-content-between align-items-center">
-                <h5><i class="fas fa-edit"></i> Email Editor</h5>
-                <div>
-                    <button class="btn btn-sm btn-outline-light me-2" id="toggleEditor" onclick="toggleEditorMode()">
-                        <i class="fas fa-code"></i> HTML Mode
-                    </button>
-                    <button class="btn btn-sm btn-primary" onclick="copyHtml()">
-                        <i class="fas fa-copy"></i> Copy HTML
-                    </button>
-                </div>
-            </div>
-            <div class="card-body">
-                <div class="mb-3">
-                    <label class="form-label">Subject</label>
-                    <input type="text" class="form-control" id="emailSubject" placeholder="Email subject (use {{prenom}}, {{nom}}, {{email}})">
-                </div>
-                <div id="editorContainer">
-                    <div id="editor" style="height: 300px;"></div>
-                </div>
-                <div id="htmlEditor" style="display: none;">
-                    <textarea class="form-control" id="htmlContent" rows="15" placeholder="HTML content here..."></textarea>
-                </div>
-                <small class="text-muted">Available variables: {{email}}, {{prenom}}, {{nom}}</small>
-            </div>
+        <div class="grow">
+          <label>Clé de chiffrement des contacts (PGI_ENC_KEY)</label>
+          <input id="encKey" type="password" placeholder="Même valeur que dans Secrets du dépôt" />
+          <div class="hint">Ajoute cette même valeur dans <b>Settings → Secrets → Actions</b> sous le nom <b>PGI_ENC_KEY</b>.</div>
         </div>
+      </div>
+      <div class="row">
+        <button class="btn secondary" id="btnBootstrap">Créer / mettre à jour l’automatisation</button>
+        <button class="btn ghost" id="btnCheck">Vérifier le dépôt</button>
+        <button class="btn" id="btnSaveCfg">Sauver la configuration locale</button>
+      </div>
+      <div id="repoStatus" class="hint"></div>
+    </section>
 
-        <!-- Contacts Management -->
-        <div class="card mb-4">
-            <div class="card-header d-flex justify-content-between align-items-center">
-                <h5><i class="fas fa-users"></i> Contacts Management</h5>
-                <div>
-                    <button class="btn btn-sm btn-outline-light me-2" onclick="exportSelectedContacts()">
-                        <i class="fas fa-download"></i> Export Selected
-                    </button>
-                    <button class="btn btn-sm btn-success" onclick="selectAll()">
-                        <i class="fas fa-check-double"></i> Select All
-                    </button>
-                    <button class="btn btn-sm btn-warning" onclick="unselectAll()">
-                        <i class="fas fa-times"></i> Unselect All
-                    </button>
-                </div>
-            </div>
-            <div class="card-body">
-                <div class="row g-3 mb-3">
-                    <div class="col-md-6">
-                        <label class="form-label">Import CSV/Text</label>
-                        <textarea class="form-control" id="contactsInput" rows="4" placeholder="email,prenom,nom&#10;john@example.com,John,Doe&#10;jane@example.com,Jane,Smith&#10;&#10;Or paste emails one per line"></textarea>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label">Manual Add</label>
-                        <div class="row g-2">
-                            <div class="col-12">
-                                <input type="email" class="form-control" id="manualEmail" placeholder="Email">
-                            </div>
-                            <div class="col-6">
-                                <input type="text" class="form-control" id="manualPrenom" placeholder="Prénom">
-                            </div>
-                            <div class="col-6">
-                                <input type="text" class="form-control" id="manualNom" placeholder="Nom">
-                            </div>
-                            <div class="col-12">
-                                <button class="btn btn-primary w-100" onclick="addManualContact()">
-                                    <i class="fas fa-plus"></i> Add Contact
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="d-flex justify-content-between mb-3">
-                    <button class="btn btn-success" onclick="importContacts()">
-                        <i class="fas fa-file-import"></i> Import & Process
-                    </button>
-                    <span id="contactsCount" class="badge bg-info fs-6">0 contacts</span>
-                </div>
-
-                <div class="table-responsive">
-                    <table class="table table-dark table-hover">
-                        <thead>
-                            <tr>
-                                <th width="50">
-                                    <input type="checkbox" id="selectAllCheckbox" onchange="toggleSelectAll()">
-                                </th>
-                                <th>Email</th>
-                                <th>Prénom</th>
-                                <th>Nom</th>
-                                <th width="80">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody id="contactsTable"></tbody>
-                    </table>
-                </div>
-            </div>
+    <!-- COL 2 -->
+    <section class="card">
+      <h2>2) Fournisseur & recommandations</h2>
+      <div class="row">
+        <div class="grow">
+          <label>Fournisseur d’envoi</label>
+          <select id="provider">
+            <option value="gmail">Gmail</option>
+            <option value="outlook">Outlook</option>
+            <option value="smtp">SMTP générique / autre fournisseur</option>
+          </select>
         </div>
+        <div class="grow"><label>Adresse d’expéditeur (From)</label><input id="fromEmail" type="email" placeholder="ex : contact@tondomaine.com" /></div>
+        <div class="grow"><label>Objet de la newsletter</label><input id="subject" type="text" placeholder="Vous avez reçu un message" /></div>
+      </div>
+      <div class="sep"></div>
+      <div id="providerRecs" class="recs"></div>
+      <div class="hint">Identifiants SMTP côté <b>Secrets</b> du dépôt : GMAIL_* / OUTLOOK_* / SMTP_* + <b>PGI_ENC_KEY</b>. Jamais stockés ici.</div>
+    </section>
+  </div>
 
-        <!-- Schedule Planning -->
-        <div class="card mb-4">
-            <div class="card-header">
-                <h5><i class="fas fa-calendar-alt"></i> Schedule Planning</h5>
-            </div>
-            <div class="card-body">
-                <div class="schedule-grid">
-                    <div class="day-schedule">
-                        <h6>Lundi</h6>
-                        <div id="schedule-monday"></div>
-                        <button class="btn btn-sm btn-primary w-100" onclick="addScheduleSlot('monday')">
-                            <i class="fas fa-plus"></i> Add Slot
-                        </button>
-                    </div>
-                    <div class="day-schedule">
-                        <h6>Mardi</h6>
-                        <div id="schedule-tuesday"></div>
-                        <button class="btn btn-sm btn-primary w-100" onclick="addScheduleSlot('tuesday')">
-                            <i class="fas fa-plus"></i> Add Slot
-                        </button>
-                    </div>
-                    <div class="day-schedule">
-                        <h6>Mercredi</h6>
-                        <div id="schedule-wednesday"></div>
-                        <button class="btn btn-sm btn-primary w-100" onclick="addScheduleSlot('wednesday')">
-                            <i class="fas fa-plus"></i> Add Slot
-                        </button>
-                    </div>
-                    <div class="day-schedule">
-                        <h6>Jeudi</h6>
-                        <div id="schedule-thursday"></div>
-                        <button class="btn btn-sm btn-primary w-100" onclick="addScheduleSlot('thursday')">
-                            <i class="fas fa-plus"></i> Add Slot
-                        </button>
-                    </div>
-                    <div class="day-schedule">
-                        <h6>Vendredi</h6>
-                        <div id="schedule-friday"></div>
-                        <button class="btn btn-sm btn-primary w-100" onclick="addScheduleSlot('friday')">
-                            <i class="fas fa-plus"></i> Add Slot
-                        </button>
-                    </div>
-                    <div class="day-schedule">
-                        <h6>Samedi</h6>
-                        <div id="schedule-saturday"></div>
-                        <button class="btn btn-sm btn-primary w-100" onclick="addScheduleSlot('saturday')">
-                            <i class="fas fa-plus"></i> Add Slot
-                        </button>
-                    </div>
-                    <div class="day-schedule">
-                        <h6>Dimanche</h6>
-                        <div id="schedule-sunday"></div>
-                        <button class="btn btn-sm btn-primary w-100" onclick="addScheduleSlot('sunday')">
-                            <i class="fas fa-plus"></i> Add Slot
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
+  <section class="card">
+    <h2>3) Éditeur de contenu (visuel + HTML brut)</h2>
+    <div class="toolbar">
+      <button class="tbtn" onclick="execCmd('bold')"><b>B</b></button>
+      <button class="tbtn" onclick="execCmd('italic')"><i>I</i></button>
+      <button class="tbtn" onclick="execCmd('underline')"><u>U</u></button>
+      <button class="tbtn" onclick="execCmd('insertUnorderedList')">• Liste</button>
+      <button class="tbtn" onclick="execCmd('insertOrderedList')">1. Liste</button>
+      <button class="tbtn" onclick="makeLink()">Lien</button>
+      <button class="tbtn" onclick="insertImage()">Image (URL)</button>
+      <button class="tbtn" onclick="applyHeading('h2')">H2</button>
+      <button class="tbtn" onclick="applyHeading('p')">Parag.</button>
+      <button class="tbtn" onclick="undo()">Annuler</button>
+      <button class="tbtn" onclick="redo()">Rétablir</button>
+      <button class="tbtn" onclick="toggleHtml()">HTML</button>
+      <button class="tbtn" onclick="copyRaw()">Copier HTML</button>
+    </div>
+    <div class="editor">
+      <div id="editor" class="area" contenteditable="true" spellcheck="false">
+        <h2 style="margin:0 0 12px 0">Exemple PGI Send</h2>
+        <p>Bienvenue. Ajoutez <b>images cliquables</b>, <a href="#">liens</a>, boutons. Le HTML sera envoyé <b>à l’identique</b>.</p>
+        <p><a href="https://clairvoyancemedium.com" style="background:#FF6B3B;color:#1b0d0b;padding:10px 16px;border-radius:10px;text-decoration:none;font-weight:800">Bouton exemple</a></p>
+      </div>
+      <textarea id="editorCode" class="area codeview" placeholder="HTML brut ici..."></textarea>
+    </div>
+  </section>
 
-        <!-- Campaign Management -->
-        <div class="card mb-4">
-            <div class="card-header">
-                <h5><i class="fas fa-bullhorn"></i> Campaign Management</h5>
-            </div>
-            <div class="card-body">
-                <div class="row g-3">
-                    <div class="col-md-4">
-                        <label class="form-label">Campaign Name</label>
-                        <input type="text" class="form-control" id="campaignName" placeholder="My Campaign">
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label">From Email (optional)</label>
-                        <input type="email" class="form-control" id="campaignFrom" placeholder="custom@yourdomain.com">
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label">Provider</label>
-                        <select class="form-select" id="campaignProvider">
-                            <option value="gmail">Gmail</option>
-                            <option value="outlook">Outlook</option>
-                            <option value="smtp">Generic SMTP</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="row g-3 mt-2">
-                    <div class="col-md-6">
-                        <label class="form-label">Daily Limit (0 = unlimited)</label>
-                        <input type="number" class="form-control" id="campaignDailyLimit" value="0" min="0">
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label">Delay Between Emails (ms)</label>
-                        <input type="number" class="form-control" id="campaignDelayMs" placeholder="Auto (2000 for Gmail)" min="100">
-                    </div>
-                </div>
-                
-                <div class="d-flex justify-content-between mt-3">
-                    <div>
-                        <button class="btn btn-success me-2" onclick="createOrUpdateCampaign()">
-                            <i class="fas fa-rocket"></i> Create/Update Campaign
-                        </button>
-                        <button class="btn btn-outline-light me-2" onclick="listCampaigns()">
-                            <i class="fas fa-list"></i> List Campaigns
-                        </button>
-                        <button class="btn btn-outline-info" onclick="duplicateCampaign()">
-                            <i class="fas fa-copy"></i> Duplicate
-                        </button>
-                    </div>
-                    <div>
-                        <button class="btn btn-warning me-2" onclick="pauseResumeCampaign('pause')">
-                            <i class="fas fa-pause"></i> Pause
-                        </button>
-                        <button class="btn btn-primary me-2" onclick="pauseResumeCampaign('resume')">
-                            <i class="fas fa-play"></i> Resume
-                        </button>
-                        <button class="btn btn-danger" onclick="pauseResumeCampaign('stop')">
-                            <i class="fas fa-stop"></i> Stop
-                        </button>
-                    </div>
-                </div>
-                
-                <div id="campaignsList" class="mt-3"></div>
-            </div>
+  <section class="card">
+    <h2>4) Contacts (import, tri, cases à cocher, ajout manuel)</h2>
+    <div class="row">
+      <div class="grow">
+        <label>Coller des emails (CSV ou simple liste “email,prenom,nom”)</label>
+        <textarea id="contactsPaste" placeholder="email1@ex.com,Jean,Dupont
+email2@ex.com,Marie,Durand"></textarea>
+      </div>
+      <div style="width:280px">
+        <label>Importer un fichier .csv</label>
+        <input id="contactsFile" type="file" accept=".csv" />
+        <div class="row" style="margin-top:8px">
+          <button class="btn" id="btnParse">Analyser & dédupliquer</button>
+          <button class="btn ghost" id="btnClear">Vider</button>
         </div>
-
-        <!-- Dashboard -->
-        <div class="card">
-            <div class="card-header d-flex justify-content-between align-items-center">
-                <h5><i class="fas fa-chart-bar"></i> Dashboard</h5>
-                <button class="btn btn-sm btn-outline-light" onclick="refreshDashboard()">
-                    <i class="fas fa-sync-alt"></i> Refresh
-                </button>
-            </div>
-            <div class="card-body">
-                <div id="dashboardContent">
-                    <div class="text-center text-muted py-4">
-                        <i class="fas fa-chart-bar fa-3x mb-3"></i>
-                        <p>Click Refresh to load dashboard data</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+      </div>
     </div>
 
-    <script>
-        let quill;
-        let contacts = [];
-        let scheduleSlots = {
-            monday: [], tuesday: [], wednesday: [], thursday: [],
-            friday: [], saturday: [], sunday: []
-        };
-        let isHtmlMode = false;
-
-        // Initialize
-        document.addEventListener('DOMContentLoaded', function() {
-            initEditor();
-            loadLocalConfig();
-            updateRecommendations();
-        });
-
-        function initEditor() {
-            quill = new Quill('#editor', {
-                theme: 'snow',
-                modules: {
-                    toolbar: [
-                        [{ 'header': [1, 2, 3, false] }],
-                        ['bold', 'italic', 'underline', 'strike'],
-                        [{ 'color': [] }, { 'background': [] }],
-                        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-                        [{ 'align': [] }],
-                        ['link', 'image'],
-                        ['clean']
-                    ]
-                }
-            });
-        }
-
-        function toggleEditorMode() {
-            const editorContainer = document.getElementById('editorContainer');
-            const htmlEditor = document.getElementById('htmlEditor');
-            const toggleBtn = document.getElementById('toggleEditor');
-            
-            if (isHtmlMode) {
-                // Switch to WYSIWYG
-                quill.root.innerHTML = document.getElementById('htmlContent').value;
-                editorContainer.style.display = 'block';
-                htmlEditor.style.display = 'none';
-                toggleBtn.innerHTML = '<i class="fas fa-code"></i> HTML Mode';
-                isHtmlMode = false;
-            } else {
-                // Switch to HTML
-                document.getElementById('htmlContent').value = quill.root.innerHTML;
-                editorContainer.style.display = 'none';
-                htmlEditor.style.display = 'block';
-                toggleBtn.innerHTML = '<i class="fas fa-eye"></i> Visual Mode';
-                isHtmlMode = true;
-            }
-        }
-
-        function copyHtml() {
-            const html = isHtmlMode ? 
-                document.getElementById('htmlContent').value : 
-                quill.root.innerHTML;
-            navigator.clipboard.writeText(html).then(() => {
-                showAlert('HTML copied to clipboard!', 'success');
-            });
-        }
-
-        function updateRecommendations() {
-            const provider = document.getElementById('emailProvider').value;
-            const container = document.getElementById('providerRecommendations');
-            
-            const recommendations = {
-                gmail: {
-                    dailyLimit: '500 emails/day for new accounts, up to 2,000 for established accounts',
-                    rate: 'Max 2 emails/second (recommend 2-5 second delay)',
-                    setup: 'Enable 2FA and use App Password',
-                    dns: 'Setup SPF: v=spf1 include:_spf.google.com ~all',
-                    tips: 'Warm up gradually, avoid spam trigger words'
-                },
-                outlook: {
-                    dailyLimit: '300 emails/day for personal, up to 10,000 for business',
-                    rate: 'Max 30 emails/minute (recommend 3-5 second delay)',
-                    setup: 'Use app password for SMTP authentication',
-                    dns: 'Setup SPF: v=spf1 include:spf.protection.outlook.com ~all',
-                    tips: 'Monitor reputation, use DKIM/DMARC'
-                },
-                smtp: {
-                    dailyLimit: 'Depends on your provider settings',
-                    rate: 'Varies by provider (recommend 1-2 second delay)',
-                    setup: 'Configure SMTP settings correctly',
-                    dns: 'Setup SPF/DKIM/DMARC for your domain',
-                    tips: 'Check provider documentation for limits'
-                }
-            };
-
-            const rec = recommendations[provider];
-            container.innerHTML = `
-                <div class="alert alert-info">
-                    <h6><i class="fas fa-info-circle"></i> ${provider.toUpperCase()} Recommendations</h6>
-                    <ul class="mb-0">
-                        <li><strong>Daily Limit:</strong> ${rec.dailyLimit}</li>
-                        <li><strong>Rate Limit:</strong> ${rec.rate}</li>
-                        <li><strong>Setup:</strong> ${rec.setup}</li>
-                        <li><strong>DNS:</strong> ${rec.dns}</li>
-                        <li><strong>Tips:</strong> ${rec.tips}</li>
-                    </ul>
-                </div>
-            `;
-        }
-
-        function saveLocalConfig() {
-            const config = {
-                repoOwner: document.getElementById('repoOwner').value,
-                repoName: document.getElementById('repoName').value,
-                repoBranch: document.getElementById('repoBranch').value,
-                githubPat: document.getElementById('githubPat').value,
-                encryptionKey: document.getElementById('encryptionKey').value
-            };
-            localStorage.setItem('pgiSendConfig', JSON.stringify(config));
-            showAlert('Configuration saved locally!', 'success');
-        }
-
-        function loadLocalConfig() {
-            const config = localStorage.getItem('pgiSendConfig');
-            if (config) {
-                const data = JSON.parse(config);
-                document.getElementById('repoOwner').value = data.repoOwner || '';
-                document.getElementById('repoName').value = data.repoName || '';
-                document.getElementById('repoBranch').value = data.repoBranch || 'main';
-                document.getElementById('githubPat').value = data.githubPat || '';
-                document.getElementById('encryptionKey').value = data.encryptionKey || '';
-            }
-        }
-
-        function exportConfig() {
-            const config = {
-                repoOwner: document.getElementById('repoOwner').value,
-                repoName: document.getElementById('repoName').value,
-                repoBranch: document.getElementById('repoBranch').value,
-                encryptionKey: document.getElementById('encryptionKey').value,
-                contacts: contacts,
-                scheduleSlots: scheduleSlots
-            };
-            
-            const blob = new Blob([JSON.stringify(config, null, 2)], {type: 'application/json'});
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'pgi-send-config.json';
-            a.click();
-            URL.revokeObjectURL(url);
-        }
-
-        function importConfig(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-            
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    const config = JSON.parse(e.target.result);
-                    
-                    if (config.repoOwner) document.getElementById('repoOwner').value = config.repoOwner;
-                    if (config.repoName) document.getElementById('repoName').value = config.repoName;
-                    if (config.repoBranch) document.getElementById('repoBranch').value = config.repoBranch;
-                    if (config.encryptionKey) document.getElementById('encryptionKey').value = config.encryptionKey;
-                    if (config.contacts) {
-                        contacts = config.contacts;
-                        renderContactsTable();
-                    }
-                    if (config.scheduleSlots) {
-                        scheduleSlots = config.scheduleSlots;
-                        renderScheduleSlots();
-                    }
-                    
-                    showAlert('Configuration imported successfully!', 'success');
-                } catch (error) {
-                    showAlert('Error importing configuration: ' + error.message, 'danger');
-                }
-            };
-            reader.readAsText(file);
-        }
-
-        async function bootstrapRepository() {
-            const owner = document.getElementById('repoOwner').value;
-            const repo = document.getElementById('repoName').value;
-            const pat = document.getElementById('githubPat').value;
-            
-            if (!owner || !repo || !pat) {
-                showAlert('Please fill in repository details and PAT', 'warning');
-                return;
-            }
-
-            try {
-                showAlert('Bootstrapping repository...', 'info');
-                
-                // Create workflow file
-                await createOrUpdateFile('.github/workflows/mailer.yml', getWorkflowContent(), 'Bootstrap: Add GitHub Actions workflow');
-                
-                // Create package.json
-                await createOrUpdateFile('mailer/package.json', getPackageJsonContent(), 'Bootstrap: Add package.json');
-                
-                // Create send.js
-                await createOrUpdateFile('mailer/send.js', getSendJsContent(), 'Bootstrap: Add send.js');
-                
-                showAlert('Repository bootstrapped successfully! Check GitHub Secrets in repo settings.', 'success');
-                
-            } catch (error) {
-                showAlert('Bootstrap error: ' + error.message, 'danger');
-            }
-        }
-
-        async function verifyRepository() {
-            const owner = document.getElementById('repoOwner').value;
-            const repo = document.getElementById('repoName').value;
-            const pat = document.getElementById('githubPat').value;
-            
-            if (!owner || !repo || !pat) {
-                showAlert('Please fill in repository details', 'warning');
-                return;
-            }
-
-            try {
-                const response = await fetch(`https://api.github.com/repos/${owner}/${repo}`, {
-                    headers: {
-                        'Authorization': `Bearer ${pat}`,
-                        'Accept': 'application/vnd.github.v3+json'
-                    }
-                });
-                
-                if (response.ok) {
-                    const data = await response.json();
-                    document.getElementById('repoStatus').innerHTML = `
-                        <div class="alert alert-success">
-                            <i class="fas fa-check-circle"></i> Repository verified: ${data.full_name}
-                            <br><small>Private: ${data.private}, Default branch: ${data.default_branch}</small>
-                        </div>
-                    `;
-                } else {
-                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-                }
-            } catch (error) {
-                document.getElementById('repoStatus').innerHTML = `
-                    <div class="alert alert-danger">
-                        <i class="fas fa-exclamation-triangle"></i> Repository verification failed: ${error.message}
-                    </div>
-                `;
-            }
-        }
-
-        async function createOrUpdateFile(path, content, message) {
-            const owner = document.getElementById('repoOwner').value;
-            const repo = document.getElementById('repoName').value;
-            const branch = document.getElementById('repoBranch').value;
-            const pat = document.getElementById('githubPat').value;
-
-            // Try to get existing file
-            let sha = null;
-            try {
-                const getResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${path}?ref=${branch}`, {
-                    headers: {
-                        'Authorization': `Bearer ${pat}`,
-                        'Accept': 'application/vnd.github.v3+json'
-                    }
-                });
-                if (getResponse.ok) {
-                    const existingFile = await getResponse.json();                    sha = existingFile.sha;
-                }
-            } catch (error) {
-                // File doesn't exist, will create new
-            }
-
-            // Create or update file
-            const body = {
-                message: message,
-                content: btoa(unescape(encodeURIComponent(content))),
-                branch: branch
-            };
-            
-            if (sha) {
-                body.sha = sha;
-            }
-
-            const response = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${path}`, {
-                method: 'PUT',
-                headers: {
-                    'Authorization': `Bearer ${pat}`,
-                    'Accept': 'application/vnd.github.v3+json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(body)
-            });
-
-            if (!response.ok) {
-                const error = await response.json();
-                throw new Error(`Failed to create/update ${path}: ${error.message}`);
-            }
-        }
-
-        function importContacts() {
-            const input = document.getElementById('contactsInput').value.trim();
-            if (!input) return;
-
-            const newContacts = [];
-            const lines = input.split('\n');
-            
-            lines.forEach(line => {
-                line = line.trim();
-                if (!line) return;
-                
-                if (line.includes('@')) {
-                    if (line.includes(',')) {
-                        // CSV format
-                        const parts = line.split(',').map(p => p.trim().replace(/"/g, ''));
-                        if (parts.length >= 1) {
-                            newContacts.push({
-                                email: parts[0],
-                                prenom: parts[1] || '',
-                                nom: parts[2] || '',
-                                checked: true
-                            });
-                        }
-                    } else {
-                        // Just email
-                        newContacts.push({
-                            email: line,
-                            prenom: '',
-                            nom: '',
-                            checked: true
-                        });
-                    }
-                }
-            });
-
-            // Merge and deduplicate
-            const existingEmails = new Set(contacts.map(c => c.email.toLowerCase()));
-            newContacts.forEach(contact => {
-                if (!existingEmails.has(contact.email.toLowerCase())) {
-                    contacts.push(contact);
-                    existingEmails.add(contact.email.toLowerCase());
-                }
-            });
-
-            // Sort alphabetically
-            contacts.sort((a, b) => a.email.localeCompare(b.email));
-            
-            renderContactsTable();
-            document.getElementById('contactsInput').value = '';
-            showAlert(`Imported ${newContacts.length} new contacts`, 'success');
-        }
-
-        function addManualContact() {
-            const email = document.getElementById('manualEmail').value.trim();
-            const prenom = document.getElementById('manualPrenom').value.trim();
-            const nom = document.getElementById('manualNom').value.trim();
-            
-            if (!email) {
-                showAlert('Email is required', 'warning');
-                return;
-            }
-            
-            if (contacts.some(c => c.email.toLowerCase() === email.toLowerCase())) {
-                showAlert('Email already exists', 'warning');
-                return;
-            }
-            
-            contacts.push({ email, prenom, nom, checked: true });
-            contacts.sort((a, b) => a.email.localeCompare(b.email));
-            
-            renderContactsTable();
-            document.getElementById('manualEmail').value = '';
-            document.getElementById('manualPrenom').value = '';
-            document.getElementById('manualNom').value = '';
-            
-            showAlert('Contact added successfully', 'success');
-        }
-
-        function renderContactsTable() {
-            const tbody = document.getElementById('contactsTable');
-            const count = document.getElementById('contactsCount');
-            
-            count.textContent = `${contacts.length} contacts (${contacts.filter(c => c.checked).length} selected)`;
-            
-            tbody.innerHTML = contacts.map((contact, index) => `
-                <tr>
-                    <td>
-                        <input type="checkbox" ${contact.checked ? 'checked' : ''} 
-                               onchange="toggleContact(${index})">
-                    </td>
-                    <td>
-                        <span class="masked-email">${maskEmail(contact.email)}</span>
-                    </td>
-                    <td>${contact.prenom}</td>
-                    <td>${contact.nom}</td>
-                    <td>
-                        <button class="btn btn-sm btn-danger" onclick="removeContact(${index})">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </td>
-                </tr>
-            `).join('');
-        }
-
-        function maskEmail(email) {
-            const [local, domain] = email.split('@');
-            if (local.length <= 2) return email;
-            return local[0] + '*'.repeat(local.length - 2) + local[local.length - 1] + '@' + domain;
-        }
-
-        function toggleContact(index) {
-            contacts[index].checked = !contacts[index].checked;
-            renderContactsTable();
-        }
-
-        function removeContact(index) {
-            contacts.splice(index, 1);
-            renderContactsTable();
-        }
-
-        function selectAll() {
-            contacts.forEach(c => c.checked = true);
-            renderContactsTable();
-        }
-
-        function unselectAll() {
-            contacts.forEach(c => c.checked = false);
-            renderContactsTable();
-        }
-
-        function toggleSelectAll() {
-            const checkbox = document.getElementById('selectAllCheckbox');
-            contacts.forEach(c => c.checked = checkbox.checked);
-            renderContactsTable();
-        }
-
-        function exportSelectedContacts() {
-            const selected = contacts.filter(c => c.checked);
-            const csv = 'email,prenom,nom\n' + selected.map(c => `${c.email},${c.prenom},${c.nom}`).join('\n');
-            
-            const blob = new Blob([csv], { type: 'text/csv' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'selected-contacts.csv';
-            a.click();
-            URL.revokeObjectURL(url);
-        }
-
-        function addScheduleSlot(day) {
-            const slotId = Date.now();
-            scheduleSlots[day].push({
-                id: slotId,
-                start: '09:00',
-                end: '17:00',
-                every: 30,
-                batch: 1,
-                enabled: true
-            });
-            renderScheduleSlots();
-        }
-
-        function renderScheduleSlots() {
-            Object.keys(scheduleSlots).forEach(day => {
-                const container = document.getElementById(`schedule-${day}`);
-                container.innerHTML = scheduleSlots[day].map(slot => `
-                    <div class="slot-item">
-                        <div class="form-check form-switch mb-2">
-                            <input class="form-check-input" type="checkbox" ${slot.enabled ? 'checked' : ''} 
-                                   onchange="toggleSlot('${day}', ${slot.id})">
-                            <label class="form-check-label">Enabled</label>
-                            <button class="btn btn-sm btn-outline-danger float-end" onclick="removeSlot('${day}', ${slot.id})">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </div>
-                        <div class="row g-1">
-                            <div class="col-6">
-                                <input type="time" class="form-control form-control-sm" value="${slot.start}" 
-                                       onchange="updateSlot('${day}', ${slot.id}, 'start', this.value)">
-                            </div>
-                            <div class="col-6">
-                                <input type="time" class="form-control form-control-sm" value="${slot.end}" 
-                                       onchange="updateSlot('${day}', ${slot.id}, 'end', this.value)">
-                            </div>
-                            <div class="col-6">
-                                <input type="number" class="form-control form-control-sm" value="${slot.every}" min="1" 
-                                       placeholder="Every (min)" onchange="updateSlot('${day}', ${slot.id}, 'every', parseInt(this.value))">
-                            </div>
-                            <div class="col-6">
-                                <input type="number" class="form-control form-control-sm" value="${slot.batch}" min="1" 
-                                       placeholder="Batch" onchange="updateSlot('${day}', ${slot.id}, 'batch', parseInt(this.value))">
-                            </div>
-                        </div>
-                    </div>
-                `).join('');
-            });
-        }
-
-        function updateSlot(day, id, field, value) {
-            const slot = scheduleSlots[day].find(s => s.id === id);
-            if (slot) slot[field] = value;
-        }
-
-        function toggleSlot(day, id) {
-            const slot = scheduleSlots[day].find(s => s.id === id);
-            if (slot) slot.enabled = !slot.enabled;
-        }
-
-        function removeSlot(day, id) {
-            scheduleSlots[day] = scheduleSlots[day].filter(s => s.id !== id);
-            renderScheduleSlots();
-        }
-
-        async function createOrUpdateCampaign() {
-            const name = document.getElementById('campaignName').value.trim();
-            if (!name) {
-                showAlert('Campaign name is required', 'warning');
-                return;
-            }
-
-            const selectedContacts = contacts.filter(c => c.checked);
-            if (selectedContacts.length === 0) {
-                showAlert('Please select at least one contact', 'warning');
-                return;
-            }
-
-            const subject = document.getElementById('emailSubject').value.trim();
-            const html = isHtmlMode ? 
-                document.getElementById('htmlContent').value : 
-                quill.root.innerHTML;
-
-            if (!subject || !html) {
-                showAlert('Subject and email content are required', 'warning');
-                return;
-            }
-
-            try {
-                const campaignData = {
-                    name: name,
-                    subject: subject,
-                    html: html,
-                    from: document.getElementById('campaignFrom').value.trim(),
-                    provider: document.getElementById('campaignProvider').value,
-                    dailyLimit: parseInt(document.getElementById('campaignDailyLimit').value) || 0,
-                    delayMs: parseInt(document.getElementById('campaignDelayMs').value) || null,
-                    recipients: selectedContacts,
-                    schedule: scheduleSlots,
-                    createdAt: new Date().toISOString(),
-                    status: 'active'
-                };
-
-                const encrypted = await encryptData(JSON.stringify(campaignData));
-                await createOrUpdateFile(`campaigns/${name}.json`, encrypted, `Campaign: ${name}`);
-                
-                showAlert('Campaign created/updated successfully!', 'success');
-                
-            } catch (error) {
-                showAlert('Error creating campaign: ' + error.message, 'danger');
-            }
-        }
-
-        async function listCampaigns() {
-            const owner = document.getElementById('repoOwner').value;
-            const repo = document.getElementById('repoName').value;
-            const pat = document.getElementById('githubPat').value;
-
-            try {
-                const response = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/campaigns`, {
-                    headers: {
-                        'Authorization': `Bearer ${pat}`,
-                        'Accept': 'application/vnd.github.v3+json'
-                    }
-                });
-
-                if (response.ok) {
-                    const files = await response.json();
-                    const campaigns = files.filter(f => f.name.endsWith('.json'));
-                    
-                    document.getElementById('campaignsList').innerHTML = `
-                        <h6>Available Campaigns (${campaigns.length})</h6>
-                        <div class="list-group">
-                            ${campaigns.map(c => `
-                                <div class="list-group-item list-group-item-dark d-flex justify-content-between align-items-center">
-                                    <span>${c.name.replace('.json', '')}</span>
-                                    <div>
-                                        <button class="btn btn-sm btn-outline-info me-1" onclick="loadCampaign('${c.name.replace('.json', '')}')">
-                                            <i class="fas fa-download"></i> Load
-                                        </button>
-                                        <button class="btn btn-sm btn-outline-warning" onclick="duplicateCampaign('${c.name.replace('.json', '')}')">
-                                            <i class="fas fa-copy"></i> Duplicate
-                                        </button>
-                                    </div>
-                                </div>
-                            `).join('')}
-                        </div>
-                    `;
-                } else {
-                    document.getElementById('campaignsList').innerHTML = '<p class="text-muted">No campaigns folder found or empty</p>';
-                }
-            } catch (error) {
-                showAlert('Error listing campaigns: ' + error.message, 'danger');
-            }
-        }
-
-        async function loadCampaign(name) {
-            const owner = document.getElementById('repoOwner').value;
-            const repo = document.getElementById('repoName').value;
-            const pat = document.getElementById('githubPat').value;
-
-            try {
-                const response = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/campaigns/${name}.json`, {
-                    headers: {
-                        'Authorization': `Bearer ${pat}`,
-                        'Accept': 'application/vnd.github.v3+json'
-                    }
-                });
-
-                if (response.ok) {
-                    const file = await response.json();
-                    const encryptedContent = atob(file.content);
-                    const decryptedContent = await decryptData(encryptedContent);
-                    const campaign = JSON.parse(decryptedContent);
-
-                    // Load campaign data into form
-                    document.getElementById('campaignName').value = campaign.name;
-                    document.getElementById('emailSubject').value = campaign.subject;
-                    document.getElementById('campaignFrom').value = campaign.from || '';
-                    document.getElementById('campaignProvider').value = campaign.provider;
-                    document.getElementById('campaignDailyLimit').value = campaign.dailyLimit || 0;
-                    document.getElementById('campaignDelayMs').value = campaign.delayMs || '';
-
-                    // Load content
-                    if (isHtmlMode) {
-                        document.getElementById('htmlContent').value = campaign.html;
-                    } else {
-                        quill.root.innerHTML = campaign.html;
-                    }
-
-                    // Load contacts
-                    contacts = campaign.recipients || [];
-                    renderContactsTable();
-
-                    // Load schedule
-                    if (campaign.schedule) {
-                        scheduleSlots = campaign.schedule;
-                        renderScheduleSlots();
-                    }
-
-                    showAlert(`Campaign "${name}" loaded successfully!`, 'success');
-                } else {
-                    throw new Error('Campaign not found');
-                }
-            } catch (error) {
-                showAlert('Error loading campaign: ' + error.message, 'danger');
-            }
-        }
-
-        async function pauseResumeCampaign(action) {
-            const name = document.getElementById('campaignName').value.trim();
-            if (!name) {
-                showAlert('Please specify campaign name', 'warning');
-                return;
-            }
-
-            try {
-                // Load existing campaign
-                const owner = document.getElementById('repoOwner').value;
-                const repo = document.getElementById('repoName').value;
-                const pat = document.getElementById('githubPat').value;
-
-                const response = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/campaigns/${name}.json`, {
-                    headers: {
-                        'Authorization': `Bearer ${pat}`,
-                        'Accept': 'application/vnd.github.v3+json'
-                    }
-                });
-
-                if (response.ok) {
-                    const file = await response.json();
-                    const encryptedContent = atob(file.content);
-                    const decryptedContent = await decryptData(encryptedContent);
-                    const campaign = JSON.parse(decryptedContent);
-
-                    // Update status
-                    const statusMap = {
-                        pause: 'paused',
-                        resume: 'active', 
-                        stop: 'stopped'
-                    };
-                    campaign.status = statusMap[action];
-
-                    // Save updated campaign
-                    const encrypted = await encryptData(JSON.stringify(campaign));
-                    await createOrUpdateFile(`campaigns/${name}.json`, encrypted, `Campaign ${action}: ${name}`);
-
-                    showAlert(`Campaign ${action}d successfully!`, 'success');
-                } else {
-                    throw new Error('Campaign not found');
-                }
-            } catch (error) {
-                showAlert(`Error ${action}ing campaign: ${error.message}`, 'danger');
-            }
-        }
-
-        async function refreshDashboard() {
-            const owner = document.getElementById('repoOwner').value;
-            const repo = document.getElementById('repoName').value;
-            const pat = document.getElementById('githubPat').value;
-
-            if (!owner || !repo || !pat) {
-                showAlert('Please configure repository settings first', 'warning');
-                return;
-            }
-
-            try {
-                document.getElementById('dashboardContent').innerHTML = '<div class="text-center"><i class="fas fa-spinner fa-spin"></i> Loading...</div>';
-
-                // Get campaigns
-                const campaignsResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/campaigns`, {
-                    headers: {
-                        'Authorization': `Bearer ${pat}`,
-                        'Accept': 'application/vnd.github.v3+json'
-                    }
-                }).catch(() => ({ ok: false }));
-
-                // Get states
-                const statesResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/state`, {
-                    headers: {
-                        'Authorization': `Bearer ${pat}`,
-                        'Accept': 'application/vnd.github.v3+json'
-                    }
-                }).catch(() => ({ ok: false }));
-
-                let dashboardHtml = '<div class="row g-4">';
-
-                if (campaignsResponse.ok) {
-                    const campaignFiles = await campaignsResponse.json();
-                    const campaigns = campaignFiles.filter(f => f.name.endsWith('.json'));
-
-                    dashboardHtml += `
-                        <div class="col-md-6">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h6><i class="fas fa-bullhorn"></i> Campaigns Overview</h6>
-                                </div>
-                                <div class="card-body">
-                                    <p><strong>Total Campaigns:</strong> ${campaigns.length}</p>
-                                    <div class="list-group list-group-flush">
-                                        ${campaigns.slice(0, 5).map(c => `
-                                            <div class="list-group-item list-group-item-dark">
-                                                ${c.name.replace('.json', '')}
-                                            </div>
-                                        `).join('')}
-                                        ${campaigns.length > 5 ? `<div class="list-group-item list-group-item-dark text-muted">... and ${campaigns.length - 5} more</div>` : ''}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                } else {
-                    dashboardHtml += `
-                        <div class="col-md-6">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h6><i class="fas fa-bullhorn"></i> Campaigns Overview</h6>
-                                </div>
-                                <div class="card-body">
-                                    <p class="text-muted">No campaigns found</p>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                }
-
-                if (statesResponse.ok) {
-                    const stateFiles = await statesResponse.json();
-                    dashboardHtml += `
-                        <div class="col-md-6">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h6><i class="fas fa-chart-line"></i> Execution States</h6>
-                                </div>
-                                <div class="card-body">
-                                    <p><strong>Active States:</strong> ${stateFiles.length}</p>
-                                    <div class="list-group list-group-flush">
-                                        ${stateFiles.slice(0, 5).map(s => `
-                                            <div class="list-group-item list-group-item-dark">
-                                                ${s.name.replace('.json', '')}
-                                            </div>
-                                        `).join('')}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                } else {
-                    dashboardHtml += `
-                        <div class="col-md-6">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h6><i class="fas fa-chart-line"></i> Execution States</h6>
-                                </div>
-                                <div class="card-body">
-                                    <p class="text-muted">No execution states found</p>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                }
-
-                // Recent Activity
-                const workflowResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/actions/runs?per_page=5`, {
-                    headers: {
-                        'Authorization': `Bearer ${pat}`,
-                        'Accept': 'application/vnd.github.v3+json'
-                    }
-                }).catch(() => ({ ok: false }));
-
-                if (workflowResponse.ok) {
-                    const workflows = await workflowResponse.json();
-                    dashboardHtml += `
-                        <div class="col-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h6><i class="fas fa-history"></i> Recent Workflow Runs</h6>
-                                </div>
-                                <div class="card-body">
-                                    ${workflows.workflow_runs.length > 0 ? `
-                                        <div class="table-responsive">
-                                            <table class="table table-dark table-sm">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Status</th>
-                                                        <th>Conclusion</th>
-                                                        <th>Started</th>
-                                                        <th>Duration</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    ${workflows.workflow_runs.map(run => {
-                                                        const started = new Date(run.created_at);
-                                                        const finished = run.updated_at ? new Date(run.updated_at) : null;
-                                                        const duration = finished ? Math.round((finished - started) / 1000) : 'N/A';
-                                                        
-                                                        return `
-                                                            <tr>
-                                                                <td><span class="badge bg-${run.status === 'completed' ? 'success' : 'warning'}">${run.status}</span></td>
-                                                                <td><span class="badge bg-${run.conclusion === 'success' ? 'success' : 'danger'}">${run.conclusion || 'N/A'}</span></td>
-                                                                <td>${started.toLocaleString()}</td>
-                                                                <td>${duration}s</td>
-                                                            </tr>
-                                                        `;
-                                                    }).join('')}
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    ` : '<p class="text-muted">No workflow runs found</p>'}
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                }
-
-                dashboardHtml += '</div>';
-                document.getElementById('dashboardContent').innerHTML = dashboardHtml;
-
-            } catch (error) {
-                document.getElementById('dashboardContent').innerHTML = `
-                    <div class="alert alert-danger">
-                        <i class="fas fa-exclamation-triangle"></i> Error loading dashboard: ${error.message}
-                    </div>
-                `;
-            }
-        }
-
-        async function encryptData(data) {
-            const key = document.getElementById('encryptionKey').value;
-            if (!key) throw new Error('Encryption key is required');
-
-            const encoder = new TextEncoder();
-            const keyMaterial = await crypto.subtle.importKey(
-                'raw',
-                encoder.encode(key),
-                'PBKDF2',
-                false,
-                ['deriveKey']
-            );
-
-            const salt = crypto.getRandomValues(new Uint8Array(16));
-            const cryptoKey = await crypto.subtle.deriveKey(
-                {
-                    name: 'PBKDF2',
-                    salt: salt,
-                    iterations: 100000,
-                    hash: 'SHA-256'
-                },
-                keyMaterial,
-                { name: 'AES-GCM', length: 256 },
-                false,
-                ['encrypt']
-            );
-
-            const iv = crypto.getRandomValues(new Uint8Array(12));
-            const encrypted = await crypto.subtle.encrypt(
-                { name: 'AES-GCM', iv: iv },
-                cryptoKey,
-                encoder.encode(data)
-            );
-
-            const result = new Uint8Array(salt.length + iv.length + encrypted.byteLength);
-            result.set(salt, 0);
-            result.set(iv, salt.length);
-            result.set(new Uint8Array(encrypted), salt.length + iv.length);
-
-            return btoa(String.fromCharCode.apply(null, result));
-        }
-
-        async function decryptData(encryptedData) {
-            const key = document.getElementById('encryptionKey').value;
-            if (!key) throw new Error('Encryption key is required');
-
-            const data = new Uint8Array(atob(encryptedData).split('').map(c => c.charCodeAt(0)));
-            const salt = data.slice(0, 16);
-            const iv = data.slice(16, 28);
-            const encrypted = data.slice(28);
-
-            const encoder = new TextEncoder();
-            const keyMaterial = await crypto.subtle.importKey(
-                'raw',
-                encoder.encode(key),
-                'PBKDF2',
-                false,
-                ['deriveKey']
-            );
-
-            const cryptoKey = await crypto.subtle.deriveKey(
-                {
-                    name: 'PBKDF2',
-                    salt: salt,
-                    iterations: 100000,
-                    hash: 'SHA-256'
-                },
-                keyMaterial,
-                { name: 'AES-GCM', length: 256 },
-                false,
-                ['decrypt']
-            );
-
-            const decrypted = await crypto.subtle.decrypt(
-                { name: 'AES-GCM', iv: iv },
-                cryptoKey,
-                encrypted
-            );
-
-            return new TextDecoder().decode(decrypted);
-        }
-
-        function showAlert(message, type = 'info') {
-            const alertDiv = document.createElement('div');
-            alertDiv.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
-            alertDiv.style.cssText = 'top: 20px; right: 20px; z-index: 9999; max-width: 400px;';
-            alertDiv.innerHTML = `
-                ${message}
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            `;
-            document.body.appendChild(alertDiv);
-            
-            setTimeout(() => {
-                if (alertDiv.parentNode) {
-                    alertDiv.remove();
-                }
-            }, 5000);
-        }
-
-        function getWorkflowContent() {
-            return `name: PGI Send Mailer
-
+    <div class="row" style="margin:10px 0">
+      <div class="grow flex">
+        <div class="grow">
+          <label>Ajouter un email à la volée</label>
+          <input id="addEmail" type="text" placeholder="email@ex.com, Prénom, Nom (facultatif)" />
+        </div>
+        <button class="btn secondary" onclick="addOne()">Ajouter</button>
+      </div>
+      <div class="pill right"><span id="stats">0 contacts</span></div>
+    </div>
+
+    <div class="list">
+      <table id="tblContacts">
+        <thead><tr>
+          <th style="width:34px"><input type="checkbox" id="chkAll" /></th>
+          <th>Email</th><th>Prénom</th><th>Nom</th><th>État</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="row" style="margin-top:10px">
+      <button class="btn ok" onclick="exportSelection()">Exporter CSV (sélection)</button>
+      <div class="hint">Les contacts sont chiffrés (AES-256-GCM) dans les fichiers de campagne.</div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>5) Planification avancée (par jour, à la minute près)</h2>
+    <div class="hint">Règle des <b>slots</b> : <b>de</b> HH:MM <b>à</b> HH:MM • <b>X mails</b> toutes les <b>Y minutes</b>. Plusieurs slots par jour possibles.</div>
+    <div class="calendar" id="cal"></div>
+  </section>
+
+  <section class="card">
+    <h2>6) Campagne & automatisation</h2>
+    <div class="row">
+      <div class="grow"><label>Nom de la campagne</label><input id="campaignName" type="text" placeholder="Promo Septembre" /></div>
+      <div style="width:200px"><label>Limite / jour (optionnel)</label><input id="dailyLimit" type="number" min="0" placeholder="ex : 100" /></div>
+      <div style="width:220px"><label>Délai entre mails (ms)</label><input id="delayMs" type="number" min="0" value="2000" /></div>
+    </div>
+    <div class="row" style="margin-top:10px">
+      <button class="btn secondary" id="btnSaveCampaign">Créer / mettre à jour la campagne</button>
+      <button class="btn" id="btnListCampaigns">Lister campagnes</button>
+      <button class="btn ghost" id="btnPause">Pause</button>
+      <button class="btn ghost" id="btnResume">Reprendre</button>
+      <button class="btn danger" id="btnStop">Arrêt définitif</button>
+    </div>
+    <div class="hint">Le dépôt contiendra <code>campaigns/*.json</code> (chiffré), <code>state/</code> (suivi persistant), et <code>.github/workflows/</code> (automatisation).</div>
+  </section>
+
+  <section class="card">
+    <h2>7) Tableau de bord</h2>
+    <div id="dash" class="row"></div>
+  </section>
+
+</div>
+
+<script>
+/* ============================
+   THEME
+============================ */
+const themeToggle = document.getElementById('themeToggle');
+themeToggle.addEventListener('change',()=> {
+  document.documentElement.setAttribute('data-theme', themeToggle.checked?'dark':'light');
+  localStorage.setItem('pgi_theme', themeToggle.checked?'dark':'light');
+});
+(function initTheme(){
+  const t = localStorage.getItem('pgi_theme');
+  if(t){ document.documentElement.setAttribute('data-theme', t); themeToggle.checked=(t==='dark'); }
+})();
+
+/* ============================
+   GLOBAL STATE
+============================ */
+let CONTACTS = [];   // [{email,prenom,nom,checked:true}]
+let CURRENT_CAMPAIGN_ID = null;
+const DAYS = ['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];
+
+/* ============================
+   UTILITAIRES
+============================ */
+const $ = sel => document.querySelector(sel);
+const $$ = sel => Array.from(document.querySelectorAll(sel));
+const enc = str => btoa(unescape(encodeURIComponent(str)));
+const dec = b64 => decodeURIComponent(escape(atob(b64)));
+const fmt = (n) => n.toLocaleString('fr-FR');
+
+function notify(msg, ok=true){
+  const el = document.createElement('div');
+  el.textContent = msg;
+  el.style.position='fixed'; el.style.right='16px'; el.style.bottom='16px';
+  el.style.background = ok ? 'linear-gradient(135deg,#b9ffd7,#24d17e)' : 'linear-gradient(135deg,#ff9fb4,#ff3b6b)';
+  el.style.color = '#05130c'; el.style.padding='10px 14px'; el.style.borderRadius='10px';
+  el.style.boxShadow='var(--shadow)'; el.style.zIndex='9999'; el.style.fontWeight='800';
+  document.body.appendChild(el); setTimeout(()=>el.remove(),3200);
+}
+
+/* ============================
+   REPO CONFIG (local)
+============================ */
+const cfg = { owner: $('#ghOwner'), repo: $('#ghRepo'), branch: $('#ghBranch'), token: $('#ghToken'), encKey: $('#encKey') };
+(function loadCfg(){
+  try{
+    const s = JSON.parse(localStorage.getItem('pgi_cfg')||'{}');
+    cfg.owner.value=s.owner||''; cfg.repo.value=s.repo||''; cfg.branch.value=s.branch||'main';
+    cfg.token.value=s.token||''; cfg.encKey.value=s.encKey||'';
+  }catch(e){}
+})();
+$('#btnSaveCfg').onclick = ()=>{
+  localStorage.setItem('pgi_cfg', JSON.stringify({
+    owner:cfg.owner.value.trim(), repo:cfg.repo.value.trim(), branch:cfg.branch.value.trim(),
+    token:cfg.token.value.trim(), encKey:cfg.encKey.value
+  }));
+  notify('Configuration locale enregistrée');
+};
+
+/* ============================
+   RECOMMANDATIONS FOURNISSEUR
+============================ */
+function providerAdvice(v){
+  if(v==='gmail') return `
+  <b>Gmail — recommandations anti-spam / anti-ban</b><br>
+  • Quota conseillé : 100 / jour (perso), jusqu’à ~500 (Workspace).<br>
+  • Débit sûr : 1 mail / 60 s (tu peux réduire, mais prudence).<br>
+  • SPF/DKIM/DMARC si domaine perso • Mot de passe d’application (2FA).<br>
+  • Varie objet/contenu (merge tags), lien de désinscription, évite mots spam.
+  `;
+  if(v==='outlook') return `
+  <b>Outlook / Microsoft 365 — recommandations</b><br>
+  • Quota conseillé : 200–300 / jour (perso), 500+ en 365 selon policy.<br>
+  • Débit sûr : 1 mail / 120 s • Évite HTML trop lourd / liens raccourcis.<br>
+  • SPF/DKIM recommandés • Varie le contenu, images optimisées.
+  `;
+  return `
+  <b>SMTP générique / autres (Zoho, Infomaniak, IONOS, Mailgun…)</b><br>
+  • Respecte le quota de ton fournisseur (ex. Infomaniak 300/j, IONOS 250/j, Mailgun ≥ 10k/j).<br>
+  • SPF/DKIM/DMARC configurés • Mentions légales + lien désinscription.<br>
+  • Débit: 1 mail / 0.5–10 s selon tolérance (réglable via “Délai entre mails”).
+  `;
+}
+const provider = $('#provider'); const recs = $('#providerRecs');
+provider.onchange = ()=>{ recs.innerHTML = providerAdvice(provider.value); };
+recs.innerHTML = providerAdvice(provider.value);
+
+/* ============================
+   WYSIWYG SIMPLE
+============================ */
+function syncToCode(){ $('#editorCode').value = $('#editor').innerHTML.trim(); }
+function syncFromCode(){ $('#editor').innerHTML = $('#editorCode').value; }
+function toggleHtml(){
+  const code = $('#editorCode'); const ed = $('#editor');
+  if(code.classList.contains('codeview')){
+    syncToCode(); code.classList.remove('codeview'); ed.style.display='none'; code.style.display='block';
+  }else{
+    syncFromCode(); code.classList.add('codeview'); ed.style.display='block'; code.style.display='none';
+  }
+}
+function execCmd(cmd){ document.execCommand(cmd,false,null); syncToCode(); }
+function applyHeading(tag){ document.execCommand('formatBlock', false, tag); syncToCode(); }
+function makeLink(){ const url = prompt("URL du lien ?"); if(url){ document.execCommand('createLink', false, url); syncToCode(); } }
+function insertImage(){ const url = prompt("URL de l'image ?"); if(url){ document.execCommand('insertImage', false, url); syncToCode(); } }
+function undo(){ document.execCommand('undo',false,null); syncToCode(); }
+function redo(){ document.execCommand('redo',false,null); syncToCode(); }
+function copyRaw(){ syncToCode(); const ta=$('#editorCode'); const prev=ta.style.display; ta.style.display='block'; ta.select(); document.execCommand('copy'); ta.style.display=prev; notify('HTML copié'); }
+
+/* ============================
+   CONTACTS
+============================ */
+const tblBody = $('#tblContacts tbody');
+$('#chkAll').addEventListener('change', e=>{ CONTACTS.forEach(c=>c.checked=e.target.checked); renderContacts(); });
+$('#btnClear').onclick = ()=>{ CONTACTS=[]; renderContacts(); $('#contactsPaste').value=''; $('#contactsFile').value=''; };
+$('#btnParse').onclick = parseAndAdd;
+
+function parseCSV(text){
+  const lines = text.split(/\r?\n/).map(l=>l.trim()).filter(Boolean);
+  const out=[]; for(const l of lines){
+    const parts = splitCSV(l);
+    const email = (parts[0]||'').trim();
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) continue;
+    out.push({ email:email.toLowerCase(), prenom:(parts[1]||'').trim(), nom:(parts[2]||'').trim(), checked:true });
+  } return out;
+}
+function splitCSV(line){
+  //  simple parser with quotes ; or , separators
+  const res=[]; let cur='', inQ=false;
+  for(let i=0;i<line.length;i++){
+    const ch=line[i];
+    if(ch=='"'){ inQ=!inQ; continue; }
+    if(!inQ && (ch==',' || ch==';')){ res.push(cur); cur=''; continue; }
+    cur+=ch;
+  } res.push(cur); return res;
+}
+function parseAndAdd(){
+  const pasted = $('#contactsPaste').value.trim();
+  const file = $('#contactsFile').files[0];
+  if(pasted) CONTACTS = CONTACTS.concat(parseCSV(pasted));
+  if(file){
+    const r = new FileReader();
+    r.onload = ()=>{ CONTACTS = CONTACTS.concat(parseCSV(r.result)); CONTACTS = dedup(CONTACTS); sortContacts(); renderContacts(); };
+    r.readAsText(file);
+  } else { CONTACTS = dedup(CONTACTS); sortContacts(); renderContacts(); }
+}
+function dedup(list){ const m=new Map(); for(const c of list){ if(!m.has(c.email)) m.set(c.email,c); } return Array.from(m.values()); }
+function sortContacts(){ CONTACTS.sort((a,b)=>a.email.localeCompare(b.email,'fr')); }
+function renderContacts(){
+  tblBody.innerHTML='';
+  CONTACTS.forEach((c,i)=>{
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><input type="checkbox" ${c.checked?'checked':''} data-ix="${i}"></td>
+      <td>${maskEmail(c.email)}</td>
+      <td>${escapeHtml(c.prenom||'')}</td>
+      <td>${escapeHtml(c.nom||'')}</td>
+      <td>${c.checked?'<span class="badge">ON</span>':'<span class="pill">OFF</span>'}</td>`;
+    tblBody.appendChild(tr);
+  });
+  tblBody.querySelectorAll('input[type=checkbox]').forEach(ch=>{
+    ch.addEventListener('change', e=>{
+      const ix = +e.target.getAttribute('data-ix'); CONTACTS[ix].checked = e.target.checked; renderContacts();
+    });
+  });
+  $('#stats').textContent = `${fmt(CONTACTS.length)} contacts (sélectionnés: ${fmt(CONTACTS.filter(c=>c.checked).length)})`;
+}
+function addOne(){
+  const v = $('#addEmail').value.trim(); if(!v) return;
+  const parts = splitCSV(v); const email = parts[0]||'';
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return notify('Email invalide', false);
+  CONTACTS.push({email:email.toLowerCase(), prenom:(parts[1]||''), nom:(parts[2]||''), checked:true});
+  CONTACTS = dedup(CONTACTS); sortContacts(); renderContacts(); $('#addEmail').value='';
+}
+function maskEmail(e){ const [u,d] = e.split('@'); const m = u.length>3 ? u.slice(0,2)+'***'+u.slice(-1) : u[0]+'*'; const dd = d.replace(/(^.).+(\..+$)/,(_,a,b)=>a+'***'+b); return m+'@'+dd; }
+function escapeHtml(s){return s.replace(/[&<>"']/g,m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m]))}
+function exportSelection(){ const rows = CONTACTS.filter(c=>c.checked).map(c=>[c.email,c.prenom||'',c.nom||''].join(',')); const blob = new Blob([rows.join('\n')],{type:'text/csv;charset=utf-8'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='contacts_selection.csv'; a.click(); }
+
+$('#addEmail').addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); addOne(); }});
+
+/* ============================
+   PLANIFICATION (slots par jour)
+============================ */
+const cal = $('#cal');
+const daySlots = [[],[],[],[],[],[],[]]; // 0..6 (Lun..Dim)
+function renderCalendar(){
+  cal.innerHTML='';
+  for(let d=0; d<7; d++){
+    const box = document.createElement('div');
+    box.className='slot';
+    box.innerHTML = `<div class="row" style="align-items:center;justify-content:space-between">
+        <div><b>${DAYS[d]}</b></div>
+        <button class="tbtn" onclick="addSlot(${d})">+ Ajouter un créneau</button>
+      </div>
+      <div id="slots_${d}"></div>`;
+    cal.appendChild(box);
+    redrawSlots(d);
+  }
+}
+function addSlot(d){ daySlots[d].push({ start:'09:00', end:'12:00', every:2, batch:2, active:true }); redrawSlots(d); }
+function delSlot(d,i){ daySlots[d].splice(i,1); redrawSlots(d); }
+function redrawSlots(d){
+  const wrap = $('#slots_'+d); wrap.innerHTML='';
+  daySlots[d].forEach((s,i)=>{
+    const row = document.createElement('div');
+    row.className='row';
+    row.innerHTML = `
+      <div class="grow"><label>De</label><input type="time" value="${s.start}" data-k="start" data-d="${d}" data-i="${i}"></div>
+      <div class="grow"><label>À</label><input type="time" value="${s.end}" data-k="end" data-d="${d}" data-i="${i}"></div>
+      <div style="width:140px"><label>Toutes les (min)</label><input type="number" min="1" value="${s.every}" data-k="every" data-d="${d}" data-i="${i}"></div>
+      <div style="width:160px"><label>Quantité / tick</label><input type="number" min="1" value="${s.batch}" data-k="batch" data-d="${d}" data-i="${i}"></div>
+      <div style="width:120px"><label>Actif</label><select data-k="active" data-d="${d}" data-i="${i}"><option value="true" ${s.active?'selected':''}>Oui</option><option value="false" ${!s.active?'selected':''}>Non</option></select></div>
+      <div style="width:52px"><button class="tbtn" onclick="delSlot(${d},${i})">🗑</button></div>`;
+    wrap.appendChild(row);
+  });
+  wrap.querySelectorAll('input,select').forEach(el=>{
+    el.addEventListener('input', e=>{
+      const d=+el.getAttribute('data-d'), i=+el.getAttribute('data-i'), k=el.getAttribute('data-k');
+      daySlots[d][i][k] = (k==='every'||k==='batch') ? +el.value : (k==='active'? (el.value==='true'): el.value);
+    });
+  });
+}
+renderCalendar();
+
+/* ============================
+   CRYPTO (AES-256-GCM via WebCrypto)
+============================ */
+async function deriveKey(passphrase, saltB){
+  const enc = new TextEncoder().encode(passphrase);
+  const keyMat = await crypto.subtle.importKey('raw', enc, 'PBKDF2', false, ['deriveKey']);
+  return crypto.subtle.deriveKey(
+    {name:'PBKDF2', salt:saltB, iterations:100000, hash:'SHA-256'},
+    keyMat, {name:'AES-GCM', length:256}, false, ['encrypt','decrypt']
+  );
+}
+function b64ab(buf){ return btoa(String.fromCharCode(...new Uint8Array(buf))); }
+function abFromB64(b64){ return Uint8Array.from(atob(b64), c=>c.charCodeAt(0)).buffer; }
+async function encryptContacts(contacts, passphrase){
+  const payload = JSON.stringify(contacts);
+  const iv = crypto.getRandomValues(new Uint8Array(12));
+  const salt = crypto.getRandomValues(new Uint8Array(16));
+  const key = await deriveKey(passphrase, salt);
+  const ct = await crypto.subtle.encrypt({name:'AES-GCM', iv}, key, new TextEncoder().encode(payload));
+  return { iv:b64ab(iv), salt:b64ab(salt), data:b64ab(ct), algo:'AES-256-GCM', kdf:'PBKDF2-SHA256', it:100000, tagLen:128 };
+}
+
+/* ============================
+   GITHUB API
+============================ */
+function ghHeaders(){ return { 'Authorization':'token '+cfg.token.value.trim(), 'Accept':'application/vnd.github+json' }; }
+const ghBase = () => `https://api.github.com/repos/${encodeURIComponent(cfg.owner.value.trim())}/${encodeURIComponent(cfg.repo.value.trim())}`;
+async function ghGet(path){
+  const r = await fetch(`${ghBase()}/${path}?ref=${encodeURIComponent(cfg.branch.value.trim())}`, {headers:ghHeaders()});
+  if(!r.ok) return null; return r.json();
+}
+async function ghPutFile(path, contentStr, message){
+  const url = `${ghBase()}/contents/${encodeURIComponent(path)}`;
+  let sha = null; const curr = await ghGet(`contents/${encodeURIComponent(path)}`); if(curr && curr.sha) sha = curr.sha;
+  const body = { message, content: enc(contentStr), branch: cfg.branch.value.trim() };
+  if(sha) body.sha = sha;
+  const r = await fetch(url,{ method:'PUT', headers:{...ghHeaders(),'Content-Type':'application/json'}, body:JSON.stringify(body)});
+  if(!r.ok){ const t=await r.text(); throw new Error(`PUT ${path} → ${r.status}: ${t}`); }
+  return r.json();
+}
+async function ghListDir(path){
+  const r = await ghGet(`contents/${encodeURIComponent(path)}`); if(!r || !Array.isArray(r)) return [];
+  return r.filter(x=>x.type==='file').map(x=>x.name);
+}
+
+/* ============================
+   AUTOMATION FILES (bootstrap)
+============================ */
+function workflowYml(){
+return `name: PGI Mailer
 on:
-  schedule:
-    - cron: '*/5 * * * *'
   push:
     paths:
       - 'campaigns/**'
-  workflow_dispatch:
-
+  schedule:
+    - cron: '*/5 * * * *'
 concurrency:
   group: pgi-mailer
   cancel-in-progress: false
-
 env:
   TZ: Europe/Paris
-
 jobs:
-  send-emails:
+  send:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
-          token: \${{ secrets.GITHUB_TOKEN }}
-          
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
         with:
           node-version: '18'
-          
-      - name: Install dependencies
-        run: |
-          cd mailer
-          npm install
-          
-      - name: Run email sender
+      - name: Install deps
+        working-directory: mailer
+        run: npm install
+      - name: Send batch
+        working-directory: mailer
         env:
-          GITHUB_TOKEN: \${{ secrets.GITHUB_TOKEN }}
-          PGI_ENC_KEY: \${{ secrets.PGI_ENC_KEY }}
+          PROVIDER: \${{ vars.PROVIDER }}
           GMAIL_USER: \${{ secrets.GMAIL_USER }}
           GMAIL_PASS: \${{ secrets.GMAIL_PASS }}
           GMAIL_FROM: \${{ secrets.GMAIL_FROM }}
@@ -1468,513 +561,336 @@ jobs:
           SMTP_USER: \${{ secrets.SMTP_USER }}
           SMTP_PASS: \${{ secrets.SMTP_PASS }}
           SMTP_FROM: \${{ secrets.SMTP_FROM }}
+          PGI_ENC_KEY: \${{ secrets.PGI_ENC_KEY }}
+        run: node send.js
+      - name: Persist state
         run: |
-          cd mailer
-          node send.js`;
-        }
-
-        function getPackageJsonContent() {
-            return `{
+          git config user.name "PGI Send"
+          git config user.email "bot@pgi-send.local"
+          git add state/*
+          if ! git diff --cached --quiet; then
+            git commit -m "PGI state update [skip ci]"
+            git push
+          fi
+`;
+}
+function pkgJson(){
+return `{
   "name": "pgi-send-mailer",
-  "version": "1.0.0",
-  "description": "PGI Send email campaign mailer",
-  "main": "send.js",
-  "scripts": {
-    "start": "node send.js"
-  },
+  "version": "1.0.1",
+  "type": "module",
   "dependencies": {
-    "nodemailer": "^6.9.7"
+    "nodemailer": "^6.9.14",
+    "date-fns-tz": "^2.0.0"
   }
 }`;
-        }
+}
+function sendJs(){
+return `import fs from 'fs/promises';
+import path from 'path';
+import crypto from 'crypto';
+import nodemailer from 'nodemailer';
+import { utcToZonedTime, format } from 'date-fns-tz';
 
-        function getSendJsContent() {
-            return `const fs = require('fs').promises;
-const path = require('path');
-const crypto = require('crypto');
-const nodemailer = require('nodemailer');
+const ROOT = process.cwd();
+const CAMP_DIR = path.join(ROOT,'..','campaigns');
+const STATE_DIR = path.join(ROOT,'..','state');
+const TZ = 'Europe/Paris';
 
-const REPO_OWNER = process.env.GITHUB_REPOSITORY?.split('/')[0] || '';
-const REPO_NAME = process.env.GITHUB_REPOSITORY?.split('/')[1] || '';
-const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
-const ENC_KEY = process.env.PGI_ENC_KEY;
+async function ensureDirs(){ await fs.mkdir(CAMP_DIR,{recursive:true}); await fs.mkdir(STATE_DIR,{recursive:true}); }
+function todayKey(d=new Date()){ const z = utcToZonedTime(d, TZ); return format(z,'yyyy-MM-dd',{timeZone:TZ}); }
+async function listCampaigns(){ try{ const files = await fs.readdir(CAMP_DIR); return files.filter(f=>f.endsWith('.json')).map(f=>path.join(CAMP_DIR,f)); }catch{ return []; } }
+async function readJson(p){ return JSON.parse(await fs.readFile(p,'utf8')); }
+async function writeJson(p, obj){ await fs.writeFile(p, JSON.stringify(obj,null,2)); }
+function parseHM(s){ const [h,m]=s.split(':').map(n=>+n); return {h,m}; }
 
-// Day names mapping
-const DAY_NAMES = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
-
-async function main() {
-    try {
-        console.log('🚀 PGI Send Mailer starting...');
-        
-        if (!ENC_KEY) {
-            throw new Error('PGI_ENC_KEY environment variable is required');
-        }
-
-        // Ensure directories exist
-        await ensureDir('campaigns');
-        await ensureDir('state');
-
-        // Get all campaign files
-        const campaignFiles = await getCampaignFiles();
-        console.log(\`📧 Found \${campaignFiles.length} campaign(s)\`);
-
-        for (const campaignFile of campaignFiles) {
-            await processCampaign(campaignFile);
-        }
-
-        console.log('✅ PGI Send Mailer completed');
-    } catch (error) {
-        console.error('❌ Error in main:', error.message);
-        process.exit(1);
-    }
+function isNowInSlot(slot, now){
+  const {h:sh,m:sm}=parseHM(slot.start), {h:eh,m:em}=parseHM(slot.end);
+  const z = utcToZonedTime(now,TZ); const H=z.getHours(), M=z.getMinutes();
+  const startM = sh*60+sm, endM = eh*60+em, curM=H*60+M;
+  return slot.active && curM>=startM && curM<=endM;
+}
+function nextAlignedTick(slot, now){
+  const {h:sh,m:sm} = parseHM(slot.start);
+  const z = utcToZonedTime(now,TZ);
+  const base = new Date(z); base.setHours(sh,sm,0,0);
+  const every = Math.max(1, +slot.every|0);
+  let t = new Date(base);
+  while(t <= z){ t = new Date(t.getTime() + every*60000); }
+  return t;
 }
 
-async function ensureDir(dirPath) {
-    try {
-        await fs.access(dirPath);
-    } catch {
-        await fs.mkdir(dirPath, { recursive: true });
-    }
+function buildTransport(provider){
+  if(provider==='gmail'){
+    return nodemailer.createTransport({ host:'smtp.gmail.com', port:465, secure:true, auth:{ user:process.env.GMAIL_USER, pass:process.env.GMAIL_PASS }});
+  }
+  if(provider==='outlook'){
+    return nodemailer.createTransport({ host:'smtp.office365.com', port:587, secure:false, auth:{ user:process.env.OUTLOOK_USER, pass:process.env.OUTLOOK_PASS }});
+  }
+  return nodemailer.createTransport({
+    host: process.env.SMTP_HOST,
+    port: +(process.env.SMTP_PORT||587),
+    secure: String(process.env.SMTP_SECURE||'false')==='true',
+    auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS }
+  });
+}
+function fromAddress(provider, specified){
+  if(specified) return specified;
+  if(provider==='gmail') return process.env.GMAIL_FROM || process.env.GMAIL_USER;
+  if(provider==='outlook') return process.env.OUTLOOK_FROM || process.env.OUTLOOK_USER;
+  return process.env.SMTP_FROM || process.env.SMTP_USER;
+}
+function b64ToBuf(b64){ return Buffer.from(b64,'base64'); }
+function decryptRecipients(encBundle){
+  const pass = process.env.PGI_ENC_KEY;
+  if(!pass) throw new Error('PGI_ENC_KEY absente');
+  const salt = b64ToBuf(encBundle.salt);
+  const iv = b64ToBuf(encBundle.iv);
+  const data = b64ToBuf(encBundle.data);
+  const key = crypto.pbkdf2Sync(Buffer.from(pass,'utf8'), salt, encBundle.it||100000, 32, 'sha256');
+  const tagLen = (encBundle.tagLen||128)/8;
+  const tag = data.slice(data.length-tagLen);
+  const ct = data.slice(0, data.length-tagLen);
+  const decipher = crypto.createDecipheriv('aes-256-gcm', key, iv);
+  decipher.setAuthTag(tag);
+  const dec = Buffer.concat([decipher.update(ct), decipher.final()]);
+  return JSON.parse(dec.toString('utf8'));
 }
 
-async function getCampaignFiles() {
-    try {
-        const files = await fs.readdir('campaigns');
-        return files.filter(f => f.endsWith('.json'));
-    } catch {
-        return [];
-    }
+async function loadState(id){
+  const p = path.join(STATE_DIR, id+'.json');
+  try{ return JSON.parse(await fs.readFile(p,'utf8')); }
+  catch{ return { id, cursor:0, perDay:{}, completed:false, nextTickAt:null, lastTickAt:null, status:'active', lastError:null }; }
+}
+async function saveState(st){ const p = path.join(STATE_DIR, st.id+'.json'); await writeJson(p, st); }
+
+function providerDefaultDelay(provider){ if(provider==='gmail') return 2000; if(provider==='outlook') return 3000; return 1000; }
+const sleep = (ms)=> new Promise(r=>setTimeout(r,ms));
+function personalize(html,item){
+  return html.replaceAll('{{email}}', item.email)
+             .replaceAll('{{prenom}}', item.prenom||'')
+             .replaceAll('{{nom}}', item.nom||'');
 }
 
-async function processCampaign(campaignFile) {
-    const campaignName = path.basename(campaignFile, '.json');
-    console.log(\`\\n📋 Processing campaign: \${campaignName}\`);
-
-    try {
-        // Load and decrypt campaign
-        const encryptedContent = await fs.readFile(path.join('campaigns', campaignFile), 'utf8');
-        const campaign = JSON.parse(await decrypt(encryptedContent));
-
-        if (campaign.status !== 'active') {
-            console.log(\`⏸️  Campaign \${campaignName} is \${campaign.status}, skipping\`);
-            return;
-        }
-
-        // Load or create state
-        const statePath = path.join('state', \`\${campaignName}.json\`);
-        let state = await loadState(statePath);
-
-        const recipients = campaign.recipients.filter(r => r.checked);
-        if (!recipients || recipients.length === 0) {
-            console.log(\`⚠️  No recipients for campaign \${campaignName}\`);
-            return;
-        }
-
-        if (state.cursor >= recipients.length) {
-            console.log(\`✅ Campaign \${campaignName} already completed\`);
-            return;
-        }
-
-        const now = new Date();
-        const today = now.toISOString().split('T')[0];
-        const currentDay = DAY_NAMES[now.getDay()];
-        const currentTime = \`\${now.getHours().toString().padStart(2, '0')}:\${now.getMinutes().toString().padStart(2, '0')}\`;
-
-        // Reset daily count if new day
-        if (state.lastRunDay !== today) {
-            state.perDay[today] = 0;
-            state.lastRunDay = today;
-        }
-
-        const sentToday = state.perDay[today] || 0;
-        const dailyLimit = campaign.dailyLimit || 0;
-
-        if (dailyLimit > 0 && sentToday >= dailyLimit) {
-            console.log(\`📊 Daily limit reached for \${campaignName} (\${sentToday}/\${dailyLimit})\`);
-            return;
-        }
-
-        // Get active slots for current day
-        const daySchedule = campaign.schedule?.[currentDay] || [];
-        const activeSlots = daySchedule.filter(slot => 
-            slot.enabled && 
-            currentTime >= slot.start && 
-            currentTime <= slot.end
-        );
-
-        if (activeSlots.length === 0) {
-            console.log(\`⏰ No active time slots for \${campaignName} on \${currentDay} at \${currentTime}\`);
-            return;
-        }
-
-        // Process each active slot
-        let totalSent = 0;
-        
-        for (let i = 0; i < activeSlots.length; i++) {
-            const slot = activeSlots[i];
-            const slotKey = \`\${currentDay}#\${i}\`;
-            
-            const ticksSent = await processSlot(campaign, state, slot, slotKey, now, recipients, sentToday + totalSent);
-            totalSent += ticksSent;
-            
-            if (dailyLimit > 0 && sentToday + totalSent >= dailyLimit) {
-                console.log(\`📊 Daily limit reached after processing slot\`);
-                break;
-            }
-        }
-
-        // Update state
-        state.perDay[today] = sentToday + totalSent;
-        state.lastRun = now.toISOString();
-        
-        if (state.cursor >= recipients.length) {
-            state.completed = true;
-            console.log(\`🎉 Campaign \${campaignName} completed!\`);
-        }
-
-        await saveState(statePath, state);
-        
-        if (totalSent > 0) {
-            console.log(\`📤 Total sent for \${campaignName}: \${totalSent}\`);
-        }
-
-    } catch (error) {
-        console.error(\`❌ Error processing campaign \${campaignName}:, error.message\`);
-        
-        // Update state with error
-        try {
-            const statePath = path.join('state', \`\${campaignName}.json\`);
-            const state = await loadState(statePath);
-            state.lastError = error.message;
-            state.lastErrorAt = new Date().toISOString();
-            await saveState(statePath, state);
-        } catch (stateError) {
-            console.error('Failed to save error state:', stateError.message);
-        }
-    }
+async function sendOne(tr, from, to, subject, html){
+  await tr.sendMail({ from, to, subject, html });
 }
 
-async function processSlot(campaign, state, slot, slotKey, now, recipients, currentSentToday) {
-    console.log(\`⏰ Processing slot: \${slot.start}-\${slot.end}, every \${slot.every}min, batch \${slot.batch}\`);
-    
-    // Initialize slot state if needed
-    if (!state.lastTickAt[slotKey]) {
-        // Find first aligned tick time
-        const [startHour, startMin] = slot.start.split(':').map(Number);
-        const slotStart = new Date(now);
-        slotStart.setHours(startHour, startMin, 0, 0);
-        
-        // Find next aligned tick
-        let alignedTick = new Date(slotStart);
-        while (alignedTick <= now) {
-            alignedTick = new Date(alignedTick.getTime() + slot.every * 60000);
-        }
-        
-        state.lastTickAt[slotKey] = alignedTick.toISOString();
-        console.log(\`🔧 Initialized slot \${slotKey} with first tick at \${alignedTick.toISOString()}\`);
-        return 0; // Don't send on initialization
+async function run(){
+  await ensureDirs();
+  const files = await listCampaigns();
+  if(!files.length){ console.log('No campaigns'); return; }
+
+  for(const f of files){
+    const camp = await readJson(f);
+    const id = camp.id;
+    const state = await loadState(id);
+
+    if(camp.status==='stopped'){ state.completed=true; await saveState(state); continue; }
+    if(camp.status==='paused'){ await saveState(state); continue; }
+    if(state.completed){ continue; }
+
+    // decrypt recipients
+    let recipients = [];
+    try{ recipients = decryptRecipients(camp.encryptedRecipients); }
+    catch(e){ state.lastError = 'Decrypt error: '+e.message; await saveState(state); continue; }
+
+    recipients = recipients.filter(x=>x.checked);
+    if(state.cursor >= recipients.length){ state.completed=true; await saveState(state); continue; }
+
+    const now = new Date();
+    const z = utcToZonedTime(now,TZ);
+    const dow = (z.getDay()+6)%7; // 0=Mon..6=Sun
+    const slots = (camp.slots||{})[dow]||[];
+    const activeSlots = slots.filter(s=>s.active && isNowInSlot(s, now));
+    if(!activeSlots.length){ continue; }
+
+    // take first active slot
+    const slot = activeSlots[0];
+
+    const key = todayKey(now);
+    state.perDay[key] = state.perDay[key]||0;
+    const dailyLimit = +camp.dailyLimit || Infinity;
+    const remainToday = Math.max(0, dailyLimit - state.perDay[key]);
+
+    // ==== compensation multi-ticks (cron 5 min) ====
+    const everyMin = Math.max(1, +slot.every|0);
+    let nextTick = state.nextTickAt ? new Date(state.nextTickAt) : null;
+    if (!nextTick) nextTick = nextAlignedTick(slot, now);
+
+    const nowTs = z.getTime();
+    if (nowTs + 1000 < nextTick.getTime()) { await saveState(state); continue; }
+
+    const msPerTick = everyMin * 60000;
+    let dueTicks = 1;
+    if (state.lastTickAt) {
+      const last = new Date(state.lastTickAt);
+      const diff = nowTs - last.getTime();
+      const add = Math.floor(diff / msPerTick);
+      if (add > 0) dueTicks = add;
+    }
+    dueTicks = Math.min(dueTicks, 10); // garde-fou
+
+    const batch = Math.max(1, +slot.batch|0);
+    let toSend = Math.min(batch * dueTicks, recipients.length - state.cursor, remainToday);
+    if (toSend <= 0) { await saveState(state); continue; }
+
+    const provider = camp.provider || 'gmail';
+    const tr = buildTransport(provider);
+    const subj = camp.subject || 'Vous avez reçu un message';
+    const from = fromAddress(provider, camp.fromEmail);
+    const html = camp.html || '<p>(vide)</p>';
+    const delay = +camp.delayMs>0 ? +camp.delayMs : providerDefaultDelay(provider);
+
+    let ok=0, fail=0;
+    for(let i=0;i<toSend;i++){
+      const item = recipients[state.cursor];
+      const to = item.email;
+      try{ await sendOne(tr, from, to, subj, personalize(html,item)); ok++; }
+      catch(e){ fail++; state.lastError = 'Send fail to '+to+': '+e.message; }
+      state.cursor++; state.perDay[key] = (state.perDay[key]||0)+1;
+      await sleep(delay);
     }
 
-    const lastTick = new Date(state.lastTickAt[slotKey]);
-    const timeSinceLastTick = now - lastTick;
-    const tickIntervalMs = slot.every * 60000;
-    
-    // Calculate how many ticks are due
-    const ticksDue = Math.floor(timeSinceLastTick / tickIntervalMs);
-    
-    if (ticksDue <= 0) {
-        console.log(\`⏳ No ticks due for slot \${slotKey} (next in \${Math.ceil((tickIntervalMs - timeSinceLastTick) / 1000)}s)\`);
-        return 0;
-    }
-
-    console.log(\`⚡ \${ticksDue} tick(s) due for slot \${slotKey}\`);
-
-    // Calculate how many emails to send
-    let toSend = ticksDue * slot.batch;
-    
-    // Apply limits
-    const remaining = recipients.length - state.cursor;
-    const dailyLimit = campaign.dailyLimit || 0;
-    const dailyRemaining = dailyLimit > 0 ? dailyLimit - currentSentToday : Infinity;
-    
-    toSend = Math.min(toSend, remaining, dailyRemaining);
-    
-    if (toSend <= 0) {
-        console.log(\`🚫 No emails to send (remaining: \${remaining}, daily remaining: \${dailyRemaining})\`);
-        // Still update last tick time
-        const newLastTick = new Date(lastTick.getTime() + ticksDue * tickIntervalMs);
-        state.lastTickAt[slotKey] = newLastTick.toISOString();
-        return 0;
-    }
-
-    console.log(\`📨 Sending \${toSend} email(s) for slot \${slotKey}\`);
-
-    // Send emails
-    let sent = 0;
-    const delayMs = campaign.delayMs || getDefaultDelay(campaign.provider);
-    
-    for (let i = 0; i < toSend && state.cursor < recipients.length; i++) {
-        const recipient = recipients[state.cursor];
-        
-        try {
-            await sendEmail(campaign, recipient);
-            state.cursor++;
-            sent++;
-            
-            console.log(\`✉️  Sent to \${recipient.email.split('@')[0]}***@\${recipient.email.split('@')[1]} (\${state.cursor}/\${recipients.length})\`);
-            
-            // Delay between emails (except for last one)
-            if (i < toSend - 1 && delayMs > 0) {
-                await sleep(delayMs);
-            }
-            
-        } catch (error) {
-            console.error(\`❌ Failed to send to \${recipient.email}: \${error.message}\`);
-            
-            // Retry once
-            try {
-                console.log(\`🔄 Retrying \${recipient.email}...\`);
-                await sleep(1000);
-                await sendEmail(campaign, recipient);
-                state.cursor++;
-                sent++;
-                console.log(\`✉️  Retry successful for \${recipient.email.split('@')[0]}***@\${recipient.email.split('@')[1]}\`);
-            } catch (retryError) {
-                console.error(\`❌ Retry failed for \${recipient.email}: \${retryError.message}\`);
-                // Skip this recipient
-                state.cursor++;
-                state.lastError = retryError.message;
-                state.lastErrorAt = new Date().toISOString();
-            }
-            
-            if (delayMs > 0) {
-                await sleep(delayMs);
-            }
-        }
-    }
-
-    // Update last tick time
-    const newLastTick = new Date(lastTick.getTime() + ticksDue * tickIntervalMs);
-    state.lastTickAt[slotKey] = newLastTick.toISOString();
-    
-    return sent;
+    if(state.cursor>=recipients.length){ state.completed=true; }
+    state.lastTickAt = z.toISOString();
+    const nt = new Date(z.getTime() + everyMin*60000);
+    state.nextTickAt = nt.toISOString();
+    await saveState(state);
+    console.log(\`Campaign \${id}: sent ok=\${ok} fail=\${fail}; cursor=\${state.cursor}/\${recipients.length}\`);
+  }
 }
 
-async function sendEmail(campaign, recipient) {
-    const transporter = createTransporter(campaign.provider);
-    
-    // Personalize content
-    let subject = campaign.subject;
-    let html = campaign.html;
-    
-    if (recipient.prenom) {
-        subject = subject.replace(/{{prenom}}/g, recipient.prenom);
-        html = html.replace(/{{prenom}}/g, recipient.prenom);
-    }
-    
-    if (recipient.nom) {
-        subject = subject.replace(/{{nom}}/g, recipient.nom);
-        html = html.replace(/{{nom}}/g, recipient.nom);
-    }
-    
-    subject = subject.replace(/{{email}}/g, recipient.email);
-    html = html.replace(/{{email}}/g, recipient.email);
+await run().catch(e=>{ console.error('Fatal',e); });
+`;
+}
 
-    const from = campaign.from || getDefaultFrom(campaign.provider);
-    
-    const mailOptions = {
-        from: from,
-        to: recipient.email,
-        subject: subject,
-        html: html,
-        headers: {
-            'List-Unsubscribe': '<mailto:unsubscribe@example.com>',
-            'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click'
-        }
+/* ============================
+   BOOTSTRAP BUTTONS
+============================ */
+$('#btnBootstrap').onclick = async ()=>{
+  try{
+    if(!cfg.owner.value || !cfg.repo.value || !cfg.token.value) return notify('Owner / Repo / Token requis', false);
+    await ghPutFile('.github/workflows/mailer.yml', workflowYml(), 'PGI: bootstrap workflow');
+    await ghPutFile('mailer/package.json', pkgJson(), 'PGI: add package.json');
+    await ghPutFile('mailer/send.js', sendJs(), 'PGI: add send.js');
+    await ghPutFile('README.md', '# PGI Send\n\nAutomatisation d\\'envoi email via GitHub Actions.\n\n- Crée tes campagnes dans `campaigns/`\n- Secrets nécessaires: GMAIL_*, OUTLOOK_* ou SMTP_* + PGI_ENC_KEY', 'PGI: readme');
+    notify('Automatisation prête (workflow + mailer)');
+  }catch(e){ notify('Erreur bootstrap: '+e.message, false); }
+};
+
+$('#btnCheck').onclick = async ()=>{
+  try{
+    const files = await ghListDir('campaigns');
+    $('#repoStatus').innerHTML = files.length ? 'Campagnes existantes : '+files.join(', ') : 'Aucune campagne';
+    notify('Dépôt OK');
+  }catch(e){ notify('Erreur: '+e.message,false); }
+};
+
+/* ============================
+   BUILD CAMPAIGN JSON + PUSH
+============================ */
+$('#btnSaveCampaign').onclick = async ()=>{
+  try{
+    const name = $('#campaignName').value.trim() || 'Campagne';
+    if(!CONTACTS.length) return notify('Ajoute des contacts', false);
+    const selected = CONTACTS; // on chiffre tout (avec flags checked)
+
+    if(!cfg.encKey.value) return notify('Clé de chiffrement requise (PGI_ENC_KEY)', false);
+    const encPack = await encryptContacts(selected, cfg.encKey.value);
+
+    const camp = {
+      id: 'cmp_'+Date.now(),
+      name,
+      provider: $('#provider').value,
+      fromEmail: $('#fromEmail').value.trim(),
+      subject: $('#subject').value.trim() || 'Vous avez reçu un message',
+      html: $('#editor').innerHTML.trim(),
+      dailyLimit: +($('#dailyLimit').value||0),
+      delayMs: +($('#delayMs').value||0),
+      slots: daySlots, // 0..6 arrays of slots
+      createdAt: new Date().toISOString(),
+      status: 'active',
+      encryptedRecipients: encPack,
+      meta: { algo: 'AES-256-GCM', ui:'PGI Send v1.0.1' }
     };
+    const path = `campaigns/${camp.id}.json`;
+    await ghPutFile(path, JSON.stringify(camp,null,2), `PGI: create campaign ${camp.name}`);
+    CURRENT_CAMPAIGN_ID = camp.id;
+    notify('Campagne créée et poussée');
+  }catch(e){ notify('Erreur campagne: '+e.message, false); }
+};
 
-    await transporter.sendMail(mailOptions);
-}
-
-function createTransporter(provider) {
-    switch (provider) {
-        case 'gmail':
-            return nodemailer.createTransporter({
-                service: 'gmail',
-                auth: {
-                    user: process.env.GMAIL_USER,
-                    pass: process.env.GMAIL_PASS
-                }
-            });
-            
-        case 'outlook':
-            return nodemailer.createTransporter({
-                service: 'hotmail',
-                auth: {
-                    user: process.env.OUTLOOK_USER,
-                    pass: process.env.OUTLOOK_PASS
-                }
-            });
-            
-        case 'smtp':
-        default:
-            return nodemailer.createTransporter({
-                host: process.env.SMTP_HOST,
-                port: parseInt(process.env.SMTP_PORT) || 587,
-                secure: process.env.SMTP_SECURE === 'true',
-                auth: {
-                    user: process.env.SMTP_USER,
-                    pass: process.env.SMTP_PASS
-                }
-            });
+$('#btnListCampaigns').onclick = async ()=>{
+  try{
+    const files = await ghListDir('campaigns'); const dash = $('#dash'); dash.innerHTML='';
+    if(!files.length){ dash.textContent='Aucune campagne.'; return; }
+    for(const f of files){
+      const p = await ghGet('contents/'+encodeURIComponent('campaigns/'+f));
+      const json = JSON.parse(atob(p.content));
+      const card = document.createElement('div'); card.className='card'; card.style.flex='1 1 360px';
+      card.innerHTML = `<div class="row" style="justify-content:space-between;align-items:center">
+        <div><b>${escapeHtml(json.name)}</b> <span class="pill">${f.replace('.json','')}</span></div>
+        <div class="pill">${json.status||'active'}</div>
+      </div>
+      <div class="hint">Créée: ${new Date(json.createdAt).toLocaleString('fr-FR')}</div>
+      <div class="row" style="margin-top:8px">
+        <button class="btn" onclick="loadCampaign('${f}')">Charger</button>
+        <button class="btn ghost" onclick="duplicateCampaign('${f}')">Dupliquer</button>
+      </div>`;
+      $('#dash').appendChild(card);
     }
+  }catch(e){ notify('Erreur listage: '+e.message,false); }
+};
+
+window.loadCampaign = async (fname)=>{
+  try{
+    const p = await ghGet('contents/'+encodeURIComponent('campaigns/'+fname));
+    const json = JSON.parse(atob(p.content));
+    CURRENT_CAMPAIGN_ID = json.id;
+    $('#campaignName').value = json.name||'';
+    $('#provider').value = json.provider||'gmail'; provider.onchange();
+    $('#fromEmail').value = json.fromEmail||'';
+    $('#subject').value = json.subject||'';
+    $('#editor').innerHTML = json.html||'';
+    $('#dailyLimit').value = json.dailyLimit||'';
+    $('#delayMs').value = json.delayMs||'';
+    for(let i=0;i<7;i++){ daySlots[i] = (json.slots||[])[i]||[]; }
+    renderCalendar();
+    notify('Campagne chargée');
+  }catch(e){ notify('Erreur: '+e.message,false); }
+};
+
+window.duplicateCampaign = async (fname)=>{
+  try{
+    const p = await ghGet('contents/'+encodeURIComponent('campaigns/'+fname));
+    const json = JSON.parse(atob(p.content));
+    json.id = 'cmp_'+Date.now();
+    json.name = (json.name||'Campagne')+' (copie)';
+    json.createdAt = new Date().toISOString();
+    const path = `campaigns/${json.id}.json`;
+    await ghPutFile(path, JSON.stringify(json,null,2), `PGI: duplicate ${json.name}`);
+    notify('Copie créée');
+  }catch(e){ notify('Erreur: '+e.message,false); }
+};
+
+/* ============================
+   PAUSE / RESUME / STOP
+============================ */
+async function updateStatus(status){
+  if(!CURRENT_CAMPAIGN_ID) return notify('Charge une campagne (ou crée-en une)', false);
+  try{
+    const path = `campaigns/${CURRENT_CAMPAIGN_ID}.json`;
+    const p = await ghGet('contents/'+encodeURIComponent(path));
+    const json = JSON.parse(atob(p.content));
+    json.status = status;
+    await ghPutFile(path, JSON.stringify(json,null,2), `PGI: ${status} campaign`);
+    notify('Statut mis à jour: '+status);
+  }catch(e){ notify('Erreur statut: '+e.message,false); }
 }
-
-function getDefaultFrom(provider) {
-    switch (provider) {
-        case 'gmail':
-            return process.env.GMAIL_FROM || process.env.GMAIL_USER;
-        case 'outlook':
-            return process.env.OUTLOOK_FROM || process.env.OUTLOOK_USER;
-        case 'smtp':
-        default:
-            return process.env.SMTP_FROM || process.env.SMTP_USER;
-    }
-}
-
-function getDefaultDelay(provider) {
-    switch (provider) {
-        case 'gmail':
-            return 2000; // 2 seconds
-        case 'outlook':
-            return 3000; // 3 seconds
-        case 'smtp':
-        default:
-            return 1000; // 1 second
-    }
-}
-
-async function loadState(statePath) {
-    try {
-        const content = await fs.readFile(statePath, 'utf8');
-        return JSON.parse(content);
-    } catch {
-        // Create new state
-        return {
-            cursor: 0,
-            perDay: {},
-            lastTickAt: {},
-            lastRun: null,
-            lastRunDay: null,
-            completed: false,
-            lastError: null,
-            lastErrorAt: null
-        };
-    }
-}
-
-async function saveState(statePath, state) {
-    await fs.writeFile(statePath, JSON.stringify(state, null, 2));
-}
-
-async function decrypt(encryptedData) {
-    const data = Buffer.from(encryptedData, 'base64');
-    const salt = data.subarray(0, 16);
-    const iv = data.subarray(16, 28);
-    const encrypted = data.subarray(28);
-
-    const key = crypto.pbkdf2Sync(ENC_KEY, salt, 100000, 32, 'sha256');
-    
-    const decipher = crypto.createDecipherGCM('aes-256-gcm');
-    const authTag = encrypted.subarray(-16);
-    const ciphertext = encrypted.subarray(0, -16);
-    
-    decipher.setAuthTag(authTag);
-    
-    let decrypted = decipher.update(ciphertext, null, 'utf8');
-    decrypted += decipher.final('utf8');
-    
-    return decrypted;
-}
-
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-// Run the main function
-main();`;
-        }
-
-        async function bootstrapFiles() {
-            const owner = document.getElementById('repoOwner').value;
-            const repo = document.getElementById('repoName').value;
-            const pat = document.getElementById('githubPat').value;
-            
-            if (!owner || !repo || !pat) {
-                showAlert('Please fill in all repository details', 'warning');
-                return;
-            }
-
-            try {
-                showAlert('Creating automation files...', 'info');
-
-                // Create workflow file
-                await createOrUpdateFile('.github/workflows/mailer.yml', getWorkflowContent(), 'Add PGI Send workflow');
-                
-                // Create package.json
-                await createOrUpdateFile('mailer/package.json', getPackageJsonContent(), 'Add mailer package.json');
-                
-                // Create send.js
-                await createOrUpdateFile('mailer/send.js', getSendJsContent(), 'Add mailer send.js');
-
-                showAlert('✅ Automation files created successfully! Your repository is now configured for PGI Send.', 'success');
-
-            } catch (error) {
-                showAlert('Error creating files: ' + error.message, 'danger');
-            }
-        }
-
-        // Initialize on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            // Initialize Quill editor
-            quill = new Quill('#editor', {
-                theme: 'snow',
-                modules: {
-                    toolbar: [
-                        ['bold', 'italic', 'underline', 'strike'],
-                        ['blockquote', 'code-block'],
-                        [{ 'header': 1 }, { 'header': 2 }],
-                        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-                        [{ 'script': 'sub'}, { 'script': 'super' }],
-                        [{ 'indent': '-1'}, { 'indent': '+1' }],
-                        [{ 'direction': 'rtl' }],
-                        [{ 'size': ['small', false, 'large', 'huge'] }],
-                        [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-                        [{ 'color': [] }, { 'background': [] }],
-                        [{ 'font': [] }],
-                        [{ 'align': [] }],
-                        ['clean'],
-                        ['link', 'image']
-                    ]
-                }
-            });
-
-            // Initialize schedule slots
-            renderScheduleSlots();
-
-            // Set default encryption key placeholder
-            document.getElementById('encryptionKey').placeholder = 'Enter a strong encryption key (min. 16 characters)';
-
-            // Auto-refresh dashboard every 30 seconds if it's visible
-            setInterval(() => {
-                const dashboardTab = document.getElementById('dashboard-tab');
-                if (dashboardTab && dashboardTab.classList.contains('active')) {
-                    refreshDashboard();
-                }
-            }, 30000);
-        });
-    </script>
+$('#btnPause').onclick = ()=>updateStatus('paused');
+$('#btnResume').onclick = ()=>updateStatus('active');
+$('#btnStop').onclick = ()=>updateStatus('stopped');
+</script>
 </body>
 </html>
-
-
