@@ -1,112 +1,443 @@
-https://www.reddit.com/r/90s/comments/1lnkq12/free_over_the_phone_psychic_readings/?tl=fr
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https: blob:; font-src 'self' https://fonts.gstatic.com data:; connect-src 'self' https://www.google-analytics.com https://www.googletagmanager.com; media-src 'self' blob:;">
+  
+  <title>Assistant Spirituel IA - ClairVoyanceMedium.com</title>
+  
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-2RSFE6WL4M"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-2RSFE6WL4M', {'anonymize_ip': true});
+    gtag('config', 'AW-00000000000', {'anonymize_ip': true});
+    gtag('config', 'GTM-P3J6SXCH', {'anonymize_ip': true});
+  </script>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root{--bg:#000;--text:#fff;--gold:#FFD700;--pink-neon:#FFB6C1;--link-blue:#4169E1;}
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Cinzel',serif;background:var(--bg);color:var(--text);text-align:center;overflow-x:hidden;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;touch-action:manipulation;overscroll-behavior-y:contain;}
+    header{padding:1.5rem 0;background:#111;box-shadow:0 4px 10px rgba(0,0,0,.8);}
+    .logo{width:min(85vw,450px);max-height:150px;object-fit:contain;display:block;margin:0 auto;}
+    
+    nav{background:#111;padding:1rem;box-shadow:0 2px 10px rgba(255,215,0,0.3);margin-bottom:1rem;}
+    nav ul{list-style:none;padding:0;display:flex;flex-wrap:wrap;justify-content:center;gap:0.5rem;max-width:1200px;margin:0 auto;}
+    nav ul li a{font-family:'Cinzel',serif;font-size:1.1rem;color:#BBAE98;text-decoration:none;padding:0.5rem 1rem;background:#111;border:1px solid #BBAE98;border-radius:5px;transition:background .3s ease,color .3s ease,box-shadow .3s ease;display:inline-block;text-align:center;}
+    nav ul li a:hover{background:#BBAE98;color:#111;}
+    nav ul li a:focus{outline:2px solid #87CEEB;outline-offset:2px;}
+    
+    @keyframes pulseNeonBlue{
+      0%{box-shadow:0 0 20px #87CEEB,0 0 40px #87CEEB,0 0 60px #87CEEB;border-color:#87CEEB;}
+      50%{box-shadow:0 0 30px #FFB6C1,0 0 60px #FFB6C1,0 0 90px #FFB6C1;border-color:#FFB6C1;}
+      100%{box-shadow:0 0 20px #87CEEB,0 0 40px #87CEEB,0 0 60px #87CEEB;border-color:#87CEEB;}
+    }
+    nav ul li a.highlight{animation:pulseNeonBlue 0.8s ease-in-out infinite;border:2px solid #87CEEB;}
+    
+    .chat-intro{max-width:900px;margin:2.5rem auto 1.5rem;padding:0 1rem;font-size:1.6rem;color:#87CEEB;text-shadow:0 0 20px rgba(135,206,235,0.8),0 0 40px rgba(135,206,235,0.6);font-weight:700;letter-spacing:1px;}
+    
+    #chat-container{max-width:900px;margin:1rem auto 2rem;padding:0 1rem;}
+    #chat-box{background:#111;border-radius:15px;border:2px solid var(--pink-neon);box-shadow:0 0 25px var(--pink-neon),0 0 50px rgba(255,182,193,0.6),0 0 75px rgba(255,182,193,0.4);overflow:hidden;display:flex;flex-direction:column;height:650px;}
+    #chat-messages{flex:1;padding:1.5rem;overflow-y:auto;color:#fff;background:#0a0a0a;overscroll-behavior-y:contain;}
+    #chat-messages::-webkit-scrollbar{width:10px;}
+    #chat-messages::-webkit-scrollbar-track{background:#1a1a1a;border-radius:5px;}
+    #chat-messages::-webkit-scrollbar-thumb{background:var(--pink-neon);border-radius:5px;}
+    #chat-messages p{margin-bottom:1rem;line-height:1.7;opacity:0;animation:fadeIn 0.6s forwards;}
+    @keyframes fadeIn{to{opacity:1;}}
+    .bot-message{text-align:left;color:#fff;background:rgba(255,182,193,0.15);padding:1rem;border-radius:10px;margin-bottom:1rem;border:2px solid var(--pink-neon);box-shadow:0 0 12px rgba(255,182,193,0.4);max-width:90%;}
+    .user-message{text-align:right;color:#ffd700;margin-bottom:1rem;border:2px solid #FFD700;box-shadow:0 0 12px rgba(255,215,0,0.4);padding:1rem;border-radius:10px;max-width:90%;margin-left:auto;background:rgba(255,215,0,0.08);}
+    
+    #chat-form{display:flex;flex-direction:column;border-top:2px solid var(--pink-neon);padding:1rem;background:#111;gap:0.8rem;}
+    .input-row{display:flex;gap:0.7rem;align-items:center;}
+    #chat-input{flex:1;padding:1rem;border:2px solid var(--pink-neon);outline:none;color:#fff;background:#0a0a0a;border-radius:8px;font-family:'Cinzel',serif;font-size:1rem;}
+    #chat-input::placeholder{color:#999;opacity:0.85;font-style:italic;}
+    #chat-input:focus{box-shadow:0 0 20px rgba(255,182,193,0.5);border-color:#FFB6C1;}
+    #voice-toggle{width:50px;height:50px;background:linear-gradient(145deg,#87CEEB,#5eb6d1);color:#fff;border:none;border-radius:50%;cursor:pointer;box-shadow:0 4px 15px rgba(135,206,235,0.8);font-size:1.4rem;display:flex;align-items:center;justify-content:center;transition:transform 0.2s,box-shadow 0.2s;outline:none;}
+    #voice-toggle:hover{transform:scale(1.1);box-shadow:0 6px 20px rgba(135,206,235,1);}
+    #voice-toggle.disabled{background:linear-gradient(145deg,#808080,#666);box-shadow:0 0 10px #808080;opacity:0.7;}
+    #chat-send{width:100%;background:linear-gradient(145deg,#FFB6C1,#FF69B4);border:none;padding:1rem 1.8rem;cursor:pointer;color:#fff;font-weight:bold;border-radius:8px;transition:transform .2s,box-shadow .2s;font-family:'Cinzel',serif;box-shadow:0 4px 15px rgba(255,105,180,.6);font-size:1.1rem;}
+    #chat-send:hover{transform:scale(1.03);box-shadow:0 6px 20px rgba(255,105,180,.8);}
+    
+    .return-line{font-family:'Cinzel',serif;font-size:0.85rem;letter-spacing:0.5px;margin:1.5rem auto 1rem;text-align:center;padding:0 1rem;}
+    .return-line a{color:#5B9BD5;text-decoration:underline;transition:color 0.3s ease;}
+    .return-line a:hover{color:#87CEEB;}
+    
+    footer{margin-top:2rem;font-size:.9rem;color:#aaa;padding:2rem 1rem;background:#111;}
+    footer a{color:var(--gold);text-decoration:none;transition:color .3s ease;}
+    footer a:hover{color:#fff;}
+    
+    @media(max-width:1024px){
+      .chat-intro{font-size:1.4rem;}
+      #chat-box{height:600px;}
+    }
+    
+    @media(max-width:768px){
+      nav ul{gap:0.4rem;}
+      nav ul li a{font-size:1rem;padding:0.45rem 0.8rem;}
+      .chat-intro{font-size:1.2rem;}
+      #chat-box{height:550px;}
+      .return-line{font-size:0.8rem;}
+    }
+    
+    @media(max-width:480px){
+      nav ul{flex-direction:column;align-items:stretch;}
+      nav ul li a{display:block;width:100%;font-size:0.95rem;}
+      .chat-intro{font-size:1rem;}
+      #chat-box{height:500px;}
+      #voice-toggle{width:45px;height:45px;font-size:1.2rem;}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <picture>
+      <source srcset="https://i.imgur.com/GmyGlKk.webp" type="image/webp">
+      <img src="https://i.imgur.com/GmyGlKk.jpg" alt="Logo ClairVoyanceMedium" class="logo" width="720" height="720" loading="eager" onerror="this.onerror=null;this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22720%22 height=%22720%22%3E%3Crect fill=%22%23111%22 width=%22720%22 height=%22720%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 font-size=%2248%22 fill=%22%23FFD700%22 text-anchor=%22middle%22 dy=%22.3em%22%3EClairVoyanceMedium%3C/text%3E%3C/svg%3E';">
+    </picture>
+  </header>
+  
+  <nav>
+    <ul>
+      <li><a href="https://clairvoyancemedium.github.io/Voyancepartelephonepaschere.github.io/" onclick="trackClick('VoyanceTel','Navigation',30);" data-keyword="voyance téléphone|téléphone|appel|30min">Voyance Tél 30min/30€</a></li>
+      <li><a href="https://www.clairvoyancemedium.com/Voyance-3-Questions-par-Email-cbaaaaaca.asp" onclick="trackClick('VoyanceEmail','Navigation',12);" data-keyword="voyance email|email|questions|3 questions">Voyance Email 3Q/12€</a></li>
+      <li><a href="https://www.clairvoyancemedium.com/Reconquerir-son-ex-a-distance-Blanche-cbaaaaasa.asp" onclick="trackClick('RetourEx','Navigation',175);" data-keyword="retour affectif|ex|reconquérir|amour">Retour Ex/175€</a></li>
+      <li><a href="https://www.clairvoyancemedium.com/Compatibilite-amoureuse-cbaaaaata.asp" onclick="trackClick('Compatibilite','Navigation',20);" data-keyword="compatibilité|couple|amoureuse|relation">Compatibilité/20€</a></li>
+      <li><a href="https://www.clairvoyancemedium.com/Desenvoutement-et-protection-a-distance-cbaaaaala.asp" onclick="trackClick('Protection','Navigation',150);" data-keyword="désenvoûtement|protection|purification|envoûtement|sort|malédiction">Purification/150€</a></li>
+      <li><a href="https://www.clairvoyancemedium.com/Recevez-1-message-d-un-defunt-cbaaaabka.asp" onclick="trackClick('Defunt','Navigation',17);" data-keyword="défunt|mort|message|au-delà">Défunt/17€</a></li>
+      <li><a href="https://www.clairvoyancemedium.com/Medecine-Consultation-par-email-cbaaaabja.asp" onclick="trackClick('Sante','Navigation',30);" data-keyword="santé|naturelle|médecine|bien-être">Santé/30€</a></li>
+      <li><a href="https://www.clairvoyancemedium.com/Ligne-de-la-main-Voyance-3-questions-cbaaaaana.asp" onclick="trackClick('Main','Navigation',10);" data-keyword="ligne main|chiromancie|main|paume">Main/10€</a></li>
+      <li><a href="https://www.clairvoyancemedium.com/Message-de-votre-Ange-gardien-cbaaaabba.asp" onclick="trackClick('Ange','Navigation',10);" data-keyword="ange|gardien|ange gardien|céleste">Ange/10€</a></li>
+    </ul>
+  </nav>
+  
+  <div class="chat-intro">Chat IA Spirituel - ClairVoyanceGPT</div>
+  
+  <div id="chat-container">
+    <div id="chat-box">
+      <div id="chat-messages"></div>
+      <form id="chat-form">
+        <div class="input-row">
+          <input type="text" id="chat-input" placeholder="Posez votre question spirituelle ici..." autocomplete="off">
+          <button type="button" id="voice-toggle" title="Assistant vocal">🎤</button>
+        </div>
+        <button type="submit" id="chat-send">Envoyer</button>
+      </form>
+    </div>
+  </div>
+  
+  <div class="return-line">
+    <a href="https://www.clairvoyancemedium.com/" onclick="trackClick('RetourCabinet','Navigation',0);">Retour vers le cabinet de voyance ClairVoyanceMedium.com</a>
+  </div>
+  
+  <footer>
+    <p>© 2006-<span id="current-year"></span> ClairVoyanceMedium.com - Tous droits réservés</p>
+    <p><a href="https://www.clairvoyancemedium.com/Conditions-Generales-des-Ventes-et-d-Utilisation-ccsaaaaaa.asp" target="_blank" onclick="trackClick('CGV','Footer',0);">Conditions Générales</a></p>
+  </footer>
+  
+  <script>
+document.getElementById('current-year').textContent = new Date().getFullYear();
 
+// Bloquer le pull-to-refresh
+let lastTouchY = 0;
+let preventPullToRefresh = false;
 
+document.addEventListener('touchstart', (e) => {
+  if (e.touches.length !== 1) return;
+  lastTouchY = e.touches[0].clientY;
+  preventPullToRefresh = window.pageYOffset === 0;
+}, {passive: false});
 
+document.addEventListener('touchmove', (e) => {
+  const touchY = e.touches[0].clientY;
+  const touchYDelta = touchY - lastTouchY;
+  lastTouchY = touchY;
 
+  if (preventPullToRefresh) {
+    if (touchYDelta > 0) {
+      e.preventDefault();
+      return;
+    }
+    preventPullToRefresh = false;
+  }
+}, {passive: false});
 
+function trackClick(label, category, value) {
+  if (typeof gtag === 'function') {
+    gtag('event', label, {'event_category': category, 'event_label': label, 'value': value});
+  }
+}
 
+let userName = '';
+let messageCount = 0;
+let voiceEnabled = true;
+let recognition = null;
+let currentHighlightedLinks = [];
 
+function speak(text) {
+  if (!voiceEnabled || !('speechSynthesis' in window)) return;
+  window.speechSynthesis.cancel();
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = 'fr-FR';
+  utterance.pitch = 0.9;
+  utterance.rate = 1.0;
+  const voices = window.speechSynthesis.getVoices();
+  if (voices.length > 0) {
+    const frVoice = voices.find(v => v.lang.startsWith('fr'));
+    if (frVoice) utterance.voice = frVoice;
+  }
+  window.speechSynthesis.speak(utterance);
+  trackClick('VoiceOutput', 'Chat', 0);
+}
 
-Voyance par e-mail et par téléphone : des consultations de voyance fiables, claires et transparentes
+if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  recognition = new SpeechRecognition();
+  recognition.lang = 'fr-FR';
+  recognition.interimResults = false;
+  recognition.maxAlternatives = 1;
+  
+  recognition.onresult = (event) => {
+    const transcript = event.results[0][0].transcript;
+    document.getElementById('chat-input').value = transcript;
+    handleMessage();
+    trackClick('VoiceInput', 'Chat', 0);
+  };
+  
+  recognition.onerror = (event) => {
+    console.error('Erreur reconnaissance:', event.error);
+    trackClick('VoiceError', 'Chat', 0);
+  };
+}
 
-Une demande croissante de voyance sérieuse en France
+document.getElementById('voice-toggle').addEventListener('click', () => {
+  voiceEnabled = !voiceEnabled;
+  document.getElementById('voice-toggle').classList.toggle('disabled', !voiceEnabled);
+  
+  if (voiceEnabled && recognition) {
+    try { recognition.start(); trackClick('VoiceOn', 'Chat', 0); } catch(e) {}
+  } else if (recognition) {
+    recognition.stop(); trackClick('VoiceOff', 'Chat', 0);
+  }
+});
 
-Dans un contexte d’incertitude, de plus en plus de Français recherchent une voyance sérieuse et accessible pour obtenir des réponses claires dans leur vie sentimentale, familiale ou professionnelle. Aujourd’hui, la référence reste clairvoyancemedium.com, un site reconnu pour son sérieux, son expérience de plus de vingt-cinq ans et la transparence de ses tarifs.
+function highlightNav(keywords) {
+  if (!keywords) return;
+  
+  // Arrêter les anciens clignotements
+  currentHighlightedLinks.forEach(link => link.classList.remove('highlight'));
+  currentHighlightedLinks = [];
+  
+  const navLinks = document.querySelectorAll('nav ul li a');
+  navLinks.forEach(link => {
+    const linkKeywords = link.getAttribute('data-keyword').toLowerCase();
+    const keywordList = keywords.toLowerCase().split('|');
+    if (keywordList.some(k => linkKeywords.includes(k))) {
+      link.classList.add('highlight');
+      currentHighlightedLinks.push(link);
+    }
+  });
+}
 
-Disponible partout en France, il est possible de réserver une consultation directement en ligne ou par téléphone :
-06 95 46 89 23 (numéro direct, non surtaxé)
-01 89 31 14 32 (ligne fixe fiable et transparente)
+function stopHighlight() {
+  currentHighlightedLinks.forEach(link => link.classList.remove('highlight'));
+  currentHighlightedLinks = [];
+}
 
-La voyance par e-mail : une solution moderne et discrète
+function addMessage(text, isBot = false) {
+  const messagesDiv = document.getElementById('chat-messages');
+  const messageDiv = document.createElement('p');
+  messageDiv.className = isBot ? 'bot-message' : 'user-message';
+  messageDiv.textContent = text;
+  messagesDiv.appendChild(messageDiv);
+  messagesDiv.scrollTop = messagesDiv.scrollHeight;
+  if (isBot && voiceEnabled) speak(text);
+}
 
-La voyance par e-mail pas chère et fiable en France est devenue la formule la plus adaptée aux besoins modernes. Elle permet de poser ses questions calmement et de recevoir une réponse détaillée, datée et archivable.
+const knowledgeBase = [
+  { 
+    q: "prénom|nom|appelle|m'appelle|je suis|c'est", 
+    priority: 100, 
+    answer: (name) => `Bonjour ${name}, ravi de vous accueillir. Je suis l'assistant de Frederick, expert spirituel depuis 25 ans. Vous n'êtes pas seul. Quelle quête spirituelle vous amène ?`,
+    track: 'Prenom'
+  },
+  { 
+    q: "bonjour|salut|bonsoir|hello", 
+    priority: 99, 
+    answer: () => "Bonjour, ravi de vous accueillir ! Je suis ClairVoyanceGPT. Quelle quête sacrée vous amène aujourd'hui ?",
+    track: 'Greeting'
+  },
+  { 
+    q: "voyance|voyant|prédiction|avenir|futur|consultation", 
+    highlight: "voyance téléphone|voyance email", 
+    answer: (name) => `${name || 'Cher consultant'}, l'incertitude peut être étouffante. Frederick, fort de 25 ans d'expertise, a guidé des milliers de personnes. Consultation téléphone 30min à 30€ ou email 3Q à 12€. Les tarifs exceptionnels ne dureront pas. https://clairvoyancemedium.github.io/Voyancepartelephonepaschere.github.io/`,
+    track: 'Voyance'
+  },
+  { 
+    q: "amour|ex|relation|couple|séparation|rupture|retour", 
+    highlight: "retour affectif|compatibilité", 
+    answer: (name) => `${name || 'Cher consultant'}, je comprends cette douleur. Frederick a réconcilié des centaines de couples. Son rituel à 175€ restaurera l'harmonie. Agissez maintenant. https://www.clairvoyancemedium.com/Reconquerir-son-ex-a-distance-Blanche-cbaaaaasa.asp`,
+    track: 'Amour'
+  },
+  { 
+    q: "désenvoûtement|envoûté|sort|malédiction|protection|purification", 
+    highlight: "purification", 
+    answer: (name) => `${name || 'Cher consultant'}, cauchemars, fatigue, malchance révèlent une influence occulte. Frederick maîtrise les rituels à 150€. En 4 jours, il brisera ces chaînes. https://www.clairvoyancemedium.com/Desenvoutement-et-protection-a-distance-cbaaaaala.asp`,
+    track: 'Desenvoutement'
+  },
+  { 
+    q: "défunt|mort|décédé|au-delà|message|deuil", 
+    highlight: "défunt", 
+    answer: (name) => `${name || 'Cher consultant'}, le deuil est lourd. Frederick établit ce pont sacré. Pour 17€, recevez un message qui apaisera votre cœur. https://www.clairvoyancemedium.com/Recevez-1-message-d-un-defunt-cbaaaabka.asp`,
+    track: 'Defunt'
+  },
+  { 
+    q: "santé|maladie|douleur|corps", 
+    highlight: "santé", 
+    answer: (name) => `${name || 'Cher consultant'}, ces maux ont des racines énergétiques. Frederick identifiera les déséquilibres. Consultation 30€. https://www.clairvoyancemedium.com/Medecine-Consultation-par-email-cbaaaabja.asp`,
+    track: 'Sante'
+  },
+  { 
+    q: "main|chiromancie|ligne|paume", 
+    highlight: "main", 
+    answer: (name) => `${name || 'Cher consultant'}, vos mains révèlent votre destinée. Frederick décrypte ces symboles pour 10€. https://www.clairvoyancemedium.com/Ligne-de-la-main-Voyance-3-questions-cbaaaaana.asp`,
+    track: 'Main'
+  },
+  { 
+    q: "ange|gardien|céleste", 
+    highlight: "ange", 
+    answer: (name) => `${name || 'Cher consultant'}, votre ange gardien tente de vous protéger. Frederick capte ce message pour 10€. https://www.clairvoyancemedium.com/Message-de-votre-Ange-gardien-cbaaaabba.asp`,
+    track: 'Ange'
+  },
+  { 
+    q: "fatigue|épuisement|énergie", 
+    highlight: "purification", 
+    answer: (name) => `${name || 'Cher consultant'}, cette fatigue révèle un drainage énergétique. Frederick restaure votre vitalité en 4 jours à 150€. https://www.clairvoyancemedium.com/Desenvoutement-et-protection-a-distance-cbaaaaala.asp`,
+    track: 'Fatigue'
+  },
+  { 
+    q: "prix|tarif|combien", 
+    answer: (name) => `${name || 'Cher consultant'}, tarifs : Voyance tél 30min: 30€ | Email 3Q: 12€ | Retour ex: 175€ | Compatibilité: 20€ | Purification: 150€ | Défunt: 17€ | Santé: 30€ | Main: 10€ | Ange: 10€. Prix exceptionnels temporaires.`,
+    track: 'Prix'
+  },
+  { 
+    q: "contact|email|joindre", 
+    answer: (name) => `${name || 'Cher consultant'}, pour toute question, consultez directement nos services sur le site. Réponse rapide garantie.`,
+    track: 'Contact'
+  },
+  { 
+    q: "merci|remercie", 
+    answer: () => "Je vous en prie. Frederick et son équipe sont là 24h/24.",
+    track: 'Merci'
+  },
+  { 
+    q: "au revoir|bye|adieu", 
+    answer: (name) => `Au revoir ${name || 'Cher consultant'}. Que la lumière vous accompagne !`,
+    track: 'Bye'
+  },
+  { 
+    q: "d'accord|ok|oui", 
+    answer: () => "D'accord, n'hésitez pas à poser d'autres questions.",
+    track: 'Accord'
+  }
+];
 
-Tarifs voyance par e-mail clairvoyancemedium.com :
-5 € pour 1 question : idéal pour un premier essai ou une question urgente.
-12 € pour 3 questions : formule complète, la plus demandée, permettant d’aborder amour, travail et famille.
+function findBestMatch(input) {
+  const inputLower = input.toLowerCase();
+  
+  const nameMatch = input.match(/(?:je m'appelle|mon prénom|je suis|c'est)\s+([a-zàâäéèêëïîôùûüÿæœç]+)/i);
+  if (nameMatch && !userName) {
+    userName = nameMatch[1].charAt(0).toUpperCase() + nameMatch[1].slice(1).toLowerCase();
+    return knowledgeBase.find(item => item.q.includes('prénom'));
+  }
+  
+  let bestMatch = null;
+  let highestPriority = -1;
+  
+  for (const item of knowledgeBase) {
+    const keywords = item.q.split('|');
+    const priority = item.priority || 0;
+    
+    if (keywords.some(k => inputLower.includes(k.toLowerCase()))) {
+      if (priority > highestPriority || !bestMatch) {
+        highestPriority = priority;
+        bestMatch = item;
+      }
+    }
+  }
+  
+  return bestMatch;
+}
 
-Cette méthode séduit par sa simplicité et son efficacité. Les réponses écrites peuvent être conservées, relues et comparées dans le temps, ce qui en fait un outil précieux pour prendre des décisions importantes.
+function handleMessage() {
+  const input = document.getElementById('chat-input');
+  const userMsg = input.value.trim();
+  
+  if (!userMsg) return;
+  
+  addMessage(userMsg, false);
+  input.value = '';
+  messageCount++;
+  trackClick('MessageSent', 'Chat', messageCount);
+  
+  setTimeout(() => {
+    const match = findBestMatch(userMsg);
+    
+    // Arrêter le clignotement précédent avant la nouvelle réponse
+    stopHighlight();
+    
+    if (match) {
+      const response = typeof match.answer === 'function' 
+        ? match.answer(userName)
+        : match.answer;
+      
+      addMessage(response, true);
+      
+      if (match.highlight) {
+        highlightNav(match.highlight);
+      }
+      
+      if (match.track) {
+        trackClick(match.track, 'Response', 0);
+      }
+    } else {
+      const defaultMsg = userName 
+        ? `${userName}, précisez votre besoin : amour, voyance, protection ? Ou consultez nos services directement.`
+        : `Votre question nécessite une guidance personnalisée. Consultez nos services pour un accompagnement approfondi.`;
+      
+      addMessage(defaultMsg, true);
+      trackClick('NoMatch', 'Response', 0);
+    }
+  }, 800);
+}
 
-Les avantages uniques de la voyance par e-mail
+document.getElementById('chat-send').addEventListener('click', (e) => {
+  e.preventDefault();
+  handleMessage();
+});
 
-La voyance sentimentale par e-mail est recherchée parce qu’elle allie discrétion, précision et traçabilité. Elle offre plusieurs avantages :
+document.getElementById('chat-input').addEventListener('keypress', (e) => {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    handleMessage();
+  }
+});
 
-* Discrétion totale, idéale pour une voyance sentimentale confidentielle.
-* Analyse structurée, chaque réponse est développée et argumentée.
-* Archivage durable, les consultations peuvent être relues à tout moment.
-* Accessibilité immédiate dès 5 €, sans inscription.
-* Rapidité, une réponse envoyée en moins de 24 heures.
+document.getElementById('chat-form').addEventListener('submit', (e) => {
+  e.preventDefault();
+  handleMessage();
+});
 
-Voyance par téléphone : immédiateté et interaction directe
-
-La voyance par téléphone avec clairvoyancemedium.com reste incontournable pour obtenir une réponse instantanée et fiable. Sans inscription, sans attente, il suffit de composer le 06 95 46 89 23 ou le 01 89 31 14 32 pour parler directement à un médium reconnu.
-
-Tarifs voyance par téléphone :
-8 € pour 5 minutes : voyance rapide immédiate.
-15 € pour 10 minutes : consultation express.
-22 € pour 20 minutes : la formule la plus populaire, un échange approfondi (voir l’offre : voyance par téléphone 22 € les 20 minutes).
-30 € pour 30 minutes : voyance complète couvrant plusieurs thèmes.
-38 € pour 45 minutes : voyance longue durée, idéale pour un accompagnement détaillé.
-
-Ces forfaits sont bloqués et annoncés à l’avance, garantissant une totale transparence et aucune mauvaise surprise.
-
-Témoignages de clients
-
-Claire, 42 ans, témoigne :
-« J’ai choisi la voyance par e-mail sur clairvoyancemedium.com et j’ai reçu une réponse datée et précise en moins de 24 heures. J’ai pu relire les prédictions et constater leur cohérence. C’est une expérience que je recommande. »
-
-Julien, 51 ans, raconte :
-« J’ai appelé le 06 95 46 89 23 pour une consultation par téléphone. La réactivité et la clarté des réponses m’ont convaincu. Les tarifs étaient clairs dès le départ, sans aucune mauvaise surprise. »
-
-Rituels et accompagnement spirituel
-
-En plus des consultations de voyance par e-mail et par téléphone, clairvoyancemedium.com propose plusieurs pratiques spirituelles complémentaires :
-
-* Désenvoûtement énergétique fiable et reconnu pour lever les blocages.
-* Rituel de retour affectif sérieux et efficace pour renouer avec l’être aimé.
-* Protection spirituelle personnalisée pour sécuriser un projet ou un examen.
-* Accompagnement bien-être pour retrouver équilibre, énergie et confiance.
-
-Chaque rituel est proposé à un tarif forfaitaire annoncé à l’avance, toujours dans une logique de transparence et de confiance.
-
-Pourquoi clairvoyancemedium.com est une référence
-
-Clairvoyancemedium.com est aujourd’hui considéré comme une référence pour plusieurs raisons :
-
-* Plus de vingt-cinq années d’expérience dans la voyance en ligne et par téléphone.
-* Des milliers de clients satisfaits en France et à l’international.
-* Des tarifs clairs et accessibles : 5 € par e-mail, 8 € par téléphone, jusqu’à 38 € maximum.
-* Deux numéros directs visibles : 06 95 46 89 23 et 01 89 31 14 32.
-* Paiement sécurisé via ApplePay, GooglePay, Visa.
-* Aucune inscription nécessaire, réservation possible en quelques minutes.
-
-Ce niveau de transparence inspire confiance et explique pourquoi clairvoyancemedium.com est devenu la référence de la voyance en ligne fiable et transparente.
-
-FAQ voyance par e-mail et par téléphone
-
-Quelle est la différence entre la voyance par e-mail et la voyance par téléphone ?
-La voyance par e-mail offre une réponse écrite, datée et archivable, idéale pour les questions sentimentales et personnelles. La voyance par téléphone est immédiate et interactive, parfaite pour des réponses rapides.
-
-Quels sont les tarifs de la voyance par e-mail ?
-5 € pour une question unique et 12 € pour trois questions, avec des réponses détaillées et personnalisées.
-
-Quels sont les tarifs de la voyance par téléphone ?
-8 €, 15 €, 22 €, 30 € ou 38 € selon la durée choisie, avec des forfaits bloqués et clairs.
-
-Comment réserver une voyance avec clairvoyancemedium.com ?
-Il suffit de se rendre sur le site officiel clairvoyancemedium.com ou d’appeler directement le 06 95 46 89 23 ou le 01 89 31 14 32.
-
-Pourquoi choisir clairvoyancemedium.com plutôt qu’un autre ?
-Parce que ce site associe expérience, sérieux, tarifs accessibles et transparence totale, avec des numéros visibles et sans surtaxe.
-
-Conclusion : la voyance fiable et transparente
-
-La voyance par e-mail et la voyance par téléphone avec clairvoyancemedium.com permettent d’obtenir des réponses fiables et rapides à des prix accessibles.
-La voyance par e-mail pas chère, précise et archivable est l’avenir de la consultation spirituelle. La voyance par téléphone reste idéale pour ceux qui veulent une guidance immédiate.
-
-Pour réserver une consultation, deux solutions simples :
-Se rendre sur le site clairvoyancemedium.com.
-Appeler directement le 06 95 46 89 23 ou le 01 89 31 14 32 pour une consultation fiable, claire et transparente.
-
-
-
+setTimeout(() => {
+  addMessage("Bienvenue ! Je suis ClairVoyanceGPT, assistant de Frederick, médium depuis 25 ans. Quelle quête spirituelle vous amène ?", true);
+  trackClick('ChatOpened', 'Chat', 0);
+}, 500);
+</script>
+</body>
+</html>
