@@ -7,6 +7,7 @@
   
   <title>Assistant Spirituel IA - ClairVoyanceMedium.com</title>
   
+  <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-2RSFE6WL4M"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -17,61 +18,371 @@
     gtag('config', 'GTM-P3J6SXCH', {'anonymize_ip': true});
   </script>
   
+  <!-- Favicon pour écran d'accueil mobile -->
+  <link rel="icon" href="https://i.imgur.com/GmyGlKk.webp" type="image/webp">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://i.imgur.com/GmyGlKk.webp">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#8B0000">
+  
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
   
   <style>
-    :root{--bg:#000;--text:#fff;--gold:#FFD700;--pink-neon:#FFB6C1;--link-blue:#4169E1;}
-    *{margin:0;padding:0;box-sizing:border-box;}
-    body{font-family:'Cinzel',serif;background:var(--bg);color:var(--text);text-align:center;overflow-x:hidden;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;touch-action:manipulation;overscroll-behavior-y:contain;}
-    header{padding:1.5rem 0;background:#111;box-shadow:0 4px 10px rgba(0,0,0,.8);}
-    .logo{width:min(85vw,450px);max-height:150px;object-fit:contain;display:block;margin:0 auto;}
-    
-    nav{background:#111;padding:1rem;box-shadow:0 2px 10px rgba(255,215,0,0.3);margin-bottom:1rem;}
-    nav ul{list-style:none;padding:0;display:flex;flex-wrap:wrap;justify-content:center;gap:0.5rem;max-width:1200px;margin:0 auto;}
-    nav ul li a{font-family:'Cinzel',serif;font-size:1.1rem;color:#BBAE98;text-decoration:none;padding:0.5rem 1rem;background:#111;border:1px solid #BBAE98;border-radius:5px;transition:background .3s ease,color .3s ease,box-shadow .3s ease;display:inline-block;text-align:center;}
-    nav ul li a:hover{background:#BBAE98;color:#111;}
-    nav ul li a:focus{outline:2px solid #87CEEB;outline-offset:2px;}
-    
-    @keyframes pulseNeonBlue{
-      0%{box-shadow:0 0 20px #87CEEB,0 0 40px #87CEEB,0 0 60px #87CEEB;border-color:#87CEEB;}
-      50%{box-shadow:0 0 30px #FFB6C1,0 0 60px #FFB6C1,0 0 90px #FFB6C1;border-color:#FFB6C1;}
-      100%{box-shadow:0 0 20px #87CEEB,0 0 40px #87CEEB,0 0 60px #87CEEB;border-color:#87CEEB;}
+    :root{
+      --bg:#000;
+      --text:#fff;
+      --gold:#FFD700;
+      --burgundy:#8B0000;
+      --burgundy-light:#A52A2A;
+      --link-blue:#4169E1;
+      --silver:#C0C0C0;
+      --silver-light:#D3D3D3;
     }
-    nav ul li a.highlight{animation:pulseNeonBlue 0.8s ease-in-out infinite;border:2px solid #87CEEB;}
     
-    .chat-intro{max-width:900px;margin:2.5rem auto 1.5rem;padding:0 1rem;font-size:1.6rem;color:#87CEEB;text-shadow:0 0 20px rgba(135,206,235,0.8),0 0 40px rgba(135,206,235,0.6);font-weight:700;letter-spacing:1px;}
+    *{margin:0;padding:0;box-sizing:border-box;}
     
-    #chat-container{max-width:900px;margin:1rem auto 2rem;padding:0 1rem;}
-    #chat-box{background:#111;border-radius:15px;border:2px solid var(--pink-neon);box-shadow:0 0 25px var(--pink-neon),0 0 50px rgba(255,182,193,0.6),0 0 75px rgba(255,182,193,0.4);overflow:hidden;display:flex;flex-direction:column;height:650px;}
-    #chat-messages{flex:1;padding:1.5rem;overflow-y:auto;color:#fff;background:#0a0a0a;overscroll-behavior-y:contain;}
+    body{
+      font-family:'Cinzel',serif;
+      background:var(--bg);
+      color:var(--text);
+      text-align:center;
+      overflow-x:hidden;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      touch-action:manipulation;
+      overscroll-behavior-y:contain;
+    }
+    
+    header{
+      padding:1.5rem 0;
+      background:#111;
+      box-shadow:0 4px 10px rgba(0,0,0,.8);
+    }
+    
+    .logo{
+      width:min(90vw,720px);
+      max-width:100%;
+      height:auto;
+      object-fit:contain;
+      display:block;
+      margin:0 auto;
+    }
+    
+    nav{
+      background:#111;
+      padding:1rem;
+      box-shadow:0 2px 10px rgba(255,215,0,0.3);
+      margin-bottom:1rem;
+    }
+    
+    nav ul{
+      list-style:none;
+      padding:0;
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:center;
+      gap:0.5rem;
+      max-width:1200px;
+      margin:0 auto;
+    }
+    
+    nav ul li a{
+      font-family:'Cinzel',serif;
+      font-size:clamp(0.85rem, 2.5vw, 1.1rem);
+      color:#BBAE98;
+      text-decoration:none;
+      padding:0.5rem 1rem;
+      background:#111;
+      border:1px solid #BBAE98;
+      border-radius:5px;
+      transition:background .3s ease,color .3s ease,box-shadow .3s ease;
+      display:inline-block;
+      text-align:center;
+      white-space:nowrap;
+    }
+    
+    nav ul li a:hover{
+      background:#BBAE98;
+      color:#111;
+    }
+    
+    nav ul li a:focus{
+      outline:2px solid #87CEEB;
+      outline-offset:2px;
+    }
+    
+    @keyframes pulseNeonBurgundy{
+      0%{
+        box-shadow:0 0 20px var(--burgundy),0 0 40px var(--burgundy),0 0 60px var(--burgundy);
+        border-color:var(--burgundy);
+      }
+      50%{
+        box-shadow:0 0 30px var(--burgundy-light),0 0 60px var(--burgundy-light),0 0 90px var(--burgundy-light);
+        border-color:var(--burgundy-light);
+      }
+      100%{
+        box-shadow:0 0 20px var(--burgundy),0 0 40px var(--burgundy),0 0 60px var(--burgundy);
+        border-color:var(--burgundy);
+      }
+    }
+    
+    nav ul li a.highlight{
+      animation:pulseNeonBurgundy 0.8s ease-in-out infinite;
+      border:2px solid var(--burgundy);
+    }
+    
+    .chat-intro{
+      max-width:900px;
+      margin:2.5rem auto 1.5rem;
+      padding:0 1rem;
+      font-size:clamp(1rem, 4vw, 1.6rem);
+      background:linear-gradient(145deg, var(--silver), var(--silver-light));
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      background-clip:text;
+      font-weight:700;
+      letter-spacing:1px;
+      text-shadow:0 0 10px rgba(192,192,192,0.5);
+    }
+    
+    #chat-container{
+      max-width:900px;
+      margin:1rem auto 2rem;
+      padding:0 1rem;
+    }
+    
+    #chat-box{
+      background:#111;
+      border-radius:15px;
+      border:2px solid var(--burgundy);
+      box-shadow:0 0 25px var(--burgundy),0 0 50px rgba(139,0,0,0.6),0 0 75px rgba(139,0,0,0.4);
+      overflow:hidden;
+      display:flex;
+      flex-direction:column;
+      height:650px;
+    }
+    
+    #chat-messages{
+      flex:1;
+      padding:1.5rem;
+      overflow-y:auto;
+      color:#fff;
+      background:#0a0a0a;
+      overscroll-behavior-y:contain;
+    }
+    
     #chat-messages::-webkit-scrollbar{width:10px;}
     #chat-messages::-webkit-scrollbar-track{background:#1a1a1a;border-radius:5px;}
-    #chat-messages::-webkit-scrollbar-thumb{background:var(--pink-neon);border-radius:5px;}
-    #chat-messages p{margin-bottom:1rem;line-height:1.7;opacity:0;animation:fadeIn 0.6s forwards;}
+    #chat-messages::-webkit-scrollbar-thumb{background:var(--burgundy);border-radius:5px;}
+    
+    #chat-messages p{
+      margin-bottom:1rem;
+      line-height:1.7;
+      opacity:0;
+      animation:fadeIn 0.6s forwards;
+    }
+    
     @keyframes fadeIn{to{opacity:1;}}
-    .bot-message{text-align:left;color:#fff;background:rgba(255,182,193,0.15);padding:1rem;border-radius:10px;margin-bottom:1rem;border:2px solid var(--pink-neon);box-shadow:0 0 12px rgba(255,182,193,0.4);max-width:90%;}
-    .user-message{text-align:right;color:#ffd700;margin-bottom:1rem;border:2px solid #FFD700;box-shadow:0 0 12px rgba(255,215,0,0.4);padding:1rem;border-radius:10px;max-width:90%;margin-left:auto;background:rgba(255,215,0,0.08);}
     
-    #chat-form{display:flex;flex-direction:column;border-top:2px solid var(--pink-neon);padding:1rem;background:#111;gap:0.8rem;}
-    .input-row{display:flex;gap:0.7rem;align-items:center;}
-    #chat-input{flex:1;padding:1rem;border:2px solid var(--pink-neon);outline:none;color:#fff;background:#0a0a0a;border-radius:8px;font-family:'Cinzel',serif;font-size:1rem;}
-    #chat-input::placeholder{color:#999;opacity:0.85;font-style:italic;}
-    #chat-input:focus{box-shadow:0 0 20px rgba(255,182,193,0.5);border-color:#FFB6C1;}
-    #voice-toggle{width:50px;height:50px;background:linear-gradient(145deg,#87CEEB,#5eb6d1);color:#fff;border:none;border-radius:50%;cursor:pointer;box-shadow:0 4px 15px rgba(135,206,235,0.8);font-size:1.4rem;display:flex;align-items:center;justify-content:center;transition:transform 0.2s,box-shadow 0.2s;outline:none;}
-    #voice-toggle:hover{transform:scale(1.1);box-shadow:0 6px 20px rgba(135,206,235,1);}
-    #voice-toggle.disabled{background:linear-gradient(145deg,#808080,#666);box-shadow:0 0 10px #808080;opacity:0.7;}
-    #chat-send{width:100%;background:linear-gradient(145deg,#FFB6C1,#FF69B4);border:none;padding:1rem 1.8rem;cursor:pointer;color:#fff;font-weight:bold;border-radius:8px;transition:transform .2s,box-shadow .2s;font-family:'Cinzel',serif;box-shadow:0 4px 15px rgba(255,105,180,.6);font-size:1.1rem;}
-    #chat-send:hover{transform:scale(1.03);box-shadow:0 6px 20px rgba(255,105,180,.8);}
+    .bot-message{
+      text-align:left;
+      color:#fff;
+      background:rgba(139,0,0,0.15);
+      padding:1rem;
+      border-radius:10px;
+      margin-bottom:1rem;
+      border:2px solid var(--burgundy);
+      box-shadow:0 0 12px rgba(139,0,0,0.4);
+      max-width:90%;
+    }
     
-    .return-line{font-family:'Cinzel',serif;font-size:0.85rem;letter-spacing:0.5px;margin:1.5rem auto 1rem;text-align:center;padding:0 1rem;}
-    .return-line a{color:#5B9BD5;text-decoration:underline;transition:color 0.3s ease;}
-    .return-line a:hover{color:#87CEEB;}
+    .user-message{
+      text-align:right;
+      color:#fff;
+      margin-bottom:1rem;
+      border:2px solid var(--silver);
+      box-shadow:0 0 12px rgba(192,192,192,0.4), inset 0 0 8px rgba(255,255,255,0.1);
+      padding:1rem;
+      border-radius:10px;
+      max-width:90%;
+      margin-left:auto;
+      background:linear-gradient(145deg, rgba(192,192,192,0.1), rgba(211,211,211,0.08));
+    }
     
-    footer{margin-top:2rem;font-size:.9rem;color:#aaa;padding:2rem 1rem;background:#111;}
-    footer a{color:var(--gold);text-decoration:none;transition:color .3s ease;}
-    footer a:hover{color:#fff;}
+    #chat-form{
+      display:flex;
+      flex-direction:column;
+      border-top:2px solid var(--burgundy);
+      padding:1rem;
+      background:#111;
+      gap:0.8rem;
+    }
+    
+    .input-row{
+      display:flex;
+      gap:0.7rem;
+      align-items:center;
+    }
+    
+    #chat-input{
+      flex:1;
+      padding:1rem;
+      border:2px solid var(--burgundy);
+      outline:none;
+      color:#fff;
+      background:#0a0a0a;
+      border-radius:8px;
+      font-family:'Cinzel',serif;
+      font-size:1rem;
+    }
+    
+    #chat-input::placeholder{
+      color:#999;
+      opacity:0.85;
+      font-style:italic;
+    }
+    
+    #chat-input:focus{
+      box-shadow:0 0 20px rgba(139,0,0,0.5);
+      border-color:var(--burgundy-light);
+    }
+    
+    #voice-toggle{
+      width:50px;
+      height:50px;
+      background:linear-gradient(145deg,#87CEEB,#5eb6d1);
+      color:#fff;
+      border:none;
+      border-radius:50%;
+      cursor:pointer;
+      box-shadow:0 4px 15px rgba(135,206,235,0.8);
+      font-size:1.4rem;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      transition:transform 0.2s,box-shadow 0.2s;
+      outline:none;
+    }
+    
+    #voice-toggle:hover{
+      transform:scale(1.1);
+      box-shadow:0 6px 20px rgba(135,206,235,1);
+    }
+    
+    #voice-toggle.disabled{
+      background:linear-gradient(145deg,#808080,#666);
+      box-shadow:0 0 10px #808080;
+      opacity:0.7;
+    }
+    
+    #chat-send{
+      width:100%;
+      background:linear-gradient(145deg,var(--burgundy-light),var(--burgundy));
+      border:none;
+      padding:1rem 1.8rem;
+      cursor:pointer;
+      color:#fff;
+      font-weight:bold;
+      border-radius:8px;
+      transition:transform .2s,box-shadow .2s;
+      font-family:'Cinzel',serif;
+      box-shadow:0 4px 15px rgba(139,0,0,.6);
+      font-size:1.1rem;
+    }
+    
+    #chat-send:hover{
+      transform:scale(1.03);
+      box-shadow:0 6px 20px rgba(139,0,0,.8);
+    }
+    
+    .return-line{
+      font-family:'Cinzel',serif;
+      font-size:0.85rem;
+      letter-spacing:0.5px;
+      margin:3rem auto 1rem;
+      text-align:center;
+      padding:0 1rem;
+    }
+    
+    .return-line a{
+      color:#5B9BD5;
+      text-decoration:underline;
+      transition:color 0.3s ease;
+    }
+    
+    .return-line a:hover{
+      color:#87CEEB;
+    }
+    
+    footer{
+      margin-top:2rem;
+      font-size:.9rem;
+      color:#aaa;
+      padding:2rem 1rem;
+      background:#111;
+    }
+    
+    footer a{
+      color:var(--gold);
+      text-decoration:none;
+      transition:color .3s ease;
+    }
+    
+    footer a:hover{
+      color:#fff;
+    }
+    
+    /* Boutons flottants */
+    .floating-button{
+      position:fixed;
+      bottom:20px;
+      right:20px;
+      z-index:9999;
+      padding:1rem 2rem;
+      background:linear-gradient(145deg, #87CEEB, #5eb6d1);
+      color:#fff;
+      border:2px solid #87CEEB;
+      border-radius:12px;
+      font-family:'Cinzel',serif;
+      font-size:clamp(1rem, 2.5vw, 1.3rem);
+      font-weight:bold;
+      text-decoration:none;
+      cursor:pointer;
+      animation:pulseFloat 1.5s ease-in-out infinite, scaleText 1s ease-in-out infinite;
+      box-shadow:0 4px 20px rgba(135,206,235,0.7);
+      transition:transform 0.2s;
+      display:none;
+    }
+    
+    .floating-button.show{
+      display:block;
+    }
+    
+    .floating-button:hover{
+      transform:scale(1.05);
+    }
+    
+    @keyframes pulseFloat{
+      0%, 100%{
+        box-shadow:0 0 20px #87CEEB, 0 0 40px #87CEEB;
+        border-color:#87CEEB;
+      }
+      50%{
+        box-shadow:0 0 30px var(--burgundy), 0 0 60px var(--burgundy);
+        border-color:var(--burgundy);
+      }
+    }
+    
+    @keyframes scaleText{
+      0%, 100%{
+        font-size:clamp(1rem, 2.5vw, 1.3rem);
+      }
+      50%{
+        font-size:clamp(1.1rem, 2.7vw, 1.5rem);
+      }
+    }
     
     @media(max-width:1024px){
       .chat-intro{font-size:1.4rem;}
@@ -80,18 +391,26 @@
     
     @media(max-width:768px){
       nav ul{gap:0.4rem;}
-      nav ul li a{font-size:1rem;padding:0.45rem 0.8rem;}
+      nav ul li a{font-size:0.95rem;padding:0.45rem 0.8rem;}
       .chat-intro{font-size:1.2rem;}
       #chat-box{height:550px;}
       .return-line{font-size:0.8rem;}
+      .logo{width:95vw;}
+      .floating-button{
+        bottom:10px;
+        right:10px;
+        padding:0.8rem 1.5rem;
+        font-size:clamp(0.9rem, 2.2vw, 1.1rem);
+      }
     }
     
     @media(max-width:480px){
       nav ul{flex-direction:column;align-items:stretch;}
-      nav ul li a{display:block;width:100%;font-size:0.95rem;}
+      nav ul li a{display:block;width:100%;font-size:0.9rem;}
       .chat-intro{font-size:1rem;}
       #chat-box{height:500px;}
       #voice-toggle{width:45px;height:45px;font-size:1.2rem;}
+      .logo{width:98vw;}
     }
   </style>
 </head>
@@ -133,8 +452,11 @@
   </div>
   
   <div class="return-line">
-    <a href="https://www.clairvoyancemedium.com/" onclick="trackClick('RetourCabinet','Navigation',0);">Retour vers le cabinet de voyance ClairVoyanceMedium.com</a>
+    <a href="https://www.clairvoyancemedium.com/" target="_blank" rel="noopener noreferrer" onclick="trackClick('RetourCabinet','Navigation',0);">Retour vers le cabinet de voyance ClairVoyanceMedium.com</a>
   </div>
+  
+  <!-- Bouton flottant dynamique -->
+  <a id="floating-btn" class="floating-button" href="#" target="_blank" rel="noopener noreferrer"></a>
   
   <footer>
     <p>© 2006-<span id="current-year"></span> ClairVoyanceMedium.com - Tous droits réservés</p>
@@ -142,9 +464,10 @@
   </footer>
   
   <script>
+// Année auto-mise à jour
 document.getElementById('current-year').textContent = new Date().getFullYear();
 
-// Bloquer le pull-to-refresh
+// Bloquer pull-to-refresh mobile
 let lastTouchY = 0;
 let preventPullToRefresh = false;
 
@@ -179,23 +502,32 @@ let messageCount = 0;
 let voiceEnabled = true;
 let recognition = null;
 let currentHighlightedLinks = [];
+let askedForName = false;
 
+// Configuration vocale (du document 2)
 function speak(text) {
   if (!voiceEnabled || !('speechSynthesis' in window)) return;
+  
+  // Ne pas citer les URLs
+  const textToSpeak = text.replace(/https?:\/\/[^\s]+/g, '');
+  
   window.speechSynthesis.cancel();
-  const utterance = new SpeechSynthesisUtterance(text);
+  const utterance = new SpeechSynthesisUtterance(textToSpeak);
   utterance.lang = 'fr-FR';
-  utterance.pitch = 0.9;
-  utterance.rate = 1.0;
+  utterance.pitch = 0.5;
+  utterance.rate = 1.1;
+  
   const voices = window.speechSynthesis.getVoices();
   if (voices.length > 0) {
-    const frVoice = voices.find(v => v.lang.startsWith('fr'));
-    if (frVoice) utterance.voice = frVoice;
+    const maleVoice = voices.find(v => v.name.toLowerCase().includes('male') || v.name.toLowerCase().includes('français'));
+    if (maleVoice) utterance.voice = maleVoice;
   }
+  
   window.speechSynthesis.speak(utterance);
   trackClick('VoiceOutput', 'Chat', 0);
 }
 
+// Reconnaissance vocale
 if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   recognition = new SpeechRecognition();
@@ -230,7 +562,6 @@ document.getElementById('voice-toggle').addEventListener('click', () => {
 function highlightNav(keywords) {
   if (!keywords) return;
   
-  // Arrêter les anciens clignotements
   currentHighlightedLinks.forEach(link => link.classList.remove('highlight'));
   currentHighlightedLinks = [];
   
@@ -241,6 +572,9 @@ function highlightNav(keywords) {
     if (keywordList.some(k => linkKeywords.includes(k))) {
       link.classList.add('highlight');
       currentHighlightedLinks.push(link);
+      
+      // Créer bouton flottant pour navigation
+      showFloatingButton(link.textContent.trim(), link.href, 8000);
     }
   });
 }
@@ -248,6 +582,18 @@ function highlightNav(keywords) {
 function stopHighlight() {
   currentHighlightedLinks.forEach(link => link.classList.remove('highlight'));
   currentHighlightedLinks = [];
+}
+
+// Gestion du bouton flottant
+function showFloatingButton(text, url, duration) {
+  const floatingBtn = document.getElementById('floating-btn');
+  floatingBtn.textContent = text || 'Cliquez ici';
+  floatingBtn.href = url;
+  floatingBtn.classList.add('show');
+  
+  setTimeout(() => {
+    floatingBtn.classList.remove('show');
+  }, duration);
 }
 
 function addMessage(text, isBot = false) {
@@ -270,56 +616,64 @@ const knowledgeBase = [
   { 
     q: "bonjour|salut|bonsoir|hello", 
     priority: 99, 
-    answer: () => "Bonjour, ravi de vous accueillir ! Je suis ClairVoyanceGPT. Quelle quête sacrée vous amène aujourd'hui ?",
+    answer: () => "Bonjour, ravi de vous accueillir ! Je suis ClairVoyanceGPT. Avant de commencer, quel est votre prénom ?",
     track: 'Greeting'
   },
   { 
     q: "voyance|voyant|prédiction|avenir|futur|consultation", 
     highlight: "voyance téléphone|voyance email", 
-    answer: (name) => `${name || 'Cher consultant'}, l'incertitude peut être étouffante. Frederick, fort de 25 ans d'expertise, a guidé des milliers de personnes. Consultation téléphone 30min à 30€ ou email 3Q à 12€. Les tarifs exceptionnels ne dureront pas. https://clairvoyancemedium.github.io/Voyancepartelephonepaschere.github.io/`,
-    track: 'Voyance'
+    answer: (name) => `${name || 'Cher consultant'}, l'incertitude peut être étouffante. Frederick, fort de 25 ans d'expertise, a guidé des milliers de personnes. Consultation téléphone 30min à 30€ ou email 3Q à 12€. Les tarifs exceptionnels ne dureront pas. Je vous invite à cliquer sur le lien qui vient d'apparaître.`,
+    track: 'Voyance',
+    url: 'https://clairvoyancemedium.github.io/Voyancepartelephonepaschere.github.io/'
   },
   { 
     q: "amour|ex|relation|couple|séparation|rupture|retour", 
     highlight: "retour affectif|compatibilité", 
-    answer: (name) => `${name || 'Cher consultant'}, je comprends cette douleur. Frederick a réconcilié des centaines de couples. Son rituel à 175€ restaurera l'harmonie. Agissez maintenant. https://www.clairvoyancemedium.com/Reconquerir-son-ex-a-distance-Blanche-cbaaaaasa.asp`,
-    track: 'Amour'
+    answer: (name) => `${name || 'Cher consultant'}, je comprends cette douleur. Frederick a réconcilié des centaines de couples. Son rituel à 175€ restaurera l'harmonie. Agissez maintenant, je vous invite à cliquer sur le bouton qui vient d'apparaître.`,
+    track: 'Amour',
+    url: 'https://www.clairvoyancemedium.com/Reconquerir-son-ex-a-distance-Blanche-cbaaaaasa.asp'
   },
   { 
     q: "désenvoûtement|envoûté|sort|malédiction|protection|purification", 
     highlight: "purification", 
-    answer: (name) => `${name || 'Cher consultant'}, cauchemars, fatigue, malchance révèlent une influence occulte. Frederick maîtrise les rituels à 150€. En 4 jours, il brisera ces chaînes. https://www.clairvoyancemedium.com/Desenvoutement-et-protection-a-distance-cbaaaaala.asp`,
-    track: 'Desenvoutement'
+    answer: (name) => `${name || 'Cher consultant'}, cauchemars, fatigue, malchance révèlent une influence occulte. Frederick maîtrise les rituels à 150€. En 4 jours, il brisera ces chaînes. Cliquez sur le bouton qui vient d'apparaître pour commencer.`,
+    track: 'Desenvoutement',
+    url: 'https://www.clairvoyancemedium.com/Desenvoutement-et-protection-a-distance-cbaaaaala.asp'
   },
   { 
     q: "défunt|mort|décédé|au-delà|message|deuil", 
     highlight: "défunt", 
-    answer: (name) => `${name || 'Cher consultant'}, le deuil est lourd. Frederick établit ce pont sacré. Pour 17€, recevez un message qui apaisera votre cœur. https://www.clairvoyancemedium.com/Recevez-1-message-d-un-defunt-cbaaaabka.asp`,
-    track: 'Defunt'
+    answer: (name) => `${name || 'Cher consultant'}, le deuil est lourd. Frederick établit ce pont sacré. Pour 17€, recevez un message qui apaisera votre cœur. Je vous invite à cliquer sur le lien proposé.`,
+    track: 'Defunt',
+    url: 'https://www.clairvoyancemedium.com/Recevez-1-message-d-un-defunt-cbaaaabka.asp'
   },
   { 
     q: "santé|maladie|douleur|corps", 
     highlight: "santé", 
-    answer: (name) => `${name || 'Cher consultant'}, ces maux ont des racines énergétiques. Frederick identifiera les déséquilibres. Consultation 30€. https://www.clairvoyancemedium.com/Medecine-Consultation-par-email-cbaaaabja.asp`,
-    track: 'Sante'
+    answer: (name) => `${name || 'Cher consultant'}, ces maux ont des racines énergétiques. Frederick identifiera les déséquilibres. Consultation 30€. Le lien est disponible pour vous.`,
+    track: 'Sante',
+    url: 'https://www.clairvoyancemedium.com/Medecine-Consultation-par-email-cbaaaabja.asp'
   },
   { 
     q: "main|chiromancie|ligne|paume", 
     highlight: "main", 
-    answer: (name) => `${name || 'Cher consultant'}, vos mains révèlent votre destinée. Frederick décrypte ces symboles pour 10€. https://www.clairvoyancemedium.com/Ligne-de-la-main-Voyance-3-questions-cbaaaaana.asp`,
-    track: 'Main'
+    answer: (name) => `${name || 'Cher consultant'}, vos mains révèlent votre destinée. Frederick décrypte ces symboles pour 10€. Cliquez sur le bouton qui s'affiche.`,
+    track: 'Main',
+    url: 'https://www.clairvoyancemedium.com/Ligne-de-la-main-Voyance-3-questions-cbaaaaana.asp'
   },
   { 
     q: "ange|gardien|céleste", 
     highlight: "ange", 
-    answer: (name) => `${name || 'Cher consultant'}, votre ange gardien tente de vous protéger. Frederick capte ce message pour 10€. https://www.clairvoyancemedium.com/Message-de-votre-Ange-gardien-cbaaaabba.asp`,
-    track: 'Ange'
+    answer: (name) => `${name || 'Cher consultant'}, votre ange gardien tente de vous protéger. Frederick capte ce message pour 10€. Je vous invite à cliquer maintenant.`,
+    track: 'Ange',
+    url: 'https://www.clairvoyancemedium.com/Message-de-votre-Ange-gardien-cbaaaabba.asp'
   },
   { 
     q: "fatigue|épuisement|énergie", 
     highlight: "purification", 
-    answer: (name) => `${name || 'Cher consultant'}, cette fatigue révèle un drainage énergétique. Frederick restaure votre vitalité en 4 jours à 150€. https://www.clairvoyancemedium.com/Desenvoutement-et-protection-a-distance-cbaaaaala.asp`,
-    track: 'Fatigue'
+    answer: (name) => `${name || 'Cher consultant'}, cette fatigue révèle un drainage énergétique. Frederick restaure votre vitalité en 4 jours à 150€. Le bouton est là pour vous.`,
+    track: 'Fatigue',
+    url: 'https://www.clairvoyancemedium.com/Desenvoutement-et-protection-a-distance-cbaaaaala.asp'
   },
   { 
     q: "prix|tarif|combien", 
@@ -354,6 +708,7 @@ function findBestMatch(input) {
   const nameMatch = input.match(/(?:je m'appelle|mon prénom|je suis|c'est)\s+([a-zàâäéèêëïîôùûüÿæœç]+)/i);
   if (nameMatch && !userName) {
     userName = nameMatch[1].charAt(0).toUpperCase() + nameMatch[1].slice(1).toLowerCase();
+    askedForName = false;
     return knowledgeBase.find(item => item.q.includes('prénom'));
   }
   
@@ -387,10 +742,16 @@ function handleMessage() {
   trackClick('MessageSent', 'Chat', messageCount);
   
   setTimeout(() => {
-    const match = findBestMatch(userMsg);
-    
-    // Arrêter le clignotement précédent avant la nouvelle réponse
     stopHighlight();
+    
+    // Demander le prénom si pas encore fait
+    if (!userName && !askedForName && messageCount === 1) {
+      askedForName = true;
+      addMessage("Avant de commencer, quel est votre prénom ?", true);
+      return;
+    }
+    
+    const match = findBestMatch(userMsg);
     
     if (match) {
       const response = typeof match.answer === 'function' 
@@ -401,6 +762,10 @@ function handleMessage() {
       
       if (match.highlight) {
         highlightNav(match.highlight);
+      }
+      
+      if (match.url) {
+        showFloatingButton('Cliquez ici', match.url, 10000);
       }
       
       if (match.track) {
@@ -435,7 +800,7 @@ document.getElementById('chat-form').addEventListener('submit', (e) => {
 });
 
 setTimeout(() => {
-  addMessage("Bienvenue ! Je suis ClairVoyanceGPT, assistant de Frederick, médium depuis 25 ans. Quelle quête spirituelle vous amène ?", true);
+  addMessage("Bienvenue ! Je suis ClairVoyanceGPT, assistant de Frederick, médium depuis 25 ans. Quel est votre prénom ?", true);
   trackClick('ChatOpened', 'Chat', 0);
 }, 500);
 </script>
