@@ -34,8 +34,8 @@
       --bg:#000;
       --text:#fff;
       --gold:#FFD700;
-      --burgundy:#8B0000;
-      --burgundy-light:#A52A2A;
+      --burgundy:#FF6B6B;
+      --burgundy-light:#FF8787;
       --link-blue:#4169E1;
       --silver:#C0C0C0;
       --silver-light:#D3D3D3;
@@ -135,16 +135,13 @@
     
     .chat-intro{
       max-width:900px;
-      margin:2.5rem auto 1.5rem;
+      margin:2.5rem auto 3rem;
       padding:0 1rem;
       font-size:clamp(1rem, 4vw, 1.6rem);
-      background:linear-gradient(145deg, var(--silver), var(--silver-light));
-      -webkit-background-clip:text;
-      -webkit-text-fill-color:transparent;
-      background-clip:text;
+      color:var(--gold);
+      text-shadow:0 0 10px rgba(255,215,0,0.5);
       font-weight:700;
       letter-spacing:1px;
-      text-shadow:0 0 10px rgba(192,192,192,0.5);
     }
     
     #chat-container{
@@ -157,7 +154,7 @@
       background:#111;
       border-radius:15px;
       border:2px solid var(--burgundy);
-      box-shadow:0 0 25px var(--burgundy),0 0 50px rgba(139,0,0,0.6),0 0 75px rgba(139,0,0,0.4);
+      box-shadow:0 0 25px var(--burgundy),0 0 50px rgba(255,107,107,0.5),0 0 75px rgba(255,107,107,0.3);
       overflow:hidden;
       display:flex;
       flex-direction:column;
@@ -189,12 +186,12 @@
     .bot-message{
       text-align:left;
       color:#fff;
-      background:rgba(139,0,0,0.15);
+      background:rgba(255,107,107,0.15);
       padding:1rem;
       border-radius:10px;
       margin-bottom:1rem;
       border:2px solid var(--burgundy);
-      box-shadow:0 0 12px rgba(139,0,0,0.4);
+      box-shadow:0 0 12px rgba(255,107,107,0.4);
       max-width:90%;
     }
     
@@ -245,7 +242,7 @@
     }
     
     #chat-input:focus{
-      box-shadow:0 0 20px rgba(139,0,0,0.5);
+      box-shadow:0 0 20px rgba(255,107,107,0.5);
       border-color:var(--burgundy-light);
     }
     
@@ -288,20 +285,20 @@
       border-radius:8px;
       transition:transform .2s,box-shadow .2s;
       font-family:'Cinzel',serif;
-      box-shadow:0 4px 15px rgba(139,0,0,.6);
+      box-shadow:0 4px 15px rgba(255,107,107,.5);
       font-size:1.1rem;
     }
     
     #chat-send:hover{
       transform:scale(1.03);
-      box-shadow:0 6px 20px rgba(139,0,0,.8);
+      box-shadow:0 6px 20px rgba(255,107,107,.7);
     }
     
     .return-line{
       font-family:'Cinzel',serif;
       font-size:0.85rem;
       letter-spacing:0.5px;
-      margin:3rem auto 1rem;
+      margin:4.5rem auto 1rem;
       text-align:center;
       padding:0 1rem;
     }
@@ -424,15 +421,15 @@
   
   <nav>
     <ul>
-      <li><a href="https://clairvoyancemedium.github.io/Voyancepartelephonepaschere.github.io/" onclick="trackClick('VoyanceTel','Navigation',30);" data-keyword="voyance téléphone|téléphone|appel|30min">Voyance Tél 30min/30€</a></li>
-      <li><a href="https://www.clairvoyancemedium.com/Voyance-3-Questions-par-Email-cbaaaaaca.asp" onclick="trackClick('VoyanceEmail','Navigation',12);" data-keyword="voyance email|email|questions|3 questions">Voyance Email 3Q/12€</a></li>
-      <li><a href="https://www.clairvoyancemedium.com/Reconquerir-son-ex-a-distance-Blanche-cbaaaaasa.asp" onclick="trackClick('RetourEx','Navigation',175);" data-keyword="retour affectif|ex|reconquérir|amour">Retour Ex/175€</a></li>
-      <li><a href="https://www.clairvoyancemedium.com/Compatibilite-amoureuse-cbaaaaata.asp" onclick="trackClick('Compatibilite','Navigation',20);" data-keyword="compatibilité|couple|amoureuse|relation">Compatibilité/20€</a></li>
-      <li><a href="https://www.clairvoyancemedium.com/Desenvoutement-et-protection-a-distance-cbaaaaala.asp" onclick="trackClick('Protection','Navigation',150);" data-keyword="désenvoûtement|protection|purification|envoûtement|sort|malédiction">Purification/150€</a></li>
-      <li><a href="https://www.clairvoyancemedium.com/Recevez-1-message-d-un-defunt-cbaaaabka.asp" onclick="trackClick('Defunt','Navigation',17);" data-keyword="défunt|mort|message|au-delà">Défunt/17€</a></li>
-      <li><a href="https://www.clairvoyancemedium.com/Medecine-Consultation-par-email-cbaaaabja.asp" onclick="trackClick('Sante','Navigation',30);" data-keyword="santé|naturelle|médecine|bien-être">Santé/30€</a></li>
-      <li><a href="https://www.clairvoyancemedium.com/Ligne-de-la-main-Voyance-3-questions-cbaaaaana.asp" onclick="trackClick('Main','Navigation',10);" data-keyword="ligne main|chiromancie|main|paume">Main/10€</a></li>
-      <li><a href="https://www.clairvoyancemedium.com/Message-de-votre-Ange-gardien-cbaaaabba.asp" onclick="trackClick('Ange','Navigation',10);" data-keyword="ange|gardien|ange gardien|céleste">Ange/10€</a></li>
+      <li><a href="https://clairvoyancemedium.github.io/Voyancepartelephonepaschere.github.io/" target="_blank" rel="noopener noreferrer" onclick="trackClick('VoyanceTel','Navigation',30);" data-keyword="voyance téléphone|téléphone|appel|30min">Voyance Tél 30min/30€</a></li>
+      <li><a href="https://www.clairvoyancemedium.com/Voyance-3-Questions-par-Email-cbaaaaaca.asp" target="_blank" rel="noopener noreferrer" onclick="trackClick('VoyanceEmail','Navigation',12);" data-keyword="voyance email|email|questions|3 questions">Voyance Email 3Q/12€</a></li>
+      <li><a href="https://www.clairvoyancemedium.com/Reconquerir-son-ex-a-distance-Blanche-cbaaaaasa.asp" target="_blank" rel="noopener noreferrer" onclick="trackClick('RetourEx','Navigation',175);" data-keyword="retour affectif|ex|reconquérir|amour">Retour Ex/175€</a></li>
+      <li><a href="https://www.clairvoyancemedium.com/Compatibilite-amoureuse-cbaaaaata.asp" target="_blank" rel="noopener noreferrer" onclick="trackClick('Compatibilite','Navigation',20);" data-keyword="compatibilité|couple|amoureuse|relation">Compatibilité/20€</a></li>
+      <li><a href="https://www.clairvoyancemedium.com/Desenvoutement-et-protection-a-distance-cbaaaaala.asp" target="_blank" rel="noopener noreferrer" onclick="trackClick('Protection','Navigation',150);" data-keyword="désenvoûtement|protection|purification|envoûtement|sort|malédiction">Purification/150€</a></li>
+      <li><a href="https://www.clairvoyancemedium.com/Recevez-1-message-d-un-defunt-cbaaaabka.asp" target="_blank" rel="noopener noreferrer" onclick="trackClick('Defunt','Navigation',17);" data-keyword="défunt|mort|message|au-delà">Défunt/17€</a></li>
+      <li><a href="https://www.clairvoyancemedium.com/Medecine-Consultation-par-email-cbaaaabja.asp" target="_blank" rel="noopener noreferrer" onclick="trackClick('Sante','Navigation',30);" data-keyword="santé|naturelle|médecine|bien-être">Santé/30€</a></li>
+      <li><a href="https://www.clairvoyancemedium.com/Ligne-de-la-main-Voyance-3-questions-cbaaaaana.asp" target="_blank" rel="noopener noreferrer" onclick="trackClick('Main','Navigation',10);" data-keyword="ligne main|chiromancie|main|paume">Main/10€</a></li>
+      <li><a href="https://www.clairvoyancemedium.com/Message-de-votre-Ange-gardien-cbaaaabba.asp" target="_blank" rel="noopener noreferrer" onclick="trackClick('Ange','Navigation',10);" data-keyword="ange|gardien|ange gardien|céleste">Ange/10€</a></li>
     </ul>
   </nav>
   
@@ -459,8 +456,8 @@
   <a id="floating-btn" class="floating-button" href="#" target="_blank" rel="noopener noreferrer"></a>
   
   <footer>
-    <p>© <span id="current-year"></span> ClairVoyanceMedium.com - Tous droits réservés</p>
-    <p><a href="https://www.clairvoyancemedium.com/Conditions-Generales-des-Ventes-et-d-Utilisation-ccsaaaaaa.asp" target="_blank" onclick="trackClick('CGV','Footer',0);">Conditions Générales</a></p>
+    <p style="color:#aaa;">© 2006-<span id="current-year"></span> ClairVoyanceMedium.com - Tous droits réservés</p>
+    <p><a href="https://www.clairvoyancemedium.com/Conditions-Generales-des-Ventes-et-d-Utilisation-ccsaaaaaa.asp" target="_blank" rel="noopener noreferrer" onclick="trackClick('CGV','Footer',0);" style="color:#aaa;">Conditions Générales</a></p>
   </footer>
   
   <script>
@@ -610,7 +607,7 @@ const knowledgeBase = [
   { 
     q: "prénom|nom|appelle|m'appelle|je suis|c'est", 
     priority: 100, 
-    answer: (name) => `Bonjour ${name}, ravi de vous accueillir. Je suis l'assistant de Frederick, expert spirituel depuis 25 ans. Vous n'êtes pas seul. Quelle quête spirituelle vous amène ?`,
+    answer: (name) => `Bonjour ${name}, comment puis-je vous aider aujourd'hui ?`,
     track: 'Prenom'
   },
   { 
@@ -622,7 +619,7 @@ const knowledgeBase = [
   { 
     q: "voyance|voyant|prédiction|avenir|futur|consultation", 
     highlight: "voyance téléphone|voyance email", 
-    answer: (name) => `${name || 'Cher consultant'}, l'incertitude peut être étouffante. Frederick, fort de 25 ans d'expertise, a guidé des milliers de personnes. Consultation téléphone 30min à 30€ ou email 3Q à 12€. Les tarifs exceptionnels ne dureront pas. Je vous invite à cliquer sur le lien qui vient d'apparaître.`,
+    answer: (name) => `${name || 'Cher consultant'}, l'incertitude peut être étouffante. Frederick, fort de plus de 25 ans d'expertise, a guidé des milliers de personnes. Consultation téléphone 30min à 30€ ou email 3Q à 12€. Les tarifs exceptionnels ne dureront pas. Je vous invite à cliquer sur le lien qui vient d'apparaître.`,
     track: 'Voyance',
     url: 'https://clairvoyancemedium.github.io/Voyancepartelephonepaschere.github.io/'
   },
@@ -800,10 +797,9 @@ document.getElementById('chat-form').addEventListener('submit', (e) => {
 });
 
 setTimeout(() => {
-  addMessage("Bienvenue ! Je suis ClairVoyanceGPT, assistant de Frederick, médium depuis 25 ans. Quel est votre prénom ?", true);
+  addMessage("Bienvenue ! Je suis ClairVoyanceGPT, assistant de Frederick, médium depuis plus de 25 ans. Quel est votre prénom ?", true);
   trackClick('ChatOpened', 'Chat', 0);
 }, 500);
 </script>
 </body>
 </html>
-
