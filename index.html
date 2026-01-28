@@ -24,7 +24,7 @@
   <style>
     :root{--bg:#000;--text:#fff;--gold:#FFD700;--pink-neon:#FFB6C1;--link-blue:#4169E1;}
     *{margin:0;padding:0;box-sizing:border-box;}
-    body{font-family:'Cinzel',serif;background:var(--bg);color:var(--text);text-align:center;overflow-x:hidden;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;touch-action:manipulation;}
+    body{font-family:'Cinzel',serif;background:var(--bg);color:var(--text);text-align:center;overflow-x:hidden;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;touch-action:manipulation;overscroll-behavior-y:contain;}
     header{padding:1.5rem 0;background:#111;box-shadow:0 4px 10px rgba(0,0,0,.8);}
     .logo{width:min(85vw,450px);max-height:150px;object-fit:contain;display:block;margin:0 auto;}
     
@@ -45,7 +45,7 @@
     
     #chat-container{max-width:900px;margin:1rem auto 2rem;padding:0 1rem;}
     #chat-box{background:#111;border-radius:15px;border:2px solid var(--pink-neon);box-shadow:0 0 25px var(--pink-neon),0 0 50px rgba(255,182,193,0.6),0 0 75px rgba(255,182,193,0.4);overflow:hidden;display:flex;flex-direction:column;height:650px;}
-    #chat-messages{flex:1;padding:1.5rem;overflow-y:auto;color:#fff;background:#0a0a0a;}
+    #chat-messages{flex:1;padding:1.5rem;overflow-y:auto;color:#fff;background:#0a0a0a;overscroll-behavior-y:contain;}
     #chat-messages::-webkit-scrollbar{width:10px;}
     #chat-messages::-webkit-scrollbar-track{background:#1a1a1a;border-radius:5px;}
     #chat-messages::-webkit-scrollbar-thumb{background:var(--pink-neon);border-radius:5px;}
@@ -144,6 +144,30 @@
   <script>
 document.getElementById('current-year').textContent = new Date().getFullYear();
 
+// Bloquer le pull-to-refresh
+let lastTouchY = 0;
+let preventPullToRefresh = false;
+
+document.addEventListener('touchstart', (e) => {
+  if (e.touches.length !== 1) return;
+  lastTouchY = e.touches[0].clientY;
+  preventPullToRefresh = window.pageYOffset === 0;
+}, {passive: false});
+
+document.addEventListener('touchmove', (e) => {
+  const touchY = e.touches[0].clientY;
+  const touchYDelta = touchY - lastTouchY;
+  lastTouchY = touchY;
+
+  if (preventPullToRefresh) {
+    if (touchYDelta > 0) {
+      e.preventDefault();
+      return;
+    }
+    preventPullToRefresh = false;
+  }
+}, {passive: false});
+
 function trackClick(label, category, value) {
   if (typeof gtag === 'function') {
     gtag('event', label, {'event_category': category, 'event_label': label, 'value': value});
@@ -154,6 +178,7 @@ let userName = '';
 let messageCount = 0;
 let voiceEnabled = true;
 let recognition = null;
+let currentHighlightedLinks = [];
 
 function speak(text) {
   if (!voiceEnabled || !('speechSynthesis' in window)) return;
@@ -204,15 +229,25 @@ document.getElementById('voice-toggle').addEventListener('click', () => {
 
 function highlightNav(keywords) {
   if (!keywords) return;
+  
+  // Arrêter les anciens clignotements
+  currentHighlightedLinks.forEach(link => link.classList.remove('highlight'));
+  currentHighlightedLinks = [];
+  
   const navLinks = document.querySelectorAll('nav ul li a');
   navLinks.forEach(link => {
     const linkKeywords = link.getAttribute('data-keyword').toLowerCase();
     const keywordList = keywords.toLowerCase().split('|');
     if (keywordList.some(k => linkKeywords.includes(k))) {
       link.classList.add('highlight');
-      setTimeout(() => link.classList.remove('highlight'), 8000);
+      currentHighlightedLinks.push(link);
     }
   });
+}
+
+function stopHighlight() {
+  currentHighlightedLinks.forEach(link => link.classList.remove('highlight'));
+  currentHighlightedLinks = [];
 }
 
 function addMessage(text, isBot = false) {
@@ -293,7 +328,7 @@ const knowledgeBase = [
   },
   { 
     q: "contact|email|joindre", 
-    answer: (name) => `${name || 'Cher consultant'}, contactez Frederick : contact.clairvoyancemedium@gmail.com. Réponse sous 24h.`,
+    answer: (name) => `${name || 'Cher consultant'}, pour toute question, consultez directement nos services sur le site. Réponse rapide garantie.`,
     track: 'Contact'
   },
   { 
@@ -354,6 +389,9 @@ function handleMessage() {
   setTimeout(() => {
     const match = findBestMatch(userMsg);
     
+    // Arrêter le clignotement précédent avant la nouvelle réponse
+    stopHighlight();
+    
     if (match) {
       const response = typeof match.answer === 'function' 
         ? match.answer(userName)
@@ -370,8 +408,8 @@ function handleMessage() {
       }
     } else {
       const defaultMsg = userName 
-        ? `${userName}, précisez votre besoin : amour, voyance, protection ? Ou contactez : contact.clairvoyancemedium@gmail.com`
-        : `Votre question nécessite une guidance personnalisée. Consultez nos services ou contactez : contact.clairvoyancemedium@gmail.com`;
+        ? `${userName}, précisez votre besoin : amour, voyance, protection ? Ou consultez nos services directement.`
+        : `Votre question nécessite une guidance personnalisée. Consultez nos services pour un accompagnement approfondi.`;
       
       addMessage(defaultMsg, true);
       trackClick('NoMatch', 'Response', 0);
