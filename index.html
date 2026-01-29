@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -34,8 +35,8 @@
       --bg:#000;
       --text:#fff;
       --gold:#FFD700;
-      --burgundy:#FA8072;
-      --burgundy-light:#FFA07A;
+      --burgundy:#FF6B6B;
+      --burgundy-light:#FF8787;
       --link-blue:#4169E1;
       --silver:#C0C0C0;
       --silver-light:#D3D3D3;
@@ -138,8 +139,8 @@
       margin:2.5rem auto 3rem;
       padding:0 1rem;
       font-size:clamp(1rem, 4vw, 1.6rem);
-      color:var(--silver);
-      text-shadow:0 0 10px rgba(192,192,192,0.5);
+      color:var(--gold);
+      text-shadow:0 0 10px rgba(255,215,0,0.5);
       font-weight:700;
       letter-spacing:1px;
     }
@@ -239,7 +240,6 @@
       color:#999;
       opacity:0.85;
       font-style:italic;
-      font-size:0.8rem;
     }
     
     #chat-input:focus{
@@ -323,7 +323,7 @@
     }
     
     footer a{
-      color:var(--silver); /* gris comme demandé */
+      color:var(--gold);
       text-decoration:none;
       transition:color .3s ease;
     }
@@ -360,20 +360,6 @@
     
     .floating-button:hover{
       transform:scale(1.05);
-    }
-    
-    .floating-button .close {
-      position: absolute;
-      top: -10px;
-      right: -10px;
-      background: #fff;
-      color: #000;
-      border-radius: 50%;
-      padding: 0 5px;
-      cursor: pointer;
-      font-size: 1rem;
-      line-height: 1;
-      box-shadow: 0 0 5px rgba(0,0,0,0.3);
     }
     
     @keyframes pulseFloat{
@@ -464,7 +450,7 @@
   </div>
   
   <div class="return-line">
-    <a href="#" onclick="history.back(); return false;" rel="noopener noreferrer" >Retour vers le cabinet de voyance ClairVoyanceMedium.com</a>
+    <a href="https://www.clairvoyancemedium.com/" target="_blank" rel="noopener noreferrer" onclick="trackClick('RetourCabinet','Navigation',0);">Retour vers le cabinet de voyance ClairVoyanceMedium.com</a>
   </div>
   
   <!-- Bouton flottant dynamique -->
@@ -622,13 +608,13 @@ const knowledgeBase = [
   { 
     q: "prénom|nom|appelle|m'appelle|je suis|c'est", 
     priority: 100, 
-    answer: (name) => `Bonjour ${name}, comment puis-je vous aider aujourd'hui ?`,
+    answer: (name) => `Enchanté ${name}, comment puis-je vous aider aujourd'hui ?`,
     track: 'Prenom'
   },
   { 
     q: "bonjour|salut|bonsoir|hello", 
     priority: 99, 
-    answer: () => "Bonjour, ravi de vous accueillir ! Je suis ClairVoyanceGPT. Avant de commencer, quel est votre prénom ?",
+    answer: () => "Bonjour, enchanté de vous accueillir ! Je suis ClairVoyanceGPT. Avant de commencer, quel est votre prénom ?",
     track: 'Greeting'
   },
   { 
@@ -638,7 +624,7 @@ const knowledgeBase = [
     track: 'Voyance',
     url: 'https://clairvoyancemedium.github.io/Voyancepartelephonepaschere.github.io/'
   },
-  // ... (toute la base de connaissances complète ici, comme dans les précédents échanges)
+  // Ajouter ici tous les autres éléments de knowledgeBase du code initial
 ];
 
 function findBestMatch(input) {
@@ -686,7 +672,7 @@ function handleMessage() {
     // Demander le prénom si pas encore fait
     if (!userName && !askedForName && messageCount === 1) {
       askedForName = true;
-      addMessage("Avant de commencer, quel est votre prénom ?", true);
+      addMessage("Bonjour, enchanté de faire votre connaissance ! Avant de commencer, quel est votre prénom ?", true);
       return;
     }
     
@@ -712,8 +698,8 @@ function handleMessage() {
       }
     } else {
       const defaultMsg = userName 
-        ? `${userName}, précisez votre besoin : amour, voyance, protection ? Ou consultez nos services directement.`
-        : `Votre question nécessite une guidance personnalisée. Consultez nos services pour un accompagnement approfondi.`;
+        ? `Je suis désolé, ${userName}, je n'ai pas compris votre question. Pouvez-vous la reformuler ou préciser votre besoin : amour, voyance, protection ? Ou consultez nos services directement.`
+        : `Votre question nécessite une guidance personnalisée. Pouvez-vous préciser votre besoin pour un accompagnement approfondi ?`;
       
       addMessage(defaultMsg, true);
       trackClick('NoMatch', 'Response', 0);
