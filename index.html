@@ -3,9 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https: blob:; font-src 'self' https://fonts.gstatic.com data:; connect-src 'self' https://www.google-analytics.com https://www.googletagmanager.com; media-src 'self' blob:;">
   
   <title>Chat IA Spirituel - ClairVoyanceMedium.com</title>
+  <meta name="description" content="ClairVoyanceGPT - Assistant spirituel IA pour désenvoûtement, protection et guidance. Frederick du Cabinet ClairVoyanceMedium.com vous accompagne.">
+  
+  <!-- Favicon -->
+  <link rel="icon" href="https://i.imgur.com/GmyGlKk.webp" type="image/webp">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://i.imgur.com/GmyGlKk.webp">
+  <meta name="theme-color" content="#8B0000">
   
   <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-2RSFE6WL4M"></script>
@@ -16,11 +21,6 @@
     gtag('config', 'G-2RSFE6WL4M', {'anonymize_ip': true});
     gtag('config', 'GTM-P3J6SXCH', {'anonymize_ip': true});
   </script>
-  
-  <!-- Favicon -->
-  <link rel="icon" href="https://i.imgur.com/GmyGlKk.webp" type="image/webp">
-  <link rel="apple-touch-icon" sizes="180x180" href="https://i.imgur.com/GmyGlKk.webp">
-  <meta name="theme-color" content="#8B0000">
   
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -36,7 +36,7 @@
       --burgundy:#FF6B6B;
       --burgundy-light:#FF8787;
       --silver:#C0C0C0;
-      --silver-light:#D3D3D3;
+      --accent:#87CEEB;
     }
     
     *{margin:0;padding:0;box-sizing:border-box;}
@@ -48,43 +48,23 @@
       text-align:center;
       overflow-x:hidden;
       -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
       touch-action:manipulation;
       overscroll-behavior-y:contain;
     }
     
-    header{
-      padding:1rem 0;
-      background:#111;
-      box-shadow:0 4px 10px rgba(0,0,0,.8);
-    }
-    
-    .logo{
-      width:min(90vw,720px);
-      max-width:100%;
-      height:auto;
-      object-fit:contain;
-      display:block;
-      margin:0 auto;
-      background:#111;
-    }
-    
-    /* NAVIGATION - DISPOSITION COMME PHOTO - NON STICKY */
+    /* NAVIGATION - DISPOSITION GRILLE COMME PHOTO - EN HAUT */
     nav{
       background:rgba(0,0,0,0.95);
       padding:1rem 0.5rem;
       box-shadow:0 2px 15px rgba(255,215,0,0.3);
-      margin-bottom:1rem;
     }
     
-    /* DISPOSITION ENTRELACÉE COMME PHOTO */
     nav ul{
       list-style:none;
       padding:0;
       display:grid;
       grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));
       justify-content:center;
-      align-items:center;
       gap:0.6rem;
       max-width:1200px;
       margin:0 auto;
@@ -100,13 +80,10 @@
       border:2px solid var(--tab-gold);
       border-radius:8px;
       transition:all .3s ease;
-      display:block;
-      text-align:center;
-      white-space:nowrap;
-      min-height:50px;
       display:flex;
       align-items:center;
       justify-content:center;
+      min-height:50px;
     }
     
     nav ul li a:hover{
@@ -116,7 +93,8 @@
       box-shadow:0 4px 12px rgba(187,174,152,0.5);
     }
     
-    @keyframes blinkTabSoft{
+    /* CLIGNOTEMENT ONGLETS */
+    @keyframes blinkTab{
       0%, 100%{
         box-shadow:0 0 15px var(--burgundy);
         border-color:var(--burgundy);
@@ -130,10 +108,24 @@
     }
     
     nav ul li a.blink{
-      animation:blinkTabSoft 1.2s ease-in-out infinite;
+      animation:blinkTab 1.2s ease-in-out infinite;
       background:#000;
       border:3px solid var(--burgundy);
       color:var(--tab-gold) !important;
+    }
+    
+    header{
+      padding:1.5rem 0;
+      background:#111;
+      box-shadow:0 4px 10px rgba(0,0,0,.8);
+    }
+    
+    .logo{
+      width:720px;
+      max-width:90%;
+      height:auto;
+      display:block;
+      margin:0 auto;
     }
     
     .chat-intro{
@@ -146,9 +138,6 @@
       -webkit-text-fill-color:transparent;
       background-clip:text;
       font-weight:700;
-      letter-spacing:1px;
-      text-shadow:2px 2px 4px rgba(192,192,192,0.3);
-      filter:drop-shadow(0 0 8px rgba(255,255,255,0.4));
     }
     
     #chat-container{
@@ -159,9 +148,8 @@
     
     #chat-box{
       background:#111;
-      border-radius:0;
       border:3px solid var(--burgundy);
-      box-shadow:0 0 22px var(--burgundy), 0 0 39px rgba(255,107,107,0.7), inset 0 0 17px rgba(255,107,107,0.12);
+      box-shadow:0 0 22px var(--burgundy), 0 0 39px rgba(255,107,107,0.7);
       overflow:hidden;
       display:flex;
       flex-direction:column;
@@ -174,7 +162,6 @@
       overflow-y:auto;
       color:#fff;
       background:#0a0a0a;
-      overscroll-behavior-y:contain;
     }
     
     #chat-messages::-webkit-scrollbar{width:10px;}
@@ -195,10 +182,9 @@
       color:#fff;
       background:rgba(255,107,107,0.15);
       padding:1rem;
-      border-radius:0;
       margin-bottom:1rem;
       border:2px solid var(--burgundy);
-      box-shadow:0 0 17px rgba(255,107,107,0.55), inset 0 0 11px rgba(255,107,107,0.12);
+      box-shadow:0 0 17px rgba(255,107,107,0.55);
       max-width:90%;
     }
     
@@ -207,9 +193,8 @@
       color:#fff;
       margin-bottom:1rem;
       border:2px solid var(--silver);
-      box-shadow:0 0 17px rgba(192,192,192,0.55), inset 0 0 11px rgba(255,255,255,0.06);
+      box-shadow:0 0 17px rgba(192,192,192,0.55);
       padding:1rem;
-      border-radius:0;
       max-width:90%;
       margin-left:auto;
       background:linear-gradient(145deg, rgba(192,192,192,0.1), rgba(211,211,211,0.08));
@@ -222,7 +207,6 @@
       padding:1rem;
       background:#111;
       gap:0.8rem;
-      box-shadow:0 -5px 22px rgba(255,107,107,0.35);
     }
     
     .input-row{
@@ -238,7 +222,6 @@
       outline:none;
       color:#fff;
       background:#0a0a0a;
-      border-radius:0;
       font-family:'Cinzel',serif;
       font-size:0.9rem;
       box-shadow:0 0 13px rgba(255,107,107,0.45);
@@ -248,12 +231,6 @@
       color:#999;
       opacity:0.7;
       font-style:italic;
-      font-size:0.75rem;
-    }
-    
-    #chat-input:focus{
-      box-shadow:0 0 22px rgba(255,107,107,0.75);
-      border-color:var(--burgundy-light);
     }
     
     #voice-toggle{
@@ -283,11 +260,10 @@
       cursor:pointer;
       color:#fff;
       font-weight:bold;
-      border-radius:0;
-      transition:transform .2s;
       font-family:'Cinzel',serif;
       box-shadow:0 0 20px rgba(255,107,107,0.65);
       font-size:1.1rem;
+      transition:transform .2s;
     }
     
     #chat-send:hover{
@@ -295,52 +271,7 @@
       box-shadow:0 0 28px rgba(255,107,107,0.85);
     }
     
-    /* LIEN RETOUR DORÉ - JAMAIS JAUNE */
-    .return-line{
-      font-family:'Cinzel',serif;
-      font-size:0.9rem;
-      margin:4.5rem auto 1rem;
-      text-align:center;
-      padding:0 1rem;
-    }
-    
-    .return-line a,
-    .return-line a:link,
-    .return-line a:visited,
-    .return-line a:hover,
-    .return-line a:active{
-      color:#BBAE98 !important;
-      text-decoration:underline;
-      text-decoration-thickness:2px;
-      transition:all 0.3s ease;
-      display:inline-flex;
-      align-items:center;
-      gap:0.5rem;
-    }
-    
-    .return-line a:before{
-      content:"←";
-      font-size:1.4rem;
-      font-weight:bold;
-    }
-    
-    .return-line a:hover{
-      color:#FFD700 !important;
-      transform:translateX(-5px);
-    }
-    
-    footer{
-      margin-top:2rem;
-      font-size:.9rem;
-      color:#aaa;
-      padding:2rem 1rem;
-      background:#111;
-    }
-    
-    footer a{color:var(--gold);text-decoration:none;}
-    footer a:hover{color:#fff;}
-    
-    /* BOUTON FLOTTANT CLIQUABLE */
+    /* BOUTON FLOTTANT DRAGGABLE */
     .floating-tab{
       position:fixed;
       top:50%;
@@ -351,12 +282,11 @@
       color:var(--tab-gold);
       padding:1.2rem 2rem;
       border:3px solid var(--burgundy);
-      border-radius:0;
       font-family:'Cinzel',serif;
       font-size:clamp(1rem, 2.5vw, 1.3rem);
       font-weight:bold;
       text-decoration:none;
-      cursor:pointer;
+      cursor:move;
       box-shadow:0 0 15px var(--burgundy);
       animation:blinkFloating 1.5s ease-in-out infinite;
       display:none;
@@ -379,50 +309,74 @@
       justify-content:center;
       cursor:pointer;
       font-size:16px;
-      line-height:1;
       border:2px solid #fff;
       z-index:10000;
     }
     
-    .floating-tab .close-btn:hover{background:var(--burgundy-light);}
-    
     @keyframes blinkFloating{
-      0%, 100%{box-shadow:0 0 15px var(--burgundy);border-color:var(--burgundy);}
-      50%{box-shadow:0 0 25px var(--burgundy-light);border-color:var(--burgundy-light);}
+      0%, 100%{box-shadow:0 0 15px var(--burgundy);}
+      50%{box-shadow:0 0 25px var(--burgundy-light);}
     }
+    
+    .return-line{
+      font-family:'Cinzel',serif;
+      font-size:0.9rem;
+      margin:4.5rem auto 1rem;
+      text-align:center;
+      padding:0 1rem;
+    }
+    
+    .return-line a{
+      color:#BBAE98 !important;
+      text-decoration:underline;
+      transition:all 0.3s ease;
+    }
+    
+    .return-line a:before{
+      content:"←";
+      font-size:1.4rem;
+      margin-right:0.5rem;
+    }
+    
+    .return-line a:hover{
+      color:var(--gold) !important;
+      transform:translateX(-5px);
+    }
+    
+    footer{
+      margin-top:2rem;
+      font-size:.9rem;
+      color:#aaa;
+      padding:2rem 1rem;
+      background:#111;
+    }
+    
+    footer a{color:var(--gold);text-decoration:none;}
+    footer a:hover{color:#fff;}
     
     @media(max-width:768px){
       nav ul{grid-template-columns:repeat(auto-fit, minmax(150px, 1fr));}
       nav ul li a{font-size:0.85rem;padding:0.6rem 0.8rem;}
       #chat-box{height:550px;}
-      .logo{width:95vw;}
-      .floating-tab{right:10px;padding:0.8rem 1.5rem;font-size:1rem;}
+      .logo{width:95%;}
     }
     
     @media(max-width:480px){
       nav ul{grid-template-columns:1fr 1fr;}
       nav ul li a{font-size:0.8rem;padding:0.5rem 0.6rem;}
       #chat-box{height:500px;}
-      .logo{width:98vw;}
     }
   </style>
 </head>
 <body>
-  <header>
-    <picture>
-      <source srcset="https://i.imgur.com/GmyGlKk.webp" type="image/webp">
-      <source srcset="https://i.imgur.com/GmyGlKk.jpg" type="image/jpeg">
-      <img src="https://i.imgur.com/GmyGlKk.jpg" alt="Logo ClairVoyanceMedium" class="logo" width="720" height="720" loading="eager" decoding="async" fetchpriority="high">
-    </picture>
-  </header>
-  
+  <!-- ONGLETS EN HAUT -->
   <nav>
     <ul>
-      <li><a href="https://clairvoyancemedium.github.io/Voyancepartelephonepaschere.github.io/" target="_blank" rel="noopener noreferrer" data-keywords="voyance téléphone|appel|30min|tél|telephoner|appeler" data-exact="voyance téléphone">Voyance Tél 30min/30€</a></li>
-      <li><a href="https://www.clairvoyancemedium.com/Voyance-3-Questions-par-Email-cbaaaaaca.asp" target="_blank" rel="noopener noreferrer" data-keywords="voyance email|questions|3 questions|mail|courriel|écrit" data-exact="voyance email">Voyance Email 3Q/12€</a></li>
-      <li><a href="https://www.clairvoyancemedium.com/Reconquerir-son-ex-a-distance-Blanche-cbaaaaasa.asp" target="_blank" rel="noopener noreferrer" data-keywords="retour|ex|amour|reconquérir|séparation" data-exact="retour ex">Retour Ex/175€</a></li>
+      <li><a href="https://clairvoyancemedium.github.io/Voyancepartelephonepaschere.github.io/" target="_blank" rel="noopener noreferrer" data-keywords="voyance téléphone|appel|30min|tél|telephoner|appeler|telephone|tel" data-exact="voyance téléphone">Voyance Tél 30min/30€</a></li>
+      <li><a href="https://www.clairvoyancemedium.com/Voyance-3-Questions-par-Email-cbaaaaaca.asp" target="_blank" rel="noopener noreferrer" data-keywords="voyance email|questions|3 questions|mail|courriel|écrit|email|mails" data-exact="voyance email">Voyance Email 3Q/12€</a></li>
+      <li><a href="https://www.clairvoyancemedium.com/Reconquerir-son-ex-a-distance-Blanche-cbaaaaasa.asp" target="_blank" rel="noopener noreferrer" data-keywords="retour|ex|amour|reconquérir|séparation|copain|copine" data-exact="retour ex">Retour Ex/175€</a></li>
       <li><a href="https://www.clairvoyancemedium.com/Compatibilite-amoureuse-cbaaaaata.asp" target="_blank" rel="noopener noreferrer" data-keywords="compatibilité|couple|relation|amoureuse" data-exact="compatibilité">Compatibilité/20€</a></li>
-      <li><a href="https://www.clairvoyancemedium.com/Desenvoutement-et-protection-a-distance-cbaaaaala.asp" target="_blank" rel="noopener noreferrer" data-keywords="désenvoûtement|protection|purification|sort|envoûtement" data-exact="purification">Purification/150€</a></li>
+      <li><a href="https://www.clairvoyancemedium.com/Desenvoutement-et-protection-a-distance-cbaaaaala.asp" target="_blank" rel="noopener noreferrer" data-keywords="désenvoûtement|protection|purification|sort|envoûtement|magie|sorcellerie|fatigue|cauchemars" data-exact="purification">Purification/150€</a></li>
       <li><a href="https://www.clairvoyancemedium.com/Recevez-1-message-d-un-defunt-cbaaaabka.asp" target="_blank" rel="noopener noreferrer" data-keywords="défunt|mort|message|deuil|décédé" data-exact="défunt">Défunt/17€</a></li>
       <li><a href="https://www.clairvoyancemedium.com/Medecine-Consultation-par-email-cbaaaabja.asp" target="_blank" rel="noopener noreferrer" data-keywords="santé|médecine|bien-être|maladie" data-exact="santé">Santé/30€</a></li>
       <li><a href="https://www.clairvoyancemedium.com/Ligne-de-la-main-Voyance-3-questions-cbaaaaana.asp" target="_blank" rel="noopener noreferrer" data-keywords="main|chiromancie|ligne|paume" data-exact="main">Main/10€</a></li>
@@ -430,8 +384,17 @@
     </ul>
   </nav>
   
+  <!-- LOGO -->
+  <header>
+    <picture>
+      <source srcset="https://i.imgur.com/GmyGlKk.webp" type="image/webp">
+      <img src="https://i.imgur.com/GmyGlKk.jpg" alt="Logo ClairVoyanceMedium" class="logo" width="720" height="720" loading="eager" decoding="async" fetchpriority="high">
+    </picture>
+  </header>
+  
   <div class="chat-intro">Chat IA Spirituel - ClairVoyanceGPT</div>
   
+  <!-- CHAT -->
   <div id="chat-container">
     <div id="chat-box">
       <div id="chat-messages"></div>
@@ -449,39 +412,19 @@
     <a href="https://www.clairvoyancemedium.com/">Retour vers le cabinet de voyance ClairVoyanceMedium.com</a>
   </div>
   
+  <!-- BOUTON FLOTTANT -->
   <a id="floating-tab" class="floating-tab" href="#" target="_blank" rel="noopener noreferrer">
-    <span class="close-btn" onclick="event.preventDefault();event.stopPropagation();document.getElementById('floating-tab').classList.remove('show');">×</span>
+    <span class="close-btn">×</span>
     <span id="floating-text">Ce qu'il vous faut</span>
   </a>
   
   <footer>
     <p style="color:#aaa;">© 2006-<span id="current-year"></span> ClairVoyanceMedium.com - Tous droits réservés</p>
-    <p><a href="https://www.clairvoyancemedium.com/Conditions-Generales-des-Ventes-et-d-Utilisation-ccsaaaaaa.asp" target="_blank" rel="noopener noreferrer" style="color:#aaa;">Conditions Générales</a></p>
+    <p><a href="https://www.clairvoyancemedium.com/Conditions-Generales-des-Ventes-et-d-Utilisation-ccsaaaaaa.asp" target="_blank" rel="noopener noreferrer">Conditions Générales</a></p>
   </footer>
   
   <script>
 document.getElementById('current-year').textContent = new Date().getFullYear();
-
-// BLOQUER PULL-TO-REFRESH
-let lastTouchY = 0;
-let preventPullToRefresh = false;
-
-document.addEventListener('touchstart', (e) => {
-  if (e.touches.length !== 1) return;
-  lastTouchY = e.touches[0].clientY;
-  preventPullToRefresh = window.pageYOffset === 0;
-}, {passive: false});
-
-document.addEventListener('touchmove', (e) => {
-  const touchY = e.touches[0].clientY;
-  const touchYDelta = touchY - lastTouchY;
-  lastTouchY = touchY;
-  if (preventPullToRefresh && touchYDelta > 0) {
-    e.preventDefault();
-    return;
-  }
-  preventPullToRefresh = false;
-}, {passive: false});
 
 function trackClick(label, category, value) {
   if (typeof gtag === 'function') {
@@ -498,11 +441,62 @@ let currentBlinkingTab = null;
 const PHONE_NUMBER = "+33695468923";
 const PHONE_DISPLAY = "06 95 46 89 23";
 
-// VOIX HOMME GRAVE - FORCER
+// DRAG AND DROP BOUTON FLOTTANT
+let isDragging = false;
+let currentX, currentY, initialX, initialY;
+let xOffset = 0, yOffset = 0;
+const floatingTab = document.getElementById('floating-tab');
+
+floatingTab.addEventListener('mousedown', dragStart);
+floatingTab.addEventListener('touchstart', dragStart);
+document.addEventListener('mousemove', drag);
+document.addEventListener('touchmove', drag);
+document.addEventListener('mouseup', dragEnd);
+document.addEventListener('touchend', dragEnd);
+
+function dragStart(e) {
+  if (e.target.classList.contains('close-btn')) {
+    e.preventDefault();
+    e.stopPropagation();
+    floatingTab.classList.remove('show');
+    return;
+  }
+  if (e.type === "touchstart") {
+    initialX = e.touches[0].clientX - xOffset;
+    initialY = e.touches[0].clientY - yOffset;
+  } else {
+    initialX = e.clientX - xOffset;
+    initialY = e.clientY - yOffset;
+  }
+  isDragging = true;
+}
+
+function drag(e) {
+  if (isDragging) {
+    e.preventDefault();
+    if (e.type === "touchmove") {
+      currentX = e.touches[0].clientX - initialX;
+      currentY = e.touches[0].clientY - initialY;
+    } else {
+      currentX = e.clientX - initialX;
+      currentY = e.clientY - initialY;
+    }
+    xOffset = currentX;
+    yOffset = currentY;
+    floatingTab.style.transform = `translate(${currentX}px, ${currentY}px)`;
+  }
+}
+
+function dragEnd() {
+  initialX = currentX;
+  initialY = currentY;
+  isDragging = false;
+}
+
+// VOIX HOMME GRAVE
 function speak(text) {
   if (!voiceEnabled || !('speechSynthesis' in window)) return;
   
-  // SUPPRIMER URLs MAIS GARDER CHIFFRES
   let textToSpeak = text.replace(/https?:\/\/[^\s]+/g, '');
   
   if (text.match(/https?:\/\/[^\s]+/)) {
@@ -513,40 +507,28 @@ function speak(text) {
   const utterance = new SpeechSynthesisUtterance(textToSpeak);
   utterance.lang = 'fr-FR';
   
-  // FORCER VOIX HOMME
   const voices = window.speechSynthesis.getVoices();
-  
-  // Chercher voix homme en priorité
-  let maleVoice = voices.find(v => 
-    v.lang.startsWith('fr') && v.name.toLowerCase().includes('thomas')
-  ) || voices.find(v => 
-    v.lang.startsWith('fr') && v.name.toLowerCase().includes('daniel')
-  ) || voices.find(v => 
-    v.lang.startsWith('fr') && v.name.toLowerCase().includes('male')
-  ) || voices.find(v => 
-    v.lang.startsWith('fr') && !v.name.toLowerCase().includes('female') && !v.name.toLowerCase().includes('google')
+  const maleVoice = voices.find(v => 
+    v.lang.startsWith('fr') && (
+      v.name.toLowerCase().includes('thomas') ||
+      v.name.toLowerCase().includes('daniel') ||
+      v.name.toLowerCase().includes('male')
+    )
   );
   
-  if (maleVoice) {
-    utterance.voice = maleVoice;
-  }
+  if (maleVoice) utterance.voice = maleVoice;
   
-  // VOIX GRAVE
   utterance.pitch = 0.6;
   utterance.rate = 0.85;
   utterance.volume = 1.0;
   
   window.speechSynthesis.speak(utterance);
-  trackClick('VoiceOutput', 'Chat', 0);
 }
 
-// CHARGER VOIX
 if ('speechSynthesis' in window) {
   window.speechSynthesis.onvoiceschanged = () => {
-    const voices = window.speechSynthesis.getVoices();
-    console.log('Voix disponibles:', voices.filter(v => v.lang.startsWith('fr')).map(v => v.name));
+    window.speechSynthesis.getVoices();
   };
-  setTimeout(() => window.speechSynthesis.getVoices(), 100);
 }
 
 // RECONNAISSANCE VOCALE
@@ -561,7 +543,6 @@ if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
     const transcript = event.results[0][0].transcript;
     document.getElementById('chat-input').value = transcript;
     handleMessage();
-    trackClick('VoiceInput', 'Chat', 0);
   };
 }
 
@@ -569,9 +550,9 @@ document.getElementById('voice-toggle').addEventListener('click', () => {
   voiceEnabled = !voiceEnabled;
   document.getElementById('voice-toggle').classList.toggle('disabled', !voiceEnabled);
   if (voiceEnabled && recognition) {
-    try { recognition.start(); trackClick('VoiceOn', 'Chat', 0); } catch(e) {}
+    try { recognition.start(); } catch(e) {}
   } else if (recognition) {
-    recognition.stop(); trackClick('VoiceOff', 'Chat', 0);
+    recognition.stop();
   }
 });
 
@@ -585,6 +566,7 @@ function addMessage(text, isBot = false) {
   if (isBot && voiceEnabled) speak(text);
 }
 
+// CLIGNOTER ONGLETS
 function blinkTab(exactMatch) {
   if (currentBlinkingTab) {
     currentBlinkingTab.classList.remove('blink');
@@ -597,13 +579,12 @@ function blinkTab(exactMatch) {
       link.classList.add('blink');
       currentBlinkingTab = link;
       link.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      trackClick('TabBlink', 'Interaction', 0);
     }
   });
 }
 
+// ONGLET FLOTTANT
 function showFloatingTab(url, isPhoneNumber = false) {
-  const floatingTab = document.getElementById('floating-tab');
   const floatingText = document.getElementById('floating-text');
   
   if (isPhoneNumber) {
@@ -620,88 +601,21 @@ function showFloatingTab(url, isPhoneNumber = false) {
       window.open(floatingTab.href, '_blank');
     }
   };
-  trackClick('FloatingTabShow', 'Interaction', 0);
 }
 
-// BASE DE CONNAISSANCES EXTENSIBLE
+// BASE DE CONNAISSANCES COMPLÈTE DU DOCUMENT
 const knowledgeBase = [
-    { 
-      keywords: "fatigue|lassitude|épuisement|faiblesse|usure|torpeur|fatig",
-      exactMatch: "purification",
-      answer: (name) => `${name ? name + ', ' : ''}cette fatigue écrasante n'est pas anodine. Une entité obscure draine votre énergie. Frederick, avec 25 ans d'expérience, peut vous libérer. Ne laissez pas votre vitalité disparaître.`,
-      url: 'https://www.clairvoyancemedium.com/Desenvoutement-et-protection-a-distance-cbaaaaala.asp',
-      isExternal: true
-    },
-    { 
-      keywords: "cauchemars|visions|nuits|songe|dormir|rêves|insomnie|cochemar",
-      exactMatch: "purification",
-      answer: (name) => `${name ? 'Vos nuits tourmentées, ' + name + ', ' : 'Ces cauchemars '}ne sont pas anodins. Une présence maléfique hante votre sommeil. Frederick peut chasser ces ombres et vous offrir des nuits paisibles.`,
-      url: 'https://www.clairvoyancemedium.com/Desenvoutement-et-protection-a-distance-cbaaaaala.asp',
-      isExternal: true
-    },
-    { 
-      keywords: "sort|malédiction|envoûtement|magie|sorcellerie|sor|envout",
-      exactMatch: "purification",
-      answer: (name) => `${name ? name + ', tous ' : 'Tous '}ces signes concordent : vous êtes sous l'emprise d'un sort. Frederick maîtrise les rituels ancestraux pour briser ces liens. Des centaines de personnes déjà libérées.`,
-      url: 'https://www.clairvoyancemedium.com/Desenvoutement-et-protection-a-distance-cbaaaaala.asp',
-      isExternal: true
-    },
-    { 
-      keywords: "voyance téléphone|appel|telephoner|appeler|tel|phone",
-      exactMatch: "voyance téléphone",
-      answer: (name) => `${name ? name + ', vous ' : 'Vous '}cherchez des réponses immédiates ? Consultation téléphonique avec Frederick : 30 minutes pour 30 euros. Plus de 10 000 consultations, 98% de satisfaction.`,
-      url: 'https://clairvoyancemedium.github.io/Voyancepartelephonepaschere.github.io/',
-      isExternal: false
-    },
-    { 
-      keywords: "numero|numéro|telephone|téléphone|contacter|joindre|coordonnées",
-      exactMatch: "voyance téléphone",
-      answer: (name) => `${name ? name + ', voici ' : 'Voici '}le numéro de Frederick : ${PHONE_DISPLAY}. Disponible pour vous guider vers la clarté.`,
-      url: PHONE_NUMBER,
-      isPhone: true
-    },
-    { 
-      keywords: "voyance email|mail|question|écrit|message|3 questions|email",
-      exactMatch: "voyance email",
-      answer: (name) => `${name ? name + ', la ' : 'La '}voyance par email est idéale : 3 questions pour 12 euros, réponse sous 48 heures. Plus de 15 000 consultations réalisées !`,
-      url: 'https://www.clairvoyancemedium.com/Voyance-3-Questions-par-Email-cbaaaaaca.asp',
-      isExternal: true
-    },
-    { 
-      keywords: "amour|ex|relation|couple|séparation|rupture|retour|reconquérir|copain|copine",
-      exactMatch: "retour ex",
-      answer: (name) => `${name ? 'Cette douleur, ' + name + ', ' : 'Cette douleur '}est insupportable. Frederick a réconcilié plus de 500 couples en 25 ans. Son rituel de retour affectif agit en 2 à 4 semaines pour 175 euros.`,
-      url: 'https://www.clairvoyancemedium.com/Reconquerir-son-ex-a-distance-Blanche-cbaaaaasa.asp',
-      isExternal: true
-    },
-    { 
-      keywords: "défunt|mort|décédé|message|deuil|au-delà|disparu|defun",
-      exactMatch: "défunt",
-      answer: (name) => `${name ? name + ', perdre ' : 'Perdre '}un être cher laisse tant de questions. Frederick communique avec l'au-delà. Pour 17 euros, recevez un message authentique qui apaisera votre cœur.`,
-      url: 'https://www.clairvoyancemedium.com/Recevez-1-message-d-un-defunt-cbaaaabka.asp',
-      isExternal: true
-    },
-    { 
-      keywords: "santé|maladie|douleur|guérison|corps|souffrance|mal|malade|sant",
-      exactMatch: "santé",
-      answer: (name) => `${name ? 'Ces maux, ' + name + ', ' : 'Ces maux '}ont peut-être des racines énergétiques. Frederick identifie ces déséquilibres avec 25 ans d'approche holistique. Analyse : 30 euros.`,
-      url: 'https://www.clairvoyancemedium.com/Medecine-Consultation-par-email-cbaaaabja.asp',
-      isExternal: true
-    },
-    { 
-      keywords: "main|chiromancie|ligne|paume|lignes de la main",
-      exactMatch: "main",
-      answer: (name) => `${name ? 'Vos mains, ' + name + ', sont ' : 'Vos mains sont '}une carte vivante de votre destinée. Frederick déchiffre ces symboles depuis 25 ans. Pour 10 euros, découvrez vos secrets.`,
-      url: 'https://www.clairvoyancemedium.com/Ligne-de-la-main-Voyance-3-questions-cbaaaaana.asp',
-      isExternal: true
-    },
-    { 
-      keywords: "ange|gardien|céleste|protection divine|ange gardien",
-      exactMatch: "ange",
-      answer: (name) => `${name ? 'Votre ange, ' + name + ', tente ' : 'Votre ange tente '}de communiquer. Frederick capte ces messages divins. Pour 10 euros, recevez sa guidance et sa protection.`,
-      url: 'https://www.clairvoyancemedium.com/Message-de-votre-Ange-gardien-cbaaaabba.asp',
-      isExternal: true
-    }
+    { keywords: "fatigue|lassitude|épuisement|faiblesse|torpeur|fatig", exactMatch: "purification", answer: (name) => `${name ? name + ', ' : ''}cette fatigue écrasante est l'œuvre d'une entité obscure qui dévore votre énergie. Frederick, avec 25 ans d'expérience chez ClairVoyanceMedium.com, peut vous libérer. Retrouvez vitalité et clarté.`, url: 'https://www.clairvoyancemedium.com/Desenvoutement-et-protection-a-distance-cbaaaaala.asp', isExternal: true },
+    { keywords: "cauchemars|visions|nuits|songe|dormir|rêves|insomnie", exactMatch: "purification", answer: (name) => `${name ? 'Vos nuits tourmentées, ' + name + ', ' : 'Ces cauchemars '}ne sont pas anodins. Une présence maléfique hante votre sommeil. Frederick peut chasser ces ombres et vous offrir des nuits paisibles.`, url: 'https://www.clairvoyancemedium.com/Desenvoutement-et-protection-a-distance-cbaaaaala.asp', isExternal: true },
+    { keywords: "sort|malédiction|envoûtement|magie|sorcellerie|sor|envout", exactMatch: "purification", answer: (name) => `${name ? name + ', tous ' : 'Tous '}ces signes concordent : vous êtes sous l'emprise d'un sort. Frederick maîtrise les rituels ancestraux pour briser ces liens. Des centaines de personnes déjà libérées.`, url: 'https://www.clairvoyancemedium.com/Desenvoutement-et-protection-a-distance-cbaaaaala.asp', isExternal: true },
+    { keywords: "voyance téléphone|appel|telephoner|appeler|tel|phone", exactMatch: "voyance téléphone", answer: (name) => `${name ? name + ', vous ' : 'Vous '}cherchez des réponses immédiates ? Consultation téléphonique avec Frederick : 30 minutes pour 30 euros. Plus de 10 000 consultations, 98% de satisfaction.`, url: 'https://clairvoyancemedium.github.io/Voyancepartelephonepaschere.github.io/', isExternal: false },
+    { keywords: "numero|numéro|telephone|téléphone|contacter|joindre", exactMatch: "voyance téléphone", answer: (name) => `${name ? name + ', voici ' : 'Voici '}le numéro de Frederick : ${PHONE_DISPLAY}. Disponible pour vous guider vers la clarté.`, url: PHONE_NUMBER, isPhone: true },
+    { keywords: "voyance email|mail|question|écrit|message|3 questions|email", exactMatch: "voyance email", answer: (name) => `${name ? name + ', la ' : 'La '}voyance par email est idéale : 3 questions pour 12 euros, réponse sous 48 heures. Plus de 15 000 consultations réalisées !`, url: 'https://www.clairvoyancemedium.com/Voyance-3-Questions-par-Email-cbaaaaaca.asp', isExternal: true },
+    { keywords: "amour|ex|relation|couple|séparation|rupture|retour|copain|copine", exactMatch: "retour ex", answer: (name) => `${name ? 'Cette douleur, ' + name + ', ' : 'Cette douleur '}est insupportable. Frederick a réconcilié plus de 500 couples en 25 ans. Son rituel de retour affectif agit en 2 à 4 semaines pour 175 euros.`, url: 'https://www.clairvoyancemedium.com/Reconquerir-son-ex-a-distance-Blanche-cbaaaaasa.asp', isExternal: true },
+    { keywords: "défunt|mort|décédé|message|deuil|au-delà|disparu", exactMatch: "défunt", answer: (name) => `${name ? name + ', perdre ' : 'Perdre '}un être cher laisse tant de questions. Frederick communique avec l'au-delà. Pour 17 euros, recevez un message authentique qui apaisera votre cœur.`, url: 'https://www.clairvoyancemedium.com/Recevez-1-message-d-un-defunt-cbaaaabka.asp', isExternal: true },
+    { keywords: "santé|maladie|douleur|guérison|corps|souffrance|mal", exactMatch: "santé", answer: (name) => `${name ? 'Ces maux, ' + name + ', ' : 'Ces maux '}ont peut-être des racines énergétiques. Frederick identifie ces déséquilibres avec 25 ans d'approche holistique. Analyse : 30 euros.`, url: 'https://www.clairvoyancemedium.com/Medecine-Consultation-par-email-cbaaaabja.asp', isExternal: true },
+    { keywords: "main|chiromancie|ligne|paume", exactMatch: "main", answer: (name) => `${name ? 'Vos mains, ' + name + ', sont ' : 'Vos mains sont '}une carte vivante de votre destinée. Frederick déchiffre ces symboles depuis 25 ans. Pour 10 euros, découvrez vos secrets.`, url: 'https://www.clairvoyancemedium.com/Ligne-de-la-main-Voyance-3-questions-cbaaaaana.asp', isExternal: true },
+    { keywords: "ange|gardien|céleste|protection divine", exactMatch: "ange", answer: (name) => `${name ? 'Votre ange, ' + name + ', tente ' : 'Votre ange tente '}de communiquer. Frederick capte ces messages divins. Pour 10 euros, recevez sa guidance et sa protection.`, url: 'https://www.clairvoyancemedium.com/Message-de-votre-Ange-gardien-cbaaaabba.asp', isExternal: true }
 ];
 
 function removeAccents(str) {
@@ -722,7 +636,7 @@ function levenshteinDistance(a, b) {
 }
 
 function phoneticNormalize(str) {
-    return removeAccents(str).replace(/ph/g, "f").replace(/k/g, "c").replace(/qu/g, "k").replace(/x/g, "ks").replace(/y/g, "i").replace(/w/g, "v").replace(/ss/g, "s").replace(/ée/g, "e").replace(/ai/g, "e").replace(/au/g, "o").replace(/ou/g, "u").replace(/oi/g, "oa");
+    return removeAccents(str).replace(/ph/g, "f").replace(/k/g, "c").replace(/qu/g, "k").replace(/ss/g, "s").replace(/ée/g, "e").replace(/ai/g, "e").replace(/au/g, "o").replace(/ou/g, "u").replace(/oi/g, "oa");
 }
 
 function findBestMatch(userInput) {
@@ -752,12 +666,6 @@ function findBestMatch(userInput) {
                     }
                 }
             });
-            
-            if (userLower.length >= 2 && normalizedKeyword.length >= 2) {
-                if (userLower.includes(normalizedKeyword.substring(0, Math.min(3, normalizedKeyword.length)))) {
-                    score += 3;
-                }
-            }
         });
         
         if (score > maxScore) {
@@ -778,42 +686,34 @@ function handleMessage() {
   addMessage(userMsg, false);
   input.value = '';
   messageCount++;
-  trackClick('MessageSent', 'Chat', messageCount);
   
   setTimeout(() => {
-    // EXTRACTION PRÉNOM
     if (!userName) {
       const nameMatch = userMsg.match(/\b([A-ZÀ-ÖØ-Ýa-zà-öø-ÿ]{2,})\b/);
       if (nameMatch && messageCount >= 2) {
         userName = nameMatch[1].charAt(0).toUpperCase() + nameMatch[1].slice(1).toLowerCase();
         addMessage(`Enchanté ${userName} ! Comment puis-je vous aider aujourd'hui ?`, true);
-        trackClick('NameCaptured', 'Chat', 0);
         return;
       }
     }
     
     const lowerMsg = userMsg.toLowerCase().trim();
     
-    // BONJOUR
-    if (lowerMsg === "bonjour" || lowerMsg.startsWith("bonjour") || lowerMsg === "salut" || lowerMsg === "hello" || lowerMsg === "coucou" || lowerMsg === "bjr") {
+    if (lowerMsg === "bonjour" || lowerMsg.startsWith("bonjour") || lowerMsg === "salut" || lowerMsg === "hello") {
       if (!userName) {
         addMessage("Bonjour ! Quel est votre prénom ?", true);
       } else {
-        addMessage(`${userName}, quel plaisir de vous retrouver ! Comment puis-je vous aider aujourd'hui ?`, true);
+        addMessage(`${userName}, quel plaisir de vous retrouver ! Comment puis-je vous aider ?`, true);
       }
-      trackClick('Greeting', 'Chat', 0);
       return;
     }
     
-    // AU REVOIR
-    const goodbyeTriggers = ["au revoir", "aurevoir", "à bientôt", "bye", "ciao", "à plus"];
+    const goodbyeTriggers = ["au revoir", "aurevoir", "à bientôt", "bye", "ciao"];
     if (goodbyeTriggers.some(phrase => lowerMsg === phrase || lowerMsg.endsWith(phrase))) {
       addMessage(userName ? `${userName}, à très bientôt ! Frederick et son équipe restent à votre écoute.` : "À bientôt !", true);
-      trackClick('Goodbye', 'Chat', 0);
       return;
     }
     
-    // RECHERCHE
     const match = findBestMatch(userMsg);
     
     if (match) {
@@ -825,11 +725,8 @@ function handleMessage() {
       if (match.isExternal || match.isPhone) {
         showFloatingTab(match.url, match.isPhone);
       }
-      
-      trackClick('MatchFound', 'Chat', 0);
     } else {
-      addMessage(userName ? `${userName}, essayez avec : amour, voyance, protection, fatigue, défunt ?` : `Essayez : amour, voyance, protection, fatigue ?`, true);
-      trackClick('NoMatch', 'Chat', 0);
+      addMessage(userName ? `${userName}, essayez : amour, voyance, protection, fatigue, défunt ?` : `Essayez : amour, voyance, protection, fatigue ?`, true);
     }
   }, 800);
 }
@@ -852,9 +749,28 @@ document.getElementById('chat-form').addEventListener('submit', (e) => {
 });
 
 setTimeout(() => {
-  addMessage("Bienvenue sur ClairVoyanceGPT, l'assistant spirituel de Frederick, médium depuis plus de 25 ans. Bonjour ! Quel est votre prénom ?", true);
-  trackClick('ChatOpened', 'Chat', 0);
+  addMessage("Bienvenue sur ClairVoyanceGPT, l'assistant spirituel de Frederick. Bonjour ! Quel est votre prénom ?", true);
 }, 500);
+
+// BLOQUER PULL-TO-REFRESH
+let lastTouchY = 0;
+let preventPullToRefresh = false;
+
+document.addEventListener('touchstart', (e) => {
+  if (e.touches.length !== 1) return;
+  lastTouchY = e.touches[0].clientY;
+  preventPullToRefresh = window.pageYOffset === 0;
+}, {passive: false});
+
+document.addEventListener('touchmove', (e) => {
+  const touchY = e.touches[0].clientY;
+  const touchYDelta = touchY - lastTouchY;
+  lastTouchY = touchY;
+  if (preventPullToRefresh && touchYDelta > 0) {
+    e.preventDefault();
+  }
+  preventPullToRefresh = false;
+}, {passive: false});
 </script>
 </body>
 </html>
