@@ -48,8 +48,6 @@
       text-align:center;
       overflow-x:hidden;
       -webkit-font-smoothing:antialiased;
-      touch-action:manipulation;
-      overscroll-behavior-y:contain;
       padding-top:180px;
     }
     
@@ -172,6 +170,7 @@
       flex:1;
       padding:1.5rem;
       overflow-y:auto;
+      -webkit-overflow-scrolling:touch;
       color:#fff;
       background:#0a0a0a;
     }
@@ -910,16 +909,27 @@ setTimeout(() => {
   addMessage("Bienvenue sur ClairVoyanceGPT, l'assistant spirituel de Frederick, médium reconnu depuis plus de 25 ans. Bonjour ! Avant de commencer cette consultation, pouvez-vous m'indiquer votre prénom ?", true);
 }, 500);
 
-// BLOQUER PULL-TO-REFRESH
+// BLOQUER PULL-TO-REFRESH (seulement en haut de page)
+let lastTouchY = 0;
+let preventPullToRefresh = false;
+
 document.addEventListener('touchstart', (e) => {
-  if (window.pageYOffset === 0) {
-    e.preventDefault();
-  }
+  if (e.touches.length !== 1) return;
+  lastTouchY = e.touches[0].clientY;
+  preventPullToRefresh = window.pageYOffset === 0;
 }, {passive: false});
 
 document.addEventListener('touchmove', (e) => {
-  if (window.pageYOffset === 0) {
-    e.preventDefault();
+  const touchY = e.touches[0].clientY;
+  const touchYDelta = touchY - lastTouchY;
+  lastTouchY = touchY;
+  
+  if (preventPullToRefresh) {
+    if (touchYDelta > 0) {
+      e.preventDefault();
+      return;
+    }
+    preventPullToRefresh = false;
   }
 }, {passive: false});
 </script>
