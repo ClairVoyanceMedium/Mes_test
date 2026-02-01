@@ -308,7 +308,7 @@
       font-size:clamp(1rem, 2.5vw, 1.3rem);
       font-weight:bold;
       text-decoration:none;
-      cursor:move;
+      cursor:pointer;
       box-shadow:0 0 15px var(--burgundy);
       animation:blinkFloating 1.5s ease-in-out infinite;
       display:none;
@@ -504,8 +504,9 @@ const TAB_URLS = [
   'https://www.clairvoyancemedium.com/Message-de-votre-Ange-gardien-cbaaaabba.asp'
 ];
 
-// DRAG AND DROP FLUIDE
+// DRAG AND DROP FLUIDE - NE PAS BLOQUER LE CLIC
 let isDragging = false;
+let hasMoved = false;
 let startX, startY, offsetX = 0, offsetY = 0;
 const floatingTab = document.getElementById('floating-tab');
 
@@ -521,12 +522,12 @@ function dragStart(e) {
   }
   
   isDragging = true;
+  hasMoved = false;
   const touch = e.type === 'touchstart' ? e.touches[0] : e;
   startX = touch.clientX - offsetX;
   startY = touch.clientY - offsetY;
   
   floatingTab.style.transition = 'none';
-  e.preventDefault();
 }
 
 document.addEventListener('mousemove', drag);
@@ -534,11 +535,19 @@ document.addEventListener('touchmove', drag, {passive: false});
 
 function drag(e) {
   if (!isDragging) return;
-  e.preventDefault();
   
   const touch = e.type === 'touchmove' ? e.touches[0] : e;
-  offsetX = touch.clientX - startX;
-  offsetY = touch.clientY - startY;
+  const moveX = touch.clientX - startX;
+  const moveY = touch.clientY - startY;
+  
+  // Si mouvement > 5px, considérer comme drag (pas clic)
+  if (Math.abs(moveX - offsetX) > 5 || Math.abs(moveY - offsetY) > 5) {
+    hasMoved = true;
+    e.preventDefault();
+  }
+  
+  offsetX = moveX;
+  offsetY = moveY;
   
   floatingTab.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
 }
@@ -546,10 +555,19 @@ function drag(e) {
 document.addEventListener('mouseup', dragEnd);
 document.addEventListener('touchend', dragEnd);
 
-function dragEnd() {
+function dragEnd(e) {
   if (isDragging) {
     isDragging = false;
     floatingTab.style.transition = 'box-shadow 0.3s ease';
+    
+    // Si pas de mouvement significatif, laisser le clic se propager
+    if (!hasMoved) {
+      // Le href natif fonctionnera
+      return;
+    } else {
+      // Bloquer le clic si c'était un drag
+      e.preventDefault();
+    }
   }
 }
 
