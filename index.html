@@ -58,7 +58,7 @@
       left:0;
       right:0;
       z-index:1000;
-      background:rgba(0,0,0,0.75);
+      background:rgba(0,0,0,0.30);
       backdrop-filter:blur(10px);
       -webkit-backdrop-filter:blur(10px);
       padding:0.7rem 0.5rem;
@@ -491,6 +491,74 @@ let nonUnderstoodCount = 0;
 const PHONE_NUMBER = "+33695468923";
 const PHONE_DISPLAY = "06 95 46 89 23";
 
+// GESTION MÉMOIRE 24H
+const STORAGE_KEY = 'clairvoyance_chat_history';
+const STORAGE_TIMESTAMP = 'clairvoyance_chat_timestamp';
+const SESSION_KEY = 'clairvoyance_session_active';
+
+// Sauvegarder conversation
+function saveConversation() {
+  const data = {
+    messages: Array.from(document.getElementById('chat-messages').children).map(p => ({
+      text: p.textContent,
+      isBot: p.className === 'bot-message'
+    })),
+    userName,
+    userNameConfirmed,
+    messageCount
+  };
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  localStorage.setItem(STORAGE_TIMESTAMP, Date.now().toString());
+  localStorage.setItem(SESSION_KEY, 'true');
+}
+
+// Charger conversation si < 24h ET session active
+function loadConversation() {
+  const timestamp = localStorage.getItem(STORAGE_TIMESTAMP);
+  const sessionActive = localStorage.getItem(SESSION_KEY);
+  
+  if (!timestamp || !sessionActive) return false;
+  
+  const age = Date.now() - parseInt(timestamp);
+  const twentyFourHours = 24 * 60 * 60 * 1000;
+  
+  // Si > 24h OU session fermée → reset
+  if (age > twentyFourHours || sessionActive !== 'true') {
+    localStorage.removeItem(STORAGE_KEY);
+    localStorage.removeItem(STORAGE_TIMESTAMP);
+    localStorage.removeItem(SESSION_KEY);
+    return false;
+  }
+  
+  const data = JSON.parse(localStorage.getItem(STORAGE_KEY));
+  if (!data) return false;
+  
+  // Restaurer conversation
+  const messagesDiv = document.getElementById('chat-messages');
+  messagesDiv.innerHTML = '';
+  data.messages.forEach(msg => {
+    const p = document.createElement('p');
+    p.className = msg.isBot ? 'bot-message' : 'user-message';
+    p.textContent = msg.text;
+    messagesDiv.appendChild(p);
+  });
+  
+  userName = data.userName || '';
+  userNameConfirmed = data.userNameConfirmed || false;
+  messageCount = data.messageCount || 0;
+  
+  messagesDiv.scrollTop = messagesDiv.scrollHeight;
+  return true;
+}
+
+// Détecter sortie du site (fermeture onglet/navigation)
+window.addEventListener('beforeunload', () => {
+  localStorage.setItem(SESSION_KEY, 'false');
+});
+
+// Au chargement : restaurer si possible
+const conversationRestored = loadConversation();
+
 // LISTE DES URLs DES ONGLETS (pour filtrer)
 const TAB_URLS = [
   'https://clairvoyancemedium.github.io/Voyancepartelephonepaschere.github.io/',
@@ -592,7 +660,7 @@ function speak(text) {
   
   if (maleVoice) utterance.voice = maleVoice;
   
-  utterance.pitch = 0.5;
+  utterance.pitch = 0.4;
   utterance.rate = 1.2;
   utterance.volume = 1.0;
   
@@ -638,6 +706,9 @@ function addMessage(text, isBot = false) {
   messagesDiv.appendChild(messageDiv);
   messagesDiv.scrollTop = messagesDiv.scrollHeight;
   if (isBot && voiceEnabled) speak(text);
+  
+  // Sauvegarder après chaque message
+  saveConversation();
 }
 
 // CLIGNOTER ONGLETS - PAS DE CONFUSION
@@ -955,9 +1026,70 @@ document.getElementById('chat-form').addEventListener('submit', (e) => {
   handleMessage();
 });
 
-setTimeout(() => {
-  addMessage("Bienvenue sur ClairVoyanceGPT, l'assistant spirituel de Frederick, médium reconnu depuis plus de 25 ans. Bonjour ! Avant de commencer cette consultation, pouvez-vous m'indiquer votre prénom ?", true);
-}, 500);
+// Message d'accueil UNIQUEMENT si nouvelle conversation
+if (!conversationRestored) {
+  setTimeout(() => {
+    const welcomeMessage = "Bienvenue sur ClairVoyanceGPT, l'assistant spirituel de Frederick, médium reconnu depuis plus de 25 ans. Avant de commencer cet échange, pouvez-vous m'indiquer dans un premier temps uniquement votre prénom ?";
+    addMessage(welcomeMessage, true);
+    
+    // Lecture vocale automatique avec fallback
+    if (voiceEnabled && 'speechSynthesis' in window) {
+      const tryAutoplay = () => {
+        try {
+          speak(welcomeMessage);
+          trackClick('AutoplaySuccess', 'Voice', 0);
+        } catch (err) {
+          console.log('Autoplay bloqué, affichage bouton');
+          showVoiceButton();
+        }
+      };
+      
+      // Tentative lecture immédiate
+      if (document.readyState === 'complete') {
+        tryAutoplay();
+      } else {
+        window.addEventListener('load', tryAutoplay);
+      }
+    }
+  }, 500);
+}
+
+// Bouton fallback si autoplay bloqué
+function showVoiceButton() {
+  const messagesDiv = document.getElementById('chat-messages');
+  const btnDiv = document.createElement('div');
+  btnDiv.style.textAlign = 'center';
+  btnDiv.style.margin = '1rem 0';
+  btnDiv.innerHTML = `
+    <button id="enable-voice-btn" style="
+      padding:0.8rem 1.5rem;
+      background:#000;
+      color:#BBAE98;
+      border:3px solid #FF6B6B;
+      font-family:'Cinzel',serif;
+      font-size:1rem;
+      cursor:pointer;
+      animation:blinkVoiceBtn 1.5s ease-in-out infinite;
+      border-radius:0;
+    ">
+      🎤 Activer l'assistant vocal
+    </button>
+    <style>
+      @keyframes blinkVoiceBtn {
+        0%, 100% { box-shadow: 0 0 10px #FF6B6B; border-color: #FF6B6B; }
+        50% { box-shadow: 0 0 20px #FF8787; border-color: #FF8787; }
+      }
+    </style>
+  `;
+  messagesDiv.appendChild(btnDiv);
+  
+  document.getElementById('enable-voice-btn').addEventListener('click', () => {
+    const welcomeMsg = "Bienvenue sur ClairVoyanceGPT, l'assistant spirituel de Frederick, médium reconnu depuis plus de 25 ans. Avant de commencer cet échange, pouvez-vous m'indiquer dans un premier temps uniquement votre prénom ?";
+    speak(welcomeMsg);
+    btnDiv.remove();
+    trackClick('VoiceButtonClicked', 'Engagement', 1);
+  });
+}
 
 // BLOQUER PULL-TO-REFRESH (seulement en haut de page)
 let lastTouchY = 0;
@@ -985,3 +1117,4 @@ document.addEventListener('touchmove', (e) => {
 </script>
 </body>
 </html>
+
