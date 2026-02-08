@@ -49,7 +49,7 @@
       text-align:center;
       overflow-x:hidden;
       -webkit-font-smoothing:antialiased;
-      padding-top:80px;
+      padding-top:95px;
     }
     
     /* NAVIGATION STICKY - DISPOSITION IMBRIQUÉE ADAPTATIVE */
@@ -398,11 +398,11 @@
     }
     
     @media(max-width:1024px){
-      body{padding-top:110px;}
+      body{padding-top:120px;}
     }
     
     @media(max-width:768px){
-      body{padding-top:130px;}
+      body{padding-top:140px;}
       nav{padding:0.7rem 0.4rem;}
       nav ul{gap:0.4rem;}
       nav ul li a{font-size:0.82rem;padding:0.55rem 0.8rem;}
@@ -412,7 +412,7 @@
     }
     
     @media(max-width:480px){
-      body{padding-top:170px;}
+      body{padding-top:180px;}
       nav ul{gap:0.35rem;}
       nav ul li a{font-size:0.75rem;padding:0.5rem 0.7rem;min-height:40px;}
       #chat-box{height:500px;}
@@ -493,6 +493,11 @@ let currentBlinkingTab = null;
 let nonUnderstoodCount = 0;
 let currentUtterance = null;
 
+// CLIGNOTEMENT ALÉATOIRE DES ONGLETS
+let randomBlinkInterval = null;
+let randomBlinkActive = true;
+let allNavLinks = [];
+
 const PHONE_NUMBER = "+33695468923";
 const PHONE_DISPLAY = "06 95 46 89 23";
 
@@ -563,6 +568,21 @@ window.addEventListener('beforeunload', () => {
 
 // Au chargement : restaurer si possible
 const conversationRestored = loadConversation();
+
+// LANCER CLIGNOTEMENT ALÉATOIRE (seulement si nouvelle conversation)
+if (!conversationRestored) {
+  // Attendre que le DOM soit chargé
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      setTimeout(randomBlinkTabs, 500); // Petit délai pour que tout soit chargé
+    });
+  } else {
+    setTimeout(randomBlinkTabs, 500);
+  }
+} else {
+  // Si conversation restaurée, désactiver le clignotement aléatoire
+  randomBlinkActive = false;
+}
 
 // LISTE DES URLs DES ONGLETS (pour filtrer)
 const TAB_URLS = [
@@ -866,6 +886,15 @@ function addMessage(text, isBot = false) {
 
 // CLIGNOTER ONGLETS - PAS DE CONFUSION
 function blinkTab(exactMatch) {
+  // ARRÊTER LE CLIGNOTEMENT ALÉATOIRE dès la première recommandation
+  if (randomBlinkActive) {
+    randomBlinkActive = false;
+    if (randomBlinkInterval) {
+      clearInterval(randomBlinkInterval);
+      randomBlinkInterval = null;
+    }
+  }
+  
   if (currentBlinkingTab) {
     currentBlinkingTab.classList.remove('blink');
   }
@@ -881,6 +910,39 @@ function blinkTab(exactMatch) {
     }
   });
 }
+
+// CLIGNOTEMENT ALÉATOIRE DES ONGLETS (avant première recommandation)
+function randomBlinkTabs() {
+  // Récupérer tous les onglets une seule fois
+  if (allNavLinks.length === 0) {
+    allNavLinks = Array.from(document.querySelectorAll('nav ul li a'));
+  }
+  
+  // Fonction qui fait clignoter un onglet aléatoire
+  function blinkRandom() {
+    if (!randomBlinkActive) return; // Stop si désactivé
+    
+    // Retirer le blink de l'onglet précédent
+    if (currentBlinkingTab) {
+      currentBlinkingTab.classList.remove('blink');
+    }
+    
+    // Choisir un onglet aléatoire
+    const randomIndex = Math.floor(Math.random() * allNavLinks.length);
+    const randomTab = allNavLinks[randomIndex];
+    
+    // Ajouter le blink
+    randomTab.classList.add('blink');
+    currentBlinkingTab = randomTab;
+  }
+  
+  // Premier clignotement immédiat
+  blinkRandom();
+  
+  // Changer toutes les 2 secondes
+  randomBlinkInterval = setInterval(blinkRandom, 2000);
+}
+
 
 // ONGLET FLOTTANT CLIQUABLE - CORRECTION HREF
 function showFloatingTab(url, isPhoneNumber = false) {
