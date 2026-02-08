@@ -1,1 +1,2561 @@
+ <!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  
+  <title>Chat IA Spirituel - ClairVoyanceMedium.com</title>
+  <meta name="description" content="ClairVoyanceGPT - Assistant spirituel IA pour désenvoûtement, protection et guidance. Frederick du Cabinet ClairVoyanceMedium.com vous accompagne.">
+  
+  <!-- Favicon -->
+  <link rel="icon" href="https://i.imgur.com/GmyGlKk.webp" type="image/webp">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://i.imgur.com/GmyGlKk.webp">
+  <meta name="theme-color" content="#8B0000">
+  
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-2RSFE6WL4M"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-2RSFE6WL4M', {'anonymize_ip': true});
+    gtag('config', 'GTM-P3J6SXCH', {'anonymize_ip': true});
+  </script>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root{
+      --bg:#000;
+      --text:#fff;
+      --gold:#FFD700;
+      --tab-gold:#BBAE98;
+      --burgundy:#FF6B6B;
+      --burgundy-light:#FF8787;
+      --silver:#C0C0C0;
+      --accent:#87CEEB;
+    }
+    
+    *{margin:0;padding:0;box-sizing:border-box;}
+    
+    body{
+      font-family:'Cinzel',serif;
+      background:var(--bg);
+      color:var(--text);
+      text-align:center;
+      overflow-x:hidden;
+      -webkit-font-smoothing:antialiased;
+      padding-top:180px;
+    }
+    
+    /* NAVIGATION STICKY - DISPOSITION IMBRIQUÉE ADAPTATIVE */
+    nav{
+      position:fixed;
+      top:0;
+      left:0;
+      right:0;
+      z-index:1000;
+      background:rgba(0,0,0,0.30);
+      backdrop-filter:blur(10px);
+      -webkit-backdrop-filter:blur(10px);
+      padding:0.7rem 0.5rem;
+      box-shadow:0 2px 15px rgba(255,215,0,0.3);
+    }
+    
+    nav ul{
+      list-style:none;
+      padding:0;
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:center;
+      gap:0.4rem;
+      max-width:1200px;
+      margin:0 auto;
+    }
+    
+    /* Effet imbriqué ligne par ligne */
+    nav ul li:nth-child(4n+1),
+    nav ul li:nth-child(4n+2),
+    nav ul li:nth-child(4n+3){
+      margin-right:0.3rem;
+    }
+    
+    /* ANGLES CARRÉS - TAILLE -5% */
+    nav ul li a{
+      font-family:'Cinzel',serif;
+      font-size:clamp(0.855rem, 2.1vw, 1.045rem);
+      color:var(--tab-gold);
+      text-decoration:none;
+      padding:0.62rem 0.90rem;
+      background:rgba(17,17,17,0.45);
+      border:2px solid var(--tab-gold);
+      border-radius:0;
+      transition:all .3s ease;
+      display:inline-block;
+      text-align:center;
+      min-height:43px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    
+    nav ul li a:hover{
+      background:var(--tab-gold);
+      color:#111;
+      transform:translateY(-2px);
+      box-shadow:0 4px 12px rgba(187,174,152,0.5);
+    }
+    
+    /* CLIGNOTEMENT ONGLETS */
+    @keyframes blinkTab{
+      0%, 100%{
+        box-shadow:0 0 15px var(--burgundy);
+        border-color:var(--burgundy);
+        transform:scale(1);
+      }
+      50%{
+        box-shadow:0 0 25px var(--burgundy-light);
+        border-color:var(--burgundy-light);
+        transform:scale(1.03);
+      }
+    }
+    
+    nav ul li a.blink{
+      animation:blinkTab 1.2s ease-in-out infinite;
+      background:#000;
+      border:3px solid var(--burgundy);
+      color:var(--tab-gold) !important;
+    }
+    
+    header{
+      padding:1.5rem 0;
+      background:#111;
+      box-shadow:0 4px 10px rgba(0,0,0,.8);
+    }
+    
+    .logo{
+      width:720px;
+      max-width:90%;
+      height:auto;
+      display:block;
+      margin:0 auto;
+    }
+    
+    .chat-intro{
+      max-width:900px;
+      margin:1.5rem auto 2rem;
+      padding:0 1rem;
+      font-size:clamp(1.4rem, 5vw, 2.2rem);
+      background:linear-gradient(145deg, #C0C0C0, #E8E8E8, #A8A8A8);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      background-clip:text;
+      font-weight:700;
+    }
+    
+    #chat-container{
+      max-width:900px;
+      margin:1rem auto 2rem;
+      padding:0 1rem;
+    }
+    
+    #chat-box{
+      background:#111;
+      border:3px solid var(--burgundy);
+      box-shadow:0 0 22px var(--burgundy), 0 0 39px rgba(255,107,107,0.7);
+      overflow:hidden;
+      display:flex;
+      flex-direction:column;
+      height:650px;
+      border-radius:0;
+    }
+    
+    #chat-messages{
+      flex:1;
+      padding:1.5rem;
+      overflow-y:auto;
+      -webkit-overflow-scrolling:touch;
+      color:#fff;
+      background:#0a0a0a;
+    }
+    
+    #chat-messages::-webkit-scrollbar{width:10px;}
+    #chat-messages::-webkit-scrollbar-track{background:#1a1a1a;}
+    #chat-messages::-webkit-scrollbar-thumb{background:var(--burgundy);box-shadow:0 0 9px var(--burgundy);}
+    
+    #chat-messages p{
+      margin-bottom:1rem;
+      line-height:1.7;
+      opacity:0;
+      animation:fadeIn 0.6s forwards;
+    }
+    
+    @keyframes fadeIn{to{opacity:1;}}
+    
+    .bot-message{
+      text-align:left;
+      color:#fff;
+      background:rgba(255,107,107,0.15);
+      padding:1rem;
+      margin-bottom:1rem;
+      border:2px solid var(--burgundy);
+      box-shadow:0 0 17px rgba(255,107,107,0.55);
+      max-width:90%;
+      border-radius:0;
+    }
+    
+    .user-message{
+      text-align:right;
+      color:#fff;
+      margin-bottom:1rem;
+      border:2px solid var(--silver);
+      box-shadow:0 0 17px rgba(192,192,192,0.55);
+      padding:1rem;
+      max-width:90%;
+      margin-left:auto;
+      background:linear-gradient(145deg, rgba(192,192,192,0.1), rgba(211,211,211,0.08));
+      border-radius:0;
+    }
+    
+    #chat-form{
+      display:flex;
+      flex-direction:column;
+      border-top:3px solid var(--burgundy);
+      padding:1rem;
+      background:#111;
+      gap:0.8rem;
+    }
+    
+    .input-row{
+      display:flex;
+      gap:0.7rem;
+      align-items:center;
+    }
+    
+    #chat-input{
+      flex:1;
+      padding:1rem;
+      border:2px solid var(--burgundy);
+      outline:none;
+      color:#fff;
+      background:#0a0a0a;
+      font-family:'Cinzel',serif;
+      font-size:0.9rem;
+      box-shadow:0 0 13px rgba(255,107,107,0.45);
+      border-radius:0;
+    }
+    
+    #chat-input::placeholder{
+      color:#999;
+      opacity:0.7;
+      font-style:italic;
+    }
+    
+    #voice-toggle{
+      width:50px;
+      height:50px;
+      background:linear-gradient(145deg,#87CEEB,#5eb6d1);
+      color:#fff;
+      border:none;
+      border-radius:50%;
+      cursor:pointer;
+      box-shadow:0 4px 15px rgba(135,206,235,0.8);
+      font-size:1.4rem;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      transition:transform 0.2s;
+    }
+    
+    #voice-toggle:hover{transform:scale(1.1);}
+    #voice-toggle.disabled{background:linear-gradient(145deg,#808080,#666);opacity:0.7;}
+    
+    #chat-send{
+      width:100%;
+      background:linear-gradient(145deg,var(--burgundy-light),var(--burgundy));
+      border:2px solid var(--burgundy);
+      padding:1rem 1.8rem;
+      cursor:pointer;
+      color:#fff;
+      font-weight:bold;
+      font-family:'Cinzel',serif;
+      box-shadow:0 0 20px rgba(255,107,107,0.65);
+      font-size:1.1rem;
+      transition:transform .2s;
+      border-radius:0;
+    }
+    
+    #chat-send:hover{
+      transform:scale(1.03);
+      box-shadow:0 0 28px rgba(255,107,107,0.85);
+    }
+    
+    /* BOUTON FLOTTANT FLUIDE - DÉPLAÇABLE PARTOUT */
+    .floating-tab{
+      position:fixed;
+      top:50%;
+      right:20px;
+      transform:translateY(-50%);
+      z-index:9999;
+      background:#000;
+      color:var(--tab-gold);
+      padding:1.2rem 2rem;
+      border:3px solid var(--burgundy);
+      font-family:'Cinzel',serif;
+      font-size:clamp(1rem, 2.5vw, 1.3rem);
+      font-weight:bold;
+      text-decoration:none;
+      cursor:pointer;
+      box-shadow:0 0 15px var(--burgundy);
+      animation:blinkFloating 1.5s ease-in-out infinite;
+      display:none;
+      user-select:none;
+      border-radius:0;
+      will-change:transform;
+      transition:box-shadow 0.3s ease;
+    }
+    
+    .floating-tab.show{display:block;}
+    
+    .floating-tab .close-btn{
+      position:absolute;
+      top:-8px;
+      right:-8px;
+      width:24px;
+      height:24px;
+      background:var(--burgundy);
+      color:#fff;
+      border-radius:50%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      cursor:pointer;
+      font-size:16px;
+      border:2px solid #fff;
+      z-index:10000;
+    }
+    
+    @keyframes blinkFloating{
+      0%, 100%{box-shadow:0 0 15px var(--burgundy);}
+      50%{box-shadow:0 0 25px var(--burgundy-light);}
+    }
+    
+    /* LIEN RETOUR - COULEUR TAB-GOLD (#BBAE98) */
+    .return-line{
+      font-family:'Cinzel',serif;
+      font-size:0.9rem;
+      margin:4.5rem auto 1rem;
+      text-align:center;
+      padding:0 1rem;
+    }
+    
+    .return-line a,
+    .return-line a:link,
+    .return-line a:visited,
+    .return-line a:hover,
+    .return-line a:active{
+      color:#BBAE98 !important;
+      text-decoration:underline;
+      transition:all 0.3s ease;
+      display:inline-flex;
+      align-items:center;
+      gap:0.5rem;
+    }
+    
+    .return-line a:before{
+      content:"←";
+      font-size:1.4rem;
+    }
+    
+    .return-line a:hover{
+      opacity:0.8;
+      transform:translateX(-5px);
+    }
+    
+    /* FOOTER - CONDITIONS GÉNÉRALES EN GRIS */
+    footer{
+      margin-top:2rem;
+      font-size:.9rem;
+      color:#aaa;
+      padding:2rem 1rem;
+      background:#111;
+    }
+    
+    footer a{
+      color:#aaa !important;
+      text-decoration:none;
+    }
+    
+    footer a:hover{
+      color:#fff !important;
+    }
+    
+    @media(max-width:1024px){
+      body{padding-top:190px;}
+    }
+    
+    @media(max-width:768px){
+      body{padding-top:210px;}
+      nav{padding:0.7rem 0.4rem;}
+      nav ul{gap:0.4rem;}
+      nav ul li a{font-size:0.82rem;padding:0.55rem 0.8rem;}
+      #chat-box{height:550px;}
+      .logo{width:95%;}
+      .floating-tab{right:10px;padding:0.9rem 1.3rem;font-size:0.95rem;}
+    }
+    
+    @media(max-width:480px){
+      body{padding-top:250px;}
+      nav ul{gap:0.35rem;}
+      nav ul li a{font-size:0.75rem;padding:0.5rem 0.7rem;min-height:40px;}
+      #chat-box{height:500px;}
+    }
+  </style>
+</head>
+<body>
+  <!-- ONGLETS FIXES STICKY EN HAUT -->
+  <nav>
+    <ul>
+      <li><a href="https://clairvoyancemedium.github.io/Voyancepartelephonepaschere.github.io/" target="_blank" rel="noopener noreferrer" data-keywords="téléphone|appel|30min|tél|telephoner|appeler|phone" data-exact="voyance téléphone" data-url="https://clairvoyancemedium.github.io/Voyancepartelephonepaschere.github.io/" onclick="trackClick('TabVoyanceTel', 'Navigation', 30);">Voyance Tél 30min/30€</a></li>
+      <li><a href="https://www.clairvoyancemedium.com/Voyance-3-Questions-par-Email-cbaaaaaca.asp" target="_blank" rel="noopener noreferrer" data-keywords="email|questions|mail|courriel|écrit|3questions" data-exact="voyance email" data-url="https://www.clairvoyancemedium.com/Voyance-3-Questions-par-Email-cbaaaaaca.asp" onclick="trackClick('TabVoyanceEmail', 'Navigation', 12);">Voyance Email 3Q/12€</a></li>
+      <li><a href="https://www.clairvoyancemedium.com/Reconquerir-son-ex-a-distance-Blanche-cbaaaaasa.asp" target="_blank" rel="noopener noreferrer" data-keywords="retour|ex|amour|reconquérir|séparation|copain|copine" data-exact="retour ex" data-url="https://www.clairvoyancemedium.com/Reconquerir-son-ex-a-distance-Blanche-cbaaaaasa.asp" onclick="trackClick('TabRetourEx', 'Navigation', 175);">Retour Ex/175€</a></li>
+      <li><a href="https://www.clairvoyancemedium.com/Compatibilite-amoureuse-cbaaaaata.asp" target="_blank" rel="noopener noreferrer" data-keywords="compatibilité|couple|relation|amoureuse" data-exact="compatibilité" data-url="https://www.clairvoyancemedium.com/Compatibilite-amoureuse-cbaaaaata.asp" onclick="trackClick('TabCompatibilite', 'Navigation', 20);">Compatibilité/20€</a></li>
+      <li><a href="https://www.clairvoyancemedium.com/Desenvoutement-et-protection-a-distance-cbaaaaala.asp" target="_blank" rel="noopener noreferrer" data-keywords="purification|protection|sort|envoûtement|magie|sorcellerie|fatigue|cauchemars" data-exact="purification" data-url="https://www.clairvoyancemedium.com/Desenvoutement-et-protection-a-distance-cbaaaaala.asp" onclick="trackClick('TabPurification', 'Navigation', 150);">Purification/150€</a></li>
+      <li><a href="https://www.clairvoyancemedium.com/Recevez-1-message-d-un-defunt-cbaaaabka.asp" target="_blank" rel="noopener noreferrer" data-keywords="défunt|mort|message|deuil|décédé" data-exact="défunt" data-url="https://www.clairvoyancemedium.com/Recevez-1-message-d-un-defunt-cbaaaabka.asp" onclick="trackClick('TabDefunt', 'Navigation', 17);">Défunt/17€</a></li>
+      <li><a href="https://www.clairvoyancemedium.com/Medecine-Consultation-par-email-cbaaaabja.asp" target="_blank" rel="noopener noreferrer" data-keywords="santé|médecine|bien-être|maladie" data-exact="santé" data-url="https://www.clairvoyancemedium.com/Medecine-Consultation-par-email-cbaaaabja.asp" onclick="trackClick('TabSante', 'Navigation', 30);">Santé/30€</a></li>
+      <li><a href="https://www.clairvoyancemedium.com/Ligne-de-la-main-Voyance-3-questions-cbaaaaana.asp" target="_blank" rel="noopener noreferrer" data-keywords="main|chiromancie|ligne|paume" data-exact="main" data-url="https://www.clairvoyancemedium.com/Ligne-de-la-main-Voyance-3-questions-cbaaaaana.asp" onclick="trackClick('TabMain', 'Navigation', 10);">Main/10€</a></li>
+      <li><a href="https://www.clairvoyancemedium.com/Message-de-votre-Ange-gardien-cbaaaabba.asp" target="_blank" rel="noopener noreferrer" data-keywords="ange|gardien|céleste|protection divine" data-exact="ange" data-url="https://www.clairvoyancemedium.com/Message-de-votre-Ange-gardien-cbaaaabba.asp" onclick="trackClick('TabAnge', 'Navigation', 10);">Ange/10€</a></li>
+    </ul>
+  </nav>
+  
+  <!-- LOGO -->
+  <header>
+    <picture>
+      <source srcset="https://i.imgur.com/GmyGlKk.webp" type="image/webp">
+      <img src="https://i.imgur.com/GmyGlKk.jpg" alt="Logo ClairVoyanceMedium" class="logo" width="720" height="720" loading="eager" decoding="async" fetchpriority="high">
+    </picture>
+  </header>
+  
+  <div class="chat-intro">Chat IA Spirituel - ClairVoyanceGPT</div>
+  
+  <!-- CHAT -->
+  <div id="chat-container">
+    <div id="chat-box">
+      <div id="chat-messages"></div>
+      <form id="chat-form">
+        <div class="input-row">
+          <input type="text" id="chat-input" placeholder="Votre question..." autocomplete="off">
+          <button type="button" id="voice-toggle" title="Assistant vocal">🎤</button>
+        </div>
+        <button type="submit" id="chat-send" onclick="trackClick('ChatMessageSent', 'Engagement', 1);">Envoyer</button>
+      </form>
+    </div>
+  </div>
+  
+  <div class="return-line">
+    <a href="https://www.clairvoyancemedium.com/">Retour vers le cabinet de voyance ClairVoyanceMedium.com</a>
+  </div>
+  
+  <!-- BOUTON FLOTTANT -->
+  <a id="floating-tab" class="floating-tab" href="#" target="_blank" rel="noopener noreferrer" onclick="trackClick('FloatingTabClicked', 'Conversion', 1);">
+    <span class="close-btn" onclick="event.preventDefault();event.stopPropagation();document.getElementById('floating-tab').classList.remove('show');trackClick('FloatingTabClosed', 'Interaction', 0);return false;">×</span>
+    <span id="floating-text">Ce qu'il vous faut !</span>
+  </a>
+  
+  <footer>
+    <p>© 2006-<span id="current-year"></span> ClairVoyanceMedium.com - Tous droits réservés</p>
+    <p><a href="https://www.clairvoyancemedium.com/Conditions-Generales-des-Ventes-et-d-Utilisation-ccsaaaaaa.asp" target="_blank" rel="noopener noreferrer">Conditions Générales</a></p>
+  </footer>
+  
+  <script>
+document.getElementById('current-year').textContent = new Date().getFullYear();
 
+function trackClick(label, category, value) {
+  if (typeof gtag === 'function') {
+    gtag('event', label, {'event_category': category, 'event_label': label, 'value': value});
+  }
+}
+
+let userName = '';
+let userNameConfirmed = false;
+let pendingName = '';
+let messageCount = 0;
+let voiceEnabled = true;
+let recognition = null;
+let currentBlinkingTab = null;
+let nonUnderstoodCount = 0;
+
+const PHONE_NUMBER = "+33695468923";
+const PHONE_DISPLAY = "06 95 46 89 23";
+
+// GESTION MÉMOIRE 24H
+const STORAGE_KEY = 'clairvoyance_chat_history';
+const STORAGE_TIMESTAMP = 'clairvoyance_chat_timestamp';
+const SESSION_KEY = 'clairvoyance_session_active';
+
+// Sauvegarder conversation
+function saveConversation() {
+  const data = {
+    messages: Array.from(document.getElementById('chat-messages').children).map(p => ({
+      text: p.textContent,
+      isBot: p.className === 'bot-message'
+    })),
+    userName,
+    userNameConfirmed,
+    messageCount
+  };
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  localStorage.setItem(STORAGE_TIMESTAMP, Date.now().toString());
+  localStorage.setItem(SESSION_KEY, 'true');
+}
+
+// Charger conversation si < 24h ET session active
+function loadConversation() {
+  const timestamp = localStorage.getItem(STORAGE_TIMESTAMP);
+  const sessionActive = localStorage.getItem(SESSION_KEY);
+  
+  if (!timestamp || !sessionActive) return false;
+  
+  const age = Date.now() - parseInt(timestamp);
+  const twentyFourHours = 24 * 60 * 60 * 1000;
+  
+  // Si > 24h OU session fermée → reset
+  if (age > twentyFourHours || sessionActive !== 'true') {
+    localStorage.removeItem(STORAGE_KEY);
+    localStorage.removeItem(STORAGE_TIMESTAMP);
+    localStorage.removeItem(SESSION_KEY);
+    return false;
+  }
+  
+  const data = JSON.parse(localStorage.getItem(STORAGE_KEY));
+  if (!data) return false;
+  
+  // Restaurer conversation
+  const messagesDiv = document.getElementById('chat-messages');
+  messagesDiv.innerHTML = '';
+  data.messages.forEach(msg => {
+    const p = document.createElement('p');
+    p.className = msg.isBot ? 'bot-message' : 'user-message';
+    p.textContent = msg.text;
+    messagesDiv.appendChild(p);
+  });
+  
+  userName = data.userName || '';
+  userNameConfirmed = data.userNameConfirmed || false;
+  messageCount = data.messageCount || 0;
+  
+  messagesDiv.scrollTop = messagesDiv.scrollHeight;
+  return true;
+}
+
+// Détecter sortie du site (fermeture onglet/navigation)
+window.addEventListener('beforeunload', () => {
+  localStorage.setItem(SESSION_KEY, 'false');
+});
+
+// Au chargement : restaurer si possible
+const conversationRestored = loadConversation();
+
+// LISTE DES URLs DES ONGLETS (pour filtrer)
+const TAB_URLS = [
+  'https://clairvoyancemedium.github.io/Voyancepartelephonepaschere.github.io/',
+  'https://www.clairvoyancemedium.com/Voyance-3-Questions-par-Email-cbaaaaaca.asp',
+  'https://www.clairvoyancemedium.com/Reconquerir-son-ex-a-distance-Blanche-cbaaaaasa.asp',
+  'https://www.clairvoyancemedium.com/Compatibilite-amoureuse-cbaaaaata.asp',
+  'https://www.clairvoyancemedium.com/Desenvoutement-et-protection-a-distance-cbaaaaala.asp',
+  'https://www.clairvoyancemedium.com/Recevez-1-message-d-un-defunt-cbaaaabka.asp',
+  'https://www.clairvoyancemedium.com/Medecine-Consultation-par-email-cbaaaabja.asp',
+  'https://www.clairvoyancemedium.com/Ligne-de-la-main-Voyance-3-questions-cbaaaaana.asp',
+  'https://www.clairvoyancemedium.com/Message-de-votre-Ange-gardien-cbaaaabba.asp'
+];
+
+// DRAG AND DROP FLUIDE - NE PAS BLOQUER LE CLIC
+let isDragging = false;
+let hasMoved = false;
+let startX, startY, offsetX = 0, offsetY = 0;
+const floatingTab = document.getElementById('floating-tab');
+
+floatingTab.addEventListener('mousedown', dragStart);
+floatingTab.addEventListener('touchstart', dragStart, {passive: false});
+
+function dragStart(e) {
+  if (e.target.classList.contains('close-btn')) {
+    e.preventDefault();
+    e.stopPropagation();
+    floatingTab.classList.remove('show');
+    return;
+  }
+  
+  isDragging = true;
+  hasMoved = false;
+  const touch = e.type === 'touchstart' ? e.touches[0] : e;
+  startX = touch.clientX - offsetX;
+  startY = touch.clientY - offsetY;
+  
+  floatingTab.style.transition = 'none';
+}
+
+document.addEventListener('mousemove', drag);
+document.addEventListener('touchmove', drag, {passive: false});
+
+function drag(e) {
+  if (!isDragging) return;
+  
+  const touch = e.type === 'touchmove' ? e.touches[0] : e;
+  const moveX = touch.clientX - startX;
+  const moveY = touch.clientY - startY;
+  
+  // Si mouvement > 5px, considérer comme drag (pas clic)
+  if (Math.abs(moveX - offsetX) > 5 || Math.abs(moveY - offsetY) > 5) {
+    hasMoved = true;
+    e.preventDefault();
+  }
+  
+  offsetX = moveX;
+  offsetY = moveY;
+  
+  floatingTab.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+}
+
+document.addEventListener('mouseup', dragEnd);
+document.addEventListener('touchend', dragEnd);
+
+function dragEnd(e) {
+  if (isDragging) {
+    isDragging = false;
+    floatingTab.style.transition = 'box-shadow 0.3s ease';
+    
+    // Si pas de mouvement significatif, laisser le clic se propager
+    if (!hasMoved) {
+      // Le href natif fonctionnera
+      return;
+    } else {
+      // Bloquer le clic si c'était un drag
+      e.preventDefault();
+    }
+  }
+}
+
+// VOIX HOMME GRAVE
+function speak(text) {
+  if (!voiceEnabled || !('speechSynthesis' in window)) return;
+  
+  let textToSpeak = text.replace(/https?:\/\/[^\s]+/g, '');
+  
+  window.speechSynthesis.cancel();
+  const utterance = new SpeechSynthesisUtterance(textToSpeak);
+  utterance.lang = 'fr-FR';
+  
+  const voices = window.speechSynthesis.getVoices();
+  const maleVoice = voices.find(v => 
+    v.lang.startsWith('fr') && (
+      v.name.toLowerCase().includes('thomas') ||
+      v.name.toLowerCase().includes('daniel') ||
+      v.name.toLowerCase().includes('male')
+    )
+  );
+  
+  if (maleVoice) utterance.voice = maleVoice;
+  
+  utterance.pitch = 0.4;
+  utterance.rate = 1.2;
+  utterance.volume = 1.0;
+  
+  window.speechSynthesis.speak(utterance);
+}
+
+if ('speechSynthesis' in window) {
+  window.speechSynthesis.onvoiceschanged = () => {
+    window.speechSynthesis.getVoices();
+  };
+}
+
+// RECONNAISSANCE VOCALE
+if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  recognition = new SpeechRecognition();
+  recognition.lang = 'fr-FR';
+  recognition.interimResults = false;
+  recognition.maxAlternatives = 1;
+  
+  recognition.onresult = (event) => {
+    const transcript = event.results[0][0].transcript;
+    document.getElementById('chat-input').value = transcript;
+    handleMessage();
+  };
+}
+
+document.getElementById('voice-toggle').addEventListener('click', () => {
+  voiceEnabled = !voiceEnabled;
+  document.getElementById('voice-toggle').classList.toggle('disabled', !voiceEnabled);
+  if (voiceEnabled && recognition) {
+    try { recognition.start(); } catch(e) {}
+  } else if (recognition) {
+    recognition.stop();
+  }
+});
+
+function addMessage(text, isBot = false) {
+  const messagesDiv = document.getElementById('chat-messages');
+  const messageDiv = document.createElement('p');
+  messageDiv.className = isBot ? 'bot-message' : 'user-message';
+  messageDiv.textContent = text;
+  messagesDiv.appendChild(messageDiv);
+  messagesDiv.scrollTop = messagesDiv.scrollHeight;
+  if (isBot && voiceEnabled) speak(text);
+  
+  // Sauvegarder après chaque message
+  saveConversation();
+}
+
+// CLIGNOTER ONGLETS - PAS DE CONFUSION
+function blinkTab(exactMatch) {
+  if (currentBlinkingTab) {
+    currentBlinkingTab.classList.remove('blink');
+  }
+  
+  const navLinks = document.querySelectorAll('nav ul li a');
+  navLinks.forEach(link => {
+    const linkExact = link.getAttribute('data-exact');
+    if (linkExact && linkExact.toLowerCase() === exactMatch.toLowerCase()) {
+      link.classList.add('blink');
+      currentBlinkingTab = link;
+      link.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      trackClick('TabBlinked_' + exactMatch.replace(/\s+/g, '_'), 'ChatInteraction', 0);
+    }
+  });
+}
+
+// ONGLET FLOTTANT CLIQUABLE - CORRECTION HREF
+function showFloatingTab(url, isPhoneNumber = false) {
+  const floatingText = document.getElementById('floating-text');
+  
+  if (isPhoneNumber) {
+    floatingTab.href = `tel:${url}`;
+    floatingText.textContent = `0695468923 • 24h/7j`;
+  } else {
+    floatingTab.href = url;
+    floatingText.textContent = `Ce qu'il vous faut ${userName} !`;
+  }
+  
+  floatingTab.classList.add('show');
+  
+  // IMPORTANT : Supprimer onclick qui bloque le href
+  floatingTab.onclick = null;
+  
+  trackClick('FloatingTabDisplayed', 'Interaction', 0);
+}
+
+// BASE DE CONNAISSANCES - AJOUT FACILE
+const knowledgeBase = [
+    // ==========================================
+    // 9 ONGLETS STICKY - PRIORITÉ MAXIMALE
+    // ==========================================
+    
+    { 
+      keywords: "purification|désenvoûtement|protection|nettoyage énergétique|purifier|désenvoutement|desenvoutement|purif", 
+      exactMatch: "purification", 
+      answer: (name) => `${name}, je ressens dans votre recherche une lourdeur qui vous pèse. Cette fatigue inexpliquée, ces cauchemars récurrents, cette sensation d'être drainé de votre énergie - ce ne sont pas des coïncidences. Laissez-moi vous expliquer ce qui se passe vraiment.
+
+Vous vivez peut-être sous l'influence d'énergies négatives ou d'une attaque occulte. Votre corps et votre esprit vous envoient des signaux d'alarme que vous ne pouvez plus ignorer. Chaque jour d'attente permet à ces énergies de s'enraciner plus profondément dans votre champ énergétique.
+
+Je vous conseille vivement d'opter pour une purification énergétique complète dès maintenant. Frederick a développé une expertise unique en 25 ans pour identifier et neutraliser ces attaques invisibles. Voici ce qui va concrètement changer dans votre vie, ${name} :
+
+**Les transformations que vous allez vivre :**
+✓ Dès 48-72h : sensation de légèreté retrouvée, comme si un poids invisible disparaissait
+✓ Première semaine : votre énergie vitale revient progressivement, vous vous réveillez enfin reposé
+✓ Vos cauchemars cessent et vos nuits redeviennent paisibles et réparatrices
+✓ Cette malchance chronique qui vous poursuivait commence à se dissiper
+✓ Votre clarté mentale revient - vous pouvez enfin penser clairement
+✓ Plus de 2800 purifications réalisées avec 96% de succès mesurable
+
+Le meilleur conseil que je puisse vous donner, ${name} : n'attendez pas que la situation empire. Frederick a constaté que les personnes qui agissent rapidement se rétablissent en quelques jours, tandis que celles qui attendent peuvent mettre des semaines. Chaque jour compte. Un onglet s'illumine en haut de la page - c'est votre premier pas vers la libération que vous méritez.`, 
+      url: 'https://www.clairvoyancemedium.com/Desenvoutement-et-protection-a-distance-cbaaaaala.asp', 
+      isExternal: false 
+    },
+    
+    { 
+      keywords: "voyance téléphone|consultation téléphonique|appel voyant|parler voyance|téléphone voyant|voyance par tel|voyance tel", 
+      exactMatch: "voyance téléphone", 
+      answer: (name) => `${name}, vous cherchez à parler directement avec un voyant authentique, et c'est une excellente décision. La voix porte une énergie que l'écrit ne peut pas transmettre. Permettez-moi de vous expliquer pourquoi la consultation téléphonique avec Frederick peut vraiment transformer votre situation.
+
+Vous êtes face à des questions brûlantes qui ne peuvent pas attendre. Peut-être un choix crucial à faire, une relation qui vous tourmente, une décision professionnelle urgente. Vous avez besoin de réponses claires MAINTENANT, pas dans plusieurs jours.
+
+Je vous recommande vivement la voyance par téléphone avec Frederick. Écoutez bien pourquoi c'est la solution idéale pour vous, ${name}, et ce que vous allez concrètement obtenir :
+
+**Les avantages immédiats de la consultation téléphonique :**
+✓ Connexion énergétique directe - Frederick capte votre énergie dès les 30 premières secondes
+✓ Réponses instantanées à vos questions sans attendre des heures ou des jours
+✓ Vous pouvez poser des questions de suivi naturellement pendant l'échange
+✓ Le ton de sa voix vous rassure - vous sentez immédiatement son authenticité
+✓ Plusieurs durées disponibles (5, 10, 20, 30, 45 minutes) selon vos besoins et votre budget
+✓ Plus de 1500 consultations téléphoniques avec 96% de satisfaction client
+
+Le meilleur pour vous serait de choisir la durée selon la complexité de votre situation, ${name}. Une question urgente ? 5-10 minutes suffisent. Vie compliquée avec plusieurs aspects ? 30-45 minutes vous offrent l'espace nécessaire. Frederick ne remplit jamais artificiellement - il va droit à l'essentiel. Un onglet s'illumine en haut de la page. Le numéro apparaît à votre droite pour que vous puissiez l'appeler directement et obtenir enfin les réponses qui vous libéreront de cette incertitude.`, 
+      url: 'https://clairvoyancemedium.github.io/Voyancepartelephonepaschere.github.io/', 
+      isExternal: false,
+      showPhoneButton: true
+    },
+    
+    { 
+      keywords: "voyance email|consultation email|voyance par mail|email voyant|mail voyance|voyance écrite|consultation écrite", 
+      exactMatch: "voyance email", 
+      answer: (name) => `${name}, vous préférez l'écrit au vocal - c'est un choix très intelligent pour plusieurs raisons. L'email vous offre quelque chose d'unique : une trace permanente des réponses que vous pourrez relire autant de fois que nécessaire. Laissez-moi vous guider.
+
+Peut-être n'êtes-vous pas à l'aise au téléphone, ou vous voulez pouvoir méditer sur les réponses tranquillement, ou vous souhaitez partager cette consultation avec un proche de confiance. Peut-être voulez-vous simplement garder cette preuve écrite pour vérifier les prédictions au fil du temps.
+
+Je vous conseille absolument la consultation par email avec Frederick. Voici ce que cette approche va vous apporter de concret et pourquoi c'est parfait pour vous, ${name} :
+
+**Les bénéfices exclusifs de la voyance écrite :**
+✓ Réponse sous 4h maximum (souvent 2h) - Frederick traite les emails en priorité
+✓ Vous relisez quand vous voulez : à 3h du matin si l'anxiété vous réveille, avant une décision importante
+✓ Réponses détaillées et structurées - Frederick prend le temps d'expliquer le POURQUOI
+✓ Vous gardez cette trace pour toujours dans votre boîte email
+✓ Vous pouvez partager avec vos proches pour avoir leur avis sur les réponses
+✓ Aucun stress téléphonique - vous formulez vos questions calmement, à tête reposée
+✓ Plus de 2200 consultations email avec 95% de satisfaction mesurée
+
+Le meilleur conseil que je puisse vous donner, ${name} : formulez vos questions avec précision. Plus vous êtes clair, plus Frederick peut être précis dans ses réponses. Choisissez entre 1 question (pour tester) ou 3 questions (pour une vue d'ensemble complète). Un onglet s'illumine en haut de la page pour cette consultation posée et réfléchie qui vous donnera les réponses écrites dont vous avez tant besoin.`, 
+      url: 'https://www.clairvoyancemedium.com/Voyance-3-Questions-par-Email-cbaaaaaca.asp', 
+      isExternal: false 
+    },
+    
+    { 
+      keywords: "retour ex|reconquérir ex|récupérer ex|amour perdu|ex revienne|ramener ex|retour affectif|rituel retour|magie blanche amour", 
+      exactMatch: "retour ex", 
+      answer: (name) => `${name}, je ressens une immense douleur dans votre recherche. Cette personne vous manque tellement que vous ne fonctionnez plus normalement. Chaque nuit sans elle ou sans lui est un supplice, chaque jour une épreuve. Cette souffrance qui vous déchire le cœur est réelle et insupportable. Laissez-moi vous aider vraiment.
+
+Vous avez peut-être tout essayé, ${name}. Les messages restés sans réponse. Les appels ignorés. Les conseils des amis qui ne servent à rien. Vous êtes au bord du désespoir et vous vous demandez s'il existe encore une chance. La réponse est OUI - mais il faut agir intelligemment et rapidement.
+
+Je vous conseille vivement d'explorer le rituel de retour affectif en magie blanche de Frederick. Voici pourquoi c'est votre meilleure option et ce qui va concrètement se passer :
+
+**Les transformations que vous allez vivre semaine après semaine :**
+✓ Le rituel agit en 2 à 4 semaines généralement selon la complexité de votre situation
+✓ Premiers signes en 7-10 jours : votre ex pense à vous intensément sans comprendre pourquoi
+✓ Il ou elle commence à vous contacter "par hasard" - un message, un appel, une réaction sur les réseaux
+✓ Les obstacles entre vous se dissolvent mystérieusement - la nouvelle relation s'effrite, les rancœurs s'apaisent
+✓ Les chemins se rouvrent naturellement vers une réconciliation possible
+✓ 87% de retours réussis sur plus de 500 couples réconciliés - ces chiffres parlent d'eux-mêmes
+
+Le meilleur pour vous serait de comprendre, ${name}, que la magie BLANCHE respecte le libre arbitre. Si l'amour était réel entre vous, votre ex reviendra naturellement. Si c'était superficiel, le rituel ne forcera rien - c'est honnête et éthique. N'attendez pas qu'il ou elle rencontre quelqu'un d'autre ou que les énergies se figent dans la séparation. Un onglet s'illumine en haut de la page pour déclencher ce retour avant qu'il ne soit vraiment trop tard.`, 
+      url: 'https://www.clairvoyancemedium.com/Reconquerir-son-ex-a-distance-Blanche-cbaaaaasa.asp', 
+      isExternal: false 
+    },
+    
+    { 
+      keywords: "compatibilité|compatible couple|affinité amoureuse|sommes nous faits|âmes sœurs|destinés ensemble|entente couple|harmonie relation", 
+      exactMatch: "compatibilité", 
+      answer: (name) => `${name}, cette question vous hante : "Sommes-nous vraiment faits l'un pour l'autre ?" Vous avez des doutes qui grandissent, des signaux contradictoires qui vous perturbent. Parfois c'est merveilleux, parfois c'est l'enfer. Vous ne savez plus si c'est de l'amour véritable ou une illusion confortable qui s'effondrera tôt ou tard. Je vais vous aider à obtenir une réponse claire et honnête.
+
+Peut-être investissez-vous du temps et de l'énergie dans une relation qui n'a pas d'avenir à long terme. Ou au contraire, peut-être doutez-vous d'une relation magnifique par peur, ${name}. Cette incertitude vous empêche de vous engager pleinement ou de partir sereinement.
+
+Je vous recommande absolument une analyse de compatibilité complète avec Frederick. Voici ce que cette consultation va vous révéler et comment elle va transformer votre situation :
+
+**La vérité sur votre relation que vous allez enfin découvrir :**
+✓ Frederick analyse vos deux thèmes astraux complets - pas juste vos signes solaires
+✓ Il compare vos énergies profondes, vos âmes, vos destinées karmiques
+✓ Vous saurez si vous êtes VRAIMENT compatibles pour construire ensemble
+✓ Il identifie vos forces de couple (à cultiver) ET vos faiblesses (à surveiller)
+✓ Il révèle si cette relation vous élève vers votre meilleur vous-même ou vous détruit lentement
+✓ Vous obtenez une réponse CERTAINE - pas un "peut-être" frustrant qui vous laisse dans le doute
+
+Le meilleur conseil que je puisse vous donner, ${name} : la vérité peut rassurer magnifiquement ou alerter douloureusement. Parfois Frederick dit "Oui, vous êtes faits l'un pour l'autre" - soulagement immense. Parfois "Non, cette relation est toxique pour vous" - douleur nécessaire mais libératrice. Dans les deux cas, vous SAVEZ enfin et vous pouvez agir en conséquence. Combien de gens gâchent 10, 20 ans avec la mauvaise personne ? Ne faites pas cette erreur. Un onglet s'illumine en haut de la page pour cette vérité qui va tout clarifier.`, 
+      url: 'https://www.clairvoyancemedium.com/Compatibilite-amoureuse-cbaaaaata.asp', 
+      isExternal: false 
+    },
+    
+    { 
+      keywords: "défunt|mort|décédé|au-delà|communication défunt|message mort|spiritisme|médium défunt|parler mort|contact défunt", 
+      exactMatch: "défunt", 
+      answer: (name) => `${name}, je ressens votre immense douleur de deuil à travers votre recherche. Perdre quelqu'un qu'on aime crée un vide qui semble impossible à combler. Cette personne vous manque terriblement et il y a tant de choses non dites, tant de questions sans réponse. Laissez-moi vous aider à trouver la paix dont vous avez désespérément besoin.
+
+Votre défunt a des messages pour vous - des choses qu'il ou elle n'a pas pu dire avant de partir. Des pardons à demander. Des regrets à exprimer. Des révélations importantes. Des "je t'aime" qui sont restés coincés. Ces mots attendent d'être transmis et vous avez besoin de les entendre pour enfin respirer, ${name}.
+
+Je vous conseille vivement d'établir cette communication avec l'au-delà à travers Frederick. Voici ce que cette connexion va transformer en vous et pourquoi c'est essentiel pour votre guérison :
+
+**La guérison profonde que vous allez expérimenter :**
+✓ Vous recevez enfin les mots que vous attendiez désespérément depuis son départ
+✓ Vous comprenez que la mort n'est qu'un passage, pas une fin - il ou elle existe toujours
+✓ Votre deuil se transforme radicalement : de la douleur paralysante à une paix sereine
+✓ Vous cessez de vous torturer avec les "si j'avais su..." ou "j'aurais dû lui dire..."
+✓ Vous obtenez des réponses aux questions qui vous hantent et vous empêchent d'avancer
+✓ Vous recevez sa permission de continuer à vivre pleinement - c'est ce qu'il ou elle veut pour vous
+
+Le meilleur pour vous serait de ne pas porter ce fardeau toute votre vie, ${name}. Frederick sert de pont authentique entre ce monde et l'autre depuis 25 ans. Il ne devine pas - il REÇOIT vraiment. Les morts parlent quand on sait les écouter. Ne laissez pas ce message non délivré vous hanter éternellement. Un onglet s'illumine en haut de la page pour cette communication qui va apaiser votre cœur brisé et vous permettre enfin de tourner la page avec amour.`, 
+      url: 'https://www.clairvoyancemedium.com/Recevez-1-message-d-un-defunt-cbaaaabka.asp', 
+      isExternal: false 
+    },
+    
+    { 
+      keywords: "santé|maladie|douleur|symptôme|mal|souffrance physique|problème santé|corps|médecine naturelle|guérison", 
+      exactMatch: "santé", 
+      answer: (name) => `${name}, ces douleurs vous épuisent jour après jour et personne ne semble vraiment vous comprendre. Les médecins ont fait des examens, tout semble "normal", mais VOUS, vous souffrez réellement. Cette invalidation de votre douleur ajoute à votre détresse. Laissez-moi vous expliquer ce qui se passe vraiment et comment Frederick peut enfin vous aider.
+
+Vous avez consulté des spécialistes, ${name}. Fait des analyses. Des scanners. Des IRM peut-être. Les résultats sont normaux ou peu concluants. On vous dit "c'est le stress" ou "c'est psychosomatique". Mais vous savez au fond de vous que c'est plus que ça. Quelque chose cloche vraiment et personne ne trouve quoi.
+
+Je vous conseille absolument d'explorer l'approche énergétique et holistique de Frederick. Voici ce qu'il va identifier et comment cela va transformer votre situation :
+
+**Ce que la médecine conventionnelle ne voit pas et que Frederick détecte :**
+✓ Les blocages énergétiques au niveau de vos organes qui créent des douleurs physiques réelles
+✓ Les traumatismes émotionnels stockés dans votre corps depuis des années
+✓ Les attaques énergétiques extérieures qui se manifestent en symptômes physiques
+✓ Les mémoires cellulaires douloureuses qui créent des maladies récurrentes
+✓ Frederick combine voyance ET médecine naturelle depuis 25 ans - approche unique
+✓ Plus de 1200 personnes soulagées durablement après que la médecine ait échoué
+
+Le meilleur conseil que je puisse vous donner, ${name} : Frederick ne remplace pas votre médecin, il le COMPLÈTE. Continuez votre suivi médical mais ajoutez cette dimension énergétique que la médecine ignore complètement. Tant de gens souffrent inutilement parce qu'ils ne traitent que le corps physique en oubliant le corps énergétique. Un onglet s'illumine en haut de la page pour enfin trouver la vraie cause de vos maux et le soulagement que vous méritez.`, 
+      url: 'https://www.clairvoyancemedium.com/Medecine-Consultation-par-email-cbaaaabja.asp', 
+      isExternal: false 
+    },
+    
+    { 
+      keywords: "main|ligne main|chiromancie|paume|ligne vie|ligne cœur|ligne chance|palmistry|lire main", 
+      exactMatch: "main", 
+      answer: (name) => `${name}, vos mains racontent toute votre histoire depuis votre naissance. Chaque ligne, chaque sillon, chaque marque a une signification profonde que vous ne soupçonnez pas. Ces lignes ne sont pas aléatoires - elles révèlent votre destinée écrite dans votre chair même. Laissez-moi vous expliquer.
+
+Vous regardez vos mains parfois et vous vous demandez ce que ces lignes signifient vraiment. Votre ligne de vie semble courte ? Votre ligne de cœur est cassée ? Votre ligne de chance est absente ? Chacune de ces observations vous inquiète mais personne ne peut vous dire ce qu'elles révèlent vraiment, ${name}.
+
+Je vous recommande vivement une lecture complète de vos mains par Frederick, expert en chiromancie depuis 25 ans. Voici ce qu'il va décoder et les révélations que vous allez recevoir :
+
+**Ce que vos mains révèlent sur votre destinée complète :**
+✓ Votre ligne de vie : pas votre durée de vie (contrairement à la croyance) mais votre vitalité, votre énergie vitale, les événements santé majeurs
+✓ Votre ligne de cœur : vos histoires d'amour passées ET futures, vos capacités émotionnelles, les blessures sentimentales
+✓ Votre ligne de tête : votre intelligence pratique, vos talents naturels, votre destinée professionnelle
+✓ Votre ligne de chance : votre potentiel de réussite, d'argent, les périodes fastes qui vous attendent
+✓ Les signes particuliers (étoiles, croix, triangles) : événements spécifiques, talents cachés, dangers
+✓ Tout est inscrit depuis votre naissance - Frederick lit ce que vous ne voyez pas
+
+Le meilleur pour vous serait de comprendre, ${name}, que vos mains évoluent avec votre vie. Les lignes se modifient selon vos choix et votre évolution. Frederick ne lit pas juste mécaniquement - il VOIT votre énergie à travers vos paumes. Un onglet s'illumine en haut de la page pour découvrir ce que vos mains révèlent sur qui vous êtes vraiment et ce qui vous attend.`, 
+      url: 'https://www.clairvoyancemedium.com/Ligne-de-la-main-Voyance-3-questions-cbaaaaana.asp', 
+      isExternal: false 
+    },
+    
+    { 
+      keywords: "ange gardien|archange|guide spirituel|ange protecteur|message ange|protection divine|guidance céleste|ange personnel", 
+      exactMatch: "ange", 
+      answer: (name) => `${name}, votre ange gardien vous parle chaque jour mais vous ne l'entendez pas. Il vous envoie des signes que vous ne voyez pas. Il essaie désespérément de vous guider mais vous êtes trop plongé dans le monde matériel pour capter ses messages subtils. Frederick peut servir de canal pour enfin entendre ce que votre ange essaie de vous dire depuis si longtemps. Laissez-moi vous expliquer.
+
+Vous avez peut-être l'impression d'être seul face à vos difficultés, ${name}. Perdu dans les décisions importantes. Sans guidance claire sur votre chemin de vie. Mais vous n'êtes JAMAIS seul - votre ange gardien est là, constamment à vos côtés, attendant patiemment que vous l'écoutiez enfin.
+
+Je vous conseille vivement de recevoir le message de votre ange gardien à travers Frederick. Voici ce que cette connexion divine va transformer dans votre vie et pourquoi c'est essentiel maintenant :
+
+**Ce que votre ange essaie de vous dire depuis longtemps :**
+✓ Sa présence constante et aimante à vos côtés - vous n'avez jamais été abandonné
+✓ Les messages précis qu'il essaie de vous transmettre sur vos décisions actuelles
+✓ Les signes qu'il vous envoie (que vous ratez) : nombres répétitifs, coïncidences, intuitions
+✓ La guidance claire pour votre chemin de vie - votre mission d'âme révélée
+✓ La protection qu'il vous offre contre les dangers que vous ne voyez pas venir
+✓ Comment établir une communication directe avec lui désormais (sans passer par Frederick)
+
+Le meilleur conseil que je puisse vous donner, ${name} : une fois que vous connaissez le message de votre ange, votre vie change radicalement. Vous ne vous sentez plus jamais seul. Vous avez une guidance céleste constante. Les décisions deviennent plus faciles car vous savez qu'il vous guide. Un onglet s'illumine en haut de la page pour cette connexion divine qui va illuminer votre chemin et vous apporter la paix intérieure dont vous avez tant besoin.`, 
+      url: 'https://www.clairvoyancemedium.com/Message-de-votre-Ange-gardien-cbaaaabba.asp', 
+      isExternal: false 
+    },
+
+    // ==========================================
+    // PURIFICATION - 30 ENTRÉES COMPLÈTES
+    // ==========================================
+    
+    { 
+      keywords: "fatigue|fatigué|épuisé|crevé|sans énergie|fatigue chronique|épuisement", 
+      exactMatch: "purification", 
+      answer: (name) => `Écoutez-moi bien, ${name}, cette fatigue écrasante que vous ressentez n'est pas normale. Vous vous réveillez déjà fatigué, vous passez vos journées dans un brouillard mental, et le soir vous vous effondrez sans avoir rien accompli. Vos proches ne comprennent pas. Les médecins vous disent que c'est le stress. Mais vous savez au fond de vous que c'est autre chose, n'est-ce pas ?
+
+Je vais être direct avec vous, ${name} : en 25 ans d'expérience, Frederick a identifié que 80% des fatigues chroniques inexpliquées sont causées par des entités parasites qui pompent littéralement votre énergie vitale. Ces entités s'attachent à vous et drainent vos forces jour après jour, nuit après nuit. Ce n'est pas de la science-fiction - c'est votre réalité actuelle.
+
+Voici ce qui va changer concrètement dans votre vie avec une purification :
+
+**Les bénéfices concrets d'une purification :**
+✓ Retrouvez votre énergie naturelle en 3-5 jours maximum
+✓ Réveillez-vous enfin reposé et dynamique chaque matin
+✓ Votre clarté mentale revient complètement - fini le brouillard
+✓ Vous accomplissez à nouveau vos tâches quotidiennes facilement
+✓ Vos proches remarquent immédiatement le changement radical
+✓ Vous reprenez le contrôle de votre vie au lieu de la subir
+
+Le mieux pour vous serait d'agir maintenant, ${name}, avant que cette entité ne s'enracine encore plus profondément. Frederick a réalisé plus de 2800 purifications avec 96% de succès. Chaque jour d'attente renforce l'emprise. N'attendez pas d'être complètement vidé. Un onglet s'illumine en haut de la page pour vous guider vers cette libération qui va transformer votre quotidien.`, 
+      url: 'https://www.clairvoyancemedium.com/Desenvoutement-et-protection-a-distance-cbaaaaala.asp', 
+      isExternal: false 
+    },
+    
+    { 
+      keywords: "lassitude|torpeur|langueur|apathie|paralysé|sans force", 
+      exactMatch: "purification", 
+      answer: (name) => `${name}, cette lassitude profonde que vous décrivez va bien au-delà de la simple fatigue. Vous êtes au bout, n'est-ce pas ? Cette sensation d'être vidé de l'intérieur, cette incapacité à trouver la motivation même pour les choses que vous aimiez - c'est le signe classique d'un drainage énergétique nocturne.
+
+Laissez-moi vous dire quelque chose d'important : cette lassitude incompréhensible que vous vivez n'est pas une faiblesse de votre part. C'est une attaque énergétique. Aucun repos ne suffit, aucune vacance ne soulage, vous dormez 10 heures et vous vous réveillez encore plus épuisé, ${name}. Vous voyez le pattern ?
+
+Voici ce que la purification complète va changer radicalement :
+
+**Les transformations que vous allez vivre :**
+✓ Dès les 48 premières heures : sensation de légèreté retrouvée, comme si on retirait un poids
+✓ Fin du sentiment d'être "vidé de l'intérieur" qui vous hantait
+✓ Votre sommeil redevient réellement réparateur au lieu d'être inutile
+✓ Vous retrouvez l'envie de faire des choses, de vivre vraiment
+✓ Votre joie de vivre réapparaît naturellement sans forcer
+✓ Les tâches qui semblaient insurmontables redeviennent normales et gérables
+
+Frederick maîtrise ces rituels de libération énergétique depuis un quart de siècle, ${name}. Il a aidé plus de 1600 personnes exactement dans votre situation. N'attendez pas que l'épuisement devienne permanent et irréversible. Un onglet s'illumine en haut de la page - c'est le premier pas vers votre libération et votre renaissance énergétique.`, 
+      url: 'https://www.clairvoyancemedium.com/Desenvoutement-et-protection-a-distance-cbaaaaala.asp', 
+      isExternal: false 
+    },
+    
+    { 
+      keywords: "cauchemars|mauvais rêves|terreurs nocturnes|pesadilla|rêves horribles", 
+      exactMatch: "purification", 
+      answer: (name) => `Je suis vraiment désolé que vous viviez ces cauchemars terrifiants, ${name}. Permettez-moi de vous rassurer tout de suite : vous n'êtes pas fou ou folle, et ces cauchemars ne sont PAS normaux. Ce que vous vivez chaque nuit n'est pas le fruit de votre imagination ou de votre stress.
+
+Écoutez-moi attentivement, ${name} : ce sont des attaques nocturnes réelles menées par une présence maléfique qui vous hante pendant votre sommeil. Elle s'infiltre dans vos rêves pour vous terroriser et vous affaiblir psychologiquement. Ces images horribles, ces sensations de paralysie, cette terreur pure - tout cela est provoqué délibérément.
+
+Voici ce qui va changer immédiatement avec une purification spécifique :
+
+**Les bienfaits immédiats que vous allez ressentir :**
+✓ Dès les 3-4 premières nuits : cauchemars qui diminuent drastiquement en intensité
+✓ Vous vous réveillez enfin reposé au lieu de terrorisé
+✓ Vos nuits redeviennent un havre de paix et de récupération
+✓ Votre santé mentale se stabilise rapidement - fini l'anxiété nocturne
+✓ Vous n'avez plus peur d'aller vous coucher comme avant
+✓ Votre énergie diurne explose car vous dormez vraiment enfin
+
+Frederick a libéré plus de 1600 personnes de ces tourments nocturnes avec des résultats bouleversants, ${name}. Ne laissez pas cette entité continuer à vous terroriser nuit après nuit. Chaque nuit d'attaque vous affaiblit davantage mentalement et physiquement. Un onglet s'illumine en haut de la page - c'est votre porte vers des nuits paisibles et réparatrices que vous méritez tant.`, 
+      url: 'https://www.clairvoyancemedium.com/Desenvoutement-et-protection-a-distance-cbaaaaala.asp', 
+      isExternal: false 
+    },
+    
+    { 
+      keywords: "insomnie|nuit blanche|troubles sommeil|pas dormir|ne dors plus|éveil nocturne", 
+      exactMatch: "purification", 
+      answer: (name) => `${name}, je comprends tellement votre détresse. L'insomnie chronique est une torture silencieuse que peu de gens comprennent vraiment. Cette incapacité à dormir, ces nuits interminables à regarder le plafond, cette épuisement qui s'accumule - c'est insupportable.
+
+Laissez-moi vous révéler quelque chose que les médecins ne vous disent pas, ${name} : votre insomnie n'est pas physiologique. C'est une perturbation énergétique. Des entités parasites maintiennent votre esprit en éveil, créent de l'anxiété nocturne, provoquent ces pensées obsessionnelles à 3h du matin. Vous connaissez ce pattern, n'est-ce pas ?
+
+Voici ce qui va radicalement changer avec une purification énergétique nocturne :
+
+**Les transformations majeures qui vous attendent :**
+✓ Vous vous endormez naturellement en 15-20 minutes au lieu de 2 heures
+✓ Vous dormez 6-8h d'affilée sans réveil intempestif
+✓ Fini les réveils à 3h du matin avec pensées obsessionnelles qui tournent en boucle
+✓ Votre santé physique se restaure rapidement grâce au sommeil réparateur
+✓ Votre clarté mentale revient complètement - vous pouvez enfin réfléchir
+✓ Vous retrouvez votre vie sociale et professionnelle que l'insomnie détruisait
+
+Sans sommeil réparateur, votre corps lâchera - c'est une question de temps, ${name}. Frederick a restauré le sommeil de centaines de personnes en quelques jours seulement. Mais au-delà d'un certain seuil d'épuisement, les dégâts deviennent permanents. N'attendez pas ce point de non-retour. Un onglet s'illumine en haut de la page pour vous mener vers vos premières vraies nuits réparatrices depuis si longtemps.`, 
+      url: 'https://www.clairvoyancemedium.com/Desenvoutement-et-protection-a-distance-cbaaaaala.asp', 
+      isExternal: false 
+    },
+    
+    { 
+      keywords: "sort|envoûtement|ensorcelé|jeté sort|victime sort|maléfice|sortilège", 
+      exactMatch: "purification", 
+      answer: (name) => `${name}, je vois dans votre recherche que vous soupçonnez fortement un envoûtement. Et vous savez quoi ? Votre intuition vous hurle qu'il y a une attaque. Et l'intuition ne ment jamais. Tous les signes concordent : fatigue inexpliquée, malchance répétée, relations qui se brisent, santé qui décline. Vous êtes sous l'emprise d'un sort, c'est évident.
+
+Écoutez-moi bien, ${name} : si vous cherchez ces informations, c'est que votre âme reconnaît l'attaque même si votre esprit rationnel résiste encore. Les médecins ne trouvent rien ? Normal - ils ne regardent pas au bon endroit. Vos proches disent que vous êtes parano ? Normal - ils ne voient pas l'invisible.
+
+Voici ce qui va se passer concrètement avec un désenvoûtement complet :
+
+**Les changements concrets dans votre vie :**
+✓ Dès 48h : sensation de légèreté, comme si on vous enlevait un poids invisible de 50kg
+✓ Semaine 1 : votre énergie revient progressivement, vous respirez enfin
+✓ Semaine 2 : les "malchances" cessent mystérieusement - tout se débloque
+✓ Semaine 3 : vos projets se débloquent enfin après des mois ou années de blocage
+✓ Semaine 4 : vous êtes méconnaissable - vous avez retrouvé VOTRE vie
+✓ Long terme : protection permanente contre nouvelles attaques installée
+
+Chaque jour perdu permet à l'envoûtement de s'enraciner plus profondément, ${name}. Frederick maîtrise ces rituels depuis 25 ans avec 97% de succès sur 1600 cas traités. Mais plus vous attendez, plus c'est difficile et long à traiter. N'attendez pas que les dégâts deviennent irréversibles. Un onglet s'illumine en haut de la page - c'est votre première étape vers la libération totale de cette emprise maléfique.`, 
+      url: 'https://www.clairvoyancemedium.com/Desenvoutement-et-protection-a-distance-cbaaaaala.asp', 
+      isExternal: false 
+    },
+    
+    { 
+      keywords: "malédiction|maudit|hex|malédiction familiale|malédiction générationnelle", 
+      exactMatch: "purification", 
+      answer: (name) => `${name}, une malédiction est infiniment plus grave qu'un simple envoûtement. Permettez-moi de vous expliquer la différence et surtout comment vous en libérer définitivement.
+
+Une malédiction traverse le temps, ${name}. Elle vous suit de vie en vie. Certaines sont familiales et se transmettent sur plusieurs générations comme un poison invisible. Vous reconnaissez ce pattern dans votre famille ? Morts prématurées, maladies récurrentes, accidents étranges, échecs systématiques ? Ce ne sont pas des coïncidences - ce sont des manifestations d'une malédiction ancestrale.
+
+Voici ce qui va changer pour vous ET votre lignée avec un rituel de bris de malédiction :
+
+**Ce qui va changer pour vous ET vos descendants :**
+✓ Vous brisez le cycle pour vous ET vos enfants - fini la transmission
+✓ Les schémas négatifs familiaux s'arrêtent enfin après des générations
+✓ Votre vie se débloque dans TOUS les domaines simultanément - c'est spectaculaire
+✓ Vos enfants sont protégés de cette malédiction qu'ils auraient héritée
+✓ Vous ressentez une libération ancestrale profonde - vos ancêtres vous remercient
+✓ Votre destinée se réaligne sur son vrai potentiel au lieu du potentiel bridé
+
+${name}, vous êtes peut-être celui ou celle que votre lignée attend pour briser enfin ce cycle. Frederick a brisé des malédictions vieilles de plusieurs siècles avec des rituels ancestraux très puissants. Ne laissez pas cette malédiction détruire encore une génération. Un onglet s'illumine en haut de la page - libérez votre famille entière de cette emprise qui dure depuis trop longtemps.`, 
+      url: 'https://www.clairvoyancemedium.com/Desenvoutement-et-protection-a-distance-cbaaaaala.asp', 
+      isExternal: false 
+    },
+    
+    { 
+      keywords: "magie noire|sorcellerie|occultisme|rites noirs|attaque occulte|vaudou", 
+      exactMatch: "purification", 
+      answer: (name) => `${name}, la magie noire dont vous êtes victime est une attaque très sérieuse. Laissez-moi vous rassurer tout de suite : oui, elle peut être neutralisée. Mais il faut agir vite et avec expertise.
+
+Quelqu'un vous veut activement du mal, ${name}. Cette personne a soit payé pour des rituels de magie noire contre vous, soit les pratique elle-même. Et ça fonctionne - vous le voyez dans votre vie qui s'effondre. Tout s'effondre simultanément : santé, relations, travail, argent. Cette synchronisation n'est PAS un hasard - c'est la signature de la magie noire.
+
+Voici ce que la purification anti-magie noire va créer immédiatement :
+
+**Les protections et restaurations que vous obtiendrez :**
+✓ Neutralisation immédiate de l'attaque en cours - elle s'arrête net
+✓ Vos domaines de vie cessent de s'effondrer simultanément
+✓ Bouclier énergétique permanent contre nouvelles attaques installé
+✓ Retour de l'attaque vers son expéditeur (karma automatique)
+✓ Votre vie se stabilise en 2-3 semaines maximum
+✓ Vous pouvez enfin respirer et reconstruire sereinement
+
+N'attendez pas que les dégâts soient irréversibles, ${name}. La magie noire s'aggrave exponentiellement si elle n'est pas neutralisée rapidement. Frederick a traité des cas de vaudou, de sorcellerie africaine, de magie tsigane - les pires cas imaginables. 1600 personnes libérées et protégées. Un onglet s'illumine en haut de la page pour stopper cette attaque maintenant avant qu'elle ne détruise complètement votre vie.`, 
+      url: 'https://www.clairvoyancemedium.com/Desenvoutement-et-protection-a-distance-cbaaaaala.asp', 
+      isExternal: false 
+    },
+    
+    { 
+      keywords: "malchance chronique|poisse|pas de chance|tout va mal|série noire|guigne", 
+      exactMatch: "purification", 
+      answer: (name) => `${name}, cette "malchance" incessante que vous vivez n'en est pas une. Laissez-moi vous expliquer ce qui se passe vraiment et comment inverser cette spirale descendante qui vous détruit.
+
+La vraie malchance, c'est perdre vos clés ou rater un train. Vous ? Vous vivez une CASCADE, ${name}. Accident sur accident. Problème sur problème. Perte sur perte. Quand ça semble se stabiliser, BAM, nouveau coup dur. Ce n'est pas de la malchance - c'est un blocage énergétique qui attire le négatif comme un aimant ultra-puissant.
+
+Voici ce qui va radicalement changer avec une purification de déblocage énergétique :
+
+**Les transformations spectaculaires qui vous attendent :**
+✓ La série noire s'arrête littéralement du jour au lendemain
+✓ Les opportunités recommencent à apparaître naturellement dans votre vie
+✓ Vos projets aboutissent enfin au lieu d'échouer systématiquement
+✓ Les relations cessent de se briser mystérieusement autour de vous
+✓ Vous attirez le positif au lieu du négatif - inversion complète
+✓ Vous vous sentez "chanceux" pour la première fois depuis des années
+
+Avant que ces énergies négatives ne deviennent votre nouvelle normalité permanente, agissez, ${name}. Frederick neutralise ces blocages et inverse le flux énergétique complètement. Les gens voient leur vie changer en quelques semaines - c'est spectaculaire et mesurable. Un onglet s'illumine en haut de la page pour renverser cette spirale descendante et remonter enfin vers la lumière et le succès.`, 
+      url: 'https://www.clairvoyancemedium.com/Desenvoutement-et-protection-a-distance-cbaaaaala.asp', 
+      isExternal: false 
+    },
+
+    // ==========================================
+    // VOYANCE TÉLÉPHONE - 50 ENTRÉES COMPLÈTES
+    // ==========================================
+    
+    { 
+      keywords: "5 minutes téléphone|5min consultation|cinq minutes|rapide|express téléphone", 
+      exactMatch: "voyance téléphone 5min", 
+      answer: (name) => `${name}, vous avez UNE question brûlante qui vous empêche de dormir. Celle qui tourne en boucle dans votre tête jour et nuit. Vous n'avez ni le temps ni le budget pour une longue consultation, mais cette question vous consume de l'intérieur. Je comprends totalement votre situation.
+
+Laissez-moi vous expliquer pourquoi le format 5 minutes est parfait pour vous, ${name}. Frederick a développé une capacité unique à se connecter en 30 secondes chrono et à donner une réponse claire en 3-4 minutes. Zéro bavardage, juste l'essentiel de ce que vous devez savoir absolument.
+
+Voici ce qui va se passer concrètement pendant ces 5 minutes :
+
+**Les bénéfices de cette consultation express :**
+✓ Connexion énergétique en 30 secondes - Frederick est très rapide dans la connexion
+✓ Votre question reçoit une réponse CLAIRE en 3-4 minutes maximum
+✓ Zéro bavardage commercial, juste l'essentiel vital pour vous
+✓ Vous repartez avec une direction précise et actionnab le
+✓ Coût minimal pour un impact maximum sur votre décision
+✓ Vous pouvez appeler pendant votre pause au travail
+
+Le meilleur pour vous serait d'appeler maintenant, ${name}, pendant que cette question vous obsède. Frederick a réalisé plus de 1800 consultations express avec 96% de satisfaction mesurée. Les gens sont bluffés par la précision en si peu de temps. Un onglet s'illumine en haut de la page. Le numéro apparaît à votre droite pour cette réponse rapide qui va tout débloquer dans votre tête.`, 
+      url: 'https://www.clairvoyancemedium.com/Voyance-par-telephone-5-minutes-cbaaaaaZa.asp', 
+      isExternal: true,
+      showPhoneButton: true
+    },
+    
+    { 
+      keywords: "10 minutes téléphone|10min consultation|dix minutes|format court téléphone", 
+      exactMatch: "voyance téléphone 10min", 
+      answer: (name) => `${name}, vous cherchez un équilibre entre rapidité et profondeur. Votre situation nécessite plus qu'un simple oui ou non, mais vous ne voulez pas non plus une consultation interminable. Peut-être un conflit au travail avec contexte, ou une situation amoureuse impliquant plusieurs personnes, ou un choix important avec plusieurs options.
+
+Je vais vous expliquer pourquoi le format 10 minutes est le sweet spot parfait pour vous, ${name}. Suffisamment long pour explorer VRAIMENT votre question, suffisamment court pour rester concentré et ne pas vous ruiner.
+
+Voici exactement ce que ces 10 minutes vont vous apporter :
+
+**Les bénéfices concrets de cette durée optimale :**
+✓ Temps suffisant pour explorer VRAIMENT votre question principale en profondeur
+✓ Frederick peut anticiper vos 2-3 questions de suivi naturelles qui vont venir
+✓ Vous obtenez du contexte détaillé, pas juste une réponse sèche et froide
+✓ Rapport qualité-prix optimal selon les retours clients (le meilleur)
+✓ Assez long pour la profondeur, assez court pour rester ultra-concentré
+✓ Vous repartez avec un plan d'action clair et précis à suivre
+
+Frederick ne remplit jamais artificiellement le temps, ${name}. S'il a terminé son analyse en 8 minutes, il ne vous retient pas pour atteindre 10. Plus de 1800 consultations avec 96% de satisfaction prouvent l'efficacité redoutable de ce format. Un onglet s'illumine en haut de la page. Le numéro apparaît à votre droite pour cet investissement intelligent qui va transformer votre situation.`, 
+      url: 'https://www.clairvoyancemedium.com/Voyance-par-telephone-10-minutes-cbaaaaaqa.asp', 
+      isExternal: true,
+      showPhoneButton: true
+    },
+{ 
+      keywords: "20 minutes téléphone|20min consultation|vingt minutes téléphone", 
+      exactMatch: "voyance téléphone 20min", 
+      answer: (name) => `${name}, je sens que votre situation nécessite plus qu'un rapide coup d'œil. Vous avez plusieurs aspects à explorer - peut-être des problèmes au travail ET en amour, ou vous voulez comprendre pourquoi tout s'effondre simultanément, ou vous avez besoin de réponses sur plusieurs personnes de votre entourage.
+
+Laissez-moi vous guider vers le format qui vous servira vraiment, ${name}. Les 20 minutes représentent le sweet spot pour les situations complexes mais pas emmêlées. Vous couvrez 2-3 domaines majeurs en profondeur sans vous ruiner.
+
+Voici ce qui va se passer concrètement pendant ces 20 minutes :
+
+**Les transformations que cette consultation va créer :**
+✓ Vous couvrez 2-3 domaines majeurs de votre vie en profondeur réelle
+✓ Frederick vous explique les CONNEXIONS entre vos problèmes - tout est lié
+✓ Vous comprenez enfin POURQUOI tout ça vous arrive maintenant
+✓ Vous découvrez COMMENT ça va évoluer naturellement si vous ne changez rien
+✓ Vous obtenez un plan d'action clair pour CHANGER votre futur
+✓ Vous repartez avec une clarté mentale incroyable qui transforme tout
+
+20 minutes bien investies vous économisent des mois d'errance et d'hésitation, ${name}. Frederick ne se contente pas de prédire passivement - il vous guide activement vers le meilleur scénario possible pour vous. Un onglet s'illumine en haut de la page. Le numéro apparaît à votre droite pour cette clarté transformatrice qui va tout débloquer.`, 
+      url: 'https://www.clairvoyancemedium.com/Voyance-par-telephone-20-minutes-cbaaaaapa.asp', 
+      isExternal: true,
+      showPhoneButton: true
+    },
+    
+    { 
+      keywords: "30 minutes téléphone|30min consultation|trente minutes|demi-heure téléphone", 
+      exactMatch: "voyance téléphone 30min", 
+      answer: (name) => `${name}, vous voulez une consultation vraiment complète. Pas juste survoler votre vie - comprendre EN PROFONDEUR. Votre situation mérite mieux qu'un coup d'œil rapide. Vous êtes prêt à investir le temps nécessaire pour obtenir de vraies réponses qui vont changer votre vie.
+
+Je vais vous expliquer pourquoi les 30 minutes sont la formule la plus demandée, ${name}. Ce n'est pas un hasard - c'est la durée parfaite pour une transformation complète de votre compréhension de votre vie.
+
+Voici la transformation complète que vous allez vivre :
+
+**Ce qui va radicalement changer en 30 minutes :**
+✓ Frederick se connecte profondément à votre énergie (pas en surface comme d'autres)
+✓ Il voit votre PASSÉ qui explique absolument tout votre présent
+✓ Il analyse votre PRÉSENT dans ses moindres détails invisibles
+✓ Il révèle votre FUTUR qui se dessine déjà dans les énergies
+✓ Amour, travail, santé, famille, argent - TOUT est couvert en profondeur
+✓ Vous ne serez plus jamais la même personne après ces 30 minutes
+
+Accordez-vous ce temps d'exploration totale, ${name}. Les gens ressortent transformés - pas juste informés. Vous arrêtez de vous battre contre des situations mortes. Vous arrêtez de fuir ce qui pourrait vous sauver. Frederick réaligne votre trajectoire de vie complètement. Un onglet s'illumine en haut de la page. Le numéro apparaît à votre droite pour cette recalibration existentielle qui va tout changer.`, 
+      url: 'https://www.clairvoyancemedium.com/Voyance-par-telephone-30-minutes-cbaaaaaoa.asp', 
+      isExternal: true,
+      showPhoneButton: true
+    },
+    
+    { 
+      keywords: "45 minutes téléphone|45min consultation|quarante-cinq minutes|consultation longue téléphone", 
+      exactMatch: "voyance téléphone 45min", 
+      answer: (name) => `${name}, votre vie est vraiment complexe et emmêlée. Vous avez besoin du format le plus complet qui existe. Votre vie n'est pas compliquée - elle est COMPLEXE. Nuance cruciale. Multiples facettes qui s'entremêlent. Des histoires longues. Des situations enchevêtrées. Des personnes nombreuses. Vous ne pouvez pas résumer ça en 10 minutes.
+
+Je vais vous expliquer pourquoi 45 minutes sont essentielles pour vous, ${name}. C'est la durée maximale que Frederick propose volontairement car au-delà, l'épuisement énergétique devient trop important pour la précision.
+
+Voici l'analyse exhaustive que vous allez recevoir :
+
+**Ce qui va être exploré en profondeur totale :**
+✓ TOUT est exploré - amour, travail, santé, famille, argent, spirituel sans exception
+✓ Chaque domaine reçoit 7-8 minutes d'attention focalisée et détaillée
+✓ Frederick identifie tous les blocages ET tous les potentiels cachés
+✓ Vous comprenez enfin la vue d'ensemble COMPLÈTE de votre existence
+✓ Rien n'est laissé dans l'ombre ou négligé par manque de temps
+✓ Vous avez une feuille de route détaillée pour les 6-12 prochains mois
+
+Cette durée transforme littéralement des destins, ${name}. Frederick a vu des gens refaire leur vie entière après 45 minutes. Divorce salvateur, démission libératrice, déménagement vital - tout change quand vous voyez ENFIN clair. Frederick limite ces consultations à quelques-unes par mois car c'est épuisant énergétiquement pour lui. Un onglet s'illumine en haut de la page. Le numéro apparaît à votre droite pour cette transformation totale de votre vie.`, 
+      url: 'https://www.clairvoyancemedium.com/Voyance-par-telephone-45min-cbaaaaafa.asp', 
+      isExternal: true,
+      showPhoneButton: true
+    },
+    
+    { 
+      keywords: "appeler voyant|téléphoner voyance|numéro voyant|contact téléphonique", 
+      exactMatch: "voyance téléphone", 
+      answer: (name) => `${name}, vous voulez appeler directement un voyant sans passer par des formulaires compliqués. Je comprends ce besoin de simplicité et d'immédiateté. Vous voulez une vraie conversation humaine, pas une interaction robotique.
+
+Laissez-moi vous rassurer immédiatement, ${name} : Frederick est accessible directement par téléphone. Pas de standard téléphonique interminable, pas de musique d'attente agaçante. Vous l'appelez, vous tombez sur lui, vous posez vos questions.
+
+Voici comment ça se passe concrètement :
+
+**Le déroulement simple de l'appel :**
+✓ Vous composez le numéro qui apparaît à votre droite maintenant
+✓ Frederick décroche généralement en quelques sonneries maximum
+✓ Vous expliquez votre situation en quelques phrases courtes
+✓ Il se connecte à votre énergie pendant que vous parlez
+✓ Il vous donne ses visions et ses conseils directement
+✓ Vous raccrochez avec des réponses claires et actionnables
+
+Le format téléphone permet une connexion énergétique que l'écrit ne permet pas, ${name}. Frederick capte les nuances dans votre voix, vos hésitations, vos émotions réelles. Cette connexion vocale amplifie son don considérablement. Plus de 1500 personnes l'ont appelé avec 96% de satisfaction. Un onglet s'illumine en haut de la page. Le numéro apparaît à votre droite - appelez maintenant pour cette connexion directe et authentique.`, 
+      url: 'https://clairvoyancemedium.github.io/Voyancepartelephonepaschere.github.io/', 
+      isExternal: false,
+      showPhoneButton: true
+    },
+    
+    { 
+      keywords: "parler directement|conversation téléphone|échange vocal|discussion voyant", 
+      exactMatch: "voyance téléphone", 
+      answer: (name) => `${name}, vous avez besoin de PARLER, pas d'écrire. Vous voulez entendre une voix rassurante qui vous guide. L'écrit vous semble froid et impersonnel pour quelque chose d'aussi intime que vos préoccupations actuelles.
+
+Je vais vous expliquer pourquoi la conversation téléphonique avec Frederick est tellement plus puissante que l'écrit, ${name}. La voix porte une énergie, une chaleur, une humanité que les mots écrits ne peuvent jamais transmettre.
+
+Voici ce que la conversation vocale va créer :
+
+**L'expérience humaine de l'échange vocal :**
+✓ Vous entendez le ton rassurant de Frederick - ça calme immédiatement l'anxiété
+✓ Vous pouvez interrompre pour demander des précisions en temps réel
+✓ Il adapte son débit et ses explications selon vos réactions vocales
+✓ Vous sentez son authenticité à travers sa voix - impossible de tricher
+✓ L'échange devient une vraie conversation, pas un interrogatoire froid
+✓ Vous raccrochez apaisé, compris, guidé par un humain qui vous écoute
+
+C'est cette dimension humaine qui manque cruellement dans notre monde digitalisé, ${name}. Frederick ramène l'humanité dans la voyance. Une voix bienveillante qui vous écoute vraiment et vous guide sincèrement. Un onglet s'illumine en haut de la page. Le numéro apparaît à votre droite pour cette conversation qui va vous apaiser profondément.`, 
+      url: 'https://clairvoyancemedium.github.io/Voyancepartelephonepaschere.github.io/', 
+      isExternal: false,
+      showPhoneButton: true
+    },
+    
+    { 
+      keywords: "question urgente téléphone|besoin réponse rapide|urgence voyance", 
+      exactMatch: "voyance téléphone 5min", 
+      answer: (name) => `${name}, c'est URGENT pour vous. Cette question ne peut pas attendre un email qui arrivera dans quelques heures. Vous avez besoin d'une réponse MAINTENANT, dans les minutes qui viennent. Je comprends cette urgence qui vous consume.
+
+Écoutez-moi bien, ${name} : quand c'est urgent, chaque minute compte. Vous devez prendre une décision rapidement. Vous êtes dans une situation de crise. L'incertitude vous paralyse et le temps presse dangereusement.
+
+Voici ce que les 5 minutes express vont vous apporter immédiatement :
+
+**La solution pour votre urgence :**
+✓ Vous appelez maintenant - Frederick répond dans les minutes qui suivent
+✓ Vous posez votre question urgente en 30 secondes chrono
+✓ Il se connecte instantanément et voit votre situation
+✓ Il vous donne sa réponse claire en 3-4 minutes maximum
+✓ Vous pouvez AGIR immédiatement avec cette réponse
+✓ Vous ne perdez pas une journée entière dans l'incertitude paralysante
+
+Chaque minute que vous passez dans l'incertitude est une minute de perdue, ${name}. Frederick comprend les urgences réelles. Il priorise les appels urgents. N'attendez pas que la situation empire encore. Un onglet s'illumine en haut de la page. Le numéro apparaît à votre droite - appelez MAINTENANT pour cette réponse urgente qui va tout débloquer.`, 
+      url: 'https://www.clairvoyancemedium.com/Voyance-par-telephone-5-minutes-cbaaaaaZa.asp', 
+      isExternal: true,
+      showPhoneButton: true
+    },
+
+    // ==========================================
+    // VOYANCE EMAIL - 30 ENTRÉES COMPLÈTES
+    // ==========================================
+    
+    { 
+      keywords: "1 question email|une question mail|question unique écrit|single question email", 
+      exactMatch: "voyance email 1q", 
+      answer: (name) => `${name}, une seule question vous obsède jour et nuit. Elle tourne en boucle dans votre tête. Elle vous empêche de dormir. Elle parasite toutes vos pensées. Vous avez besoin d'UNE réponse claire, juste une, mais précise et définitive.
+
+Je vais vous expliquer pourquoi le format 1 question par email est parfait pour votre besoin, ${name}. C'est l'option intelligente pour tester Frederick sans vous engager dans quelque chose de lourd financièrement.
+
+Voici ce que cette formule va vous apporter :
+
+**Les bénéfices concrets de ce format :**
+✓ Frederick répond sous 4h maximum (parfois en 2h seulement)
+✓ Réponse écrite que vous pouvez relire à l'infini quand le doute revient
+✓ Vous pouvez la méditer, l'analyser, la partager avec vos proches
+✓ Vous gardez cette preuve écrite pour toujours dans votre boîte email
+✓ Budget minimal pour une réponse maximale en qualité
+✓ Parfait pour tester si vous êtes sceptique naturellement
+
+Beaucoup commencent par 1 question pour tester, ${name}. "Si sa réponse est juste, je reviendrai pour plus". C'est intelligent et Frederick le respecte totalement. Il préfère les gens prudents aux crédules naïfs. Généralement après cette première réponse précise, ils reviennent impressionnés. Un bouton apparaît à votre droite pour votre question essentielle qui mérite enfin une vraie réponse.`, 
+      url: 'https://www.clairvoyancemedium.com/Voyance-1-question-par-Email-cbaaaaaba.asp', 
+      isExternal: true 
+    },
+    
+    { 
+      keywords: "3 questions email|trois questions mail|email complet|consultation écrite complète", 
+      exactMatch: "voyance email 3q", 
+      answer: (name) => `${name}, vous avez besoin d'une vue d'ensemble cohérente. Votre vie génère naturellement 2-3 questions connexes. Par exemple : "Va-t-il revenir ?" (Q1), "Quand ?" (Q2), "Que dois-je faire ?" (Q3). C'est le pattern classique des situations complexes.
+
+Laissez-moi vous expliquer pourquoi le format 3 questions par email est le plus populaire, ${name}. C'est le format que 60% des clients choisissent car il offre le meilleur équilibre qualité-prix-complétude.
+
+Voici ce que cette formule va vous apporter concrètement :
+
+**Ce que vous allez obtenir :**
+✓ Vue complète de votre situation (pas juste un aperçu superficiel)
+✓ Frederick répond aux 3 questions sous 4h maximum généralement
+✓ Ses réponses sont détaillées et structurées professionnellement
+✓ Il explique le POURQUOI, pas juste le oui ou non sec
+✓ Vous obtenez du contexte, des nuances, des détails précis
+✓ C'est le format le plus populaire (2200+ consultations, 95% satisfaction)
+
+Formulez vos 3 questions comme les 3 angles d'une même situation, ${name}. Frederick pourra alors vous donner une compréhension COMPLÈTE au lieu de réponses fragmentées et isolées. Un onglet s'illumine en haut de la page pour cette clarté totale qui va transformer votre compréhension de votre vie.`, 
+      url: 'https://www.clairvoyancemedium.com/Voyance-3-Questions-par-Email-cbaaaaaca.asp', 
+      isExternal: false 
+    },
+    
+    { 
+      keywords: "réponse écrite|voyance écrite|trace écrite|consultation écrite permanente", 
+      exactMatch: "voyance email 3q", 
+      answer: (name) => `${name}, vous voulez pouvoir relire les réponses autant de fois que nécessaire. Au téléphone, vous oubliez la moitié et déformez l'autre moitié. Puis vous doutez : "Qu'est-ce qu'il a dit exactement ?". C'est frustrant et contre-productif.
+
+Je vais vous montrer pourquoi l'email est supérieur pour certaines personnes comme vous, ${name}. La trace écrite vous permet de méditer sur chaque phrase tranquillement, sans pression temporelle.
+
+Voici les avantages exclusifs de l'écrit :
+
+**La puissance de la trace écrite permanente :**
+✓ Vous relisez avant chaque décision importante de votre vie
+✓ Vous vérifiez les prédictions au fur et à mesure qu'elles se réalisent
+✓ Vous ne doutez jamais de ce qui a été dit exactement
+✓ Vous pouvez analyser chaque mot tranquillement à votre rythme
+✓ Certains clients relisent des emails vieux de 5 ans encore
+✓ "Tout s'est passé exactement comme il l'avait écrit" - retour fréquent
+
+Gardez ces emails précieusement, ${name}. Créez un dossier spécial dans votre boîte. Dans 6 mois, 1 an, 2 ans, relisez-les. Vous serez bluffé par la précision incroyable des prédictions. Un onglet s'illumine en haut de la page pour créer votre archive de vérités qui se réaliseront.`, 
+      url: 'https://www.clairvoyancemedium.com/Voyance-3-Questions-par-Email-cbaaaaaca.asp', 
+      isExternal: false 
+    },
+    
+    { 
+      keywords: "voyance sms|texto consultation|message texte voyance|sms voyant", 
+      exactMatch: "voyance sms 3q", 
+      answer: (name) => `${name}, vous voulez quelque chose de moderne, rapide et ultra-discret. Votre téléphone ne vous quitte jamais. Vous envoyez des SMS toute la journée. Pourquoi pas pour votre voyance aussi ? C'est logique et pratique pour votre style de vie.
+
+Je vais vous montrer pourquoi le SMS est parfait pour vous, ${name}. C'est le format le plus moderne et le plus adapté à notre époque ultra-connectée où tout se passe sur mobile.
+
+Voici ce qui rend le SMS parfait pour vous :
+
+**Les avantages uniques du format SMS :**
+✓ Vous envoyez vos 3 questions quand l'inspiration vient naturellement
+✓ Aucune contrainte de lieu (bureau, transport, lit) - partout
+✓ Aucune contrainte d'horaire (même à 2h du matin) - 24/7
+✓ Frederick répond en quelques heures directement sur votre mobile
+✓ Les réponses restent dans votre messagerie (accessible en 1 clic)
+✓ Format ultra-moderne adapté à votre style de vie actuel
+
+Posez vos questions maintenant, où que vous soyez, ${name}. Plus de 950 consultations SMS réalisées avec succès prouvé. Les gens adorent la simplicité totale de ce format. Un bouton apparaît à votre droite pour cette modernité efficace qui correspond à votre vie.`, 
+      url: 'https://www.clairvoyancemedium.com/Voyance-par-SMS-3-Questions-cbaaaabga.asp', 
+      isExternal: true 
+    },
+    
+    { 
+      keywords: "discret voyance|personne ne saura|confidentialité totale|secret consultation", 
+      exactMatch: "voyance sms 3q", 
+      answer: (name) => `${name}, vous avez besoin de discrétion absolue. Vous voulez consulter mais PERSONNE ne doit le savoir. Votre conjoint ne comprendrait pas. Vos collègues se moqueraient. Votre famille serait choquée. Je comprends totalement ce besoin de confidentialité.
+
+Laissez-moi vous rassurer immédiatement, ${name} : le SMS offre la discrétion maximale que vous recherchez. Personne ne saura jamais que vous avez consulté un voyant.
+
+Voici la discrétion totale que vous obtiendrez :
+
+**La confidentialité maximale du SMS :**
+✓ Aucune conversation audible (pas comme au téléphone qui trahit)
+✓ Aucun document qui traîne (pas comme l'email sur ordinateur)
+✓ Aucun historique d'appels suspect qui pourrait vous trahir
+✓ Vous semblez juste envoyer des textos normaux comme d'habitude
+✓ Vous pouvez effacer en 1 seconde si nécessaire absolument
+✓ Personne ne saura JAMAIS - secret garanti
+
+Frederick comprend ce besoin, ${name}. Beaucoup de ses clients sont dans votre situation - cadres, personnes publiques, professionnels qui doivent rester discrets. Ils consultent par SMS en toute sécurité depuis des années. Un bouton apparaît à votre droite pour cette consultation invisible et totalement confidentielle.`, 
+      url: 'https://www.clairvoyancemedium.com/Voyance-par-SMS-3-Questions-cbaaaabga.asp', 
+      isExternal: true 
+    },
+
+    // ==========================================
+    // WHATSAPP & MESSAGERIE - 20 ENTRÉES
+    // ==========================================
+    
+    { 
+      keywords: "whatsapp voyance|voyance whatsapp|consultation whatsapp|wapp voyant", 
+      exactMatch: "voyance whatsapp", 
+      answer: (name) => `${name}, WhatsApp est probablement votre application préférée pour communiquer. Excellente nouvelle - Frederick consulte dessus aussi. Pourquoi compliquer avec un autre canal pour votre voyance quand vous passez votre vie sur WhatsApp ?
+
+Laissez-moi vous expliquer pourquoi WhatsApp est génial pour votre consultation, ${name}. Vous utilisez déjà cette appli tous les jours. Vous la maîtrisez parfaitement. Pourquoi apprendre une nouvelle interface ?
+
+Voici ce qui rend WhatsApp parfait pour votre consultation :
+
+**Les avantages uniques de WhatsApp :**
+✓ Vous utilisez l'appli que vous maîtrisez déjà parfaitement
+✓ Vous choisissez librement : messages écrits OU vocaux OU mixte
+✓ Vous pouvez envoyer des photos si besoin (ex: pour la main)
+✓ L'échange est naturel, fluide, comme avec un ami proche
+✓ 20 minutes de conversation authentique et personnalisée totale
+✓ Vous gardez tout l'historique dans vos discussions pour toujours
+
+Cette flexibilité rend l'échange beaucoup plus naturel, ${name}. Frederick s'adapte complètement à votre rythme personnel. Vous réfléchissez ? Prenez votre temps. Les 20 minutes ne sont pas chronométrées à la seconde près. Un bouton apparaît à votre droite pour démarrer cette conversation qui va tout changer dans votre vie.`, 
+      url: 'https://www.clairvoyancemedium.com/Voyance-par-WhatsApp-Signal-20-min-cbaaaaaea.asp', 
+      isExternal: true 
+    },
+    
+    { 
+      keywords: "signal voyance|messagerie signal|consultation signal|app cryptée voyance", 
+      exactMatch: "voyance whatsapp", 
+      answer: (name) => `${name}, vous utilisez Signal pour votre vie privée. C'est intelligent et responsable. Frederick respecte totalement ce choix et consulte aussi sur Signal sans aucun problème.
+
+Vous prenez votre confidentialité au sérieux, ${name}. Chiffrement de bout en bout. Aucune donnée collectée par des tiers. Aucune trace numérique exploitable. C'est votre droit absolu et c'est important pour vous.
+
+Voici ce que Signal vous garantit :
+
+**La sécurité maximale que vous obtiendrez :**
+✓ Chiffrement total de bout en bout - même Frederick ne peut pas relire après 24h
+✓ Aucune donnée stockée sur des serveurs tiers exploitables
+✓ Aucune fuite possible de vos informations personnelles sensibles
+✓ Vous contrôlez tout : messages éphémères disponibles si vous voulez
+✓ Même niveau de service professionnel qu'avec WhatsApp
+✓ Votre vie privée est sacrée et protégée à 100%
+
+Consultez sur l'appli où vous vous sentez en sécurité, ${name}. Certains sujets sont tellement intimes que vous ne voulez AUCUNE trace nulle part. Frederick comprend et respecte totalement ce besoin. Un bouton apparaît à votre droite pour cette consultation ultra-sécurisée qui respecte votre vie privée.`, 
+      url: 'https://www.clairvoyancemedium.com/Voyance-par-WhatsApp-Signal-20-min-cbaaaaaea.asp', 
+      isExternal: true 
+    },
+    
+    { 
+      keywords: "vocal whatsapp|message audio|voix messagerie|vocal message voyance", 
+      exactMatch: "voyance whatsapp", 
+      answer: (name) => `${name}, vous préférez parler plutôt qu'écrire. C'est plus rapide et plus naturel pour vous. Vous tapez lentement sur votre téléphone ou vous trouvez ça froid et impersonnel. Les messages vocaux sont faits pour vous.
+
+Je vais vous expliquer pourquoi les vocaux WhatsApp sont parfaits pour votre consultation, ${name}. Vous expliquez votre situation 5 fois plus vite qu'en écrivant.
+
+Voici ce que les messages vocaux vous offrent :
+
+**Les avantages des vocaux WhatsApp :**
+✓ Vous expliquez votre situation rapidement (5 min au lieu de 20 à écrire)
+✓ Frederick capte beaucoup mieux les nuances dans votre voix réelle
+✓ Il entend vos émotions, votre urgence, votre détresse vraie
+✓ Il répond en vocal aussi - c'est plus personnel et chaleureux
+✓ Vous gardez quand même une trace (vous pouvez réécouter à volonté)
+✓ C'est presque comme un appel mais asynchrone et sans stress
+
+Envoyez votre premier vocal maintenant, ${name}. Expliquez votre situation en 2-3 minutes tranquillement. Frederick vous répondra en vocal aussi dans les heures qui suivent. C'est chaleureux et efficace à la fois. Un bouton apparaît à votre droite pour cette connexion vocale authentique qui vous correspond.`, 
+      url: 'https://www.clairvoyancemedium.com/Voyance-par-WhatsApp-Signal-20-min-cbaaaaaea.asp', 
+      isExternal: true 
+    },
+
+    // ==========================================
+    // PRÉDICTIONS - 30 ENTRÉES COMPLÈTES
+    // ==========================================
+    
+    { 
+      keywords: "mois en cours|ce mois-ci|mois actuel|ce mois prédictions", 
+      exactMatch: "prédictions mois", 
+      answer: (name) => `${name}, vous voulez savoir ce qui vous attend dans les 30 prochains jours précisément. Excellente idée - l'anticipation change absolument tout. Vous naviguez à l'aveugle en ce moment et cette incertitude vous stresse énormément.
+
+Laissez-moi vous expliquer comment les prédictions mensuelles vont transformer votre mois, ${name}. Vous allez vivre ce mois de manière totalement différente avec cette connaissance anticipée.
+
+Voici comment ça va transformer votre mois :
+
+**Les avantages concrets de connaître votre mois à l'avance :**
+✓ Vous identifiez les 3-4 périodes clés du mois précisément
+✓ Vous savez QUAND agir (dates précises ou périodes favorables)
+✓ Vous savez QUAND attendre et rester en retrait stratégiquement
+✓ Vous anticipez les opportunités au lieu de les rater bêtement
+✓ Vous évitez les pièges au lieu de tomber dedans stupidement
+✓ Vous vivez proactivement au lieu de réagir constamment
+
+Frederick dévoile TOUT pour les 30 prochains jours, ${name} : amour, travail, santé, argent sans exception. Imaginez avoir ce calendrier énergétique sous les yeux chaque matin. Un bouton apparaît à votre droite pour cette anticipation intelligente qui va optimiser complètement votre mois.`, 
+      url: 'https://www.clairvoyancemedium.com/Que-vous-reserve-ce-mois-ci-cbaaaaaWa.asp', 
+      isExternal: true 
+    },
+    
+    { 
+      keywords: "mois prochain|next month|mois suivant|prochain mois prédictions", 
+      exactMatch: "prédictions mois prochain", 
+      answer: (name) => `${name}, vous pensez déjà au mois prochain. Excellent réflexe - c'est la marque des gens qui réussissent vraiment dans la vie. Anticipation et préparation sont les clés du succès.
+
+Le mois prochain se dessine DÉJÀ dans les énergies cosmiques actuelles, ${name}. Les configurations astrales se mettent en place progressivement maintenant. Frederick les voit déjà clairement.
+
+Voici pourquoi cette vision anticipée est cruciale :
+
+**Les bénéfices de connaître le mois prochain MAINTENANT :**
+✓ Vous avez 4 semaines complètes pour vous préparer intelligemment
+✓ Si une opportunité arrive, vous posez les bases dès maintenant
+✓ Si un piège se profile, vous l'évitez dès maintenant facilement
+✓ Vous ajustez votre trajectoire AVANT qu'il ne soit trop tard
+✓ Vous maximisez vos chances de succès dans tous les domaines
+✓ Vous minimisez vos risques d'échec significativement
+
+La différence entre saisir une opportunité et la rater ? La PRÉPARATION, ${name}. Frederick vous dit ce qui arrive le mois prochain pour que vous puissiez vous préparer ce mois-ci efficacement. Un bouton apparaît à votre droite pour cette préparation intelligente qui va transformer votre futur.`, 
+      url: 'https://www.clairvoyancemedium.com/Que-vous-reserve-le-mois-prochain-cbaaaaaXa.asp', 
+      isExternal: true 
+    },
+    
+    { 
+      keywords: "nouvelle année|année à venir|prédictions annuelles|12 mois prédictions", 
+      exactMatch: "prédictions année", 
+      answer: (name) => `${name}, une nouvelle année approche ou vient de commencer. 12 mois de possibilités devant vous. Vous pouvez naviguer cette année à l'aveugle comme la plupart des gens, ou vous pouvez avoir une carte complète dès le départ.
+
+Je vais vous montrer comment optimiser ces 12 mois, ${name}. Devinez quelle approche fonctionne mieux : l'improvisation aveugle ou la stratégie éclairée ?
+
+Voici la vision panoramique de vos 12 prochains mois :
+
+**Ce que vous allez découvrir :**
+✓ Frederick trace mois par mois ce qui vous attend précisément
+✓ Les HAUTS : vos meilleures périodes de l'année à maximiser
+✓ Les BAS : vos mois difficiles à traverser avec stratégie
+✓ Les TOURNANTS : les moments décisifs qui changent tout radicalement
+✓ Conseils pour maximiser les bons mois au maximum
+✓ Stratégies pour survivre aux mauvais mois intelligemment
+
+Imaginez commencer l'année avec cette connaissance, ${name}. Vous savez que mars sera explosif professionnellement - vous préparez dès janvier. Vous savez que juin sera dur en amour - vous renforcez votre couple en mai. Un bouton apparaît à votre droite pour cette vision annuelle transformatrice qui va changer votre année.`, 
+      url: 'https://www.clairvoyancemedium.com/Prediction-pour-cette-nouvelle-annee-cbaaaaama.asp', 
+      isExternal: true 
+    },
+    
+    { 
+      keywords: "horoscope quotidien|horoscope jour|daily horoscope|aujourd'hui horoscope", 
+      exactMatch: "horoscope jour", 
+      answer: (name) => `${name}, vous voulez savoir ce que AUJOURD'HUI vous réserve spécifiquement. Excellente habitude quotidienne à développer absolument. Chaque journée a son énergie unique que vous devez connaître.
+
+Laissez-moi vous expliquer comment l'horoscope quotidien personnalisé va changer votre vie, ${name}. Ce n'est pas un horoscope de magazine générique pour 600 millions de personnes.
+
+Voici ce que ça change concrètement dans votre journée :
+
+**Les bénéfices immédiats dans votre journée :**
+✓ Vous savez AVANT que la journée commence ce qui vous attend réellement
+✓ Vous optimisez vos actions selon les énergies du jour précises
+✓ Vous évitez les conflits pendant les périodes tendues identifiées
+✓ Vous saisissez les opportunités pendant les périodes fastes révélées
+✓ Vous adaptez votre comportement à l'énergie du jour intelligemment
+✓ Votre vie devient plus fluide, plus facile, plus réussie naturellement
+
+Consultez chaque matin pendant votre café, ${name}. 2 minutes pour savoir comment surfer sur l'énergie du jour au lieu de lutter contre. Les gens qui font ça quotidiennement voient leur vie se transformer complètement. Un bouton apparaît à votre droite pour cette routine gagnante qui va optimiser chaque jour.`, 
+      url: 'https://www.clairvoyancemedium.com/Horoscope-du-jour-cbaaaabaa.asp', 
+      isExternal: true 
+    },
+
+    // ==========================================
+    // RETOUR EX - 20 ENTRÉES COMPLÈTES
+    // ==========================================
+    
+    { 
+      keywords: "séparation couple|rupture amoureuse|cassé récemment|quitté récent", 
+      exactMatch: "retour ex", 
+      answer: (name) => `${name}, vous venez de vivre une séparation dévastatrice qui vous détruit. La douleur est fraîche, insoutenable, déchirante. Chaque minute sans cette personne semble durer une éternité. Vous rejouez la rupture en boucle dans votre tête. "Qu'est-ce que j'aurais pu faire différemment ?"
+
+Je vais être direct avec vous, ${name} : le timing est CRUCIAL. Les 4-6 premières semaines après une rupture sont DÉCISIVES. Après, votre ex commence à vraiment "tourner la page" émotionnellement. Après, il ou elle peut rencontrer quelqu'un d'autre. Après, les énergies se figent dans la séparation.
+
+Voici pourquoi agir immédiatement est vital :
+
+**Pourquoi agir MAINTENANT est crucial :**
+✓ Les 4-6 premières semaines sont DÉCISIVES pour le retour
+✓ Après ce délai, votre ex commence à tourner la page émotionnellement
+✓ Après, il ou elle peut rencontrer quelqu'un d'autre facilement
+✓ Après, les énergies se figent dans la séparation définitivement
+✓ Le rituel fonctionne MIEUX quand c'est récent et frais
+✓ Chaque jour perdu diminue statistiquement vos chances de retour
+
+Ne PAS attendre "de voir ce qui se passe", ${name}. Ce qui se passe ? Votre ex s'éloigne chaque jour davantage émotionnellement. Frederick peut inverser cette séparation si l'amour était réel entre vous. Un onglet s'illumine en haut de la page pour agir pendant qu'il est encore temps vraiment.`, 
+      url: 'https://www.clairvoyancemedium.com/Reconquerir-son-ex-a-distance-Blanche-cbaaaaasa.asp', 
+      isExternal: false 
+    },
+    
+    { 
+      keywords: "copain parti|copine partie|il elle est parti|amour parti", 
+      exactMatch: "retour ex", 
+      answer: (name) => `${name}, il ou elle est parti et votre monde s'est complètement effondré. Je comprends cette catastrophe émotionnelle totale. Vous vous réveillez et vous vous rappelez : "Il ou elle est parti". Cette douleur vous frappe comme un coup de poing chaque matin.
+
+Laissez-moi vous redonner de l'espoir, ${name}. Frederick a ramené 87% des ex en moins d'un mois. Même après des séparations qui semblaient définitives et irrévocables. Même quand l'ex avait dit "plus jamais". Même quand les proches disaient "passe à autre chose".
+
+Voici pourquoi il y a de l'espoir réel :
+
+**Les raisons d'espérer vraiment :**
+✓ Frederick a ramené 87% des ex en moins d'un mois prouvé
+✓ Même après des séparations qui semblaient définitives absolument
+✓ Même quand l'ex avait dit "plus jamais" catégoriquement
+✓ Même quand les proches disaient "passe à autre chose" fermement
+✓ Le rituel travaille sur les énergies invisibles mais réelles
+✓ Si c'était écrit dans les astres, ça se fera naturellement
+
+Ne perdez pas espoir, ${name}. Oui, il ou elle est parti. Mais les gens reviennent tous les jours grâce à Frederick et ses rituels. Vous n'êtes pas un cas désespéré du tout. Un onglet s'illumine en haut de la page pour rallumer cette flamme qui semble éteinte.`, 
+      url: 'https://www.clairvoyancemedium.com/Reconquerir-son-ex-a-distance-Blanche-cbaaaaasa.asp', 
+      isExternal: false 
+    },
+    
+    { 
+      keywords: "magie rouge retour|rituel puissant retour|force maximale ex|magie forte retour", 
+      exactMatch: "retour ex rouge", 
+      answer: (name) => `${name}, vous cherchez la magie ROUGE. Cela signifie que vous êtes au stade du désespoir total. Votre cœur saigne à chaque battement. Chaque nuit sans cette personne est un supplice indescriptible. Vous avez TOUT essayé et tout a échoué.
+
+Je dois être honnête avec vous, ${name} : la magie rouge est le dernier recours absolu. La magie blanche a échoué ? Les discussions ont échoué ? Les amis communs ont échoué ? TOUT a échoué ? Alors oui, il reste la magie rouge.
+
+Voici ce que vous devez comprendre avant :
+
+**Ce que la magie rouge implique réellement :**
+✓ C'est la plus puissante - 92% de retours en 3 semaines maximum
+✓ Mais elle ne respecte PAS le libre arbitre de l'autre
+✓ Elle FORCE le retour, contraint les énergies violemment
+✓ C'est de la magie de CONTRAINTE pure et dure
+✓ Conséquences karmiques possibles pour vous à long terme
+✓ Frederick ne l'utilise qu'en dernier recours absolu
+
+Êtes-vous VRAIMENT prêt à franchir cette ligne, ${name} ? À assumer cette responsabilité karmique entièrement ? Frederick maîtrise ces rituels interdits, mais il vous demandera si vous êtes absolument certain. Un bouton apparaît à votre droite - mais ne cliquez que si vous assumez TOUT ce qui vient avec.`, 
+      url: 'https://www.clairvoyancemedium.com/Reconquerir-son-ex-a-distance-Rouge-cbaaaabha.asp', 
+      isExternal: true 
+    },
+
+    // ==========================================
+    // COMPATIBILITÉ - 15 ENTRÉES
+    // ==========================================
+    
+    { 
+      keywords: "âmes sœurs vérification|destinés vraiment|faits l'un pour l'autre vraiment", 
+      exactMatch: "compatibilité", 
+      answer: (name) => `${name}, vous vous demandez si cette personne est votre âme sœur véritable. Vous ressentez quelque chose de spécial avec elle ou avec lui. Mais est-ce de l'amour véritable écrit dans les étoiles ? Ou une attirance passagère qui va s'éteindre ?
+
+Laissez-moi vous guider vers la vérité, ${name}. Frederick va vérifier votre connexion d'âmes en profondeur totale. C'est une analyse qui va bien au-delà de la compatibilité astrologique basique.
+
+Voici ce que Frederick va analyser en profondeur :
+
+**L'analyse profonde de votre connexion :**
+✓ Vos âmes se connaissaient-elles dans des vies antérieures déjà ?
+✓ Êtes-vous karmiquement liés pour cette vie spécifiquement ?
+✓ Cette rencontre était-elle écrite dans votre destinée prévue ?
+✓ Vos énergies se complètent-elles vraiment harmonieusement ?
+✓ Cette relation fait-elle partie de votre évolution spirituelle nécessaire ?
+✓ Est-ce "THE ONE" définitif ou juste "someone" de passage ?
+
+Combien de gens gâchent des années avec la mauvaise personne, ${name}, parce qu'ils confondent attirance physique et destinée karmique ? Ne faites pas cette erreur coûteuse. Un onglet s'illumine en haut de la page pour cette révélation d'âmes qui va tout clarifier.`, 
+      url: 'https://www.clairvoyancemedium.com/Compatibilite-amoureuse-cbaaaaata.asp', 
+      isExternal: false 
+    },
+    
+    { 
+      keywords: "relation va durer|avenir couple long terme|futur ensemble vraiment", 
+      exactMatch: "compatibilité", 
+      answer: (name) => `${name}, vous voulez savoir si votre relation va tenir dans le temps réellement. Investissez-vous votre énergie et votre temps au bon endroit ? Ou perdez-vous des années précieuses avec la mauvaise personne ?
+
+Vous êtes en couple mais inquiet, ${name}. Les signes sont mitigés et contradictoires. Vous vous demandez : "Dans 5 ans, serons-nous encore ensemble ? Ou est-ce que je perds mon temps bêtement ?"
+
+Voici ce que Frederick va vous révéler sur votre avenir :
+
+**La vision à long terme de votre relation :**
+✓ Cette relation a-t-elle un potentiel de durée réelle ?
+✓ Quels sont les obstacles majeurs à venir inévitablement ?
+✓ Ces obstacles sont-ils surmontables ensemble vraiment ?
+✓ Dans quelles circonstances pourriez-vous vous séparer exactement ?
+✓ Comment éviter ces ruptures si vous voulez durer ensemble ?
+✓ Prédictions temporelles précises : quand les crises arriveront
+
+Mieux vaut savoir maintenant qu'après 10 ans perdus inutilement, ${name}. Si la relation est vouée à l'échec, autant le savoir pour agir maintenant. Si elle peut durer, autant connaître les défis à venir pour s'y préparer efficacement. Un onglet s'illumine en haut de la page pour cette vision temporelle essentielle qui va tout clarifier.`, 
+      url: 'https://www.clairvoyancemedium.com/Compatibilite-amoureuse-cbaaaaata.asp', 
+      isExternal: false 
+    },
+
+    // ==========================================
+    // DÉFUNTS - 20 ENTRÉES COMPLÈTES
+    // ==========================================
+    
+    { 
+      keywords: "décédé contact récent|enterrement récent|deuil récent|perdu quelqu'un récemment", 
+      exactMatch: "défunt", 
+      answer: (name) => `${name}, vous voulez parler une dernière fois à celui ou celle que vous avez perdu récemment. Je comprends ce besoin viscéral et urgent. Il ou elle est parti trop vite, trop tôt. Vous n'avez pas pu dire au revoir correctement.
+
+Vous n'avez pas pu exprimer tout ce que vous ressentiez vraiment, ${name}. Ce manque vous déchire chaque jour qui passe. Vous voulez lui dire tellement de choses encore. Vous avez besoin d'entendre sa voix une dernière fois.
+
+Voici ce que cette communication finale va vous apporter :
+
+**Ce que vous allez enfin obtenir :**
+✓ L'opportunité de dire tout ce que vous n'avez pas pu dire avant
+✓ D'entendre ce qu'il ou elle voulait vous dire avant de partir
+✓ De comprendre qu'il ou elle est en paix maintenant vraiment
+✓ De recevoir sa permission de continuer à vivre pleinement enfin
+✓ De transformer votre culpabilité en sérénité libératrice
+✓ De clore ce chapitre avec amour, pas douleur paralysante
+
+Ne portez pas ce fardeau toute votre vie, ${name}. Le deuil bloqué empoisonne toute votre existence quotidienne. Frederick établit ce contact pour que vous puissiez enfin respirer librement. Un onglet s'illumine en haut de la page pour cette libération émotionnelle dont vous avez désespérément besoin.`, 
+      url: 'https://www.clairvoyancemedium.com/Recevez-1-message-d-un-defunt-cbaaaabka.asp', 
+      isExternal: false 
+    },
+    
+    { 
+      keywords: "deuil difficile|manque terrible défunt|souffrance perte intense", 
+      exactMatch: "défunt", 
+      answer: (name) => `${name}, votre deuil est insupportable et ne passe pas. Ce manque terrible qui persiste mois après mois, année après année. Des mois ont passé, peut-être des années, mais la douleur est toujours là aussi vive qu'au premier jour.
+
+Vos proches disent "il faut que tu passes à autre chose" - mais comment, ${name} ? Cette personne était votre monde. Comment passer à autre chose quand votre cœur saigne encore chaque jour ?
+
+Voici comment cette communication transforme le deuil :
+
+**Comment cette communication transforme le deuil :**
+✓ Le deuil bloqué vient souvent de mots non-dits jamais exprimés
+✓ Ces mots créent une boucle de souffrance infinie et destructrice
+✓ Entendre "je suis en paix" de votre défunt change TOUT immédiatement
+✓ Entendre "je veux que tu vives" vous donne la permission enfin
+✓ Cette conversation finale permet la vraie clôture nécessaire
+✓ Vous passez de "il ou elle me manque" à "il ou elle veille sur moi"
+
+Votre défunt ne veut pas que vous souffriez éternellement, ${name}. Il ou elle veut que vous viviez pleinement et joyeusement. Frederick va vous transmettre exactement ce message libérateur. Un onglet s'illumine en haut de la page pour apaiser enfin cette douleur qui vous consume jour après jour.`, 
+      url: 'https://www.clairvoyancemedium.com/Recevez-1-message-d-un-defunt-cbaaaabka.asp', 
+      isExternal: false 
+    },
+    
+    { 
+      keywords: "spiritisme vrai|médium authentique|canal véritable|channeling réel", 
+      exactMatch: "défunt", 
+      answer: (name) => `${name}, vous cherchez un vrai médium capable de vraie communication spirite authentique. Vous avez peut-être consulté des charlatans avant qui "devinent" des généralités creuses. "Votre défunt vous envoie de l'amour" - oui merci, ça j'avais deviné. Vous voulez du CONCRET et du vérifiable.
+
+Laissez-moi vous expliquer comment Frederick travaille vraiment, ${name}. Son approche est radicalement différente des faux médiums que vous avez peut-être rencontrés avant.
+
+Voici ce qui différencie Frederick :
+
+**Pourquoi Frederick est un vrai médium authentique :**
+✓ Il donne des détails que PERSONNE ne connaît sauf vous et le défunt
+✓ Des phrases exactes que votre défunt disait textuellement
+✓ Des secrets que vous seul partagiez avec lui ou elle uniquement
+✓ Des informations vérifiables et précises immédiatement
+✓ 25 ans de médiumnité authentique prouvée par résultats
+✓ Des centaines de témoignages bouleversants et vérifiables
+
+Testez par vous-même, ${name}. Frederick ne demande rien à l'avance sur votre défunt. Il se connecte directement et REÇOIT les messages. Vous vérifiez ensuite. Soit c'est exact et vous êtes convaincu totalement. Soit ce n'est pas exact et vous savez. Un onglet s'illumine en haut de la page pour cette expérience de médiumnité vraie et vérifiable.`, 
+      url: 'https://www.clairvoyancemedium.com/Recevez-1-message-d-un-defunt-cbaaaabka.asp', 
+      isExternal: false 
+    },
+    
+    { 
+      keywords: "dernières volontés défunt|message posthume|regrets défunt|non-dits défunt", 
+      exactMatch: "défunt", 
+      answer: (name) => `${name}, vous vous demandez s'il ou elle avait des dernières volontés non exprimées. Des regrets qu'il ou elle portait. Des messages qu'il ou elle voulait transmettre. Cette incertitude vous torture jour et nuit.
+
+Votre défunt est parti brutalement ou dans le silence, ${name}. Les derniers moments n'ont pas permis les conversations importantes et nécessaires. Maintenant vous vous torturez : "Qu'est-ce qu'il ou elle voulait me dire vraiment ?"
+
+Voici ce que ces messages posthumes vont résoudre :
+
+**Les tourments qui vont enfin cesser :**
+✓ Vous saurez s'il ou elle avait des volontés spécifiques à accomplir
+✓ Vous pourrez les honorer et être en paix avec vous-même
+✓ Vous découvrirez les regrets qu'il ou elle portait silencieusement
+✓ Vous comprendrez les pardons qu'il ou elle voulait demander absolument
+✓ Vous recevrez les "je t'aime" non prononcés mais ressentis
+✓ Vous cesserez de vous torturer avec l'inconnu paralysant
+
+Les âmes parlent quand on sait écouter correctement, ${name}. Frederick capte ces messages posthumes avec une précision troublante et vérifiable. Ne vivez pas toute votre vie en vous demandant. Un onglet s'illumine en haut de la page pour ces réponses qui vous libéreront enfin.`, 
+      url: 'https://www.clairvoyancemedium.com/Recevez-1-message-d-un-defunt-cbaaaabka.asp', 
+      isExternal: false 
+    },
+
+    // ==========================================
+    // SANTÉ - 25 ENTRÉES COMPLÈTES
+    // ==========================================
+    
+    { 
+      keywords: "symptôme inexpliqué médical|mal chronique inexpliqué|douleur persistante mystérieuse", 
+      exactMatch: "santé", 
+      answer: (name) => `${name}, vos symptômes restent inexpliqués médicalement et cette situation est frustrante ET terrifiante. Les médecins ne trouvent rien de concret. Les examens sont normaux. Mais vous SAVEZ que quelque chose cloche gravement.
+
+Vous n'inventez pas cette douleur, ${name}. Elle vous détruit au quotidien réellement. Mais personne ne vous croit vraiment. Cette invalidation médicale ajoute à votre détresse psychologique.
+
+Voici ce qu'une consultation énergétique va révéler :
+
+**Les causes invisibles que Frederick va identifier :**
+✓ Blocage énergétique au niveau d'un organe spécifique précis
+✓ Attaque psychique ciblée sur votre santé délibérément
+✓ Mémoire traumatique stockée dans vos cellules profondément
+✓ Énergie d'un lieu ou d'une personne qui vous rend malade
+✓ Dysfonctionnement dans vos chakras énergétiques vitaux
+✓ Causes karmiques ou de vies antérieures jamais résolues
+
+Si la médecine ne trouve rien, ce n'est PAS dans votre tête, ${name} - c'est dans votre énergie invisible. Frederick voit ce que les scanners ne voient jamais. Un onglet s'illumine en haut de la page pour cette explication enfin cohérente de vos symptômes.`, 
+      url: 'https://www.clairvoyancemedium.com/Medecine-Consultation-par-email-cbaaaabja.asp', 
+      isExternal: false 
+    },
+    
+    { 
+      keywords: "médecine échec|traitements inefficaces|rien ne marche santé|impasse médicale", 
+      exactMatch: "santé", 
+      answer: (name) => `${name}, la médecine conventionnelle a échoué complètement. Les traitements ne fonctionnent pas du tout. Pire, parfois ça empire vos symptômes. Vous êtes désespéré et perdez espoir. Je comprends totalement.
+
+Vous avez TOUT essayé, ${name}. Médicaments multiples. Chirurgies invasives. Thérapies diverses. Spécialistes réputés. Rien ne marche vraiment. Vous perdez espoir progressivement.
+
+Voici ce que l'approche holistique offre de différent :
+
+**L'approche complémentaire qui fonctionne quand le reste échoue :**
+✓ Frederick traite la personne entière, pas juste le symptôme isolé
+✓ Il identifie les causes multidimensionnelles (corps esprit énergie)
+✓ Il utilise des méthodes que la médecine ignore complètement
+✓ Il combine voyance, énergétique, et médecine naturelle efficacement
+✓ 25 ans d'expérience avec les cas "impossibles" abandonnés
+✓ Plus de 1200 personnes soulagées après échec médical total
+
+N'abandonnez pas, ${name}. Oui, la médecine conventionnelle a ses limites reconnues. Mais d'autres approches existent et fonctionnent. Frederick est votre plan B quand le plan A échoue lamentablement. Un onglet s'illumine en haut de la page pour cette alternative qui peut tout changer enfin.`, 
+      url: 'https://www.clairvoyancemedium.com/Medecine-Consultation-par-email-cbaaaabja.asp', 
+      isExternal: false 
+    },
+    
+    { 
+      keywords: "médecine naturelle 30min|consultation santé téléphone complète|naturopathie approfondie", 
+      exactMatch: "médecine naturelle", 
+      answer: (name) => `${name}, vous voulez une consultation complète de 30 minutes sur votre santé globale. Excellent choix pour une approche vraiment personnalisée et approfondie. Vous avez besoin de TEMPS pour expliquer votre situation complexe détaillée.
+
+Vos symptômes sont multiples, ${name}. Vos traitements tentés nombreux. Votre historique médical compliqué. Vous méritez cette attention totale et ce temps d'écoute.
+
+Voici ce que vous obtiendrez en 30 minutes :
+
+**L'analyse holistique complète en 30 minutes :**
+✓ Frederick vous écoute attentivement décrire tous vos symptômes
+✓ Il se connecte à votre énergie pour voir la vraie cause profonde
+✓ Il identifie les blocages énergétiques précis responsables
+✓ Il vous donne un protocole naturel personnalisé complet
+✓ Plantes spécifiques, nutrition adaptée, rituels - tout adapté à VOUS
+✓ Suivi possible pour ajuster le traitement selon évolution
+
+Investissez ces 30 minutes maintenant, ${name}. Frederick combine voyance ET médecine naturelle depuis 25 ans. Cette double compétence est rare et puissante. Un onglet s'illumine en haut de la page. Le numéro apparaît à votre droite pour cette consultation santé transformatrice complète.`, 
+      url: 'https://www.clairvoyancemedium.com/Medecine-Naturelle-Consultation-30min-cbaaaabia.asp', 
+      isExternal: true,
+      showPhoneButton: true
+    },
+    
+    { 
+      keywords: "pastille express email santé|question santé rapide email|conseil santé express", 
+      exactMatch: "pastille express email", 
+      answer: (name) => `${name}, vous avez UNE question santé urgente mais pas besoin d'une consultation complète de 30 minutes. Vous avez un symptôme spécifique qui vous inquiète. Vous voulez un conseil ciblé rapide.
+
+Pas une analyse de toute votre santé, ${name} - juste une réponse sur CE point précis qui vous préoccupe maintenant. C'est exactement ce que la Pastille Express offre.
+
+Voici pourquoi c'est idéal pour vous :
+
+**La solution rapide pour votre question santé :**
+✓ Vous formulez votre question santé précisément par email
+✓ Frederick répond en quelques heures seulement (2-4h max)
+✓ Conseil ciblé et actionnable immédiatement applicable
+✓ Approche naturelle (plantes, nutrition, énergie) sans chimie
+✓ Budget minimal pour une réponse experte qualifiée
+✓ Parfait pour les questions ponctuelles urgentes
+
+Utilisez ça pour les questions urgentes qui ne nécessitent pas 30 minutes, ${name}. "Ce symptôme est-il grave ?", "Cette plante est-elle bonne pour moi ?", "Que faire pour ce mal ?". Un bouton apparaît à votre droite pour cette réponse santé express qui vous rassurera.`, 
+      url: 'https://www.clairvoyancemedium.com/Pastille-Express-par-email-cbaaaaaVa.asp', 
+      isExternal: true 
+    },
+    
+    { 
+      keywords: "pastille express téléphone santé|conseil santé vocal|question santé urgente téléphone", 
+      exactMatch: "pastille express téléphone", 
+      answer: (name) => `${name}, votre question santé ne peut PAS attendre un email. Vous avez besoin d'une réponse MAINTENANT immédiatement. Un symptôme vous alarme sérieusement. Vous ne voulez pas attendre des heures pour un email.
+
+Vous voulez parler à quelqu'un TOUT DE SUITE, ${name}. Vous avez besoin de cette réassurance immédiate vocale. L'anxiété santé est paralysante.
+
+Voici ce que vous obtenez immédiatement :
+
+**La réponse santé immédiate dont vous avez besoin :**
+✓ Vous appelez Frederick directement maintenant (5 minutes)
+✓ Vous décrivez votre symptôme ou problème rapidement
+✓ Il se connecte et voit énergétiquement instantanément
+✓ Il vous donne sa réponse IMMÉDIATE claire
+✓ Conseil actionnable sur-le-champ applicable
+✓ Vous raccrochez rassuré ou sachant quoi faire exactement
+
+Appelez maintenant si c'est vraiment urgent, ${name}. Frederick comprend l'anxiété santé parfaitement. Ces 5 minutes peuvent vous rassurer énormément ou vous dire d'aller aux urgences. Un onglet s'illumine en haut de la page. Le numéro apparaît à votre droite pour cette urgence santé immédiate.`, 
+      url: 'https://www.clairvoyancemedium.com/Pastille-Express-par-telephone-cbaaaaaUa.asp', 
+      isExternal: true,
+      showPhoneButton: true
+    },
+
+    // ==========================================
+    // MINCEUR - 15 ENTRÉES COMPLÈTES
+    // ==========================================
+    
+    { 
+      keywords: "minceur personnalisé|maigrir programme|perte poids personnalisée|régime sur mesure", 
+      exactMatch: "programme minceur", 
+      answer: (name) => `${name}, les régimes classiques vous ont déçu encore et encore. Cette frustration est terrible et démoralisante. Vous perdez 5 kilos. Vous en reprenez 7. L'effet yoyo vous détruit psychologiquement. Votre corps ne répond plus normalement.
+
+Votre métabolisme semble cassé, ${name}. Les nutritionnistes ne comprennent pas pourquoi ça ne fonctionne plus pour vous. Vous mangez peu, bougez beaucoup, mais rien ne change.
+
+Voici pourquoi l'approche de Frederick réussit là où les autres échouent :
+
+**Pourquoi cette approche réussit différemment :**
+✓ Frederick analyse VOTRE corps unique énergétiquement en profondeur
+✓ Il identifie VOS blocages spécifiques à la perte de poids
+✓ Pas de recette universelle inefficace - du 100% sur-mesure pour vous
+✓ Combinaison énergétique plus nutritionnelle adaptée à VOUS uniquement
+✓ Basé sur votre thème astral et vos énergies personnelles
+✓ Plus de 680 transformations réussies et durables prouvées
+
+Votre problème n'est pas QUE physique, ${name}. Il y a des blocages énergétiques qui sabotent chaque régime que vous tentez. Frederick les identifie précisément et les débloque efficacement. Un bouton apparaît à votre droite pour cette approche qui change enfin la donne radicalement.`, 
+      url: 'https://www.clairvoyancemedium.com/Programme-minceur-personnalise-cbaaaabna.asp', 
+      isExternal: true 
+    },
+    
+    { 
+      keywords: "métabolisme bloqué|ne maigris plus|plateau perte poids|stagnation poids", 
+      exactMatch: "programme minceur", 
+      answer: (name) => `${name}, votre métabolisme est complètement bloqué. Vous mangez peu, bougez beaucoup, mais rien ne bouge. Plus un gramme ne part. Ce plateau est désespérant et démotivant totalement.
+
+Vous faites tout "bien" selon les experts, ${name}. Calories contrôlées strictement. Sport régulier intensif. Sommeil suffisant respecté. Mais votre corps refuse obstinément de maigrir. Pourquoi cette injustice ?
+
+Voici ce que l'analyse énergétique métabolique va révéler :
+
+**Les blocages invisibles de votre métabolisme :**
+✓ Blocage énergétique au niveau du chakra du plexus solaire
+✓ Mémoire cellulaire de famine ancestrale (corps qui stocke par peur)
+✓ Stress chronique qui bloque la perte (cortisol élevé constant)
+✓ Émotions refoulées stockées physiquement dans la graisse
+✓ Auto-sabotage inconscient profond (peur inconsciente de maigrir)
+✓ Frederick débloque ces mécanismes invisibles mais réels
+
+Votre corps PEUT maigrir, ${name}. Il est juste bloqué énergétiquement temporairement. Frederick libère ces blocages et votre métabolisme redémarre naturellement. Un bouton apparaît à votre droite pour relancer votre perte de poids enfin efficacement.`, 
+      url: 'https://www.clairvoyancemedium.com/Programme-minceur-personnalise-cbaaaabna.asp', 
+      isExternal: true 
+    },
+    
+    { 
+      keywords: "victory minceur 1|gélules minceur test|complément minceur essai|pilule minceur naturelle", 
+      exactMatch: "victory minceur 1x", 
+      answer: (name) => `${name}, vous cherchez un complément minceur naturel qui FONCTIONNE vraiment sans danger. Pas des promesses vides creuses. Vous avez essayé mille gélules minceur avant. Aucune ne marche vraiment.
+
+Soit c'est dangereux, ${name} (palpitations, nervosité, insomnie), soit c'est totalement inefficace (aucun résultat mesurable). Vous êtes sceptique naturellement et c'est normal.
+
+Voici pourquoi Victory Minceur est différent radicalement :
+
+**Ce qui rend Victory Minceur unique vraiment :**
+✓ Formule exclusive développée par Frederick (15 ans de recherche)
+✓ Ingrédients 100% naturels en synergie optimale
+✓ Pas de produits chimiques dangereux ou synthétiques
+✓ Travaille AVEC votre métabolisme, pas contre lui
+✓ Plus de 350 boîtes vendues avec résultats mesurés
+✓ Visible dès la 1ère semaine généralement chez 80%
+
+Testez avec une seule boîte d'abord, ${name}. Si ça marche pour vous spécifiquement, vous revenez pour continuer. Si ça ne marche pas, vous savez et vous arrêtez. Mais les témoignages parlent d'eux-mêmes clairement. Un bouton apparaît à votre droite pour ce test minceur naturel sans risque.`, 
+      url: 'https://www.clairvoyancemedium.com/Victory-Minceur-1x-Boite-Gelules-Diet-cbaaaabma.asp', 
+      isExternal: true 
+    },
+    
+    { 
+      keywords: "cure minceur complète|traitement complet minceur|2 boîtes minceur|pack minceur transformation", 
+      exactMatch: "victory minceur 2x", 
+      answer: (name) => `${name}, vous êtes prêt pour une vraie transformation minceur. Pas juste un test rapide - une CURE complète sur 2 mois. Excellent engagement envers vous-même et votre santé.
+
+Vous avez compris qu'une boîte donne des résultats, ${name}, mais qu'une vraie transformation durable nécessite de la durée et de la constance. Vous voulez des résultats spectaculaires et durables.
+
+Voici ce qui va se passer sur 2 mois complets :
+
+**La transformation sur 8 semaines :**
+✓ Semaine 1-2 : Premiers résultats visibles mesurables (2-3 kg perdus)
+✓ Semaine 3-4 : Accélération de la perte visible (4-6 kg total perdu)
+✓ Semaine 5-6 : Votre corps trouve son rythme optimal (7-9 kg total)
+✓ Semaine 7-8 : Transformation visible par tous autour (10-12 kg total)
+✓ Votre métabolisme se reprogramme en profondeur durablement
+✓ Les résultats se maintiennent après l'arrêt naturellement
+
+Les vraies transformations prennent du temps, ${name}. 2 mois c'est le minimum pour des résultats durables et stabilisés. Votre corps mérite cet investissement sérieux. Un bouton apparaît à votre droite pour cette transformation complète qui va changer votre vie.`, 
+      url: 'https://www.clairvoyancemedium.com/Victory-Minceur-2x-Boites-Gelules-Diet-cbaaaaboa.asp', 
+      isExternal: true 
+    },
+
+    // ==========================================
+    // ENTREPRISE - 15 ENTRÉES
+    // ==========================================
+    
+    { 
+      keywords: "décision business cruciale|choix entreprise important|investissement risqué|projet professionnel décision", 
+      exactMatch: "voyance entreprise 1q", 
+      answer: (name) => `${name}, vous devez prendre UNE décision business absolument cruciale. Les enjeux sont énormes financièrement. L'incertitude est paralysante mentalement. Vous analysez les chiffres endlessly. Vous consultez des experts multiples.
+
+Mais au final il y a toujours une part d'incertitude, ${name}. Et si vous vous trompez complètement ? Et si vous ratez l'opportunité du siècle ? Cette pression est écrasante.
+
+Voici comment Frederick complète votre analyse :
+
+**Comment Frederick complète votre due diligence :**
+✓ Vous avez fait l'analyse rationnelle complète (chiffres, marché, etc.)
+✓ Frederick fait l'analyse énergétique invisible (vibrations, timing, personnes)
+✓ Il voit les facteurs invisibles qui feront réussir ou échouer
+✓ Il identifie le timing optimal précis pour agir maintenant
+✓ Vous prenez votre décision avec TOUTES les données disponibles
+✓ Rationnelles ET intuitives combinées intelligemment
+
+Ne négligez aucune source d'information, ${name}. Les plus grands entrepreneurs utilisent leur intuition consciemment. Frederick affine cette intuition avec son don unique. Un bouton apparaît à votre droite pour cette décision éclairée totalement qui peut transformer votre business.`, 
+      url: 'https://www.clairvoyancemedium.com/Voyance-pour-votre-Entreprise-1-Question-cbaaaabpa.asp', 
+      isExternal: true 
+    },
+    
+    { 
+      keywords: "embauche recrutement vérification|nouveau collaborateur fiabilité|employé vérifier|recruter sécurité", 
+      exactMatch: "voyance entreprise 1q", 
+      answer: (name) => `${name}, vous allez embaucher quelqu'un bientôt. Cette personne peut faire exploser votre business positivement... ou le détruire complètement. Le CV est parfait professionnel. L'entretien s'est bien passé apparemment. Les références sont bonnes formellement.
+
+Mais quelque chose vous dérange, ${name}. Vous ne savez pas quoi exactement. Une hésitation, un doute. Cette hésitation peut vous sauver de milliers d'euros perdus.
+
+Voici ce que Frederick va révéler énergétiquement :
+
+**Ce que vous ne verrez jamais en entretien classique :**
+✓ Cette personne est-elle vraiment fiable dans la durée ?
+✓ Cache-t-elle des intentions malveillantes cachées profondément ?
+✓ Va-t-elle s'intégrer harmonieusement ou créer des conflits toxiques ?
+✓ Ses compétences réelles correspondent-elles vraiment au CV embelli ?
+✓ Va-t-elle rester longtemps ou partir dans 6 mois après formation ?
+✓ Est-ce un atout précieux ou une bombe à retardement destructrice ?
+
+Une mauvaise embauche coûte en moyenne 50 000 euros, ${name} (salaire plus charges plus temps perdu plus dégâts causés). Frederick coûte quelques dizaines d'euros seulement. Le calcul est simple mathématiquement. Un bouton apparaît à votre droite pour éviter cette erreur coûteuse catastrophique.`, 
+      url: 'https://www.clairvoyancemedium.com/Voyance-pour-votre-Entreprise-1-Question-cbaaaabpa.asp', 
+      isExternal: true 
+    },
+    
+    { 
+      keywords: "partenariat vérification|associé fiabilité|collaboration business analyse|joint venture sécurité", 
+      exactMatch: "voyance entreprise 1q", 
+      answer: (name) => `${name}, on vous propose un partenariat séduisant. Ça semble intéressant sur le papier formellement. Le projet est séduisant attractif. Les chiffres sont alléchants prometteurs. Mais vous connaissez les statistiques terrifiantes : 70% des partenariats échouent dans la douleur totale.
+
+Vous ne voulez pas faire partie de ces 70%, ${name}. Vous voulez être dans les 30% qui réussissent brillamment. Comment savoir avant de signer irréversiblement ?
+
+Voici ce que Frederick va examiner énergétiquement :
+
+**L'analyse complète du partenariat proposé :**
+✓ Les intentions réelles de l'autre partie (pas leurs beaux discours commerciaux)
+✓ Les conflits futurs prévisibles énergétiquement inévitables
+✓ La compatibilité vibratoire réelle entre vous et eux profondément
+✓ Le timing cosmique : est-ce le bon moment pour ce partenariat ?
+✓ Les pièges cachés dans l'accord juridique proposé
+✓ Le potentiel réel versus les promesses marketing exagérées
+
+Vérifiez AVANT de signer, ${name}. Après c'est trop tard légalement. Frederick a sauvé des dizaines d'entrepreneurs de partenariats toxiques destructeurs. Un bouton apparaît à votre droite pour cette vérification cruciale qui peut vous sauver.`, 
+      url: 'https://www.clairvoyancemedium.com/Voyance-pour-votre-Entreprise-1-Question-cbaaaabpa.asp', 
+      isExternal: true 
+    },
+
+    // ==========================================
+    // MAIN PHOTO PENDULE - 15 ENTRÉES
+    // ==========================================
+    
+    { 
+      keywords: "ligne de vie courte|durée vie main|longévité paume|santé main lecture", 
+      exactMatch: "main", 
+      answer: (name) => `${name}, vous regardez votre ligne de vie avec inquiétude croissante. Elle semble courte alarmante ? Cassée bizarrement ? Changée récemment mystérieusement ? Laissez-moi vous rassurer immédiatement.
+
+Beaucoup de gens paniquent en voyant leur ligne de vie, ${name}. "Elle est courte donc je vais mourir jeune ?" Non absolument pas. Ce n'est pas aussi simple linéaire. Il faut savoir vraiment lire correctement.
+
+Voici ce que Frederick va vraiment analyser professionnellement :
+
+**La véritable lecture de votre ligne de vie :**
+✓ La longueur ne prédit PAS la durée de vie directement contrairement à la croyance
+✓ Elle indique votre VITALITÉ et votre énergie de vie globale
+✓ Les cassures montrent des changements majeurs de vie, pas la mort
+✓ La profondeur indique votre force vitale intérieure réelle
+✓ Frederick voit les événements santé futurs sur cette ligne précisément
+✓ Il vous dit ce qui est évitable et ce qui ne l'est pas clairement
+
+Ne paniquez pas seul inutilement, ${name}. Frederick interprète correctement vos lignes sans vous terroriser gratuitement. Un onglet s'illumine en haut de la page pour cette lecture rassurante et vraie professionnelle.`, 
+      url: 'https://www.clairvoyancemedium.com/Ligne-de-la-main-Voyance-3-questions-cbaaaaana.asp', 
+      isExternal: false 
+    },
+    
+    { 
+      keywords: "photo analyse aura|voir photo énergie|aura photo lecture|champ énergétique photo", 
+      exactMatch: "photo", 
+      answer: (name) => `${name}, Frederick peut voir des choses sur une simple photo que vous ne voyez absolument pas à l'œil nu limité. Votre aura colorée, vos énergies subtiles, vos blocages invisibles. Tout est visible pour lui clairement.
+
+Vous vous demandez ce qu'une photo peut révéler réellement, ${name}. Beaucoup de choses. Énormément de détails. Votre état énergétique exact au moment de la photo est capturé définitivement. Frederick le lit comme un livre ouvert transparent.
+
+Voici ce que l'analyse photo va révéler :
+
+**Ce que Frederick voit sur votre photo précisément :**
+✓ Votre aura complète : couleur dominante, intensité lumineuse, santé énergétique
+✓ Les entités éventuelles attachées à vous parasitairement
+✓ Vos blocages énergétiques visibles clairement localisés
+✓ Votre état émotionnel réel (pas celui que vous montrez socialement)
+✓ Les attaques psychiques ou envoûtements actifs détectables
+✓ Plus de 1100 analyses photo réalisées avec précision vérifiable
+
+Envoyez une photo récente, ${name} (moins de 3 mois idéalement). Seul sur la photo de préférence. Visage bien visible clairement. Frederick voit absolument tout invisiblement. Un bouton apparaît à votre droite pour cette révélation photographique surprenante.`, 
+      url: 'https://www.clairvoyancemedium.com/Voyance-par-Photo-1-Question-cbaaaaaoa.asp', 
+      isExternal: true 
+    },
+    
+    { 
+      keywords: "pendule oui non|radiesthésie décision|divination binaire|réponse claire pendule", 
+      exactMatch: "pendule 1q", 
+      answer: (name) => `${name}, vous avez besoin d'une réponse OUI ou NON absolument claire. Pas de zone grise floue. Pas de "peut-être" frustrant. Le pendule est l'outil parfait pour ça précisément.
+
+Vous êtes face à une décision binaire stricte, ${name}. Faire ou ne pas faire. Partir ou rester. Dire oui ou dire non. L'indécision vous paralyse mentalement. Le pendule tranche définitivement.
+
+Voici pourquoi c'est puissant et fiable :
+
+**La clarté absolue que le pendule apporte :**
+✓ Le pendule se connecte directement à l'univers cosmique
+✓ Il donne des réponses OUI ou NON sans ambiguïté possible
+✓ Pas d'interprétation nécessaire subjective - c'est clair net
+✓ Frederick maîtrise cet art ancestral depuis 25 ans d'expérience
+✓ Le pendule ne ment jamais (si bien utilisé correctement)
+✓ Parfait pour les questions où vous avez besoin de certitude absolue
+
+Posez une question formulée en oui ou non strict, ${name}. "Dois-je accepter ce job ?" OUI ou NON. "Va-t-il revenir vers moi ?" OUI ou NON. Simple direct efficace. Un bouton apparaît à votre droite pour cette réponse binaire dont vous avez désespérément besoin.`, 
+      url: 'https://www.clairvoyancemedium.com/Pendule-1-Question-cbaaaaapa.asp', 
+      isExternal: true 
+    },
+
+    // ==========================================
+    // RÊVES - 15 ENTRÉES
+    // ==========================================
+    
+    { 
+      keywords: "rêve prémonitoire vérification|vision sommeil réelle|prophétie rêve confirmation", 
+      exactMatch: "rêves email", 
+      answer: (name) => `${name}, ce rêve était différent radicalement. Plus réel intensément. Plus intense profondément. Vous avez la sensation forte que c'était une VISION authentique. Un avertissement cosmique. Une prophétie divine. Prenez-le au sérieux absolument.
+
+Tous les rêves ne sont pas juste des images aléatoires, ${name}. Certains sont des messages directs de l'univers. Des avertissements précieux. Des prophéties réelles. Frederick distingue immédiatement un rêve ordinaire d'un rêve prémonitoire authentique.
+
+Voici pourquoi c'est crucial de faire analyser ce rêve :
+
+**Ce qu'un rêve prémonitoire peut vous révéler vitalement :**
+✓ Un danger réel que vous devez éviter absolument rapidement
+✓ Une opportunité précieuse que vous devez saisir immédiatement
+✓ Une personne en qui ne pas avoir confiance du tout
+✓ Un événement futur que vous pouvez préparer intelligemment
+✓ Un choix crucial que vous devez faire différemment maintenant
+✓ Ignorer ces rêves peut avoir des conséquences graves irréversibles
+
+Si un rêve vous marque autant intensément, ${name}, c'est qu'il est important cosmiquement. Frederick a vu des gens éviter des accidents mortels, des trahisons destructrices, des catastrophes financières grâce à leurs rêves prémonitoires. Un bouton apparaît à votre droite pour cette interprétation potentiellement vitale salvat rice.`, 
+      url: 'https://www.clairvoyancemedium.com/Interpretation-de-vos-reves-par-email-cbaaaaara.asp', 
+      isExternal: true 
+    },
+
+    // ==========================================
+    // ANGE GARDIEN - 10 ENTRÉES
+    // ==========================================
+    
+    { 
+      keywords: "guidance spirituelle besoin|aide divine demande|protection céleste recherche", 
+      exactMatch: "ange", 
+      answer: (name) => `${name}, vous cherchez une guidance spirituelle authentique. Vous sentez qu'il y a plus que le monde matériel visible. Vous avez raison absolument - vos guides spirituels attendent patiemment que vous les écoutiez enfin consciemment.
+
+Vous êtes à un carrefour existentiel, ${name}. Vous ne savez pas quelle direction prendre vitalement. Les conseils humains ne suffisent plus. Vous avez besoin d'une guidance qui dépasse l'humain limité.
+
+Voici la guidance céleste que vous recevrez :
+
+**La sagesse céleste qui va éclairer votre chemin :**
+✓ La direction exacte que votre âme doit prendre maintenant
+✓ Les leçons karmiques que vous devez apprendre obligatoirement
+✓ Les personnes que vous devez rencontrer absolument bientôt
+✓ Les lieux où vous devez aller physiquement précisément
+✓ Les décisions cruciales que vous devez prendre rapidement
+✓ Votre mission de vie révélée clairement enfin
+
+Écoutez cette guidance supérieure, ${name}. Frederick sert de canal parfait entre vous et votre ange gardien. Cette connexion peut littéralement rediriger toute votre vie positivement. Un onglet s'illumine en haut de la page pour cette révélation céleste qui va illuminer votre chemin obscur.`, 
+      url: 'https://www.clairvoyancemedium.com/Message-de-votre-Ange-gardien-cbaaaabba.asp', 
+      isExternal: false 
+    },
+
+    // ==========================================
+    // QUESTIONS GÉNÉRALES - 20 ENTRÉES
+    // ==========================================
+    
+    { 
+      keywords: "prix total|tarif global|coût consultation|combien coûte|cher consultation", 
+      exactMatch: "tarifs", 
+      answer: (name) => `${name}, vous voulez connaître les tarifs exacts avant de vous engager financièrement. C'est tout à fait normal et transparent. Vous avez un budget à respecter. Vous voulez savoir si c'est accessible pour vous financièrement.
+
+Je vais vous orienter vers les informations tarifaires claires, ${name}. Frederick pratique une transparence totale absolue. Tous les prix sont indiqués AVANT de commander quoi que ce soit.
+
+Voici comment découvrir les tarifs adaptés :
+
+**Comment découvrir les tarifs adaptés à votre besoin :**
+✓ Chaque service a son propre tarif selon la complexité exacte
+✓ Téléphone : varie selon la durée choisie (5min à 45min)
+✓ Email SMS : selon le nombre de questions posées
+✓ Services spécialisés : tarifs spécifiques affichés clairement
+✓ Tous les prix sont indiqués AVANT de commander absolument
+✓ Aucun frais caché jamais - transparence totale garantie
+
+Cliquez sur le service qui vous intéresse, ${name}. Le tarif exact sera affiché clairement sur la page immédiatement. Aucune surprise désagréable au moment du paiement. Un onglet s'illumine ou un bouton apparaît selon le service pour voir les tarifs exacts affichés.`, 
+      url: 'https://www.clairvoyancemedium.com/Contact-ccfaaaaaa.asp', 
+      isExternal: true 
+    },
+    
+    { 
+      keywords: "délai réponse|combien de temps attente|réponse rapide|quand réponse", 
+      exactMatch: "délais", 
+      answer: (name) => `${name}, vous voulez savoir combien de temps il faut attendre pour obtenir votre réponse précisément. Votre situation est peut-être urgente. Vous ne pouvez pas attendre des jours ou des semaines inutilement.
+
+Je vous rassure immédiatement sur les délais, ${name}. Frederick respecte votre temps autant que le sien propre. Vous avez besoin de réponses rapidement - il le comprend parfaitement.
+
+Voici les délais réels selon chaque service :
+
+**Les délais réels selon chaque service précisément :**
+✓ Téléphone : généralement le jour même (parfois dans l'heure même)
+✓ Email : réponse sous 4h maximum (souvent 2h seulement)
+✓ SMS : quelques heures seulement généralement
+✓ WhatsApp : échange en temps réel pendant 20min exactement
+✓ Services complexes : 24-48h maximum garanti
+✓ Frederick ne fait jamais attendre inutilement par principe
+
+Choisissez selon votre urgence réelle, ${name}. Besoin immédiat ? Téléphone direct. Pouvez attendre quelques heures ? Email ou SMS parfait. Un onglet s'illumine ou un bouton apparaît pour obtenir votre réponse rapidement selon votre besoin.`, 
+      url: 'https://www.clairvoyancemedium.com/Contact-ccfaaaaaa.asp', 
+      isExternal: true 
+    },
+    
+    { 
+      keywords: "urgence consultation|urgent besoin|rapide immédiat|tout de suite maintenant", 
+      exactMatch: "urgence", 
+      answer: (name) => `${name}, c'est urgent pour vous absolument. Vous avez besoin d'une réponse MAINTENANT immédiatement. Votre situation ne peut pas attendre du tout. Vous êtes en crise totale. Vous devez prendre une décision rapidement. Chaque heure compte dramatiquement.
+
+Je vous conseille les options les plus rapides, ${name}. Frederick comprend parfaitement les urgences réelles et fait son maximum pour vous aider rapidement.
+
+Voici les services pour situations urgentes :
+
+**Les services pour situations urgentes immédiates :**
+✓ Téléphone 5 minutes : réponse immédiate en direct maintenant
+✓ Pastille Express téléphone : 5min pour question santé urgente
+✓ Appelez directement Frederick : numéro à votre droite
+✓ Il comprend les urgences et fait son maximum
+✓ Disponible rapidement pour les vrais cas urgents
+✓ N'attendez pas que la situation empire dangereusement
+
+Appelez maintenant si c'est vraiment urgent, ${name}. Frederick priorise les urgences réelles. N'attendez pas d'être complètement submergé. Le numéro apparaît à votre droite pour cet appel immédiat salvateur qui peut tout changer.`, 
+      url: 'https://www.clairvoyancemedium.com/Contact-ccfaaaaaa.asp', 
+      isExternal: true,
+      showPhoneButton: true
+    }
+]; // ← FERMETURE 
+    
+function removeAccents(str) {
+    return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+}
+
+function levenshteinDistance(a, b) {
+    const matrix = Array(b.length + 1).fill(null).map(() => Array(a.length + 1).fill(null));
+    for (let i = 0; i <= a.length; i++) matrix[0][i] = i;
+    for (let j = 0; j <= b.length; j++) matrix[j][0] = j;
+    for (let j = 1; j <= b.length; j++) {
+        for (let i = 1; i <= a.length; i++) {
+            const indicator = a[i - 1] === b[j - 1] ? 0 : 1;
+            matrix[j][i] = Math.min(matrix[j][i - 1] + 1, matrix[j - 1][i] + 1, matrix[j - 1][i - 1] + indicator);
+        }
+    }
+    return matrix[b.length][a.length];
+}
+
+function phoneticNormalize(str) {
+    return removeAccents(str)
+        .replace(/ph/g, "f")
+        .replace(/k/g, "c")
+        .replace(/qu/g, "k")
+        .replace(/ss/g, "s")
+        .replace(/ée/g, "e")
+        .replace(/ai/g, "e")
+        .replace(/au/g, "o")
+        .replace(/ou/g, "u")
+        .replace(/oi/g, "oa")
+        .replace(/y/g, "i")
+        .replace(/w/g, "v")
+        .replace(/x/g, "ks")
+        .replace(/z/g, "s")
+        .replace(/j/g, "g")
+        .replace(/ch/g, "sh");
+}
+
+function findBestMatch(userInput) {
+    const userLower = phoneticNormalize(userInput.toLowerCase());
+    const userWords = userLower.split(/\s+/);
+    let bestMatch = null;
+    let maxScore = 0;
+    
+    // MOTS EXCLUSIFS pour éviter confusion
+    const hasEmail = /\b(email|mail|écrit|courriel|mel)\b/i.test(userInput);
+    const hasTelephone = /\b(téléphone|tel|appel|appeler|telephoner|phone|fon)\b/i.test(userInput);
+    
+    knowledgeBase.forEach(item => {
+        let score = 0;
+        const keywords = item.keywords.split('|');
+        
+        // EXCLUSION : si email mentionné, ne PAS matcher téléphone
+        if (hasEmail && item.exactMatch === 'voyance téléphone') return;
+        if (hasTelephone && item.exactMatch === 'voyance email') return;
+        
+        keywords.forEach(keyword => {
+            const normalizedKeyword = phoneticNormalize(keyword.trim().toLowerCase());
+            
+            if (userLower.includes(normalizedKeyword)) {
+                score += normalizedKeyword.length * 10;
+            }
+            
+            userWords.forEach(userWord => {
+                // ACCEPTER MOTS DE 1 LETTRE (au lieu de 2)
+                if (userWord.length >= 1) {
+                    const distance = levenshteinDistance(userWord, normalizedKeyword);
+                    const similarity = 1 - distance / Math.max(userWord.length, normalizedKeyword.length);
+                    
+                    // SEUIL ABAISSÉ : 0.35 (65% d'erreur toléré)
+                    if (similarity >= 0.35) {
+                        score += similarity * normalizedKeyword.length * 5;
+                    }
+                }
+            });
+        });
+        
+        if (score > maxScore) {
+            maxScore = score;
+            bestMatch = item;
+        }
+    });
+    
+    return maxScore > 0.8 ? bestMatch : null;
+}
+
+function handleMessage() {
+  const input = document.getElementById('chat-input');
+  const userMsg = input.value.trim();
+  
+  if (!userMsg) return;
+  
+  addMessage(userMsg, false);
+  input.value = '';
+  messageCount++;
+  
+  setTimeout(() => {
+    const lowerMsg = userMsg.toLowerCase().trim();
+    
+    // GESTION PRÉNOM
+    if (!userNameConfirmed) {
+      // Bonjour initial
+      if (lowerMsg === "bonjour" || lowerMsg.startsWith("bonjour")) {
+        addMessage("Bonjour ! Je suis ClairVoyanceGPT, votre assistant spirituel. Avant de commencer cette consultation, pouvez-vous m'indiquer votre prénom ?", true);
+        return;
+      }
+      
+      // Confirmation prénom en attente
+      if (pendingName) {
+        if (lowerMsg === "oui" || lowerMsg === "oui c'est ça" || lowerMsg === "oui c'est bien ça") {
+          userName = pendingName;
+          userNameConfirmed = true;
+          pendingName = '';
+          addMessage(`Parfait ${userName} ! Comment puis-je vous aider aujourd'hui ?`, true);
+          return;
+        } else if (lowerMsg === "non") {
+          pendingName = '';
+          addMessage("Alors donnez-moi votre prénom s'il vous plaît.", true);
+          return;
+        }
+      }
+      
+      // Extraction prénom
+      const nameMatch = userMsg.match(/\b([A-ZÀ-ÖØ-Ýa-zà-öø-ÿ]{2,})\b/);
+      if (nameMatch) {
+        pendingName = nameMatch[1].charAt(0).toUpperCase() + nameMatch[1].slice(1).toLowerCase();
+        addMessage(`Très bien ${pendingName}, c'est bien votre prénom ?`, true);
+        return;
+      }
+      
+      addMessage("Je n'ai pas bien saisi votre prénom. Pouvez-vous me le donner clairement s'il vous plaît ?", true);
+      return;
+    }
+    
+    // AU REVOIR
+    const goodbyeTriggers = ["au revoir", "aurevoir", "à bientôt", "bye", "ciao"];
+    if (goodbyeTriggers.some(phrase => lowerMsg === phrase || lowerMsg.endsWith(phrase))) {
+      addMessage(`${userName}, à très bientôt ! Frederick et son équipe restent à votre écoute 24h/24.`, true);
+      return;
+    }
+    
+    // RECHERCHE DANS BASE
+    const match = findBestMatch(userMsg);
+    
+    if (match) {
+      const response = match.answer(userName);
+      addMessage(response, true);
+      
+      blinkTab(match.exactMatch);
+      
+      // ONGLET FLOTTANT : uniquement liens HORS signets
+      if (match.isPhone) {
+        showFloatingTab(match.url, true);
+      } else if (match.isExternal && !TAB_URLS.includes(match.url)) {
+        showFloatingTab(match.url, false);
+      }
+      
+      nonUnderstoodCount = 0;
+    } else {
+      nonUnderstoodCount++;
+      
+      if (nonUnderstoodCount === 1) {
+        addMessage(`${userName}, je n'ai pas bien compris votre question. Pourriez-vous la reformuler ou vérifier l'orthographe s'il vous plaît ?`, true);
+      } else if (nonUnderstoodCount === 2) {
+        addMessage(`${userName}, je ne comprends toujours pas. Essayez avec des mots simples : amour, voyance, protection, fatigue, défunt ?`, true);
+      } else {
+        addMessage(`${userName}, il semble difficile de nous comprendre. Peut-être qu'un échange direct serait plus efficace ? Frederick propose : téléphone (30€/30min), email (12€/3Q), ou rituel complet. Que préférez-vous ?`, true);
+        nonUnderstoodCount = 0;
+      }
+    }
+  }, 800);
+}
+
+document.getElementById('chat-send').addEventListener('click', (e) => {
+  e.preventDefault();
+  handleMessage();
+});
+
+document.getElementById('chat-input').addEventListener('keypress', (e) => {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    handleMessage();
+  }
+});
+
+document.getElementById('chat-form').addEventListener('submit', (e) => {
+  e.preventDefault();
+  handleMessage();
+});
+
+// Message d'accueil UNIQUEMENT si nouvelle conversation
+if (!conversationRestored) {
+  setTimeout(() => {
+    const welcomeMessage = "Bienvenue sur ClairVoyanceGPT, l'assistant spirituel de Frederick, médium reconnu depuis plus de 25 ans. Avant de commencer cet échange, pouvez-vous m'indiquer dans un premier temps uniquement votre prénom ?";
+    addMessage(welcomeMessage, true);
+    
+    // Lecture vocale automatique avec fallback
+    if (voiceEnabled && 'speechSynthesis' in window) {
+      const tryAutoplay = () => {
+        try {
+          speak(welcomeMessage);
+          trackClick('AutoplaySuccess', 'Voice', 0);
+        } catch (err) {
+          console.log('Autoplay bloqué, affichage bouton');
+          showVoiceButton();
+        }
+      };
+      
+      // Tentative lecture immédiate
+      if (document.readyState === 'complete') {
+        tryAutoplay();
+      } else {
+        window.addEventListener('load', tryAutoplay);
+      }
+    }
+  }, 500);
+}
+
+// Bouton fallback si autoplay bloqué
+function showVoiceButton() {
+  const messagesDiv = document.getElementById('chat-messages');
+  const btnDiv = document.createElement('div');
+  btnDiv.style.textAlign = 'center';
+  btnDiv.style.margin = '1rem 0';
+  btnDiv.innerHTML = `
+    <button id="enable-voice-btn" style="
+      padding:0.8rem 1.5rem;
+      background:#000;
+      color:#BBAE98;
+      border:3px solid #FF6B6B;
+      font-family:'Cinzel',serif;
+      font-size:1rem;
+      cursor:pointer;
+      animation:blinkVoiceBtn 1.5s ease-in-out infinite;
+      border-radius:0;
+    ">
+      🎤 Activer l'assistant vocal
+    </button>
+    <style>
+      @keyframes blinkVoiceBtn {
+        0%, 100% { box-shadow: 0 0 10px #FF6B6B; border-color: #FF6B6B; }
+        50% { box-shadow: 0 0 20px #FF8787; border-color: #FF8787; }
+      }
+    </style>
+  `;
+  messagesDiv.appendChild(btnDiv);
+  
+  document.getElementById('enable-voice-btn').addEventListener('click', () => {
+    const welcomeMsg = "Bienvenue sur ClairVoyanceGPT, l'assistant spirituel de Frederick, médium reconnu depuis plus de 25 ans. Avant de commencer cet échange, pouvez-vous m'indiquer dans un premier temps uniquement votre prénom ?";
+    speak(welcomeMsg);
+    btnDiv.remove();
+    trackClick('VoiceButtonClicked', 'Engagement', 1);
+  });
+}
+
+// BLOQUER PULL-TO-REFRESH (seulement en haut de page)
+let lastTouchY = 0;
+let preventPullToRefresh = false;
+
+document.addEventListener('touchstart', (e) => {
+  if (e.touches.length !== 1) return;
+  lastTouchY = e.touches[0].clientY;
+  preventPullToRefresh = window.pageYOffset === 0;
+}, {passive: false});
+
+document.addEventListener('touchmove', (e) => {
+  const touchY = e.touches[0].clientY;
+  const touchYDelta = touchY - lastTouchY;
+  lastTouchY = touchY;
+  
+  if (preventPullToRefresh) {
+    if (touchYDelta > 0) {
+      e.preventDefault();
+      return;
+    }
+    preventPullToRefresh = false;
+  }
+}, {passive: false});
+</script>
+</body>
+</html>
