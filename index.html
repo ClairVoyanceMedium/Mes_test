@@ -33,11 +33,10 @@
       --text:#fff;
       --gold:#FFD700;
       --tab-gold:#BBAE98;
-      --burgundy:#FF6B6B;
-      --burgundy-light:#FF8787;
+      --orange:#FF8C00;
+      --orange-light:#FFA500;
       --silver:#C0C0C0;
       --accent:#87CEEB;
-      --orange:#FF8C00;
       --blue-sky:#87CEEB;
     }
     
@@ -50,7 +49,7 @@
       text-align:center;
       overflow-x:hidden;
       -webkit-font-smoothing:antialiased;
-      padding-top:150px;
+      padding-top:100px;
     }
     
     /* NAVIGATION STICKY - DISPOSITION IMBRIQUÉE ADAPTATIVE */
@@ -114,13 +113,13 @@
     /* CLIGNOTEMENT ONGLETS */
     @keyframes blinkTab{
       0%, 100%{
-        box-shadow:0 0 15px var(--burgundy);
-        border-color:var(--burgundy);
+        box-shadow:0 0 15px var(--orange);
+        border-color:var(--orange);
         transform:scale(1);
       }
       50%{
-        box-shadow:0 0 25px var(--burgundy-light);
-        border-color:var(--burgundy-light);
+        box-shadow:0 0 25px var(--orange-light);
+        border-color:var(--orange-light);
         transform:scale(1.03);
       }
     }
@@ -128,7 +127,7 @@
     nav ul li a.blink{
       animation:blinkTab 1.2s ease-in-out infinite;
       background:#000;
-      border:3px solid var(--burgundy);
+      border:3px solid var(--orange);
       color:var(--tab-gold) !important;
     }
     
@@ -139,8 +138,8 @@
     }
     
     .logo{
-      width:720px;
-      max-width:90%;
+      width:900px;
+      max-width:92%;
       height:auto;
       display:block;
       margin:0 auto;
@@ -173,24 +172,10 @@
       flex-direction:column;
       height:650px;
       border-radius:0;
-      transition:all 0.3s ease;
+      transition:border-color 0.1s ease, box-shadow 0.1s ease;
     }
     
-    /* ANIMATION PULSE BLEU CIEL QUAND L'IA PARLE */
-    @keyframes pulseBlueSky{
-      0%, 100%{
-        border-color:var(--blue-sky);
-        box-shadow:0 0 25px var(--blue-sky), 0 0 45px rgba(135,206,235,0.8);
-      }
-      50%{
-        border-color:#B0E0E6;
-        box-shadow:0 0 35px #B0E0E6, 0 0 60px rgba(176,224,230,0.9);
-      }
-    }
-    
-    #chat-box.speaking{
-      animation:pulseBlueSky 0.6s ease-in-out infinite;
-    }
+    /* Plus d'animation CSS statique - géré par JavaScript dynamiquement */
     
     #chat-messages{
       flex:1;
@@ -203,7 +188,7 @@
     
     #chat-messages::-webkit-scrollbar{width:10px;}
     #chat-messages::-webkit-scrollbar-track{background:#1a1a1a;}
-    #chat-messages::-webkit-scrollbar-thumb{background:var(--burgundy);box-shadow:0 0 9px var(--burgundy);}
+    #chat-messages::-webkit-scrollbar-thumb{background:var(--orange);box-shadow:0 0 9px var(--orange);}
     
     #chat-messages p{
       margin-bottom:1rem;
@@ -217,11 +202,11 @@
     .bot-message{
       text-align:left;
       color:#fff;
-      background:rgba(255,107,107,0.15);
+      background:rgba(255,140,0,0.15);
       padding:1rem;
       margin-bottom:1rem;
-      border:2px solid var(--burgundy);
-      box-shadow:0 0 17px rgba(255,107,107,0.55);
+      border:2px solid var(--orange);
+      box-shadow:0 0 17px rgba(255,140,0,0.55);
       max-width:90%;
       border-radius:0;
     }
@@ -242,7 +227,7 @@
     #chat-form{
       display:flex;
       flex-direction:column;
-      border-top:3px solid var(--burgundy);
+      border-top:3px solid var(--orange);
       padding:1rem;
       background:#111;
       gap:0.8rem;
@@ -257,13 +242,13 @@
     #chat-input{
       flex:1;
       padding:1rem;
-      border:2px solid var(--burgundy);
+      border:2px solid var(--orange);
       outline:none;
       color:#fff;
       background:#0a0a0a;
       font-family:'Cinzel',serif;
       font-size:0.9rem;
-      box-shadow:0 0 13px rgba(255,107,107,0.45);
+      box-shadow:0 0 13px rgba(255,140,0,0.45);
       border-radius:0;
     }
     
@@ -294,14 +279,14 @@
     
     #chat-send{
       width:100%;
-      background:linear-gradient(145deg,var(--burgundy-light),var(--burgundy));
-      border:2px solid var(--burgundy);
+      background:linear-gradient(145deg,var(--orange-light),var(--orange));
+      border:2px solid var(--orange);
       padding:1rem 1.8rem;
       cursor:pointer;
       color:#fff;
       font-weight:bold;
       font-family:'Cinzel',serif;
-      box-shadow:0 0 20px rgba(255,107,107,0.65);
+      box-shadow:0 0 20px rgba(255,140,0,0.65);
       font-size:1.1rem;
       transition:transform .2s;
       border-radius:0;
@@ -309,7 +294,7 @@
     
     #chat-send:hover{
       transform:scale(1.03);
-      box-shadow:0 0 28px rgba(255,107,107,0.85);
+      box-shadow:0 0 28px rgba(255,140,0,0.85);
     }
     
     /* BOUTON FLOTTANT FLUIDE - DÉPLAÇABLE PARTOUT */
@@ -322,13 +307,13 @@
       background:#000;
       color:var(--tab-gold);
       padding:1.2rem 2rem;
-      border:3px solid var(--burgundy);
+      border:3px solid var(--orange);
       font-family:'Cinzel',serif;
       font-size:clamp(1rem, 2.5vw, 1.3rem);
       font-weight:bold;
       text-decoration:none;
       cursor:pointer;
-      box-shadow:0 0 15px var(--burgundy);
+      box-shadow:0 0 15px var(--orange);
       animation:blinkFloating 1.5s ease-in-out infinite;
       display:none;
       user-select:none;
@@ -345,7 +330,7 @@
       right:-8px;
       width:24px;
       height:24px;
-      background:var(--burgundy);
+      background:var(--orange);
       color:#fff;
       border-radius:50%;
       display:flex;
@@ -358,8 +343,8 @@
     }
     
     @keyframes blinkFloating{
-      0%, 100%{box-shadow:0 0 15px var(--burgundy);}
-      50%{box-shadow:0 0 25px var(--burgundy-light);}
+      0%, 100%{box-shadow:0 0 15px var(--orange);}
+      50%{box-shadow:0 0 25px var(--orange-light);}
     }
     
     /* LIEN RETOUR - COULEUR TAB-GOLD (#BBAE98) */
@@ -413,11 +398,11 @@
     }
     
     @media(max-width:1024px){
-      body{padding-top:160px;}
+      body{padding-top:130px;}
     }
     
     @media(max-width:768px){
-      body{padding-top:180px;}
+      body{padding-top:150px;}
       nav{padding:0.7rem 0.4rem;}
       nav ul{gap:0.4rem;}
       nav ul li a{font-size:0.82rem;padding:0.55rem 0.8rem;}
@@ -427,7 +412,7 @@
     }
     
     @media(max-width:480px){
-      body{padding-top:220px;}
+      body{padding-top:190px;}
       nav ul{gap:0.35rem;}
       nav ul li a{font-size:0.75rem;padding:0.5rem 0.7rem;min-height:40px;}
       #chat-box{height:500px;}
@@ -659,7 +644,12 @@ function dragEnd(e) {
   }
 }
 
-// VOIX HOMME GRAVE AVEC ANIMATION CADRE BLEU CIEL
+// Variables globales pour l'analyse audio
+let audioContext = null;
+let analyser = null;
+let animationFrameId = null;
+
+// VOIX HOMME GRAVE AVEC ANIMATION VIOLET RÉACTIVE À L'INTENSITÉ
 function speak(text) {
   if (!voiceEnabled || !('speechSynthesis' in window)) return;
   
@@ -687,23 +677,111 @@ function speak(text) {
   
   const chatBox = document.getElementById('chat-box');
   
-  // Début de la parole → Animation BLEU CIEL
+  // Initialiser le contexte audio pour l'analyse
+  if (!audioContext) {
+    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    analyser = audioContext.createAnalyser();
+    analyser.fftSize = 256;
+  }
+  
+  // Fonction d'animation basée sur le volume
+  function animateViolet() {
+    if (!analyser) return;
+    
+    const dataArray = new Uint8Array(analyser.frequencyBinCount);
+    analyser.getByteFrequencyData(dataArray);
+    
+    // Calculer le volume moyen
+    const average = dataArray.reduce((a, b) => a + b) / dataArray.length;
+    
+    // Normaliser entre 0 et 1
+    const intensity = Math.min(average / 128, 1);
+    
+    // Appliquer le violet avec intensité variable
+    if (intensity > 0.05) {
+      const baseGlow = 20 + (intensity * 40); // 20-60px
+      const strongGlow = 35 + (intensity * 60); // 35-95px
+      const opacity = 0.6 + (intensity * 0.4); // 0.6-1.0
+      
+      chatBox.style.borderColor = `rgba(186, 85, 211, ${opacity})`;
+      chatBox.style.boxShadow = `
+        0 0 ${baseGlow}px rgba(186, 85, 211, ${opacity}),
+        0 0 ${strongGlow}px rgba(186, 85, 211, ${opacity * 0.7})
+      `;
+    }
+    
+    animationFrameId = requestAnimationFrame(animateViolet);
+  }
+  
+  // Début de la parole → Animation VIOLET
   utterance.onstart = () => {
-    chatBox.classList.add('speaking');
+    // Note: L'analyse audio avec SpeechSynthesis est complexe car on ne peut pas 
+    // facilement capturer le flux audio. On utilise une approximation visuelle.
+    animateViolet();
   };
   
   // Fin de la parole → Retour ORANGE
   utterance.onend = () => {
-    chatBox.classList.remove('speaking');
+    if (animationFrameId) {
+      cancelAnimationFrame(animationFrameId);
+      animationFrameId = null;
+    }
+    chatBox.style.borderColor = '';
+    chatBox.style.boxShadow = '';
   };
   
   // Erreur → Retour ORANGE
   utterance.onerror = () => {
-    chatBox.classList.remove('speaking');
+    if (animationFrameId) {
+      cancelAnimationFrame(animationFrameId);
+      animationFrameId = null;
+    }
+    chatBox.style.borderColor = '';
+    chatBox.style.boxShadow = '';
   };
   
   currentUtterance = utterance;
   window.speechSynthesis.speak(utterance);
+  
+  // Fallback: animation simulée basée sur le texte
+  simulateSpeechIntensity(textToSpeak.length);
+}
+
+// Simulation d'intensité basée sur la longueur du texte
+function simulateSpeechIntensity(textLength) {
+  const chatBox = document.getElementById('chat-box');
+  const duration = (textLength * 50); // ~50ms par caractère
+  let startTime = Date.now();
+  
+  function animate() {
+    if (!window.speechSynthesis.speaking) {
+      chatBox.style.borderColor = '';
+      chatBox.style.boxShadow = '';
+      return;
+    }
+    
+    const elapsed = Date.now() - startTime;
+    const progress = elapsed / duration;
+    
+    // Simulation de variation d'intensité (sinusoïdale)
+    const wave = Math.sin(progress * Math.PI * 8) * 0.5 + 0.5;
+    const randomVariation = Math.random() * 0.3;
+    const intensity = 0.4 + (wave * 0.4) + randomVariation;
+    
+    const baseGlow = 20 + (intensity * 40);
+    const strongGlow = 35 + (intensity * 60);
+    const opacity = 0.6 + (intensity * 0.4);
+    
+    chatBox.style.borderColor = `rgba(186, 85, 211, ${opacity})`;
+    chatBox.style.boxShadow = `
+      0 0 ${baseGlow}px rgba(186, 85, 211, ${opacity}),
+      0 0 ${strongGlow}px rgba(186, 85, 211, ${opacity * 0.7})
+    `;
+    
+    animationFrameId = requestAnimationFrame(animate);
+  }
+  
+  animate();
 }
 
 if ('speechSynthesis' in window) {
@@ -735,7 +813,14 @@ document.getElementById('voice-toggle').addEventListener('click', () => {
   } else {
     if (recognition) recognition.stop();
     if (currentUtterance) window.speechSynthesis.cancel();
-    document.getElementById('chat-box').classList.remove('speaking');
+    // Arrêter l'animation et restaurer le style
+    if (animationFrameId) {
+      cancelAnimationFrame(animationFrameId);
+      animationFrameId = null;
+    }
+    const chatBox = document.getElementById('chat-box');
+    chatBox.style.borderColor = '';
+    chatBox.style.boxShadow = '';
   }
 });
 
@@ -1224,7 +1309,7 @@ function showVoiceButton() {
       padding:0.8rem 1.5rem;
       background:#000;
       color:#BBAE98;
-      border:3px solid #FF6B6B;
+      border:3px solid #FF8C00;
       font-family:'Cinzel',serif;
       font-size:1rem;
       cursor:pointer;
@@ -1235,8 +1320,8 @@ function showVoiceButton() {
     </button>
     <style>
       @keyframes blinkVoiceBtn {
-        0%, 100% { box-shadow: 0 0 10px #FF6B6B; border-color: #FF6B6B; }
-        50% { box-shadow: 0 0 20px #FF8787; border-color: #FF8787; }
+        0%, 100% { box-shadow: 0 0 10px #FF8C00; border-color: #FF8C00; }
+        50% { box-shadow: 0 0 20px #FFA500; border-color: #FFA500; }
       }
     </style>
   `;
