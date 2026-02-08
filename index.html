@@ -49,7 +49,7 @@
       text-align:center;
       overflow-x:hidden;
       -webkit-font-smoothing:antialiased;
-      padding-top:100px;
+      padding-top:80px;
     }
     
     /* NAVIGATION STICKY - DISPOSITION IMBRIQUÉE ADAPTATIVE */
@@ -398,11 +398,11 @@
     }
     
     @media(max-width:1024px){
-      body{padding-top:130px;}
+      body{padding-top:110px;}
     }
     
     @media(max-width:768px){
-      body{padding-top:150px;}
+      body{padding-top:130px;}
       nav{padding:0.7rem 0.4rem;}
       nav ul{gap:0.4rem;}
       nav ul li a{font-size:0.82rem;padding:0.55rem 0.8rem;}
@@ -412,7 +412,7 @@
     }
     
     @media(max-width:480px){
-      body{padding-top:190px;}
+      body{padding-top:170px;}
       nav ul{gap:0.35rem;}
       nav ul li a{font-size:0.75rem;padding:0.5rem 0.7rem;min-height:40px;}
       #chat-box{height:500px;}
@@ -649,7 +649,7 @@ let audioContext = null;
 let analyser = null;
 let animationFrameId = null;
 
-// VOIX HOMME GRAVE AVEC ANIMATION VIOLET RÉACTIVE À L'INTENSITÉ
+// VOIX HOMME GRAVE AVEC ANIMATION BLEU CIEL RÉACTIVE À L'INTENSITÉ
 function speak(text) {
   if (!voiceEnabled || !('speechSynthesis' in window)) return;
   
@@ -685,7 +685,7 @@ function speak(text) {
   }
   
   // Fonction d'animation basée sur le volume
-  function animateViolet() {
+  function animateBlue() {
     if (!analyser) return;
     
     const dataArray = new Uint8Array(analyser.frequencyBinCount);
@@ -697,27 +697,27 @@ function speak(text) {
     // Normaliser entre 0 et 1
     const intensity = Math.min(average / 128, 1);
     
-    // Appliquer le violet avec intensité variable
+    // Appliquer le bleu ciel avec intensité variable
     if (intensity > 0.05) {
       const baseGlow = 20 + (intensity * 40); // 20-60px
       const strongGlow = 35 + (intensity * 60); // 35-95px
       const opacity = 0.6 + (intensity * 0.4); // 0.6-1.0
       
-      chatBox.style.borderColor = `rgba(186, 85, 211, ${opacity})`;
+      chatBox.style.borderColor = `rgba(135, 206, 235, ${opacity})`;
       chatBox.style.boxShadow = `
-        0 0 ${baseGlow}px rgba(186, 85, 211, ${opacity}),
-        0 0 ${strongGlow}px rgba(186, 85, 211, ${opacity * 0.7})
+        0 0 ${baseGlow}px rgba(135, 206, 235, ${opacity}),
+        0 0 ${strongGlow}px rgba(135, 206, 235, ${opacity * 0.8})
       `;
     }
     
-    animationFrameId = requestAnimationFrame(animateViolet);
+    animationFrameId = requestAnimationFrame(animateBlue);
   }
   
-  // Début de la parole → Animation VIOLET
+  // Début de la parole → Animation BLEU CIEL
   utterance.onstart = () => {
     // Note: L'analyse audio avec SpeechSynthesis est complexe car on ne peut pas 
     // facilement capturer le flux audio. On utilise une approximation visuelle.
-    animateViolet();
+    animateBlue();
   };
   
   // Fin de la parole → Retour ORANGE
@@ -743,45 +743,72 @@ function speak(text) {
   currentUtterance = utterance;
   window.speechSynthesis.speak(utterance);
   
-  // Fallback: animation simulée basée sur le texte
-  simulateSpeechIntensity(textToSpeak.length);
+  // Fallback: animation simulée basée sur le rythme de la parole
+  simulateSpeechRhythm(textToSpeak);
 }
 
-// Simulation d'intensité basée sur la longueur du texte
-function simulateSpeechIntensity(textLength) {
+// Simulation de RYTHME réaliste de parole avec syllabes
+function simulateSpeechRhythm(text) {
   const chatBox = document.getElementById('chat-box');
-  const duration = (textLength * 50); // ~50ms par caractère
-  let startTime = Date.now();
   
-  function animate() {
-    if (!window.speechSynthesis.speaking) {
+  // Découper en mots pour simuler le rythme naturel
+  const words = text.split(/\s+/);
+  let wordIndex = 0;
+  const msPerWord = 400; // ~400ms par mot (vitesse naturelle)
+  
+  function pulseWord() {
+    if (!window.speechSynthesis.speaking || wordIndex >= words.length) {
       chatBox.style.borderColor = '';
       chatBox.style.boxShadow = '';
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+        animationFrameId = null;
+      }
       return;
     }
     
-    const elapsed = Date.now() - startTime;
-    const progress = elapsed / duration;
+    const word = words[wordIndex];
+    const syllables = Math.max(1, Math.ceil(word.length / 3)); // Approximation syllabes
     
-    // Simulation de variation d'intensité (sinusoïdale)
-    const wave = Math.sin(progress * Math.PI * 8) * 0.5 + 0.5;
-    const randomVariation = Math.random() * 0.3;
-    const intensity = 0.4 + (wave * 0.4) + randomVariation;
+    let syllableCount = 0;
+    const syllableDuration = msPerWord / syllables;
     
-    const baseGlow = 20 + (intensity * 40);
-    const strongGlow = 35 + (intensity * 60);
-    const opacity = 0.6 + (intensity * 0.4);
+    function animateSyllable() {
+      if (!window.speechSynthesis.speaking) {
+        chatBox.style.borderColor = '';
+        chatBox.style.boxShadow = '';
+        return;
+      }
+      
+      if (syllableCount >= syllables) {
+        wordIndex++;
+        setTimeout(pulseWord, 50); // Petite pause entre mots
+        return;
+      }
+      
+      // PULSE INTENSE pour chaque syllabe
+      const phase = (syllableCount % 2 === 0) ? 1 : 0.5; // Alternance fort/faible
+      const intensity = 0.7 + (Math.random() * 0.3) * phase; // Variation réaliste
+      
+      const baseGlow = 25 + (intensity * 35); // 25-60px
+      const strongGlow = 40 + (intensity * 55); // 40-95px
+      const opacity = 0.7 + (intensity * 0.3); // 0.7-1.0
+      
+      // BLEU CIEL CLAIR qui PULSE vraiment
+      chatBox.style.borderColor = `rgba(135, 206, 235, ${opacity})`;
+      chatBox.style.boxShadow = `
+        0 0 ${baseGlow}px rgba(135, 206, 235, ${opacity}),
+        0 0 ${strongGlow}px rgba(176, 224, 230, ${opacity * 0.85})
+      `;
+      
+      syllableCount++;
+      setTimeout(animateSyllable, syllableDuration);
+    }
     
-    chatBox.style.borderColor = `rgba(186, 85, 211, ${opacity})`;
-    chatBox.style.boxShadow = `
-      0 0 ${baseGlow}px rgba(186, 85, 211, ${opacity}),
-      0 0 ${strongGlow}px rgba(186, 85, 211, ${opacity * 0.7})
-    `;
-    
-    animationFrameId = requestAnimationFrame(animate);
+    animateSyllable();
   }
   
-  animate();
+  pulseWord();
 }
 
 if ('speechSynthesis' in window) {
@@ -1219,6 +1246,13 @@ function handleMessage() {
     if (goodbyeTriggers.some(phrase => lowerMsg === phrase || lowerMsg.endsWith(phrase))) {
       addMessage(`${userName}, à très bientôt ! Frederick et son équipe restent à votre écoute 24h/24.`, true);
       return;
+    }
+    
+    // DÉTECTION MOTS-CLÉS TÉLÉPHONE → AFFICHER BOUTON FLOTTANT
+    const phoneKeywords = /\b(voyance|telephone|téléphone|tel|appel|appeler|telephoner|phone)\b/i;
+    if (phoneKeywords.test(lowerMsg) && userNameConfirmed) {
+      // Afficher le bouton flottant avec le numéro
+      showFloatingTab(PHONE_NUMBER, true);
     }
     
     // RECHERCHE DANS BASE
