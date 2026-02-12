@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -492,7 +494,6 @@ let recognition = null;
 let currentBlinkingTab = null;
 let nonUnderstoodCount = 0;
 let currentUtterance = null;
-let lastMatchedItem = null;
 
 // CLIGNOTEMENT ALÉATOIRE DES ONGLETS
 let randomBlinkInterval = null;
@@ -501,75 +502,6 @@ let allNavLinks = [];
 
 const PHONE_NUMBER = "+33695468923";
 const PHONE_DISPLAY = "06 95 46 89 23";
-
-
-// ========================================
-// SYSTÈME DE CONVERSION INTELLIGENT
-// Améliore automatiquement TOUTES les réponses
-// ========================================
-
-function enhanceResponse(response, userName, matchedItem) {
-  // Ne rien ajouter si c'est un message système
-  if (!matchedItem) return response;
-  
-  // Déterminer le type de service
-  const isPhone = matchedItem.isPhone || false;
-  const isEmail = matchedItem.url && matchedItem.url.includes('Email');
-  const isPurification = matchedItem.url && matchedItem.url.includes('Desenvoutement');
-  const isCompatibility = matchedItem.url && matchedItem.url.includes('Compatibilite');
-  
-  // ÉLÉMENTS CONVERTISSANTS ADAPTATIFS
-  let conversionElements = [];
-  
-  // 1. POUR LES SCEPTIQUES (aléatoire pour varier)
-  const skepticPhrases = [
-    "Même si vous êtes sceptique, ${userName}, 83% des personnes sont surprises dès la 1ère consultation. Les résultats parlent d'eux-mêmes.",
-    "${userName}, vous n'avez rien à perdre à essayer. L'approche de Frederick est rationnelle et documentée par des années d'expérience.",
-    "Les faits restent les faits, ${userName}. Des centaines de témoignages confirment l'efficacité, indépendamment des croyances de départ."
-  ];
-  
-  // Ajouter phrase anti-sceptique (30% du temps)
-  if (Math.random() < 0.3) {
-    const skepticPhrase = skepticPhrases[Math.floor(Math.random() * skepticPhrases.length)];
-    conversionElements.push(skepticPhrase.replace(/\${userName}/g, userName));
-  }
-  
-  // 2. PRIX ADAPTÉ AU SERVICE
-  let priceInfo = "";
-  if (isPhone) {
-    priceInfo = "Consultation téléphone dès 8€ les 5 premières minutes. Flexible et accessible.";
-  } else if (isEmail) {
-    priceInfo = "À partir de 5€ seulement pour 1 question par email, ou 12€ pour 3 questions approfondies.";
-  } else if (isCompatibility) {
-    priceInfo = "Étude de compatibilité complète pour seulement 20€. Investissement minimal pour éclairer votre avenir amoureux.";
-  } else if (isPurification) {
-    priceInfo = "Consultation santé/purification dès 30€. Un investissement dans votre bien-être qui change tout.";
-  }
-  
-  if (priceInfo) {
-    conversionElements.push(priceInfo);
-  }
-  
-  // 3. URGENCE DOUCE (aléatoire)
-  const urgencyPhrases = [
-    "L'agenda se remplit vite. Ne restez pas seul avec vos questions plus longtemps.",
-    "Quelques créneaux disponibles cette semaine. Votre transformation peut commencer maintenant.",
-    "Chaque jour qui passe est un jour de plus dans cette situation. Agissez aujourd'hui."
-  ];
-  
-  // Ajouter urgence douce (40% du temps)
-  if (Math.random() < 0.4) {
-    conversionElements.push(urgencyPhrases[Math.floor(Math.random() * urgencyPhrases.length)]);
-  }
-  
-  // Assembler la réponse améliorée
-  if (conversionElements.length > 0) {
-    return response + "\n" + conversionElements.join("\n");
-  }
-  
-  return response;
-}
-
 
 // GESTION MÉMOIRE 24H
 const STORAGE_KEY = 'clairvoyance_chat_history';
@@ -1622,115 +1554,292 @@ const knowledgeBase = [
   {keywords: "cycle", exactMatch: "cycles vie", answer: (name) => `Vos cycles de vie suivent des rythmes prévisibles que Frederick décode. Comprendre où vous en êtes dans vos cycles éclaire profondément votre situation actuelle.\nChaque cycle porte une énergie et des thèmes spécifiques. Certains favorisent la construction, d'autres la transformation, d'autres encore la récolte.\nFrederick identifie dans quel cycle vous entrez maintenant et combien de temps il durera. Cette information vous permet d'aligner vos efforts avec l'énergie disponible.\nRésister aux cycles crée de la souffrance. Vouloir construire pendant un cycle de libération génère frustration. Connaître les cycles permet de surfer avec eux.\nLes cycles se terminent toujours pour laisser place au suivant. Savoir qu'une phase difficile prendra fin apporte énormément d'espoir et d'endurance.\nComprenez vos rythmes naturels de vie. Notez le lien qui se dévoilera vers cette analyse de vos cycles personnels.`, url: "https://www.clairvoyancemedium.com/Voyance-de-l-annee-nouvelle-cbaaaabca.asp", isExternal: false},
   {keywords: "contact", exactMatch: "contacter frederick", answer: (name) => `Contacter Frederick reste d'une simplicité totale, \${name}. Email, téléphone, formulaire web : plusieurs canaux s'offrent à vous selon votre préférence.\nL'email convient parfaitement pour les questions non urgentes. Vous écrivez tranquillement, Frederick répond en détail. Cette trace écrite reste consultable indéfiniment.\nLe téléphone reste idéal pour les urgences ou le besoin d'interaction humaine. Vous parlez, Frederick répond, tout se règle en temps réel.\nLe formulaire sur le site permet aussi de poser vos questions initiales. Frederick vous recontacte ensuite pour fixer le mode de consultation optimal.\nQuelle que soit la méthode choisie, Frederick répond personnellement. Jamais d'assistant ou de standard. Vous communiquez directement avec lui.\nÉtablissez ce contact qui pourrait transformer votre vie. Une page va se matérialiser avec tous les moyens de joindre Frederick facilement.`, url: "https://www.clairvoyancemedium.com/Contact.asp", isExternal: false},
   {keywords: "reponse", exactMatch: "obtenir reponses", answer: (name) => `Les réponses que Frederick vous donne transforment généralement radicalement votre perspective, \${name}. Vous repartez avec une clarté que vous n'aviez pas depuis des mois.\nCes réponses ne restent jamais vagues ou génériques. Frederick va dans les détails concrets qui vous permettent vraiment d'agir.\nEnviron 89% des clients rapportent que les réponses reçues ont résolu leur confusion et guidé leurs décisions avec succès.\nFrederick ne se contente pas de répondre à votre question de surface. Il identifie souvent la vraie question cachée derrière celle que vous posez.\nCette profondeur de réponse vaut largement l'investissement. Une seule consultation peut éclairer des années d'incertitude.\nObtenez enfin les réponses qui vous manquent cruellement. Un accès se matérialisera vers cette clarté qui mettra fin à votre confusion.`, url: "https://www.clairvoyancemedium.com/Voyance-1-question-par-Email-cbaaaaaba.asp", isExternal: false},
-,
-// ========================================
-  // 🧠 PSYCHOLOGIE / MAL-ÊTRE
-  // 50 nouvelles entrées - Style empathique + convertissant
-  // ========================================
-  
-  {keywords: "mal|maletre|sens mal|souffre|va pas", exactMatch: "mal etre general", answer: (name) => \`${name}, ce mal-être qui vous habite n'est pas une fatalité. Frederick identifie les blocages énergétiques profonds qui créent cette souffrance invisible.\nVous portez ce poids seul depuis trop longtemps. Votre entourage ne comprend pas car ce mal ne se voit pas. Mais Frederick le perçoit immédiatement dans votre énergie.\nMême si vous êtes sceptique, 79% des personnes découvrent que leur mal-être vient d'attaques énergétiques ou de traumatismes que la psychologie classique ne peut pas traiter.\nUne simple question par email (5€) peut déjà vous apporter un éclairage salvateur. Ou une consultation téléphone de 20 min (22€) pour un diagnostic complet.\nNe restez pas seul avec cette souffrance. Un accès va se dévoiler pour mettre fin à ce mal-être.\`, url: "https://www.clairvoyancemedium.com/Voyance-3-Questions-par-Email-cbaaaaaca.asp", isExternal: false},
-  
-  {keywords: "depression|deprime|depressif|sombre|noir|vide|desespoir", exactMatch: "depression profonde", answer: (name) => \`Cette dépression qui vous écrase n'est pas qu'un déséquilibre chimique, ${name}. Frederick voit les causes spirituelles que les médecins ne détectent pas.\nVous avez peut-être déjà essayé antidépresseurs et thérapie. Ils aident un peu mais ne vous libèrent pas totalement. C'est parce qu'ils ne traitent pas la dimension énergétique.\nDans 82% des cas de dépression résistante, l'approche énergétique débloque ce que rien d'autre n'a réussi. Les résultats parlent d'eux-mêmes, indépendamment de vos croyances.\nCommencez par 3 questions email (12€) pour comprendre les causes invisibles. Ou consultation téléphone 30 min (30€) pour un travail en profondeur.\nVous n'êtes pas condamné à cette noirceur. Repérez le bouton qui va surgir pour sortir enfin de cette nuit.\`, url: "https://www.clairvoyancemedium.com/Desenvoutement-et-protection-a-distance-cbaaaaala.asp", isExternal: false},
-  
-  {keywords: "anxiete|anxieux|angoisse|peur|panique|stress|boule", exactMatch: "anxiete chronique", answer: (name) => \`${name}, cette anxiété constante qui vous ronge vient souvent d'une hyperactivité de votre plexus solaire énergétique. Frederick rééquilibre ce centre vital.\nVous vivez en mode alerte permanent. Votre corps croit être en danger alors qu'il n'y a pas de menace réelle. Cette erreur énergétique épuise votre système nerveux.\nMême les plus sceptiques constatent : dans 76% des cas, l'anxiété diminue de moitié en 2-3 semaines. L'approche de Frederick complète efficacement vos traitements actuels.\nPour 5€ seulement, posez votre question principale par email. Ou 20 min téléphone (22€) pour identifier vos déclencheurs énergétiques précis.\nVous pouvez enfin respirer sans cette boule dans la gorge. Un accès va apparaître pour retrouver la paix intérieure.\`, url: "https://www.clairvoyancemedium.com/Medecine-Consultation-par-email-cbaaaabja.asp", isExternal: false},
-  
-  {keywords: "confiance|timide|timidite|oser|assurance|honte", exactMatch: "manque confiance", answer: (name) => \`Votre manque de confiance ne vient pas d'un défaut de caractère, ${name}. Frederick détecte les programmations négatives qui sabotent votre assurance.\nQuelqu'un dans votre passé a planté des graines toxiques : "Tu n'es pas assez bien", "Tu vas échouer". Ces phrases tournent en boucle invisible et créent un champ énergétique de doute autour de vous.\nDans 81% des cas, les personnes osent enfin s'affirmer dans les 3 semaines. Frederick efface ces programmations à la racine, même si vous doutez que ce soit possible.\nInvestissement minimal : 1 question email (5€) pour identifier votre blocage principal. Ou consultation 30 min (30€) pour une transformation complète.\nVous méritez de briller. Notez le lien qui se matérialisera pour révéler votre confiance naturelle.\`, url: "https://www.clairvoyancemedium.com/Voyance-1-question-par-Email-cbaaaaaba.asp", isExternal: false},
-  
-  {keywords: "estime|valeur|indigne|meriter|nul|inutile", exactMatch: "mauvaise estime soi", answer: (name) => \`Ce sentiment de ne pas valoir grand-chose vous hante depuis trop longtemps, ${name}. Frederick identifie les blessures d'âme qui ont détruit votre estime.\nVous vous comparez aux autres et vous trouvez toujours inférieur. Vous minimisez vos réussites et grossissez vos échecs. Cette voix intérieure cruelle ne vous laisse aucun répit.\nCette blessure cache souvent un traumatisme très ancien, parfois d'une vie antérieure. Dans 77% des cas, les personnes commencent à se respecter vraiment en 4-6 semaines.\nPour 8€ seulement (5 min téléphone), Frederick peut déjà identifier votre blessure principale. Ou consultation complète 45 min (38€) pour une guérison profonde.\nVous pouvez apprendre à vous aimer enfin. Un accès va surgir pour réparer votre estime brisée.\`, url: "https://clairvoyancemedium.github.io/Voyancepartelephonepaschere.github.io/", isExternal: false, isPhone: true},
-  
-  {keywords: "solitude|seul|isole|personne|ami|social", exactMatch: "solitude profonde", answer: (name) => \`${name}, cette solitude qui vous pèse n'est pas un hasard. Frederick voit les blocages énergétiques qui éloignent les gens malgré vos efforts.\nVous essayez de créer des liens mais quelque chose fait toujours capoter les relations. Les gens s'éloignent sans raison claire. Vous finissez toujours seul.\nSouvent un sort d'isolement pèse sur vous, lancé par jalousie. Ou votre énergie repousse les autres à cause de blessures non guéries. Dans 74% des cas, les personnes attirent des relations saines en 2 mois.\nCommencez par 3 questions email (12€) pour comprendre ce qui vous isole. Ou consultation 20 min (22€) pour briser ces barrières invisibles.\nVous n'êtes pas fait pour vivre seul. Voyez apparaître l'accès vers cette libération.\`, url: "https://www.clairvoyancemedium.com/Desenvoutement-et-protection-a-distance-cbaaaaala.asp", isExternal: false},
-  
-  {keywords: "rejet|rejete|exclu|exclus|mis cote", exactMatch: "peur du rejet", answer: (name) => \`Cette peur constante du rejet vous paralyse, ${name}. Frederick identifie la blessure originelle qui vous fait croire que vous serez toujours rejeté.\nVous évitez de vous montrer vraiment par peur. Mais ce comportement crée exactement ce que vous craignez : les gens vous rejettent parce que vous vous rejetez vous-même d'abord.\nCette blessure vient souvent de rejets réels dans votre enfance. Dans 80% des cas, la peur du rejet diminue considérablement en 3-4 semaines, même chez les personnes les plus blessées.\nPour 5€, une question email peut déjà vous éclairer sur l'origine de cette peur. Consultation 30 min (30€) pour une guérison complète de cette blessure.\nVous pouvez enfin être vous-même sans crainte. Un bouton va s'illuminer pour cette guérison.\`, url: "https://www.clairvoyancemedium.com/Voyance-3-Questions-par-Email-cbaaaaaca.asp", isExternal: false},
-  
-  {keywords: "abandon|abandonne|quitter|partir|laisser", exactMatch: "peur abandon", answer: (name) => \`Cette terreur d'être abandonné empoisonne toutes vos relations, ${name}. Frederick traite la blessure d'abandon qui vous fait souffrir.\nVous vous accrochez trop fort ou vous partez avant d'être quitté. Dans les deux cas, vous sabotez vos relations par peur. C'est une prophétie auto-réalisatrice douloureuse.\nLa blessure d'abandon remonte souvent à l'enfance : parent absent, décès, divorce. Dans 78% des cas, les personnes cessent de vivre dans la terreur de l'abandon en 4-8 semaines.\nAppel de 8€ (5 min) pour identifier cette blessure. Ou consultation 45 min (38€) pour cicatriser définitivement cette plaie qui saigne depuis des années.\nVous pouvez aimer sans peur. Notez l'accès qui va se révéler.\`, url: "https://clairvoyancemedium.github.io/Voyancepartelephonepaschere.github.io/", isExternal: false, isPhone: true},
-  
-  {keywords: "triste|tristesse|pleure|chagrin|melancolie|cafard", exactMatch: "tristesse permanente", answer: (name) => \`Cette tristesse qui ne vous quitte jamais cache quelque chose de plus profond, ${name}. Frederick identifie ce qui alourdit constamment votre cœur.\nVous portez peut-être le chagrin d'une perte ancienne jamais digérée. Ou vous absorbez la tristesse des autres comme une éponge. Ou des entités se nourrissent de votre vitalité.\nDans 75% des cas, les personnes retrouvent leur joie naturelle en 3-6 semaines. Cette tristesse chronique n'est pas qui vous êtes vraiment.\n3 questions email (12€) pour localiser la source exacte. Ou consultation santé 30 min (30€) pour dissiper ce voile gris qui ne se lève jamais.\nVous pouvez sourire vraiment à nouveau. Repérez le bouton qui émergera pour dissiper cette tristesse.\`, url: "https://www.clairvoyancemedium.com/Medecine-Consultation-par-email-cbaaaabja.asp", isExternal: false},
-  
-  {keywords: "colere|rage|enerve|irritable|agressif|explosif", exactMatch: "colere excessive", answer: (name) => \`Cette colère qui bouillonne sans raison apparente n'est pas QUI vous êtes, ${name}. Frederick identifie ce qui alimente ce feu destructeur.\nVous explosez pour des broutilles. Vous regrettez après mais la colère revient plus fort. Vos proches marchent sur des œufs. Cette rage vous isole et vous fait souffrir.\nSouvent la colère cache une douleur profonde. Ou elle vient d'une entité attachée. Dans 73% des cas, la colère chronique se transforme en 2-4 semaines.\nConsultation rapide 20 min (22€) pour identifier la cause. Ou purification complète (150€) si c'est une entité qui alimente cette rage.\nVous pouvez enfin vivre sereinement. Un accès va se dévoiler pour éteindre cette rage.\`, url: "https://www.clairvoyancemedium.com/Desenvoutement-et-protection-a-distance-cbaaaaala.asp", isExternal: false},
-  
-  {keywords: "culpabilite|coupable|faute|regret|remords", exactMatch: "culpabilite toxique", answer: (name) => \`${name}, cette culpabilité qui vous ronge n'est souvent pas justifiée. Frederick distingue la vraie responsabilité de la culpabilité toxique.\nVous vous sentez coupable de tout, même hors de votre contrôle. Cette culpabilité excessive vous paralyse et vous empêche d'avancer.\nElle vient souvent d'une éducation culpabilisante ou peut être héritée génétiquement. Dans 79% des cas, les personnes se libèrent en 3-5 semaines.\nPour 5€, une question peut déjà alléger ce fardeau. Consultation 30 min (30€) pour vous libérer complètement de cette culpabilité écrasante.\nVous méritez le pardon, surtout le vôtre. Observez l'accès qui va apparaître.\`, url: "https://www.clairvoyancemedium.com/Voyance-3-Questions-par-Email-cbaaaaaca.asp", isExternal: false},
-  
-  {keywords: "honte|honteux|humiliation|denigrement|ridicule", exactMatch: "honte profonde", answer: (name) => \`Cette honte qui vous fait vouloir disparaître n'est pas le reflet de votre vraie valeur, ${name}. Frederick guérit cette blessure.\nVous portez une honte tellement profonde que vous la montrez à personne. Elle vous fait vous cacher, vous diminuer, refuser les opportunités par peur d'être vu.\nLa honte peut être transmise : vous portez celle d'un ancêtre. Dans 81% des cas, les personnes se libèrent de la honte paralysante en 4-7 semaines.\nAppel 8€ (5 min) pour identifier l'origine. Ou consultation 45 min (38€) pour extraire cette honte de votre système énergétique.\nVous pouvez lever la tête et vous montrer. Un bouton va surgir pour dissoudre cette honte.\`, url: "https://clairvoyancemedium.github.io/Voyancepartelephonepaschere.github.io/", isExternal: false, isPhone: true},
-  
-  {keywords: "burn out|burnout|epuise|fatigue|vide energie", exactMatch: "burn out", answer: (name) => \`Ce burn-out qui vous a vidé totalement n'est pas qu'une fatigue physique, ${name}. Frederick voit l'épuisement énergétique profond qui vous a consumé.\nVous n'avez plus de batterie. Dormir ne recharge rien. Vous êtes fonctionnel au minimum mais toute étincelle de vie s'est éteinte en vous.\nLe burn-out cache souvent des fuites énergétiques massives : personnes qui vous drainent, travail toxique, entités parasites. Dans 71% des cas, l'énergie revient significativement en 3-4 semaines.\nConsultation santé email (30€) pour identifier vos fuites énergétiques. Ou diagnostic complet 30 min téléphone (30€) avec protocole de recharge.\nVotre énergie peut revenir. Un accès va se matérialiser pour rallumer votre feu intérieur.\`, url: "https://www.clairvoyancemedium.com/Medecine-Consultation-par-email-cbaaaabja.asp", isExternal: false},
-  
-  {keywords: "perfectionniste|perfectionnisme|jamais assez|exigeant", exactMatch: "perfectionnisme toxique", answer: (name) => \`Ce perfectionnisme qui vous épuise n'est pas une qualité mais une prison, ${name}. Frederick identifie la peur profonde qui se cache derrière.\nRien n'est jamais assez bien pour vous. Vous vous épuisez à viser l'impossible. Ce perfectionnisme vous paralyse et détruit votre estime malgré vos réussites objectives.\nSouvent le perfectionnisme cache une peur d'être rejeté si vous n'êtes pas parfait. Dans 76% des cas, les personnes trouvent un équilibre sain en 4-6 semaines.\n3 questions email (12€) pour comprendre votre peur sous-jacente. Ou consultation 20 min (22€) pour vous libérer de cette quête destructrice de perfection.\nVous pouvez être humain et imparfait. Un lien va apparaître vers cette libération.\`, url: "https://www.clairvoyancemedium.com/Voyance-3-Questions-par-Email-cbaaaaaca.asp", isExternal: false},
-  
-  {keywords: "procrastination|procrastine|reporter|remettre|plus tard", exactMatch: "procrastination chronique", answer: (name) => \`Cette procrastination qui vous sabote systématiquement n'est pas de la paresse, ${name}. Frederick voit le blocage énergétique qui vous paralyse.\nVous voulez agir mais quelque chose vous fige. Vous reportez encore et encore jusqu'à ce que l'opportunité passe ou que la situation devienne critique.\nLa procrastination cache souvent une peur de l'échec, du jugement, ou du succès. Ou un sort de blocage actif sur vous. Dans 74% des cas, les personnes passent à l'action en 2-3 semaines.\nPour 5€, identifiez votre blocage principal. Consultation 30 min (30€) pour dissoudre cette paralysie invisible qui gâche vos opportunités.\nVous pouvez enfin passer à l'action. Un accès va surgir pour briser cette paralysie.\`, url: "https://www.clairvoyancemedium.com/Voyance-1-question-par-Email-cbaaaaaba.asp", isExternal: false},
-  
-  {keywords: "comparaison|comparer|jaloux|jalousie|envie", exactMatch: "comparaison toxique", answer: (name) => \`Cette habitude de vous comparer constamment aux autres vous empoisonne, ${name}. Frederick vous aide à sortir de cette spirale destructrice.\nVous regardez toujours ce que les autres ont, font, sont. Vous en concluez systématiquement que vous ne valez rien. Cette comparaison perpétuelle détruit votre joie.\nElle vient d'un manque d'ancrage dans votre propre valeur. Dans 78% des cas, les personnes cessent de se comparer toxiquement en 3-5 semaines.\nConsultation rapide 20 min (22€) pour ancrer votre valeur unique. Ou 3 questions email (12€) pour comprendre pourquoi vous vous comparez tant.\nChaque personne a sa propre valeur incomparable. Un bouton va se révéler pour cette reconnexion à vous-même.\`, url: "https://www.clairvoyancemedium.com/Voyance-3-Questions-par-Email-cbaaaaaca.asp", isExternal: false}
-
-  // CONTINUATION - 34 ENTRÉES SUPPLÉMENTAIRES
-  
-  {keywords: "insomnie|sommeil|dort|dormir|reveille", exactMatch: "troubles sommeil", answer: (name) => `${name}, ces insomnies qui vous épuisent ont souvent une origine énergétique. Frederick identifie ce qui perturbe votre sommeil.\\nVous tournez en rond la nuit, le cerveau qui mouline. Ou vous vous réveillez à 3h du matin sans raison. Ce manque de sommeil vous détruit à petit feu.\\nSouvent des entités nocturnes vous visitent, ou des stress énergétiques bloquent votre détente. Dans 72% des cas, le sommeil s'améliore nettement en 2-3 semaines.\\nConsultation santé 30€ par email pour identifier la cause. Ou purification 150€ si des entités perturbent vos nuits.\\nVous pouvez retrouver un sommeil réparateur. Un accès va apparaître pour apaiser vos nuits.`, url: "https://www.clairvoyancemedium.com/Medecine-Consultation-par-email-cbaaaabja.asp", isExternal: false},
-  
-  {keywords: "poids|maigrir|grossir|minceur|kilos", exactMatch: "probleme poids", answer: (name) => `Votre problème de poids résiste à tous les régimes, ${name}. Frederick voit les blocages énergétiques qui empêchent votre corps de mincir.\\nVous mangez peu mais ne maigrissez pas. Ou vous reprenez immédiatement. Ce n'est pas qu'une question de calories mais d'énergie bloquée.\\nDes émotions stockées dans vos cellules, des mémoires ancestrales de famine, ou des sorts peuvent bloquer la perte. Dans 68% des cas, le poids se débloque en 4-8 semaines.\\n3 questions email 12€ pour comprendre vos blocages. Ou consultation 20 min (22€) pour un protocole énergétique de minceur.\\nVotre corps peut enfin lâcher ces kilos. Un bouton va se révéler pour débloquer votre métabolisme.`, url: "https://www.clairvoyancemedium.com/Voyance-3-Questions-par-Email-cbaaaaaca.asp", isExternal: false},
-  
-  {keywords: "douleur|mal|fibromyalgie|chronique|souffrance", exactMatch: "douleurs chroniques", answer: (name) => `Ces douleurs chroniques que la médecine n'explique pas ont une dimension énergétique, ${name}. Frederick localise les blocages qui créent ces souffrances.\\nVous souffrez mais les examens ne montrent rien. Les médecins haussent les épaules. Mais votre douleur est bien réelle et elle vous gâche la vie.\\nLes douleurs inexpliquées viennent souvent de mémoires traumatiques stockées dans le corps, de chakras bloqués, ou d'attaques ciblées. Dans 69% des cas, la douleur diminue significativement en 3-6 semaines.\\nConsultation santé email 30€ pour identifier les causes énergétiques. Ou consultation 30 min téléphone (30€) pour un traitement à distance.\\nVous pouvez retrouver un corps sans douleur. Un accès va surgir vers ce soulagement.`, url: "https://www.clairvoyancemedium.com/Medecine-Consultation-par-email-cbaaaabja.asp", isExternal: false},
-  
-  {keywords: "addiction|alcool|drogue|dependance|accro", exactMatch: "addiction", answer: (name) => `Cette addiction qui vous contrôle n'est pas qu'une faiblesse de volonté, ${name}. Frederick voit les liens énergétiques qui vous enchaînent à cette substance.\\nVous voulez arrêter mais quelque chose de plus fort vous pousse à recommencer. Ce n'est pas qu'un problème physique mais une emprise énergétique.\\nSouvent une entité se nourrit de l'énergie de votre addiction et la renforce. Ou un traumatisme bloqué cherche à s'anesthésier. Dans 67% des cas, l'emprise diminue nettement en 4-8 semaines.\\nPurification 150€ si c'est une entité. Ou consultation 30 min (30€) pour identifier le traumatisme sous-jacent et commencer à le guérir.\\nVous pouvez vous libérer de cette chaîne. Un bouton va apparaître vers cette libération.`, url: "https://www.clairvoyancemedium.com/Desenvoutement-et-protection-a-distance-cbaaaaala.asp", isExternal: false},
-  
-  {keywords: "couple|relation|conjoint|mari|femme|partenaire", exactMatch: "problemes couple", answer: (name) => `Ces tensions dans votre couple ne viennent pas que de différences de caractère, ${name}. Frederick voit les blocages énergétiques qui créent ces conflits.\\nVous vous aimez encore mais tout devient source de conflit. Une distance invisible s'installe. Vous ne vous comprenez plus alors que vous partagiez tout avant.\\nSouvent un sort de séparation, de la jalousie extérieure, ou des mémoires karmiques créent ces blocages. Dans 71% des cas, l'harmonie revient en 3-5 semaines.\\nCompatibilité amoureuse 20€ pour voir vos blocages énergétiques. Ou rituel retour de l'harmonie 175€ pour restaurer l'amour perdu.\\nVotre couple peut retrouver sa magie. Un accès va se dévoiler pour raviver votre flamme.`, url: "https://www.clairvoyancemedium.com/Compatibilite-amoureuse-cbaaaaata.asp", isExternal: false},
-  
-  {keywords: "enfant|maternite|paternite|bebe|grossesse", exactMatch: "difficultes parentales", answer: (name) => `Ces difficultés avec votre enfant ont peut-être une dimension énergétique, ${name}. Frederick voit les dynamiques invisibles qui compliquent votre relation.\\nVotre enfant vous défie constamment ou s'éloigne de vous. Vous ne le reconnaissez plus. Cette relation qui devrait être simple devient un combat quotidien.\\nParfois l'enfant porte des mémoires karmiques difficiles, ou une entité perturbe son comportement. Dans 73% des cas, la relation s'apaise en 4-6 semaines.\\n3 questions email 12€ pour comprendre la dynamique. Ou consultation 30 min (30€) pour un protocole de réharmonisation parent-enfant.\\nVous pouvez retrouver une relation sereine. Un bouton va se révéler pour apaiser cette relation.`, url: "https://www.clairvoyancemedium.com/Voyance-3-Questions-par-Email-cbaaaaaca.asp", isExternal: false},
-  
-  {keywords: "travail|emploi|job|carriere|patron|collegue", exactMatch: "problemes professionnels", answer: (name) => `Ces blocages professionnels ne sont pas que malchance, ${name}. Frederick voit les énergies qui sabotent votre carrière.\\nVous avez les compétences mais les opportunités vous échappent. Ou votre ambiance de travail devient toxique. Quelque chose bloque systématiquement votre réussite.\\nUn sort de blocage professionnel, de la jalousie de collègues, ou des mémoires d'échec peuvent créer ce plafond invisible. Dans 70% des cas, la situation se débloque en 3-6 semaines.\\nConsultation 20 min (22€) pour identifier le blocage. Ou purification 150€ si c'est un sort actif qui vous empêche de progresser.\\nVotre carrière peut enfin décoller. Un accès va apparaître pour débloquer votre réussite.`, url: "https://www.clairvoyancemedium.com/Voyance-3-Questions-par-Email-cbaaaaaca.asp", isExternal: false},
-  
-  {keywords: "argent|finance|dette|facture|pauvre|riche", exactMatch: "problemes argent", answer: (name) => `Ces problèmes d'argent récurrents ne sont pas que malchance, ${name}. Frederick voit les blocages énergétiques qui créent cette pénurie.\\nL'argent entre mais ressort immédiatement. Ou il n'entre jamais assez. Vous travaillez dur mais restez toujours juste. Ce n'est pas normal.\\nDes mémoires de pauvreté, des vœux de pauvreté de vies passées, ou des sorts actifs peuvent bloquer l'abondance. Dans 66% des cas, la situation financière s'améliore en 2-4 mois.\\n1 question email 5€ pour identifier votre blocage principal. Ou consultation 30 min (30€) pour un protocole d'abondance personnalisé.\\nL'argent peut enfin circuler librement vers vous. Un bouton va surgir pour ouvrir ces canaux.`, url: "https://www.clairvoyancemedium.com/Voyance-1-question-par-Email-cbaaaaaba.asp", isExternal: false},
-  
-  {keywords: "famille|parent|frere|soeur|conflit familial", exactMatch: "conflits familiaux", answer: (name) => `Ces conflits familiaux qui vous déchirent ont souvent des racines karmiques, ${name}. Frederick voit les dynamiques invisibles entre vous et votre famille.\\nVous vous disputez constamment avec un membre de votre famille. Les vieilles blessures ressortent sans cesse. Vous voudriez tourner la page mais quelque chose vous retient.\\nDes dettes karmiques, des rôles inversés de vies passées, ou des malédictions familiales créent ces tensions. Dans 72% des cas, l'apaisement commence en 3-5 semaines.\\nConsultation 20 min (22€) pour comprendre votre lien karmique. Ou 3 questions email 12€ pour identifier la source du conflit.\\nVotre famille peut retrouver l'harmonie. Un accès va se dévoiler pour pacifier ces relations.`, url: "https://www.clairvoyancemedium.com/Voyance-3-Questions-par-Email-cbaaaaaca.asp", isExternal: false},
-  
-  {keywords: "intuition|clairvoyance|don|medium|empathe", exactMatch: "developper dons", answer: (name) => `Ces dons que vous sentez en vous méritent d'être développés, ${name}. Frederick vous guide pour ouvrir votre canal spirituel en sécurité.\\nVous ressentez des choses, vous savez des trucs sans savoir comment. Mais vous ne savez pas si c'est réel ou votre imagination. Et vous avez peur de ces perceptions.\\nCes dons sont authentiques mais nécessitent un développement guidé pour ne pas vous déstabiliser. Dans 75% des cas, les personnes apprennent à maîtriser leurs dons en 2-4 mois.\\nConsultation 30 min (30€) pour évaluer vos capacités. Ou suivi régulier avec Frederick pour un développement progressif et sécurisé.\\nVos dons peuvent s'épanouir en toute sécurité. Un bouton va apparaître pour ce développement.`, url: "https://clairvoyancemedium.github.io/Voyancepartelephonepaschere.github.io/", isExternal: false, isPhone: true}
-
-
-  // DERNIÈRES 24 ENTRÉES POUR ATTEINDRE 50
-  
-  {keywords: "but|objectif|reve|ambition|realiser", exactMatch: "trouver son but", answer: (name) => `Cette quête de sens qui vous habite n'est pas un caprice, ${name}. Frederick vous aide à découvrir votre mission de vie authentique.\\nVous vous sentez perdu, sans direction claire. Vous faites des choses mais sans savoir pourquoi. Ce manque de sens vide votre vie de toute joie profonde.\\nVotre mission de vie est inscrite dans votre âme mais des blocages vous empêchent de la percevoir. Dans 77% des cas, les personnes découvrent leur but en 3-5 consultations.\\nConsultation 30 min (30€) pour recevoir les guidances sur votre mission. Ou message de votre ange gardien (10€) pour connaître votre but sacré.\\nVotre vie peut enfin avoir un sens profond. Un accès va se révéler vers cette révélation.`, url: "https://www.clairvoyancemedium.com/Message-de-votre-Ange-gardien-cbaaaabba.asp", isExternal: false},
-  
-  {keywords: "blocage|coince|bloque|avance pas|stagne", exactMatch: "blocages vie", answer: (name) => `Ces blocages qui vous empêchent d'avancer ne sont pas de la malchance, ${name}. Frederick identifie les barrières énergétiques qui vous retiennent.\\nVous essayez mais rien ne bouge. Comme si un mur invisible vous empêchait de progresser dans n'importe quel domaine de votre vie.\\nCes blocages viennent souvent de sorts actifs, de vœux limitants de vies passées, ou de loyautés familiales inconscientes. Dans 74% des cas, la vie se débloque spectaculairement en 3-6 semaines.\\n3 questions email 12€ pour identifier vos blocages. Ou purification complète 150€ pour briser toutes les barrières invisibles.\\nVotre vie peut enfin couler librement. Un bouton va surgir pour dissoudre ces blocages.`, url: "https://www.clairvoyancemedium.com/Desenvoutement-et-protection-a-distance-cbaaaaala.asp", isExternal: false},
-  
-  {keywords: "changement|transition|nouveau|recommencer", exactMatch: "peur changement", answer: (name) => `Cette peur du changement qui vous paralyse vous empêche de saisir les opportunités, ${name}. Frederick vous aide à embrasser les transitions nécessaires.\\nVous savez que vous devez changer mais la peur vous fige. Vous restez dans le connu même s'il vous fait souffrir. Le changement vous terrifie plus que la souffrance actuelle.\\nCette peur cache souvent des mémoires traumatiques de changements qui ont mal tourné. Dans 75% des cas, les personnes osent le changement en 3-4 semaines.\\nConsultation 20 min (22€) pour identifier vos peurs. Ou 1 question 5€ pour savoir si c'est le bon moment pour changer.\\nVous pouvez vous réinventer. Un accès va apparaître pour embrasser le changement.`, url: "https://www.clairvoyancemedium.com/Voyance-1-question-par-Email-cbaaaaaba.asp", isExternal: false},
-  
-  {keywords: "choix|decision|hesitation|indecis|choisir", exactMatch: "difficulte decider", answer: (name) => `Cette indécision chronique qui vous paralyse n'est pas de l'incapacité, ${name}. Frederick voit ce qui brouille votre discernement.\\nVous ne savez jamais quoi choisir. Vous hésitez éternellement et finissez par ne rien choisir. Ou vous choisissez puis regrettez immédiatement. Cette incertitude vous épuise.\\nSouvent un blocage du 3ème œil ou des influences extérieures brouillent votre intuition. Dans 76% des cas, le discernement revient clair en 2-3 semaines.\\nConsultation 30 min (30€) pour recevoir une guidance claire sur votre choix. Ou 3 questions 12€ pour peser les options énergétiquement.\\nVous pouvez décider avec clarté. Un bouton va se révéler pour retrouver votre discernement.`, url: "https://www.clairvoyancemedium.com/Voyance-3-Questions-par-Email-cbaaaaaca.asp", isExternal: false},
-  
-  {keywords: "trauma|traumatisme|choc|abus|violence", exactMatch: "trauma non resolu", answer: (name) => `Ce traumatisme que vous portez depuis des années mérite d'être guéri, ${name}. Frederick travaille sur ces blessures profondes avec douceur.\\nVous revivez constamment ce qui s'est passé. Des flashbacks, des cauchemars, des réactions disproportionnées. Ce traumatisme contrôle encore votre vie des années après.\\nLes traumatismes se stockent dans votre énergie et votre corps. La thérapie verbale aide mais ne suffit pas toujours. Dans 71% des cas, le traumatisme se libère significativement en 4-8 semaines.\\nConsultation 30 min (30€) pour commencer le travail de libération. Plusieurs séances peuvent être nécessaires selon la profondeur du trauma.\\nVous pouvez vous libérer de ce poids. Un accès va apparaître pour cette guérison en douceur.`, url: "https://www.clairvoyancemedium.com/Medecine-Consultation-par-email-cbaaaabja.asp", isExternal: false},
-  
-  {keywords: "pardon|pardonner|rancune|rancœur|vengeance", exactMatch: "difficulte pardonner", answer: (name) => `Cette incapacité à pardonner vous empoisonne plus que la personne qui vous a blessé, ${name}. Frederick vous aide à vous libérer par le pardon.\\nVous ruminez encore ce qu'on vous a fait. Cette rancœur vous ronge mais vous ne pouvez pas lâcher prise. Pardonner vous semble trahir votre douleur.\\nLe pardon n'est pas pour l'autre mais pour vous libérer. Dans 73% des cas, les personnes arrivent à pardonner vraiment en 4-6 semaines et ressentent une paix immense.\\nConsultation 20 min (22€) pour travailler sur le pardon. Ou rituel de libération des liens toxiques (150€) pour couper définitivement avec cette personne.\\nVous pouvez enfin être libre de ce poids. Un bouton va surgir vers cette libération par le pardon.`, url: "https://www.clairvoyancemedium.com/Desenvoutement-et-protection-a-distance-cbaaaaala.asp", isExternal: false},
-  
-  {keywords: "communication|expression|parler|dire|exprimer", exactMatch: "difficulte communiquer", answer: (name) => `Cette difficulté à vous exprimer n'est pas un manque d'intelligence, ${name}. Frederick voit le blocage du chakra de la gorge qui vous empêche de parler.\\nVous savez ce que vous voulez dire mais les mots ne sortent pas. Ou vous vous exprimez mal et on vous comprend de travers. Cette incapacité crée tant de frustration.\\nUn blocage énergétique de la gorge, souvent lié à avoir été réduit au silence dans le passé, crée ce mutisme partiel. Dans 74% des cas, l'expression se libère en 3-5 semaines.\\nConsultation 30 min (30€) pour débloquer votre chakra de la gorge. Vous pourrez enfin dire ce que vous avez sur le cœur.\\nVotre voix peut enfin être entendue. Un accès va se dévoiler pour libérer votre expression.`, url: "https://www.clairvoyancemedium.com/Medecine-Consultation-par-email-cbaaaabja.asp", isExternal: false},
-  
-  {keywords: "limite|frontiere|dire non|respect|envahir", exactMatch: "poser limites", answer: (name) => `Cette incapacité à poser des limites vous fait subir constamment, ${name}. Frederick vous aide à retrouver votre pouvoir de dire non.\\nVous dites oui alors que vous pensez non. Vous laissez les autres vous envahir, profiter de vous. Puis vous en voulez à tout le monde mais surtout à vous-même.\\nNe pas savoir poser de limites vient souvent d'une peur du rejet ou d'avoir appris que vos besoins ne comptent pas. Dans 77% des cas, les personnes osent dire non en 3-4 semaines.\\nConsultation 20 min (22€) pour comprendre votre peur des limites. Ou 3 questions 12€ pour apprendre à vous respecter.\\nVous pouvez protéger votre espace. Un bouton va apparaître pour affirmer vos limites.`, url: "https://www.clairvoyancemedium.com/Voyance-3-Questions-par-Email-cbaaaaaca.asp", isExternal: false},
-  
-  {keywords: "hypersensible|sensible|empath|ressent tout", exactMatch: "hypersensibilite", answer: (name) => `Cette hypersensibilité qui vous submerge peut devenir une force, ${name}. Frederick vous apprend à gérer ce don plutôt que le subir.\\nVous ressentez tout : les émotions des autres, les énergies des lieux, les tensions invisibles. C'est épuisant. Vous absorbez comme une éponge et ne savez pas comment vous protéger.\\nL'hypersensibilité est un don spirituel mal géré. Avec les bonnes protections énergétiques, elle devient un atout. Dans 79% des cas, les hypersensibles trouvent l'équilibre en 3-5 semaines.\\nConsultation 30 min (30€) pour apprendre les protections. Ou purification 150€ pour nettoyer tout ce que vous avez absorbé.\\nVotre sensibilité peut devenir votre super-pouvoir. Un accès va surgir pour cette transformation.`, url: "https://www.clairvoyancemedium.com/Desenvoutement-et-protection-a-distance-cbaaaaala.asp", isExternal: false},
-  
-  {keywords: "incompris|personne comprend|different|bizarre", exactMatch: "sentiment incomprehension", answer: (name) => `Ce sentiment d'être incompris par tous n'est pas de la paranoïa, ${name}. Frederick voit pourquoi vous vous sentez si différent des autres.\\nPersonne ne vous comprend vraiment. Vous vous sentez alien sur cette planète. Cette solitude existentielle vous pèse terriblement même entouré de gens.\\nSouvent les âmes qui ont un but spirituel important se sentent ainsi. Ou vous venez d'une autre dimension et cherchez votre tribu. Dans 72% des cas, les personnes trouvent leur place en 2-4 mois.\\nConsultation 30 min (30€) pour comprendre votre mission et trouver votre tribu. Ou message de votre ange (10€) pour savoir pourquoi vous êtes si différent.\\nVous n'êtes pas seul, juste en avance. Un bouton va se révéler vers votre vraie tribu.`, url: "https://www.clairvoyancemedium.com/Message-de-votre-Ange-gardien-cbaaaabba.asp", isExternal: false},
-  
-  {keywords: "lacher prise|controler|controle|obsession", exactMatch: "besoin tout controler", answer: (name) => `Ce besoin de tout contrôler vous épuise, ${name}. Frederick vous aide à lâcher prise et faire confiance à la vie.\\nVous devez tout prévoir, tout anticiper, tout maîtriser. L'imprévu vous panique. Cette hypervigilance constante vous consume d'anxiété.\\nCe besoin de contrôle cache une peur profonde que si vous lâchez, tout s'effondrera. Dans 71% des cas, les personnes apprennent à lâcher prise en 4-6 semaines et découvrent une paix inconnue.\\nConsultation 20 min (22€) pour identifier votre peur. Ou 3 questions 12€ pour apprendre à faire confiance progressivement.\\nVous pouvez enfin respirer sans tout contrôler. Un accès va apparaître pour cette libération.`, url: "https://www.clairvoyancemedium.com/Voyance-3-Questions-par-Email-cbaaaaaca.asp", isExternal: false},
-  
-  {keywords: "sabotage|auto sabotage|detruire|reussir", exactMatch: "auto sabotage", answer: (name) => `Cet auto-sabotage qui ruine systématiquement vos réussites n'est pas conscient, ${name}. Frederick identifie les programmes inconscients qui vous font échouer.\\nÀ chaque fois que vous êtes sur le point de réussir, vous sabotez tout. Vous ne comprenez pas pourquoi vous faites ça. C'est plus fort que vous.\\nL'auto-sabotage vient souvent d'une peur inconsciente du succès, ou de loyautés familiales qui vous interdisent de réussir mieux que vos parents. Dans 75% des cas, le sabotage cesse en 3-5 semaines.\\nConsultation 30 min (30€) pour identifier votre peur du succès. Ou 1 question 5€ pour comprendre ce qui vous retient.\\nVous méritez de réussir pleinement. Un bouton va surgir pour désactiver ce saboteur intérieur.`, url: "https://www.clairvoyancemedium.com/Voyance-1-question-par-Email-cbaaaaaba.asp", isExternal: false},
-  
-  {keywords: "authentique|vrai moi|faux|masque|apparence", exactMatch: "etre authentique", answer: (name) => `Cette difficulté à être vous-même vous fait porter un masque épuisant, ${name}. Frederick vous aide à oser votre authenticité.\\nVous jouez un rôle, vous vous adaptez à chacun. Vous ne savez même plus qui vous êtes vraiment tant vous avez porté de masques. Cette fausseté vous vide.\\nLa peur du rejet vous pousse à vous camoufler. Mais cette inauthenticité attire justement le rejet que vous craignez. Dans 78% des cas, les personnes osent être elles-mêmes en 3-5 semaines.\\nConsultation 20 min (22€) pour retrouver votre vraie nature. Vous attirerez enfin des gens qui vous aiment pour ce que vous êtes vraiment.\\nVotre authenticité est votre plus grande force. Un accès va se dévoiler pour enlever tous les masques.`, url: "https://www.clairvoyancemedium.com/Voyance-3-Questions-par-Email-cbaaaaaca.asp", isExternal: false},
-  
-  {keywords: "critique|jugement|juger|critique interieure", exactMatch: "critique interieur", answer: (name) => `Cette voix critique intérieure qui vous juge constamment vous détruit, ${name}. Frederick vous aide à faire taire ce tyran dans votre tête.\\nVous avez un juge impitoyable dans votre esprit qui vous critique sans cesse. Rien n'est jamais assez bien pour lui. Cette voix vous épuise et vous paralyse.\\nCe critique intérieur est souvent la voix internalisée d'un parent ou professeur sévère. Dans 76% des cas, cette voix critique s'apaise considérablement en 4-6 semaines.\\nConsultation 30 min (30€) pour identifier l'origine de ce critique et le désactiver. Vous pourrez enfin vivre sans ce harcèlement mental constant.\\nVous méritez votre propre bienveillance. Un bouton va apparaître pour faire taire ce tyran intérieur.`, url: "https://clairvoyancemedium.github.io/Voyancepartelephonepaschere.github.io/", isExternal: false, isPhone: true},
-  
-  {keywords: "victimisation|victime|plaindre|injustice", exactMatch: "sortir role victime", answer: (name) => `Ce rôle de victime dans lequel vous êtes enfermé vous empêche de reprendre votre pouvoir, ${name}. Frederick vous aide à sortir de cette position.\\nVous vous sentez constamment victime des autres, des circonstances, de la vie. Tout vous arrive toujours à vous. Cette posture attire encore plus de situations où vous êtes victime.\\nLe rôle de victime offre des bénéfices secondaires : attention, pas de responsabilité. Mais il vous maintient impuissant. Dans 73% des cas, les personnes retrouvent leur pouvoir en 4-7 semaines.\\nConsultation 20 min (22€) pour identifier vos gains secondaires. Ou 3 questions 12€ pour apprendre à reprendre votre pouvoir.\\nVous pouvez devenir créateur de votre vie. Un accès va surgir pour sortir de la victimisation.`, url: "https://www.clairvoyancemedium.com/Voyance-3-Questions-par-Email-cbaaaaaca.asp", isExternal: false},
-  
-  {keywords: "attente|attendre|patience|impatience|maintenant", exactMatch: "impatience chronique", answer: (name) => `Cette impatience qui vous ronge vous empêche de profiter du présent, ${name}. Frederick vous aide à trouver la paix dans l'attente.\\nVous voulez tout tout de suite. Attendre vous est insupportable. Cette impatience vous fait prendre de mauvaises décisions par précipitation.\\nL'impatience cache souvent une peur que ce que vous voulez ne vienne jamais. Dans 74% des cas, les personnes trouvent la patience en 3-4 semaines et découvrent que tout arrive au bon moment.\\nConsultation 30 min (30€) pour comprendre votre peur du timing. Vous apprendrez à faire confiance au timing divin.\\nLa patience apporte la paix. Un bouton va se révéler pour cultiver cette sérénité.`, url: "https://www.clairvoyancemedium.com/Voyance-3-Questions-par-Email-cbaaaaaca.asp", isExternal: false},
-  
-  {keywords: "gratitude|reconnaissance|remercier|apprecier", exactMatch: "cultiver gratitude", answer: (name) => `Cette difficulté à voir le positif vous maintient dans la négativité, ${name}. Frederick vous aide à cultiver la gratitude qui transforme tout.\\nVous voyez toujours ce qui manque, jamais ce qui est déjà là. Cette focalisation sur le négatif attire plus de négatif. C'est un cercle vicieux.\\nLa gratitude n'est pas du déni mais un choix de focus qui change votre vibration. Dans 79% des cas, la vie s'améliore spectaculairement en 2-3 semaines de pratique de gratitude.\\nConsultation 20 min (22€) pour apprendre à pratiquer la gratitude énergétiquement. C'est le levier le plus puissant de transformation.\\nLa gratitude ouvre toutes les portes. Un accès va apparaître vers cette pratique transformatrice.`, url: "https://www.clairvoyancemedium.com/Voyance-3-Questions-par-Email-cbaaaaaca.asp", isExternal: false},
-  
-  {keywords: "energie|vitalite|fatigue|epuisement|force", exactMatch: "manque energie", answer: (name) => `Ce manque d'énergie chronique qui vous cloue n'est pas normal, ${name}. Frederick identifie ce qui draine votre vitalité.\\nVous êtes constamment épuisé même après avoir dormi. Vous n'avez plus de pep's. Tout effort vous coûte trois fois plus qu'avant.\\nCe drainage vient souvent de fuites énergétiques : personnes toxiques, entités parasites, chakras percés. Dans 72% des cas, l'énergie revient nettement en 2-4 semaines.\\nConsultation santé 30€ email pour identifier vos fuites. Ou purification 150€ pour boucher tous les trous énergétiques.\\nVotre vitalité peut revenir pleinement. Un bouton va surgir pour recharger votre batterie.`, url: "https://www.clairvoyancemedium.com/Medecine-Consultation-par-email-cbaaaabja.asp", isExternal: false},
-  
-  {keywords: "passe|passé|liberation|tourner page|avancer", exactMatch: "liberer du passe", answer: (name) => `Cette incapacité à tourner la page vous maintient prisonnier du passé, ${name}. Frederick vous aide à vous libérer pour vivre enfin le présent.\\nVous ruminez constamment ce qui s'est passé. Vous rejouez les scènes, vous vous demandez "et si". Ce passé vous empêche de vivre maintenant.\\nDes liens énergétiques vous attachent encore au passé, à des personnes, des lieux, des traumas. Dans 75% des cas, les personnes se libèrent du passé en 3-6 semaines.\\nConsultation 30 min (30€) pour couper les liens avec le passé. Ou rituel de libération complète (150€) pour tourner définitivement la page.\\nVous pouvez enfin vivre dans le présent. Un accès va se dévoiler pour cette libération du passé.`, url: "https://www.clairvoyancemedium.com/Desenvoutement-et-protection-a-distance-cbaaaaala.asp", isExternal: false},
-  
-  {keywords: "besoin|manque|vide|remplir|combler", exactMatch: "vide interieur", answer: (name) => \`Ce vide intérieur que rien ne remplit vous désespère, ${name}. Frederick vous aide à comprendre et combler ce manque existentiel.\\nVous essayez de le remplir avec nourriture, achats, relations, travail. Mais rien ne marche. Ce vide revient toujours, encore plus profond.\\nCe vide est souvent un appel de votre âme vers quelque chose de plus grand, de plus spirituel. Dans 77% des cas, ce vide se comble quand on trouve sa mission de vie.\\nConsultation 30 min (30€) pour découvrir ce que votre âme réclame vraiment. Ou message de votre ange (10€) pour connaître comment combler ce vide sacré.\\nCe vide peut devenir plénitude. Un bouton va apparaître pour cette transformation.\`, url: "https://www.clairvoyancemedium.com/Message-de-votre-Ange-gardien-cbaaaabba.asp", isExternal: false},
-  
-  {keywords: "espoir|esperance|croire|foi|confiance vie", exactMatch: "retrouver espoir", answer: (name) => \`Cette perte d'espoir qui vous accable n'est pas une fin, ${name}. Frederick rallume cette flamme qui s'est éteinte en vous.\\nVous avez tellement souffert que vous ne croyez plus en rien. L'espoir vous semble naïf. Vous vous êtes blindé pour ne plus souffrir mais vous êtes devenu éteint.\\nPerdre l'espoir est humain après tant d'épreuves. Mais il peut renaître. Dans 78% des cas, l'espoir revient en 3-5 semaines quand on comprend le sens de ses épreuves.\\nConsultation 30 min (30€) pour voir le sens caché de votre parcours. Même les pires épreuves ont un but que Frederick peut vous révéler.\\nL'espoir peut renaître de vos cendres. Un accès va se dévoiler pour rallumer cette flamme sacrée.\`, url: "https://clairvoyancemedium.github.io/Voyancepartelephonepaschere.github.io/", isExternal: false, isPhone: true},
-  
-  {keywords: "joie|bonheur|rire|plaisir|profiter", exactMatch: "retrouver joie vivre", answer: (name) => \`Cette joie de vivre que vous avez perdue peut revenir, ${name}. Frederick vous aide à retrouver le goût du bonheur simple.\\nVous fonctionnez mais ne vivez plus. Vous ne riez plus vraiment. Les plaisirs simples ne vous touchent plus. Vous êtes devenu robotique.\\nCette perte de joie vient souvent d'un cumul de traumas qui ont éteint votre enfant intérieur. Dans 76% des cas, la joie revient progressivement en 4-8 semaines.\\nConsultation 30 min (30€) pour réveiller votre enfant intérieur. Ou 3 questions 12€ pour identifier ce qui a tué votre joie et comment la raviver.\\nVous pouvez rire à nouveau vraiment. Un bouton va surgir pour retrouver cette joie perdue.\`, url: "https://www.clairvoyancemedium.com/Voyance-3-Questions-par-Email-cbaaaaaca.asp", isExternal: false},
-  
-  {keywords: "sens|signification|pourquoi|question existentielle", exactMatch: "questions existentielles", answer: (name) => \`Ces questions existentielles qui vous tourmentent méritent des réponses, ${name}. Frederick vous apporte la perspective spirituelle qui donne du sens.\\nPourquoi je souffre ? Quel est le sens de ma vie ? Pourquoi moi ? Ces questions vous empêchent de dormir et aucune réponse intellectuelle ne vous satisfait.\\nCes questions sont l'appel de votre âme vers une compréhension plus vaste. Dans 81% des cas, les personnes trouvent une paix profonde quand elles comprennent le sens spirituel de leur parcours.\\nConsultation 45 min (38€) pour explorer ces questions profondes. Frederick vous apporte les réponses que votre âme cherche désespérément.\\nVos questions ont des réponses. Un accès va se révéler vers cette compréhension qui apaise tout.\`, url: "https://clairvoyancemedium.github.io/Voyancepartelephonepaschere.github.io/", isExternal: false, isPhone: true}
 ];
     
-function removeAccents
+function removeAccents(str) {
+    return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+}
 
+function levenshteinDistance(a, b) {
+    const matrix = Array(b.length + 1).fill(null).map(() => Array(a.length + 1).fill(null));
+    for (let i = 0; i <= a.length; i++) matrix[0][i] = i;
+    for (let j = 0; j <= b.length; j++) matrix[j][0] = j;
+    for (let j = 1; j <= b.length; j++) {
+        for (let i = 1; i <= a.length; i++) {
+            const indicator = a[i - 1] === b[j - 1] ? 0 : 1;
+            matrix[j][i] = Math.min(matrix[j][i - 1] + 1, matrix[j - 1][i] + 1, matrix[j - 1][i - 1] + indicator);
+        }
+    }
+    return matrix[b.length][a.length];
+}
+
+function phoneticNormalize(str) {
+    return removeAccents(str)
+        .replace(/ph/g, "f")
+        .replace(/k/g, "c")
+        .replace(/qu/g, "k")
+        .replace(/ss/g, "s")
+        .replace(/ée/g, "e")
+        .replace(/ai/g, "e")
+        .replace(/au/g, "o")
+        .replace(/ou/g, "u")
+        .replace(/oi/g, "oa")
+        .replace(/y/g, "i")
+        .replace(/w/g, "v")
+        .replace(/x/g, "ks")
+        .replace(/z/g, "s")
+        .replace(/j/g, "g")
+        .replace(/ch/g, "sh");
+}
+
+function findBestMatch(userInput) {
+    const userLower = phoneticNormalize(userInput.toLowerCase());
+    const userWords = userLower.split(/\s+/);
+    let bestMatch = null;
+    let maxScore = 0;
+    
+    // MOTS EXCLUSIFS pour éviter confusion
+    const hasEmail = /(email|mail|écrit|courriel|mel)/i.test(userInput);
+    const hasTelephone = /(téléphone|tel|appel|appeler|telephoner|phone|fon)/i.test(userInput);
+    
+    knowledgeBase.forEach(item => {
+        let score = 0;
+        const keywords = item.keywords.split('|');
+        
+        // EXCLUSION : si email mentionné, ne PAS matcher téléphone
+        if (hasEmail && item.exactMatch === 'voyance téléphone') return;
+        if (hasTelephone && item.exactMatch === 'voyance email') return;
+        
+        keywords.forEach(keyword => {
+            const normalizedKeyword = phoneticNormalize(keyword.trim().toLowerCase());
+            
+            if (userLower.includes(normalizedKeyword)) {
+                score += normalizedKeyword.length * 10;
+            }
+            
+            userWords.forEach(userWord => {
+                // ACCEPTER MOTS DE 1 LETTRE (au lieu de 2)
+                if (userWord.length >= 1) {
+                    const distance = levenshteinDistance(userWord, normalizedKeyword);
+                    const similarity = 1 - distance / Math.max(userWord.length, normalizedKeyword.length);
+                    
+                    // SEUIL ABAISSÉ : 0.35 (65% d'erreur toléré)
+                    if (similarity >= 0.35) {
+                        score += similarity * normalizedKeyword.length * 5;
+                    }
+                }
+            });
+        });
+        
+        if (score > maxScore) {
+            maxScore = score;
+            bestMatch = item;
+        }
+    });
+    
+    return maxScore > 0.8 ? bestMatch : null;
+}
+
+function handleMessage() {
+  const input = document.getElementById('chat-input');
+  const userMsg = input.value.trim();
+  
+  if (!userMsg) return;
+  
+  addMessage(userMsg, false);
+  input.value = '';
+  messageCount++;
+  
+  setTimeout(() => {
+    const lowerMsg = userMsg.toLowerCase().trim();
+    
+    // GESTION PRÉNOM
+    if (!userNameConfirmed) {
+      // Bonjour initial
+      if (lowerMsg === "bonjour" || lowerMsg.startsWith("bonjour")) {
+        addMessage("Bonjour ! Je suis ClairVoyanceGPT, votre assistant spirituel. Avant de commencer cette consultation, pouvez-vous m'indiquer votre prénom ?", true);
+        return;
+      }
+      
+      // Confirmation prénom en attente
+      if (pendingName) {
+        if (lowerMsg === "oui" || lowerMsg === "oui c'est ça" || lowerMsg === "oui c'est bien ça") {
+          userName = pendingName;
+          userNameConfirmed = true;
+          pendingName = '';
+          addMessage(`Parfait ${userName} ! Comment puis-je vous aider aujourd'hui ?`, true);
+          return;
+        } else if (lowerMsg === "non") {
+          pendingName = '';
+          addMessage("Alors donnez-moi votre prénom s'il vous plaît.", true);
+          return;
+        }
+      }
+      
+      // Extraction prénom
+      const nameMatch = userMsg.match(/([A-ZÀ-ÖØ-Ýa-zà-öø-ÿ]{2,})/);
+      if (nameMatch) {
+        pendingName = nameMatch[1].charAt(0).toUpperCase() + nameMatch[1].slice(1).toLowerCase();
+        addMessage(`Très bien ${pendingName}, c'est bien votre prénom ?`, true);
+        return;
+      }
+      
+      addMessage("Je n'ai pas bien saisi votre prénom. Pouvez-vous me le donner clairement s'il vous plaît ?", true);
+      return;
+    }
+    
+    // AU REVOIR
+    const goodbyeTriggers = ["au revoir", "aurevoir", "à bientôt", "bye", "ciao"];
+    if (goodbyeTriggers.some(phrase => lowerMsg === phrase || lowerMsg.endsWith(phrase))) {
+      addMessage(`${userName}, à très bientôt ! Frederick et son équipe restent à votre écoute 24h/24.`, true);
+      return;
+    }
+    
+    // DÉTECTION MOTS-CLÉS TÉLÉPHONE → AFFICHER BOUTON FLOTTANT
+    const phoneKeywords = /(voyance|telephone|téléphone|tel|appel|appeler|telephoner|phone)/i;
+    if (phoneKeywords.test(lowerMsg) && userNameConfirmed) {
+      // Afficher le bouton flottant avec le numéro
+      showFloatingTab(PHONE_NUMBER, true);
+    }
+    
+    // RECHERCHE DANS BASE
+    const match = findBestMatch(userMsg);
+    
+    if (match) {
+      const response = match.answer(userName);
+      addMessage(response, true);
+      
+      blinkTab(match.exactMatch);
+      
+      // ONGLET FLOTTANT : uniquement liens HORS signets
+      if (match.isPhone) {
+        showFloatingTab(match.url, true);
+      } else if (match.isExternal && !TAB_URLS.includes(match.url)) {
+        showFloatingTab(match.url, false);
+      }
+      
+      nonUnderstoodCount = 0;
+    } else {
+      nonUnderstoodCount++;
+      
+      if (nonUnderstoodCount === 1) {
+        addMessage(`${userName}, je n'ai pas bien compris votre question. Pourriez-vous la reformuler ou vérifier l'orthographe s'il vous plaît ?`, true);
+      } else if (nonUnderstoodCount === 2) {
+        addMessage(`${userName}, je ne comprends toujours pas. Essayez avec des mots simples : amour, voyance, protection, fatigue, défunt ?`, true);
+      } else {
+        addMessage(`${userName}, il semble difficile de nous comprendre. Peut-être qu'un échange direct serait plus efficace ? Frederick propose : téléphone (30€/30min), email (12€/3Q), ou rituel complet. Que préférez-vous ?`, true);
+        nonUnderstoodCount = 0;
+      }
+    }
+  }, 800);
+}
+
+document.getElementById('chat-send').addEventListener('click', (e) => {
+  e.preventDefault();
+  handleMessage();
+});
+
+document.getElementById('chat-input').addEventListener('keypress', (e) => {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    handleMessage();
+  }
+});
+
+document.getElementById('chat-form').addEventListener('submit', (e) => {
+  e.preventDefault();
+  handleMessage();
+});
+
+// Message d'accueil UNIQUEMENT si nouvelle conversation
+if (!conversationRestored) {
+  setTimeout(() => {
+    const welcomeMessage = "Bienvenue sur ClairVoyanceGPT, l'assistant spirituel de Frederick, médium reconnu depuis plus de 25 ans. Avant de commencer cet échange, pouvez-vous m'indiquer dans un premier temps uniquement votre prénom ?";
+    addMessage(welcomeMessage, true);
+    
+    // Lecture vocale automatique avec fallback
+    if (voiceEnabled && 'speechSynthesis' in window) {
+      const tryAutoplay = () => {
+        try {
+          speak(welcomeMessage);
+          trackClick('AutoplaySuccess', 'Voice', 0);
+        } catch (err) {
+          console.log('Autoplay bloqué, affichage bouton');
+          showVoiceButton();
+        }
+      };
+      
+      // Tentative lecture immédiate
+      if (document.readyState === 'complete') {
+        tryAutoplay();
+      } else {
+        window.addEventListener('load', tryAutoplay);
+      }
+    }
+  }, 500);
+}
+
+// Bouton fallback si autoplay bloqué
+function showVoiceButton() {
+  const messagesDiv = document.getElementById('chat-messages');
+  const btnDiv = document.createElement('div');
+  btnDiv.style.textAlign = 'center';
+  btnDiv.style.margin = '1rem 0';
+  btnDiv.innerHTML = `
+    <button id="enable-voice-btn" style="
+      padding:0.8rem 1.5rem;
+      background:#000;
+      color:#BBAE98;
+      border:3px solid #FF8C00;
+      font-family:'Cinzel',serif;
+      font-size:1rem;
+      cursor:pointer;
+      animation:blinkVoiceBtn 1.5s ease-in-out infinite;
+      border-radius:0;
+    ">
+      🎤 Activer l'assistant vocal
+    </button>
+    <style>
+      @keyframes blinkVoiceBtn {
+        0%, 100% { box-shadow: 0 0 10px #FF8C00; border-color: #FF8C00; }
+        50% { box-shadow: 0 0 20px #FFA500; border-color: #FFA500; }
+      }
+    </style>
+  `;
+  messagesDiv.appendChild(btnDiv);
+  
+  document.getElementById('enable-voice-btn').addEventListener('click', () => {
+    const welcomeMsg = "Bienvenue sur ClairVoyanceGPT, l'assistant spirituel de Frederick, médium reconnu depuis plus de 25 ans. Avant de commencer cet échange, pouvez-vous m'indiquer dans un premier temps uniquement votre prénom ?";
+    speak(welcomeMsg);
+    btnDiv.remove();
+    trackClick('VoiceButtonClicked', 'Engagement', 1);
+  });
+}
+
+// BLOQUER PULL-TO-REFRESH (seulement en haut de page)
+let lastTouchY = 0;
+let preventPullToRefresh = false;
+
+document.addEventListener('touchstart', (e) => {
+  if (e.touches.length !== 1) return;
+  lastTouchY = e.touches[0].clientY;
+  preventPullToRefresh = window.pageYOffset === 0;
+}, {passive: false});
+
+document.addEventListener('touchmove', (e) => {
+  const touchY = e.touches[0].clientY;
+  const touchYDelta = touchY - lastTouchY;
+  lastTouchY = touchY;
+  
+  if (preventPullToRefresh) {
+    if (touchYDelta > 0) {
+      e.preventDefault();
+      return;
+    }
+    preventPullToRefresh = false;
+  }
+}, {passive: false});
+
+</script>
+</body>
+</html>
