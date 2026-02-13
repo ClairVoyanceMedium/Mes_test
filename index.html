@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, minimal-ui">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, minimal-ui, viewport-fit=cover">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="mobile-web-app-capable" content="yes">
@@ -480,40 +480,6 @@
   <script>
 document.getElementById('current-year').textContent = new Date().getFullYear();
 
-// MASQUER BARRE D'ADRESSE (iOS/Android) - MULTIPLES TENTATIVES
-function hideAddressBar() {
-  if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-    setTimeout(() => {
-      window.scrollTo(0, 1);
-    }, 0);
-    setTimeout(() => {
-      window.scrollTo(0, 1);
-    }, 100);
-    setTimeout(() => {
-      window.scrollTo(0, 1);
-    }, 500);
-  }
-}
-
-// Au chargement
-window.addEventListener('load', hideAddressBar);
-
-// Au redimensionnement (rotation)
-window.addEventListener('resize', hideAddressBar);
-
-// Au focus sur input
-document.addEventListener('DOMContentLoaded', () => {
-  const chatInput = document.getElementById('chat-input');
-  if (chatInput) {
-    chatInput.addEventListener('focus', () => {
-      setTimeout(hideAddressBar, 300);
-    });
-    chatInput.addEventListener('blur', () => {
-      setTimeout(hideAddressBar, 300);
-    });
-  }
-});
-
 function trackClick(label, category, value) {
   if (typeof gtag === 'function') {
     gtag('event', label, {'event_category': category, 'event_label': label, 'value': value});
@@ -608,7 +574,6 @@ const conversationRestored = loadConversation();
 
 // LANCER CLIGNOTEMENT ALÉATOIRE (seulement si nouvelle conversation)
 if (!conversationRestored) {
-  // Attendre que le DOM soit chargé
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
       setTimeout(randomBlinkTabs, 500);
@@ -617,7 +582,6 @@ if (!conversationRestored) {
     setTimeout(randomBlinkTabs, 500);
   }
 } else {
-  // Si conversation restaurée, désactiver le clignotement aléatoire
   randomBlinkActive = false;
 }
 
@@ -670,7 +634,6 @@ function drag(e) {
   const moveX = touch.clientX - startX;
   const moveY = touch.clientY - startY;
   
-  // Si mouvement > 5px, considérer comme drag (pas clic)
   if (Math.abs(moveX - offsetX) > 5 || Math.abs(moveY - offsetY) > 5) {
     hasMoved = true;
     e.preventDefault();
@@ -690,12 +653,9 @@ function dragEnd(e) {
     isDragging = false;
     floatingTab.style.transition = 'box-shadow 0.3s ease';
     
-    // Si pas de mouvement significatif, laisser le clic se propager
     if (!hasMoved) {
-      // Le href natif fonctionnera
       return;
     } else {
-      // Bloquer le clic si c'était un drag
       e.preventDefault();
     }
   }
@@ -706,7 +666,7 @@ let audioContext = null;
 let analyser = null;
 let animationFrameId = null;
 
-// VOIX FÉMININE UNIVERSELLE (iOS + Android)
+// VOIX NEUTRE/ANDROGYNE UNIVERSELLE (iOS + Android)
 function speak(text) {
   if (!voiceEnabled || !('speechSynthesis' in window)) return;
   
@@ -717,59 +677,30 @@ function speak(text) {
   const utterance = new SpeechSynthesisUtterance(textToSpeak);
   utterance.lang = 'fr-FR';
   
-  // STRATÉGIE VOIX FÉMININE UNIVERSELLE
+  // STRATÉGIE VOIX NEUTRE/ANDROGYNE
   const voices = window.speechSynthesis.getVoices();
   
-  // Priorité 1: Voix françaises féminines explicites
-  let femaleVoice = voices.find(v => 
+  // Priorité 1: Voix neutres/androgynes françaises
+  let neutralVoice = voices.find(v => 
     v.lang.startsWith('fr') && (
-      v.name.includes('Amelie') ||
-      v.name.includes('Aurelie') ||
-      v.name.includes('Female') ||
-      v.name.includes('Pauline') ||
-      v.name.includes('Virginie') ||
-      v.name.includes('Alice') ||
-      v.name.includes('Celine') ||
-      v.name.includes('Lea')
+      v.name.includes('Google') || // Souvent plus neutres
+      v.name.includes('Compact') ||
+      v.name.includes('Natural')
     )
   );
   
-  // Priorité 2: iOS - voix Samantha (fr-FR)
-  if (!femaleVoice && /iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-    femaleVoice = voices.find(v => v.name.includes('Samantha'));
+  // Priorité 2: Première voix française disponible (sera neutralisée par pitch)
+  if (!neutralVoice) {
+    neutralVoice = voices.find(v => v.lang.startsWith('fr'));
   }
   
-  // Priorité 3: Android - voix française qui n'est PAS masculine
-  if (!femaleVoice && /Android/i.test(navigator.userAgent)) {
-    femaleVoice = voices.find(v => 
-      v.lang.startsWith('fr') && 
-      !v.name.includes('Thomas') &&
-      !v.name.includes('Male')
-    );
+  if (neutralVoice) {
+    utterance.voice = neutralVoice;
   }
   
-  // Priorité 4: N'importe quelle voix française non-masculine
-  if (!femaleVoice) {
-    femaleVoice = voices.find(v => 
-      v.lang.startsWith('fr') && 
-      !v.name.toLowerCase().includes('male') &&
-      !v.name.includes('Thomas') &&
-      !v.name.includes('Daniel')
-    );
-  }
-  
-  // Priorité 5: Première voix française disponible
-  if (!femaleVoice) {
-    femaleVoice = voices.find(v => v.lang.startsWith('fr'));
-  }
-  
-  if (femaleVoice) {
-    utterance.voice = femaleVoice;
-  }
-  
-  // PARAMÈTRES VOIX FÉMININE UNIVERSELS
-  utterance.pitch = 1.2;  // Plus aigu (féminin)
-  utterance.rate = 0.95;  // Légèrement plus lent (plus doux)
+  // PARAMÈTRES VOIX NEUTRE/ANDROGYNE
+  utterance.pitch = 1.0;  // Neutre (ni aigu ni grave)
+  utterance.rate = 0.95;  // Légèrement ralenti (plus posé)
   utterance.volume = 1.0;
   
   const chatBox = document.getElementById('chat-box');
@@ -818,10 +749,9 @@ function speak(text) {
 function simulateSpeechRhythm(text) {
   const chatBox = document.getElementById('chat-box');
   
-  // Découper en mots pour simuler le rythme naturel
   const words = text.split(/\s+/);
   let wordIndex = 0;
-  const msPerWord = 450; // ~450ms par mot (vitesse féminine douce)
+  const msPerWord = 450;
   
   function pulseWord() {
     if (!window.speechSynthesis.speaking || wordIndex >= words.length) {
@@ -835,7 +765,7 @@ function simulateSpeechRhythm(text) {
     }
     
     const word = words[wordIndex];
-    const syllables = Math.max(1, Math.ceil(word.length / 3)); // Approximation syllabes
+    const syllables = Math.max(1, Math.ceil(word.length / 3));
     
     let syllableCount = 0;
     const syllableDuration = msPerWord / syllables;
@@ -849,19 +779,17 @@ function simulateSpeechRhythm(text) {
       
       if (syllableCount >= syllables) {
         wordIndex++;
-        setTimeout(pulseWord, 50); // Petite pause entre mots
+        setTimeout(pulseWord, 50);
         return;
       }
       
-      // PULSE INTENSE pour chaque syllabe
-      const phase = (syllableCount % 2 === 0) ? 1 : 0.5; // Alternance fort/faible
-      const intensity = 0.7 + (Math.random() * 0.3) * phase; // Variation réaliste
+      const phase = (syllableCount % 2 === 0) ? 1 : 0.5;
+      const intensity = 0.7 + (Math.random() * 0.3) * phase;
       
-      const baseGlow = 25 + (intensity * 35); // 25-60px
-      const strongGlow = 40 + (intensity * 55); // 40-95px
-      const opacity = 0.7 + (intensity * 0.3); // 0.7-1.0
+      const baseGlow = 25 + (intensity * 35);
+      const strongGlow = 40 + (intensity * 55);
+      const opacity = 0.7 + (intensity * 0.3);
       
-      // BLEU CIEL CLAIR qui PULSE vraiment
       chatBox.style.borderColor = `rgba(135, 206, 235, ${opacity})`;
       chatBox.style.boxShadow = `
         0 0 ${baseGlow}px rgba(135, 206, 235, ${opacity}),
@@ -883,7 +811,6 @@ if ('speechSynthesis' in window) {
   window.speechSynthesis.onvoiceschanged = () => {
     window.speechSynthesis.getVoices();
   };
-  // Forcer le chargement des voix
   setTimeout(() => {
     window.speechSynthesis.getVoices();
   }, 100);
@@ -913,7 +840,6 @@ document.getElementById('voice-toggle').addEventListener('click', () => {
   const voiceBtn = document.getElementById('voice-toggle');
   voiceBtn.classList.toggle('disabled', !voiceEnabled);
   
-  // Changer l'icône selon l'état
   voiceBtn.textContent = voiceEnabled ? '🔊' : '🔇';
   
   if (voiceEnabled && recognition) {
@@ -929,7 +855,6 @@ document.getElementById('voice-toggle').addEventListener('click', () => {
       } catch(e) {}
     }
     if (currentUtterance) window.speechSynthesis.cancel();
-    // Arrêter l'animation et restaurer le style
     if (animationFrameId) {
       cancelAnimationFrame(animationFrameId);
       animationFrameId = null;
@@ -949,13 +874,11 @@ function addMessage(text, isBot = false) {
   messagesDiv.scrollTop = messagesDiv.scrollHeight;
   if (isBot && voiceEnabled) speak(text);
   
-  // Sauvegarder après chaque message
   saveConversation();
 }
 
-// CLIGNOTER ONGLETS - PAS DE CONFUSION
+// CLIGNOTER ONGLETS
 function blinkTab(exactMatch) {
-  // ARRÊTER LE CLIGNOTEMENT ALÉATOIRE dès la première recommandation
   if (randomBlinkActive) {
     randomBlinkActive = false;
     if (randomBlinkInterval) {
@@ -980,39 +903,31 @@ function blinkTab(exactMatch) {
   });
 }
 
-// CLIGNOTEMENT ALÉATOIRE DES ONGLETS (avant première recommandation)
+// CLIGNOTEMENT ALÉATOIRE DES ONGLETS
 function randomBlinkTabs() {
-  // Récupérer tous les onglets une seule fois
   if (allNavLinks.length === 0) {
     allNavLinks = Array.from(document.querySelectorAll('nav ul li a'));
   }
   
-  // Fonction qui fait clignoter un onglet aléatoire
   function blinkRandom() {
-    if (!randomBlinkActive) return; // Stop si désactivé
+    if (!randomBlinkActive) return;
     
-    // Retirer le blink de l'onglet précédent
     if (currentBlinkingTab) {
       currentBlinkingTab.classList.remove('blink');
     }
     
-    // Choisir un onglet aléatoire
     const randomIndex = Math.floor(Math.random() * allNavLinks.length);
     const randomTab = allNavLinks[randomIndex];
     
-    // Ajouter le blink
     randomTab.classList.add('blink');
     currentBlinkingTab = randomTab;
   }
   
-  // Premier clignotement immédiat
   blinkRandom();
-  
-  // Changer toutes les 2 secondes
   randomBlinkInterval = setInterval(blinkRandom, 2000);
 }
 
-// ONGLET FLOTTANT CLIQUABLE - CORRECTION HREF
+// ONGLET FLOTTANT CLIQUABLE
 function showFloatingTab(url, isPhoneNumber = false) {
   const floatingText = document.getElementById('floating-text');
   
@@ -1025,14 +940,12 @@ function showFloatingTab(url, isPhoneNumber = false) {
   }
   
   floatingTab.classList.add('show');
-  
-  // IMPORTANT : Supprimer onclick qui bloque le href
   floatingTab.onclick = null;
   
   trackClick('FloatingTabDisplayed', 'Interaction', 0);
 }
 
-// BASE DE CONNAISSANCES - AJOUT FACILE
+// BASE DE CONNAISSANCES
 const knowledgeBase = [
   {keywords: "emotion", exactMatch: "manger emotions", answer: (name) => `Manger vos émotions au lieu de les ressentir crée un cercle vicieux. Vous grossissez puis vous culpabilisez, ce qui génère plus d'émotions que vous mangez à nouveau. Frederick brise ce cycle destructeur.\nL'alimentation émotionnelle sert à anesthésier des sentiments difficiles. Tristesse, colère, solitude, frustration, ennui : chaque émotion trouve temporairement son apaisement dans la nourriture. Mais le soulagement reste illusoire.\nLe programme vous apprend à ressentir vos émotions sans les fuir dans la nourriture. Techniques de régulation émotionnelle, libération des traumatismes, développement de stratégies alternatives de réconfort, travail énergétique sur le plexus solaire.\nLa transformation prend du temps car ces patterns sont souvent anciens. Mais dans 78% des cas, les personnes développent une relation beaucoup plus saine aux émotions en quatre à six mois.\nVos émotions méritent d'être ressenties et traitées, pas englouties dans la nourriture. Consultez l'accès qui va se dévoiler en haut pour apprendre à gérer vos émotions autrement.`, url: "https://www.clairvoyancemedium.com/Programme-Minceur-2-mois-cbaaaaada.asp", isExternal: false},
   {keywords: "ange", exactMatch: "ange gardien", answer: (name) => `Votre ange gardien vous accompagne depuis votre naissance. Frederick contacte cette présence angélique pour transmettre ses messages et guidance.\nChaque personne possède au moins un ange gardien personnel qui veille sur elle. Cette entité divine vous protège, vous guide, vous inspire sans intervenir dans votre libre arbitre.\nFrederick établit la communication avec votre ange. Il reçoit son nom, sa nature, ses messages pour vous. Ces informations transforment votre relation avec cette présence invisible.\nVotre ange veut que vous réussissiez votre mission de vie. Il vous envoie constamment des signes et synchronicités mais beaucoup passent inaperçus. La consultation les révèle.\nConnaître votre ange personnellement change tout. Vous pouvez l'invoquer par son nom, lui parler directement, reconnaître sa présence. Cette connexion consciente amplifie son soutien.\nRencontrez enfin votre ange gardien personnellement. Observez l'interface où un accès va se dévoiler vers ce contact angélique qui transformera votre vie.`, url: "https://www.clairvoyancemedium.com/Message-de-votre-Ange-gardien-cbaaaabba.asp", isExternal: false},
@@ -1085,7 +998,6 @@ function findBestMatch(userInput) {
     let bestMatch = null;
     let maxScore = 0;
     
-    // MOTS EXCLUSIFS pour éviter confusion
     const hasEmail = /(email|mail|écrit|courriel|mel)/i.test(userInput);
     const hasTelephone = /(téléphone|tel|appel|appeler|telephoner|phone|fon)/i.test(userInput);
     
@@ -1093,7 +1005,6 @@ function findBestMatch(userInput) {
         let score = 0;
         const keywords = item.keywords.split('|');
         
-        // EXCLUSION : si email mentionné, ne PAS matcher téléphone
         if (hasEmail && item.exactMatch === 'voyance téléphone') return;
         if (hasTelephone && item.exactMatch === 'voyance email') return;
         
@@ -1140,13 +1051,11 @@ function handleMessage() {
     
     // GESTION PRÉNOM
     if (!userNameConfirmed) {
-      // Bonjour initial
       if (lowerMsg === "bonjour" || lowerMsg.startsWith("bonjour")) {
         addMessage("Bonjour ! Je suis ClairVoyanceGPT, votre assistant spirituel. Avant de commencer cette consultation, pouvez-vous m'indiquer votre prénom ?", true);
         return;
       }
       
-      // Confirmation prénom en attente
       if (pendingName) {
         if (lowerMsg === "oui" || lowerMsg === "oui c'est ça" || lowerMsg === "oui c'est bien ça") {
           userName = pendingName;
@@ -1161,7 +1070,6 @@ function handleMessage() {
         }
       }
       
-      // Extraction prénom
       const nameMatch = userMsg.match(/([A-ZÀ-ÖØ-Ýa-zà-öø-ÿ]{2,})/);
       if (nameMatch) {
         pendingName = nameMatch[1].charAt(0).toUpperCase() + nameMatch[1].slice(1).toLowerCase();
@@ -1180,8 +1088,8 @@ function handleMessage() {
       return;
     }
     
-    // DÉTECTION MOTS-CLÉS TÉLÉPHONE → AFFICHER BOUTON FLOTTANT
-    const phoneKeywords = /(voyance|telephone|téléphone|tel|appel|appeler|telephoner|phone)/i;
+    // DÉTECTION TÉLÉPHONE → BOUTON FLOTTANT
+    const phoneKeywords = /(téléphone|tel|appel|appeler|telephoner|phone|joindre|contacter par téléphone)/i;
     if (phoneKeywords.test(lowerMsg) && userNameConfirmed) {
       showFloatingTab(PHONE_NUMBER, true);
     }
@@ -1195,7 +1103,6 @@ function handleMessage() {
       
       blinkTab(match.exactMatch);
       
-      // ONGLET FLOTTANT : uniquement liens HORS signets
       if (match.isPhone) {
         showFloatingTab(match.url, true);
       } else if (match.isExternal && !TAB_URLS.includes(match.url)) {
@@ -1241,7 +1148,6 @@ if (!conversationRestored) {
     const welcomeMessage = "Bienvenue sur ClairVoyanceGPT, l'assistant spirituel de Frederick, médium reconnu depuis plus de 25 ans. Avant de commencer cet échange, pouvez-vous m'indiquer dans un premier temps uniquement votre prénom ?";
     addMessage(welcomeMessage, true);
     
-    // Lecture vocale automatique avec fallback
     if (voiceEnabled && 'speechSynthesis' in window) {
       const tryAutoplay = () => {
         try {
@@ -1253,7 +1159,6 @@ if (!conversationRestored) {
         }
       };
       
-      // Tentative lecture immédiate
       if (document.readyState === 'complete') {
         tryAutoplay();
       } else {
@@ -1327,3 +1232,4 @@ document.addEventListener('touchmove', (e) => {
 </script>
 </body>
 </html>
+          
