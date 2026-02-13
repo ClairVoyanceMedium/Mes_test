@@ -134,6 +134,15 @@
       color:var(--tab-gold) !important;
     }
     
+    /* ONGLET FIXE (évoqué) - pas d'animation */
+    nav ul li a.fixed{
+      background:#000;
+      border:3px solid var(--orange);
+      box-shadow:0 0 20px var(--orange);
+      color:var(--tab-gold) !important;
+      animation:none;
+    }
+    
     header{
       padding:1.5rem 0;
       background:#111;
@@ -259,50 +268,68 @@
       font-style:italic;
     }
     
-    /* BOUTON VOCAL FIXE ÉLÉGANT */
+    /* CRISTAL SPIRITUEL ÉLÉGANT */
     #voice-toggle{
       position:fixed;
-      bottom:30px;
+      bottom:10px;
       right:30px;
-      width:60px;
-      height:60px;
-      background:linear-gradient(145deg,#87CEEB,#5eb6d1);
+      width:70px;
+      height:70px;
+      background:transparent;
       border:none;
-      border-radius:50%;
       cursor:pointer;
-      box-shadow:0 6px 20px rgba(135,206,235,0.6);
       display:flex;
       align-items:center;
       justify-content:center;
-      transition:all 0.3s ease;
+      transition:all 0.4s ease;
       z-index:999;
+      filter:drop-shadow(0 0 15px rgba(138, 43, 226, 0.6));
     }
     
     #voice-toggle:hover{
-      transform:scale(1.1);
-      box-shadow:0 8px 25px rgba(135,206,235,0.8);
+      transform:scale(1.1) rotate(5deg);
+      filter:drop-shadow(0 0 25px rgba(138, 43, 226, 0.9));
     }
     
     #voice-toggle.disabled{
-      background:linear-gradient(145deg,#808080,#666);
-      opacity:0.7;
+      opacity:0.4;
+      filter:grayscale(1) drop-shadow(0 0 5px rgba(100,100,100,0.3));
     }
     
     #voice-toggle svg{
-      width:30px;
-      height:30px;
-      filter:drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+      width:100%;
+      height:100%;
     }
     
-    /* Animation onde sonore */
-    @keyframes soundWave{
-      0%, 100%{opacity:0.3; transform:scale(1);}
-      50%{opacity:0.8; transform:scale(1.1);}
+    /* Animation pulsation cristal */
+    @keyframes crystalPulse{
+      0%, 100%{
+        filter:drop-shadow(0 0 15px rgba(138, 43, 226, 0.6));
+        transform:scale(1);
+      }
+      50%{
+        filter:drop-shadow(0 0 30px rgba(255, 215, 0, 0.8));
+        transform:scale(1.05);
+      }
     }
     
-    #voice-toggle.speaking .wave1{animation:soundWave 1s ease-in-out infinite;}
-    #voice-toggle.speaking .wave2{animation:soundWave 1s ease-in-out infinite 0.2s;}
-    #voice-toggle.speaking .wave3{animation:soundWave 1s ease-in-out infinite 0.4s;}
+    #voice-toggle.speaking{
+      animation:crystalPulse 1.5s ease-in-out infinite;
+    }
+    
+    /* Rotation douce permanente */
+    @keyframes crystalRotate{
+      from{transform:rotate(0deg);}
+      to{transform:rotate(360deg);}
+    }
+    
+    #voice-toggle svg{
+      animation:crystalRotate 20s linear infinite;
+    }
+    
+    #voice-toggle:hover svg{
+      animation:crystalRotate 10s linear infinite;
+    }
     
     #chat-send{
       width:100%;
@@ -411,7 +438,7 @@
       margin-top:2rem;
       font-size:.9rem;
       color:#aaa;
-      padding:2rem 1rem;
+      padding:2rem 1rem 6rem;
       background:#111;
     }
     
@@ -436,7 +463,7 @@
       #chat-box{height:550px;}
       .logo{width:95%;}
       .floating-tab{right:10px;padding:0.9rem 1.3rem;font-size:0.95rem;}
-      #voice-toggle{bottom:20px;right:20px;width:55px;height:55px;}
+      #voice-toggle{bottom:10px;right:20px;width:60px;height:60px;}
     }
     
     @media(max-width:480px){
@@ -444,7 +471,7 @@
       nav ul{gap:0.35rem;}
       nav ul li a{font-size:0.75rem;padding:0.5rem 0.7rem;min-height:40px;}
       #chat-box{height:500px;}
-      #voice-toggle{bottom:15px;right:15px;width:50px;height:50px;}
+      #voice-toggle{bottom:10px;right:15px;width:55px;height:55px;}
     }
   </style>
 </head>
@@ -487,20 +514,51 @@
     </div>
   </div>
   
-  <!-- BOUTON VOCAL FIXE ÉLÉGANT -->
-  <button type="button" id="voice-toggle" title="Assistant vocal">
-    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- CRISTAL SPIRITUEL VOCAL -->
+  <button type="button" id="voice-toggle" title="Assistant vocal spirituel">
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <linearGradient id="speakerGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" style="stop-color:#FFD700;stop-opacity:1" />
-          <stop offset="100%" style="stop-color:#FFA500;stop-opacity:1" />
+        <linearGradient id="crystalGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:#8A2BE2;stop-opacity:1" />
+          <stop offset="50%" style="stop-color:#9370DB;stop-opacity:1" />
+          <stop offset="100%" style="stop-color:#FFD700;stop-opacity:1" />
         </linearGradient>
+        <radialGradient id="glowGradient">
+          <stop offset="0%" style="stop-color:#FFD700;stop-opacity:0.8" />
+          <stop offset="100%" style="stop-color:#8A2BE2;stop-opacity:0" />
+        </radialGradient>
+        <filter id="glow">
+          <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+          <feMerge>
+            <feMergeNode in="coloredBlur"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
       </defs>
-      <!-- Haut-parleur -->
-      <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z" fill="url(#speakerGradient)"/>
-      <!-- Ondes sonores -->
-      <path class="wave1" d="M14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4-.91 7-4.49 7-8.77s-3-7.86-7-8.77z" fill="url(#speakerGradient)" opacity="0.6"/>
-      <path class="wave2" d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z" fill="url(#speakerGradient)" opacity="0.4"/>
+      
+      <!-- Lueur -->
+      <circle cx="50" cy="50" r="35" fill="url(#glowGradient)" opacity="0.4"/>
+      
+      <!-- Cristal principal (forme diamant/hexagone) -->
+      <polygon points="50,10 70,30 70,70 50,90 30,70 30,30" 
+               fill="url(#crystalGradient)" 
+               stroke="#FFD700" 
+               stroke-width="1.5" 
+               opacity="0.9"
+               filter="url(#glow)"/>
+      
+      <!-- Facettes intérieures -->
+      <polygon points="50,10 50,50 70,30" fill="#9370DB" opacity="0.3"/>
+      <polygon points="50,10 50,50 30,30" fill="#8A2BE2" opacity="0.3"/>
+      <polygon points="50,90 50,50 70,70" fill="#FFD700" opacity="0.3"/>
+      <polygon points="50,90 50,50 30,70" fill="#DDA0DD" opacity="0.3"/>
+      
+      <!-- Point central lumineux -->
+      <circle cx="50" cy="50" r="4" fill="#FFD700" opacity="0.9"/>
+      
+      <!-- Reflets -->
+      <path d="M 40 25 L 45 30 L 40 35 Z" fill="#FFFFFF" opacity="0.6"/>
+      <path d="M 60 65 L 65 70 L 60 75 Z" fill="#FFFFFF" opacity="0.4"/>
     </svg>
   </button>
   
@@ -535,10 +593,12 @@ let messageCount = 0;
 let voiceEnabled = true;
 let recognition = null;
 let currentBlinkingTab = null;
+let currentFixedTab = null;
+let fixedTabTimeout = null;
 let nonUnderstoodCount = 0;
 let currentUtterance = null;
 
-// CLIGNOTEMENT ALÉATOIRE DES ONGLETS
+// CLIGNOTEMENT PERMANENT
 let randomBlinkInterval = null;
 let randomBlinkActive = true;
 let allNavLinks = [];
@@ -608,16 +668,13 @@ window.addEventListener('beforeunload', () => {
 
 const conversationRestored = loadConversation();
 
-if (!conversationRestored) {
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-      setTimeout(randomBlinkTabs, 500);
-    });
-  } else {
+// TOUJOURS LANCER LE CLIGNOTEMENT (même si conversation restaurée)
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => {
     setTimeout(randomBlinkTabs, 500);
-  }
+  });
 } else {
-  randomBlinkActive = false;
+  setTimeout(randomBlinkTabs, 500);
 }
 
 const TAB_URLS = [
@@ -710,17 +767,14 @@ function speak(text) {
   utterance.lang = 'fr-FR';
   
   const voices = window.speechSynthesis.getVoices();
-  
-  // Chercher voix française (peu importe laquelle, on va la modifier)
   let voice = voices.find(v => v.lang.startsWith('fr'));
   
   if (voice) {
     utterance.voice = voice;
   }
   
-  // VOIX GRAVE FÉMININE RAPIDE
-  utterance.pitch = 0.75;  // Grave (féminine mais basse)
-  utterance.rate = 1.15;   // Plus rapide
+  utterance.pitch = 0.75;
+  utterance.rate = 1.15;
   utterance.volume = 1.0;
   
   const chatBox = document.getElementById('chat-box');
@@ -760,7 +814,7 @@ function simulateSpeechRhythm(text) {
   
   const words = text.split(/\s+/);
   let wordIndex = 0;
-  const msPerWord = 390; // Plus rapide (1.15x)
+  const msPerWord = 390;
   
   function pulseWord() {
     if (!window.speechSynthesis.speaking || wordIndex >= words.length) {
@@ -788,7 +842,7 @@ function simulateSpeechRhythm(text) {
       
       if (syllableCount >= syllables) {
         wordIndex++;
-        setTimeout(pulseWord, 40); // Pause réduite
+        setTimeout(pulseWord, 40);
         return;
       }
       
@@ -824,7 +878,6 @@ if ('speechSynthesis' in window) {
   }, 100);
 }
 
-// RECONNAISSANCE VOCALE
 if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   recognition = new SpeechRecognition();
@@ -848,7 +901,7 @@ document.getElementById('voice-toggle').addEventListener('click', () => {
   const voiceBtn = document.getElementById('voice-toggle');
   
   if (!voiceEnabled) {
-    voiceBtn.style.opacity = '0.5';
+    voiceBtn.classList.add('disabled');
     if (recognition) {
       try {
         recognition.stop();
@@ -864,7 +917,7 @@ document.getElementById('voice-toggle').addEventListener('click', () => {
     chatBox.style.boxShadow = '';
     voiceBtn.classList.remove('speaking');
   } else {
-    voiceBtn.style.opacity = '1';
+    voiceBtn.classList.remove('disabled');
     if (recognition) {
       try { 
         recognition.start(); 
@@ -887,31 +940,56 @@ function addMessage(text, isBot = false) {
   saveConversation();
 }
 
+// FIXER ONGLET 60 SECONDES
 function blinkTab(exactMatch) {
-  if (randomBlinkActive) {
-    randomBlinkActive = false;
-    if (randomBlinkInterval) {
-      clearInterval(randomBlinkInterval);
-      randomBlinkInterval = null;
-    }
+  // Stopper le clignotement aléatoire
+  randomBlinkActive = false;
+  if (randomBlinkInterval) {
+    clearInterval(randomBlinkInterval);
+    randomBlinkInterval = null;
   }
   
+  // Retirer ancien onglet clignotant
   if (currentBlinkingTab) {
     currentBlinkingTab.classList.remove('blink');
+    currentBlinkingTab = null;
   }
   
+  // Retirer ancien onglet fixe
+  if (currentFixedTab) {
+    currentFixedTab.classList.remove('fixed');
+  }
+  
+  // Annuler timeout précédent
+  if (fixedTabTimeout) {
+    clearTimeout(fixedTabTimeout);
+  }
+  
+  // Trouver et fixer le nouvel onglet
   const navLinks = document.querySelectorAll('nav ul li a');
   navLinks.forEach(link => {
     const linkExact = link.getAttribute('data-exact');
     if (linkExact && linkExact.toLowerCase() === exactMatch.toLowerCase()) {
-      link.classList.add('blink');
-      currentBlinkingTab = link;
+      link.classList.add('fixed');
+      currentFixedTab = link;
       link.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      trackClick('TabBlinked_' + exactMatch.replace(/\s+/g, '_'), 'ChatInteraction', 0);
+      trackClick('TabFixed_' + exactMatch.replace(/\s+/g, '_'), 'ChatInteraction', 0);
     }
   });
+  
+  // Après 60 secondes : retour au clignotement aléatoire
+  fixedTabTimeout = setTimeout(() => {
+    if (currentFixedTab) {
+      currentFixedTab.classList.remove('fixed');
+      currentFixedTab = null;
+    }
+    // Relancer le clignotement aléatoire
+    randomBlinkActive = true;
+    randomBlinkTabs();
+  }, 60000); // 60 secondes
 }
 
+// CLIGNOTEMENT ALÉATOIRE PERMANENT
 function randomBlinkTabs() {
   if (allNavLinks.length === 0) {
     allNavLinks = Array.from(document.querySelectorAll('nav ul li a'));
