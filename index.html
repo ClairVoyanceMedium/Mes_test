@@ -178,8 +178,6 @@
       transition:border-color 0.1s ease, box-shadow 0.1s ease;
     }
     
-    /* Plus d'animation CSS statique - géré par JavaScript dynamiquement */
-    
     #chat-messages{
       flex:1;
       padding:1.5rem;
@@ -261,24 +259,50 @@
       font-style:italic;
     }
     
+    /* BOUTON VOCAL FIXE ÉLÉGANT */
     #voice-toggle{
-      width:50px;
-      height:50px;
+      position:fixed;
+      bottom:30px;
+      right:30px;
+      width:60px;
+      height:60px;
       background:linear-gradient(145deg,#87CEEB,#5eb6d1);
-      color:#fff;
       border:none;
       border-radius:50%;
       cursor:pointer;
-      box-shadow:0 4px 15px rgba(135,206,235,0.8);
-      font-size:1.4rem;
+      box-shadow:0 6px 20px rgba(135,206,235,0.6);
       display:flex;
       align-items:center;
       justify-content:center;
-      transition:transform 0.2s;
+      transition:all 0.3s ease;
+      z-index:999;
     }
     
-    #voice-toggle:hover{transform:scale(1.1);}
-    #voice-toggle.disabled{background:linear-gradient(145deg,#808080,#666);opacity:0.7;}
+    #voice-toggle:hover{
+      transform:scale(1.1);
+      box-shadow:0 8px 25px rgba(135,206,235,0.8);
+    }
+    
+    #voice-toggle.disabled{
+      background:linear-gradient(145deg,#808080,#666);
+      opacity:0.7;
+    }
+    
+    #voice-toggle svg{
+      width:30px;
+      height:30px;
+      filter:drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+    }
+    
+    /* Animation onde sonore */
+    @keyframes soundWave{
+      0%, 100%{opacity:0.3; transform:scale(1);}
+      50%{opacity:0.8; transform:scale(1.1);}
+    }
+    
+    #voice-toggle.speaking .wave1{animation:soundWave 1s ease-in-out infinite;}
+    #voice-toggle.speaking .wave2{animation:soundWave 1s ease-in-out infinite 0.2s;}
+    #voice-toggle.speaking .wave3{animation:soundWave 1s ease-in-out infinite 0.4s;}
     
     #chat-send{
       width:100%;
@@ -412,6 +436,7 @@
       #chat-box{height:550px;}
       .logo{width:95%;}
       .floating-tab{right:10px;padding:0.9rem 1.3rem;font-size:0.95rem;}
+      #voice-toggle{bottom:20px;right:20px;width:55px;height:55px;}
     }
     
     @media(max-width:480px){
@@ -419,6 +444,7 @@
       nav ul{gap:0.35rem;}
       nav ul li a{font-size:0.75rem;padding:0.5rem 0.7rem;min-height:40px;}
       #chat-box{height:500px;}
+      #voice-toggle{bottom:15px;right:15px;width:50px;height:50px;}
     }
   </style>
 </head>
@@ -455,12 +481,28 @@
       <form id="chat-form">
         <div class="input-row">
           <input type="text" id="chat-input" placeholder="Votre question..." autocomplete="off">
-          <button type="button" id="voice-toggle" title="Assistant vocal">🔊</button>
         </div>
         <button type="submit" id="chat-send" onclick="trackClick('ChatMessageSent', 'Engagement', 1);">Envoyer</button>
       </form>
     </div>
   </div>
+  
+  <!-- BOUTON VOCAL FIXE ÉLÉGANT -->
+  <button type="button" id="voice-toggle" title="Assistant vocal">
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="speakerGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:#FFD700;stop-opacity:1" />
+          <stop offset="100%" style="stop-color:#FFA500;stop-opacity:1" />
+        </linearGradient>
+      </defs>
+      <!-- Haut-parleur -->
+      <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z" fill="url(#speakerGradient)"/>
+      <!-- Ondes sonores -->
+      <path class="wave1" d="M14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4-.91 7-4.49 7-8.77s-3-7.86-7-8.77z" fill="url(#speakerGradient)" opacity="0.6"/>
+      <path class="wave2" d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z" fill="url(#speakerGradient)" opacity="0.4"/>
+    </svg>
+  </button>
   
   <div class="return-line">
     <a href="https://www.clairvoyancemedium.com/">Retour vers le cabinet de voyance ClairVoyanceMedium.com</a>
@@ -509,7 +551,6 @@ const STORAGE_KEY = 'clairvoyance_chat_history';
 const STORAGE_TIMESTAMP = 'clairvoyance_chat_timestamp';
 const SESSION_KEY = 'clairvoyance_session_active';
 
-// Sauvegarder conversation
 function saveConversation() {
   const data = {
     messages: Array.from(document.getElementById('chat-messages').children).map(p => ({
@@ -525,7 +566,6 @@ function saveConversation() {
   localStorage.setItem(SESSION_KEY, 'true');
 }
 
-// Charger conversation si < 24h ET session active
 function loadConversation() {
   const timestamp = localStorage.getItem(STORAGE_TIMESTAMP);
   const sessionActive = localStorage.getItem(SESSION_KEY);
@@ -535,7 +575,6 @@ function loadConversation() {
   const age = Date.now() - parseInt(timestamp);
   const twentyFourHours = 24 * 60 * 60 * 1000;
   
-  // Si > 24h OU session fermée → reset
   if (age > twentyFourHours || sessionActive !== 'true') {
     localStorage.removeItem(STORAGE_KEY);
     localStorage.removeItem(STORAGE_TIMESTAMP);
@@ -546,7 +585,6 @@ function loadConversation() {
   const data = JSON.parse(localStorage.getItem(STORAGE_KEY));
   if (!data) return false;
   
-  // Restaurer conversation
   const messagesDiv = document.getElementById('chat-messages');
   messagesDiv.innerHTML = '';
   data.messages.forEach(msg => {
@@ -564,15 +602,12 @@ function loadConversation() {
   return true;
 }
 
-// Détecter sortie du site (fermeture onglet/navigation)
 window.addEventListener('beforeunload', () => {
   localStorage.setItem(SESSION_KEY, 'false');
 });
 
-// Au chargement : restaurer si possible
 const conversationRestored = loadConversation();
 
-// LANCER CLIGNOTEMENT ALÉATOIRE (seulement si nouvelle conversation)
 if (!conversationRestored) {
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
@@ -585,7 +620,6 @@ if (!conversationRestored) {
   randomBlinkActive = false;
 }
 
-// LISTE DES URLs DES ONGLETS (pour filtrer)
 const TAB_URLS = [
   'https://clairvoyancemedium.github.io/Voyancepartelephonepaschere.github.io/',
   'https://www.clairvoyancemedium.com/Voyance-3-Questions-par-Email-cbaaaaaca.asp',
@@ -598,7 +632,6 @@ const TAB_URLS = [
   'https://www.clairvoyancemedium.com/Message-de-votre-Ange-gardien-cbaaaabba.asp'
 ];
 
-// DRAG AND DROP FLUIDE - NE PAS BLOQUER LE CLIC
 let isDragging = false;
 let hasMoved = false;
 let startX, startY, offsetX = 0, offsetY = 0;
@@ -661,12 +694,11 @@ function dragEnd(e) {
   }
 }
 
-// Variables globales pour l'analyse audio
 let audioContext = null;
 let analyser = null;
 let animationFrameId = null;
 
-// VOIX NEUTRE/ANDROGYNE UNIVERSELLE (iOS + Android)
+// VOIX GRAVE FÉMININE RAPIDE
 function speak(text) {
   if (!voiceEnabled || !('speechSynthesis' in window)) return;
   
@@ -677,52 +709,30 @@ function speak(text) {
   const utterance = new SpeechSynthesisUtterance(textToSpeak);
   utterance.lang = 'fr-FR';
   
-  // STRATÉGIE VOIX NEUTRE/ANDROGYNE
   const voices = window.speechSynthesis.getVoices();
   
-  // Priorité 1: Voix neutres/androgynes françaises
-  let neutralVoice = voices.find(v => 
-    v.lang.startsWith('fr') && (
-      v.name.includes('Google') || // Souvent plus neutres
-      v.name.includes('Compact') ||
-      v.name.includes('Natural')
-    )
-  );
+  // Chercher voix française (peu importe laquelle, on va la modifier)
+  let voice = voices.find(v => v.lang.startsWith('fr'));
   
-  // Priorité 2: Première voix française disponible (sera neutralisée par pitch)
-  if (!neutralVoice) {
-    neutralVoice = voices.find(v => v.lang.startsWith('fr'));
+  if (voice) {
+    utterance.voice = voice;
   }
   
-  if (neutralVoice) {
-    utterance.voice = neutralVoice;
-  }
-  
-  // PARAMÈTRES VOIX NEUTRE/ANDROGYNE
-  utterance.pitch = 1.0;  // Neutre (ni aigu ni grave)
-  utterance.rate = 0.95;  // Légèrement ralenti (plus posé)
+  // VOIX GRAVE FÉMININE RAPIDE
+  utterance.pitch = 0.75;  // Grave (féminine mais basse)
+  utterance.rate = 1.15;   // Plus rapide
   utterance.volume = 1.0;
   
   const chatBox = document.getElementById('chat-box');
+  const voiceBtn = document.getElementById('voice-toggle');
   
-  // Initialiser le contexte audio pour l'analyse
-  if (!audioContext) {
-    try {
-      audioContext = new (window.AudioContext || window.webkitAudioContext)();
-      analyser = audioContext.createAnalyser();
-      analyser.fftSize = 256;
-    } catch (e) {
-      console.log('AudioContext non disponible');
-    }
-  }
-  
-  // Début de la parole → Animation BLEU CIEL
   utterance.onstart = () => {
+    voiceBtn.classList.add('speaking');
     simulateSpeechRhythm(textToSpeak);
   };
   
-  // Fin de la parole → Retour ORANGE
   utterance.onend = () => {
+    voiceBtn.classList.remove('speaking');
     if (animationFrameId) {
       cancelAnimationFrame(animationFrameId);
       animationFrameId = null;
@@ -731,8 +741,8 @@ function speak(text) {
     chatBox.style.boxShadow = '';
   };
   
-  // Erreur → Retour ORANGE
   utterance.onerror = () => {
+    voiceBtn.classList.remove('speaking');
     if (animationFrameId) {
       cancelAnimationFrame(animationFrameId);
       animationFrameId = null;
@@ -745,13 +755,12 @@ function speak(text) {
   window.speechSynthesis.speak(utterance);
 }
 
-// Simulation de RYTHME réaliste de parole avec syllabes
 function simulateSpeechRhythm(text) {
   const chatBox = document.getElementById('chat-box');
   
   const words = text.split(/\s+/);
   let wordIndex = 0;
-  const msPerWord = 450;
+  const msPerWord = 390; // Plus rapide (1.15x)
   
   function pulseWord() {
     if (!window.speechSynthesis.speaking || wordIndex >= words.length) {
@@ -779,7 +788,7 @@ function simulateSpeechRhythm(text) {
       
       if (syllableCount >= syllables) {
         wordIndex++;
-        setTimeout(pulseWord, 50);
+        setTimeout(pulseWord, 40); // Pause réduite
         return;
       }
       
@@ -806,7 +815,6 @@ function simulateSpeechRhythm(text) {
   pulseWord();
 }
 
-// Charger les voix au démarrage
 if ('speechSynthesis' in window) {
   window.speechSynthesis.onvoiceschanged = () => {
     window.speechSynthesis.getVoices();
@@ -838,17 +846,9 @@ if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
 document.getElementById('voice-toggle').addEventListener('click', () => {
   voiceEnabled = !voiceEnabled;
   const voiceBtn = document.getElementById('voice-toggle');
-  voiceBtn.classList.toggle('disabled', !voiceEnabled);
   
-  voiceBtn.textContent = voiceEnabled ? '🔊' : '🔇';
-  
-  if (voiceEnabled && recognition) {
-    try { 
-      recognition.start(); 
-    } catch(e) {
-      console.log('Reconnaissance vocale déjà active');
-    }
-  } else {
+  if (!voiceEnabled) {
+    voiceBtn.style.opacity = '0.5';
     if (recognition) {
       try {
         recognition.stop();
@@ -862,6 +862,16 @@ document.getElementById('voice-toggle').addEventListener('click', () => {
     const chatBox = document.getElementById('chat-box');
     chatBox.style.borderColor = '';
     chatBox.style.boxShadow = '';
+    voiceBtn.classList.remove('speaking');
+  } else {
+    voiceBtn.style.opacity = '1';
+    if (recognition) {
+      try { 
+        recognition.start(); 
+      } catch(e) {
+        console.log('Reconnaissance vocale déjà active');
+      }
+    }
   }
 });
 
@@ -877,7 +887,6 @@ function addMessage(text, isBot = false) {
   saveConversation();
 }
 
-// CLIGNOTER ONGLETS
 function blinkTab(exactMatch) {
   if (randomBlinkActive) {
     randomBlinkActive = false;
@@ -903,7 +912,6 @@ function blinkTab(exactMatch) {
   });
 }
 
-// CLIGNOTEMENT ALÉATOIRE DES ONGLETS
 function randomBlinkTabs() {
   if (allNavLinks.length === 0) {
     allNavLinks = Array.from(document.querySelectorAll('nav ul li a'));
@@ -927,7 +935,6 @@ function randomBlinkTabs() {
   randomBlinkInterval = setInterval(blinkRandom, 2000);
 }
 
-// ONGLET FLOTTANT CLIQUABLE
 function showFloatingTab(url, isPhoneNumber = false) {
   const floatingText = document.getElementById('floating-text');
   
@@ -945,7 +952,6 @@ function showFloatingTab(url, isPhoneNumber = false) {
   trackClick('FloatingTabDisplayed', 'Interaction', 0);
 }
 
-// BASE DE CONNAISSANCES
 const knowledgeBase = [
   {keywords: "emotion", exactMatch: "manger emotions", answer: (name) => `Manger vos émotions au lieu de les ressentir crée un cercle vicieux. Vous grossissez puis vous culpabilisez, ce qui génère plus d'émotions que vous mangez à nouveau. Frederick brise ce cycle destructeur.\nL'alimentation émotionnelle sert à anesthésier des sentiments difficiles. Tristesse, colère, solitude, frustration, ennui : chaque émotion trouve temporairement son apaisement dans la nourriture. Mais le soulagement reste illusoire.\nLe programme vous apprend à ressentir vos émotions sans les fuir dans la nourriture. Techniques de régulation émotionnelle, libération des traumatismes, développement de stratégies alternatives de réconfort, travail énergétique sur le plexus solaire.\nLa transformation prend du temps car ces patterns sont souvent anciens. Mais dans 78% des cas, les personnes développent une relation beaucoup plus saine aux émotions en quatre à six mois.\nVos émotions méritent d'être ressenties et traitées, pas englouties dans la nourriture. Consultez l'accès qui va se dévoiler en haut pour apprendre à gérer vos émotions autrement.`, url: "https://www.clairvoyancemedium.com/Programme-Minceur-2-mois-cbaaaaada.asp", isExternal: false},
   {keywords: "ange", exactMatch: "ange gardien", answer: (name) => `Votre ange gardien vous accompagne depuis votre naissance. Frederick contacte cette présence angélique pour transmettre ses messages et guidance.\nChaque personne possède au moins un ange gardien personnel qui veille sur elle. Cette entité divine vous protège, vous guide, vous inspire sans intervenir dans votre libre arbitre.\nFrederick établit la communication avec votre ange. Il reçoit son nom, sa nature, ses messages pour vous. Ces informations transforment votre relation avec cette présence invisible.\nVotre ange veut que vous réussissiez votre mission de vie. Il vous envoie constamment des signes et synchronicités mais beaucoup passent inaperçus. La consultation les révèle.\nConnaître votre ange personnellement change tout. Vous pouvez l'invoquer par son nom, lui parler directement, reconnaître sa présence. Cette connexion consciente amplifie son soutien.\nRencontrez enfin votre ange gardien personnellement. Observez l'interface où un accès va se dévoiler vers ce contact angélique qui transformera votre vie.`, url: "https://www.clairvoyancemedium.com/Message-de-votre-Ange-gardien-cbaaaabba.asp", isExternal: false},
@@ -1049,7 +1055,6 @@ function handleMessage() {
   setTimeout(() => {
     const lowerMsg = userMsg.toLowerCase().trim();
     
-    // GESTION PRÉNOM
     if (!userNameConfirmed) {
       if (lowerMsg === "bonjour" || lowerMsg.startsWith("bonjour")) {
         addMessage("Bonjour ! Je suis ClairVoyanceGPT, votre assistant spirituel. Avant de commencer cette consultation, pouvez-vous m'indiquer votre prénom ?", true);
@@ -1081,20 +1086,17 @@ function handleMessage() {
       return;
     }
     
-    // AU REVOIR
     const goodbyeTriggers = ["au revoir", "aurevoir", "à bientôt", "bye", "ciao"];
     if (goodbyeTriggers.some(phrase => lowerMsg === phrase || lowerMsg.endsWith(phrase))) {
       addMessage(`${userName}, à très bientôt ! Frederick et son équipe restent à votre écoute 24h/24.`, true);
       return;
     }
     
-    // DÉTECTION TÉLÉPHONE → BOUTON FLOTTANT
     const phoneKeywords = /(téléphone|tel|appel|appeler|telephoner|phone|joindre|contacter par téléphone)/i;
     if (phoneKeywords.test(lowerMsg) && userNameConfirmed) {
       showFloatingTab(PHONE_NUMBER, true);
     }
     
-    // RECHERCHE DANS BASE
     const match = findBestMatch(userMsg);
     
     if (match) {
@@ -1142,7 +1144,6 @@ document.getElementById('chat-form').addEventListener('submit', (e) => {
   handleMessage();
 });
 
-// Message d'accueil UNIQUEMENT si nouvelle conversation
 if (!conversationRestored) {
   setTimeout(() => {
     const welcomeMessage = "Bienvenue sur ClairVoyanceGPT, l'assistant spirituel de Frederick, médium reconnu depuis plus de 25 ans. Avant de commencer cet échange, pouvez-vous m'indiquer dans un premier temps uniquement votre prénom ?";
@@ -1168,7 +1169,6 @@ if (!conversationRestored) {
   }, 500);
 }
 
-// Bouton fallback si autoplay bloqué
 function showVoiceButton() {
   const messagesDiv = document.getElementById('chat-messages');
   const btnDiv = document.createElement('div');
@@ -1205,7 +1205,6 @@ function showVoiceButton() {
   });
 }
 
-// BLOQUER PULL-TO-REFRESH UNIQUEMENT
 let lastTouchY = 0;
 let preventPullToRefresh = false;
 
@@ -1232,4 +1231,3 @@ document.addEventListener('touchmove', (e) => {
 </script>
 </body>
 </html>
-          
