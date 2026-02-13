@@ -5,148 +5,125 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="mobile-web-app-capable" content="yes">
-<title>ClairVoyanceGPT - Votre Assistant Spirituel</title>
+<title>ClairVoyanceGPT - Votre Guide Spirituel</title>
 
-<!-- Google Analytics -->
+<!-- Google Analytics 4 -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-2RSFE6WL4M"></script>
 <script>
 window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-2RSFE6WL4M');
+function trackGA(action, category, label) {
+  gtag('event', action, {'event_category': category, 'event_label': label});
+}
 </script>
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&display=swap');
 
-:root{
-  --primary: #2c1654;
-  --secondary: #8b5cf6;
-  --accent: #a78bfa;
-  --bg: #0f0525;
-  --text: #e9d5ff;
-}
-
 *{margin:0;padding:0;box-sizing:border-box;}
-
 body{
   font-family:'Cinzel',serif;
-  background:var(--bg);
-  color:var(--text);
+  background:#0f0525;
+  color:#e9d5ff;
   overflow-x:hidden;
   min-height:100vh;
-  -webkit-overflow-scrolling:touch;
   overscroll-behavior:none;
-}
-
-/* Masquer barre d'adresse mobile */
-@supports(-webkit-touch-callout:none){
-  body{
-    height:100vh;
-    height:-webkit-fill-available;
-  }
 }
 
 header{
   text-align:center;
-  padding:1.5rem 1rem;
-  background:linear-gradient(135deg,var(--primary),var(--secondary));
-  position:relative;
+  padding:0.5rem 1rem;
+  background:linear-gradient(135deg,#2c1654,#8b5cf6);
 }
 
 .logo{
-  width:120px;
-  height:120px;
-  margin:0 auto 1rem;
+  width:min(90vw,450px);
+  height:auto;
+  max-height:450px;
+  margin:0.5rem auto;
   animation:pulse 3s ease-in-out infinite;
+  object-fit:cover;
 }
 
 @keyframes pulse{
   0%,100%{transform:scale(1);}
-  50%{transform:scale(1.05);}
+  50%{transform:scale(1.02);}
 }
 
-h1{
-  font-size:1.8rem;
-  font-weight:600;
-  margin-bottom:0.5rem;
-  text-shadow:2px 2px 4px rgba(0,0,0,0.5);
-}
-
-.tagline{
-  font-size:0.9rem;
-  opacity:0.9;
-}
+h1{font-size:1.6rem;font-weight:600;margin:0.3rem 0;text-shadow:2px 2px 4px rgba(0,0,0,0.5);}
+.tagline{font-size:0.85rem;opacity:0.9;margin-bottom:0.5rem;}
 
 nav{
-  background:var(--primary);
-  padding:0.5rem;
-  overflow-x:auto;
-  -webkit-overflow-scrolling:touch;
-  white-space:nowrap;
-  scrollbar-width:none;
+  position:sticky;
+  top:0;
+  background:#2c1654;
+  padding:0.8rem 0.5rem;
+  overflow:visible;
+  z-index:100;
+  box-shadow:0 2px 10px rgba(0,0,0,0.3);
 }
-
-nav::-webkit-scrollbar{display:none;}
 
 nav ul{
   display:flex;
+  flex-wrap:wrap;
   list-style:none;
   gap:0.5rem;
-  padding:0.5rem;
+  justify-content:center;
+  max-width:1200px;
+  margin:0 auto;
 }
 
 nav li a{
-  display:block;
-  padding:0.7rem 1.2rem;
+  display:inline-block;
+  padding:0.7rem 1rem;
   background:rgba(139,92,246,0.2);
-  color:var(--text);
+  color:#e9d5ff;
   text-decoration:none;
   border-radius:8px;
-  font-size:0.85rem;
+  font-size:0.8rem;
   transition:all 0.3s;
   white-space:nowrap;
+  border:2px solid transparent;
 }
 
 nav li a:hover{
-  background:var(--secondary);
+  background:#8b5cf6;
   transform:translateY(-2px);
 }
 
 nav li a.blink{
-  animation:blinkAnim 1s infinite;
+  animation:blinkOrange 1.2s infinite;
+  border-color:#ff9933;
 }
 
-@keyframes blinkAnim{
-  0%,100%{background:rgba(139,92,246,0.2);transform:scale(1);}
-  50%{background:var(--accent);transform:scale(1.05);}
+@keyframes blinkOrange{
+  0%,100%{
+    background:rgba(139,92,246,0.2);
+    box-shadow:0 0 8px #ff9933;
+    border-color:#ff9933;
+  }
+  50%{
+    background:#ff9933;
+    box-shadow:0 0 25px #ff9933;
+    transform:scale(1.05);
+    border-color:#ffaa55;
+    color:#000;
+  }
 }
 
 .chat-intro{
   text-align:center;
-  padding:2rem 1rem;
-  max-width:600px;
+  padding:1.5rem 1rem;
+  max-width:650px;
   margin:0 auto;
 }
 
-.chat-intro h2{
-  font-size:1.5rem;
-  margin-bottom:1rem;
-  color:var(--accent);
-}
+.chat-intro h2{font-size:1.3rem;margin-bottom:0.8rem;color:#a78bfa;}
+.chat-intro p{font-size:0.9rem;line-height:1.5;opacity:0.9;}
 
-.chat-intro p{
-  font-size:0.95rem;
-  line-height:1.6;
-  opacity:0.9;
-}
-
-#chat-container{
-  max-width:800px;
-  margin:2rem auto;
-  padding:0 1rem 6rem;
-}
+#chat-container{max-width:800px;margin:1.5rem auto;padding:0 1rem 6rem;}
 
 #chat-box{
   background:rgba(44,22,84,0.6);
@@ -154,6 +131,19 @@ nav li a.blink{
   padding:1.5rem;
   backdrop-filter:blur(10px);
   box-shadow:0 8px 32px rgba(0,0,0,0.3);
+  border:3px solid transparent;
+  transition:border-color 0.3s,box-shadow 0.3s;
+}
+
+#chat-box.speaking{
+  border-color:#00d4ff;
+  box-shadow:0 0 35px #00d4ff,0 8px 32px rgba(0,0,0,0.3);
+  animation:neonPulse 1.5s infinite;
+}
+
+@keyframes neonPulse{
+  0%,100%{box-shadow:0 0 25px #00d4ff,0 8px 32px rgba(0,0,0,0.3);}
+  50%{box-shadow:0 0 50px #00d4ff,0 0 70px #00d4ff,0 8px 32px rgba(0,0,0,0.3);}
 }
 
 #chat-messages{
@@ -175,7 +165,7 @@ nav li a.blink{
 }
 
 .user-message{
-  background:var(--secondary);
+  background:#8b5cf6;
   margin-left:2rem;
   text-align:right;
 }
@@ -183,30 +173,30 @@ nav li a.blink{
 .bot-message{
   background:rgba(167,139,250,0.2);
   margin-right:2rem;
-  border-left:3px solid var(--accent);
+  border-left:3px solid #a78bfa;
 }
 
 #chat-input{
   width:calc(100% - 100px);
   padding:0.9rem;
   background:rgba(0,0,0,0.3);
-  border:2px solid var(--secondary);
+  border:2px solid #8b5cf6;
   border-radius:10px;
-  color:var(--text);
+  color:#e9d5ff;
   font-family:inherit;
   font-size:0.9rem;
 }
 
 #chat-input:focus{
   outline:none;
-  border-color:var(--accent);
+  border-color:#a78bfa;
   box-shadow:0 0 10px rgba(167,139,250,0.3);
 }
 
 #chat-send{
   width:90px;
   padding:0.9rem;
-  background:var(--secondary);
+  background:#8b5cf6;
   border:none;
   border-radius:10px;
   color:white;
@@ -218,7 +208,7 @@ nav li a.blink{
 }
 
 #chat-send:hover{
-  background:var(--accent);
+  background:#a78bfa;
   transform:translateY(-2px);
 }
 
@@ -229,19 +219,22 @@ nav li a.blink{
   width:56px;
   height:56px;
   border-radius:50%;
-  background:var(--secondary);
-  border:none;
+  background:#8b5cf6;
+  border:2px solid #a78bfa;
   color:white;
   font-size:1.5rem;
-  cursor:pointer;
+  cursor:move;
   box-shadow:0 4px 15px rgba(0,0,0,0.4);
   transition:all 0.3s;
-  z-index:998;
+  z-index:1000;
+  user-select:none;
+  touch-action:none;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 
-#voice-toggle:hover{
-  transform:scale(1.1);
-}
+#voice-toggle:hover{transform:scale(1.1);}
 
 #voice-toggle.speaking{
   animation:pulse-voice 1s infinite;
@@ -270,6 +263,7 @@ nav li a.blink{
   pointer-events:none;
   z-index:999;
   font-size:0.9rem;
+  text-align:center;
 }
 
 #floating-tab.show{
@@ -286,346 +280,84 @@ nav li a.blink{
 footer{
   text-align:center;
   padding:2rem 1rem;
-  background:var(--primary);
+  background:#2c1654;
   margin-top:3rem;
 }
 
-footer p{
-  font-size:0.85rem;
-  opacity:0.8;
-}
+footer p{font-size:0.85rem;opacity:0.8;}
 
-/* Responsive */
 @media(max-width:768px){
-  h1{font-size:1.5rem;}
-  .chat-intro h2{font-size:1.3rem;}
+  h1{font-size:1.4rem;}
+  .chat-intro h2{font-size:1.2rem;}
   #chat-input{width:calc(100% - 90px);}
-  #chat-send{width:80px;}
-}
-
-/* Desktop */
-@media(min-width:1024px){
-  nav ul{justify-content:center;}
-  #voice-toggle,#floating-tab{
-    right:50px;
-  }
 }
 </style>
 </head>
 <body>
 
 <header>
-  <img src="https://i.imgur.com/GmyGlKk.png" alt="Logo ClairVoyanceGPT" class="logo">
+  <img src="https://i.imgur.com/GmyGlKk.png" alt="ClairVoyanceGPT" class="logo">
   <h1>ClairVoyanceGPT</h1>
-  <p class="tagline">Votre guide spirituel disponible 24h/7j</p>
+  <p class="tagline">Frederick Medium - 25+ ans d experience - Disponible 24h/7j</p>
 </header>
 
 <nav>
   <ul>
-    <li><a href="https://clairvoyancemedium.github.io/Voyancepartelephonepaschere.github.io/" data-exact="voyance telephone" target="_blank">📞 Voyance Téléphone</a></li>
-    <li><a href="https://www.clairvoyancemedium.com/Voyance-3-Questions-par-Email-cbaaaaaca.asp" data-exact="voyance email" target="_blank">📧 Voyance Email x3/12€</a></li>
-    <li><a href="https://www.clairvoyancemedium.com/Reconquerir-son-ex-a-distance-Blanche-cbaaaaasa.asp" data-exact="retour affectif" target="_blank">💕 Retour Amour/175€</a></li>
-    <li><a href="https://www.clairvoyancemedium.com/Compatibilite-amoureuse-cbaaaaata.asp" data-exact="compatibilite amoureuse" target="_blank">💑 Compatibilité/20€</a></li>
-    <li><a href="https://www.clairvoyancemedium.com/Desenvoutement-et-protection-a-distance-cbaaaaala.asp" data-exact="desenvoutement" target="_blank">🛡️ Désenvoutement</a></li>
-    <li><a href="https://www.clairvoyancemedium.com/Medecine-Consultation-par-email-cbaaaabja.asp" data-exact="sante" target="_blank">🏥 Santé/30€</a></li>
-    <li><a href="https://www.clairvoyancemedium.com/Voyance-de-l-annee-nouvelle-cbaaaabca.asp" data-exact="annee" target="_blank">🔮 Année</a></li>
-    <li><a href="https://www.clairvoyancemedium.com/Message-de-votre-Ange-gardien-cbaaaabba.asp" data-exact="ange gardien" target="_blank">👼 Ange</a></li>
-    <li><a href="https://www.clairvoyancemedium.com/Recevez-1-message-d-un-defunt-cbaaaabka.asp" data-exact="defunt" target="_blank">💫 Défunt</a></li>
+    <li><a href="https://clairvoyancemedium.github.io/Voyancepartelephonepaschere.github.io/" data-exact="voyance telephone" target="_blank" onclick="trackGA('click','nav','tel')">Telephone</a></li>
+    <li><a href="https://www.clairvoyancemedium.com/Voyance-3-Questions-par-Email-cbaaaaaca.asp" data-exact="voyance email" target="_blank" onclick="trackGA('click','nav','email')">Email 3Q/12€</a></li>
+    <li><a href="https://www.clairvoyancemedium.com/Reconquerir-son-ex-a-distance-Blanche-cbaaaaasa.asp" data-exact="retour affectif" target="_blank" onclick="trackGA('click','nav','retour')">Retour/175€</a></li>
+    <li><a href="https://www.clairvoyancemedium.com/Compatibilite-amoureuse-cbaaaaata.asp" data-exact="compatibilite amoureuse" target="_blank" onclick="trackGA('click','nav','compatibilite')">Compatibilite/20€</a></li>
+    <li><a href="https://www.clairvoyancemedium.com/Desenvoutement-et-protection-a-distance-cbaaaaala.asp" data-exact="desenvoutement" target="_blank" onclick="trackGA('click','nav','desenvout')">Desenvoutement</a></li>
+    <li><a href="https://www.clairvoyancemedium.com/Medecine-Consultation-par-email-cbaaaabja.asp" data-exact="sante" target="_blank" onclick="trackGA('click','nav','sante')">Sante/30€</a></li>
+    <li><a href="https://www.clairvoyancemedium.com/Voyance-de-l-annee-nouvelle-cbaaaabca.asp" data-exact="annee" target="_blank" onclick="trackGA('click','nav','annee')">Annee</a></li>
+    <li><a href="https://www.clairvoyancemedium.com/Message-de-votre-Ange-gardien-cbaaaabba.asp" data-exact="ange gardien" target="_blank" onclick="trackGA('click','nav','ange')">Ange</a></li>
+    <li><a href="https://www.clairvoyancemedium.com/Recevez-1-message-d-un-defunt-cbaaaabka.asp" data-exact="defunt" target="_blank" onclick="trackGA('click','nav','defunt')">Defunt</a></li>
   </ul>
 </nav>
 
 <div class="chat-intro">
-  <h2>💬 Posez votre question à Frederick</h2>
-  <p>Medium depuis 25+ ans, Frederick vous guide dans tous les domaines de votre vie. Commencez par dire bonjour !</p>
+  <h2>Posez votre question a Frederick</h2>
+  <p>Medium experimente depuis plus de 25 ans, Frederick vous guide dans tous les domaines. Commencez par dire bonjour !</p>
 </div>
 
 <div id="chat-container">
   <div id="chat-box">
     <div id="chat-messages"></div>
     <div style="display:flex;align-items:center;">
-      <input type="text" id="chat-input" placeholder="Tapez votre message..." autocomplete="off">
-      <button type="submit" id="chat-send" onclick="trackClick('ChatMessageSent', 'Engagement', 1);">Envoyer</button>
+      <input type="text" id="chat-input" placeholder="Ecrivez votre message ici...">
+      <button id="chat-send" onclick="trackGA('click','chat','send')">Envoyer</button>
     </div>
   </div>
 </div>
 
-<button id="voice-toggle" title="Activer/Désactiver la voix">🔊</button>
-<a href="#" id="floating-tab" target="_blank">
-  <span id="floating-text">Ce qu'il vous faut !</span>
+<button id="voice-toggle" title="Vocal ON/OFF" onclick="trackGA('click','audio','toggle')">🔊</button>
+
+<a href="#" id="floating-tab" target="_blank" onclick="trackGA('click','conversion','float')">
+  <span id="floating-text">Ce qu il vous faut !</span>
 </a>
 
 <footer>
-  <p>&copy; <span id="current-year"></span> ClairVoyanceGPT - Frederick Medium</p>
+  <p>&copy; <script>document.write(new Date().getFullYear())</script> ClairVoyanceGPT - Frederick Medium Professionnel</p>
 </footer>
 
 <script>
-// Mise à jour année
-document.getElementById('current-year').textContent = new Date().getFullYear();
-
-// Google Analytics
-function trackClick(label, category, value) {
-  if (typeof gtag === 'function') {
-    gtag('event', label, {'event_category': category, 'event_label': label, 'value': value});
-  }
-}
-
 // VARIABLES GLOBALES
 let userName = '';
 let userNameConfirmed = false;
 let pendingName = '';
-let messageCount = 0;
 let voiceEnabled = true;
-let recognition = null;
-let currentBlinkingTab = null;
-let nonUnderstoodCount = 0;
-let currentUtterance = null;
-let lastMatchedItem = null;
 let randomBlinkActive = true;
 let randomBlinkInterval = null;
-let allNavLinks = [];
+let currentBlinkingTab = null;
 
-// DÉSACTIVER PULL-TO-REFRESH
-let startY = 0;
-document.addEventListener('touchstart', e => {
-  startY = e.touches[0].pageY;
-}, {passive: true});
-
-document.addEventListener('touchmove', e => {
-  const y = e.touches[0].pageY;
-  if (y > startY && window.scrollY === 0) {
-    e.preventDefault();
-  }
-}, {passive: false});
-
-// GESTION MÉMOIRE 24H
-function saveConversation() {
-  const data = {
-    messages: Array.from(document.getElementById('chat-messages').children).map(m => ({
-      text: m.textContent,
-      isBot: m.className === 'bot-message'
-    })),
-    userName,
-    userNameConfirmed,
-    timestamp: Date.now()
-  };
-  localStorage.setItem('clairvoyance_chat', JSON.stringify(data));
-}
-
-function loadConversation() {
-  const stored = localStorage.getItem('clairvoyance_chat');
-  if (!stored) return;
-  
-  const data = JSON.parse(stored);
-  const age = Date.now() - data.timestamp;
-  
-  if (age > 24 * 60 * 60 * 1000) {
-    localStorage.removeItem('clairvoyance_chat');
-    return;
-  }
-  
-  userName = data.userName || '';
-  userNameConfirmed = data.userNameConfirmed || false;
-  
-  const messagesDiv = document.getElementById('chat-messages');
-  data.messages.forEach(msg => {
-    const div = document.createElement('p');
-    div.className = msg.isBot ? 'bot-message' : 'user-message';
-    div.textContent = msg.text;
-    messagesDiv.appendChild(div);
-  });
-  messagesDiv.scrollTop = messagesDiv.scrollHeight;
-}
-
-// Charger au démarrage
-loadConversation();
-
-// FONCTION VOIX TTS - FEMME FRANÇAISE
-function speak(text) {
-  if (!voiceEnabled || !text) return;
-  
-  if (currentUtterance) {
-    speechSynthesis.cancel();
-  }
-  
-  const utterance = new SpeechSynthesisUtterance(text);
-  utterance.lang = 'fr-FR';
-  
-  // FORCER VOIX FRANÇAISE FÉMININE (iOS + Android)
-  const loadVoices = () => {
-    const voices = speechSynthesis.getVoices();
-    
-    // Chercher voix féminine française
-    let frenchFemaleVoice = voices.find(v => 
-      v.lang.startsWith('fr') && 
-      (v.name.toLowerCase().includes('female') || 
-       v.name.toLowerCase().includes('femme') ||
-       v.name.toLowerCase().includes('amelie') ||
-       v.name.toLowerCase().includes('audrey') ||
-       v.name.toLowerCase().includes('pauline') ||
-       (!v.name.toLowerCase().includes('male') && !v.name.toLowerCase().includes('homme')))
-    );
-    
-    // Sinon prendre première voix française
-    if (!frenchFemaleVoice) {
-      frenchFemaleVoice = voices.find(v => v.lang.startsWith('fr'));
-    }
-    
-    if (frenchFemaleVoice) {
-      utterance.voice = frenchFemaleVoice;
-    }
-  };
-  
-  // Charger les voix (nécessaire sur iOS)
-  if (speechSynthesis.getVoices().length === 0) {
-    speechSynthesis.addEventListener('voiceschanged', loadVoices, {once: true});
-  } else {
-    loadVoices();
-  }
-  
-  // Vitesse modérée, naturelle
-  utterance.rate = 0.9;
-  utterance.pitch = 1.0;
-  utterance.volume = 1.0;
-  
-  // Animation pendant parole
-  const voiceBtn = document.getElementById('voice-toggle');
-  
-  utterance.onstart = () => {
-    currentUtterance = utterance;
-    voiceBtn.classList.add('speaking');
-  };
-  
-  utterance.onend = () => {
-    currentUtterance = null;
-    voiceBtn.classList.remove('speaking');
-  };
-  
-  utterance.onerror = () => {
-    currentUtterance = null;
-    voiceBtn.classList.remove('speaking');
-  };
-  
-  speechSynthesis.speak(utterance);
-}
-
-// Bouton voix
-document.getElementById('voice-toggle').addEventListener('click', () => {
-  voiceEnabled = !voiceEnabled;
-  const btn = document.getElementById('voice-toggle');
-  btn.textContent = voiceEnabled ? '🔊' : '🔇';
-  btn.title = voiceEnabled ? 'Désactiver la voix' : 'Activer la voix';
-  
-  if (!voiceEnabled && currentUtterance) {
-    speechSynthesis.cancel();
-  }
-});
-
-// AJOUT MESSAGE
-function addMessage(text, isBot = false) {
-  const messagesDiv = document.getElementById('chat-messages');
-  const messageDiv = document.createElement('p');
-  messageDiv.className = isBot ? 'bot-message' : 'user-message';
-  messageDiv.textContent = text;
-  messagesDiv.appendChild(messageDiv);
-  messagesDiv.scrollTop = messagesDiv.scrollHeight;
-  
-  if (isBot && voiceEnabled) speak(text);
-  
-  saveConversation();
-}
-
-// CLIGNOTEMENT ONGLETS
-function blinkTab(exactMatch) {
-  if (randomBlinkActive) {
-    randomBlinkActive = false;
-    if (randomBlinkInterval) {
-      clearInterval(randomBlinkInterval);
-      randomBlinkInterval = null;
-    }
-  }
-  
-  if (currentBlinkingTab) {
-    currentBlinkingTab.classList.remove('blink');
-  }
-  
-  const navLinks = document.querySelectorAll('nav ul li a');
-  navLinks.forEach(link => {
-    const linkExact = link.getAttribute('data-exact');
-    if (linkExact && linkExact.toLowerCase() === exactMatch.toLowerCase()) {
-      link.classList.add('blink');
-      currentBlinkingTab = link;
-      link.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      trackClick('TabBlinked_' + exactMatch.replace(/\s+/g, '_'), 'ChatInteraction', 0);
-    }
-  });
-}
-
-// CLIGNOTEMENT ALÉATOIRE
-function randomBlinkTabs() {
-  if (allNavLinks.length === 0) {
-    allNavLinks = Array.from(document.querySelectorAll('nav ul li a'));
-  }
-  
-  function blinkRandom() {
-    if (!randomBlinkActive) return;
-    
-    if (currentBlinkingTab) {
-      currentBlinkingTab.classList.remove('blink');
-    }
-    
-    const randomIndex = Math.floor(Math.random() * allNavLinks.length);
-    const randomTab = allNavLinks[randomIndex];
-    
-    randomTab.classList.add('blink');
-    currentBlinkingTab = randomTab;
-  }
-  
-  blinkRandom();
-  randomBlinkInterval = setInterval(blinkRandom, 2000);
-}
-
-// BOUTON FLOTTANT
-function showFloatingTab(url, isPhoneNumber = false) {
-  const floatingTab = document.getElementById('floating-tab');
-  const floatingText = document.getElementById('floating-text');
-  
-  if (isPhoneNumber) {
-    floatingTab.href = `tel:${url}`;
-    floatingText.textContent = `0695468923 • 24h/7j`;
-  } else {
-    floatingTab.href = url;
-    floatingText.textContent = userName ? `Ce qu'il vous faut ${userName} !` : `Ce qu'il vous faut !`;
-  }
-  
-  floatingTab.classList.add('show');
-  floatingTab.onclick = null;
-  
-  trackClick('FloatingTabDisplayed', 'Interaction', 0);
-}
-
-
-
-// BASE DE CONNAISSANCES
+// KNOWLEDGEBASE COMPLÈTE (570 entrées)
 const knowledgeBase = [
 
   // ========================================
   // 💖 AMOUR & RELATIONS
   // 377 entrées
   // ========================================
-  
-  // ENTRÉES GÉNÉRIQUES POUR ONGLETS NAVIGATION
-  {keywords: "voyance|telephone|tel|appel|appeler", exactMatch: "voyance telephone", answer: (name) => \`${name}, la voyance par téléphone offre une consultation personnalisée et confidentielle. Frederick vous guide en direct avec 25+ ans d'expérience.\nDes tarifs accessibles : 8€ les 5 premières minutes, 22€ pour 20 minutes, 30€ pour 30 minutes, ou 38€ pour 45 minutes. Choisissez la durée qui vous convient.\nL'avantage du téléphone : échange direct, questions-réponses instantanées, et la chaleur humaine d'une vraie conversation. Frederick perçoit votre énergie à travers votre voix.\nDisponible 24h/7j pour vous accompagner quand vous en avez besoin. Une consultation peut transformer votre vision de votre situation.\nN'attendez plus pour obtenir les réponses que vous cherchez. Un accès va apparaître pour réserver votre consultation téléphonique.\`, url: "https://clairvoyancemedium.github.io/Voyancepartelephonepaschere.github.io/", isExternal: false, isPhone: true},
-  
-  {keywords: "retour|affectif|ex|reconquerir|revenir", exactMatch: "retour affectif", answer: (name) => \`Le retour affectif peut ramener l'être aimé vers vous, ${name}. Frederick pratique des rituels puissants qui ont réuni des centaines de couples.\nCe rituel de magie blanche agit sur les liens invisibles qui vous unissent à cette personne. Il dissout les blocages, ravive les sentiments endormis, et crée une attraction magnétique.\nDans 73% des cas, des signes apparaissent dans les 3 premières semaines : messages, rêves, rencontres "par hasard". Le rituel travaille dans les plans subtils.\nFrederick personnalise chaque rituel selon votre situation spécifique. L'investissement de 175€ peut sauver votre relation et votre bonheur.\nVotre amour mérite une seconde chance. Un bouton va se dévoiler pour lancer ce rituel de retour affectif puissant.\`, url: "https://www.clairvoyancemedium.com/Reconquerir-son-ex-a-distance-Blanche-cbaaaaasa.asp", isExternal: false},
-  
-  {keywords: "sante|maladie|guerison|souffrance|douleur", exactMatch: "sante", answer: (name) => \`Votre santé mérite une approche globale, ${name}. Frederick combine médecine énergétique, plantes, et rééquilibrage des chakras pour traiter les causes profondes.\nBeaucoup de maladies ont des origines énergétiques ou émotionnelles que la médecine conventionnelle ne traite pas. Frederick identifie ces causes invisibles.\nConsultation santé par email (30€) : Frederick analyse votre situation et vous envoie un protocole personnalisé complet avec plantes, soins énergétiques, et conseils alimentaires.\nDans 71% des cas, les symptômes s'améliorent significativement en 3-6 semaines. L'approche complète le traitement médical, ne le remplace pas.\nVotre corps peut retrouver son équilibre naturel. Un accès va surgir pour cette consultation santé complète.\`, url: "https://www.clairvoyancemedium.com/Medecine-Consultation-par-email-cbaaaabja.asp", isExternal: false},
-  
-  {keywords: "annee|nouvelle|avenir|futur|prediction", exactMatch: "annee", answer: (name) => \`Votre année à venir recèle des opportunités et des défis, ${name}. Frederick vous révèle mois par mois ce qui vous attend pour que vous puissiez vous préparer.\nCette prévision annuelle couvre tous les domaines : amour, travail, argent, santé, famille. Vous saurez quand agir et quand attendre le bon timing.\nFrederick identifie les périodes favorables pour vos projets importants et les périodes délicates où la prudence s'impose. Cette connaissance transforme votre année.\nDans 78% des cas, les personnes qui suivent les guidances de leur prévision annuelle évitent des erreurs coûteuses et saisissent les opportunités au bon moment.\nNe naviguez pas à l'aveugle. Un bouton va se matérialiser pour recevoir votre prévision annuelle détaillée.\`, url: "https://www.clairvoyancemedium.com/Voyance-de-l-annee-nouvelle-cbaaaabca.asp", isExternal: false},
-  
-  {keywords: "defunt|mort|deces|disparu|parti", exactMatch: "defunt", answer: (name) => \`Communiquer avec un défunt reste possible grâce aux capacités médiumniques de Frederick, ${name}. La mort n'est qu'un passage, le lien d'amour persiste.\nVotre proche cherche peut-être à vous rassurer, à vous transmettre un message important, ou à demander pardon. Frederick sert de pont entre les deux mondes.\nCes communications apportent une paix immense. Vous recevez les réponses à vos questions, le pardon que vous cherchiez, ou simplement la certitude qu'ils vont bien.\nDans 84% des cas, les défunts veulent surtout rassurer leurs proches sur leur état actuel et leur dire qu'ils continuent à veiller sur eux.\nNe restez pas avec ce poids sur le cœur. Un accès va apparaître pour recevoir le message de votre défunt.\`, url: "https://www.clairvoyancemedium.com/Recevez-1-message-d-un-defunt-cbaaaabka.asp", isExternal: false},
-
-
-{keywords: "emotion", exactMatch: "manger emotions", answer: (name) => `Manger vos émotions au lieu de les ressentir crée un cercle vicieux. Vous grossissez puis vous culpabilisez, ce qui génère plus d'émotions que vous mangez à nouveau. Frederick brise ce cycle destructeur.\nL'alimentation émotionnelle sert à anesthésier des sentiments difficiles. Tristesse, colère, solitude, frustration, ennui : chaque émotion trouve temporairement son apaisement dans la nourriture. Mais le soulagement reste illusoire.\nLe programme vous apprend à ressentir vos émotions sans les fuir dans la nourriture. Techniques de régulation émotionnelle, libération des traumatismes, développement de stratégies alternatives de réconfort, travail énergétique sur le plexus solaire.\nLa transformation prend du temps car ces patterns sont souvent anciens. Mais dans 78% des cas, les personnes développent une relation beaucoup plus saine aux émotions en quatre à six mois.\nVos émotions méritent d'être ressenties et traitées, pas englouties dans la nourriture. Consultez l'accès qui va se dévoiler en haut pour apprendre à gérer vos émotions autrement.`, url: "https://www.clairvoyancemedium.com/Programme-Minceur-2-mois-cbaaaaada.asp", isExternal: false},
+  {keywords: "emotion", exactMatch: "manger emotions", answer: (name) => `Manger vos émotions au lieu de les ressentir crée un cercle vicieux. Vous grossissez puis vous culpabilisez, ce qui génère plus d'émotions que vous mangez à nouveau. Frederick brise ce cycle destructeur.\nL'alimentation émotionnelle sert à anesthésier des sentiments difficiles. Tristesse, colère, solitude, frustration, ennui : chaque émotion trouve temporairement son apaisement dans la nourriture. Mais le soulagement reste illusoire.\nLe programme vous apprend à ressentir vos émotions sans les fuir dans la nourriture. Techniques de régulation émotionnelle, libération des traumatismes, développement de stratégies alternatives de réconfort, travail énergétique sur le plexus solaire.\nLa transformation prend du temps car ces patterns sont souvent anciens. Mais dans 78% des cas, les personnes développent une relation beaucoup plus saine aux émotions en quatre à six mois.\nVos émotions méritent d'être ressenties et traitées, pas englouties dans la nourriture. Consultez l'accès qui va se dévoiler en haut pour apprendre à gérer vos émotions autrement.`, url: "https://www.clairvoyancemedium.com/Programme-Minceur-2-mois-cbaaaaada.asp", isExternal: false},
   {keywords: "ange", exactMatch: "ange gardien", answer: (name) => `Votre ange gardien vous accompagne depuis votre naissance. Frederick contacte cette présence angélique pour transmettre ses messages et guidance.\nChaque personne possède au moins un ange gardien personnel qui veille sur elle. Cette entité divine vous protège, vous guide, vous inspire sans intervenir dans votre libre arbitre.\nFrederick établit la communication avec votre ange. Il reçoit son nom, sa nature, ses messages pour vous. Ces informations transforment votre relation avec cette présence invisible.\nVotre ange veut que vous réussissiez votre mission de vie. Il vous envoie constamment des signes et synchronicités mais beaucoup passent inaperçus. La consultation les révèle.\nConnaître votre ange personnellement change tout. Vous pouvez l'invoquer par son nom, lui parler directement, reconnaître sa présence. Cette connexion consciente amplifie son soutien.\nRencontrez enfin votre ange gardien personnellement. Observez l'interface où un accès va se dévoiler vers ce contact angélique qui transformera votre vie.`, url: "https://www.clairvoyancemedium.com/Message-de-votre-Ange-gardien-cbaaaabba.asp", isExternal: false},
   {keywords: "archange", exactMatch: "message archange", answer: (name) => `Les archanges supervisent les anges gardiens et interviennent dans des situations importantes. Frederick contacte ces êtres de lumière puissants pour leurs guidances.\nSept archanges principaux gouvernent différents domaines : Michel pour la protection, Raphaël pour la guérison, Gabriel pour les messages, Uriel pour la sagesse. Chacun offre un soutien spécifique.\nInvoquer un archange pour une situation particulière amplifie considérablement l'aide disponible. Leur puissance dépasse largement celle des anges gardiens ordinaires.\nFrederick identifie quel archange vous aide actuellement et pourquoi. Souvent leur intervention coïncide avec des défis ou opportunités majeures dans votre vie.\nLes archanges laissent aussi des signes de leur présence : plumes blanches, parfums inexpliqués, synchronicités frappantes. Frederick vous apprend à reconnaître ces manifestations.\nConnectez-vous aux hiérarchies angéliques supérieures. Consultez le lien qui va apparaître pour recevoir les messages des archanges qui vous accompagnent.`, url: "https://www.clairvoyancemedium.com/Message-de-votre-Ange-gardien-cbaaaabba.asp", isExternal: false},
   {keywords: "nom ange", exactMatch: "nom ange gardien", answer: (name) => `Le nom de votre ange gardien porte une vibration sacrée. Frederick reçoit ce nom divin que vous pourrez ensuite utiliser pour invoquer votre protecteur céleste.\nConnaître le nom de votre ange transforme votre relation de impersonnelle à personnelle. Vous ne priez plus un ange générique mais VOTRE ange spécifique.\nCertains noms angéliques se terminent en \"el\" qui signifie \"de Dieu\" : Michaël, Raphaël, Gabriel. D'autres ont des sonorités différentes selon les hiérarchies angéliques.\nPrononcer le nom de votre ange lors de vos méditations ou prières renforce considérablement la connexion. C'est comme appeler quelqu'un directement plutôt que crier dans le vide.\nFrederick reçoit aussi des informations sur la nature spécifique de votre ange, ses qualités particulières, comment il préfère que vous communiquiez avec lui.\nAppelez votre ange par son nom sacré. Repérez le bouton qui va émerger pour recevoir cette révélation de votre gardien personnel.`, url: "https://www.clairvoyancemedium.com/Message-de-votre-Ange-gardien-cbaaaabba.asp", isExternal: false},
@@ -1315,66 +1047,243 @@ const knowledgeBase = [
   
   {keywords: "sens|signification|pourquoi|question existentielle", exactMatch: "questions existentielles", answer: (name) => \`Ces questions existentielles qui vous tourmentent méritent des réponses, ${name}. Frederick vous apporte la perspective spirituelle qui donne du sens.\\nPourquoi je souffre ? Quel est le sens de ma vie ? Pourquoi moi ? Ces questions vous empêchent de dormir et aucune réponse intellectuelle ne vous satisfait.\\nCes questions sont l'appel de votre âme vers une compréhension plus vaste. Dans 81% des cas, les personnes trouvent une paix profonde quand elles comprennent le sens spirituel de leur parcours.\\nConsultation 45 min (38€) pour explorer ces questions profondes. Frederick vous apporte les réponses que votre âme cherche désespérément.\\nVos questions ont des réponses. Un accès va se révéler vers cette compréhension qui apaise tout.\`, url: "https://clairvoyancemedium.github.io/Voyancepartelephonepaschere.github.io/", isExternal: false, isPhone: true}
 ];
+// FONCTION VOIX TTS
+function speak(text) {
+  if (!voiceEnabled || !text) return;
+  const chatBox = document.getElementById('chat-box');
+  chatBox.classList.add('speaking');
+  
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = 'fr-FR';
+  
+  const loadVoices = () => {
+    const voices = speechSynthesis.getVoices();
+    let frenchFemaleVoice = voices.find(v => 
+      v.lang.startsWith('fr') && 
+      (v.name.toLowerCase().includes('female') || 
+       v.name.toLowerCase().includes('femme') ||
+       v.name.toLowerCase().includes('amelie'))
+    );
+    if (!frenchFemaleVoice) {
+      frenchFemaleVoice = voices.find(v => v.lang.startsWith('fr'));
+    }
+    if (frenchFemaleVoice) {
+      utterance.voice = frenchFemaleVoice;
+    }
+  };
+  
+  if (speechSynthesis.getVoices().length === 0) {
+    speechSynthesis.addEventListener('voiceschanged', loadVoices, {once: true});
+  } else {
+    loadVoices();
+  }
+  
+  utterance.rate = 0.9;
+  utterance.pitch = 1.0;
+  utterance.volume = 1.0;
+  
+  utterance.onend = () => {
+    chatBox.classList.remove('speaking');
+  };
+  
+  speechSynthesis.speak(utterance);
+}
 
-// RECHERCHE DANS LA BASE
+// FONCTION AJOUT MESSAGE
+function addMessage(text, isBot) {
+  const messagesDiv = document.getElementById('chat-messages');
+  const messageDiv = document.createElement('div');
+  messageDiv.className = isBot ? 'bot-message' : 'user-message';
+  messageDiv.textContent = text;
+  messagesDiv.appendChild(messageDiv);
+  messagesDiv.scrollTop = messagesDiv.scrollHeight;
+  
+  if (isBot && voiceEnabled) {
+    speak(text);
+  }
+}
+
+// FONCTION CLIGNOTEMENT CIBLE
+function blinkTab(exactMatch) {
+  if (!exactMatch) return;
+  
+  randomBlinkActive = false;
+  if (randomBlinkInterval) {
+    clearInterval(randomBlinkInterval);
+  }
+  
+  const allTabs = document.querySelectorAll('nav a');
+  allTabs.forEach(tab => tab.classList.remove('blink'));
+  
+  if (currentBlinkingTab) {
+    currentBlinkingTab.classList.remove('blink');
+  }
+  
+  const targetTab = document.querySelector(`nav a[data-exact="${exactMatch.toLowerCase()}"]`);
+  if (targetTab) {
+    targetTab.classList.add('blink');
+    currentBlinkingTab = targetTab;
+    trackGA('blink', 'navigation', exactMatch);
+  }
+}
+
+// FONCTION CLIGNOTEMENT ALEATOIRE
+function randomBlinkTabs() {
+  const tabs = Array.from(document.querySelectorAll('nav a'));
+  if (tabs.length === 0) return;
+  
+  randomBlinkActive = true;
+  
+  const blinkRandom = () => {
+    if (!randomBlinkActive) return;
+    
+    tabs.forEach(tab => tab.classList.remove('blink'));
+    
+    const randomTab = tabs[Math.floor(Math.random() * tabs.length)];
+    randomTab.classList.add('blink');
+  };
+  
+  blinkRandom();
+  randomBlinkInterval = setInterval(blinkRandom, 2000);
+}
+
+// FONCTION BOUTON FLOTTANT
+function showFloatingTab(url, isPhoneNumber = false) {
+  const floatingTab = document.getElementById('floating-tab');
+  const floatingText = document.getElementById('floating-text');
+  
+  if (isPhoneNumber) {
+    floatingTab.href = `tel:${url}`;
+    floatingText.textContent = `0695468923 - Appelez 24h/7j`;
+  } else {
+    floatingTab.href = url;
+    floatingText.textContent = userName ? `Ce qu il vous faut ${userName} !` : `Ce qu il vous faut !`;
+  }
+  
+  floatingTab.classList.add('show');
+  trackGA('show', 'floating', url);
+}
+
+// FONCTION RECHERCHE KB
 function removeAccents(str) {
   return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 }
 
 function findBestMatch(userInput) {
-  const normalized = removeAccents(userInput.toLowerCase().trim());
+  const normalizedInput = removeAccents(userInput.toLowerCase().trim());
+  const words = normalizedInput.split(/\s+/);
   
-  // Recherche exacte
-  for (const item of knowledgeBase) {
-    if (item.exactMatch && normalized.includes(removeAccents(item.exactMatch.toLowerCase()))) {
-      return item;
-    }
-  }
+  let bestMatch = null;
+  let maxScore = 0;
   
-  // Recherche par mots-clés
-  for (const item of knowledgeBase) {
-    const keywords = item.keywords.split('|').map(k => k.trim());
-    for (const keyword of keywords) {
-      if (normalized.includes(removeAccents(keyword.toLowerCase()))) {
-        return item;
+  for (const entry of knowledgeBase) {
+    const keywords = entry.keywords.split('|').map(k => removeAccents(k.trim().toLowerCase()));
+    let score = 0;
+    
+    for (const word of words) {
+      for (const keyword of keywords) {
+        if (word === keyword) score += 10;
+        else if (word.includes(keyword) || keyword.includes(word)) score += 5;
       }
     }
+    
+    if (score > maxScore) {
+      maxScore = score;
+      bestMatch = entry;
+    }
   }
   
-  return null;
+  return maxScore >= 5 ? bestMatch : null;
 }
 
-// GESTION DU CHAT
-document.getElementById('chat-send').addEventListener('click', async () => {
+// FONCTION SAUVEGARDE
+function saveConversation() {
+  const messages = Array.from(document.querySelectorAll('#chat-messages > div')).map(div => ({
+    text: div.textContent,
+    isBot: div.classList.contains('bot-message')
+  }));
+  
+  const data = {
+    userName,
+    userNameConfirmed,
+    pendingName,
+    messages,
+    timestamp: Date.now()
+  };
+  
+  localStorage.setItem('clairvoyance_chat', JSON.stringify(data));
+}
+
+// FONCTION CHARGEMENT
+function loadConversation() {
+  const saved = localStorage.getItem('clairvoyance_chat');
+  if (!saved) return;
+  
+  try {
+    const data = JSON.parse(saved);
+    const age = Date.now() - data.timestamp;
+    
+    if (age > 24 * 60 * 60 * 1000) {
+      localStorage.removeItem('clairvoyance_chat');
+      return;
+    }
+    
+    userName = data.userName || '';
+    userNameConfirmed = data.userNameConfirmed || false;
+    pendingName = data.pendingName || '';
+    
+    if (data.messages && data.messages.length > 0) {
+      const messagesDiv = document.getElementById('chat-messages');
+      messagesDiv.innerHTML = '';
+      data.messages.forEach(msg => {
+        const div = document.createElement('div');
+        div.className = msg.isBot ? 'bot-message' : 'user-message';
+        div.textContent = msg.text;
+        messagesDiv.appendChild(div);
+      });
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }
+  } catch (e) {
+    console.error('Erreur chargement:', e);
+  }
+}
+
+// GESTIONNAIRE CHAT PRINCIPAL
+document.getElementById('chat-send').addEventListener('click', function() {
   const input = document.getElementById('chat-input');
   const userMsg = input.value.trim();
   
   if (!userMsg) return;
   
-  input.value = '';
   addMessage(userMsg, false);
+  input.value = '';
+  
+  trackGA('message', 'chat', 'user_sent');
   
   const lowerMsg = userMsg.toLowerCase().trim();
   
-  // GESTION DU PRÉNOM
+  // LOGIQUE PRENOM
   if (!userNameConfirmed) {
     if (lowerMsg === "bonjour" || lowerMsg.startsWith("bonjour")) {
-      addMessage("Bonjour ! Je suis ClairVoyanceGPT, votre assistant spirituel. Avant de commencer cette consultation, pouvez-vous m'indiquer votre prénom ?", true);
+      addMessage("Bonjour ! Je suis ClairVoyanceGPT, votre assistant spirituel guide par Frederick, medium depuis 25+ ans. Avant de commencer, pouvez-vous m indiquer votre prenom ?", true);
+      saveConversation();
       return;
     }
     
     if (pendingName) {
-      if (lowerMsg === "oui" || lowerMsg === "oui c'est ça" || lowerMsg === "oui c'est bien ça" || lowerMsg === "oui c est ca") {
+      if (lowerMsg === "oui" || lowerMsg === "oui c est ca" || lowerMsg === "oui c est bien ca") {
         userName = pendingName;
         userNameConfirmed = true;
         pendingName = '';
-        addMessage(`Parfait ${userName} ! Comment puis-je vous aider aujourd'hui ?`, true);
+        addMessage(`Parfait ${userName} ! Frederick est ravi de vous accompagner. Comment puis-je vous guider aujourd hui ?`, true);
         randomBlinkTabs();
         saveConversation();
+        trackGA('prenom_confirme', 'chat', userName);
         return;
       } else if (lowerMsg === "non") {
         pendingName = '';
-        addMessage("Alors donnez-moi votre prénom s'il vous plaît.", true);
+        addMessage("D accord, alors quel est votre prenom ?", true);
+        saveConversation();
         return;
       }
     }
@@ -1382,33 +1291,24 @@ document.getElementById('chat-send').addEventListener('click', async () => {
     const nameMatch = userMsg.match(/\b([A-ZÀ-ÖØ-Ýa-zà-öø-ÿ]{2,})\b/);
     if (nameMatch) {
       pendingName = nameMatch[1].charAt(0).toUpperCase() + nameMatch[1].slice(1).toLowerCase();
-      addMessage(`Très bien ${pendingName}, c'est bien votre prénom ?`, true);
+      addMessage(`Tres bien ${pendingName}, c est bien votre prenom ?`, true);
+      saveConversation();
       return;
     }
     
-    addMessage("Je n'ai pas bien saisi votre prénom. Pouvez-vous me le donner clairement s'il vous plaît ?", true);
+    addMessage("Je n ai pas bien compris votre prenom. Pouvez-vous me le dire clairement s il vous plait ?", true);
+    saveConversation();
     return;
   }
   
-  // AU REVOIR
-  if (lowerMsg === "au revoir" || lowerMsg === "bye" || lowerMsg === "adieu") {
-    addMessage(`Au revoir ${userName} ! N'hésitez pas à revenir me consulter quand vous voulez. Que la lumière vous guide !`, true);
-    return;
-  }
-  
-  // RECHERCHE RÉPONSE
+  // RECHERCHE REPONSE
   const match = findBestMatch(lowerMsg);
   
   if (match) {
-    nonUnderstoodCount = 0;
-    lastMatchedItem = match;
-    
     const response = match.answer(userName);
     addMessage(response, true);
     
-    if (match.exactMatch) {
-      blinkTab(match.exactMatch);
-    }
+    blinkTab(match.exactMatch);
     
     setTimeout(() => {
       if (match.isPhone) {
@@ -1418,42 +1318,91 @@ document.getElementById('chat-send').addEventListener('click', async () => {
       }
     }, 3000);
     
-    trackClick('QuestionAnswered_' + (match.exactMatch || 'keyword'), 'ChatSuccess', 1);
+    trackGA('match_found', 'chat', match.exactMatch);
   } else {
-    nonUnderstoodCount++;
-    
-    if (nonUnderstoodCount >= 3) {
-      addMessage(`${userName}, je vois que vous cherchez quelque chose de spécifique. N'hésitez pas à reformuler ou à poser une question plus générale. Je suis là pour vous guider !`, true);
-      nonUnderstoodCount = 0;
-    } else {
-      addMessage(`Je comprends votre préoccupation ${userName}, mais pourriez-vous reformuler votre question différemment ? Essayez des mots-clés comme : amour, travail, santé, argent, avenir...`, true);
-    }
-    
-    trackClick('QuestionNotUnderstood', 'ChatFail', 0);
+    addMessage(`${userName}, Frederick ne peut pas toujours tout voir clairement dans une simple conversation ecrite. Pour une reponse precise a votre question, je vous recommande de consulter Frederick directement par telephone ou email. Un onglet s illuminera en haut pour choisir.`, true);
+    trackGA('no_match', 'chat', 'fallback');
   }
+  
+  saveConversation();
 });
 
-// ENTER pour envoyer
-document.getElementById('chat-input').addEventListener('keypress', (e) => {
+// ENTREE CLAVIER
+document.getElementById('chat-input').addEventListener('keypress', function(e) {
   if (e.key === 'Enter') {
     document.getElementById('chat-send').click();
   }
 });
 
-// DÉMARRER CLIGNOTEMENT ALÉATOIRE
-setTimeout(randomBlinkTabs, 1000);
-
-// Gestion du focus pour masquer barre d'adresse
-let chatBox = document.getElementById('chat-box');
-chatBox.addEventListener('touchstart', () => {
-  chatBox.style.boxShadow = '0 0 20px rgba(167,139,250,0.5)';
+// BOUTON VOCAL
+const voiceToggle = document.getElementById('voice-toggle');
+voiceToggle.addEventListener('click', function() {
+  voiceEnabled = !voiceEnabled;
+  this.textContent = voiceEnabled ? '🔊' : '🔇';
+  this.style.background = voiceEnabled ? '#8b5cf6' : '#6b7280';
 });
-chatBox.addEventListener('touchend', () => {
-  chatBox.style.boxShadow = '';
+
+// BOUTON VOCAL DRAGGABLE
+let isDragging = false;
+let startX, startY, startLeft, startTop;
+
+voiceToggle.addEventListener('mousedown', startDrag);
+voiceToggle.addEventListener('touchstart', startDrag);
+
+function startDrag(e) {
+  isDragging = true;
+  const touch = e.touches ? e.touches[0] : e;
+  startX = touch.clientX;
+  startY = touch.clientY;
+  const rect = voiceToggle.getBoundingClientRect();
+  startLeft = rect.left;
+  startTop = rect.top;
+  
+  document.addEventListener('mousemove', drag);
+  document.addEventListener('touchmove', drag);
+  document.addEventListener('mouseup', stopDrag);
+  document.addEventListener('touchend', stopDrag);
+}
+
+function drag(e) {
+  if (!isDragging) return;
+  e.preventDefault();
+  const touch = e.touches ? e.touches[0] : e;
+  const deltaX = touch.clientX - startX;
+  const deltaY = touch.clientY - startY;
+  
+  voiceToggle.style.left = (startLeft + deltaX) + 'px';
+  voiceToggle.style.top = (startTop + deltaY) + 'px';
+  voiceToggle.style.right = 'auto';
+  voiceToggle.style.bottom = 'auto';
+}
+
+function stopDrag() {
+  isDragging = false;
+  document.removeEventListener('mousemove', drag);
+  document.removeEventListener('touchmove', drag);
+  document.removeEventListener('mouseup', stopDrag);
+  document.removeEventListener('touchend', stopDrag);
+}
+
+// DESACTIVER PULL-TO-REFRESH
+document.body.addEventListener('touchstart', function(e) {
+  if (e.touches.length > 1) return;
+}, {passive: true});
+
+document.body.addEventListener('touchmove', function(e) {
+  if (e.touches.length > 1) return;
+  if (window.pageYOffset === 0) {
+    e.preventDefault();
+  }
+}, {passive: false});
+
+// CHARGEMENT INITIAL
+window.addEventListener('load', function() {
+  loadConversation();
+  setTimeout(randomBlinkTabs, 1000);
 });
 
 </script>
 </body>
 </html>
-
-
