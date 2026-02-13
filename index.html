@@ -45,18 +45,12 @@
     
     *{margin:0;padding:0;box-sizing:border-box;}
     
-    html, body {
-      height: 100%;
-      overflow: hidden;
-      position: fixed;
-      width: 100%;
-    }
-    
     body{
       font-family:'Cinzel',serif;
       background:var(--bg);
       color:var(--text);
       text-align:center;
+      overflow-x:hidden;
       -webkit-font-smoothing:antialiased;
       padding-top:95px;
     }
@@ -170,9 +164,6 @@
       max-width:900px;
       margin:1rem auto 2rem;
       padding:0 1rem;
-      height: calc(100vh - 400px);
-      display: flex;
-      flex-direction: column;
     }
     
     #chat-box{
@@ -182,7 +173,7 @@
       overflow:hidden;
       display:flex;
       flex-direction:column;
-      flex: 1;
+      height:650px;
       border-radius:0;
       transition:border-color 0.1s ease, box-shadow 0.1s ease;
     }
@@ -418,6 +409,7 @@
       nav{padding:0.7rem 0.4rem;}
       nav ul{gap:0.4rem;}
       nav ul li a{font-size:0.82rem;padding:0.55rem 0.8rem;}
+      #chat-box{height:550px;}
       .logo{width:95%;}
       .floating-tab{right:10px;padding:0.9rem 1.3rem;font-size:0.95rem;}
     }
@@ -426,6 +418,7 @@
       body{padding-top:180px;}
       nav ul{gap:0.35rem;}
       nav ul li a{font-size:0.75rem;padding:0.5rem 0.7rem;min-height:40px;}
+      #chat-box{height:500px;}
     }
   </style>
 </head>
@@ -487,18 +480,38 @@
   <script>
 document.getElementById('current-year').textContent = new Date().getFullYear();
 
-// MASQUER BARRE D'ADRESSE AU CHARGEMENT
-window.addEventListener('load', () => {
-  setTimeout(() => {
-    window.scrollTo(0, 1);
-  }, 0);
-});
+// MASQUER BARRE D'ADRESSE (iOS/Android) - MULTIPLES TENTATIVES
+function hideAddressBar() {
+  if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+    setTimeout(() => {
+      window.scrollTo(0, 1);
+    }, 0);
+    setTimeout(() => {
+      window.scrollTo(0, 1);
+    }, 100);
+    setTimeout(() => {
+      window.scrollTo(0, 1);
+    }, 500);
+  }
+}
 
-// Re-masquer lors du focus sur le chat
-document.getElementById('chat-input').addEventListener('focus', () => {
-  setTimeout(() => {
-    window.scrollTo(0, 1);
-  }, 300);
+// Au chargement
+window.addEventListener('load', hideAddressBar);
+
+// Au redimensionnement (rotation)
+window.addEventListener('resize', hideAddressBar);
+
+// Au focus sur input
+document.addEventListener('DOMContentLoaded', () => {
+  const chatInput = document.getElementById('chat-input');
+  if (chatInput) {
+    chatInput.addEventListener('focus', () => {
+      setTimeout(hideAddressBar, 300);
+    });
+    chatInput.addEventListener('blur', () => {
+      setTimeout(hideAddressBar, 300);
+    });
+  }
 });
 
 function trackClick(label, category, value) {
@@ -598,7 +611,7 @@ if (!conversationRestored) {
   // Attendre que le DOM soit chargé
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
-      setTimeout(randomBlinkTabs, 500); // Petit délai pour que tout soit chargé
+      setTimeout(randomBlinkTabs, 500);
     });
   } else {
     setTimeout(randomBlinkTabs, 500);
@@ -693,7 +706,7 @@ let audioContext = null;
 let analyser = null;
 let animationFrameId = null;
 
-// VOIX FÉMININE AVEC ANIMATION BLEU CIEL RÉACTIVE À L'INTENSITÉ
+// VOIX FÉMININE UNIVERSELLE (iOS + Android)
 function speak(text) {
   if (!voiceEnabled || !('speechSynthesis' in window)) return;
   
@@ -704,80 +717,77 @@ function speak(text) {
   const utterance = new SpeechSynthesisUtterance(textToSpeak);
   utterance.lang = 'fr-FR';
   
-  // CHERCHER UNE VOIX FÉMININE FRANÇAISE
+  // STRATÉGIE VOIX FÉMININE UNIVERSELLE
   const voices = window.speechSynthesis.getVoices();
-  const femaleVoice = voices.find(v => 
+  
+  // Priorité 1: Voix françaises féminines explicites
+  let femaleVoice = voices.find(v => 
     v.lang.startsWith('fr') && (
-      v.name.toLowerCase().includes('amelie') ||
-      v.name.toLowerCase().includes('aurelie') ||
-      v.name.toLowerCase().includes('female') ||
-      v.name.toLowerCase().includes('femme') ||
-      v.name.toLowerCase().includes('woman') ||
-      v.name.toLowerCase().includes('virginie') ||
-      v.name.toLowerCase().includes('celine') ||
-      v.name.toLowerCase().includes('alice')
+      v.name.includes('Amelie') ||
+      v.name.includes('Aurelie') ||
+      v.name.includes('Female') ||
+      v.name.includes('Pauline') ||
+      v.name.includes('Virginie') ||
+      v.name.includes('Alice') ||
+      v.name.includes('Celine') ||
+      v.name.includes('Lea')
     )
   );
   
-  if (femaleVoice) {
-    utterance.voice = femaleVoice;
-  } else {
-    // Fallback : chercher n'importe quelle voix française qui n'est pas masculine
-    const anyFrenchVoice = voices.find(v => 
-      v.lang.startsWith('fr') && 
-      !v.name.toLowerCase().includes('thomas') &&
-      !v.name.toLowerCase().includes('daniel') &&
-      !v.name.toLowerCase().includes('male')
-    );
-    if (anyFrenchVoice) utterance.voice = anyFrenchVoice;
+  // Priorité 2: iOS - voix Samantha (fr-FR)
+  if (!femaleVoice && /iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+    femaleVoice = voices.find(v => v.name.includes('Samantha'));
   }
   
-  // Paramètres pour voix féminine
-  utterance.pitch = 1.1;  // Légèrement plus aigu
-  utterance.rate = 1.0;   // Vitesse normale
+  // Priorité 3: Android - voix française qui n'est PAS masculine
+  if (!femaleVoice && /Android/i.test(navigator.userAgent)) {
+    femaleVoice = voices.find(v => 
+      v.lang.startsWith('fr') && 
+      !v.name.includes('Thomas') &&
+      !v.name.includes('Male')
+    );
+  }
+  
+  // Priorité 4: N'importe quelle voix française non-masculine
+  if (!femaleVoice) {
+    femaleVoice = voices.find(v => 
+      v.lang.startsWith('fr') && 
+      !v.name.toLowerCase().includes('male') &&
+      !v.name.includes('Thomas') &&
+      !v.name.includes('Daniel')
+    );
+  }
+  
+  // Priorité 5: Première voix française disponible
+  if (!femaleVoice) {
+    femaleVoice = voices.find(v => v.lang.startsWith('fr'));
+  }
+  
+  if (femaleVoice) {
+    utterance.voice = femaleVoice;
+  }
+  
+  // PARAMÈTRES VOIX FÉMININE UNIVERSELS
+  utterance.pitch = 1.2;  // Plus aigu (féminin)
+  utterance.rate = 0.95;  // Légèrement plus lent (plus doux)
   utterance.volume = 1.0;
   
   const chatBox = document.getElementById('chat-box');
   
   // Initialiser le contexte audio pour l'analyse
   if (!audioContext) {
-    audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    analyser = audioContext.createAnalyser();
-    analyser.fftSize = 256;
-  }
-  
-  // Fonction d'animation basée sur le volume
-  function animateBlue() {
-    if (!analyser) return;
-    
-    const dataArray = new Uint8Array(analyser.frequencyBinCount);
-    analyser.getByteFrequencyData(dataArray);
-    
-    // Calculer le volume moyen
-    const average = dataArray.reduce((a, b) => a + b) / dataArray.length;
-    
-    // Normaliser entre 0 et 1
-    const intensity = Math.min(average / 128, 1);
-    
-    // Appliquer le bleu ciel avec intensité variable
-    if (intensity > 0.05) {
-      const baseGlow = 20 + (intensity * 40); // 20-60px
-      const strongGlow = 35 + (intensity * 60); // 35-95px
-      const opacity = 0.6 + (intensity * 0.4); // 0.6-1.0
-      
-      chatBox.style.borderColor = `rgba(135, 206, 235, ${opacity})`;
-      chatBox.style.boxShadow = `
-        0 0 ${baseGlow}px rgba(135, 206, 235, ${opacity}),
-        0 0 ${strongGlow}px rgba(135, 206, 235, ${opacity * 0.8})
-      `;
+    try {
+      audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      analyser = audioContext.createAnalyser();
+      analyser.fftSize = 256;
+    } catch (e) {
+      console.log('AudioContext non disponible');
     }
-    
-    animationFrameId = requestAnimationFrame(animateBlue);
   }
   
   // Début de la parole → Animation BLEU CIEL
   utterance.onstart = () => {
-    animateBlue();
+    simulateSpeechRhythm(textToSpeak);
   };
   
   // Fin de la parole → Retour ORANGE
@@ -802,9 +812,6 @@ function speak(text) {
   
   currentUtterance = utterance;
   window.speechSynthesis.speak(utterance);
-  
-  // Fallback: animation simulée basée sur le rythme de la parole
-  simulateSpeechRhythm(textToSpeak);
 }
 
 // Simulation de RYTHME réaliste de parole avec syllabes
@@ -814,7 +821,7 @@ function simulateSpeechRhythm(text) {
   // Découper en mots pour simuler le rythme naturel
   const words = text.split(/\s+/);
   let wordIndex = 0;
-  const msPerWord = 400; // ~400ms par mot (vitesse naturelle)
+  const msPerWord = 450; // ~450ms par mot (vitesse féminine douce)
   
   function pulseWord() {
     if (!window.speechSynthesis.speaking || wordIndex >= words.length) {
@@ -871,10 +878,15 @@ function simulateSpeechRhythm(text) {
   pulseWord();
 }
 
+// Charger les voix au démarrage
 if ('speechSynthesis' in window) {
   window.speechSynthesis.onvoiceschanged = () => {
     window.speechSynthesis.getVoices();
   };
+  // Forcer le chargement des voix
+  setTimeout(() => {
+    window.speechSynthesis.getVoices();
+  }, 100);
 }
 
 // RECONNAISSANCE VOCALE
@@ -890,6 +902,10 @@ if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
     document.getElementById('chat-input').value = transcript;
     handleMessage();
   };
+  
+  recognition.onerror = (event) => {
+    console.log('Erreur reconnaissance vocale:', event.error);
+  };
 }
 
 document.getElementById('voice-toggle').addEventListener('click', () => {
@@ -901,9 +917,17 @@ document.getElementById('voice-toggle').addEventListener('click', () => {
   voiceBtn.textContent = voiceEnabled ? '🔊' : '🔇';
   
   if (voiceEnabled && recognition) {
-    try { recognition.start(); } catch(e) {}
+    try { 
+      recognition.start(); 
+    } catch(e) {
+      console.log('Reconnaissance vocale déjà active');
+    }
   } else {
-    if (recognition) recognition.stop();
+    if (recognition) {
+      try {
+        recognition.stop();
+      } catch(e) {}
+    }
     if (currentUtterance) window.speechSynthesis.cancel();
     // Arrêter l'animation et restaurer le style
     if (animationFrameId) {
@@ -987,7 +1011,6 @@ function randomBlinkTabs() {
   // Changer toutes les 2 secondes
   randomBlinkInterval = setInterval(blinkRandom, 2000);
 }
-
 
 // ONGLET FLOTTANT CLIQUABLE - CORRECTION HREF
 function showFloatingTab(url, isPhoneNumber = false) {
@@ -1082,12 +1105,10 @@ function findBestMatch(userInput) {
             }
             
             userWords.forEach(userWord => {
-                // ACCEPTER MOTS DE 1 LETTRE (au lieu de 2)
                 if (userWord.length >= 1) {
                     const distance = levenshteinDistance(userWord, normalizedKeyword);
                     const similarity = 1 - distance / Math.max(userWord.length, normalizedKeyword.length);
                     
-                    // SEUIL ABAISSÉ : 0.35 (65% d'erreur toléré)
                     if (similarity >= 0.35) {
                         score += similarity * normalizedKeyword.length * 5;
                     }
@@ -1162,7 +1183,6 @@ function handleMessage() {
     // DÉTECTION MOTS-CLÉS TÉLÉPHONE → AFFICHER BOUTON FLOTTANT
     const phoneKeywords = /(voyance|telephone|téléphone|tel|appel|appeler|telephoner|phone)/i;
     if (phoneKeywords.test(lowerMsg) && userNameConfirmed) {
-      // Afficher le bouton flottant avec le numéro
       showFloatingTab(PHONE_NUMBER, true);
     }
     
@@ -1280,7 +1300,7 @@ function showVoiceButton() {
   });
 }
 
-// BLOQUER PULL-TO-REFRESH (seulement en haut de page)
+// BLOQUER PULL-TO-REFRESH UNIQUEMENT
 let lastTouchY = 0;
 let preventPullToRefresh = false;
 
