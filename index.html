@@ -55,7 +55,7 @@
       padding-top:95px;
     }
     
-    /* NAVIGATION STICKY - DISPOSITION IMBRIQUÉE ADAPTATIVE */
+    /* NAVIGATION STICKY - TAILLE -8% */
     nav{
       position:fixed;
       top:0;
@@ -65,7 +65,7 @@
       background:rgba(0,0,0,0.30);
       backdrop-filter:blur(10px);
       -webkit-backdrop-filter:blur(10px);
-      padding:0.7rem 0.5rem;
+      padding:0.644rem 0.46rem;
       box-shadow:0 2px 15px rgba(255,215,0,0.3);
     }
     
@@ -75,32 +75,31 @@
       display:flex;
       flex-wrap:wrap;
       justify-content:center;
-      gap:0.4rem;
+      gap:0.368rem;
       max-width:1200px;
       margin:0 auto;
     }
     
-    /* Effet imbriqué ligne par ligne */
     nav ul li:nth-child(4n+1),
     nav ul li:nth-child(4n+2),
     nav ul li:nth-child(4n+3){
-      margin-right:0.3rem;
+      margin-right:0.276rem;
     }
     
-    /* ANGLES CARRÉS - TAILLE -5% */
+    /* ONGLETS -8% */
     nav ul li a{
       font-family:'Cinzel',serif;
-      font-size:clamp(0.855rem, 2.1vw, 1.045rem);
+      font-size:clamp(0.7866rem, 1.932vw, 0.9614rem);
       color:var(--tab-gold);
       text-decoration:none;
-      padding:0.62rem 0.90rem;
+      padding:0.5704rem 0.828rem;
       background:rgba(17,17,17,0.45);
       border:2px solid var(--tab-gold);
       border-radius:0;
       transition:all .3s ease;
       display:inline-block;
       text-align:center;
-      min-height:43px;
+      min-height:39.56px;
       display:flex;
       align-items:center;
       justify-content:center;
@@ -113,7 +112,6 @@
       box-shadow:0 4px 12px rgba(187,174,152,0.5);
     }
     
-    /* CLIGNOTEMENT ONGLETS */
     @keyframes blinkTab{
       0%, 100%{
         box-shadow:0 0 15px var(--orange);
@@ -134,7 +132,6 @@
       color:var(--tab-gold) !important;
     }
     
-    /* ONGLET FIXE (évoqué) - pas d'animation */
     nav ul li a.fixed{
       background:#000;
       border:3px solid var(--orange);
@@ -268,32 +265,32 @@
       font-style:italic;
     }
     
-    /* ENCEINTE BLUETOOTH PREMIUM */
+    /* CERCLE ORANGE MINIMALISTE */
     #voice-toggle{
       position:fixed;
       bottom:50px;
       right:30px;
-      width:80px;
-      height:80px;
+      width:70px;
+      height:70px;
       background:transparent;
       border:none;
       cursor:pointer;
       display:flex;
       align-items:center;
       justify-content:center;
-      transition:all 0.3s ease;
+      transition:all 0.4s ease;
       z-index:999;
-      filter:drop-shadow(0 4px 12px rgba(0,0,0,0.4));
+      filter:drop-shadow(0 0 15px rgba(255,140,0,0.6));
     }
     
     #voice-toggle:hover{
-      transform:scale(1.08);
-      filter:drop-shadow(0 6px 18px rgba(255,215,0,0.6));
+      transform:scale(1.1);
+      filter:drop-shadow(0 0 25px rgba(255,165,0,0.9));
     }
     
     #voice-toggle.disabled{
       opacity:0.4;
-      filter:grayscale(1) drop-shadow(0 2px 6px rgba(0,0,0,0.3));
+      filter:grayscale(1) drop-shadow(0 0 5px rgba(100,100,100,0.3));
     }
     
     #voice-toggle svg{
@@ -301,30 +298,19 @@
       height:100%;
     }
     
-    /* Animation pulsation quand il parle */
     @keyframes speakerPulse{
       0%, 100%{
-        filter:drop-shadow(0 4px 12px rgba(0,0,0,0.4));
+        filter:drop-shadow(0 0 15px rgba(255,140,0,0.6));
         transform:scale(1);
       }
       50%{
-        filter:drop-shadow(0 6px 20px rgba(135,206,235,0.8));
-        transform:scale(1.05);
+        filter:drop-shadow(0 0 30px rgba(255,215,0,0.9));
+        transform:scale(1.08);
       }
     }
     
     #voice-toggle.speaking{
-      animation:speakerPulse 1s ease-in-out infinite;
-    }
-    
-    /* LED clignote quand actif */
-    @keyframes ledBlink{
-      0%, 100%{opacity:1;}
-      50%{opacity:0.3;}
-    }
-    
-    #voice-toggle.speaking .speaker-led{
-      animation:ledBlink 1.5s ease-in-out infinite;
+      animation:speakerPulse 1.2s ease-in-out infinite;
     }
     
     #chat-send{
@@ -347,7 +333,6 @@
       box-shadow:0 0 28px rgba(255,140,0,0.85);
     }
     
-    /* BOUTON FLOTTANT FLUIDE - DÉPLAÇABLE PARTOUT */
     .floating-tab{
       position:fixed;
       top:50%;
@@ -397,7 +382,6 @@
       50%{box-shadow:0 0 25px var(--orange-light);}
     }
     
-    /* LIEN RETOUR - COULEUR TAB-GOLD (#BBAE98) */
     .return-line{
       font-family:'Cinzel',serif;
       font-size:0.9rem;
@@ -429,7 +413,6 @@
       transform:translateX(-5px);
     }
     
-    /* FOOTER - CONDITIONS GÉNÉRALES EN GRIS */
     footer{
       margin-top:2rem;
       font-size:.9rem;
@@ -453,26 +436,25 @@
     
     @media(max-width:768px){
       body{padding-top:140px;}
-      nav{padding:0.7rem 0.4rem;}
-      nav ul{gap:0.4rem;}
-      nav ul li a{font-size:0.82rem;padding:0.55rem 0.8rem;}
+      nav{padding:0.644rem 0.368rem;}
+      nav ul{gap:0.368rem;}
+      nav ul li a{font-size:0.7544rem;padding:0.506rem 0.736rem;}
       #chat-box{height:550px;}
       .logo{width:95%;}
       .floating-tab{right:10px;padding:0.9rem 1.3rem;font-size:0.95rem;}
-      #voice-toggle{bottom:50px;right:20px;width:70px;height:70px;}
+      #voice-toggle{bottom:50px;right:20px;width:65px;height:65px;}
     }
     
     @media(max-width:480px){
       body{padding-top:180px;}
-      nav ul{gap:0.35rem;}
-      nav ul li a{font-size:0.75rem;padding:0.5rem 0.7rem;min-height:40px;}
+      nav ul{gap:0.322rem;}
+      nav ul li a{font-size:0.69rem;padding:0.46rem 0.644rem;min-height:36.8px;}
       #chat-box{height:500px;}
-      #voice-toggle{bottom:50px;right:15px;width:65px;height:65px;}
+      #voice-toggle{bottom:50px;right:15px;width:60px;height:60px;}
     }
   </style>
 </head>
 <body>
-  <!-- ONGLETS FIXES STICKY EN HAUT -->
   <nav>
     <ul>
       <li><a href="https://clairvoyancemedium.github.io/Voyancepartelephonepaschere.github.io/" target="_blank" rel="noopener noreferrer" data-keywords="téléphone|appel|30min|tél|telephoner|appeler|phone" data-exact="voyance téléphone" data-url="https://clairvoyancemedium.github.io/Voyancepartelephonepaschere.github.io/" onclick="trackClick('TabVoyanceTel', 'Navigation', 30);">Voyance Tél 30min/30€</a></li>
@@ -487,7 +469,6 @@
     </ul>
   </nav>
   
-  <!-- LOGO -->
   <header>
     <picture>
       <source srcset="https://i.imgur.com/GmyGlKk.webp" type="image/webp">
@@ -497,7 +478,6 @@
   
   <div class="chat-intro">Chat IA Spirituel - ClairVoyanceGPT</div>
   
-  <!-- CHAT -->
   <div id="chat-container">
     <div id="chat-box">
       <div id="chat-messages"></div>
@@ -510,39 +490,24 @@
     </div>
   </div>
   
-  <!-- ENCEINTE BLUETOOTH PREMIUM -->
+  <!-- CERCLE ORANGE MINIMALISTE -->
   <button type="button" id="voice-toggle" title="Assistant vocal">
-    <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <!-- Dégradés -->
-        <linearGradient id="bodyGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-          <stop offset="0%" style="stop-color:#2a2a2a;stop-opacity:1" />
-          <stop offset="50%" style="stop-color:#1a1a1a;stop-opacity:1" />
-          <stop offset="100%" style="stop-color:#0a0a0a;stop-opacity:1" />
-        </linearGradient>
-        
-        <linearGradient id="grillGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <linearGradient id="circleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" style="stop-color:#FFD700;stop-opacity:1" />
           <stop offset="50%" style="stop-color:#FFA500;stop-opacity:1" />
           <stop offset="100%" style="stop-color:#FF8C00;stop-opacity:1" />
         </linearGradient>
-        
-        <radialGradient id="ledGradient">
-          <stop offset="0%" style="stop-color:#87CEEB;stop-opacity:1" />
-          <stop offset="100%" style="stop-color:#4682B4;stop-opacity:1" />
+        <radialGradient id="glowGradient">
+          <stop offset="0%" style="stop-color:#FFA500;stop-opacity:0.6" />
+          <stop offset="100%" style="stop-color:#FF8C00;stop-opacity:0" />
         </radialGradient>
-        
-        <!-- Pattern grille -->
-        <pattern id="meshPattern" x="0" y="0" width="8" height="8" patternUnits="userSpaceOnUse">
-          <circle cx="4" cy="4" r="1.5" fill="#FFD700" opacity="0.8"/>
-        </pattern>
-        
-        <!-- Ombres -->
-        <filter id="shadow">
-          <feGaussianBlur in="SourceAlpha" stdDeviation="2"/>
+        <filter id="softShadow">
+          <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
           <feOffset dx="0" dy="2" result="offsetblur"/>
           <feComponentTransfer>
-            <feFuncA type="linear" slope="0.5"/>
+            <feFuncA type="linear" slope="0.4"/>
           </feComponentTransfer>
           <feMerge>
             <feMergeNode/>
@@ -551,45 +516,39 @@
         </filter>
       </defs>
       
-      <!-- Corps de l'enceinte (cylindre) -->
-      <rect x="15" y="30" width="90" height="60" rx="30" ry="30" 
-            fill="url(#bodyGradient)" 
-            stroke="#000" 
-            stroke-width="2"
-            filter="url(#shadow)"/>
+      <!-- Lueur -->
+      <circle cx="50" cy="50" r="40" fill="url(#glowGradient)" opacity="0.5"/>
+      
+      <!-- Cercle principal -->
+      <circle cx="50" cy="50" r="35" 
+              fill="url(#circleGradient)" 
+              filter="url(#softShadow)"/>
       
       <!-- Reflet haut -->
-      <ellipse cx="60" cy="40" rx="35" ry="8" fill="#ffffff" opacity="0.15"/>
+      <ellipse cx="50" cy="35" rx="25" ry="12" fill="#ffffff" opacity="0.2"/>
       
-      <!-- Grille dorée du haut-parleur -->
-      <ellipse cx="60" cy="60" rx="32" ry="22" 
-               fill="url(#meshPattern)" 
-               stroke="url(#grillGradient)" 
-               stroke-width="2"/>
-      
-      <!-- Cercles concentriques de la grille -->
-      <ellipse cx="60" cy="60" rx="28" ry="18" 
-               fill="none" 
-               stroke="#FFA500" 
-               stroke-width="1" 
-               opacity="0.6"/>
-      <ellipse cx="60" cy="60" rx="20" ry="13" 
-               fill="none" 
-               stroke="#FFD700" 
-               stroke-width="1" 
-               opacity="0.4"/>
-      
-      <!-- LED d'état (bleu ciel) -->
-      <circle class="speaker-led" cx="25" cy="60" r="3" 
-              fill="url(#ledGradient)" 
-              filter="url(#shadow)"/>
-      
-      <!-- Reflet LED -->
-      <circle cx="24" cy="59" r="1.5" fill="#ffffff" opacity="0.7"/>
-      
-      <!-- Détails bordures -->
-      <line x1="15" y1="45" x2="15" y2="75" stroke="#333" stroke-width="1"/>
-      <line x1="105" y1="45" x2="105" y2="75" stroke="#333" stroke-width="1"/>
+      <!-- Icône haut-parleur blanc simple -->
+      <g fill="#ffffff">
+        <!-- Corps du haut-parleur -->
+        <path d="M35 40 L35 60 L42 60 L52 68 L52 32 L42 40 Z"/>
+        
+        <!-- Ondes sonores -->
+        <path class="wave1" d="M58 45 Q62 50 58 55" 
+              stroke="#ffffff" 
+              stroke-width="2.5" 
+              fill="none" 
+              opacity="0.8"/>
+        <path class="wave2" d="M63 42 Q68 50 63 58" 
+              stroke="#ffffff" 
+              stroke-width="2.5" 
+              fill="none" 
+              opacity="0.6"/>
+        <path class="wave3" d="M68 39 Q74 50 68 61" 
+              stroke="#ffffff" 
+              stroke-width="2.5" 
+              fill="none" 
+              opacity="0.4"/>
+      </g>
     </svg>
   </button>
   
@@ -597,7 +556,6 @@
     <a href="https://www.clairvoyancemedium.com/">Retour vers le cabinet de voyance ClairVoyanceMedium.com</a>
   </div>
   
-  <!-- BOUTON FLOTTANT -->
   <a id="floating-tab" class="floating-tab" href="#" target="_blank" rel="noopener noreferrer" onclick="trackClick('FloatingTabClicked', 'Conversion', 1);">
     <span class="close-btn" onclick="event.preventDefault();event.stopPropagation();document.getElementById('floating-tab').classList.remove('show');trackClick('FloatingTabClosed', 'Interaction', 0);return false;">×</span>
     <span id="floating-text">Ce qu'il vous faut !</span>
@@ -629,7 +587,6 @@ let fixedTabTimeout = null;
 let nonUnderstoodCount = 0;
 let currentUtterance = null;
 
-// CLIGNOTEMENT PERMANENT
 let randomBlinkInterval = null;
 let randomBlinkActive = true;
 let allNavLinks = [];
@@ -637,7 +594,6 @@ let allNavLinks = [];
 const PHONE_NUMBER = "+33695468923";
 const PHONE_DISPLAY = "06 95 46 89 23";
 
-// GESTION MÉMOIRE 24H
 const STORAGE_KEY = 'clairvoyance_chat_history';
 const STORAGE_TIMESTAMP = 'clairvoyance_chat_timestamp';
 const SESSION_KEY = 'clairvoyance_session_active';
@@ -699,7 +655,6 @@ window.addEventListener('beforeunload', () => {
 
 const conversationRestored = loadConversation();
 
-// TOUJOURS LANCER LE CLIGNOTEMENT
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', () => {
     setTimeout(randomBlinkTabs, 500);
@@ -786,7 +741,7 @@ let audioContext = null;
 let analyser = null;
 let animationFrameId = null;
 
-// VOIX GRAVE FÉMININE AUDIBLE (rate 0.87)
+// VOIX IOS FIXÉE - PLUS LENTE ET CLAIRE
 function speak(text) {
   if (!voiceEnabled || !('speechSynthesis' in window)) return;
   
@@ -798,15 +753,24 @@ function speak(text) {
   utterance.lang = 'fr-FR';
   
   const voices = window.speechSynthesis.getVoices();
-  let voice = voices.find(v => v.lang.startsWith('fr'));
+  
+  // Prioriser les voix françaises natives pour iOS
+  let voice = voices.find(v => 
+    v.lang === 'fr-FR' && 
+    v.name.includes('Thomas') || v.name.includes('Amelie')
+  );
+  
+  if (!voice) {
+    voice = voices.find(v => v.lang.startsWith('fr'));
+  }
   
   if (voice) {
     utterance.voice = voice;
   }
   
-  // VOIX AUDIBLE SUR iOS/ANDROID
-  utterance.pitch = 0.75;  // Grave
-  utterance.rate = 0.87;   // Audible (pas trop rapide)
+  // PARAMÈTRES OPTIMISÉS iOS
+  utterance.pitch = 0.8;   // Légèrement moins grave pour iOS
+  utterance.rate = 0.75;   // Plus lent pour iOS (était 0.87)
   utterance.volume = 1.0;
   
   const chatBox = document.getElementById('chat-box');
@@ -846,7 +810,7 @@ function simulateSpeechRhythm(text) {
   
   const words = text.split(/\s+/);
   let wordIndex = 0;
-  const msPerWord = 450; // Adapté au rate 0.87
+  const msPerWord = 500; // Adapté au rate 0.75
   
   function pulseWord() {
     if (!window.speechSynthesis.speaking || wordIndex >= words.length) {
@@ -874,7 +838,7 @@ function simulateSpeechRhythm(text) {
       
       if (syllableCount >= syllables) {
         wordIndex++;
-        setTimeout(pulseWord, 50);
+        setTimeout(pulseWord, 60);
         return;
       }
       
@@ -972,7 +936,6 @@ function addMessage(text, isBot = false) {
   saveConversation();
 }
 
-// FIXER ONGLET 60 SECONDES
 function blinkTab(exactMatch) {
   randomBlinkActive = false;
   if (randomBlinkInterval) {
@@ -1014,7 +977,6 @@ function blinkTab(exactMatch) {
   }, 60000);
 }
 
-// CLIGNOTEMENT ALÉATOIRE PERMANENT
 function randomBlinkTabs() {
   if (allNavLinks.length === 0) {
     allNavLinks = Array.from(document.querySelectorAll('nav ul li a'));
@@ -1056,13 +1018,13 @@ function showFloatingTab(url, isPhoneNumber = false) {
 }
 
 const knowledgeBase = [
-  {keywords: "emotion", exactMatch: "manger emotions", answer: (name) => `Manger vos émotions au lieu de les ressentir crée un cercle vicieux. Vous grossissez puis vous culpabilisez, ce qui génère plus d'émotions que vous mangez à nouveau. Frederick brise ce cycle destructeur.\nL'alimentation émotionnelle sert à anesthésier des sentiments difficiles. Tristesse, colère, solitude, frustration, ennui : chaque émotion trouve temporairement son apaisement dans la nourriture. Mais le soulagement reste illusoire.\nLe programme vous apprend à ressentir vos émotions sans les fuir dans la nourriture. Techniques de régulation émotionnelle, libération des traumatismes, développement de stratégies alternatives de réconfort, travail énergétique sur le plexus solaire.\nLa transformation prend du temps car ces patterns sont souvent anciens. Mais dans 78% des cas, les personnes développent une relation beaucoup plus saine aux émotions en quatre à six mois.\nVos émotions méritent d'être ressenties et traitées, pas englouties dans la nourriture. Consultez l'accès qui va se dévoiler en haut pour apprendre à gérer vos émotions autrement.`, url: "https://www.clairvoyancemedium.com/Programme-Minceur-2-mois-cbaaaaada.asp", isExternal: false},
-  {keywords: "ange", exactMatch: "ange gardien", answer: (name) => `Votre ange gardien vous accompagne depuis votre naissance. Frederick contacte cette présence angélique pour transmettre ses messages et guidance.\nChaque personne possède au moins un ange gardien personnel qui veille sur elle. Cette entité divine vous protège, vous guide, vous inspire sans intervenir dans votre libre arbitre.\nFrederick établit la communication avec votre ange. Il reçoit son nom, sa nature, ses messages pour vous. Ces informations transforment votre relation avec cette présence invisible.\nVotre ange veut que vous réussissiez votre mission de vie. Il vous envoie constamment des signes et synchronicités mais beaucoup passent inaperçus. La consultation les révèle.\nConnaître votre ange personnellement change tout. Vous pouvez l'invoquer par son nom, lui parler directement, reconnaître sa présence. Cette connexion consciente amplifie son soutien.\nRencontrez enfin votre ange gardien personnellement. Observez l'interface où un accès va se dévoiler vers ce contact angélique qui transformera votre vie.`, url: "https://www.clairvoyancemedium.com/Message-de-votre-Ange-gardien-cbaaaabba.asp", isExternal: false},
-  {keywords: "archange", exactMatch: "message archange", answer: (name) => `Les archanges supervisent les anges gardiens et interviennent dans des situations importantes. Frederick contacte ces êtres de lumière puissants pour leurs guidances.\nSept archanges principaux gouvernent différents domaines : Michel pour la protection, Raphaël pour la guérison, Gabriel pour les messages, Uriel pour la sagesse. Chacun offre un soutien spécifique.\nInvoquer un archange pour une situation particulière amplifie considérablement l'aide disponible. Leur puissance dépasse largement celle des anges gardiens ordinaires.\nFrederick identifie quel archange vous aide actuellement et pourquoi. Souvent leur intervention coïncide avec des défis ou opportunités majeures dans votre vie.\nLes archanges laissent aussi des signes de leur présence : plumes blanches, parfums inexpliqués, synchronicités frappantes. Frederick vous apprend à reconnaître ces manifestations.\nConnectez-vous aux hiérarchies angéliques supérieures. Consultez le lien qui va apparaître pour recevoir les messages des archanges qui vous accompagnent.`, url: "https://www.clairvoyancemedium.com/Message-de-votre-Ange-gardien-cbaaaabba.asp", isExternal: false},
-  {keywords: "nom ange", exactMatch: "nom ange gardien", answer: (name) => `Le nom de votre ange gardien porte une vibration sacrée. Frederick reçoit ce nom divin que vous pourrez ensuite utiliser pour invoquer votre protecteur céleste.\nConnaître le nom de votre ange transforme votre relation de impersonnelle à personnelle. Vous ne priez plus un ange générique mais VOTRE ange spécifique.\nCertains noms angéliques se terminent en \"el\" qui signifie \"de Dieu\" : Michaël, Raphaël, Gabriel. D'autres ont des sonorités différentes selon les hiérarchies angéliques.\nPrononcer le nom de votre ange lors de vos méditations ou prières renforce considérablement la connexion. C'est comme appeler quelqu'un directement plutôt que crier dans le vide.\nFrederick reçoit aussi des informations sur la nature spécifique de votre ange, ses qualités particulières, comment il préfère que vous communiquiez avec lui.\nAppelez votre ange par son nom sacré. Repérez le bouton qui va émerger pour recevoir cette révélation de votre gardien personnel.`, url: "https://www.clairvoyancemedium.com/Message-de-votre-Ange-gardien-cbaaaabba.asp", isExternal: false},
-  {keywords: "cycle", exactMatch: "cycles vie", answer: (name) => `Vos cycles de vie suivent des rythmes prévisibles que Frederick décode. Comprendre où vous en êtes dans vos cycles éclaire profondément votre situation actuelle.\nChaque cycle porte une énergie et des thèmes spécifiques. Certains favorisent la construction, d'autres la transformation, d'autres encore la récolte.\nFrederick identifie dans quel cycle vous entrez maintenant et combien de temps il durera. Cette information vous permet d'aligner vos efforts avec l'énergie disponible.\nRésister aux cycles crée de la souffrance. Vouloir construire pendant un cycle de libération génère frustration. Connaître les cycles permet de surfer avec eux.\nLes cycles se terminent toujours pour laisser place au suivant. Savoir qu'une phase difficile prendra fin apporte énormément d'espoir et d'endurance.\nComprenez vos rythmes naturels de vie. Notez le lien qui se dévoilera vers cette analyse de vos cycles personnels.`, url: "https://www.clairvoyancemedium.com/Voyance-de-l-annee-nouvelle-cbaaaabca.asp", isExternal: false},
-  {keywords: "contact", exactMatch: "contacter frederick", answer: (name) => `Contacter Frederick reste d'une simplicité totale, ${name}. Email, téléphone, formulaire web : plusieurs canaux s'offrent à vous selon votre préférence.\nL'email convient parfaitement pour les questions non urgentes. Vous écrivez tranquillement, Frederick répond en détail. Cette trace écrite reste consultable indéfiniment.\nLe téléphone reste idéal pour les urgences ou le besoin d'interaction humaine. Vous parlez, Frederick répond, tout se règle en temps réel.\nLe formulaire sur le site permet aussi de poser vos questions initiales. Frederick vous recontacte ensuite pour fixer le mode de consultation optimal.\nQuelle que soit la méthode choisie, Frederick répond personnellement. Jamais d'assistant ou de standard. Vous communiquez directement avec lui.\nÉtablissez ce contact qui pourrait transformer votre vie. Une page va se matérialiser avec tous les moyens de joindre Frederick facilement.`, url: "https://www.clairvoyancemedium.com/Contact.asp", isExternal: false},
-  {keywords: "reponse", exactMatch: "obtenir reponses", answer: (name) => `Les réponses que Frederick vous donne transforment généralement radicalement votre perspective, ${name}. Vous repartez avec une clarté que vous n'aviez pas depuis des mois.\nCes réponses ne restent jamais vagues ou génériques. Frederick va dans les détails concrets qui vous permettent vraiment d'agir.\nEnviron 89% des clients rapportent que les réponses reçues ont résolu leur confusion et guidé leurs décisions avec succès.\nFrederick ne se contente pas de répondre à votre question de surface. Il identifie souvent la vraie question cachée derrière celle que vous posez.\nCette profondeur de réponse vaut largement l'investissement. Une seule consultation peut éclairer des années d'incertitude.\nObtenez enfin les réponses qui vous manquent cruellement. Un accès se matérialisera vers cette clarté qui mettra fin à votre confusion.`, url: "https://www.clairvoyancemedium.com/Voyance-1-question-par-Email-cbaaaaaba.asp", isExternal: false},
+  {keywords: "emotion", exactMatch: "manger emotions", answer: (name) => `Manger vos émotions au lieu de les ressentir crée un cercle vicieux. Vous grossissez puis vous culpabilisez, ce qui génère plus d'émotions que vous mangez à nouveau. Frederick du Cabinet ClairVoyanceMedium.com brise ce cycle destructeur.\nL'alimentation émotionnelle sert à anesthésier des sentiments difficiles. Tristesse, colère, solitude, frustration, ennui : chaque émotion trouve temporairement son apaisement dans la nourriture. Mais le soulagement reste illusoire.\nLe programme vous apprend à ressentir vos émotions sans les fuir dans la nourriture. Techniques de régulation émotionnelle, libération des traumatismes, développement de stratégies alternatives de réconfort, travail énergétique sur le plexus solaire.\nLa transformation prend du temps car ces patterns sont souvent anciens. Mais dans 78% des cas, les personnes développent une relation beaucoup plus saine aux émotions en quatre à six mois.\nVos émotions méritent d'être ressenties et traitées, pas englouties dans la nourriture. Consultez l'accès qui va se dévoiler en haut pour apprendre à gérer vos émotions autrement.`, url: "https://www.clairvoyancemedium.com/Programme-Minceur-2-mois-cbaaaaada.asp", isExternal: false},
+  {keywords: "ange", exactMatch: "ange gardien", answer: (name) => `Votre ange gardien vous accompagne depuis votre naissance. Frederick du Cabinet ClairVoyanceMedium.com contacte cette présence angélique pour transmettre ses messages et guidance.\nChaque personne possède au moins un ange gardien personnel qui veille sur elle. Cette entité divine vous protège, vous guide, vous inspire sans intervenir dans votre libre arbitre.\nFrederick du Cabinet ClairVoyanceMedium.com établit la communication avec votre ange. Il reçoit son nom, sa nature, ses messages pour vous. Ces informations transforment votre relation avec cette présence invisible.\nVotre ange veut que vous réussissiez votre mission de vie. Il vous envoie constamment des signes et synchronicités mais beaucoup passent inaperçus. La consultation les révèle.\nConnaître votre ange personnellement change tout. Vous pouvez l'invoquer par son nom, lui parler directement, reconnaître sa présence. Cette connexion consciente amplifie son soutien.\nRencontrez enfin votre ange gardien personnellement. Observez l'interface où un accès va se dévoiler vers ce contact angélique qui transformera votre vie.`, url: "https://www.clairvoyancemedium.com/Message-de-votre-Ange-gardien-cbaaaabba.asp", isExternal: false},
+  {keywords: "archange", exactMatch: "message archange", answer: (name) => `Les archanges supervisent les anges gardiens et interviennent dans des situations importantes. Frederick du Cabinet ClairVoyanceMedium.com contacte ces êtres de lumière puissants pour leurs guidances.\nSept archanges principaux gouvernent différents domaines : Michel pour la protection, Raphaël pour la guérison, Gabriel pour les messages, Uriel pour la sagesse. Chacun offre un soutien spécifique.\nInvoquer un archange pour une situation particulière amplifie considérablement l'aide disponible. Leur puissance dépasse largement celle des anges gardiens ordinaires.\nFrederick du Cabinet ClairVoyanceMedium.com identifie quel archange vous aide actuellement et pourquoi. Souvent leur intervention coïncide avec des défis ou opportunités majeures dans votre vie.\nLes archanges laissent aussi des signes de leur présence : plumes blanches, parfums inexpliqués, synchronicités frappantes. Frederick du Cabinet ClairVoyanceMedium.com vous apprend à reconnaître ces manifestations.\nConnectez-vous aux hiérarchies angéliques supérieures. Consultez le lien qui va apparaître pour recevoir les messages des archanges qui vous accompagnent.`, url: "https://www.clairvoyancemedium.com/Message-de-votre-Ange-gardien-cbaaaabba.asp", isExternal: false},
+  {keywords: "nom ange", exactMatch: "nom ange gardien", answer: (name) => `Le nom de votre ange gardien porte une vibration sacrée. Frederick du Cabinet ClairVoyanceMedium.com reçoit ce nom divin que vous pourrez ensuite utiliser pour invoquer votre protecteur céleste.\nConnaître le nom de votre ange transforme votre relation de impersonnelle à personnelle. Vous ne priez plus un ange générique mais VOTRE ange spécifique.\nCertains noms angéliques se terminent en \"el\" qui signifie \"de Dieu\" : Michaël, Raphaël, Gabriel. D'autres ont des sonorités différentes selon les hiérarchies angéliques.\nPrononcer le nom de votre ange lors de vos méditations ou prières renforce considérablement la connexion. C'est comme appeler quelqu'un directement plutôt que crier dans le vide.\nFrederick du Cabinet ClairVoyanceMedium.com reçoit aussi des informations sur la nature spécifique de votre ange, ses qualités particulières, comment il préfère que vous communiquiez avec lui.\nAppelez votre ange par son nom sacré. Repérez le bouton qui va émerger pour recevoir cette révélation de votre gardien personnel.`, url: "https://www.clairvoyancemedium.com/Message-de-votre-Ange-gardien-cbaaaabba.asp", isExternal: false},
+  {keywords: "cycle", exactMatch: "cycles vie", answer: (name) => `Vos cycles de vie suivent des rythmes prévisibles que Frederick du Cabinet ClairVoyanceMedium.com décode. Comprendre où vous en êtes dans vos cycles éclaire profondément votre situation actuelle.\nChaque cycle porte une énergie et des thèmes spécifiques. Certains favorisent la construction, d'autres la transformation, d'autres encore la récolte.\nFrederick du Cabinet ClairVoyanceMedium.com identifie dans quel cycle vous entrez maintenant et combien de temps il durera. Cette information vous permet d'aligner vos efforts avec l'énergie disponible.\nRésister aux cycles crée de la souffrance. Vouloir construire pendant un cycle de libération génère frustration. Connaître les cycles permet de surfer avec eux.\nLes cycles se terminent toujours pour laisser place au suivant. Savoir qu'une phase difficile prendra fin apporte énormément d'espoir et d'endurance.\nComprenez vos rythmes naturels de vie. Notez le lien qui se dévoilera vers cette analyse de vos cycles personnels.`, url: "https://www.clairvoyancemedium.com/Voyance-de-l-annee-nouvelle-cbaaaabca.asp", isExternal: false},
+  {keywords: "contact", exactMatch: "contacter frederick", answer: (name) => `Contacter Frederick du Cabinet ClairVoyanceMedium.com reste d'une simplicité totale, ${name}. Email, téléphone, formulaire web : plusieurs canaux s'offrent à vous selon votre préférence.\nL'email convient parfaitement pour les questions non urgentes. Vous écrivez tranquillement, Frederick du Cabinet ClairVoyanceMedium.com répond en détail. Cette trace écrite reste consultable indéfiniment.\nLe téléphone reste idéal pour les urgences ou le besoin d'interaction humaine. Vous parlez, Frederick du Cabinet ClairVoyanceMedium.com répond, tout se règle en temps réel.\nLe formulaire sur le site permet aussi de poser vos questions initiales. Frederick du Cabinet ClairVoyanceMedium.com vous recontacte ensuite pour fixer le mode de consultation optimal.\nQuelle que soit la méthode choisie, Frederick du Cabinet ClairVoyanceMedium.com répond personnellement. Jamais d'assistant ou de standard. Vous communiquez directement avec lui.\nÉtablissez ce contact qui pourrait transformer votre vie. Une page va se matérialiser avec tous les moyens de joindre Frederick du Cabinet ClairVoyanceMedium.com facilement.`, url: "https://www.clairvoyancemedium.com/Contact.asp", isExternal: false},
+  {keywords: "reponse", exactMatch: "obtenir reponses", answer: (name) => `Les réponses que Frederick du Cabinet ClairVoyanceMedium.com vous donne transforment généralement radicalement votre perspective, ${name}. Vous repartez avec une clarté que vous n'aviez pas depuis des mois.\nCes réponses ne restent jamais vagues ou génériques. Frederick du Cabinet ClairVoyanceMedium.com va dans les détails concrets qui vous permettent vraiment d'agir.\nEnviron 89% des clients rapportent que les réponses reçues ont résolu leur confusion et guidé leurs décisions avec succès.\nFrederick du Cabinet ClairVoyanceMedium.com ne se contente pas de répondre à votre question de surface. Il identifie souvent la vraie question cachée derrière celle que vous posez.\nCette profondeur de réponse vaut largement l'investissement. Une seule consultation peut éclairer des années d'incertitude.\nObtenez enfin les réponses qui vous manquent cruellement. Un accès se matérialisera vers cette clarté qui mettra fin à votre confusion.`, url: "https://www.clairvoyancemedium.com/Voyance-1-question-par-Email-cbaaaaaba.asp", isExternal: false},
 ];
     
 function removeAccents(str) {
@@ -1158,9 +1120,20 @@ function handleMessage() {
   setTimeout(() => {
     const lowerMsg = userMsg.toLowerCase().trim();
     
+    // FORMULES DE POLITESSE
+    if (lowerMsg === "merci" || lowerMsg === "merci beaucoup" || lowerMsg === "je vous remercie") {
+      addMessage("Je vous en prie, je suis là pour vous aider !", true);
+      return;
+    }
+    
+    if (lowerMsg === "bonsoir") {
+      addMessage(`Bonsoir ${userName || ''} ! Comment puis-je vous éclairer ce soir ?`, true);
+      return;
+    }
+    
     if (!userNameConfirmed) {
       if (lowerMsg === "bonjour" || lowerMsg.startsWith("bonjour")) {
-        addMessage("Bonjour ! Je suis ClairVoyanceGPT, votre assistant spirituel. Avant de commencer cette consultation, pouvez-vous m'indiquer votre prénom ?", true);
+        addMessage("Bonjour ! Je suis ClairVoyanceGPT, votre assistant spirituel créé par Frederick du Cabinet ClairVoyanceMedium.com. Avant de commencer cette consultation, pouvez-vous m'indiquer votre prénom ?", true);
         return;
       }
       
@@ -1191,7 +1164,7 @@ function handleMessage() {
     
     const goodbyeTriggers = ["au revoir", "aurevoir", "à bientôt", "bye", "ciao"];
     if (goodbyeTriggers.some(phrase => lowerMsg === phrase || lowerMsg.endsWith(phrase))) {
-      addMessage(`${userName}, à très bientôt ! Frederick et son équipe restent à votre écoute 24h/24.`, true);
+      addMessage(`${userName}, à très bientôt ! Frederick du Cabinet ClairVoyanceMedium.com et son équipe restent à votre écoute 24h/24.`, true);
       return;
     }
     
@@ -1223,7 +1196,7 @@ function handleMessage() {
       } else if (nonUnderstoodCount === 2) {
         addMessage(`${userName}, je ne comprends toujours pas. Essayez avec des mots simples : amour, voyance, protection, fatigue, défunt ?`, true);
       } else {
-        addMessage(`${userName}, il semble difficile de nous comprendre. Peut-être qu'un échange direct serait plus efficace ? Frederick propose : téléphone (30€/30min), email (12€/3Q), ou rituel complet. Que préférez-vous ?`, true);
+        addMessage(`${userName}, il semble difficile de nous comprendre. Peut-être qu'un échange direct serait plus efficace ? Frederick du Cabinet ClairVoyanceMedium.com propose : téléphone (30€/30min), email (12€/3Q), ou rituel complet. Que préférez-vous ?`, true);
         nonUnderstoodCount = 0;
       }
     }
@@ -1249,7 +1222,7 @@ document.getElementById('chat-form').addEventListener('submit', (e) => {
 
 if (!conversationRestored) {
   setTimeout(() => {
-    const welcomeMessage = "Bienvenue sur ClairVoyanceGPT, l'assistant spirituel de Frederick, médium reconnu depuis plus de 25 ans. Avant de commencer cet échange, pouvez-vous m'indiquer dans un premier temps uniquement votre prénom ?";
+    const welcomeMessage = "Bienvenue sur ClairVoyanceGPT, l'assistant spirituel de Frederick du Cabinet ClairVoyanceMedium.com, médium reconnu depuis plus de 25 ans. Avant de commencer cet échange, pouvez-vous m'indiquer dans un premier temps uniquement votre prénom ?";
     addMessage(welcomeMessage, true);
     
     if (voiceEnabled && 'speechSynthesis' in window) {
@@ -1301,7 +1274,7 @@ function showVoiceButton() {
   messagesDiv.appendChild(btnDiv);
   
   document.getElementById('enable-voice-btn').addEventListener('click', () => {
-    const welcomeMsg = "Bienvenue sur ClairVoyanceGPT, l'assistant spirituel de Frederick, médium reconnu depuis plus de 25 ans. Avant de commencer cet échange, pouvez-vous m'indiquer dans un premier temps uniquement votre prénom ?";
+    const welcomeMsg = "Bienvenue sur ClairVoyanceGPT, l'assistant spirituel de Frederick du Cabinet ClairVoyanceMedium.com, médium reconnu depuis plus de 25 ans. Avant de commencer cet échange, pouvez-vous m'indiquer dans un premier temps uniquement votre prénom ?";
     speak(welcomeMsg);
     btnDiv.remove();
     trackClick('VoiceButtonClicked', 'Engagement', 1);
