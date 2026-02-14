@@ -268,32 +268,32 @@
       font-style:italic;
     }
     
-    /* CRISTAL SPIRITUEL ÉLÉGANT */
+    /* ENCEINTE BLUETOOTH PREMIUM */
     #voice-toggle{
       position:fixed;
-      bottom:10px;
+      bottom:50px;
       right:30px;
-      width:70px;
-      height:70px;
+      width:80px;
+      height:80px;
       background:transparent;
       border:none;
       cursor:pointer;
       display:flex;
       align-items:center;
       justify-content:center;
-      transition:all 0.4s ease;
+      transition:all 0.3s ease;
       z-index:999;
-      filter:drop-shadow(0 0 15px rgba(138, 43, 226, 0.6));
+      filter:drop-shadow(0 4px 12px rgba(0,0,0,0.4));
     }
     
     #voice-toggle:hover{
-      transform:scale(1.1) rotate(5deg);
-      filter:drop-shadow(0 0 25px rgba(138, 43, 226, 0.9));
+      transform:scale(1.08);
+      filter:drop-shadow(0 6px 18px rgba(255,215,0,0.6));
     }
     
     #voice-toggle.disabled{
       opacity:0.4;
-      filter:grayscale(1) drop-shadow(0 0 5px rgba(100,100,100,0.3));
+      filter:grayscale(1) drop-shadow(0 2px 6px rgba(0,0,0,0.3));
     }
     
     #voice-toggle svg{
@@ -301,34 +301,30 @@
       height:100%;
     }
     
-    /* Animation pulsation cristal */
-    @keyframes crystalPulse{
+    /* Animation pulsation quand il parle */
+    @keyframes speakerPulse{
       0%, 100%{
-        filter:drop-shadow(0 0 15px rgba(138, 43, 226, 0.6));
+        filter:drop-shadow(0 4px 12px rgba(0,0,0,0.4));
         transform:scale(1);
       }
       50%{
-        filter:drop-shadow(0 0 30px rgba(255, 215, 0, 0.8));
+        filter:drop-shadow(0 6px 20px rgba(135,206,235,0.8));
         transform:scale(1.05);
       }
     }
     
     #voice-toggle.speaking{
-      animation:crystalPulse 1.5s ease-in-out infinite;
+      animation:speakerPulse 1s ease-in-out infinite;
     }
     
-    /* Rotation douce permanente */
-    @keyframes crystalRotate{
-      from{transform:rotate(0deg);}
-      to{transform:rotate(360deg);}
+    /* LED clignote quand actif */
+    @keyframes ledBlink{
+      0%, 100%{opacity:1;}
+      50%{opacity:0.3;}
     }
     
-    #voice-toggle svg{
-      animation:crystalRotate 20s linear infinite;
-    }
-    
-    #voice-toggle:hover svg{
-      animation:crystalRotate 10s linear infinite;
+    #voice-toggle.speaking .speaker-led{
+      animation:ledBlink 1.5s ease-in-out infinite;
     }
     
     #chat-send{
@@ -438,7 +434,7 @@
       margin-top:2rem;
       font-size:.9rem;
       color:#aaa;
-      padding:2rem 1rem 6rem;
+      padding:2rem 1rem 7rem;
       background:#111;
     }
     
@@ -463,7 +459,7 @@
       #chat-box{height:550px;}
       .logo{width:95%;}
       .floating-tab{right:10px;padding:0.9rem 1.3rem;font-size:0.95rem;}
-      #voice-toggle{bottom:10px;right:20px;width:60px;height:60px;}
+      #voice-toggle{bottom:50px;right:20px;width:70px;height:70px;}
     }
     
     @media(max-width:480px){
@@ -471,7 +467,7 @@
       nav ul{gap:0.35rem;}
       nav ul li a{font-size:0.75rem;padding:0.5rem 0.7rem;min-height:40px;}
       #chat-box{height:500px;}
-      #voice-toggle{bottom:10px;right:15px;width:55px;height:55px;}
+      #voice-toggle{bottom:50px;right:15px;width:65px;height:65px;}
     }
   </style>
 </head>
@@ -514,51 +510,86 @@
     </div>
   </div>
   
-  <!-- CRISTAL SPIRITUEL VOCAL -->
-  <button type="button" id="voice-toggle" title="Assistant vocal spirituel">
-    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <!-- ENCEINTE BLUETOOTH PREMIUM -->
+  <button type="button" id="voice-toggle" title="Assistant vocal">
+    <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <linearGradient id="crystalGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" style="stop-color:#8A2BE2;stop-opacity:1" />
-          <stop offset="50%" style="stop-color:#9370DB;stop-opacity:1" />
-          <stop offset="100%" style="stop-color:#FFD700;stop-opacity:1" />
+        <!-- Dégradés -->
+        <linearGradient id="bodyGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" style="stop-color:#2a2a2a;stop-opacity:1" />
+          <stop offset="50%" style="stop-color:#1a1a1a;stop-opacity:1" />
+          <stop offset="100%" style="stop-color:#0a0a0a;stop-opacity:1" />
         </linearGradient>
-        <radialGradient id="glowGradient">
-          <stop offset="0%" style="stop-color:#FFD700;stop-opacity:0.8" />
-          <stop offset="100%" style="stop-color:#8A2BE2;stop-opacity:0" />
+        
+        <linearGradient id="grillGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:#FFD700;stop-opacity:1" />
+          <stop offset="50%" style="stop-color:#FFA500;stop-opacity:1" />
+          <stop offset="100%" style="stop-color:#FF8C00;stop-opacity:1" />
+        </linearGradient>
+        
+        <radialGradient id="ledGradient">
+          <stop offset="0%" style="stop-color:#87CEEB;stop-opacity:1" />
+          <stop offset="100%" style="stop-color:#4682B4;stop-opacity:1" />
         </radialGradient>
-        <filter id="glow">
-          <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+        
+        <!-- Pattern grille -->
+        <pattern id="meshPattern" x="0" y="0" width="8" height="8" patternUnits="userSpaceOnUse">
+          <circle cx="4" cy="4" r="1.5" fill="#FFD700" opacity="0.8"/>
+        </pattern>
+        
+        <!-- Ombres -->
+        <filter id="shadow">
+          <feGaussianBlur in="SourceAlpha" stdDeviation="2"/>
+          <feOffset dx="0" dy="2" result="offsetblur"/>
+          <feComponentTransfer>
+            <feFuncA type="linear" slope="0.5"/>
+          </feComponentTransfer>
           <feMerge>
-            <feMergeNode in="coloredBlur"/>
+            <feMergeNode/>
             <feMergeNode in="SourceGraphic"/>
           </feMerge>
         </filter>
       </defs>
       
-      <!-- Lueur -->
-      <circle cx="50" cy="50" r="35" fill="url(#glowGradient)" opacity="0.4"/>
+      <!-- Corps de l'enceinte (cylindre) -->
+      <rect x="15" y="30" width="90" height="60" rx="30" ry="30" 
+            fill="url(#bodyGradient)" 
+            stroke="#000" 
+            stroke-width="2"
+            filter="url(#shadow)"/>
       
-      <!-- Cristal principal (forme diamant/hexagone) -->
-      <polygon points="50,10 70,30 70,70 50,90 30,70 30,30" 
-               fill="url(#crystalGradient)" 
+      <!-- Reflet haut -->
+      <ellipse cx="60" cy="40" rx="35" ry="8" fill="#ffffff" opacity="0.15"/>
+      
+      <!-- Grille dorée du haut-parleur -->
+      <ellipse cx="60" cy="60" rx="32" ry="22" 
+               fill="url(#meshPattern)" 
+               stroke="url(#grillGradient)" 
+               stroke-width="2"/>
+      
+      <!-- Cercles concentriques de la grille -->
+      <ellipse cx="60" cy="60" rx="28" ry="18" 
+               fill="none" 
+               stroke="#FFA500" 
+               stroke-width="1" 
+               opacity="0.6"/>
+      <ellipse cx="60" cy="60" rx="20" ry="13" 
+               fill="none" 
                stroke="#FFD700" 
-               stroke-width="1.5" 
-               opacity="0.9"
-               filter="url(#glow)"/>
+               stroke-width="1" 
+               opacity="0.4"/>
       
-      <!-- Facettes intérieures -->
-      <polygon points="50,10 50,50 70,30" fill="#9370DB" opacity="0.3"/>
-      <polygon points="50,10 50,50 30,30" fill="#8A2BE2" opacity="0.3"/>
-      <polygon points="50,90 50,50 70,70" fill="#FFD700" opacity="0.3"/>
-      <polygon points="50,90 50,50 30,70" fill="#DDA0DD" opacity="0.3"/>
+      <!-- LED d'état (bleu ciel) -->
+      <circle class="speaker-led" cx="25" cy="60" r="3" 
+              fill="url(#ledGradient)" 
+              filter="url(#shadow)"/>
       
-      <!-- Point central lumineux -->
-      <circle cx="50" cy="50" r="4" fill="#FFD700" opacity="0.9"/>
+      <!-- Reflet LED -->
+      <circle cx="24" cy="59" r="1.5" fill="#ffffff" opacity="0.7"/>
       
-      <!-- Reflets -->
-      <path d="M 40 25 L 45 30 L 40 35 Z" fill="#FFFFFF" opacity="0.6"/>
-      <path d="M 60 65 L 65 70 L 60 75 Z" fill="#FFFFFF" opacity="0.4"/>
+      <!-- Détails bordures -->
+      <line x1="15" y1="45" x2="15" y2="75" stroke="#333" stroke-width="1"/>
+      <line x1="105" y1="45" x2="105" y2="75" stroke="#333" stroke-width="1"/>
     </svg>
   </button>
   
@@ -668,7 +699,7 @@ window.addEventListener('beforeunload', () => {
 
 const conversationRestored = loadConversation();
 
-// TOUJOURS LANCER LE CLIGNOTEMENT (même si conversation restaurée)
+// TOUJOURS LANCER LE CLIGNOTEMENT
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', () => {
     setTimeout(randomBlinkTabs, 500);
@@ -755,7 +786,7 @@ let audioContext = null;
 let analyser = null;
 let animationFrameId = null;
 
-// VOIX GRAVE FÉMININE RAPIDE
+// VOIX GRAVE FÉMININE AUDIBLE (rate 0.87)
 function speak(text) {
   if (!voiceEnabled || !('speechSynthesis' in window)) return;
   
@@ -773,8 +804,9 @@ function speak(text) {
     utterance.voice = voice;
   }
   
-  utterance.pitch = 0.75;
-  utterance.rate = 1.15;
+  // VOIX AUDIBLE SUR iOS/ANDROID
+  utterance.pitch = 0.75;  // Grave
+  utterance.rate = 0.87;   // Audible (pas trop rapide)
   utterance.volume = 1.0;
   
   const chatBox = document.getElementById('chat-box');
@@ -814,7 +846,7 @@ function simulateSpeechRhythm(text) {
   
   const words = text.split(/\s+/);
   let wordIndex = 0;
-  const msPerWord = 390;
+  const msPerWord = 450; // Adapté au rate 0.87
   
   function pulseWord() {
     if (!window.speechSynthesis.speaking || wordIndex >= words.length) {
@@ -842,7 +874,7 @@ function simulateSpeechRhythm(text) {
       
       if (syllableCount >= syllables) {
         wordIndex++;
-        setTimeout(pulseWord, 40);
+        setTimeout(pulseWord, 50);
         return;
       }
       
@@ -942,30 +974,25 @@ function addMessage(text, isBot = false) {
 
 // FIXER ONGLET 60 SECONDES
 function blinkTab(exactMatch) {
-  // Stopper le clignotement aléatoire
   randomBlinkActive = false;
   if (randomBlinkInterval) {
     clearInterval(randomBlinkInterval);
     randomBlinkInterval = null;
   }
   
-  // Retirer ancien onglet clignotant
   if (currentBlinkingTab) {
     currentBlinkingTab.classList.remove('blink');
     currentBlinkingTab = null;
   }
   
-  // Retirer ancien onglet fixe
   if (currentFixedTab) {
     currentFixedTab.classList.remove('fixed');
   }
   
-  // Annuler timeout précédent
   if (fixedTabTimeout) {
     clearTimeout(fixedTabTimeout);
   }
   
-  // Trouver et fixer le nouvel onglet
   const navLinks = document.querySelectorAll('nav ul li a');
   navLinks.forEach(link => {
     const linkExact = link.getAttribute('data-exact');
@@ -977,16 +1004,14 @@ function blinkTab(exactMatch) {
     }
   });
   
-  // Après 60 secondes : retour au clignotement aléatoire
   fixedTabTimeout = setTimeout(() => {
     if (currentFixedTab) {
       currentFixedTab.classList.remove('fixed');
       currentFixedTab = null;
     }
-    // Relancer le clignotement aléatoire
     randomBlinkActive = true;
     randomBlinkTabs();
-  }, 60000); // 60 secondes
+  }, 60000);
 }
 
 // CLIGNOTEMENT ALÉATOIRE PERMANENT
