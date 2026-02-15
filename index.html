@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, minimal-ui, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui, viewport-fit=cover">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="mobile-web-app-capable" content="yes">
@@ -46,6 +46,13 @@
     
     *{margin:0;padding:0;box-sizing:border-box;}
     
+    html{
+      height:100%;
+      overflow-x:hidden;
+      -webkit-text-size-adjust:100%;
+      -ms-text-size-adjust:100%;
+    }
+    
     body{
       font-family:'Cinzel',serif;
       background:var(--bg);
@@ -54,6 +61,8 @@
       overflow-x:hidden;
       -webkit-font-smoothing:antialiased;
       padding-top:95px;
+      min-height:100vh;
+      position:relative;
     }
     
     nav{
@@ -139,7 +148,6 @@
       animation:none;
     }
     
-    /* BANDEAU BLEU PLUS CLAIR */
     .scrolling-banner{
       position:relative;
       width:100%;
@@ -179,7 +187,6 @@
       text-transform:uppercase;
     }
     
-    /* PHOTO REMONTÉE */
     header{
       padding:1.2rem 0;
       background:#111;
@@ -194,7 +201,6 @@
       margin:0 auto;
     }
     
-    /* TITRE REMONTÉ */
     .chat-intro{
       max-width:900px;
       margin:0.6rem auto 0.8rem;
@@ -297,6 +303,7 @@
       align-items:center;
     }
     
+    /* iOS FIX - Font-size 16px minimum pour éviter zoom */
     #chat-input{
       flex:1;
       padding:1rem;
@@ -305,9 +312,12 @@
       color:#fff;
       background:#0a0a0a;
       font-family:'Cinzel',serif;
-      font-size:0.9rem;
+      font-size:16px;
       box-shadow:0 0 13px rgba(255,140,0,0.45);
       border-radius:0;
+      -webkit-appearance:none;
+      -moz-appearance:none;
+      appearance:none;
     }
     
     #chat-input::placeholder{
@@ -440,7 +450,6 @@
       50%{box-shadow:0 0 25px var(--orange-light);}
     }
     
-    /* FLÈCHE RETIRÉE */
     .return-line{
       font-family:'Cinzel',serif;
       font-size:0.9rem;
@@ -528,15 +537,15 @@
 <body>
   <nav>
     <ul>
-      <li><a href="https://clairvoyancemedium.github.io/Voyancepartelephonepaschere.github.io/" target="_blank" rel="noopener noreferrer" data-keywords="téléphone|appel|30min|tél|telephoner|appeler|phone" data-exact="voyance téléphone" data-url="https://clairvoyancemedium.github.io/Voyancepartelephonepaschere.github.io/">Voyance Tél 30min/30€</a></li>
-      <li><a href="https://www.clairvoyancemedium.com/Voyance-3-Questions-par-Email-cbaaaaaca.asp" target="_blank" rel="noopener noreferrer" data-keywords="email|questions|mail|courriel|écrit|3questions" data-exact="voyance email" data-url="https://www.clairvoyancemedium.com/Voyance-3-Questions-par-Email-cbaaaaaca.asp">Voyance Email x3/12€</a></li>
-      <li><a href="https://www.clairvoyancemedium.com/Reconquerir-son-ex-a-distance-Blanche-cbaaaaasa.asp" target="_blank" rel="noopener noreferrer" data-keywords="retour|ex|amour|reconquérir|séparation|copain|copine" data-exact="retour ex" data-url="https://www.clairvoyancemedium.com/Reconquerir-son-ex-a-distance-Blanche-cbaaaaasa.asp">Retour Amour/175€</a></li>
-      <li><a href="https://www.clairvoyancemedium.com/Compatibilite-amoureuse-cbaaaaata.asp" target="_blank" rel="noopener noreferrer" data-keywords="compatibilité|couple|relation|amoureuse" data-exact="compatibilité" data-url="https://www.clairvoyancemedium.com/Compatibilite-amoureuse-cbaaaaata.asp">Compatibilité/20€</a></li>
-      <li><a href="https://www.clairvoyancemedium.com/Desenvoutement-et-protection-a-distance-cbaaaaala.asp" target="_blank" rel="noopener noreferrer" data-keywords="purification|protection|sort|envoûtement|magie|sorcellerie|fatigue|cauchemars" data-exact="purification" data-url="https://www.clairvoyancemedium.com/Desenvoutement-et-protection-a-distance-cbaaaaala.asp">Purification/150€</a></li>
-      <li><a href="https://www.clairvoyancemedium.com/Recevez-1-message-d-un-defunt-cbaaaabka.asp" target="_blank" rel="noopener noreferrer" data-keywords="défunt|mort|message|deuil|décédé" data-exact="défunt" data-url="https://www.clairvoyancemedium.com/Recevez-1-message-d-un-defunt-cbaaaabka.asp">Défunt/17€</a></li>
-      <li><a href="https://www.clairvoyancemedium.com/Medecine-Consultation-par-email-cbaaaabja.asp" target="_blank" rel="noopener noreferrer" data-keywords="santé|médecine|bien-être|maladie" data-exact="santé" data-url="https://www.clairvoyancemedium.com/Medecine-Consultation-par-email-cbaaaabja.asp">Santé/30€</a></li>
-      <li><a href="https://www.clairvoyancemedium.com/Ligne-de-la-main-Voyance-3-questions-cbaaaaana.asp" target="_blank" rel="noopener noreferrer" data-keywords="main|chiromancie|ligne|paume" data-exact="main" data-url="https://www.clairvoyancemedium.com/Ligne-de-la-main-Voyance-3-questions-cbaaaaana.asp">Main/10€</a></li>
-      <li><a href="https://www.clairvoyancemedium.com/Message-de-votre-Ange-gardien-cbaaaabba.asp" target="_blank" rel="noopener noreferrer" data-keywords="ange|gardien|céleste|protection divine" data-exact="ange" data-url="https://www.clairvoyancemedium.com/Message-de-votre-Ange-gardien-cbaaaabba.asp">Ange/10€</a></li>
+      <li><a href="https://clairvoyancemedium.github.io/Voyancepartelephonepaschere.github.io/" target="_blank" rel="noopener noreferrer" data-keywords="téléphone|appel|30min|tél|telephoner|appeler|phone" data-exact="voyance téléphone">Voyance Tél 30min/30€</a></li>
+      <li><a href="https://www.clairvoyancemedium.com/Voyance-3-Questions-par-Email-cbaaaaaca.asp" target="_blank" rel="noopener noreferrer" data-keywords="email|questions|mail|courriel|écrit|3questions" data-exact="voyance email">Voyance Email x3/12€</a></li>
+      <li><a href="https://www.clairvoyancemedium.com/Reconquerir-son-ex-a-distance-Blanche-cbaaaaasa.asp" target="_blank" rel="noopener noreferrer" data-keywords="retour|ex|amour|reconquérir|séparation|copain|copine" data-exact="retour ex">Retour Amour/175€</a></li>
+      <li><a href="https://www.clairvoyancemedium.com/Compatibilite-amoureuse-cbaaaaata.asp" target="_blank" rel="noopener noreferrer" data-keywords="compatibilité|couple|relation|amoureuse" data-exact="compatibilité">Compatibilité/20€</a></li>
+      <li><a href="https://www.clairvoyancemedium.com/Desenvoutement-et-protection-a-distance-cbaaaaala.asp" target="_blank" rel="noopener noreferrer" data-keywords="purification|protection|sort|envoûtement|magie|sorcellerie|fatigue|cauchemars" data-exact="purification">Purification/150€</a></li>
+      <li><a href="https://www.clairvoyancemedium.com/Recevez-1-message-d-un-defunt-cbaaaabka.asp" target="_blank" rel="noopener noreferrer" data-keywords="défunt|mort|message|deuil|décédé" data-exact="défunt">Défunt/17€</a></li>
+      <li><a href="https://www.clairvoyancemedium.com/Medecine-Consultation-par-email-cbaaaabja.asp" target="_blank" rel="noopener noreferrer" data-keywords="santé|médecine|bien-être|maladie" data-exact="santé">Santé/30€</a></li>
+      <li><a href="https://www.clairvoyancemedium.com/Ligne-de-la-main-Voyance-3-questions-cbaaaaana.asp" target="_blank" rel="noopener noreferrer" data-keywords="main|chiromancie|ligne|paume" data-exact="main">Main/10€</a></li>
+      <li><a href="https://www.clairvoyancemedium.com/Message-de-votre-Ange-gardien-cbaaaabba.asp" target="_blank" rel="noopener noreferrer" data-keywords="ange|gardien|céleste|protection divine" data-exact="ange">Ange/10€</a></li>
     </ul>
   </nav>
   
@@ -629,19 +638,91 @@
   <script>
 document.getElementById('current-year').textContent = new Date().getFullYear();
 
+// ==========================================
+// 🔥 TRACKING GA4 ULTRA MAXIMUM ABSOLU 🔥
+// ==========================================
+
 function trackEvent(eventName, params = {}) {
   if (typeof gtag === 'function') {
     gtag('event', eventName, params);
+    console.log('📊 GA4:', eventName, params);
   }
 }
 
+// 1. PAGE VIEW COMPLET
 trackEvent('page_view', {
   page_title: document.title,
   page_location: window.location.href,
   page_path: window.location.pathname,
+  page_referrer: document.referrer,
   screen_resolution: `${screen.width}x${screen.height}`,
   viewport_size: `${window.innerWidth}x${window.innerHeight}`,
-  device_type: /Mobile|Android|iPhone|iPad/i.test(navigator.userAgent) ? 'mobile' : 'desktop'
+  device_type: /Mobile|Android|iPhone|iPad/i.test(navigator.userAgent) ? 'mobile' : 'desktop',
+  browser: navigator.userAgent,
+  language: navigator.language
+});
+
+// 2. VISIBILITY CHANGE
+document.addEventListener('visibilitychange', () => {
+  trackEvent('page_visibility_change', {
+    visibility_state: document.visibilityState,
+    hidden: document.hidden
+  });
+});
+
+// 3. COPY TEXT
+document.addEventListener('copy', (e) => {
+  const selection = window.getSelection().toString();
+  if (selection.length > 0) {
+    trackEvent('text_copied', {
+      text_length: selection.length,
+      text_preview: selection.substring(0, 50)
+    });
+  }
+});
+
+// 4. ORIENTATION CHANGE
+window.addEventListener('orientationchange', () => {
+  trackEvent('orientation_change', {
+    orientation: screen.orientation ? screen.orientation.type : window.orientation
+  });
+});
+
+// 5. WINDOW RESIZE
+let resizeTimeout;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimeout);
+  resizeTimeout = setTimeout(() => {
+    trackEvent('window_resized', {
+      new_width: window.innerWidth,
+      new_height: window.innerHeight
+    });
+  }, 500);
+});
+
+// 6. ONLINE/OFFLINE
+window.addEventListener('online', () => {
+  trackEvent('connection_status_change', {status: 'online'});
+});
+window.addEventListener('offline', () => {
+  trackEvent('connection_status_change', {status: 'offline'});
+});
+
+// 7. JAVASCRIPT ERRORS
+window.addEventListener('error', (e) => {
+  trackEvent('javascript_error', {
+    error_message: e.message,
+    error_filename: e.filename,
+    error_line: e.lineno
+  });
+});
+
+// 8. RIGHT CLICK
+document.addEventListener('contextmenu', (e) => {
+  trackEvent('right_click', {
+    element: e.target.tagName,
+    element_id: e.target.id || 'none'
+  });
 });
 
 let userName = '';
@@ -680,6 +761,10 @@ function saveConversation() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
   localStorage.setItem(STORAGE_TIMESTAMP, Date.now().toString());
   localStorage.setItem(SESSION_KEY, 'true');
+  
+  trackEvent('conversation_saved', {
+    message_count: messageCount
+  });
 }
 
 function loadConversation() {
@@ -717,18 +802,24 @@ function loadConversation() {
   messagesDiv.scrollTop = messagesDiv.scrollHeight;
   
   trackEvent('conversation_restored', {
-    message_count: messageCount
+    message_count: messageCount,
+    user_confirmed: userNameConfirmed,
+    age_hours: Math.round(age / 3600000)
   });
   
   return true;
 }
 
+// 9. SESSION END
 window.addEventListener('beforeunload', () => {
   const sessionDuration = Date.now() - sessionStartTime;
   localStorage.setItem(SESSION_KEY, 'false');
   trackEvent('session_end', {
     message_count: messageCount,
-    duration_seconds: Math.round(sessionDuration / 1000)
+    duration_seconds: Math.round(sessionDuration / 1000),
+    duration_minutes: Math.round(sessionDuration / 60000),
+    user_confirmed: userNameConfirmed,
+    user_name: userName || 'anonymous'
   });
 });
 
@@ -754,56 +845,114 @@ const TAB_URLS = [
   'https://www.clairvoyancemedium.com/Message-de-votre-Ange-gardien-cbaaaabba.asp'
 ];
 
+// 10. BANDEAU DÉFILANT
 const scrollingBanner = document.getElementById('scrolling-banner');
+
+scrollingBanner.addEventListener('mouseenter', () => {
+  trackEvent('scrolling_banner_hover');
+});
 
 scrollingBanner.addEventListener('click', () => {
   trackEvent('scrolling_banner_clicked', {
-    destination: 'clairvoyancemedium.com'
+    destination: 'clairvoyancemedium.com',
+    time_on_page: Math.round((Date.now() - sessionStartTime) / 1000)
   });
   window.open('https://www.clairvoyancemedium.com/', '_blank', 'noopener,noreferrer');
 });
 
+// 11. NAV TABS (hover + click)
 document.querySelectorAll('nav ul li a').forEach((link, index) => {
+  link.addEventListener('mouseenter', () => {
+    trackEvent('nav_tab_hover', {
+      tab_text: link.textContent.trim(),
+      tab_position: index + 1
+    });
+  });
+  
   link.addEventListener('click', (e) => {
     trackEvent('navigation_click', {
       link_text: link.textContent.trim(),
       link_url: link.href,
-      position: index + 1
+      exact_match: link.getAttribute('data-exact'),
+      position: index + 1,
+      time_on_page: Math.round((Date.now() - sessionStartTime) / 1000)
     });
   });
 });
 
+// 12. RETURN LINK
 document.querySelector('.return-line a').addEventListener('click', () => {
-  trackEvent('return_link_click');
+  trackEvent('return_link_click', {
+    destination: 'clairvoyancemedium.com',
+    time_on_page: Math.round((Date.now() - sessionStartTime) / 1000)
+  });
 });
 
+// 13. FOOTER LINKS
 document.querySelectorAll('footer a').forEach(link => {
   link.addEventListener('click', () => {
     trackEvent('footer_link_click', {
-      link_text: link.textContent.trim()
+      link_text: link.textContent.trim(),
+      link_url: link.href
     });
   });
 });
 
+// 14. INPUT FOCUS/BLUR
+let inputFocusTime = 0;
+
 document.getElementById('chat-input').addEventListener('focus', () => {
-  trackEvent('chat_input_focus');
+  inputFocusTime = Date.now();
+  trackEvent('chat_input_focus', {
+    message_count: messageCount
+  });
 });
 
+document.getElementById('chat-input').addEventListener('blur', () => {
+  const focusDuration = Date.now() - inputFocusTime;
+  trackEvent('chat_input_blur', {
+    message_count: messageCount,
+    focus_duration_seconds: Math.round(focusDuration / 1000)
+  });
+});
+
+// 15. TYPING
 let typingTimeout;
 let lastTypingTrack = 0;
+let typingStartTime = 0;
+let isTyping = false;
 
 document.getElementById('chat-input').addEventListener('input', (e) => {
   clearTimeout(typingTimeout);
   const now = Date.now();
   
+  if (!isTyping) {
+    isTyping = true;
+    typingStartTime = now;
+  }
+  
   if (now - lastTypingTrack > 3000 && e.target.value.length > 0) {
     trackEvent('user_typing', {
-      input_length: e.target.value.length
+      input_length: e.target.value.length,
+      message_count: messageCount,
+      input_preview: e.target.value.substring(0, 30)
     });
     lastTypingTrack = now;
   }
+  
+  typingTimeout = setTimeout(() => {
+    if (isTyping) {
+      const typingDuration = Date.now() - typingStartTime;
+      trackEvent('typing_stopped', {
+        typing_duration: Math.round(typingDuration / 1000),
+        final_length: e.target.value.length
+      });
+      isTyping = false;
+    }
+  }, 2000);
 });
 
+// 16. FLOATING TAB
 let isDragging = false;
 let hasMoved = false;
 let startX, startY, offsetX = 0, offsetY = 0;
@@ -817,7 +966,11 @@ function dragStart(e) {
     e.preventDefault();
     e.stopPropagation();
     floatingTab.classList.remove('show');
-    trackEvent('floating_tab_closed');
+    
+    trackEvent('floating_tab_closed', {
+      url: floatingTab.href,
+      time_displayed: Math.round((Date.now() - sessionStartTime) / 1000)
+    });
     return;
   }
   
@@ -863,6 +1016,11 @@ function dragEnd(e) {
       return;
     } else {
       e.preventDefault();
+      trackEvent('floating_tab_dragged', {
+        offset_x: offsetX,
+        offset_y: offsetY,
+        final_position: `${offsetX},${offsetY}`
+      });
     }
   }
 }
@@ -901,20 +1059,32 @@ function speak(text) {
   
   utterance.onstart = () => {
     voiceBtn.classList.add('speaking');
-    trackEvent('voice_playback_start');
+    
+    trackEvent('voice_playback_start', {
+      text_length: textToSpeak.length,
+      word_count: textToSpeak.split(' ').length,
+      message_count: messageCount
+    });
   };
   
   utterance.onend = () => {
     voiceBtn.classList.remove('speaking');
     chatBox.style.borderColor = '';
     chatBox.style.boxShadow = '';
-    trackEvent('voice_playback_end');
+    
+    trackEvent('voice_playback_end', {
+      text_length: textToSpeak.length
+    });
   };
   
-  utterance.onerror = () => {
+  utterance.onerror = (e) => {
     voiceBtn.classList.remove('speaking');
     chatBox.style.borderColor = '';
     chatBox.style.boxShadow = '';
+    
+    trackEvent('voice_playback_error', {
+      error: e.error
+    });
   };
   
   currentUtterance = utterance;
@@ -939,16 +1109,26 @@ if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
   
   recognition.onresult = (event) => {
     const transcript = event.results[0][0].transcript;
+    const confidence = event.results[0][0].confidence;
     document.getElementById('chat-input').value = transcript;
-    trackEvent('voice_input_recognized');
+    
+    trackEvent('voice_input_recognized', {
+      transcript_length: transcript.length,
+      confidence: confidence,
+      transcript_preview: transcript.substring(0, 50)
+    });
+    
     handleMessage();
   };
   
   recognition.onerror = (event) => {
-    console.log('Erreur reconnaissance vocale:', event.error);
+    trackEvent('voice_input_error', {
+      error: event.error
+    });
   };
 }
 
+// 17. VOICE TOGGLE
 document.getElementById('voice-toggle').addEventListener('click', () => {
   const voiceBtn = document.getElementById('voice-toggle');
   
@@ -964,7 +1144,11 @@ document.getElementById('voice-toggle').addEventListener('click', () => {
     chatBox.style.borderColor = '';
     chatBox.style.boxShadow = '';
     voiceBtn.classList.remove('speaking');
-    trackEvent('voice_disabled');
+    
+    trackEvent('voice_disabled', {
+      message_count: messageCount,
+      time_active: Math.round((Date.now() - sessionStartTime) / 1000)
+    });
   } else {
     voiceEnabled = true;
     
@@ -996,7 +1180,9 @@ document.getElementById('voice-toggle').addEventListener('click', () => {
       } catch(e) {}
     }
     
-    trackEvent('voice_enabled');
+    trackEvent('voice_enabled', {
+      message_count: messageCount
+    });
   }
 });
 
@@ -1012,8 +1198,17 @@ function addMessage(text, isBot = false) {
   if (!isBot) {
     trackEvent('user_message_sent', {
       message_length: text.length,
+      word_count: text.split(' ').length,
       message_number: messageCount + 1,
-      message_text: text
+      user_confirmed: userNameConfirmed,
+      message_full_text: text,
+      time_since_page_load: Math.round((Date.now() - sessionStartTime) / 1000)
+    });
+  } else {
+    trackEvent('bot_message_received', {
+      message_length: text.length,
+      word_count: text.split(' ').length,
+      message_number: messageCount
     });
   }
   
@@ -1047,7 +1242,9 @@ function blinkTab(exactMatch) {
       link.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       
       trackEvent('tab_highlighted', {
-        tab_name: exactMatch
+        tab_name: exactMatch,
+        tab_text: link.textContent.trim(),
+        tab_url: link.href
       });
     }
   });
@@ -1059,6 +1256,10 @@ function blinkTab(exactMatch) {
     }
     randomBlinkActive = true;
     randomBlinkTabs();
+    
+    trackEvent('tab_highlight_ended', {
+      duration_seconds: 40
+    });
   }, 40000);
 }
 
@@ -1100,118 +1301,39 @@ function showFloatingTab(url, isPhoneNumber = false) {
   floatingTab.onclick = null;
   
   trackEvent('floating_tab_displayed', {
-    is_phone: isPhoneNumber
+    url: url,
+    is_phone: isPhoneNumber,
+    user_name: userName || 'anonymous',
+    triggered_by_message: messageCount
   });
 }
 
-/*
-╔═══════════════════════════════════════════════════════════════╗
-║  📚 BASE DE CONNAISSANCES - REMPLACEZ CE TABLEAU LIGNE 1009   ║
-╚═══════════════════════════════════════════════════════════════╝
-
-STRUCTURE OBLIGATOIRE POUR CHAQUE ENTRÉE :
-
-{
-  keywords: "mot1|mot2|mot3|mot4",              // Mots-clés détection (séparés par |)
-  exactMatch: "nom exact onglet",               // Nom EXACT de l'onglet sticky à illuminer
-  answer: (name) => `Votre réponse ${name}`,   // Réponse personnalisée (fonction)
-  url: "https://www.example.com",               // URL du service
-  isExternal: false,                             // true = floating tab | false = pas de floating tab
-  isPhone: false                                 // true = bouton téléphone | false = bouton web
-}
-
-╔═══════════════════════════════════════════════════════════════╗
-║  🎯 POUR ILLUMINER UN ONGLET STICKY                            ║
-╚═══════════════════════════════════════════════════════════════╝
-
-1. COPIER LE NOM EXACT de l'onglet depuis le HTML :
-   - "voyance téléphone" → Onglet "Voyance Tél 30min/30€"
-   - "voyance email" → Onglet "Voyance Email x3/12€"
-   - "retour ex" → Onglet "Retour Amour/175€"
-   - "compatibilité" → Onglet "Compatibilité/20€"
-   - "purification" → Onglet "Purification/150€"
-   - "défunt" → Onglet "Défunt/17€"
-   - "santé" → Onglet "Santé/30€"
-   - "main" → Onglet "Main/10€"
-   - "ange" → Onglet "Ange/10€"
-
-2. METTRE dans exactMatch: "..." (en minuscules)
-
-EXEMPLE COMPLET :
-{
-  keywords: "retour|ex|amour|reconquérir|séparation",
-  exactMatch: "retour ex",  // ← Ce nom DOIT correspondre à data-exact dans le HTML
-  answer: (name) => `${name}, Frederick peut vous aider...`,
-  url: "https://www.clairvoyancemedium.com/...",
-  isExternal: false,
-  isPhone: false
-}
-
-╔═══════════════════════════════════════════════════════════════╗
-║  🎈 POUR AFFICHER LE FLOATING TAB "Ce qu'il vous faut"        ║
-╚═══════════════════════════════════════════════════════════════╝
-
-OPTION 1 - BOUTON WEB (site externe) :
-{
-  ...
-  url: "https://www.clairvoyancemedium.com/...",
-  isExternal: true,   // ← TRUE = affiche le floating tab
-  isPhone: false      // ← FALSE = bouton web classique
-}
-
-OPTION 2 - BOUTON TÉLÉPHONE :
-{
-  ...
-  url: "+33695468923",
-  isExternal: true,   // ← TRUE = affiche le floating tab
-  isPhone: true       // ← TRUE = bouton téléphone "tel:"
-}
-
-OPTION 3 - PAS DE FLOATING TAB :
-{
-  ...
-  url: "https://...",
-  isExternal: false,  // ← FALSE = PAS de floating tab
-  isPhone: false
-}
-
-╔═══════════════════════════════════════════════════════════════╗
-║  ✅ EXEMPLES COMPLETS                                          ║
-╚═══════════════════════════════════════════════════════════════╝
-*/
-
+// BASE DE CONNAISSANCES - Remplacer ligne 846
 const knowledgeBase = [
-  // EXEMPLE 1 : Service téléphone avec floating tab téléphone
   {
     keywords: "téléphone|appel|30min|tél|telephoner|appeler|phone|joindre",
     exactMatch: "voyance téléphone",
     answer: (name) => `${name}, Frederick du Cabinet ClairVoyanceMedium.com vous propose une consultation téléphonique de 30 minutes pour 30€. Disponible 24h/24 et 7j/7. Appelez maintenant le 06 95 46 89 23 !`,
     url: "+33695468923",
-    isExternal: true,   // Affiche floating tab
-    isPhone: true       // Bouton téléphone
+    isExternal: true,
+    isPhone: true
   },
-  
-  // EXEMPLE 2 : Service email avec floating tab web
   {
     keywords: "email|questions|mail|courriel|écrit|3questions|question|courrier",
     exactMatch: "voyance email",
     answer: (name) => `${name}, posez 3 questions par email à Frederick du Cabinet ClairVoyanceMedium.com. Réponses détaillées sous 48h pour seulement 12€.`,
     url: "https://www.clairvoyancemedium.com/Voyance-3-Questions-par-Email-cbaaaaaca.asp",
-    isExternal: true,   // Affiche floating tab
-    isPhone: false      // Bouton web
+    isExternal: true,
+    isPhone: false
   },
-  
-  // EXEMPLE 3 : Service retour ex SANS floating tab
   {
     keywords: "retour|ex|amour|reconquérir|séparation|copain|copine|conjoint",
     exactMatch: "retour ex",
     answer: (name) => `${name}, Frederick du Cabinet ClairVoyanceMedium.com peut vous aider à reconquérir votre ex grâce à un rituel de retour amour puissant. Consultez l'onglet qui vient de s'illuminer en haut de page.`,
     url: "https://www.clairvoyancemedium.com/Reconquerir-son-ex-a-distance-Blanche-cbaaaaasa.asp",
-    isExternal: false,  // PAS de floating tab
+    isExternal: false,
     isPhone: false
   }
-  
-  // AJOUTEZ ICI TOUTES VOS AUTRES ENTRÉES...
 ];
 
 function removeAccents(str) {
@@ -1304,25 +1426,32 @@ function handleMessage() {
   input.value = '';
   messageCount++;
   
+  // iOS FIX - Scroll en haut après envoi
+  setTimeout(() => {
+    window.scrollTo(0, 0);
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+  }, 100);
+  
   setTimeout(() => {
     const lowerMsg = userMsg.toLowerCase().trim();
     
     if (lowerMsg === "merci" || lowerMsg === "merci beaucoup" || lowerMsg === "je vous remercie") {
       addMessage("Je vous en prie, je suis là pour vous aider !", true);
-      trackEvent('politeness_thanks');
+      trackEvent('politeness_detected', {type: 'thanks'});
       return;
     }
     
     if (lowerMsg === "bonsoir") {
       addMessage(`Bonsoir ${userName || ''} ! Comment puis-je vous éclairer ce soir ?`, true);
-      trackEvent('politeness_evening');
+      trackEvent('politeness_detected', {type: 'evening'});
       return;
     }
     
     if (!userNameConfirmed) {
       if (lowerMsg === "bonjour" || lowerMsg.startsWith("bonjour")) {
         addMessage("Bonjour ! Je suis ClairVoyanceGPT, votre assistant spirituel créé par Frederick du Cabinet ClairVoyanceMedium.com. Avant de commencer cette consultation, pouvez-vous m'indiquer votre prénom ?", true);
-        trackEvent('politeness_greeting');
+        trackEvent('politeness_detected', {type: 'greeting'});
         return;
       }
       
@@ -1332,11 +1461,15 @@ function handleMessage() {
           userNameConfirmed = true;
           pendingName = '';
           addMessage(`Parfait ${userName} ! Comment puis-je vous aider aujourd'hui ?`, true);
-          trackEvent('user_name_confirmed', {user_name: userName});
+          
+          trackEvent('user_name_confirmed', {
+            user_name: userName
+          });
           return;
         } else if (lowerMsg === "non") {
           pendingName = '';
           addMessage("Alors donnez-moi votre prénom s'il vous plaît.", true);
+          trackEvent('user_name_rejected');
           return;
         }
       }
@@ -1345,7 +1478,10 @@ function handleMessage() {
       if (nameMatch) {
         pendingName = nameMatch[1].charAt(0).toUpperCase() + nameMatch[1].slice(1).toLowerCase();
         addMessage(`Très bien ${pendingName}, c'est bien votre prénom ?`, true);
-        trackEvent('user_name_detected');
+        
+        trackEvent('user_name_detected', {
+          pending_name: pendingName
+        });
         return;
       }
       
@@ -1356,7 +1492,10 @@ function handleMessage() {
     const goodbyeTriggers = ["au revoir", "aurevoir", "à bientôt", "bye", "ciao"];
     if (goodbyeTriggers.some(phrase => lowerMsg === phrase || lowerMsg.endsWith(phrase))) {
       addMessage(`${userName}, à très bientôt ! Frederick du Cabinet ClairVoyanceMedium.com et son équipe restent à votre écoute 24h/24.`, true);
-      trackEvent('conversation_goodbye');
+      trackEvent('conversation_goodbye', {
+        user_name: userName,
+        message_count: messageCount
+      });
       return;
     }
     
@@ -1374,7 +1513,9 @@ function handleMessage() {
       blinkTab(match.exactMatch);
       
       trackEvent('knowledge_match_found', {
-        exact_match: match.exactMatch
+        exact_match: match.exactMatch,
+        keywords: match.keywords,
+        user_query_full: userMsg
       });
       
       if (match.isPhone) {
@@ -1388,7 +1529,8 @@ function handleMessage() {
       nonUnderstoodCount++;
       
       trackEvent('knowledge_match_not_found', {
-        attempt: nonUnderstoodCount
+        user_query_full: userMsg,
+        attempt_number: nonUnderstoodCount
       });
       
       if (nonUnderstoodCount === 1) {
@@ -1397,6 +1539,7 @@ function handleMessage() {
         addMessage(`${userName}, je ne comprends toujours pas. Essayez avec des mots simples : amour, voyance, protection, fatigue, défunt ?`, true);
       } else {
         addMessage(`${userName}, il semble difficile de nous comprendre. Peut-être qu'un échange direct serait plus efficace ? Frederick du Cabinet ClairVoyanceMedium.com propose : téléphone (30€/30min), email (12€/3Q), ou rituel complet. Que préférez-vous ?`, true);
+        trackEvent('help_offer_displayed');
         nonUnderstoodCount = 0;
       }
     }
@@ -1405,14 +1548,18 @@ function handleMessage() {
 
 document.getElementById('chat-send').addEventListener('click', (e) => {
   e.preventDefault();
-  trackEvent('send_button_clicked');
+  trackEvent('send_button_clicked', {
+    message_count: messageCount + 1
+  });
   handleMessage();
 });
 
 document.getElementById('chat-input').addEventListener('keypress', (e) => {
   if (e.key === 'Enter') {
     e.preventDefault();
-    trackEvent('enter_key_pressed');
+    trackEvent('enter_key_pressed', {
+      message_count: messageCount + 1
+    });
     handleMessage();
   }
 });
@@ -1426,11 +1573,71 @@ if (!conversationRestored) {
   setTimeout(() => {
     const welcomeMessage = "Bienvenue sur ClairVoyanceGPT, l'assistant spirituel de Frederick du Cabinet ClairVoyanceMedium.com, médium reconnu depuis plus de 25 ans. Avant de commencer cet échange, pouvez-vous m'indiquer dans un premier temps uniquement votre prénom ?";
     addMessage(welcomeMessage, true);
-    trackEvent('welcome_displayed');
+    trackEvent('welcome_message_displayed');
   }, 500);
 }
 
-console.log('✅ Système prêt - Remplacez la base de connaissances ligne 1009 !');
+// 18. SCROLL TRACKING
+let scrollTimeout;
+let lastScrollTrack = 0;
+let maxScrollReached = 0;
+let lastScrollY = 0;
+
+window.addEventListener('scroll', () => {
+  clearTimeout(scrollTimeout);
+  const now = Date.now();
+  const currentScroll = window.scrollY;
+  const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+  const scrollPercentage = Math.round((currentScroll / maxScroll) * 100);
+  
+  if (currentScroll > maxScrollReached) {
+    maxScrollReached = currentScroll;
+  }
+  
+  if (now - lastScrollTrack > 5000) {
+    trackEvent('page_scrolled', {
+      scroll_position: currentScroll,
+      scroll_percentage: scrollPercentage,
+      max_scroll_reached: maxScrollReached,
+      scroll_direction: currentScroll > (lastScrollY || 0) ? 'down' : 'up'
+    });
+    lastScrollTrack = now;
+    lastScrollY = currentScroll;
+  }
+});
+
+// 19. ENGAGEMENT TEMPOREL
+setTimeout(() => { trackEvent('engagement_5s'); }, 5000);
+setTimeout(() => { trackEvent('engagement_15s'); }, 15000);
+setTimeout(() => { trackEvent('engagement_30s'); }, 30000);
+setTimeout(() => { trackEvent('engagement_45s'); }, 45000);
+setTimeout(() => { trackEvent('engagement_60s'); }, 60000);
+setTimeout(() => { trackEvent('engagement_90s'); }, 90000);
+setTimeout(() => { trackEvent('engagement_120s'); }, 120000);
+setTimeout(() => { trackEvent('engagement_180s'); }, 180000);
+setTimeout(() => { trackEvent('engagement_300s'); }, 300000);
+
+// 20. INACTIVITÉ
+let inactivityTimer;
+const inactivityTime = 60000;
+
+function resetInactivityTimer() {
+  clearTimeout(inactivityTimer);
+  inactivityTimer = setTimeout(() => {
+    trackEvent('user_inactive', {
+      inactive_duration_seconds: 60,
+      last_message_count: messageCount
+    });
+  }, inactivityTime);
+}
+
+['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart', 'click'].forEach(event => {
+  document.addEventListener(event, resetInactivityTimer, true);
+});
+
+resetInactivityTimer();
+
+console.log('✅ TRACKING GA4 ULTRA MAXIMUM + iOS FIX - 100% PRÊT !');
 
 </script>
 </body>
