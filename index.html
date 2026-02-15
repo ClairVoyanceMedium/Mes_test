@@ -139,7 +139,6 @@
       animation:none;
     }
     
-    /* BANDEAU DÉFILANT BLEU FLUO */
     .scrolling-banner{
       position:relative;
       width:100%;
@@ -193,9 +192,10 @@
       margin:0 auto;
     }
     
+    /* MOINS d'espace photo/titre */
     .chat-intro{
       max-width:900px;
-      margin:1.5rem auto 0.8rem;
+      margin:1rem auto 0.8rem;
       padding:0 1rem;
       font-size:clamp(1.4rem, 5vw, 2.2rem);
       background:linear-gradient(145deg, #C0C0C0, #E8E8E8, #A8A8A8);
@@ -205,9 +205,10 @@
       font-weight:700;
     }
     
+    /* PLUS d'espace texte/chat */
     .chat-subtitle{
       max-width:800px;
-      margin:0 auto 3rem;
+      margin:0 auto 3.5rem;
       padding:0 1.5rem;
       font-size:clamp(0.95rem, 2.2vw, 1.15rem);
       color:var(--tab-gold);
@@ -469,7 +470,6 @@
       transform:translateX(-5px);
     }
     
-    /* FOOTER RÉDUIT */
     footer{
       margin-top:2rem;
       font-size:.9rem;
@@ -503,7 +503,8 @@
       }
       #chat-box{height:550px;}
       .logo{width:94%;}
-      .chat-subtitle{font-size:0.9rem;padding:0 1rem;margin-bottom:2.5rem;}
+      .chat-intro{margin:0.8rem auto 0.6rem;}
+      .chat-subtitle{font-size:0.9rem;padding:0 1rem;margin-bottom:3rem;}
       .scrolling-text{font-size:1rem;padding:0 2rem;}
       .floating-tab{right:10px;padding:0.9rem 1.3rem;font-size:0.95rem;}
       #voice-toggle{bottom:50px;right:20px;width:75px;height:75px;}
@@ -520,7 +521,8 @@
       }
       #chat-box{height:500px;}
       .logo{width:91%;}
-      .chat-subtitle{font-size:0.85rem;margin-bottom:2rem;}
+      .chat-intro{margin:0.6rem auto 0.5rem;}
+      .chat-subtitle{font-size:0.85rem;margin-bottom:2.5rem;}
       .scrolling-text{font-size:0.9rem;padding:0 1.5rem;}
       #voice-toggle{bottom:50px;right:15px;width:69px;height:69px;}
       footer{padding:1rem 0.5rem 1rem;}
@@ -542,15 +544,14 @@
     </ul>
   </nav>
   
-  <!-- BANDEAU DÉFILANT BLEU FLUO -->
   <div class="scrolling-banner" id="scrolling-banner">
     <div class="scrolling-content">
-      <span class="scrolling-text">voyance • médium • conseil</span>
-      <span class="scrolling-text">voyance • médium • conseil</span>
-      <span class="scrolling-text">voyance • médium • conseil</span>
-      <span class="scrolling-text">voyance • médium • conseil</span>
-      <span class="scrolling-text">voyance • médium • conseil</span>
-      <span class="scrolling-text">voyance • médium • conseil</span>
+      <span class="scrolling-text">ClairVoyanceMedium.com • Voyance • Médium • Conseils</span>
+      <span class="scrolling-text">ClairVoyanceMedium.com • Voyance • Médium • Conseils</span>
+      <span class="scrolling-text">ClairVoyanceMedium.com • Voyance • Médium • Conseils</span>
+      <span class="scrolling-text">ClairVoyanceMedium.com • Voyance • Médium • Conseils</span>
+      <span class="scrolling-text">ClairVoyanceMedium.com • Voyance • Médium • Conseils</span>
+      <span class="scrolling-text">ClairVoyanceMedium.com • Voyance • Médium • Conseils</span>
     </div>
   </div>
   
@@ -632,25 +633,91 @@
   <script>
 document.getElementById('current-year').textContent = new Date().getFullYear();
 
+// ==========================================
+// 🔥 TRACKING GA4 ULTRA COMPLET MAXIMUM 🔥
+// ==========================================
+
 function trackEvent(eventName, params = {}) {
   if (typeof gtag === 'function') {
     gtag('event', eventName, params);
-    console.log('📊 GA4 Event:', eventName, params);
+    console.log('📊 GA4:', eventName, params);
   }
 }
 
+// 1. PAGE VIEW avec infos complètes
 trackEvent('page_view', {
   page_title: document.title,
   page_location: window.location.href,
-  page_path: window.location.pathname
+  page_path: window.location.pathname,
+  page_referrer: document.referrer,
+  screen_resolution: `${screen.width}x${screen.height}`,
+  viewport_size: `${window.innerWidth}x${window.innerHeight}`,
+  device_type: /Mobile|Android|iPhone|iPad/i.test(navigator.userAgent) ? 'mobile' : 'desktop',
+  browser: navigator.userAgent,
+  language: navigator.language
 });
 
-// TRACK BANDEAU DÉFILANT CLIQUÉ
-document.getElementById('scrolling-banner').addEventListener('click', () => {
-  trackEvent('scrolling_banner_clicked', {
-    destination: 'clairvoyancemedium.com'
+// 2. TRACK VISIBILITY CHANGE (tab focus/blur)
+document.addEventListener('visibilitychange', () => {
+  trackEvent('page_visibility_change', {
+    visibility_state: document.visibilityState,
+    hidden: document.hidden
   });
-  window.location.href = 'https://www.clairvoyancemedium.com/';
+});
+
+// 3. TRACK COPY TEXT
+document.addEventListener('copy', (e) => {
+  const selection = window.getSelection().toString();
+  if (selection.length > 0) {
+    trackEvent('text_copied', {
+      text_length: selection.length,
+      text_preview: selection.substring(0, 50)
+    });
+  }
+});
+
+// 4. TRACK PAGE ORIENTATION
+window.addEventListener('orientationchange', () => {
+  trackEvent('orientation_change', {
+    orientation: screen.orientation ? screen.orientation.type : window.orientation
+  });
+});
+
+// 5. TRACK PAGE RESIZE
+let resizeTimeout;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimeout);
+  resizeTimeout = setTimeout(() => {
+    trackEvent('window_resized', {
+      new_width: window.innerWidth,
+      new_height: window.innerHeight
+    });
+  }, 500);
+});
+
+// 6. TRACK ONLINE/OFFLINE
+window.addEventListener('online', () => {
+  trackEvent('connection_status_change', {status: 'online'});
+});
+window.addEventListener('offline', () => {
+  trackEvent('connection_status_change', {status: 'offline'});
+});
+
+// 7. TRACK ERROR JavaScript
+window.addEventListener('error', (e) => {
+  trackEvent('javascript_error', {
+    error_message: e.message,
+    error_filename: e.filename,
+    error_line: e.lineno
+  });
+});
+
+// 8. TRACK RIGHT CLICK
+document.addEventListener('contextmenu', (e) => {
+  trackEvent('right_click', {
+    element: e.target.tagName,
+    element_id: e.target.id || 'none'
+  });
 });
 
 let userName = '';
@@ -664,6 +731,7 @@ let currentFixedTab = null;
 let fixedTabTimeout = null;
 let nonUnderstoodCount = 0;
 let currentUtterance = null;
+let sessionStartTime = Date.now();
 
 let randomBlinkInterval = null;
 let randomBlinkActive = true;
@@ -689,6 +757,11 @@ function saveConversation() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
   localStorage.setItem(STORAGE_TIMESTAMP, Date.now().toString());
   localStorage.setItem(SESSION_KEY, 'true');
+  
+  // TRACK CONVERSATION SAVED
+  trackEvent('conversation_saved', {
+    message_count: messageCount
+  });
 }
 
 function loadConversation() {
@@ -727,17 +800,23 @@ function loadConversation() {
   
   trackEvent('conversation_restored', {
     message_count: messageCount,
-    user_confirmed: userNameConfirmed
+    user_confirmed: userNameConfirmed,
+    age_hours: Math.round(age / 3600000)
   });
   
   return true;
 }
 
+// 9. TRACK SESSION END avec durée détaillée
 window.addEventListener('beforeunload', () => {
+  const sessionDuration = Date.now() - sessionStartTime;
   localStorage.setItem(SESSION_KEY, 'false');
   trackEvent('session_end', {
     message_count: messageCount,
-    duration_seconds: Math.round((Date.now() - parseInt(localStorage.getItem(STORAGE_TIMESTAMP) || Date.now())) / 1000)
+    duration_seconds: Math.round(sessionDuration / 1000),
+    duration_minutes: Math.round(sessionDuration / 60000),
+    user_confirmed: userNameConfirmed,
+    user_name: userName || 'anonymous'
   });
 });
 
@@ -763,7 +842,30 @@ const TAB_URLS = [
   'https://www.clairvoyancemedium.com/Message-de-votre-Ange-gardien-cbaaaabba.asp'
 ];
 
-document.querySelectorAll('nav ul li a').forEach(link => {
+// 10. TRACK BANDEAU DÉFILANT (hover + clic)
+const scrollingBanner = document.getElementById('scrolling-banner');
+
+scrollingBanner.addEventListener('mouseenter', () => {
+  trackEvent('scrolling_banner_hover');
+});
+
+scrollingBanner.addEventListener('click', () => {
+  trackEvent('scrolling_banner_clicked', {
+    destination: 'clairvoyancemedium.com',
+    time_on_page: Math.round((Date.now() - sessionStartTime) / 1000)
+  });
+  window.location.href = 'https://www.clairvoyancemedium.com/';
+});
+
+// 11. TRACK TOUS LES CLICS NAV avec position + hover
+document.querySelectorAll('nav ul li a').forEach((link, index) => {
+  link.addEventListener('mouseenter', () => {
+    trackEvent('nav_tab_hover', {
+      tab_text: link.textContent.trim(),
+      tab_position: index + 1
+    });
+  });
+  
   link.addEventListener('click', (e) => {
     const linkText = link.textContent.trim();
     const linkURL = link.href;
@@ -773,17 +875,21 @@ document.querySelectorAll('nav ul li a').forEach(link => {
       link_text: linkText,
       link_url: linkURL,
       exact_match: exactMatch,
-      position: Array.from(link.parentElement.parentElement.children).indexOf(link.parentElement) + 1
+      position: index + 1,
+      time_on_page: Math.round((Date.now() - sessionStartTime) / 1000)
     });
   });
 });
 
+// 12. TRACK LIEN RETOUR
 document.querySelector('.return-line a').addEventListener('click', () => {
   trackEvent('return_link_click', {
-    destination: 'clairvoyancemedium.com'
+    destination: 'clairvoyancemedium.com',
+    time_on_page: Math.round((Date.now() - sessionStartTime) / 1000)
   });
 });
 
+// 13. TRACK LIENS FOOTER
 document.querySelectorAll('footer a').forEach(link => {
   link.addEventListener('click', () => {
     trackEvent('footer_link_click', {
@@ -793,33 +899,61 @@ document.querySelectorAll('footer a').forEach(link => {
   });
 });
 
+// 14. TRACK INPUT FOCUS/BLUR avec temps
+let inputFocusTime = 0;
+
 document.getElementById('chat-input').addEventListener('focus', () => {
+  inputFocusTime = Date.now();
   trackEvent('chat_input_focus', {
     message_count: messageCount
   });
 });
 
 document.getElementById('chat-input').addEventListener('blur', () => {
+  const focusDuration = Date.now() - inputFocusTime;
   trackEvent('chat_input_blur', {
-    message_count: messageCount
+    message_count: messageCount,
+    focus_duration_seconds: Math.round(focusDuration / 1000)
   });
 });
 
+// 15. TRACK TYPING avec contenu
 let typingTimeout;
 let lastTypingTrack = 0;
+let typingStartTime = 0;
+let isTyping = false;
+
 document.getElementById('chat-input').addEventListener('input', (e) => {
   clearTimeout(typingTimeout);
   const now = Date.now();
   
-  if (now - lastTypingTrack > 3000) {
+  if (!isTyping) {
+    isTyping = true;
+    typingStartTime = now;
+  }
+  
+  if (now - lastTypingTrack > 3000 && e.target.value.length > 0) {
     trackEvent('user_typing', {
       input_length: e.target.value.length,
-      message_count: messageCount
+      message_count: messageCount,
+      input_preview: e.target.value.substring(0, 30)
     });
     lastTypingTrack = now;
   }
+  
+  typingTimeout = setTimeout(() => {
+    if (isTyping) {
+      const typingDuration = Date.now() - typingStartTime;
+      trackEvent('typing_stopped', {
+        typing_duration: Math.round(typingDuration / 1000),
+        final_length: e.target.value.length
+      });
+      isTyping = false;
+    }
+  }, 2000);
 });
 
+// 16. TRACK FLOATING TAB
 let isDragging = false;
 let hasMoved = false;
 let startX, startY, offsetX = 0, offsetY = 0;
@@ -835,7 +969,8 @@ function dragStart(e) {
     floatingTab.classList.remove('show');
     
     trackEvent('floating_tab_closed', {
-      url: floatingTab.href
+      url: floatingTab.href,
+      time_displayed: Math.round((Date.now() - sessionStartTime) / 1000)
     });
     return;
   }
@@ -884,7 +1019,8 @@ function dragEnd(e) {
       e.preventDefault();
       trackEvent('floating_tab_dragged', {
         offset_x: offsetX,
-        offset_y: offsetY
+        offset_y: offsetY,
+        final_position: `${offsetX},${offsetY}`
       });
     }
   }
@@ -932,6 +1068,7 @@ function speak(text) {
     
     trackEvent('voice_playback_start', {
       text_length: textToSpeak.length,
+      word_count: textToSpeak.split(' ').length,
       message_count: messageCount
     });
   };
@@ -950,7 +1087,7 @@ function speak(text) {
     });
   };
   
-  utterance.onerror = () => {
+  utterance.onerror = (e) => {
     voiceBtn.classList.remove('speaking');
     if (animationFrameId) {
       cancelAnimationFrame(animationFrameId);
@@ -959,7 +1096,9 @@ function speak(text) {
     chatBox.style.borderColor = '';
     chatBox.style.boxShadow = '';
     
-    trackEvent('voice_playback_error');
+    trackEvent('voice_playback_error', {
+      error: e.error
+    });
   };
   
   currentUtterance = utterance;
@@ -1044,10 +1183,13 @@ if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
   
   recognition.onresult = (event) => {
     const transcript = event.results[0][0].transcript;
+    const confidence = event.results[0][0].confidence;
     document.getElementById('chat-input').value = transcript;
     
     trackEvent('voice_input_recognized', {
-      transcript_length: transcript.length
+      transcript_length: transcript.length,
+      confidence: confidence,
+      transcript_preview: transcript.substring(0, 50)
     });
     
     handleMessage();
@@ -1061,6 +1203,7 @@ if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
   };
 }
 
+// 17. TRACK VOICE TOGGLE complet
 document.getElementById('voice-toggle').addEventListener('click', () => {
   const voiceBtn = document.getElementById('voice-toggle');
   
@@ -1082,7 +1225,8 @@ document.getElementById('voice-toggle').addEventListener('click', () => {
     voiceBtn.classList.remove('speaking');
     
     trackEvent('voice_disabled', {
-      message_count: messageCount
+      message_count: messageCount,
+      time_active: Math.round((Date.now() - sessionStartTime) / 1000)
     });
   } else {
     voiceEnabled = true;
@@ -1135,13 +1279,16 @@ function addMessage(text, isBot = false) {
   if (!isBot) {
     trackEvent('user_message_sent', {
       message_length: text.length,
+      word_count: text.split(' ').length,
       message_number: messageCount + 1,
       user_confirmed: userNameConfirmed,
-      message_preview: text.substring(0, 50)
+      message_full_text: text,
+      time_since_page_load: Math.round((Date.now() - sessionStartTime) / 1000)
     });
   } else {
     trackEvent('bot_message_received', {
       message_length: text.length,
+      word_count: text.split(' ').length,
       message_number: messageCount
     });
   }
@@ -1177,7 +1324,8 @@ function blinkTab(exactMatch) {
       
       trackEvent('tab_highlighted', {
         tab_name: exactMatch,
-        tab_text: link.textContent.trim()
+        tab_text: link.textContent.trim(),
+        tab_url: link.href
       });
     }
   });
@@ -1189,6 +1337,10 @@ function blinkTab(exactMatch) {
     }
     randomBlinkActive = true;
     randomBlinkTabs();
+    
+    trackEvent('tab_highlight_ended', {
+      duration_seconds: 40
+    });
   }, 40000);
 }
 
@@ -1232,7 +1384,8 @@ function showFloatingTab(url, isPhoneNumber = false) {
   trackEvent('floating_tab_displayed', {
     url: url,
     is_phone: isPhoneNumber,
-    user_name: userName || 'anonymous'
+    user_name: userName || 'anonymous',
+    triggered_by_message: messageCount
   });
 }
 
@@ -1336,7 +1489,7 @@ function handleMessage() {
     
     if (lowerMsg === "merci" || lowerMsg === "merci beaucoup" || lowerMsg === "je vous remercie") {
       addMessage("Je vous en prie, je suis là pour vous aider !", true);
-      trackEvent('politeness_detected', {type: 'thanks'});
+      trackEvent('politeness_detected', {type: 'thanks', message: lowerMsg});
       return;
     }
     
@@ -1361,7 +1514,8 @@ function handleMessage() {
           addMessage(`Parfait ${userName} ! Comment puis-je vous aider aujourd'hui ?`, true);
           
           trackEvent('user_name_confirmed', {
-            user_name: userName
+            user_name: userName,
+            confirmation_attempt: 1
           });
           return;
         } else if (lowerMsg === "non") {
@@ -1378,7 +1532,8 @@ function handleMessage() {
         addMessage(`Très bien ${pendingName}, c'est bien votre prénom ?`, true);
         
         trackEvent('user_name_detected', {
-          pending_name: pendingName
+          pending_name: pendingName,
+          name_length: pendingName.length
         });
         return;
       }
@@ -1392,7 +1547,8 @@ function handleMessage() {
       addMessage(`${userName}, à très bientôt ! Frederick du Cabinet ClairVoyanceMedium.com et son équipe restent à votre écoute 24h/24.`, true);
       trackEvent('conversation_goodbye', {
         user_name: userName,
-        message_count: messageCount
+        message_count: messageCount,
+        goodbye_phrase: lowerMsg
       });
       return;
     }
@@ -1413,7 +1569,8 @@ function handleMessage() {
       trackEvent('knowledge_match_found', {
         exact_match: match.exactMatch,
         keywords: match.keywords,
-        user_query: userMsg.substring(0, 100)
+        user_query_full: userMsg,
+        response_length: response.length
       });
       
       if (match.isPhone) {
@@ -1427,8 +1584,9 @@ function handleMessage() {
       nonUnderstoodCount++;
       
       trackEvent('knowledge_match_not_found', {
-        user_query: userMsg.substring(0, 100),
-        attempt_number: nonUnderstoodCount
+        user_query_full: userMsg,
+        attempt_number: nonUnderstoodCount,
+        query_length: userMsg.length
       });
       
       if (nonUnderstoodCount === 1) {
@@ -1437,25 +1595,35 @@ function handleMessage() {
         addMessage(`${userName}, je ne comprends toujours pas. Essayez avec des mots simples : amour, voyance, protection, fatigue, défunt ?`, true);
       } else {
         addMessage(`${userName}, il semble difficile de nous comprendre. Peut-être qu'un échange direct serait plus efficace ? Frederick du Cabinet ClairVoyanceMedium.com propose : téléphone (30€/30min), email (12€/3Q), ou rituel complet. Que préférez-vous ?`, true);
+        trackEvent('help_offer_displayed', {
+          after_attempts: nonUnderstoodCount
+        });
         nonUnderstoodCount = 0;
       }
     }
   }, 800);
 }
 
+// 18. TRACK SEND BUTTON
 document.getElementById('chat-send').addEventListener('click', (e) => {
   e.preventDefault();
+  const inputValue = document.getElementById('chat-input').value;
   trackEvent('send_button_clicked', {
-    message_count: messageCount + 1
+    message_count: messageCount + 1,
+    has_content: inputValue.length > 0,
+    content_length: inputValue.length
   });
   handleMessage();
 });
 
+// 19. TRACK ENTER KEY
 document.getElementById('chat-input').addEventListener('keypress', (e) => {
   if (e.key === 'Enter') {
     e.preventDefault();
+    const inputValue = e.target.value;
     trackEvent('enter_key_pressed', {
-      message_count: messageCount + 1
+      message_count: messageCount + 1,
+      content_length: inputValue.length
     });
     handleMessage();
   }
@@ -1471,7 +1639,9 @@ if (!conversationRestored) {
     const welcomeMessage = "Bienvenue sur ClairVoyanceGPT, l'assistant spirituel de Frederick du Cabinet ClairVoyanceMedium.com, médium reconnu depuis plus de 25 ans. Avant de commencer cet échange, pouvez-vous m'indiquer dans un premier temps uniquement votre prénom ?";
     addMessage(welcomeMessage, true);
     
-    trackEvent('welcome_message_displayed');
+    trackEvent('welcome_message_displayed', {
+      message_length: welcomeMessage.length
+    });
     
     if (voiceEnabled && 'speechSynthesis' in window) {
       const tryAutoplay = () => {
@@ -1481,7 +1651,9 @@ if (!conversationRestored) {
         } catch (err) {
           console.log('Autoplay bloqué, affichage bouton');
           showVoiceButton();
-          trackEvent('voice_autoplay_blocked');
+          trackEvent('voice_autoplay_blocked', {
+            error: err.message
+          });
         }
       };
       
@@ -1553,24 +1725,68 @@ document.addEventListener('touchmove', (e) => {
   }
 }, {passive: false});
 
+// 20. TRACK SCROLL avec détails
 let scrollTimeout;
 let lastScrollTrack = 0;
+let maxScrollReached = 0;
+
 window.addEventListener('scroll', () => {
   clearTimeout(scrollTimeout);
   const now = Date.now();
+  const currentScroll = window.scrollY;
+  const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+  const scrollPercentage = Math.round((currentScroll / maxScroll) * 100);
+  
+  if (currentScroll > maxScrollReached) {
+    maxScrollReached = currentScroll;
+  }
   
   if (now - lastScrollTrack > 5000) {
     trackEvent('page_scrolled', {
-      scroll_position: window.scrollY,
-      scroll_percentage: Math.round((window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100)
+      scroll_position: currentScroll,
+      scroll_percentage: scrollPercentage,
+      max_scroll_reached: maxScrollReached,
+      scroll_direction: currentScroll > (lastScrollY || 0) ? 'down' : 'up'
     });
     lastScrollTrack = now;
+    lastScrollY = currentScroll;
   }
 });
 
+let lastScrollY = 0;
+
+// 21. TRACK TEMPS SUR PAGE (multiple milestones)
+setTimeout(() => { trackEvent('engagement_5s'); }, 5000);
+setTimeout(() => { trackEvent('engagement_15s'); }, 15000);
 setTimeout(() => { trackEvent('engagement_30s'); }, 30000);
+setTimeout(() => { trackEvent('engagement_45s'); }, 45000);
 setTimeout(() => { trackEvent('engagement_60s'); }, 60000);
+setTimeout(() => { trackEvent('engagement_90s'); }, 90000);
 setTimeout(() => { trackEvent('engagement_120s'); }, 120000);
+setTimeout(() => { trackEvent('engagement_180s'); }, 180000);
+setTimeout(() => { trackEvent('engagement_300s'); }, 300000);
+
+// 22. TRACK INACTIVITY
+let inactivityTimer;
+const inactivityTime = 60000; // 60 secondes
+
+function resetInactivityTimer() {
+  clearTimeout(inactivityTimer);
+  inactivityTimer = setTimeout(() => {
+    trackEvent('user_inactive', {
+      inactive_duration_seconds: 60,
+      last_message_count: messageCount
+    });
+  }, inactivityTime);
+}
+
+['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart', 'click'].forEach(event => {
+  document.addEventListener(event, resetInactivityTimer, true);
+});
+
+resetInactivityTimer();
+
+console.log('🔥 TRACKING GA4 ULTRA COMPLET ACTIVÉ - Tous les événements sont trackés !');
 
 </script>
 </body>
