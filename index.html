@@ -41,7 +41,7 @@
       --silver:#C0C0C0;
       --accent:#87CEEB;
       --blue-sky:#87CEEB;
-      --neon-blue:#00FFFF;
+      --neon-blue:#66FFFF;
     }
     
     *{margin:0;padding:0;box-sizing:border-box;}
@@ -139,6 +139,7 @@
       animation:none;
     }
     
+    /* BANDEAU BLEU PLUS CLAIR */
     .scrolling-banner{
       position:relative;
       width:100%;
@@ -146,12 +147,12 @@
       padding:0.8rem 0;
       overflow:hidden;
       cursor:pointer;
-      border-top:1px solid rgba(0,255,255,0.3);
-      border-bottom:1px solid rgba(0,255,255,0.3);
+      border-top:1px solid rgba(102,255,255,0.3);
+      border-bottom:1px solid rgba(102,255,255,0.3);
     }
     
     .scrolling-banner:hover{
-      background:rgba(0,255,255,0.05);
+      background:rgba(102,255,255,0.05);
     }
     
     .scrolling-content{
@@ -171,15 +172,16 @@
       font-family:'Cinzel',serif;
       font-size:clamp(1.1rem, 2.5vw, 1.4rem);
       font-weight:700;
-      color:#00FFFF;
-      text-shadow:0 0 10px #00FFFF, 0 0 20px #00FFFF, 0 0 30px #00FFFF;
+      color:#66FFFF;
+      text-shadow:0 0 10px #66FFFF, 0 0 20px #66FFFF, 0 0 30px #66FFFF;
       padding:0 3rem;
       letter-spacing:0.15em;
       text-transform:uppercase;
     }
     
+    /* PHOTO REMONTÉE */
     header{
-      padding:2rem 0;
+      padding:1.2rem 0;
       background:#111;
       box-shadow:0 4px 10px rgba(0,0,0,.8);
     }
@@ -192,9 +194,10 @@
       margin:0 auto;
     }
     
+    /* TITRE REMONTÉ */
     .chat-intro{
       max-width:900px;
-      margin:1rem auto 0.8rem;
+      margin:0.6rem auto 0.8rem;
       padding:0 1rem;
       font-size:clamp(1.4rem, 5vw, 2.2rem);
       background:linear-gradient(145deg, #C0C0C0, #E8E8E8, #A8A8A8);
@@ -204,7 +207,6 @@
       font-weight:700;
     }
     
-    /* ENCORE PLUS D'ESPACE texte/chat */
     .chat-subtitle{
       max-width:800px;
       margin:0 auto 4rem;
@@ -438,6 +440,7 @@
       50%{box-shadow:0 0 25px var(--orange-light);}
     }
     
+    /* FLÈCHE RETIRÉE */
     .return-line{
       font-family:'Cinzel',serif;
       font-size:0.9rem;
@@ -454,19 +457,11 @@
       color:#BBAE98 !important;
       text-decoration:underline;
       transition:all 0.3s ease;
-      display:inline-flex;
-      align-items:center;
-      gap:0.5rem;
-    }
-    
-    .return-line a:before{
-      content:"←";
-      font-size:1.4rem;
+      display:inline-block;
     }
     
     .return-line a:hover{
       opacity:0.8;
-      transform:translateX(-5px);
     }
     
     footer{
@@ -502,7 +497,8 @@
       }
       #chat-box{height:550px;}
       .logo{width:94%;}
-      .chat-intro{margin:0.8rem auto 0.6rem;}
+      header{padding:1rem 0;}
+      .chat-intro{margin:0.5rem auto 0.6rem;}
       .chat-subtitle{font-size:0.9rem;padding:0 1rem;margin-bottom:3.5rem;}
       .scrolling-text{font-size:1rem;padding:0 2rem;}
       .floating-tab{right:10px;padding:0.9rem 1.3rem;font-size:0.95rem;}
@@ -520,7 +516,8 @@
       }
       #chat-box{height:500px;}
       .logo{width:91%;}
-      .chat-intro{margin:0.6rem auto 0.5rem;}
+      header{padding:0.8rem 0;}
+      .chat-intro{margin:0.4rem auto 0.5rem;}
       .chat-subtitle{font-size:0.85rem;margin-bottom:3rem;}
       .scrolling-text{font-size:0.9rem;padding:0 1.5rem;}
       #voice-toggle{bottom:50px;right:15px;width:69px;height:69px;}
@@ -543,7 +540,6 @@
     </ul>
   </nav>
   
-  <!-- BANDEAU DÉFILANT - NOUVELLE PAGE -->
   <div class="scrolling-banner" id="scrolling-banner">
     <div class="scrolling-content">
       <span class="scrolling-text">ClairVoyanceMedium.com • Voyance • Médium • Conseils</span>
@@ -616,7 +612,6 @@
     </svg>
   </button>
   
-  <!-- LIEN RETOUR - NOUVELLE PAGE -->
   <div class="return-line">
     <a href="https://www.clairvoyancemedium.com/" target="_blank" rel="noopener noreferrer">Retour vers le cabinet de voyance ClairVoyanceMedium.com</a>
   </div>
@@ -637,7 +632,6 @@ document.getElementById('current-year').textContent = new Date().getFullYear();
 function trackEvent(eventName, params = {}) {
   if (typeof gtag === 'function') {
     gtag('event', eventName, params);
-    console.log('📊 GA4:', eventName, params);
   }
 }
 
@@ -645,68 +639,9 @@ trackEvent('page_view', {
   page_title: document.title,
   page_location: window.location.href,
   page_path: window.location.pathname,
-  page_referrer: document.referrer,
   screen_resolution: `${screen.width}x${screen.height}`,
   viewport_size: `${window.innerWidth}x${window.innerHeight}`,
-  device_type: /Mobile|Android|iPhone|iPad/i.test(navigator.userAgent) ? 'mobile' : 'desktop',
-  browser: navigator.userAgent,
-  language: navigator.language
-});
-
-document.addEventListener('visibilitychange', () => {
-  trackEvent('page_visibility_change', {
-    visibility_state: document.visibilityState,
-    hidden: document.hidden
-  });
-});
-
-document.addEventListener('copy', (e) => {
-  const selection = window.getSelection().toString();
-  if (selection.length > 0) {
-    trackEvent('text_copied', {
-      text_length: selection.length,
-      text_preview: selection.substring(0, 50)
-    });
-  }
-});
-
-window.addEventListener('orientationchange', () => {
-  trackEvent('orientation_change', {
-    orientation: screen.orientation ? screen.orientation.type : window.orientation
-  });
-});
-
-let resizeTimeout;
-window.addEventListener('resize', () => {
-  clearTimeout(resizeTimeout);
-  resizeTimeout = setTimeout(() => {
-    trackEvent('window_resized', {
-      new_width: window.innerWidth,
-      new_height: window.innerHeight
-    });
-  }, 500);
-});
-
-window.addEventListener('online', () => {
-  trackEvent('connection_status_change', {status: 'online'});
-});
-window.addEventListener('offline', () => {
-  trackEvent('connection_status_change', {status: 'offline'});
-});
-
-window.addEventListener('error', (e) => {
-  trackEvent('javascript_error', {
-    error_message: e.message,
-    error_filename: e.filename,
-    error_line: e.lineno
-  });
-});
-
-document.addEventListener('contextmenu', (e) => {
-  trackEvent('right_click', {
-    element: e.target.tagName,
-    element_id: e.target.id || 'none'
-  });
+  device_type: /Mobile|Android|iPhone|iPad/i.test(navigator.userAgent) ? 'mobile' : 'desktop'
 });
 
 let userName = '';
@@ -727,7 +662,6 @@ let randomBlinkActive = true;
 let allNavLinks = [];
 
 const PHONE_NUMBER = "+33695468923";
-const PHONE_DISPLAY = "06 95 46 89 23";
 
 const STORAGE_KEY = 'clairvoyance_chat_history';
 const STORAGE_TIMESTAMP = 'clairvoyance_chat_timestamp';
@@ -746,10 +680,6 @@ function saveConversation() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
   localStorage.setItem(STORAGE_TIMESTAMP, Date.now().toString());
   localStorage.setItem(SESSION_KEY, 'true');
-  
-  trackEvent('conversation_saved', {
-    message_count: messageCount
-  });
 }
 
 function loadConversation() {
@@ -787,9 +717,7 @@ function loadConversation() {
   messagesDiv.scrollTop = messagesDiv.scrollHeight;
   
   trackEvent('conversation_restored', {
-    message_count: messageCount,
-    user_confirmed: userNameConfirmed,
-    age_hours: Math.round(age / 3600000)
+    message_count: messageCount
   });
   
   return true;
@@ -800,10 +728,7 @@ window.addEventListener('beforeunload', () => {
   localStorage.setItem(SESSION_KEY, 'false');
   trackEvent('session_end', {
     message_count: messageCount,
-    duration_seconds: Math.round(sessionDuration / 1000),
-    duration_minutes: Math.round(sessionDuration / 60000),
-    user_confirmed: userNameConfirmed,
-    user_name: userName || 'anonymous'
+    duration_seconds: Math.round(sessionDuration / 1000)
   });
 });
 
@@ -829,110 +754,54 @@ const TAB_URLS = [
   'https://www.clairvoyancemedium.com/Message-de-votre-Ange-gardien-cbaaaabba.asp'
 ];
 
-// BANDEAU DÉFILANT - OUVRE NOUVELLE PAGE
 const scrollingBanner = document.getElementById('scrolling-banner');
-
-scrollingBanner.addEventListener('mouseenter', () => {
-  trackEvent('scrolling_banner_hover');
-});
 
 scrollingBanner.addEventListener('click', () => {
   trackEvent('scrolling_banner_clicked', {
-    destination: 'clairvoyancemedium.com',
-    time_on_page: Math.round((Date.now() - sessionStartTime) / 1000)
+    destination: 'clairvoyancemedium.com'
   });
   window.open('https://www.clairvoyancemedium.com/', '_blank', 'noopener,noreferrer');
 });
 
 document.querySelectorAll('nav ul li a').forEach((link, index) => {
-  link.addEventListener('mouseenter', () => {
-    trackEvent('nav_tab_hover', {
-      tab_text: link.textContent.trim(),
-      tab_position: index + 1
-    });
-  });
-  
   link.addEventListener('click', (e) => {
-    const linkText = link.textContent.trim();
-    const linkURL = link.href;
-    const exactMatch = link.getAttribute('data-exact');
-    
     trackEvent('navigation_click', {
-      link_text: linkText,
-      link_url: linkURL,
-      exact_match: exactMatch,
-      position: index + 1,
-      time_on_page: Math.round((Date.now() - sessionStartTime) / 1000)
+      link_text: link.textContent.trim(),
+      link_url: link.href,
+      position: index + 1
     });
   });
 });
 
 document.querySelector('.return-line a').addEventListener('click', () => {
-  trackEvent('return_link_click', {
-    destination: 'clairvoyancemedium.com',
-    time_on_page: Math.round((Date.now() - sessionStartTime) / 1000)
-  });
+  trackEvent('return_link_click');
 });
 
 document.querySelectorAll('footer a').forEach(link => {
   link.addEventListener('click', () => {
     trackEvent('footer_link_click', {
-      link_text: link.textContent.trim(),
-      link_url: link.href
+      link_text: link.textContent.trim()
     });
   });
 });
 
-let inputFocusTime = 0;
-
 document.getElementById('chat-input').addEventListener('focus', () => {
-  inputFocusTime = Date.now();
-  trackEvent('chat_input_focus', {
-    message_count: messageCount
-  });
-});
-
-document.getElementById('chat-input').addEventListener('blur', () => {
-  const focusDuration = Date.now() - inputFocusTime;
-  trackEvent('chat_input_blur', {
-    message_count: messageCount,
-    focus_duration_seconds: Math.round(focusDuration / 1000)
-  });
+  trackEvent('chat_input_focus');
 });
 
 let typingTimeout;
 let lastTypingTrack = 0;
-let typingStartTime = 0;
-let isTyping = false;
 
 document.getElementById('chat-input').addEventListener('input', (e) => {
   clearTimeout(typingTimeout);
   const now = Date.now();
   
-  if (!isTyping) {
-    isTyping = true;
-    typingStartTime = now;
-  }
-  
   if (now - lastTypingTrack > 3000 && e.target.value.length > 0) {
     trackEvent('user_typing', {
-      input_length: e.target.value.length,
-      message_count: messageCount,
-      input_preview: e.target.value.substring(0, 30)
+      input_length: e.target.value.length
     });
     lastTypingTrack = now;
   }
-  
-  typingTimeout = setTimeout(() => {
-    if (isTyping) {
-      const typingDuration = Date.now() - typingStartTime;
-      trackEvent('typing_stopped', {
-        typing_duration: Math.round(typingDuration / 1000),
-        final_length: e.target.value.length
-      });
-      isTyping = false;
-    }
-  }, 2000);
 });
 
 let isDragging = false;
@@ -948,11 +817,7 @@ function dragStart(e) {
     e.preventDefault();
     e.stopPropagation();
     floatingTab.classList.remove('show');
-    
-    trackEvent('floating_tab_closed', {
-      url: floatingTab.href,
-      time_displayed: Math.round((Date.now() - sessionStartTime) / 1000)
-    });
+    trackEvent('floating_tab_closed');
     return;
   }
   
@@ -998,18 +863,9 @@ function dragEnd(e) {
       return;
     } else {
       e.preventDefault();
-      trackEvent('floating_tab_dragged', {
-        offset_x: offsetX,
-        offset_y: offsetY,
-        final_position: `${offsetX},${offsetY}`
-      });
     }
   }
 }
-
-let audioContext = null;
-let analyser = null;
-let animationFrameId = null;
 
 function speak(text) {
   if (!voiceEnabled || !('speechSynthesis' in window)) return;
@@ -1045,105 +901,24 @@ function speak(text) {
   
   utterance.onstart = () => {
     voiceBtn.classList.add('speaking');
-    simulateSpeechRhythm(textToSpeak);
-    
-    trackEvent('voice_playback_start', {
-      text_length: textToSpeak.length,
-      word_count: textToSpeak.split(' ').length,
-      message_count: messageCount
-    });
+    trackEvent('voice_playback_start');
   };
   
   utterance.onend = () => {
     voiceBtn.classList.remove('speaking');
-    if (animationFrameId) {
-      cancelAnimationFrame(animationFrameId);
-      animationFrameId = null;
-    }
     chatBox.style.borderColor = '';
     chatBox.style.boxShadow = '';
-    
-    trackEvent('voice_playback_end', {
-      text_length: textToSpeak.length
-    });
+    trackEvent('voice_playback_end');
   };
   
-  utterance.onerror = (e) => {
+  utterance.onerror = () => {
     voiceBtn.classList.remove('speaking');
-    if (animationFrameId) {
-      cancelAnimationFrame(animationFrameId);
-      animationFrameId = null;
-    }
     chatBox.style.borderColor = '';
     chatBox.style.boxShadow = '';
-    
-    trackEvent('voice_playback_error', {
-      error: e.error
-    });
   };
   
   currentUtterance = utterance;
   window.speechSynthesis.speak(utterance);
-}
-
-function simulateSpeechRhythm(text) {
-  const chatBox = document.getElementById('chat-box');
-  
-  const words = text.split(/\s+/);
-  let wordIndex = 0;
-  const msPerWord = 395;
-  
-  function pulseWord() {
-    if (!window.speechSynthesis.speaking || wordIndex >= words.length) {
-      chatBox.style.borderColor = '';
-      chatBox.style.boxShadow = '';
-      if (animationFrameId) {
-        cancelAnimationFrame(animationFrameId);
-        animationFrameId = null;
-      }
-      return;
-    }
-    
-    const word = words[wordIndex];
-    const syllables = Math.max(1, Math.ceil(word.length / 3));
-    
-    let syllableCount = 0;
-    const syllableDuration = msPerWord / syllables;
-    
-    function animateSyllable() {
-      if (!window.speechSynthesis.speaking) {
-        chatBox.style.borderColor = '';
-        chatBox.style.boxShadow = '';
-        return;
-      }
-      
-      if (syllableCount >= syllables) {
-        wordIndex++;
-        setTimeout(pulseWord, 40);
-        return;
-      }
-      
-      const phase = (syllableCount % 2 === 0) ? 1 : 0.5;
-      const intensity = 0.7 + (Math.random() * 0.3) * phase;
-      
-      const baseGlow = 25 + (intensity * 35);
-      const strongGlow = 40 + (intensity * 55);
-      const opacity = 0.7 + (intensity * 0.3);
-      
-      chatBox.style.borderColor = `rgba(135, 206, 235, ${opacity})`;
-      chatBox.style.boxShadow = `
-        0 0 ${baseGlow}px rgba(135, 206, 235, ${opacity}),
-        0 0 ${strongGlow}px rgba(176, 224, 230, ${opacity * 0.85})
-      `;
-      
-      syllableCount++;
-      setTimeout(animateSyllable, syllableDuration);
-    }
-    
-    animateSyllable();
-  }
-  
-  pulseWord();
 }
 
 if ('speechSynthesis' in window) {
@@ -1164,23 +939,13 @@ if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
   
   recognition.onresult = (event) => {
     const transcript = event.results[0][0].transcript;
-    const confidence = event.results[0][0].confidence;
     document.getElementById('chat-input').value = transcript;
-    
-    trackEvent('voice_input_recognized', {
-      transcript_length: transcript.length,
-      confidence: confidence,
-      transcript_preview: transcript.substring(0, 50)
-    });
-    
+    trackEvent('voice_input_recognized');
     handleMessage();
   };
   
   recognition.onerror = (event) => {
     console.log('Erreur reconnaissance vocale:', event.error);
-    trackEvent('voice_input_error', {
-      error: event.error
-    });
   };
 }
 
@@ -1195,19 +960,11 @@ document.getElementById('voice-toggle').addEventListener('click', () => {
       try { recognition.stop(); } catch(e) {}
     }
     if (currentUtterance) window.speechSynthesis.cancel();
-    if (animationFrameId) {
-      cancelAnimationFrame(animationFrameId);
-      animationFrameId = null;
-    }
     const chatBox = document.getElementById('chat-box');
     chatBox.style.borderColor = '';
     chatBox.style.boxShadow = '';
     voiceBtn.classList.remove('speaking');
-    
-    trackEvent('voice_disabled', {
-      message_count: messageCount,
-      time_active: Math.round((Date.now() - sessionStartTime) / 1000)
-    });
+    trackEvent('voice_disabled');
   } else {
     voiceEnabled = true;
     
@@ -1236,14 +993,10 @@ document.getElementById('voice-toggle').addEventListener('click', () => {
     if (recognition) {
       try { 
         recognition.start(); 
-      } catch(e) {
-        console.log('Reconnaissance vocale déjà active');
-      }
+      } catch(e) {}
     }
     
-    trackEvent('voice_enabled', {
-      message_count: messageCount
-    });
+    trackEvent('voice_enabled');
   }
 });
 
@@ -1259,17 +1012,8 @@ function addMessage(text, isBot = false) {
   if (!isBot) {
     trackEvent('user_message_sent', {
       message_length: text.length,
-      word_count: text.split(' ').length,
       message_number: messageCount + 1,
-      user_confirmed: userNameConfirmed,
-      message_full_text: text,
-      time_since_page_load: Math.round((Date.now() - sessionStartTime) / 1000)
-    });
-  } else {
-    trackEvent('bot_message_received', {
-      message_length: text.length,
-      word_count: text.split(' ').length,
-      message_number: messageCount
+      message_text: text
     });
   }
   
@@ -1303,9 +1047,7 @@ function blinkTab(exactMatch) {
       link.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       
       trackEvent('tab_highlighted', {
-        tab_name: exactMatch,
-        tab_text: link.textContent.trim(),
-        tab_url: link.href
+        tab_name: exactMatch
       });
     }
   });
@@ -1317,10 +1059,6 @@ function blinkTab(exactMatch) {
     }
     randomBlinkActive = true;
     randomBlinkTabs();
-    
-    trackEvent('tab_highlight_ended', {
-      duration_seconds: 40
-    });
   }, 40000);
 }
 
@@ -1362,35 +1100,120 @@ function showFloatingTab(url, isPhoneNumber = false) {
   floatingTab.onclick = null;
   
   trackEvent('floating_tab_displayed', {
-    url: url,
-    is_phone: isPhoneNumber,
-    user_name: userName || 'anonymous',
-    triggered_by_message: messageCount
+    is_phone: isPhoneNumber
   });
 }
 
-// ==========================================
-// 🔥 BASE DE CONNAISSANCES - 100% PRÊTE 🔥
-// ==========================================
-// Remplacez ce tableau demo par votre base complète
+/*
+╔═══════════════════════════════════════════════════════════════╗
+║  📚 BASE DE CONNAISSANCES - REMPLACEZ CE TABLEAU LIGNE 1009   ║
+╚═══════════════════════════════════════════════════════════════╝
+
+STRUCTURE OBLIGATOIRE POUR CHAQUE ENTRÉE :
+
+{
+  keywords: "mot1|mot2|mot3|mot4",              // Mots-clés détection (séparés par |)
+  exactMatch: "nom exact onglet",               // Nom EXACT de l'onglet sticky à illuminer
+  answer: (name) => `Votre réponse ${name}`,   // Réponse personnalisée (fonction)
+  url: "https://www.example.com",               // URL du service
+  isExternal: false,                             // true = floating tab | false = pas de floating tab
+  isPhone: false                                 // true = bouton téléphone | false = bouton web
+}
+
+╔═══════════════════════════════════════════════════════════════╗
+║  🎯 POUR ILLUMINER UN ONGLET STICKY                            ║
+╚═══════════════════════════════════════════════════════════════╝
+
+1. COPIER LE NOM EXACT de l'onglet depuis le HTML :
+   - "voyance téléphone" → Onglet "Voyance Tél 30min/30€"
+   - "voyance email" → Onglet "Voyance Email x3/12€"
+   - "retour ex" → Onglet "Retour Amour/175€"
+   - "compatibilité" → Onglet "Compatibilité/20€"
+   - "purification" → Onglet "Purification/150€"
+   - "défunt" → Onglet "Défunt/17€"
+   - "santé" → Onglet "Santé/30€"
+   - "main" → Onglet "Main/10€"
+   - "ange" → Onglet "Ange/10€"
+
+2. METTRE dans exactMatch: "..." (en minuscules)
+
+EXEMPLE COMPLET :
+{
+  keywords: "retour|ex|amour|reconquérir|séparation",
+  exactMatch: "retour ex",  // ← Ce nom DOIT correspondre à data-exact dans le HTML
+  answer: (name) => `${name}, Frederick peut vous aider...`,
+  url: "https://www.clairvoyancemedium.com/...",
+  isExternal: false,
+  isPhone: false
+}
+
+╔═══════════════════════════════════════════════════════════════╗
+║  🎈 POUR AFFICHER LE FLOATING TAB "Ce qu'il vous faut"        ║
+╚═══════════════════════════════════════════════════════════════╝
+
+OPTION 1 - BOUTON WEB (site externe) :
+{
+  ...
+  url: "https://www.clairvoyancemedium.com/...",
+  isExternal: true,   // ← TRUE = affiche le floating tab
+  isPhone: false      // ← FALSE = bouton web classique
+}
+
+OPTION 2 - BOUTON TÉLÉPHONE :
+{
+  ...
+  url: "+33695468923",
+  isExternal: true,   // ← TRUE = affiche le floating tab
+  isPhone: true       // ← TRUE = bouton téléphone "tel:"
+}
+
+OPTION 3 - PAS DE FLOATING TAB :
+{
+  ...
+  url: "https://...",
+  isExternal: false,  // ← FALSE = PAS de floating tab
+  isPhone: false
+}
+
+╔═══════════════════════════════════════════════════════════════╗
+║  ✅ EXEMPLES COMPLETS                                          ║
+╚═══════════════════════════════════════════════════════════════╝
+*/
+
 const knowledgeBase = [
+  // EXEMPLE 1 : Service téléphone avec floating tab téléphone
   {
-    keywords: "téléphone|appel|30min|tél|telephoner|appeler|phone",
+    keywords: "téléphone|appel|30min|tél|telephoner|appeler|phone|joindre",
     exactMatch: "voyance téléphone",
-    answer: (name) => `${name}, notre consultation téléphonique vous permet d'échanger directement avec Frederick du Cabinet ClairVoyanceMedium.com. 30 minutes d'échange personnalisé pour 30€. Disponible 24h/24 et 7j/7.`,
-    url: "https://clairvoyancemedium.github.io/Voyancepartelephonepaschere.github.io/",
-    isExternal: false,
-    isPhone: true
+    answer: (name) => `${name}, Frederick du Cabinet ClairVoyanceMedium.com vous propose une consultation téléphonique de 30 minutes pour 30€. Disponible 24h/24 et 7j/7. Appelez maintenant le 06 95 46 89 23 !`,
+    url: "+33695468923",
+    isExternal: true,   // Affiche floating tab
+    isPhone: true       // Bouton téléphone
   },
+  
+  // EXEMPLE 2 : Service email avec floating tab web
   {
-    keywords: "email|questions|mail|courriel|écrit|3questions",
+    keywords: "email|questions|mail|courriel|écrit|3questions|question|courrier",
     exactMatch: "voyance email",
-    answer: (name) => `${name}, posez 3 questions par email à Frederick du Cabinet ClairVoyanceMedium.com. Réponses détaillées et personnalisées sous 48h. Idéal pour une consultation écrite approfondie. Seulement 12€ pour 3 questions.`,
+    answer: (name) => `${name}, posez 3 questions par email à Frederick du Cabinet ClairVoyanceMedium.com. Réponses détaillées sous 48h pour seulement 12€.`,
     url: "https://www.clairvoyancemedium.com/Voyance-3-Questions-par-Email-cbaaaaaca.asp",
-    isExternal: false
+    isExternal: true,   // Affiche floating tab
+    isPhone: false      // Bouton web
+  },
+  
+  // EXEMPLE 3 : Service retour ex SANS floating tab
+  {
+    keywords: "retour|ex|amour|reconquérir|séparation|copain|copine|conjoint",
+    exactMatch: "retour ex",
+    answer: (name) => `${name}, Frederick du Cabinet ClairVoyanceMedium.com peut vous aider à reconquérir votre ex grâce à un rituel de retour amour puissant. Consultez l'onglet qui vient de s'illuminer en haut de page.`,
+    url: "https://www.clairvoyancemedium.com/Reconquerir-son-ex-a-distance-Blanche-cbaaaaasa.asp",
+    isExternal: false,  // PAS de floating tab
+    isPhone: false
   }
+  
+  // AJOUTEZ ICI TOUTES VOS AUTRES ENTRÉES...
 ];
-    
+
 function removeAccents(str) {
     return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 }
@@ -1486,20 +1309,20 @@ function handleMessage() {
     
     if (lowerMsg === "merci" || lowerMsg === "merci beaucoup" || lowerMsg === "je vous remercie") {
       addMessage("Je vous en prie, je suis là pour vous aider !", true);
-      trackEvent('politeness_detected', {type: 'thanks', message: lowerMsg});
+      trackEvent('politeness_thanks');
       return;
     }
     
     if (lowerMsg === "bonsoir") {
       addMessage(`Bonsoir ${userName || ''} ! Comment puis-je vous éclairer ce soir ?`, true);
-      trackEvent('politeness_detected', {type: 'evening_greeting'});
+      trackEvent('politeness_evening');
       return;
     }
     
     if (!userNameConfirmed) {
       if (lowerMsg === "bonjour" || lowerMsg.startsWith("bonjour")) {
         addMessage("Bonjour ! Je suis ClairVoyanceGPT, votre assistant spirituel créé par Frederick du Cabinet ClairVoyanceMedium.com. Avant de commencer cette consultation, pouvez-vous m'indiquer votre prénom ?", true);
-        trackEvent('politeness_detected', {type: 'greeting'});
+        trackEvent('politeness_greeting');
         return;
       }
       
@@ -1509,16 +1332,11 @@ function handleMessage() {
           userNameConfirmed = true;
           pendingName = '';
           addMessage(`Parfait ${userName} ! Comment puis-je vous aider aujourd'hui ?`, true);
-          
-          trackEvent('user_name_confirmed', {
-            user_name: userName,
-            confirmation_attempt: 1
-          });
+          trackEvent('user_name_confirmed', {user_name: userName});
           return;
         } else if (lowerMsg === "non") {
           pendingName = '';
           addMessage("Alors donnez-moi votre prénom s'il vous plaît.", true);
-          trackEvent('user_name_rejected');
           return;
         }
       }
@@ -1527,11 +1345,7 @@ function handleMessage() {
       if (nameMatch) {
         pendingName = nameMatch[1].charAt(0).toUpperCase() + nameMatch[1].slice(1).toLowerCase();
         addMessage(`Très bien ${pendingName}, c'est bien votre prénom ?`, true);
-        
-        trackEvent('user_name_detected', {
-          pending_name: pendingName,
-          name_length: pendingName.length
-        });
+        trackEvent('user_name_detected');
         return;
       }
       
@@ -1542,11 +1356,7 @@ function handleMessage() {
     const goodbyeTriggers = ["au revoir", "aurevoir", "à bientôt", "bye", "ciao"];
     if (goodbyeTriggers.some(phrase => lowerMsg === phrase || lowerMsg.endsWith(phrase))) {
       addMessage(`${userName}, à très bientôt ! Frederick du Cabinet ClairVoyanceMedium.com et son équipe restent à votre écoute 24h/24.`, true);
-      trackEvent('conversation_goodbye', {
-        user_name: userName,
-        message_count: messageCount,
-        goodbye_phrase: lowerMsg
-      });
+      trackEvent('conversation_goodbye');
       return;
     }
     
@@ -1564,10 +1374,7 @@ function handleMessage() {
       blinkTab(match.exactMatch);
       
       trackEvent('knowledge_match_found', {
-        exact_match: match.exactMatch,
-        keywords: match.keywords,
-        user_query_full: userMsg,
-        response_length: response.length
+        exact_match: match.exactMatch
       });
       
       if (match.isPhone) {
@@ -1581,9 +1388,7 @@ function handleMessage() {
       nonUnderstoodCount++;
       
       trackEvent('knowledge_match_not_found', {
-        user_query_full: userMsg,
-        attempt_number: nonUnderstoodCount,
-        query_length: userMsg.length
+        attempt: nonUnderstoodCount
       });
       
       if (nonUnderstoodCount === 1) {
@@ -1592,9 +1397,6 @@ function handleMessage() {
         addMessage(`${userName}, je ne comprends toujours pas. Essayez avec des mots simples : amour, voyance, protection, fatigue, défunt ?`, true);
       } else {
         addMessage(`${userName}, il semble difficile de nous comprendre. Peut-être qu'un échange direct serait plus efficace ? Frederick du Cabinet ClairVoyanceMedium.com propose : téléphone (30€/30min), email (12€/3Q), ou rituel complet. Que préférez-vous ?`, true);
-        trackEvent('help_offer_displayed', {
-          after_attempts: nonUnderstoodCount
-        });
         nonUnderstoodCount = 0;
       }
     }
@@ -1603,23 +1405,14 @@ function handleMessage() {
 
 document.getElementById('chat-send').addEventListener('click', (e) => {
   e.preventDefault();
-  const inputValue = document.getElementById('chat-input').value;
-  trackEvent('send_button_clicked', {
-    message_count: messageCount + 1,
-    has_content: inputValue.length > 0,
-    content_length: inputValue.length
-  });
+  trackEvent('send_button_clicked');
   handleMessage();
 });
 
 document.getElementById('chat-input').addEventListener('keypress', (e) => {
   if (e.key === 'Enter') {
     e.preventDefault();
-    const inputValue = e.target.value;
-    trackEvent('enter_key_pressed', {
-      message_count: messageCount + 1,
-      content_length: inputValue.length
-    });
+    trackEvent('enter_key_pressed');
     handleMessage();
   }
 });
@@ -1633,151 +1426,11 @@ if (!conversationRestored) {
   setTimeout(() => {
     const welcomeMessage = "Bienvenue sur ClairVoyanceGPT, l'assistant spirituel de Frederick du Cabinet ClairVoyanceMedium.com, médium reconnu depuis plus de 25 ans. Avant de commencer cet échange, pouvez-vous m'indiquer dans un premier temps uniquement votre prénom ?";
     addMessage(welcomeMessage, true);
-    
-    trackEvent('welcome_message_displayed', {
-      message_length: welcomeMessage.length
-    });
-    
-    if (voiceEnabled && 'speechSynthesis' in window) {
-      const tryAutoplay = () => {
-        try {
-          speak(welcomeMessage);
-          trackEvent('voice_autoplay_success');
-        } catch (err) {
-          console.log('Autoplay bloqué, affichage bouton');
-          showVoiceButton();
-          trackEvent('voice_autoplay_blocked', {
-            error: err.message
-          });
-        }
-      };
-      
-      if (document.readyState === 'complete') {
-        tryAutoplay();
-      } else {
-        window.addEventListener('load', tryAutoplay);
-      }
-    }
+    trackEvent('welcome_displayed');
   }, 500);
 }
 
-function showVoiceButton() {
-  const messagesDiv = document.getElementById('chat-messages');
-  const btnDiv = document.createElement('div');
-  btnDiv.style.textAlign = 'center';
-  btnDiv.style.margin = '1rem 0';
-  btnDiv.innerHTML = `
-    <button id="enable-voice-btn" style="
-      padding:0.8rem 1.5rem;
-      background:#000;
-      color:#BBAE98;
-      border:3px solid #FF8C00;
-      font-family:'Cinzel',serif;
-      font-size:1rem;
-      cursor:pointer;
-      animation:blinkVoiceBtn 1.5s ease-in-out infinite;
-      border-radius:0;
-    ">
-      🔊 Activer l'assistant vocal
-    </button>
-    <style>
-      @keyframes blinkVoiceBtn {
-        0%, 100% { box-shadow: 0 0 10px #FF8C00; border-color: #FF8C00; }
-        50% { box-shadow: 0 0 20px #FFA500; border-color: #FFA500; }
-      }
-    </style>
-  `;
-  messagesDiv.appendChild(btnDiv);
-  
-  document.getElementById('enable-voice-btn').addEventListener('click', () => {
-    const welcomeMsg = "Bienvenue sur ClairVoyanceGPT, l'assistant spirituel de Frederick du Cabinet ClairVoyanceMedium.com, médium reconnu depuis plus de 25 ans. Avant de commencer cet échange, pouvez-vous m'indiquer dans un premier temps uniquement votre prénom ?";
-    speak(welcomeMsg);
-    btnDiv.remove();
-    trackEvent('voice_button_clicked_manual');
-  });
-}
-
-let lastTouchY = 0;
-let preventPullToRefresh = false;
-
-document.addEventListener('touchstart', (e) => {
-  if (e.touches.length !== 1) return;
-  lastTouchY = e.touches[0].clientY;
-  preventPullToRefresh = window.pageYOffset === 0;
-}, {passive: false});
-
-document.addEventListener('touchmove', (e) => {
-  const touchY = e.touches[0].clientY;
-  const touchYDelta = touchY - lastTouchY;
-  lastTouchY = touchY;
-  
-  if (preventPullToRefresh) {
-    if (touchYDelta > 0) {
-      e.preventDefault();
-      return;
-    }
-    preventPullToRefresh = false;
-  }
-}, {passive: false});
-
-let scrollTimeout;
-let lastScrollTrack = 0;
-let maxScrollReached = 0;
-let lastScrollY = 0;
-
-window.addEventListener('scroll', () => {
-  clearTimeout(scrollTimeout);
-  const now = Date.now();
-  const currentScroll = window.scrollY;
-  const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-  const scrollPercentage = Math.round((currentScroll / maxScroll) * 100);
-  
-  if (currentScroll > maxScrollReached) {
-    maxScrollReached = currentScroll;
-  }
-  
-  if (now - lastScrollTrack > 5000) {
-    trackEvent('page_scrolled', {
-      scroll_position: currentScroll,
-      scroll_percentage: scrollPercentage,
-      max_scroll_reached: maxScrollReached,
-      scroll_direction: currentScroll > (lastScrollY || 0) ? 'down' : 'up'
-    });
-    lastScrollTrack = now;
-    lastScrollY = currentScroll;
-  }
-});
-
-setTimeout(() => { trackEvent('engagement_5s'); }, 5000);
-setTimeout(() => { trackEvent('engagement_15s'); }, 15000);
-setTimeout(() => { trackEvent('engagement_30s'); }, 30000);
-setTimeout(() => { trackEvent('engagement_45s'); }, 45000);
-setTimeout(() => { trackEvent('engagement_60s'); }, 60000);
-setTimeout(() => { trackEvent('engagement_90s'); }, 90000);
-setTimeout(() => { trackEvent('engagement_120s'); }, 120000);
-setTimeout(() => { trackEvent('engagement_180s'); }, 180000);
-setTimeout(() => { trackEvent('engagement_300s'); }, 300000);
-
-let inactivityTimer;
-const inactivityTime = 60000;
-
-function resetInactivityTimer() {
-  clearTimeout(inactivityTimer);
-  inactivityTimer = setTimeout(() => {
-    trackEvent('user_inactive', {
-      inactive_duration_seconds: 60,
-      last_message_count: messageCount
-    });
-  }, inactivityTime);
-}
-
-['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart', 'click'].forEach(event => {
-  document.addEventListener(event, resetInactivityTimer, true);
-});
-
-resetInactivityTimer();
-
-console.log('✅ SYSTÈME 100% PRÊT - Base de connaissances, tracking GA4, illumination onglets, floating tab !');
+console.log('✅ Système prêt - Remplacez la base de connaissances ligne 1009 !');
 
 </script>
 </body>
