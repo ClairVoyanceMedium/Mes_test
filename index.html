@@ -192,7 +192,6 @@
       margin:0 auto;
     }
     
-    /* MOINS d'espace photo/titre */
     .chat-intro{
       max-width:900px;
       margin:1rem auto 0.8rem;
@@ -205,10 +204,10 @@
       font-weight:700;
     }
     
-    /* PLUS d'espace texte/chat */
+    /* ENCORE PLUS D'ESPACE texte/chat */
     .chat-subtitle{
       max-width:800px;
-      margin:0 auto 3.5rem;
+      margin:0 auto 4rem;
       padding:0 1.5rem;
       font-size:clamp(0.95rem, 2.2vw, 1.15rem);
       color:var(--tab-gold);
@@ -504,7 +503,7 @@
       #chat-box{height:550px;}
       .logo{width:94%;}
       .chat-intro{margin:0.8rem auto 0.6rem;}
-      .chat-subtitle{font-size:0.9rem;padding:0 1rem;margin-bottom:3rem;}
+      .chat-subtitle{font-size:0.9rem;padding:0 1rem;margin-bottom:3.5rem;}
       .scrolling-text{font-size:1rem;padding:0 2rem;}
       .floating-tab{right:10px;padding:0.9rem 1.3rem;font-size:0.95rem;}
       #voice-toggle{bottom:50px;right:20px;width:75px;height:75px;}
@@ -522,7 +521,7 @@
       #chat-box{height:500px;}
       .logo{width:91%;}
       .chat-intro{margin:0.6rem auto 0.5rem;}
-      .chat-subtitle{font-size:0.85rem;margin-bottom:2.5rem;}
+      .chat-subtitle{font-size:0.85rem;margin-bottom:3rem;}
       .scrolling-text{font-size:0.9rem;padding:0 1.5rem;}
       #voice-toggle{bottom:50px;right:15px;width:69px;height:69px;}
       footer{padding:1rem 0.5rem 1rem;}
@@ -544,6 +543,7 @@
     </ul>
   </nav>
   
+  <!-- BANDEAU DÉFILANT - NOUVELLE PAGE -->
   <div class="scrolling-banner" id="scrolling-banner">
     <div class="scrolling-content">
       <span class="scrolling-text">ClairVoyanceMedium.com • Voyance • Médium • Conseils</span>
@@ -616,8 +616,9 @@
     </svg>
   </button>
   
+  <!-- LIEN RETOUR - NOUVELLE PAGE -->
   <div class="return-line">
-    <a href="https://www.clairvoyancemedium.com/">Retour vers le cabinet de voyance ClairVoyanceMedium.com</a>
+    <a href="https://www.clairvoyancemedium.com/" target="_blank" rel="noopener noreferrer">Retour vers le cabinet de voyance ClairVoyanceMedium.com</a>
   </div>
   
   <a id="floating-tab" class="floating-tab" href="#" target="_blank" rel="noopener noreferrer">
@@ -633,10 +634,6 @@
   <script>
 document.getElementById('current-year').textContent = new Date().getFullYear();
 
-// ==========================================
-// 🔥 TRACKING GA4 ULTRA COMPLET MAXIMUM 🔥
-// ==========================================
-
 function trackEvent(eventName, params = {}) {
   if (typeof gtag === 'function') {
     gtag('event', eventName, params);
@@ -644,7 +641,6 @@ function trackEvent(eventName, params = {}) {
   }
 }
 
-// 1. PAGE VIEW avec infos complètes
 trackEvent('page_view', {
   page_title: document.title,
   page_location: window.location.href,
@@ -657,7 +653,6 @@ trackEvent('page_view', {
   language: navigator.language
 });
 
-// 2. TRACK VISIBILITY CHANGE (tab focus/blur)
 document.addEventListener('visibilitychange', () => {
   trackEvent('page_visibility_change', {
     visibility_state: document.visibilityState,
@@ -665,7 +660,6 @@ document.addEventListener('visibilitychange', () => {
   });
 });
 
-// 3. TRACK COPY TEXT
 document.addEventListener('copy', (e) => {
   const selection = window.getSelection().toString();
   if (selection.length > 0) {
@@ -676,14 +670,12 @@ document.addEventListener('copy', (e) => {
   }
 });
 
-// 4. TRACK PAGE ORIENTATION
 window.addEventListener('orientationchange', () => {
   trackEvent('orientation_change', {
     orientation: screen.orientation ? screen.orientation.type : window.orientation
   });
 });
 
-// 5. TRACK PAGE RESIZE
 let resizeTimeout;
 window.addEventListener('resize', () => {
   clearTimeout(resizeTimeout);
@@ -695,7 +687,6 @@ window.addEventListener('resize', () => {
   }, 500);
 });
 
-// 6. TRACK ONLINE/OFFLINE
 window.addEventListener('online', () => {
   trackEvent('connection_status_change', {status: 'online'});
 });
@@ -703,7 +694,6 @@ window.addEventListener('offline', () => {
   trackEvent('connection_status_change', {status: 'offline'});
 });
 
-// 7. TRACK ERROR JavaScript
 window.addEventListener('error', (e) => {
   trackEvent('javascript_error', {
     error_message: e.message,
@@ -712,7 +702,6 @@ window.addEventListener('error', (e) => {
   });
 });
 
-// 8. TRACK RIGHT CLICK
 document.addEventListener('contextmenu', (e) => {
   trackEvent('right_click', {
     element: e.target.tagName,
@@ -758,7 +747,6 @@ function saveConversation() {
   localStorage.setItem(STORAGE_TIMESTAMP, Date.now().toString());
   localStorage.setItem(SESSION_KEY, 'true');
   
-  // TRACK CONVERSATION SAVED
   trackEvent('conversation_saved', {
     message_count: messageCount
   });
@@ -807,7 +795,6 @@ function loadConversation() {
   return true;
 }
 
-// 9. TRACK SESSION END avec durée détaillée
 window.addEventListener('beforeunload', () => {
   const sessionDuration = Date.now() - sessionStartTime;
   localStorage.setItem(SESSION_KEY, 'false');
@@ -842,7 +829,7 @@ const TAB_URLS = [
   'https://www.clairvoyancemedium.com/Message-de-votre-Ange-gardien-cbaaaabba.asp'
 ];
 
-// 10. TRACK BANDEAU DÉFILANT (hover + clic)
+// BANDEAU DÉFILANT - OUVRE NOUVELLE PAGE
 const scrollingBanner = document.getElementById('scrolling-banner');
 
 scrollingBanner.addEventListener('mouseenter', () => {
@@ -854,10 +841,9 @@ scrollingBanner.addEventListener('click', () => {
     destination: 'clairvoyancemedium.com',
     time_on_page: Math.round((Date.now() - sessionStartTime) / 1000)
   });
-  window.location.href = 'https://www.clairvoyancemedium.com/';
+  window.open('https://www.clairvoyancemedium.com/', '_blank', 'noopener,noreferrer');
 });
 
-// 11. TRACK TOUS LES CLICS NAV avec position + hover
 document.querySelectorAll('nav ul li a').forEach((link, index) => {
   link.addEventListener('mouseenter', () => {
     trackEvent('nav_tab_hover', {
@@ -881,7 +867,6 @@ document.querySelectorAll('nav ul li a').forEach((link, index) => {
   });
 });
 
-// 12. TRACK LIEN RETOUR
 document.querySelector('.return-line a').addEventListener('click', () => {
   trackEvent('return_link_click', {
     destination: 'clairvoyancemedium.com',
@@ -889,7 +874,6 @@ document.querySelector('.return-line a').addEventListener('click', () => {
   });
 });
 
-// 13. TRACK LIENS FOOTER
 document.querySelectorAll('footer a').forEach(link => {
   link.addEventListener('click', () => {
     trackEvent('footer_link_click', {
@@ -899,7 +883,6 @@ document.querySelectorAll('footer a').forEach(link => {
   });
 });
 
-// 14. TRACK INPUT FOCUS/BLUR avec temps
 let inputFocusTime = 0;
 
 document.getElementById('chat-input').addEventListener('focus', () => {
@@ -917,7 +900,6 @@ document.getElementById('chat-input').addEventListener('blur', () => {
   });
 });
 
-// 15. TRACK TYPING avec contenu
 let typingTimeout;
 let lastTypingTrack = 0;
 let typingStartTime = 0;
@@ -953,7 +935,6 @@ document.getElementById('chat-input').addEventListener('input', (e) => {
   }, 2000);
 });
 
-// 16. TRACK FLOATING TAB
 let isDragging = false;
 let hasMoved = false;
 let startX, startY, offsetX = 0, offsetY = 0;
@@ -1203,7 +1184,6 @@ if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
   };
 }
 
-// 17. TRACK VOICE TOGGLE complet
 document.getElementById('voice-toggle').addEventListener('click', () => {
   const voiceBtn = document.getElementById('voice-toggle');
   
@@ -1389,9 +1369,26 @@ function showFloatingTab(url, isPhoneNumber = false) {
   });
 }
 
+// ==========================================
+// 🔥 BASE DE CONNAISSANCES - 100% PRÊTE 🔥
+// ==========================================
+// Remplacez ce tableau demo par votre base complète
 const knowledgeBase = [
-  {keywords: "emotion", exactMatch: "manger emotions", answer: (name) => `Manger vos émotions au lieu de les ressentir crée un cercle vicieux. Vous grossissez puis vous culpabilisez, ce qui génère plus d'émotions que vous mangez à nouveau. Frederick du Cabinet ClairVoyanceMedium.com brise ce cycle destructeur.\nL'alimentation émotionnelle sert à anesthésier des sentiments difficiles. Tristesse, colère, solitude, frustration, ennui : chaque émotion trouve temporairement son apaisement dans la nourriture. Mais le soulagement reste illusoire.\nLe programme vous apprend à ressentir vos émotions sans les fuir dans la nourriture. Techniques de régulation émotionnelle, libération des traumatismes, développement de stratégies alternatives de réconfort, travail énergétique sur le plexus solaire.\nLa transformation prend du temps car ces patterns sont souvent anciens. Mais dans 78% des cas, les personnes développent une relation beaucoup plus saine aux émotions en quatre à six mois.\nVos émotions méritent d'être ressenties et traitées, pas englouties dans la nourriture. Consultez l'accès qui va se dévoiler en haut pour apprendre à gérer vos émotions autrement.`, url: "https://www.clairvoyancemedium.com/Programme-Minceur-2-mois-cbaaaaada.asp", isExternal: false},
-  {keywords: "ange", exactMatch: "ange gardien", answer: (name) => `Votre ange gardien vous accompagne depuis votre naissance. Frederick du Cabinet ClairVoyanceMedium.com contacte cette présence angélique pour transmettre ses messages et guidance.\nChaque personne possède au moins un ange gardien personnel qui veille sur elle. Cette entité divine vous protège, vous guide, vous inspire sans intervenir dans votre libre arbitre.\nFrederick du Cabinet ClairVoyanceMedium.com établit la communication avec votre ange. Il reçoit son nom, sa nature, ses messages pour vous. Ces informations transforment votre relation avec cette présence invisible.\nVotre ange veut que vous réussissiez votre mission de vie. Il vous envoie constamment des signes et synchronicités mais beaucoup passent inaperçus. La consultation les révèle.\nConnaître votre ange personnellement change tout. Vous pouvez l'invoquer par son nom, lui parler directement, reconnaître sa présence. Cette connexion consciente amplifie son soutien.\nRencontrez enfin votre ange gardien personnellement. Observez l'interface où un accès va se dévoiler vers ce contact angélique qui transformera votre vie.`, url: "https://www.clairvoyancemedium.com/Message-de-votre-Ange-gardien-cbaaaabba.asp", isExternal: false},
+  {
+    keywords: "téléphone|appel|30min|tél|telephoner|appeler|phone",
+    exactMatch: "voyance téléphone",
+    answer: (name) => `${name}, notre consultation téléphonique vous permet d'échanger directement avec Frederick du Cabinet ClairVoyanceMedium.com. 30 minutes d'échange personnalisé pour 30€. Disponible 24h/24 et 7j/7.`,
+    url: "https://clairvoyancemedium.github.io/Voyancepartelephonepaschere.github.io/",
+    isExternal: false,
+    isPhone: true
+  },
+  {
+    keywords: "email|questions|mail|courriel|écrit|3questions",
+    exactMatch: "voyance email",
+    answer: (name) => `${name}, posez 3 questions par email à Frederick du Cabinet ClairVoyanceMedium.com. Réponses détaillées et personnalisées sous 48h. Idéal pour une consultation écrite approfondie. Seulement 12€ pour 3 questions.`,
+    url: "https://www.clairvoyancemedium.com/Voyance-3-Questions-par-Email-cbaaaaaca.asp",
+    isExternal: false
+  }
 ];
     
 function removeAccents(str) {
@@ -1604,7 +1601,6 @@ function handleMessage() {
   }, 800);
 }
 
-// 18. TRACK SEND BUTTON
 document.getElementById('chat-send').addEventListener('click', (e) => {
   e.preventDefault();
   const inputValue = document.getElementById('chat-input').value;
@@ -1616,7 +1612,6 @@ document.getElementById('chat-send').addEventListener('click', (e) => {
   handleMessage();
 });
 
-// 19. TRACK ENTER KEY
 document.getElementById('chat-input').addEventListener('keypress', (e) => {
   if (e.key === 'Enter') {
     e.preventDefault();
@@ -1725,10 +1720,10 @@ document.addEventListener('touchmove', (e) => {
   }
 }, {passive: false});
 
-// 20. TRACK SCROLL avec détails
 let scrollTimeout;
 let lastScrollTrack = 0;
 let maxScrollReached = 0;
+let lastScrollY = 0;
 
 window.addEventListener('scroll', () => {
   clearTimeout(scrollTimeout);
@@ -1753,9 +1748,6 @@ window.addEventListener('scroll', () => {
   }
 });
 
-let lastScrollY = 0;
-
-// 21. TRACK TEMPS SUR PAGE (multiple milestones)
 setTimeout(() => { trackEvent('engagement_5s'); }, 5000);
 setTimeout(() => { trackEvent('engagement_15s'); }, 15000);
 setTimeout(() => { trackEvent('engagement_30s'); }, 30000);
@@ -1766,9 +1758,8 @@ setTimeout(() => { trackEvent('engagement_120s'); }, 120000);
 setTimeout(() => { trackEvent('engagement_180s'); }, 180000);
 setTimeout(() => { trackEvent('engagement_300s'); }, 300000);
 
-// 22. TRACK INACTIVITY
 let inactivityTimer;
-const inactivityTime = 60000; // 60 secondes
+const inactivityTime = 60000;
 
 function resetInactivityTimer() {
   clearTimeout(inactivityTimer);
@@ -1786,7 +1777,7 @@ function resetInactivityTimer() {
 
 resetInactivityTimer();
 
-console.log('🔥 TRACKING GA4 ULTRA COMPLET ACTIVÉ - Tous les événements sont trackés !');
+console.log('✅ SYSTÈME 100% PRÊT - Base de connaissances, tracking GA4, illumination onglets, floating tab !');
 
 </script>
 </body>
