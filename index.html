@@ -41,6 +41,7 @@
       --silver:#C0C0C0;
       --accent:#87CEEB;
       --blue-sky:#87CEEB;
+      --neon-blue:#00FFFF;
     }
     
     *{margin:0;padding:0;box-sizing:border-box;}
@@ -138,6 +139,46 @@
       animation:none;
     }
     
+    /* BANDEAU DÉFILANT BLEU FLUO */
+    .scrolling-banner{
+      position:relative;
+      width:100%;
+      background:#000;
+      padding:0.8rem 0;
+      overflow:hidden;
+      cursor:pointer;
+      border-top:1px solid rgba(0,255,255,0.3);
+      border-bottom:1px solid rgba(0,255,255,0.3);
+    }
+    
+    .scrolling-banner:hover{
+      background:rgba(0,255,255,0.05);
+    }
+    
+    .scrolling-content{
+      display:flex;
+      width:max-content;
+      animation:scroll-left 20s linear infinite;
+    }
+    
+    @keyframes scroll-left{
+      0%{transform:translateX(0);}
+      100%{transform:translateX(-50%);}
+    }
+    
+    .scrolling-text{
+      display:inline-block;
+      white-space:nowrap;
+      font-family:'Cinzel',serif;
+      font-size:clamp(1.1rem, 2.5vw, 1.4rem);
+      font-weight:700;
+      color:#00FFFF;
+      text-shadow:0 0 10px #00FFFF, 0 0 20px #00FFFF, 0 0 30px #00FFFF;
+      padding:0 3rem;
+      letter-spacing:0.15em;
+      text-transform:uppercase;
+    }
+    
     header{
       padding:2rem 0;
       background:#111;
@@ -164,10 +205,9 @@
       font-weight:700;
     }
     
-    /* PHRASE D'INTRODUCTION */
     .chat-subtitle{
       max-width:800px;
-      margin:0 auto 2rem;
+      margin:0 auto 3rem;
       padding:0 1.5rem;
       font-size:clamp(0.95rem, 2.2vw, 1.15rem);
       color:var(--tab-gold);
@@ -429,11 +469,12 @@
       transform:translateX(-5px);
     }
     
+    /* FOOTER RÉDUIT */
     footer{
       margin-top:2rem;
       font-size:.9rem;
       color:#aaa;
-      padding:2rem 1rem 7rem;
+      padding:1.5rem 1rem 2rem;
       background:#111;
     }
     
@@ -462,9 +503,11 @@
       }
       #chat-box{height:550px;}
       .logo{width:94%;}
-      .chat-subtitle{font-size:0.9rem;padding:0 1rem;}
+      .chat-subtitle{font-size:0.9rem;padding:0 1rem;margin-bottom:2.5rem;}
+      .scrolling-text{font-size:1rem;padding:0 2rem;}
       .floating-tab{right:10px;padding:0.9rem 1.3rem;font-size:0.95rem;}
       #voice-toggle{bottom:50px;right:20px;width:75px;height:75px;}
+      footer{padding:1.2rem 1rem 1.5rem;}
     }
     
     @media(max-width:480px){
@@ -477,8 +520,10 @@
       }
       #chat-box{height:500px;}
       .logo{width:91%;}
-      .chat-subtitle{font-size:0.85rem;}
+      .chat-subtitle{font-size:0.85rem;margin-bottom:2rem;}
+      .scrolling-text{font-size:0.9rem;padding:0 1.5rem;}
       #voice-toggle{bottom:50px;right:15px;width:69px;height:69px;}
+      footer{padding:1rem 0.5rem 1rem;}
     }
   </style>
 </head>
@@ -496,6 +541,18 @@
       <li><a href="https://www.clairvoyancemedium.com/Message-de-votre-Ange-gardien-cbaaaabba.asp" target="_blank" rel="noopener noreferrer" data-keywords="ange|gardien|céleste|protection divine" data-exact="ange" data-url="https://www.clairvoyancemedium.com/Message-de-votre-Ange-gardien-cbaaaabba.asp">Ange/10€</a></li>
     </ul>
   </nav>
+  
+  <!-- BANDEAU DÉFILANT BLEU FLUO -->
+  <div class="scrolling-banner" id="scrolling-banner">
+    <div class="scrolling-content">
+      <span class="scrolling-text">voyance • médium • conseil</span>
+      <span class="scrolling-text">voyance • médium • conseil</span>
+      <span class="scrolling-text">voyance • médium • conseil</span>
+      <span class="scrolling-text">voyance • médium • conseil</span>
+      <span class="scrolling-text">voyance • médium • conseil</span>
+      <span class="scrolling-text">voyance • médium • conseil</span>
+    </div>
+  </div>
   
   <header>
     <picture>
@@ -575,10 +632,6 @@
   <script>
 document.getElementById('current-year').textContent = new Date().getFullYear();
 
-// ==========================================
-// TRACKING GA4 ULTRA COMPLET
-// ==========================================
-
 function trackEvent(eventName, params = {}) {
   if (typeof gtag === 'function') {
     gtag('event', eventName, params);
@@ -586,11 +639,18 @@ function trackEvent(eventName, params = {}) {
   }
 }
 
-// Track page view
 trackEvent('page_view', {
   page_title: document.title,
   page_location: window.location.href,
   page_path: window.location.pathname
+});
+
+// TRACK BANDEAU DÉFILANT CLIQUÉ
+document.getElementById('scrolling-banner').addEventListener('click', () => {
+  trackEvent('scrolling_banner_clicked', {
+    destination: 'clairvoyancemedium.com'
+  });
+  window.location.href = 'https://www.clairvoyancemedium.com/';
 });
 
 let userName = '';
@@ -665,7 +725,6 @@ function loadConversation() {
   
   messagesDiv.scrollTop = messagesDiv.scrollHeight;
   
-  // Track conversation restored
   trackEvent('conversation_restored', {
     message_count: messageCount,
     user_confirmed: userNameConfirmed
@@ -704,7 +763,6 @@ const TAB_URLS = [
   'https://www.clairvoyancemedium.com/Message-de-votre-Ange-gardien-cbaaaabba.asp'
 ];
 
-// TRACK TOUS LES CLICS SUR LES ONGLETS NAV
 document.querySelectorAll('nav ul li a').forEach(link => {
   link.addEventListener('click', (e) => {
     const linkText = link.textContent.trim();
@@ -720,14 +778,12 @@ document.querySelectorAll('nav ul li a').forEach(link => {
   });
 });
 
-// TRACK LIEN RETOUR
 document.querySelector('.return-line a').addEventListener('click', () => {
   trackEvent('return_link_click', {
     destination: 'clairvoyancemedium.com'
   });
 });
 
-// TRACK LIEN FOOTER
 document.querySelectorAll('footer a').forEach(link => {
   link.addEventListener('click', () => {
     trackEvent('footer_link_click', {
@@ -737,7 +793,6 @@ document.querySelectorAll('footer a').forEach(link => {
   });
 });
 
-// TRACK INPUT FOCUS/BLUR
 document.getElementById('chat-input').addEventListener('focus', () => {
   trackEvent('chat_input_focus', {
     message_count: messageCount
@@ -750,7 +805,6 @@ document.getElementById('chat-input').addEventListener('blur', () => {
   });
 });
 
-// TRACK TYPING (tous les 3 secondes max)
 let typingTimeout;
 let lastTypingTrack = 0;
 document.getElementById('chat-input').addEventListener('input', (e) => {
@@ -840,7 +894,6 @@ let audioContext = null;
 let analyser = null;
 let animationFrameId = null;
 
-// VOIX PLUS GRAVE (pitch 0.75)
 function speak(text) {
   if (!voiceEnabled || !('speechSynthesis' in window)) return;
   
@@ -866,8 +919,7 @@ function speak(text) {
     utterance.voice = voice;
   }
   
-  // VOIX PLUS GRAVE
-  utterance.pitch = 0.75;  // Plus grave (était 0.8)
+  utterance.pitch = 0.75;
   utterance.rate = 0.95;
   utterance.volume = 1.0;
   
@@ -1009,7 +1061,6 @@ if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
   };
 }
 
-// TRACK VOICE TOGGLE
 document.getElementById('voice-toggle').addEventListener('click', () => {
   const voiceBtn = document.getElementById('voice-toggle');
   
@@ -1081,13 +1132,12 @@ function addMessage(text, isBot = false) {
   messagesDiv.scrollTop = messagesDiv.scrollHeight;
   if (isBot && voiceEnabled) speak(text);
   
-  // TRACK MESSAGE
   if (!isBot) {
     trackEvent('user_message_sent', {
       message_length: text.length,
       message_number: messageCount + 1,
       user_confirmed: userNameConfirmed,
-      message_preview: text.substring(0, 50) // Premier 50 caractères
+      message_preview: text.substring(0, 50)
     });
   } else {
     trackEvent('bot_message_received', {
@@ -1503,7 +1553,6 @@ document.addEventListener('touchmove', (e) => {
   }
 }, {passive: false});
 
-// TRACK SCROLL
 let scrollTimeout;
 let lastScrollTrack = 0;
 window.addEventListener('scroll', () => {
@@ -1519,18 +1568,9 @@ window.addEventListener('scroll', () => {
   }
 });
 
-// TRACK TIME ON PAGE
-setTimeout(() => {
-  trackEvent('engagement_30s');
-}, 30000);
-
-setTimeout(() => {
-  trackEvent('engagement_60s');
-}, 60000);
-
-setTimeout(() => {
-  trackEvent('engagement_120s');
-}, 120000);
+setTimeout(() => { trackEvent('engagement_30s'); }, 30000);
+setTimeout(() => { trackEvent('engagement_60s'); }, 60000);
+setTimeout(() => { trackEvent('engagement_120s'); }, 120000);
 
 </script>
 </body>
