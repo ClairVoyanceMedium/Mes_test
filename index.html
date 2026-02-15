@@ -213,9 +213,10 @@
       font-weight:700;
     }
     
+    /* ESPACE ENTRE TITRE ET TEXTE */
     .chat-subtitle{
       max-width:800px;
-      margin:0 auto 4rem;
+      margin:1.5rem auto 4rem;
       padding:0 1.5rem;
       font-size:clamp(0.95rem, 2.2vw, 1.15rem);
       color:var(--tab-gold);
@@ -303,7 +304,6 @@
       align-items:center;
     }
     
-    /* iOS FIX - Font-size 16px minimum pour éviter zoom */
     #chat-input{
       flex:1;
       padding:1rem;
@@ -508,7 +508,7 @@
       .logo{width:94%;}
       header{padding:1rem 0;}
       .chat-intro{margin:0.5rem auto 0.6rem;}
-      .chat-subtitle{font-size:0.9rem;padding:0 1rem;margin-bottom:3.5rem;}
+      .chat-subtitle{font-size:0.9rem;padding:0 1rem;margin:1.2rem auto 3.5rem;}
       .scrolling-text{font-size:1rem;padding:0 2rem;}
       .floating-tab{right:10px;padding:0.9rem 1.3rem;font-size:0.95rem;}
       #voice-toggle{bottom:50px;right:20px;width:75px;height:75px;}
@@ -527,7 +527,7 @@
       .logo{width:91%;}
       header{padding:0.8rem 0;}
       .chat-intro{margin:0.4rem auto 0.5rem;}
-      .chat-subtitle{font-size:0.85rem;margin-bottom:3rem;}
+      .chat-subtitle{font-size:0.85rem;margin:1rem auto 3rem;}
       .scrolling-text{font-size:0.9rem;padding:0 1.5rem;}
       #voice-toggle{bottom:50px;right:15px;width:69px;height:69px;}
       footer{padding:1rem 0.5rem 1rem;}
@@ -649,7 +649,6 @@ function trackEvent(eventName, params = {}) {
   }
 }
 
-// 1. PAGE VIEW COMPLET
 trackEvent('page_view', {
   page_title: document.title,
   page_location: window.location.href,
@@ -662,7 +661,6 @@ trackEvent('page_view', {
   language: navigator.language
 });
 
-// 2. VISIBILITY CHANGE
 document.addEventListener('visibilitychange', () => {
   trackEvent('page_visibility_change', {
     visibility_state: document.visibilityState,
@@ -670,7 +668,6 @@ document.addEventListener('visibilitychange', () => {
   });
 });
 
-// 3. COPY TEXT
 document.addEventListener('copy', (e) => {
   const selection = window.getSelection().toString();
   if (selection.length > 0) {
@@ -681,14 +678,12 @@ document.addEventListener('copy', (e) => {
   }
 });
 
-// 4. ORIENTATION CHANGE
 window.addEventListener('orientationchange', () => {
   trackEvent('orientation_change', {
     orientation: screen.orientation ? screen.orientation.type : window.orientation
   });
 });
 
-// 5. WINDOW RESIZE
 let resizeTimeout;
 window.addEventListener('resize', () => {
   clearTimeout(resizeTimeout);
@@ -700,7 +695,6 @@ window.addEventListener('resize', () => {
   }, 500);
 });
 
-// 6. ONLINE/OFFLINE
 window.addEventListener('online', () => {
   trackEvent('connection_status_change', {status: 'online'});
 });
@@ -708,7 +702,6 @@ window.addEventListener('offline', () => {
   trackEvent('connection_status_change', {status: 'offline'});
 });
 
-// 7. JAVASCRIPT ERRORS
 window.addEventListener('error', (e) => {
   trackEvent('javascript_error', {
     error_message: e.message,
@@ -717,7 +710,6 @@ window.addEventListener('error', (e) => {
   });
 });
 
-// 8. RIGHT CLICK
 document.addEventListener('contextmenu', (e) => {
   trackEvent('right_click', {
     element: e.target.tagName,
@@ -737,6 +729,7 @@ let fixedTabTimeout = null;
 let nonUnderstoodCount = 0;
 let currentUtterance = null;
 let sessionStartTime = Date.now();
+let animationFrameId = null;
 
 let randomBlinkInterval = null;
 let randomBlinkActive = true;
@@ -810,7 +803,6 @@ function loadConversation() {
   return true;
 }
 
-// 9. SESSION END
 window.addEventListener('beforeunload', () => {
   const sessionDuration = Date.now() - sessionStartTime;
   localStorage.setItem(SESSION_KEY, 'false');
@@ -845,7 +837,6 @@ const TAB_URLS = [
   'https://www.clairvoyancemedium.com/Message-de-votre-Ange-gardien-cbaaaabba.asp'
 ];
 
-// 10. BANDEAU DÉFILANT
 const scrollingBanner = document.getElementById('scrolling-banner');
 
 scrollingBanner.addEventListener('mouseenter', () => {
@@ -860,7 +851,6 @@ scrollingBanner.addEventListener('click', () => {
   window.open('https://www.clairvoyancemedium.com/', '_blank', 'noopener,noreferrer');
 });
 
-// 11. NAV TABS (hover + click)
 document.querySelectorAll('nav ul li a').forEach((link, index) => {
   link.addEventListener('mouseenter', () => {
     trackEvent('nav_tab_hover', {
@@ -880,7 +870,6 @@ document.querySelectorAll('nav ul li a').forEach((link, index) => {
   });
 });
 
-// 12. RETURN LINK
 document.querySelector('.return-line a').addEventListener('click', () => {
   trackEvent('return_link_click', {
     destination: 'clairvoyancemedium.com',
@@ -888,7 +877,6 @@ document.querySelector('.return-line a').addEventListener('click', () => {
   });
 });
 
-// 13. FOOTER LINKS
 document.querySelectorAll('footer a').forEach(link => {
   link.addEventListener('click', () => {
     trackEvent('footer_link_click', {
@@ -898,7 +886,6 @@ document.querySelectorAll('footer a').forEach(link => {
   });
 });
 
-// 14. INPUT FOCUS/BLUR
 let inputFocusTime = 0;
 
 document.getElementById('chat-input').addEventListener('focus', () => {
@@ -916,7 +903,6 @@ document.getElementById('chat-input').addEventListener('blur', () => {
   });
 });
 
-// 15. TYPING
 let typingTimeout;
 let lastTypingTrack = 0;
 let typingStartTime = 0;
@@ -952,7 +938,6 @@ document.getElementById('chat-input').addEventListener('input', (e) => {
   }, 2000);
 });
 
-// 16. FLOATING TAB
 let isDragging = false;
 let hasMoved = false;
 let startX, startY, offsetX = 0, offsetY = 0;
@@ -1025,6 +1010,70 @@ function dragEnd(e) {
   }
 }
 
+// ==========================================
+// 🔵 ANIMATION BLEUE RYTHME PAROLE 🔵
+// ==========================================
+
+function simulateSpeechRhythm(text) {
+  const chatBox = document.getElementById('chat-box');
+  
+  const words = text.split(/\s+/);
+  let wordIndex = 0;
+  const msPerWord = 395;
+  
+  function pulseWord() {
+    if (!window.speechSynthesis.speaking || wordIndex >= words.length) {
+      chatBox.style.borderColor = '';
+      chatBox.style.boxShadow = '';
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+        animationFrameId = null;
+      }
+      return;
+    }
+    
+    const word = words[wordIndex];
+    const syllables = Math.max(1, Math.ceil(word.length / 3));
+    
+    let syllableCount = 0;
+    const syllableDuration = msPerWord / syllables;
+    
+    function animateSyllable() {
+      if (!window.speechSynthesis.speaking) {
+        chatBox.style.borderColor = '';
+        chatBox.style.boxShadow = '';
+        return;
+      }
+      
+      if (syllableCount >= syllables) {
+        wordIndex++;
+        setTimeout(pulseWord, 40);
+        return;
+      }
+      
+      const phase = (syllableCount % 2 === 0) ? 1 : 0.5;
+      const intensity = 0.7 + (Math.random() * 0.3) * phase;
+      
+      const baseGlow = 25 + (intensity * 35);
+      const strongGlow = 40 + (intensity * 55);
+      const opacity = 0.7 + (intensity * 0.3);
+      
+      chatBox.style.borderColor = `rgba(135, 206, 235, ${opacity})`;
+      chatBox.style.boxShadow = `
+        0 0 ${baseGlow}px rgba(135, 206, 235, ${opacity}),
+        0 0 ${strongGlow}px rgba(176, 224, 230, ${opacity * 0.85})
+      `;
+      
+      syllableCount++;
+      setTimeout(animateSyllable, syllableDuration);
+    }
+    
+    animateSyllable();
+  }
+  
+  pulseWord();
+}
+
 function speak(text) {
   if (!voiceEnabled || !('speechSynthesis' in window)) return;
   
@@ -1059,6 +1108,7 @@ function speak(text) {
   
   utterance.onstart = () => {
     voiceBtn.classList.add('speaking');
+    simulateSpeechRhythm(textToSpeak);
     
     trackEvent('voice_playback_start', {
       text_length: textToSpeak.length,
@@ -1069,6 +1119,10 @@ function speak(text) {
   
   utterance.onend = () => {
     voiceBtn.classList.remove('speaking');
+    if (animationFrameId) {
+      cancelAnimationFrame(animationFrameId);
+      animationFrameId = null;
+    }
     chatBox.style.borderColor = '';
     chatBox.style.boxShadow = '';
     
@@ -1079,6 +1133,10 @@ function speak(text) {
   
   utterance.onerror = (e) => {
     voiceBtn.classList.remove('speaking');
+    if (animationFrameId) {
+      cancelAnimationFrame(animationFrameId);
+      animationFrameId = null;
+    }
     chatBox.style.borderColor = '';
     chatBox.style.boxShadow = '';
     
@@ -1128,7 +1186,6 @@ if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
   };
 }
 
-// 17. VOICE TOGGLE
 document.getElementById('voice-toggle').addEventListener('click', () => {
   const voiceBtn = document.getElementById('voice-toggle');
   
@@ -1140,6 +1197,10 @@ document.getElementById('voice-toggle').addEventListener('click', () => {
       try { recognition.stop(); } catch(e) {}
     }
     if (currentUtterance) window.speechSynthesis.cancel();
+    if (animationFrameId) {
+      cancelAnimationFrame(animationFrameId);
+      animationFrameId = null;
+    }
     const chatBox = document.getElementById('chat-box');
     chatBox.style.borderColor = '';
     chatBox.style.boxShadow = '';
@@ -1308,7 +1369,6 @@ function showFloatingTab(url, isPhoneNumber = false) {
   });
 }
 
-// BASE DE CONNAISSANCES - Remplacer ligne 846
 const knowledgeBase = [
   {
     keywords: "téléphone|appel|30min|tél|telephoner|appeler|phone|joindre",
@@ -1425,13 +1485,6 @@ function handleMessage() {
   addMessage(userMsg, false);
   input.value = '';
   messageCount++;
-  
-  // iOS FIX - Scroll en haut après envoi
-  setTimeout(() => {
-    window.scrollTo(0, 0);
-    document.body.scrollTop = 0;
-    document.documentElement.scrollTop = 0;
-  }, 100);
   
   setTimeout(() => {
     const lowerMsg = userMsg.toLowerCase().trim();
@@ -1577,7 +1630,34 @@ if (!conversationRestored) {
   }, 500);
 }
 
-// 18. SCROLL TRACKING
+// ==========================================
+// 🚫 BLOQUER PULL-TO-REFRESH 🚫
+// ==========================================
+
+let lastTouchY = 0;
+let preventPullToRefresh = false;
+
+document.addEventListener('touchstart', (e) => {
+  if (e.touches.length !== 1) return;
+  lastTouchY = e.touches[0].clientY;
+  preventPullToRefresh = window.pageYOffset === 0;
+}, {passive: false});
+
+document.addEventListener('touchmove', (e) => {
+  const touchY = e.touches[0].clientY;
+  const touchYDelta = touchY - lastTouchY;
+  lastTouchY = touchY;
+  
+  if (preventPullToRefresh) {
+    if (touchYDelta > 0) {
+      e.preventDefault();
+      return;
+    }
+    preventPullToRefresh = false;
+  }
+}, {passive: false});
+
+// SCROLL TRACKING
 let scrollTimeout;
 let lastScrollTrack = 0;
 let maxScrollReached = 0;
@@ -1606,7 +1686,7 @@ window.addEventListener('scroll', () => {
   }
 });
 
-// 19. ENGAGEMENT TEMPOREL
+// ENGAGEMENT TEMPOREL
 setTimeout(() => { trackEvent('engagement_5s'); }, 5000);
 setTimeout(() => { trackEvent('engagement_15s'); }, 15000);
 setTimeout(() => { trackEvent('engagement_30s'); }, 30000);
@@ -1617,7 +1697,7 @@ setTimeout(() => { trackEvent('engagement_120s'); }, 120000);
 setTimeout(() => { trackEvent('engagement_180s'); }, 180000);
 setTimeout(() => { trackEvent('engagement_300s'); }, 300000);
 
-// 20. INACTIVITÉ
+// INACTIVITÉ
 let inactivityTimer;
 const inactivityTime = 60000;
 
@@ -1637,7 +1717,7 @@ function resetInactivityTimer() {
 
 resetInactivityTimer();
 
-console.log('✅ TRACKING GA4 ULTRA MAXIMUM + iOS FIX - 100% PRÊT !');
+console.log('✅ VERSION FINALE - Animation bleue ✓ Scroll fixe ✓ Pull-to-refresh bloqué ✓ Tracking GA4 ultra ✓');
 
 </script>
 </body>
