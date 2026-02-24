@@ -2669,7 +2669,7 @@ document.getElementById('chat-form').addEventListener('submit', (e) => {
 
 if (!conversationRestored) {
   setTimeout(() => {
-    const welcomeMessage = "Bienvenue sur ClairVoyanceGPT, l'assistant spirituel de Frederick du Cabinet ClairVoyanceMedium.com. Avant de commencer cet échange, pouvez-vous m'indiquer dans un premier temps votre prénom ?";
+    const welcomeMessage = "Bienvenue sur ClairVoyanceGPT, l'assistant spirituel de Frederick du Cabinet ClairVoyanceMedium.com. Avant de commencer, pouvez-vous m'indiquer votre prénom pour notre échange ?";
     addMessage(welcomeMessage, true);
     trackEvent('welcome_message_displayed', {
       device_platform: devicePlatform
@@ -2747,7 +2747,7 @@ function doReset() {
   // ✅ Fix iOS message vide : affiche le texte IMMÉDIATEMENT dans le DOM
   // puis lance la voix en parallèle. Si iOS ne parle pas (contexte geste perdu),
   // le texte est quand même visible — jamais de carré vide.
-  const welcomeMessage = "Bienvenue sur ClairVoyanceGPT, l'assistant spirituel de Frederick du Cabinet ClairVoyanceMedium.com. Avant de commencer cet échange, pouvez-vous m'indiquer dans un premier temps votre prénom ?";
+  const welcomeMessage = "Bienvenue sur ClairVoyanceGPT, l'assistant spirituel de Frederick du Cabinet ClairVoyanceMedium.com. Avant de commencer, pouvez-vous m'indiquer votre prénom pour notre échange ?";
 
   const msgDiv = document.createElement('p');
   msgDiv.className = 'bot-message';
@@ -3225,6 +3225,7 @@ console.log('✅ VERSION V34 - widget schema reset ✓ shouldShow dynamique ✓ 
 
 </body>
 </html>
+
 
 
 
