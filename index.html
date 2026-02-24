@@ -967,12 +967,12 @@ html, body {
   
   <div class="scrolling-banner" id="scrolling-banner">
     <div class="scrolling-content">
-      <span class="scrolling-text">ClairVoyanceMedium.com   | Voyance • Médium • Conseils |  Nº1 rapport qualité/prix </span>
-      <span class="scrolling-text">ClairVoyanceMedium.com   | Voyance • Médium • Conseils |  Nº1 rapport qualité/prix </span>
-      <span class="scrolling-text">ClairVoyanceMedium.com   | Voyance • Médium • Conseils |  Nº1 rapport qualité/prix </span>
-      <span class="scrolling-text">ClairVoyanceMedium.com   | Voyance • Médium • Conseils |  Nº1 rapport qualité/prix </span>
-      <span class="scrolling-text">ClairVoyanceMedium.com   | Voyance • Médium • Conseils |  Nº1 rapport qualité/prix </span>
-      <span class="scrolling-text">ClairVoyanceMedium.com   | Voyance • Médium • Conseils |  Nº1 rapport qualité/prix </span>
+      <span class="scrolling-text">ClairVoyanceMedium.com  | Voyance • Médium • Conseils |  Nº1 rapport qualité/prix </span>
+      <span class="scrolling-text">ClairVoyanceMedium.com  | Voyance • Médium • Conseils |  Nº1 rapport qualité/prix </span>
+      <span class="scrolling-text">ClairVoyanceMedium.com  | Voyance • Médium • Conseils |  Nº1 rapport qualité/prix </span>
+      <span class="scrolling-text">ClairVoyanceMedium.com  | Voyance • Médium • Conseils |  Nº1 rapport qualité/prix </span>
+      <span class="scrolling-text">ClairVoyanceMedium.com  | Voyance • Médium • Conseils |  Nº1 rapport qualité/prix </span>
+      <span class="scrolling-text">ClairVoyanceMedium.com  | Voyance • Médium • Conseils |  Nº1 rapport qualité/prix </span>
     </div>
   </div>
   
@@ -2348,7 +2348,7 @@ function showFloatingTab(url, isPhoneNumber = false) {
 // ==========================================
 
 const knowledgeBase = [
-  {keywords: "téléphone|appel|30min|tél|telephoner|appeler|phone|joindre", exactMatch: "voyance téléphone", answer: (name) => `${name}, Frederick du Cabinet ClairVoyanceMedium.com vous propose une consultation téléphonique de 30 minutes pour 30€. Disponible 24h/24 et 7j/7. Appelez maintenant le 06 95 46 89 23 !`, url: "+33695468923", isExternal: true, isPhone: true},
+{keywords: "téléphone|appel|30min|tél|telephoner|appeler|phone|joindre", exactMatch: "voyance téléphone", answer: (name) => `${name}, Frederick du Cabinet ClairVoyanceMedium.com vous propose une consultation téléphonique de 30 minutes pour 30€. Disponible 24h/24 et 7j/7. Appelez maintenant le 06 95 46 89 23 !`, url: "+33695468923", isExternal: true, isPhone: true},
 {keywords: "email|questions|mail|courriel|écrit|3questions|question|courrier", exactMatch: "voyance email", answer: (name) => `${name}, posez 3 questions par email à Frederick du Cabinet ClairVoyanceMedium.com. Réponses détaillées sous 48h pour seulement 12€.`, url: "https://www.clairvoyancemedium.com/Voyance-3-Questions-par-Email-cbaaaaaca.asp", isExternal: true, isPhone: false},
 {keywords: "retour|ex|amour|reconquérir|séparation|copain|copine|conjoint", exactMatch: "retour ex", answer: (name) => `${name}, Frederick du Cabinet ClairVoyanceMedium.com peut vous aider à reconquérir votre ex grâce à un rituel de retour amour puissant. Consultez l'onglet qui vient de s'illuminer en haut de page.`, url: "https://www.clairvoyancemedium.com/Reconquerir-son-ex-a-distance-Blanche-cbaaaaasa.asp", isExternal: false, isPhone: false},
 {keywords: "compulsion|alimentaire|boulimique", exactMatch: "manger émotions", answer: (name) => `${name}, cette compulsion qui vous pousse à dévorer sans faim réelle cache probablement des sentiments que vous ne savez pas gérer autrement. La nourriture devient votre anesthésiant, votre réconfort, votre fuite face à ce que vous ressentez vraiment.\nCe schéma s'installe progressivement. Un jour de tension, vous découvrez que grignoter apaise temporairement l'anxiété. Le cerveau enregistre cette solution. La prochaine fois, il reproduit automatiquement ce comportement. Après des mois ou années, avaler devient votre réaction par défaut à toute sensation désagréable.\nFrederick du Cabinet ClairvoyanceMedium.com traite cette dimension psychologique que les nutritionnistes ignorent souvent. Identifier quelles pulsions déclenchent vos crises, apprendre à les ressentir sans les fuir, développer des stratégies alternatives, libérer les traumatismes enfouis qui amplifient ces conduites.\nCertaines personnes voient leurs compulsions diminuer naturellement en quelques semaines. Le corps cesse de réclamer de la pitance quand les affects trouvent d'autres voies d'expression. Quelques-uns maigrissent sans même suivre de diète, simplement en résolvant leur rapport psychique à la nutrition.\nVous méritez de vous sustenter par faim plutôt que par fuite, ${name}. L'onglet sticky va apparaître en haut de cette page pour accéder à cette approche qui transforme votre relation à l'ingestion depuis ses racines profondes.`, url: "https://www.clairvoyancemedium.com/Programme-minceur-personnalise-cbaaaabna.asp", isExternal: false},
@@ -2549,7 +2549,7 @@ function handleMessage() {
           userName = pendingName;
           userNameConfirmed = true;
           pendingName = '';
-          addMessage(`Parfait ${userName} ! Comment puis-je vous aider aujourd'hui ?`, true);
+          addMessage(`Parfait ${userName} ! Comment puis-je vous aider ?`, true);
           
           trackEvent('user_name_confirmed', {
             user_name: userName
@@ -2578,9 +2578,9 @@ function handleMessage() {
       return;
     }
     
-    const goodbyeTriggers = ["au revoir", "aurevoir", "à bientôt", "bye", "ciao"];
+    const goodbyeTriggers = ["au revoir", "aurevoir", "à bientôt", "byebye", "bye", "ciao"];
     if (goodbyeTriggers.some(phrase => lowerMsg === phrase || lowerMsg.endsWith(phrase))) {
-      addMessage(`${userName}, à très bientôt ! Frederick du Cabinet ClairVoyanceMedium.com et son équipe restent à votre écoute 24h/24.`, true);
+      addMessage(`${userName}, À très bientôt ! Frederick du Cabinet ClairVoyanceMedium.com restent à votre écoute 24h/24.`, true);
       trackEvent('conversation_goodbye', {
         user_name: userName,
         message_count: messageCount
@@ -2669,7 +2669,7 @@ document.getElementById('chat-form').addEventListener('submit', (e) => {
 
 if (!conversationRestored) {
   setTimeout(() => {
-    const welcomeMessage = "Bienvenue sur ClairVoyanceGPT, l'assistant spirituel de Frederick du Cabinet ClairVoyanceMedium.com, médium reconnu depuis plus de 25 ans. Avant de commencer cet échange, pouvez-vous m'indiquer dans un premier temps uniquement votre prénom ?";
+    const welcomeMessage = "Bienvenue sur ClairVoyanceGPT, l'assistant spirituel de Frederick du Cabinet ClairVoyanceMedium.com. Avant de commencer cet échange, pouvez-vous m'indiquer dans un premier temps votre prénom ?";
     addMessage(welcomeMessage, true);
     trackEvent('welcome_message_displayed', {
       device_platform: devicePlatform
@@ -2747,7 +2747,7 @@ function doReset() {
   // ✅ Fix iOS message vide : affiche le texte IMMÉDIATEMENT dans le DOM
   // puis lance la voix en parallèle. Si iOS ne parle pas (contexte geste perdu),
   // le texte est quand même visible — jamais de carré vide.
-  const welcomeMessage = "Bienvenue sur ClairVoyanceGPT, l'assistant spirituel de Frederick du Cabinet ClairVoyanceMedium.com, médium reconnu depuis plus de 25 ans. Avant de commencer cet échange, pouvez-vous m'indiquer dans un premier temps uniquement votre prénom ?";
+  const welcomeMessage = "Bienvenue sur ClairVoyanceGPT, l'assistant spirituel de Frederick du Cabinet ClairVoyanceMedium.com. Avant de commencer cet échange, pouvez-vous m'indiquer dans un premier temps votre prénom ?";
 
   const msgDiv = document.createElement('p');
   msgDiv.className = 'bot-message';
@@ -3225,6 +3225,7 @@ console.log('✅ VERSION V34 - widget schema reset ✓ shouldShow dynamique ✓ 
 
 </body>
 </html>
+
 
 
 
