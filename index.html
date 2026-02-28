@@ -3220,7 +3220,7 @@ setTimeout(() => { trackEvent('engagement_300s', {device_platform: devicePlatfor
       widget.querySelectorAll('.sw-eyebrow,.sw-sub').forEach(el => el.style.display = 'none');
       const titleEl = widget.querySelector('.sw-title');
       if (titleEl) {
-        titleEl.textContent = selectedRating >= 4 ? '❆ Merci pour votre confiance ❆' : '❆ Merci, nous allons nous améliorer ❆';
+        titleEl.textContent = selectedRating >= 4 ? ' Merci pour votre confiance ' : ' Merci, nous allons nous améliorer ';
         titleEl.style.fontSize = '1.15rem';
         titleEl.style.padding = '1.2rem 0';
         titleEl.style.color = 'var(--banner-blue)';
@@ -3291,24 +3291,4 @@ console.log('✅ VERSION V34 - widget schema reset ✓ shouldShow dynamique ✓ 
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
