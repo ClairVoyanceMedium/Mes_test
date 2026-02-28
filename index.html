@@ -2606,7 +2606,7 @@ function handleMessage() {
     
     if (!userNameConfirmed) {
       if (lowerMsg === "bonjour" || lowerMsg.startsWith("bonjour")) {
-        addMessage("Bonjour ! Je suis ClairVoyanceGPT, votre assistant spirituel créé par Frederick du Cabinet ClairVoyanceMedium.com. Avant de commencer cette consultation, pouvez-vous m'indiquer votre prénom ?", true);
+        addMessage("Bonjour ! Je suis ClairVoyanceGPT, votre assistant spirituel créé par Frederick du Cabinet ClairVoyanceMedium.com. Avant de commencer notre échange d'alignement et de clarté, pouvez-vous m'indiquer votre prénom ?", true);
         trackEvent('politeness_detected', {type: 'greeting'});
         return;
       }
@@ -2641,7 +2641,7 @@ function handleMessage() {
         return;
       }
       
-      addMessage("Je n'ai pas bien saisi votre prénom. Pouvez-vous me le donner clairement s'il vous plaît ?", true);
+      addMessage("Je n'ai pas bien saisi votre prénom. Pouvez-vous me le répéter s'il vous plaît ?", true);
       return;
     }
     
@@ -2736,7 +2736,7 @@ document.getElementById('chat-form').addEventListener('submit', (e) => {
 
 if (!conversationRestored) {
   setTimeout(() => {
-    const welcomeMessage = "Bienvenue sur ClairVoyanceGPT, l'assistant spirituel de Frederick du Cabinet ClairVoyanceMedium.com. Avant de commencer, pouvez-vous m'indiquer votre prénom pour notre échange ?";
+    const welcomeMessage = "Bienvenue sur ClairVoyanceGPT, l'assistant spirituel de Frederick du Cabinet ClairVoyanceMedium.com. Avant de commencer, pouvez-vous m'indiquer votre prénom pour notre moment de clarté et de conscience ?";
     addMessage(welcomeMessage, true);
     trackEvent('welcome_message_displayed', {
       device_platform: devicePlatform
@@ -3292,6 +3292,7 @@ console.log('✅ VERSION V34 - widget schema reset ✓ shouldShow dynamique ✓ 
 
 </body>
 </html>
+
 
 
 
