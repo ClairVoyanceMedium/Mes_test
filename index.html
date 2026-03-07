@@ -964,7 +964,6 @@ html, body {
       <li><a href="https://www.clairvoyancemedium.com/Message-de-votre-Ange-gardien-cbaaaabba.asp" target="_blank" rel="noopener noreferrer" data-keywords="ange|gardien|céleste|protection divine" data-exact="ange">Ange/10€</a></li>
     </ul>
   </nav>
-  
 
   <div class="scrolling-banner" id="scrolling-banner">
   <div class="scrolling-content">
@@ -3904,17 +3903,32 @@ console.log('✅ VERSION V34 - widget schema reset ✓ shouldShow dynamique ✓ 
 
 <script>
   (function() {
-    var year = new Date().getFullYear();
+    var now = new Date();
+    var year = now.getFullYear();
+
+    // Mois précédent en français
+    var moisFr = ["janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"];
+    var prevMonthIndex = now.getMonth() - 1;
+    var prevYear = year;
+    if (prevMonthIndex < 0) {
+      prevMonthIndex = 11;
+      prevYear = year - 1;
+    }
+    var prevMonth = moisFr[prevMonthIndex];
+    var dateText = prevMonth + " " + prevYear;
+
+    // Injection dans tous les spans concernés
     var el = document.getElementById("current-year-scroll");
-    if (el) el.textContent = year;
+    if (el) el.textContent = dateText;
     document.querySelectorAll(".current-year-copy").forEach(function(e) {
-      e.textContent = year;
+      e.textContent = dateText;
     });
   })();
 </script>
   
 </body>
 </html>
+
 
 
 
