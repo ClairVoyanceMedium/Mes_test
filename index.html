@@ -965,11 +965,15 @@ html, body {
     </ul>
   </nav>
   
+
   <div class="scrolling-banner" id="scrolling-banner">
   <div class="scrolling-content">
-    <span class="scrolling-text">ClairVoyanceMedium.com&nbsp;|&nbsp;Voyance&nbsp;•&nbsp;Médium&nbsp;•&nbsp;Conseils&nbsp;|&nbsp;N°1 rapport qualité/prix encore en <span id="current-year-scroll"></span></span>
-    &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-    <span class="scrolling-text">ClairVoyanceMedium.com&nbsp;|&nbsp;Voyance&nbsp;•&nbsp;Médium&nbsp;•&nbsp;Conseils&nbsp;|&nbsp;Enfin des réponses à vos questions les plus profondes… Des consultations sérieuses dès 5€ seulement&nbsp;! Vous méritez de savoir&nbsp;!</span>
+    <!-- Premier bloc -->
+    <span class="scrolling-text">ClairVoyanceMedium.com&nbsp;|&nbsp;Voyance&nbsp;•&nbsp;Médium&nbsp;•&nbsp;Conseils&nbsp;|&nbsp;N°1 rapport qualité/prix encore en <span id="current-year-scroll"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+    <span class="scrolling-text">ClairVoyanceMedium.com&nbsp;|&nbsp;Voyance&nbsp;•&nbsp;Médium&nbsp;•&nbsp;Conseils&nbsp;|&nbsp;Enfin des réponses à vos questions les plus profondes… Des consultations sérieuses dès 5€ seulement&nbsp;! Vous méritez de savoir&nbsp;!&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+    <!-- Duplication pour boucle infinie sans coupure -->
+    <span class="scrolling-text">ClairVoyanceMedium.com&nbsp;|&nbsp;Voyance&nbsp;•&nbsp;Médium&nbsp;•&nbsp;Conseils&nbsp;|&nbsp;N°1 rapport qualité/prix encore en <span class="current-year-copy"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+    <span class="scrolling-text">ClairVoyanceMedium.com&nbsp;|&nbsp;Voyance&nbsp;•&nbsp;Médium&nbsp;•&nbsp;Conseils&nbsp;|&nbsp;Enfin des réponses à vos questions les plus profondes… Des consultations sérieuses dès 5€ seulement&nbsp;! Vous méritez de savoir&nbsp;!&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
   </div>
 </div>
   
@@ -3899,11 +3903,19 @@ console.log('✅ VERSION V34 - widget schema reset ✓ shouldShow dynamique ✓ 
 </script>
 
 <script>
-  document.getElementById("current-year-scroll").textContent = new Date().getFullYear();
+  (function() {
+    var year = new Date().getFullYear();
+    var el = document.getElementById("current-year-scroll");
+    if (el) el.textContent = year;
+    document.querySelectorAll(".current-year-copy").forEach(function(e) {
+      e.textContent = year;
+    });
+  })();
 </script>
   
 </body>
 </html>
+
 
 
 
