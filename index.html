@@ -12,7 +12,7 @@
 <link rel="icon" href="https://i.imgur.com/GmyGlKk.webp" type="image/webp">
 <link rel="apple-touch-icon" sizes="180x180" href="https://i.imgur.com/GmyGlKk.webp">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Space+Mono:wght@400;700&family=Orbitron:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Space+Mono:wght@400;700&family=Righteous&display=swap" rel="stylesheet">
 <style>
 /* ============================================
    DESIGN TOKENS — Anthracite + Neon Violet 80s
@@ -63,10 +63,10 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:13
   --neon3: #7de8ff;
 }
 .logo{
-  font-family:'Orbitron',sans-serif;
-  font-weight:800;
-  font-size:12px;
-  letter-spacing:3px;
+  font-family:'Righteous',cursive;
+  font-weight:400;
+  font-size:16px;
+  letter-spacing:4px;
   text-transform:uppercase;
   color:var(--neon3);
   text-shadow:
@@ -495,6 +495,18 @@ td.mono{font-family:var(--mono);font-size:10px;color:var(--purl);}
 .kpi.pk .kv{color:var(--pnk);}
 .ks{font-size:9px;color:var(--text3);}
 .sec-box{background:var(--bg2);border:1px solid var(--b1);border-radius:10px;padding:14px;margin-bottom:12px;}
+.date-qbtn{padding:5px 11px;border-radius:5px;border:1px solid var(--b2);background:var(--bg3);color:var(--text2);font-family:var(--sans);font-size:10px;font-weight:700;cursor:pointer;transition:all .15s;}
+.date-qbtn:hover{border-color:var(--pur-b);color:var(--purl);}
+.date-qbtn.sel{background:var(--pur-bg);border-color:var(--pur-b);color:var(--purl);}
+.stat-mini{font-size:9px;font-weight:800;padding:3px 8px;border-radius:4px;display:inline-flex;align-items:center;gap:4px;}
+.stat-mini.sent{background:rgba(0,255,136,.1);color:var(--grn);}
+.stat-mini.open{background:var(--pur-bg);color:var(--purl);}
+.stat-mini.noread{background:rgba(107,120,153,.1);color:var(--text2);}
+.stat-mini.err{background:rgba(255,122,0,.1);color:var(--ora);}
+.stat-mini.unsub{background:rgba(255,34,68,.09);color:var(--red);}
+.stat-mini.sms-ok{background:rgba(255,45,120,.1);color:var(--pnk);}
+.stat-mini.sms-read{background:var(--pur-bg);color:var(--purl);}
+.stat-mini.sms-stop{background:rgba(255,34,68,.09);color:var(--red);}
 .sec-ttl{font-size:10px;font-weight:800;letter-spacing:1px;text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
 .atbl{width:100%;border-collapse:collapse;}
 .atbl th{padding:7px 10px;text-align:left;font-size:8px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--text3);border-bottom:1px solid var(--b1);}
@@ -624,15 +636,97 @@ td.em{font-family:var(--mono);font-size:10px;color:var(--purl);}
 <div id="app">
 
 <!-- ═══ DASHBOARD ═══ -->
-<div class="view" id="view-dashboard">
+<div class="view" id="view-dashboard" style="overflow-y:auto;-webkit-overflow-scrolling:touch;padding:14px;gap:12px;flex-direction:column;">
   <div class="kpi-row">
     <div class="kpi pur"><div class="kl">Emails envoyés</div><div class="kv" id="kv-es">0</div><div class="ks" id="ks-es">total</div></div>
-    <div class="kpi g"><div class="kl">Ouverts</div><div class="kv" id="kv-op">0</div><div class="ks" id="ks-op">taux: 0%</div></div>
+    <div class="kpi g"><div class="kl">Taux ouverture</div><div class="kv" id="kv-op">0%</div><div class="ks" id="ks-op">0 ouverts</div></div>
     <div class="kpi c"><div class="kl">Non ouverts</div><div class="kv" id="kv-no">0</div><div class="ks">en attente</div></div>
     <div class="kpi r"><div class="kl">Désabonnés</div><div class="kv" id="kv-un">0</div><div class="ks">opt-out</div></div>
     <div class="kpi pk"><div class="kl">SMS envoyés</div><div class="kv" id="kv-sm">0</div><div class="ks" id="ks-sm">total</div></div>
   </div>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px" id="analytics-grid">
+
+  <!-- DATE FILTER BAR -->
+  <div style="background:var(--bg2);border:1px solid var(--b1);border-radius:10px;padding:14px;margin-bottom:4px">
+    <div style="font-size:9px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);margin-bottom:10px">🗓 Filtrer par période</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+      <!-- Quick filters -->
+      <div style="display:flex;gap:4px;flex-wrap:wrap" id="date-quick-btns">
+        <button class="date-qbtn sel" onclick="setDateFilter('today',this)">Aujourd'hui</button>
+        <button class="date-qbtn" onclick="setDateFilter('yesterday',this)">Hier</button>
+        <button class="date-qbtn" onclick="setDateFilter('7d',this)">7 jours</button>
+        <button class="date-qbtn" onclick="setDateFilter('30d',this)">30 jours</button>
+        <button class="date-qbtn" onclick="setDateFilter('all',this)">Tout</button>
+      </div>
+      <!-- Custom date range -->
+      <div style="display:flex;gap:6px;align-items:center;margin-left:auto;flex-wrap:wrap">
+        <span style="font-size:10px;color:var(--text2)">Du</span>
+        <input type="date" class="fi" id="date-from" style="width:130px;padding:6px 9px;font-size:11px" onchange="applyCustomDate()">
+        <span style="font-size:10px;color:var(--text2)">au</span>
+        <input type="date" class="fi" id="date-to" style="width:130px;padding:6px 9px;font-size:11px" onchange="applyCustomDate()">
+      </div>
+    </div>
+    <!-- Period stats -->
+    <div id="period-stats" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px">
+      <div style="background:var(--bg3);border-radius:7px;padding:10px;text-align:center">
+        <div style="font-family:var(--mono);font-size:20px;font-weight:700;color:var(--purl)" id="ps-sent">0</div>
+        <div style="font-size:9px;color:var(--text3);margin-top:3px">ENVOYÉS</div>
+      </div>
+      <div style="background:var(--bg3);border-radius:7px;padding:10px;text-align:center">
+        <div style="font-family:var(--mono);font-size:20px;font-weight:700;color:var(--grn)" id="ps-open">0%</div>
+        <div style="font-size:9px;color:var(--text3);margin-top:3px">TAUX OUVERT</div>
+      </div>
+      <div style="background:var(--bg3);border-radius:7px;padding:10px;text-align:center">
+        <div style="font-family:var(--mono);font-size:20px;font-weight:700;color:var(--pnk)" id="ps-sms">0</div>
+        <div style="font-size:9px;color:var(--text3);margin-top:3px">SMS ENVOYÉS</div>
+      </div>
+      <div style="background:var(--bg3);border-radius:7px;padding:10px;text-align:center">
+        <div style="font-family:var(--mono);font-size:20px;font-weight:700;color:var(--red)" id="ps-unsub">0</div>
+        <div style="font-size:9px;color:var(--text3);margin-top:3px">DÉSABONNÉS</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Analytics tables -->
+  <div id="analytics-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+    <div class="sec-box">
+      <div class="sec-ttl" style="color:var(--purl)">
+        📊 Emails
+        <span id="email-period-lbl" style="font-size:10px;color:var(--text3);font-weight:400;margin-left:auto">Aujourd'hui</span>
+      </div>
+      <!-- Email stats bar -->
+      <div id="email-stats-bar" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px"></div>
+      <div style="overflow-x:auto">
+        <table class="atbl" id="analytics-tbl">
+          <thead><tr><th>Email</th><th>Campagne</th><th>Heure</th><th>Statut</th><th>Lu</th></tr></thead>
+          <tbody id="analytics-body">
+            <tr><td colspan="5"><div class="empty" style="padding:20px"><p>Aucun envoi sur cette période</p></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="sec-box">
+      <div class="sec-ttl" style="color:var(--pnk)">
+        📱 SMS
+        <span id="sms-period-lbl" style="font-size:10px;color:var(--text3);font-weight:400;margin-left:auto">Aujourd'hui</span>
+      </div>
+      <!-- SMS stats bar -->
+      <div id="sms-stats-bar" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px"></div>
+      <div style="overflow-x:auto">
+        <table class="atbl" id="sms-analytics-tbl">
+          <thead><tr><th>Numéro</th><th>Campagne</th><th>Heure</th><th>Statut</th><th>Lu</th></tr></thead>
+          <tbody id="sms-analytics-body">
+            <tr><td colspan="5"><div class="empty" style="padding:20px"><p>Aucun SMS sur cette période</p></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec-box">
+    <div class="sec-ttl" style="color:var(--yel)">⚡ Campagnes actives</div>
+    <div id="dash-actives"><div style="font-size:11px;color:var(--text3);padding:8px 0">Aucune campagne en cours</div></div>
+  </div>
+</div>
     <div class="sec-box">
       <div class="sec-ttl" style="color:var(--purl)">📊 Historique email récent</div>
       <div style="overflow-x:auto">
@@ -2502,10 +2596,75 @@ function importCsv() {
 }
 
 // ═══════════════════════════════════════════════════════
+//  DATE FILTER STATE
+// ═══════════════════════════════════════════════════════
+let dateFilter = { mode: 'today', from: null, to: null };
+
+function getDateRange() {
+  const now = new Date();
+  const tod = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  if (dateFilter.mode === 'today') {
+    return { from: tod, to: new Date(tod.getTime() + 86399999) };
+  }
+  if (dateFilter.mode === 'yesterday') {
+    const y = new Date(tod.getTime() - 86400000);
+    return { from: y, to: new Date(y.getTime() + 86399999) };
+  }
+  if (dateFilter.mode === '7d') {
+    return { from: new Date(tod.getTime() - 6*86400000), to: new Date(tod.getTime() + 86399999) };
+  }
+  if (dateFilter.mode === '30d') {
+    return { from: new Date(tod.getTime() - 29*86400000), to: new Date(tod.getTime() + 86399999) };
+  }
+  if (dateFilter.mode === 'custom' && dateFilter.from && dateFilter.to) {
+    return { from: new Date(dateFilter.from + 'T00:00:00'), to: new Date(dateFilter.to + 'T23:59:59') };
+  }
+  // 'all' — no filter
+  return { from: new Date(0), to: new Date(9999, 11, 31) };
+}
+
+function periodLabel() {
+  const labels = { today: "Aujourd'hui", yesterday: 'Hier', '7d': '7 derniers jours', '30d': '30 derniers jours', all: 'Tout l\'historique' };
+  if (dateFilter.mode === 'custom' && dateFilter.from && dateFilter.to) return dateFilter.from + ' → ' + dateFilter.to;
+  return labels[dateFilter.mode] || '';
+}
+
+function setDateFilter(mode, btn) {
+  dateFilter.mode = mode;
+  document.querySelectorAll('.date-qbtn').forEach(b => b.classList.remove('sel'));
+  if (btn) btn.classList.add('sel');
+  renderDashboard();
+}
+
+function applyCustomDate() {
+  const f = $('date-from')?.value;
+  const t = $('date-to')?.value;
+  if (!f || !t) return;
+  dateFilter.mode   = 'custom';
+  dateFilter.from   = f;
+  dateFilter.to     = t;
+  document.querySelectorAll('.date-qbtn').forEach(b => b.classList.remove('sel'));
+  renderDashboard();
+}
+
+function inRange(dateStr) {
+  if (!dateStr) return false;
+  const d = new Date(dateStr);
+  const r = getDateRange();
+  return d >= r.from && d <= r.to;
+}
+
+// ═══════════════════════════════════════════════════════
 //  DASHBOARD + ANALYTICS
 // ═══════════════════════════════════════════════════════
 function renderDashboard() {
+  const lbl = periodLabel();
+  if ($('email-period-lbl')) $('email-period-lbl').textContent = lbl;
+  if ($('sms-period-lbl'))   $('sms-period-lbl').textContent   = lbl;
+
   renderAnalytics();
+  renderPeriodStats();
+
   // Active campaigns
   const el = $('dash-actives');
   if (!el) return;
@@ -2518,6 +2677,7 @@ function renderDashboard() {
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
         <span class="stbadge st-run">EN COURS</span>
         <span style="font-size:12px;font-weight:700">${c.name}</span>
+        <span style="margin-left:auto;font-family:var(--mono);font-size:10px;color:var(--text3)">${pct}%</span>
       </div>
       <div style="display:flex;gap:12px;font-size:10px;color:var(--text3)">
         <span style="color:var(--yel)">⚡${c.ratePerHour}/h</span>
@@ -2530,42 +2690,99 @@ function renderDashboard() {
   }).join('');
 }
 
-function renderAnalytics() {
-  // Email analytics
+function renderPeriodStats() {
+  // Collect all logs in range
+  const emailLogs = getAllEmailLogs().filter(l => inRange(l.date));
+  const smsLogs   = getAllSMSLogs().filter(l => inRange(l.date));
+
+  const eSent  = emailLogs.length;
+  const eOpen  = emailLogs.filter(l => l.opened).length;
+  const eUnsub = emailLogs.filter(l => l.unsubscribed).length;
+  const eRate  = eSent > 0 ? Math.round((eOpen/eSent)*100) : 0;
+  const sSent  = smsLogs.length;
+
+  const se = (id,v) => { const el=$(id); if(el) el.textContent=v; };
+  se('ps-sent',  eSent);
+  se('ps-open',  eRate + '%');
+  se('ps-sms',   sSent);
+  se('ps-unsub', eUnsub);
+
+  // Email stats bar
+  const esb = $('email-stats-bar');
+  if (esb) esb.innerHTML = eSent ? `
+    <span class="stat-mini sent">✓ ${eSent} envoyés</span>
+    <span class="stat-mini open">👁 ${eOpen} ouverts (${eRate}%)</span>
+    <span class="stat-mini noread">⊘ ${eSent-eOpen} non ouverts</span>
+    <span class="stat-mini err">⚠ ${emailLogs.filter(l=>l.status==='error').length} erreurs</span>
+    <span class="stat-mini unsub">🚫 ${eUnsub} désabonnés</span>
+  ` : '<span style="font-size:10px;color:var(--text3)">Aucun email sur cette période</span>';
+
+  // SMS stats bar
+  const ssb = $('sms-stats-bar');
+  const sRead  = smsLogs.filter(l => l.opened).length;
+  const sStop  = smsLogs.filter(l => l.unsubscribed).length;
+  const sErr   = smsLogs.filter(l => l.status==='error').length;
+  const sSRate = sSent > 0 ? Math.round((sRead/sSent)*100) : 0;
+  if (ssb) ssb.innerHTML = sSent ? `
+    <span class="stat-mini sms-ok">✓ ${sSent} SMS envoyés</span>
+    <span class="stat-mini sms-read">👁 ${sRead} lus (${sSRate}%)</span>
+    <span class="stat-mini err">⚠ ${sErr} erreurs</span>
+    <span class="stat-mini sms-stop">STOP ${sStop}</span>
+  ` : '<span style="font-size:10px;color:var(--text3)">Aucun SMS sur cette période</span>';
+}
+
+function getAllEmailLogs() {
   const logs = [];
   S.camps.filter(c => c.type !== 'sms').forEach(c => {
     c.emailList.filter(e => e.status === 'sent' || e.status === 'opened' || e.status === 'error').forEach(e => {
-      logs.push({email:e.email, campaign:c.name, date:e.sentAt||c.startDate||c.created, status:e.status, opened:e.status==='opened', unsubscribed:false});
+      logs.push({email:e.email, campaign:c.name, date:e.sentAt||c.startDate||c.created, status:e.status, opened:e.status==='opened', unsubscribed:e.unsubscribed||false});
     });
   });
   S.analytics.filter(x => x.type === 'email').forEach(x => logs.push(x));
+  return logs.sort((a,b) => new Date(b.date) - new Date(a.date));
+}
+
+function getAllSMSLogs() {
+  const logs = [];
+  S.camps.filter(c => c.type === 'sms').forEach(c => {
+    c.emailList.filter(e => e.status === 'sent' || e.status === 'error').forEach(e => {
+      logs.push({phone:e.email, campaign:c.name, date:e.sentAt||c.startDate||c.created, status:e.status, opened:e.opened||false, unsubscribed:e.unsubscribed||false});
+    });
+  });
+  S.analytics.filter(x => x.type === 'sms').forEach(x => logs.push({phone:x.email, campaign:x.campaign, date:x.date, status:x.status, opened:x.opened, unsubscribed:x.unsubscribed}));
+  return logs.sort((a,b) => new Date(b.date) - new Date(a.date));
+}
+
+function renderAnalytics() {
+  const emailLogs = getAllEmailLogs().filter(l => inRange(l.date));
+  const smsLogs   = getAllSMSLogs().filter(l => inRange(l.date));
+
+  // Email table
   const abody = $('analytics-body');
   if (abody) {
-    if (!logs.length) { abody.innerHTML = '<tr><td colspan="5"><div class="empty" style="padding:20px"><p>Aucun envoi enregistré</p></div></td></tr>'; }
-    else {
-      abody.innerHTML = logs.slice(0,50).map(l => {
+    if (!emailLogs.length) {
+      abody.innerHTML = `<tr><td colspan="5"><div class="empty" style="padding:16px"><p>Aucun email sur cette période</p></div></td></tr>`;
+    } else {
+      abody.innerHTML = emailLogs.slice(0,100).map(l => {
         const stag = l.unsubscribed ? '<span class="tg tg-unsb">Désabonné</span>' : l.status==='error' ? '<span class="tg tg-err">Erreur</span>' : '<span class="tg tg-sent">Envoyé</span>';
         const otag = l.unsubscribed||l.status==='error' ? '—' : l.opened ? '<span class="tg tg-open">Ouvert ✓</span>' : '<span class="tg" style="background:rgba(107,120,153,.1);color:var(--text2)">Non ouvert</span>';
-        return `<tr><td class="em">${l.email}</td><td>${l.campaign||'—'}</td><td style="font-size:10px;white-space:nowrap">${fDt(l.date)}</td><td>${stag}</td><td>${otag}</td></tr>`;
+        const time = l.date ? new Date(l.date).toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'}) : '—';
+        return `<tr><td class="em">${l.email}</td><td style="font-size:10px;max-width:100px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${l.campaign||'—'}</td><td style="font-size:10px;white-space:nowrap">${time}</td><td>${stag}</td><td>${otag}</td></tr>`;
       }).join('');
     }
   }
-  // SMS analytics
-  const smsLogs = [];
-  S.camps.filter(c => c.type === 'sms').forEach(c => {
-    c.emailList.filter(e => e.status === 'sent' || e.status === 'error').forEach(e => {
-      smsLogs.push({phone:e.email, campaign:c.name, date:e.sentAt||c.startDate||c.created, status:e.status, opened:e.opened||false, unsubscribed:e.unsubscribed||false});
-    });
-  });
-  S.analytics.filter(x => x.type === 'sms').forEach(x => smsLogs.push({phone:x.email, campaign:x.campaign, date:x.date, status:x.status, opened:x.opened, unsubscribed:x.unsubscribed}));
+
+  // SMS table
   const sbody = $('sms-analytics-body');
   if (sbody) {
-    if (!smsLogs.length) { sbody.innerHTML = '<tr><td colspan="5"><div class="empty" style="padding:20px"><p>Aucun SMS</p></div></td></tr>'; }
-    else {
-      sbody.innerHTML = smsLogs.slice(0,50).map(l => {
+    if (!smsLogs.length) {
+      sbody.innerHTML = `<tr><td colspan="5"><div class="empty" style="padding:16px"><p>Aucun SMS sur cette période</p></div></td></tr>`;
+    } else {
+      sbody.innerHTML = smsLogs.slice(0,100).map(l => {
         const stag = l.unsubscribed ? '<span class="tg tg-unsb">STOP</span>' : l.status==='error' ? '<span class="tg tg-err">Erreur</span>' : '<span class="tg tg-sent">Envoyé</span>';
         const otag = l.unsubscribed||l.status==='error' ? '—' : l.opened ? '<span class="tg tg-open">Lu ✓</span>' : '<span class="tg" style="background:rgba(107,120,153,.1);color:var(--text2)">Non lu</span>';
-        return `<tr><td class="em" style="color:var(--pnk)">${l.phone}</td><td>${l.campaign||'—'}</td><td style="font-size:10px;white-space:nowrap">${fDt(l.date)}</td><td>${stag}</td><td>${otag}</td></tr>`;
+        const time = l.date ? new Date(l.date).toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'}) : '—';
+        return `<tr><td class="em" style="color:var(--pnk)">${l.phone}</td><td style="font-size:10px;max-width:100px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${l.campaign||'—'}</td><td style="font-size:10px;white-space:nowrap">${time}</td><td>${stag}</td><td>${otag}</td></tr>`;
       }).join('');
     }
   }
@@ -2584,7 +2801,7 @@ function updateStats() {
 
   const se = (id,v) => { const el=$(id); if(el) el.textContent=v; };
   se('kv-es', emailSent);   se('ks-es', S.stats.emailToday + ' auj.');
-  se('kv-op', emailOpened); se('ks-op', 'taux: ' + openRate + '%');
+  se('kv-op', openRate + '%'); se('ks-op', emailOpened + ' ouverts');
   se('kv-no', emailNoOpen);
   se('kv-un', emailUnsub);
   se('kv-sm', smsSent);     se('ks-sm', S.camps.filter(c=>c.type==='sms').reduce((a,c)=>a+c.errors,0) + ' erreurs');
