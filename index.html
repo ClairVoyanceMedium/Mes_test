@@ -12,7 +12,7 @@
 <link rel="icon" href="https://i.imgur.com/GmyGlKk.webp" type="image/webp">
 <link rel="apple-touch-icon" sizes="180x180" href="https://i.imgur.com/GmyGlKk.webp">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Space+Mono:wght@400;700&family=Orbitron:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 /* ============================================
    DESIGN TOKENS — Anthracite + Neon Violet 80s
@@ -56,45 +56,52 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:13
 ::-webkit-scrollbar{width:3px;height:3px;}
 ::-webkit-scrollbar-thumb{background:var(--b2);border-radius:2px;}
 
-/* ============ NEON 80s LOGO ============ */
+/* ============ NEON 80s SKY BLUE LOGO ============ */
+:root{
+  --neon: #00cfff;
+  --neon2: #00a8e0;
+  --neon3: #7de8ff;
+}
 .logo{
-  font-family:var(--sans);
-  font-weight:900;
-  font-size:14px;
-  letter-spacing:2px;
+  font-family:'Orbitron',sans-serif;
+  font-weight:800;
+  font-size:12px;
+  letter-spacing:3px;
   text-transform:uppercase;
-  color:var(--purl);
+  color:var(--neon3);
   text-shadow:
-    0 0 4px var(--pur),
-    0 0 12px var(--pur),
-    0 0 28px rgba(192,96,255,.8),
-    0 0 56px rgba(192,96,255,.4);
+    0 0 2px #fff,
+    0 0 6px var(--neon),
+    0 0 14px var(--neon),
+    0 0 30px rgba(0,207,255,.8),
+    0 0 60px rgba(0,207,255,.4),
+    0 0 80px rgba(0,207,255,.2);
   white-space:nowrap;
   cursor:default;
   user-select:none;
-  animation:neon-flicker 4s infinite;
+  animation:neon-flicker 5s infinite;
 }
 @keyframes neon-flicker{
-  0%,19%,21%,23%,25%,54%,56%,100%{
-    text-shadow:0 0 4px var(--pur),0 0 12px var(--pur),0 0 28px rgba(192,96,255,.8),0 0 56px rgba(192,96,255,.4);
+  0%,18%,20%,22%,25%,53%,57%,100%{
+    text-shadow:0 0 2px #fff,0 0 6px var(--neon),0 0 14px var(--neon),0 0 30px rgba(0,207,255,.8),0 0 60px rgba(0,207,255,.4);
     opacity:1;
   }
-  20%,24%,55%{
+  19%,21%,54%,56%{
     text-shadow:none;
-    opacity:.8;
+    opacity:.75;
   }
 }
 .logo-dot{
   display:inline-block;
-  width:6px;height:6px;
+  width:5px;height:5px;
   border-radius:50%;
-  background:var(--pur);
-  box-shadow:0 0 8px var(--pur),0 0 16px var(--pur);
-  margin:0 4px;
+  background:var(--neon);
+  box-shadow:0 0 6px var(--neon),0 0 14px var(--neon),0 0 24px var(--neon);
+  margin:0 5px;
   vertical-align:middle;
-  animation:dot-pulse 1.5s ease-in-out infinite;
+  animation:dot-pulse 1.2s ease-in-out infinite;
 }
-@keyframes dot-pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.4);opacity:.6}}
+@keyframes dot-pulse{0%,100%{transform:scale(1);box-shadow:0 0 6px var(--neon),0 0 14px var(--neon)}50%{transform:scale(1.6);box-shadow:0 0 10px var(--neon),0 0 24px var(--neon),0 0 40px rgba(0,207,255,.5)}}
 
 /* ============ TOPBAR ============ */
 #topbar{
@@ -196,11 +203,13 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:13
   box-shadow:0 0 40px rgba(0,0,0,.5);
 }
 .mob-fab{
-  display:none;position:fixed;bottom:calc(68px + var(--sb));left:12px;z-index:49;
-  background:var(--bg2);border:1px solid var(--pur-b);border-radius:8px;
+  display:none;position:fixed;
+  bottom:calc(70px + var(--sb));left:50%;transform:translateX(-50%);
+  z-index:49;
+  background:var(--bg2);border:1px solid var(--pur-b);border-radius:20px;
   color:var(--purl);font-family:var(--sans);font-size:11px;font-weight:700;
-  padding:8px 13px;cursor:pointer;box-shadow:0 0 14px rgba(192,96,255,.2);
-  align-items:center;gap:5px;
+  padding:8px 18px;cursor:grab;box-shadow:0 0 14px rgba(192,96,255,.2);
+  align-items:center;gap:5px;white-space:nowrap;
 }
 
 /* ============ BUTTONS ============ */
@@ -561,6 +570,7 @@ td.em{font-family:var(--mono);font-size:10px;color:var(--purl);}
   .slots-grid{grid-template-columns:repeat(6,1fr);}
   #contacts-view .side-panel{display:flex !important;}
   #templates-view .side-panel{display:flex !important;}
+  #analytics-grid{grid-template-columns:1fr 1fr;}
 }
 @media(max-width:699px){
   .side-panel{display:none;}
@@ -574,7 +584,18 @@ td.em{font-family:var(--mono);font-size:10px;color:var(--purl);}
   .prc:nth-child(4){border-top:1px solid var(--b1);border-right:none;}
   .mcards{grid-template-columns:1fr 1fr 1fr;}
   .sg{grid-template-columns:1fr;}
+  /* SMS history below email on mobile */
+  #analytics-grid{grid-template-columns:1fr !important;}
+  /* Settings must scroll */
+  #view-settings{overflow-y:auto !important;-webkit-overflow-scrolling:touch;}
 }
+.mob-fab{
+  touch-action:none;
+  user-select:none;
+  -webkit-user-select:none;
+  cursor:grab;
+}
+.mob-fab:active{cursor:grabbing;}
 </style>
 </head>
 <body>
@@ -611,7 +632,7 @@ td.em{font-family:var(--mono);font-size:10px;color:var(--purl);}
     <div class="kpi r"><div class="kl">Désabonnés</div><div class="kv" id="kv-un">0</div><div class="ks">opt-out</div></div>
     <div class="kpi pk"><div class="kl">SMS envoyés</div><div class="kv" id="kv-sm">0</div><div class="ks" id="ks-sm">total</div></div>
   </div>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px" id="analytics-grid">
     <div class="sec-box">
       <div class="sec-ttl" style="color:var(--purl)">📊 Historique email récent</div>
       <div style="overflow-x:auto">
@@ -677,7 +698,7 @@ td.em{font-family:var(--mono);font-size:10px;color:var(--purl);}
   <div class="detail-area" id="detail-sms">
     <div class="empty"><svg width="44" height="44" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg><p>Sélectionnez ou créez une campagne SMS</p></div>
   </div>
-  <button class="mob-fab" id="fab-sms" style="border-color:rgba(255,45,120,.3);color:var(--pnk)" onclick="toggleMob('panel-sms','fab-sms')">☰ Campagnes SMS</button>
+  <button class="mob-fab" id="fab-sms" style="border-color:rgba(255,45,120,.3);color:var(--pnk);box-shadow:0 0 14px rgba(255,45,120,.2)" onclick="toggleMob('panel-sms','fab-sms')">☰ Campagnes SMS</button>
 </div>
 
 <!-- ═══ QUICK SEND ═══ -->
@@ -831,7 +852,7 @@ td.em{font-family:var(--mono);font-size:10px;color:var(--purl);}
     <div class="img-gal" id="img-gal"></div>
     <div id="pane-rich" contenteditable="true" data-placeholder="Rédigez votre email... Utilisez les variables {{prénom}}, {{nom}}..."></div>
     <div class="html-pane" id="html-pane">
-      <textarea id="pane-code" placeholder="<!-- Collez ou écrivez votre HTML -->" oninput="syncPrev()"></textarea>
+      <textarea id="pane-code" placeholder="<!-- Collez ou écrivez votre HTML ici -->&#10;&#10;Exemple :&#10;&lt;h1 style=&quot;color:#c060ff&quot;&gt;Bonjour {{prénom}}&lt;/h1&gt;&#10;&lt;p&gt;Votre message...&lt;/p&gt;&#10;&lt;img src=&quot;https://...&quot; style=&quot;max-width:100%&quot;&gt;" oninput="syncPrev()" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off"></textarea>
       <div class="prev-toggle" onclick="togglePrev()">
         <span class="ptl" id="prev-arrow-lbl">▶ Aperçu en direct</span>
         <span style="font-size:9px;color:var(--text3)">Cliquer pour afficher / masquer</span>
@@ -885,8 +906,8 @@ td.em{font-family:var(--mono);font-size:10px;color:var(--purl);}
 </div>
 
 <!-- ═══ SETTINGS ═══ -->
-<div class="view" id="view-settings">
-  <div class="sg">
+<div class="view" id="view-settings" style="overflow-y:auto;-webkit-overflow-scrolling:touch;">
+  <div class="sg" style="padding:12px;">
     <div class="sc">
       <div class="sc-t" style="color:var(--grn)">📧 Compte email</div>
       <div class="popt sel" id="po-gmail" onclick="setProv('gmail')"><div class="po-logo">🔴</div><div><div class="po-nm">Gmail</div><div class="po-d">OAuth — 500/jour</div></div><div class="po-chk" id="pchk-gmail"></div></div>
@@ -1059,12 +1080,12 @@ const SK = {
 
 // ─── QUOTAS ─────────────────────────────────────────────
 const QUOTAS = {
-  gmail:    {lbl:'Gmail (perso)',     day:500,  safe:400},
-  gmail_ws: {lbl:'Gmail Workspace',  day:2000, safe:1600},
-  outlook:  {lbl:'Outlook',          day:300,  safe:240},
-  o365:     {lbl:'Microsoft 365',    day:10000,safe:8000},
-  yahoo:    {lbl:'Yahoo',            day:500,  safe:400},
-  custom:   {lbl:'Personnalisé',     day:500,  safe:300}
+  gmail:    {lbl:'Gmail (perso)',     day:500,   safe:400},
+  gmail_ws: {lbl:'Gmail Workspace',  day:2000,  safe:1600},
+  outlook:  {lbl:'Outlook',          day:300,   safe:240},
+  o365:     {lbl:'Microsoft 365',    day:10000, safe:8000},
+  yahoo:    {lbl:'Yahoo',            day:500,   safe:400},
+  custom:   {lbl:'Personnalisé',     day:5000,  safe:4000}
 };
 
 // ─── DURATION OPTIONS ───────────────────────────────────
@@ -1158,7 +1179,17 @@ function checkMobFABs() {
     {fab:'fab-sms', view:'sms'},
   ].forEach(({fab,view}) => {
     const el = $(fab);
-    if (el) el.style.display = (isMob && S.currentView === view) ? 'flex' : 'none';
+    if (!el) return;
+    const shouldShow = isMob && S.currentView === view;
+    el.style.display = shouldShow ? 'flex' : 'none';
+    if (shouldShow) {
+      // Reset to center if not yet dragged
+      if (!el.dataset.dragged) {
+        el.style.left = '50%';
+        el.style.bottom = 'calc(70px + ' + (parseInt(getComputedStyle(document.documentElement).getPropertyValue('--sb')||'0')||0) + 'px)';
+        el.style.transform = 'translateX(-50%)';
+      }
+    }
   });
 }
 
@@ -1340,7 +1371,7 @@ function newCamp(type) {
     smsText: '',
     emailList: [],      // [{email, status:'pending'|'sent'|'error'|'opened', sentAt, openedAt}]
     ratePerHour: 10,
-    dailyLimit: 50,
+    dailyLimit: 100,
     durationH: 24,
     durationInfinite: false,
     startDate: '', endDate: '',
@@ -1534,8 +1565,8 @@ function buildCampForm(c) {
       </div>
       <div class="sblock">
         <div class="sbtop"><span class="slbl">Limite par jour</span><span class="sval" id="sv-day-${c.id}" style="color:${over?'var(--red)':'var(--yel)'}">${c.dailyLimit}<span class="ssub">/j</span></span></div>
-        <div class="strk"><div class="sfill" style="background:${over?'var(--red)':'var(--yel)'};width:${(c.dailyLimit/500)*100}%" id="sf-day-${c.id}"></div><input type="range" class="sr" min="1" max="500" value="${c.dailyLimit}" oninput="updSl(${c.id},'dailyLimit',this.value,'day',500)" onchange="updC(${c.id},'dailyLimit',+this.value);checkQ(${c.id})"></div>
-        <div class="smks"><span class="smk">1</span><span class="smk">125</span><span class="smk">250</span><span class="smk">500</span></div>
+        <div class="strk"><div class="sfill" style="background:${over?'var(--red)':'var(--yel)'};width:${(c.dailyLimit/5000)*100}%" id="sf-day-${c.id}"></div><input type="range" class="sr" min="1" max="5000" value="${c.dailyLimit}" oninput="updSl(${c.id},'dailyLimit',this.value,'day',5000)" onchange="updC(${c.id},'dailyLimit',+this.value);checkQ(${c.id})"></div>
+        <div class="smks"><span class="smk">1</span><span class="smk">1000</span><span class="smk">2500</span><span class="smk">5000</span></div>
       </div>
       <div style="margin-bottom:12px">
         <div class="slbl" style="margin-bottom:7px;display:block">Durée de la campagne</div>
@@ -1825,8 +1856,7 @@ function updSl(id, field, val, key, max) {
   c[field] = parseInt(val);
   const sv = $('sv-' + key + '-' + id);
   const sf = $('sf-' + key + '-' + id);
-  const labels = {rph: val+'/h', day: val+'/j'};
-  if (sv) sv.innerHTML = (labels[key] || val) + (key==='rph'?'<span class="ssub">/h</span>':'<span class="ssub">/j</span>');
+  if (sv) sv.innerHTML = val + (key==='rph' ? '<span class="ssub">/h</span>' : '<span class="ssub">/j</span>');
   if (sf) sf.style.width = (val/max*100) + '%';
   const as = $('as-' + id);
   if (as) as.innerHTML = buildAS(c);
@@ -2627,8 +2657,81 @@ function init() {
   window.addEventListener('resize', checkMobFABs);
 }
 
+// Keyboard shortcut: Ctrl+S to save template
+document.addEventListener('keydown', e => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+    e.preventDefault();
+    if (S.activeTpl) saveTpl(true);
+  }
+});
+
+// Prevent accidental navigation loss
+window.addEventListener('beforeunload', e => {
+  if (S.activeTpl) saveTpl(false);
+});
+
 // START
 init();
+
+// ═══════════════════════════════════════════════════════
+//  DRAGGABLE FAB BUTTONS
+// ═══════════════════════════════════════════════════════
+function makeDraggable(el) {
+  if (!el) return;
+  let startX, startY, startLeft, startBottom, isDragging = false;
+
+  const onStart = e => {
+    isDragging = false;
+    const src = e.touches ? e.touches[0] : e;
+    startX = src.clientX;
+    startY = src.clientY;
+    const rect = el.getBoundingClientRect();
+    startLeft = rect.left;
+    startBottom = window.innerHeight - rect.bottom;
+    el.style.transition = 'none';
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseup', onEnd);
+    document.addEventListener('touchmove', onMove, {passive:false});
+    document.addEventListener('touchend', onEnd);
+  };
+
+  const onMove = e => {
+    if (e.cancelable) e.preventDefault();
+    const src = e.touches ? e.touches[0] : e;
+    const dx = src.clientX - startX;
+    const dy = src.clientY - startY;
+    if (Math.abs(dx) > 4 || Math.abs(dy) > 4) isDragging = true;
+    if (!isDragging) return;
+    el.dataset.dragged = '1';
+    el.style.transform = 'none'; // Remove centering transform once dragged
+    // Compute new position clamped to screen
+    const elW = el.offsetWidth;
+    const elH = el.offsetHeight;
+    const navH = 58 + parseInt(getComputedStyle(document.documentElement).getPropertyValue('--sb')||'0');
+    let newLeft   = Math.max(0, Math.min(window.innerWidth  - elW, startLeft + dx));
+    let newBottom = Math.max(navH + 6, Math.min(window.innerHeight - elH, startBottom - dy));
+    el.style.left   = newLeft + 'px';
+    el.style.bottom = newBottom + 'px';
+    el.style.right  = 'auto';
+  };
+
+  const onEnd = () => {
+    el.style.transition = '';
+    document.removeEventListener('mousemove', onMove);
+    document.removeEventListener('mouseup', onEnd);
+    document.removeEventListener('touchmove', onMove);
+    document.removeEventListener('touchend', onEnd);
+  };
+
+  el.addEventListener('mousedown', onStart);
+  el.addEventListener('touchstart', onStart, {passive:true});
+}
+
+// Init draggable on both FABs
+['fab-email','fab-sms'].forEach(id => {
+  const el = $(id);
+  if (el) makeDraggable(el);
+});
 </script>
 </body>
 </html>
