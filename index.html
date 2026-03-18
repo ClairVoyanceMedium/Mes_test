@@ -51,7 +51,7 @@
   --sb:env(safe-area-inset-bottom,0px);
 }
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-html,body{height:100%;overflow:hidden;}
+html,body{height:100%;overflow:hidden;overscroll-behavior:none;overscroll-behavior-y:none;}
 body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:13px;display:flex;flex-direction:column;-webkit-font-smoothing:antialiased;}
 ::-webkit-scrollbar{width:3px;height:3px;}
 ::-webkit-scrollbar-thumb{background:var(--b2);border-radius:2px;}
@@ -1153,15 +1153,15 @@ td.em{font-family:var(--mono);font-size:10px;color:var(--purl);}
       <input type="text" id="te-subj" placeholder="Objet de l'email — {{prénom}}, {{nom}}...">
     </div>
     <div id="vars-row">
-      <span class="vl">Var</span>
-      <span class="vc" onclick="iVar('{{prénom}}')">{{prénom}}</span>
-      <span class="vc" onclick="iVar('{{nom}}')">{{nom}}</span>
-      <span class="vc" onclick="iVar('{{email}}')">{{email}}</span>
-      <span class="vc" onclick="iVar('{{entreprise}}')">{{entreprise}}</span>
-      <span class="vc" onclick="iVar('{{ville}}')">{{ville}}</span>
-      <span class="vc" onclick="iVar('{{téléphone}}')">{{téléphone}}</span>
-      <span class="vc" onclick="iVar('{{custom1}}')">{{custom1}}</span>
-      <span class="vc" onclick="iVar('{{custom2}}')">{{custom2}}</span>
+      <span class="vl">Insérer :</span>
+      <span class="vc" onclick="iVar('{{prénom}}')">👤 Prénom</span>
+      <span class="vc" onclick="iVar('{{nom}}')">👤 Nom</span>
+      <span class="vc" onclick="iVar('{{email}}')">📧 Email</span>
+      <span class="vc" style="background:rgba(0,232,255,.1);border-color:rgba(0,232,255,.3);color:var(--cyan);" onclick="insertQuickBlock('divider')">— Séparateur</span>
+      <span class="vc" style="background:rgba(0,255,136,.1);border-color:rgba(0,255,136,.3);color:var(--grn);" onclick="insertQuickBlock('btn')">🔘 Bouton CTA</span>
+      <span class="vc" style="background:rgba(255,122,0,.1);border-color:rgba(255,122,0,.3);color:var(--ora);" onclick="insertQuickBlock('signature')">✍️ Signature</span>
+      <span class="vc" style="background:rgba(255,45,120,.1);border-color:rgba(255,45,120,.3);color:var(--pnk);" onclick="insertQuickBlock('unsubscribe')">🚫 Désinscription</span>
+      <span class="vc" style="background:rgba(192,96,255,.1);border-color:rgba(192,96,255,.3);color:var(--purl);" onclick="insertQuickBlock('header')">🖼 En-tête</span>
     </div>
     <div id="etabs">
       <button class="etab active" id="etab-rich" onclick="setTTab('rich')">Éditeur visuel</button>
@@ -1263,20 +1263,32 @@ td.em{font-family:var(--mono);font-size:10px;color:var(--purl);}
   </div>
   <div id="contacts-main" style="flex:1;display:flex;flex-direction:column;overflow:hidden;">
     <div id="cbar">
-      <input type="text" class="srch" id="c-srch" placeholder="Rechercher..." oninput="renderContacts()">
+      <input type="text" class="srch" id="c-srch" placeholder="Rechercher email, nom..." oninput="renderContacts()">
       <button class="btn-ico" onclick="showModal('modal-csv')" style="margin-left:auto">⬆ CSV</button>
-      <label class="btn-ico" style="cursor:pointer" title="Importer depuis Excel (.xlsx)">📊 Excel<input type="file" accept=".xlsx,.xls" style="display:none" onchange="importExcelContacts(this.files[0], S.activeList!=='all'?S.activeList:'')"></label>
+      <label class="btn-ico" style="cursor:pointer" title="Excel">📊<input type="file" accept=".xlsx,.xls" style="display:none" onchange="importExcelContacts(this.files[0], S.activeList!=='all'?S.activeList:'')"></label>
       <button class="btn-sm" onclick="showModal('modal-contact')">+ Contact</button>
     </div>
+
+    <!-- Zone copier-coller emails en masse -->
+    <div style="margin:8px;background:var(--bg3);border:1px dashed var(--pur-b);border-radius:8px;padding:10px;">
+      <div style="font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--purl);margin-bottom:6px;display:flex;align-items:center;justify-content:space-between;">
+        📋 Coller des emails en masse — un email par ligne ou séparés par virgule
+        <div style="display:flex;gap:5px;">
+          <span id="paste-contacts-cnt" style="font-family:var(--mono);font-size:10px;color:var(--text3);">0 détecté(s)</span>
+          <button class="ela g" onclick="importPastedEmails()">+ Ajouter tous</button>
+        </div>
+      </div>
+      <textarea id="paste-emails-ta" style="width:100%;background:none;border:none;color:var(--text);font-family:var(--mono);font-size:11px;outline:none;resize:vertical;min-height:60px;line-height:1.7;" placeholder="jean@gmail.com&#10;marie@outlook.fr, pierre@yahoo.com&#10;paul@entreprise.com&#10;&#10;→ Collez autant d'emails que vous voulez — aucune limite" oninput="countPastedEmails()"></textarea>
+    </div>
+
     <div id="c-cnt">0 contacts</div>
     <div id="c-wrap">
       <table class="dtbl">
         <thead><tr>
+          <th onclick="sortC('email')">Email ↕</th>
           <th onclick="sortC('prénom')">Prénom ↕</th>
           <th onclick="sortC('nom')">Nom ↕</th>
-          <th onclick="sortC('email')">Email ↕</th>
           <th>Tél.</th>
-          <th>Entreprise</th>
           <th>Statut</th>
           <th onclick="sortC('envois')">Envois ↕</th>
           <th></th>
@@ -1584,15 +1596,13 @@ td.em{font-family:var(--mono);font-size:10px;color:var(--purl);}
   <div class="modal">
     <div class="mh"></div>
     <div class="mt" style="color:var(--purl)">➕ Ajouter un contact</div>
+    <div style="font-size:10px;color:var(--text3);margin-bottom:12px;">Seul l'email est obligatoire. Les autres champs sont optionnels.</div>
+    <div class="fg"><div class="fc"><label class="fl">Email * (obligatoire)</label><input type="email" class="fi" id="ac-em" placeholder="jean@email.com"></div></div>
     <div class="fg c2">
-      <div class="fc"><label class="fl">Prénom</label><input class="fi" id="ac-pn" placeholder="Jean"></div>
-      <div class="fc"><label class="fl">Nom</label><input class="fi" id="ac-nn" placeholder="Dupont"></div>
+      <div class="fc"><label class="fl">Prénom</label><input class="fi" id="ac-pn" placeholder="Jean (optionnel)"></div>
+      <div class="fc"><label class="fl">Nom</label><input class="fi" id="ac-nn" placeholder="Dupont (optionnel)"></div>
     </div>
-    <div class="fg"><div class="fc"><label class="fl">Email *</label><input type="email" class="fi" id="ac-em" placeholder="jean@email.com"></div></div>
-    <div class="fg c2">
-      <div class="fc"><label class="fl">Téléphone</label><input class="fi" id="ac-tel" placeholder="+33 6 00 00 00 00"></div>
-      <div class="fc"><label class="fl">Entreprise</label><input class="fi" id="ac-ent" placeholder="Acme Corp"></div>
-    </div>
+    <div class="fg"><div class="fc"><label class="fl">Téléphone <span style="font-weight:400;color:var(--text3)">(pour SMS)</span></label><input class="fi" id="ac-tel" placeholder="+33 6 00 00 00 00 (optionnel)"></div></div>
     <div class="fg"><div class="fc">
       <label class="fl">Ajouter à la liste</label>
       <select class="fsel" id="ac-list"><option value="">— Aucune liste —</option></select>
@@ -1665,9 +1675,12 @@ td.em{font-family:var(--mono);font-size:10px;color:var(--purl);}
   }
 </script>
 
-<!-- Désactiver le pull-to-refresh sur mobile -->
+<!-- Bloquer pull-to-refresh sur TOUS les appareils -->
 <style>
-  body { overscroll-behavior-y: contain; touch-action: pan-x pan-y; }
+  html,body,#app,.view,.detail-area,.qs-view,.panel-scroll {
+    overscroll-behavior: none !important;
+    overscroll-behavior-y: none !important;
+  }
 </style>
 <script>
 'use strict';
@@ -2238,22 +2251,26 @@ function buildCampForm(c) {
   h += ' onchange="updC(' + c.id + ',\'dailyLimit\',+this.value)"></div>';
   h += '<div class="smks"><span class="smk">1</span><span class="smk">10K</span><span class="smk">100K</span><span class="smk">1M</span></div></div>';
 
-  // Durée chips
-  h += '<div style="margin-bottom:12px;"><div class="slbl" style="display:block;margin-bottom:7px;">Durée de la campagne</div><div class="dur-row">';
+  // ── Durée et planning cohérents
+  // On choisit SOIT une durée rapide, SOIT une date de fin précise — pas les deux
+  h += '<div style="background:var(--bg3);border:1px solid var(--b2);border-radius:8px;padding:12px;margin-bottom:12px;">';
+  h += '<div class="slbl" style="display:block;margin-bottom:8px;">⏱ Durée de la campagne</div>';
+  // Durée rapide
+  h += '<div style="margin-bottom:10px;"><div style="font-size:10px;color:var(--text2);margin-bottom:5px;">Durée rapide :</div><div class="dur-row">';
   DUR_OPTS.forEach(function(o) {
     var isSel = (o.v === -1 && c.durationInfinite) || (o.v === c.durationH && !c.durationInfinite);
     var cls = 'dc' + (isSel ? ' sel' : '') + (o.v === -1 ? ' inf' : '');
     h += '<div class="' + cls + '" onclick="setDur(' + c.id + ',' + o.v + ',this)">' + o.l + '</div>';
   });
   h += '</div></div>';
-
-  // Dates
-  h += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">';
-  h += '<div class="fc"><label class="fl">Date début (optionnel)</label>';
+  // OU date précise
+  h += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">';
+  h += '<div class="fc"><label class="fl">📅 Date de début <span style="font-weight:400;color:var(--text3);">(optionnel)</span></label>';
   h += '<input type="date" class="fi" value="' + esc(c.startDate||'') + '" onchange="updC(' + c.id + ',\'startDate\',this.value)"></div>';
-  h += '<div class="fc"><label class="fl">Date fin (optionnel)</label>';
-  h += '<input type="date" class="fi" value="' + esc(c.endDate||'') + '" onchange="updC(' + c.id + ',\'endDate\',this.value)"></div>';
-  h += '</div>';
+  h += '<div class="fc"><label class="fl">📅 Date de fin <span style="font-weight:400;color:var(--text3);">(optionnel)</span></label>';
+  h += '<input type="date" class="fi" value="' + esc(c.endDate||'') + '" onchange="updC(' + c.id + ',\'endDate\',this.value)">';
+  h += '<div style="font-size:9px;color:var(--text3);margin-top:3px;">Si une date de fin est définie, elle prime sur la durée rapide</div></div>';
+  h += '</div></div>';
 
   // Ordre + fin liste
   var orders = [
@@ -3666,16 +3683,15 @@ function renderContacts() {
     const stag = c.status === 'unsubscribed'
       ? '<span class="ctag ctag-unsub">Désabonné</span>'
       : '<span class="ctag ctag-active">Actif</span>';
-    return `<tr>
-      <td>${c.prénom||''}</td>
-      <td>${c.nom||''}</td>
-      <td class="mono">${c.email}</td>
-      <td style="font-family:var(--mono);font-size:9px;color:var(--text2)">${c.téléphone||'—'}</td>
-      <td>${c.entreprise||'—'}</td>
-      <td>${stag}</td>
-      <td style="font-family:var(--mono)">${c.envois||0}</td>
-      <td><button class="rdel" onclick="delContact('${c.email}')">✕</button></td>
-    </tr>`;
+    return '<tr>' +
+      '<td class="mono" style="color:var(--purl);">' + (c.email||'') + '</td>' +
+      '<td>' + (c.prénom||'') + '</td>' +
+      '<td>' + (c.nom||'') + '</td>' +
+      '<td style="font-family:var(--mono);font-size:9px;color:var(--text2);">' + (c.téléphone||'—') + '</td>' +
+      '<td>' + stag + '</td>' +
+      '<td style="font-family:var(--mono);">' + (c.envois||0) + '</td>' +
+      '<td><button class="rdel" onclick="delContact(\'' + c.email + '\')">✕</button></td>' +
+      '</tr>';
   }).join('');
   renderLists();
 }
@@ -4344,8 +4360,12 @@ window.addEventListener('beforeunload', e => {
   if (S.activeTpl) saveTpl(false);
 });
 
-// START
-init();
+// ── DÉMARRAGE — s'assure que le DOM est prêt
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}
 
 // ═══════════════════════════════════════════════════════
 //  DRAGGABLE FAB BUTTONS
@@ -4402,10 +4422,148 @@ function makeDraggable(el) {
 }
 
 // Init draggable on both FABs
-['fab-email','fab-sms'].forEach(id => {
-  const el = $(id);
+['fab-email','fab-sms'].forEach(function(id) {
+  var el = $(id);
   if (el) makeDraggable(el);
 });
+
+/* ================================================================
+   CONTACTS — COLLER DES EMAILS EN MASSE
+================================================================ */
+function countPastedEmails() {
+  var ta = $('paste-emails-ta');
+  var cnt = $('paste-contacts-cnt');
+  if (!ta || !cnt) return;
+  var emails = ta.value.split(/[\n,;]+/).map(function(x){return x.trim();}).filter(isEmail);
+  cnt.textContent = emails.length.toLocaleString() + ' email(s) valide(s)';
+  cnt.style.color = emails.length > 0 ? 'var(--grn)' : 'var(--text3)';
+}
+
+function importPastedEmails() {
+  var ta = $('paste-emails-ta');
+  if (!ta || !ta.value.trim()) { toast('Zone vide — collez des emails', 'warn'); return; }
+  var listId = S.activeList !== 'all' ? S.activeList : '';
+  var emails = ta.value.split(/[\n,;]+/).map(function(x){return x.trim();}).filter(isEmail);
+  if (!emails.length) { toast('Aucun email valide détecté', 'error'); return; }
+  var added = 0; var dupes = 0;
+  emails.forEach(function(email) {
+    if (S.contacts.find(function(c){return c.email===email;})) { dupes++; return; }
+    S.contacts.push({
+      prénom:'', nom:'', email:email, téléphone:'', entreprise:'',
+      listIds: listId ? [listId] : [],
+      status:'active', envois:0, added:new Date().toISOString()
+    });
+    added++;
+  });
+  saveContacts();
+  ta.value = '';
+  countPastedEmails();
+  toast(added.toLocaleString() + ' contacts ajoutés' + (dupes ? ' · ' + dupes + ' doublons ignorés' : ''), 'success');
+}
+
+/* ================================================================
+   ÉDITEUR — BLOCS RAPIDES PRÊTS À L'EMPLOI
+================================================================ */
+function insertQuickBlock(type) {
+  var html = '';
+  if (type === 'divider') {
+    html = '<hr style="border:none;border-top:2px solid #c060ff;margin:20px 0;opacity:0.5;">';
+  } else if (type === 'btn') {
+    var url = prompt('URL du bouton :') || 'https://monsite.fr';
+    var label = prompt('Texte du bouton :') || 'Cliquez ici';
+    html = '<div style="text-align:center;margin:20px 0;">' +
+      '<a href="' + url + '" target="_blank" style="display:inline-block;background:linear-gradient(135deg,#c060ff,#8a30cc);color:#fff;padding:14px 32px;border-radius:8px;text-decoration:none;font-weight:700;font-size:15px;letter-spacing:1px;">' + label + '</a></div>';
+  } else if (type === 'signature') {
+    html = '<div style="margin-top:30px;padding-top:15px;border-top:1px solid #ddd;font-family:Arial,sans-serif;font-size:13px;color:#555;">' +
+      '<strong style="color:#333;">Votre Nom</strong><br>Votre Poste · Votre Entreprise<br>' +
+      '<a href="mailto:contact@monsite.fr" style="color:#c060ff;">contact@monsite.fr</a> · ' +
+      '<a href="tel:+33600000000" style="color:#c060ff;">+33 6 00 00 00 00</a></div>';
+  } else if (type === 'unsubscribe') {
+    html = '<div style="text-align:center;margin-top:30px;font-size:11px;color:#999;font-family:Arial,sans-serif;">' +
+      'Vous recevez cet email car vous êtes inscrit(e) à notre liste.<br>' +
+      '<a href="{{lien_desinscription}}" style="color:#999;text-decoration:underline;">Se désinscrire</a></div>';
+  } else if (type === 'header') {
+    html = '<div style="background:linear-gradient(135deg,#1a1c40,#2d1060);padding:30px 20px;text-align:center;border-radius:8px;margin-bottom:20px;">' +
+      '<h1 style="color:#c060ff;font-family:Arial,sans-serif;margin:0;font-size:28px;text-shadow:0 0 20px rgba(192,96,255,0.5);">Votre Titre</h1>' +
+      '<p style="color:#aaa;margin:8px 0 0;font-family:Arial,sans-serif;">Votre sous-titre ou accroche</p></div>';
+  }
+  if (!html) return;
+  var r = $('pane-rich');
+  if (r) { r.focus(); document.execCommand('insertHTML', false, html); }
+}
+
+/* ================================================================
+   TOOLBAR — ACTIONS PARTAGÉES (Templates + QS)
+================================================================ */
+function toolbarVideo(editorId) {
+  var input = prompt('URL YouTube, Vimeo ou vidéo (.mp4) :'); if (!input) return;
+  var ytM = input.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+  var vimM = input.match(/vimeo\.com\/(\d+)/);
+  var html = '';
+  if (ytM) {
+    html = '<div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;margin:10px 0;border-radius:8px;">' +
+      '<iframe style="position:absolute;top:0;left:0;width:100%;height:100%;" src="https://www.youtube.com/embed/' + ytM[1] + '" frameborder="0" allowfullscreen></iframe></div>';
+  } else if (vimM) {
+    html = '<div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;margin:10px 0;border-radius:8px;">' +
+      '<iframe style="position:absolute;top:0;left:0;width:100%;height:100%;" src="https://player.vimeo.com/video/' + vimM[1] + '" frameborder="0" allowfullscreen></iframe></div>';
+  } else {
+    html = '<video controls style="max-width:100%;border-radius:8px;margin:10px 0;display:block;"><source src="' + input + '">Vidéo non supportée.</video>';
+  }
+  execForEditor(editorId, 'insertHTML', html);
+}
+
+function toolbarAudio(editorId) {
+  var url = prompt('URL audio (.mp3, .ogg) :'); if (!url) return;
+  var title = prompt('Titre (optionnel) :') || 'Audio';
+  execForEditor(editorId, 'insertHTML',
+    '<div style="margin:10px 0;padding:10px;background:#1a2548;border-radius:8px;border:1px solid #3d4256;">' +
+    '<div style="font-size:11px;color:#c060ff;margin-bottom:6px;font-weight:700;">🎵 ' + title + '</div>' +
+    '<audio controls style="width:100%;outline:none;"><source src="' + url + '">Audio non supporté.</audio></div>');
+}
+
+function toolbarEmoji(editorId) {
+  var emojis = '😀 😂 😍 🥰 😎 🤩 🎉 🎊 ✨ ⭐ 🔥 💥 ❤️ 💙 💜 💚 🧡 💛 🎁 🎯 📧 📱 💻 🌟 🏆 🎮 🎵 🎬 📸 🌈 🦋 🌺 🌻 🍀 ✅ ❌ ⚠️ 💡 📌 🔑 👍 💪 🙏';
+  var pick = prompt('Emoji — copiez-collez :\n' + emojis + '\n\nOu entrez directement :');
+  if (!pick) return;
+  execForEditor(editorId, 'insertText', pick);
+}
+
+function toolbarTable(editorId) {
+  var cols = parseInt(prompt('Colonnes :', '3') || '3');
+  var rows = parseInt(prompt('Lignes :', '3') || '3');
+  if (!cols || !rows) return;
+  var hdr = '<tr>' + Array(cols).fill(0).map(function(_,i){ return '<th style="padding:8px 12px;background:#c060ff22;border:1px solid #3d4256;font-weight:700;color:#e8efff;">Col ' + (i+1) + '</th>'; }).join('') + '</tr>';
+  var bdy = Array(rows).fill(0).map(function(){ return '<tr>' + Array(cols).fill(0).map(function(){ return '<td style="padding:8px 12px;border:1px solid #3d4256;color:#dde2f0;">Cellule</td>'; }).join('') + '</tr>'; }).join('');
+  execForEditor(editorId, 'insertHTML',
+    '<table style="border-collapse:collapse;width:100%;margin:10px 0;font-family:Arial,sans-serif;font-size:13px;">' +
+    '<thead>' + hdr + '</thead><tbody>' + bdy + '</tbody></table>');
+}
+
+function toolbarHR(editorId) {
+  execForEditor(editorId, 'insertHTML', '<hr style="border:none;border-top:1px solid #3d4256;margin:16px 0;">');
+}
+
+/* ================================================================
+   iVar — insère une variable au curseur dans l'éditeur actif
+================================================================ */
+function iVar(v) {
+  if (S.tplMode === 'rich') {
+    var r = $('pane-rich'); if (r) r.focus();
+    document.execCommand('insertText', false, v);
+  } else if (S.tplMode === 'html') {
+    var ta = $('pane-code'); if (!ta) return;
+    var p = ta.selectionStart;
+    ta.value = ta.value.slice(0,p) + v + ta.value.slice(ta.selectionEnd);
+    ta.selectionStart = ta.selectionEnd = p + v.length;
+    syncPrev();
+  } else {
+    var ta2 = $('pane-plain'); if (!ta2) return;
+    var p2 = ta2.selectionStart;
+    ta2.value = ta2.value.slice(0,p2) + v + ta2.value.slice(ta2.selectionEnd);
+    ta2.selectionStart = ta2.selectionEnd = p2 + v.length;
+  }
+}
+
 </script>
 </body>
 </html>
