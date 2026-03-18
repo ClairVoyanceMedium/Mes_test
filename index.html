@@ -931,8 +931,26 @@ td.em{font-family:var(--mono);font-size:10px;color:var(--purl);}
     <!-- Bannière quota global — s'affiche en rouge si dépassement -->
     <div id="quota-global-banner" class="quota-banner" style="margin:8px 8px 0"></div>
     <div class="detail-area" id="detail-email">
-    <div class="empty"><svg width="44" height="44" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg><p>Sélectionnez ou créez une campagne</p></div>
-  </div>
+      <div id="email-welcome" style="padding:24px;max-width:560px;">
+        <div style="font-size:19px;font-weight:800;color:var(--purl);margin-bottom:6px;">📧 Campagnes Email</div>
+        <div style="font-size:11px;color:var(--text2);line-height:1.8;margin-bottom:18px;">Sélectionnez une campagne dans le panneau gauche, ou créez-en une nouvelle. L'éditeur et toutes les options s'afficheront ici.</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;">
+          <button class="btl pur" style="padding:10px 18px;font-size:12px;" onclick="newCamp('email')">+ Nouvelle campagne email</button>
+          <button class="btn-s" onclick="showView('contacts')">👥 Gérer les contacts</button>
+          <button class="btn-s" onclick="showView('templates')">✏️ Créer un template</button>
+        </div>
+        <div style="background:var(--bg2);border:1px solid var(--pur-b);border-radius:10px;padding:14px;">
+          <div style="font-size:9px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--purl);margin-bottom:10px;">💡 Workflow recommandé</div>
+          <div style="font-size:11px;color:var(--text2);line-height:2.0;">
+            <span style="color:var(--purl);font-weight:700;">1.</span> <strong>Templates</strong> → Rédigez votre email avec l'éditeur riche<br>
+            <span style="color:var(--purl);font-weight:700;">2.</span> <strong>Contacts</strong> → Importez vos destinataires (CSV, Excel, copier-coller)<br>
+            <span style="color:var(--purl);font-weight:700;">3.</span> <strong>Ici</strong> → Créez la campagne, choisissez le template, configurez les horaires<br>
+            <span style="color:var(--purl);font-weight:700;">4.</span> <strong>Réglages</strong> → Configurez votre Worker Cloudflare pour l'envoi 24h/24<br>
+            <span style="color:var(--grn);font-weight:700;">5.</span> <strong>Lancez</strong> → La campagne tourne même appareils éteints ✓
+          </div>
+        </div>
+      </div>
+    </div>
   </div><!-- /wrapper quota+detail -->
   <button class="mob-fab" id="fab-email" onclick="toggleMob('panel-email','fab-email')">☰ Campagnes</button>
 </div>
@@ -1162,6 +1180,11 @@ td.em{font-family:var(--mono);font-size:10px;color:var(--purl);}
       <span class="vc" style="background:rgba(255,122,0,.1);border-color:rgba(255,122,0,.3);color:var(--ora);" onclick="insertQuickBlock('signature')">✍️ Signature</span>
       <span class="vc" style="background:rgba(255,45,120,.1);border-color:rgba(255,45,120,.3);color:var(--pnk);" onclick="insertQuickBlock('unsubscribe')">🚫 Désinscription</span>
       <span class="vc" style="background:rgba(192,96,255,.1);border-color:rgba(192,96,255,.3);color:var(--purl);" onclick="insertQuickBlock('header')">🖼 En-tête</span>
+      <span class="vl" style="margin-left:8px;">Couleur active :</span>
+      <label style="display:inline-flex;align-items:center;gap:4px;cursor:pointer;background:var(--bg3);border:1px solid var(--b2);border-radius:4px;padding:3px 8px;" title="Choisir la couleur — affecte séparateurs, boutons, en-têtes">
+        <span style="font-size:10px;color:var(--text2);">🎨</span>
+        <input type="color" id="editor-color-picker" value="#c060ff" style="width:22px;height:18px;border:none;padding:0;background:none;cursor:pointer;" oninput="applyEditorColor(this.value)" title="Couleur active de l'éditeur">
+      </label>
     </div>
     <div id="etabs">
       <button class="etab active" id="etab-rich" onclick="setTTab('rich')">Éditeur visuel</button>
@@ -1744,9 +1767,9 @@ const DUR_OPTS = [
 
 // ─── EXAMPLE VARS ───────────────────────────────────────
 const EX = {
-  prénom:'Marie', nom:'Martin', email:'marie@exemple.fr',
-  entreprise:'Acme Corp', ville:'Paris',
-  téléphone:'+33 6 01 02 03 04', custom1:'Valeur 1', custom2:'Valeur 2'
+  prénom:'Frédéric', nom:'', email:'contact.clairvoyancemedium@gmail.com',
+  entreprise:'Cabinet ClairvoyanceMedium.com', ville:'',
+  téléphone:'06 95 46 89 23', custom1:'', custom2:''
 };
 
 // ─── HELPERS ────────────────────────────────────────────
@@ -1818,7 +1841,19 @@ function showView(name) {
   // ── Tracking Google Analytics 4
   track('page_view', { page_title: name, page_location: window.location.href + '#' + name });
   // ── Rafraîchir le dashboard quota si vue email/sms
-  if (name === 'email' || name === 'sms') refreshQuotaBanner();
+  if (name === 'email' || name === 'sms') {
+    refreshQuotaBanner();
+    // Si aucune campagne affichée, ouvrir la première disponible
+    var campList = S.camps.filter(function(c){return c.type===name;});
+    if (campList.length > 0) {
+      var activeId = name === 'sms' ? S.activeSMS : S.activeCamp;
+      if (!activeId) {
+        // Ouvrir la campagne la plus récente automatiquement
+        var latest = campList[campList.length-1];
+        setTimeout(function(){ openCamp(latest.id, name); }, 50);
+      }
+    }
+  }
 }
 
 function checkMobFABs() {
@@ -2034,7 +2069,7 @@ function newCamp(type) {
     endOfList: 'stop',      // 'stop'|'restart'|'resume'
     pausePosition: 0,
     schedEnabled: false,
-    days: [1,2,3,4,5],
+    days: [1,2,3,4,5,6,7], // Tous les jours par défaut, désactivez ceux que vous voulez
     // Horaires spécifiques par jour : {day1:{from:'09:00',to:'18:00'}, day2:..., etc.}
     daySchedules: {
       day1:{from:'09:00',to:'18:00'},
@@ -2307,8 +2342,8 @@ function buildCampForm(c) {
   h += '<div class="ab-hd" onclick="togAB(this)"><div class="ab-ttl"><span class="ab-n">' + schedN + '</span>Planification horaire <span class="ab-opt">OPTIONNEL</span></div><div class="ab-cv">▾</div></div>';
   h += '<div class="ab-body">';
   h += '<div class="tog ' + (c.schedEnabled ? 'on' : '') + '" onclick="togSchedEnabled(' + c.id + ',this)">';
-  h += '<div><div class="tog-t">Activer la planification</div>';
-  h += '<div class="tog-d">Si désactivé : envoi 24h/24. Si activé : chaque jour a ses propres horaires.</div></div>';
+  h += '<div><div class="tog-t">' + (c.schedEnabled ? '✅ Planification ACTIVE' : '⏸ Planification DÉSACTIVÉE') + '</div>';
+  h += '<div class="tog-d">' + (c.schedEnabled ? '<strong style="color:var(--grn);">✓ Le Worker envoie uniquement aux horaires définis ci-dessous</strong>' : 'Désactivé = envoi continu 24h/24 selon la cadence · Activez pour choisir des horaires précis par jour') + '</div></div>';
   h += '<div class="tsw"></div></div>';
   h += '<div id="sched-body-' + c.id + '" style="' + (c.schedEnabled ? '' : 'display:none;') + '">';
   h += '<div style="font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--ora);margin-bottom:10px;">Cochez les jours → définissez les horaires de chaque jour indépendamment</div>';
@@ -3340,12 +3375,20 @@ function loadTpl(id) {
   else { if($('pane-rich')) $('pane-rich').innerHTML = t.content || ''; }
 }
 
-function saveTpl(notify = true) {
-  if (!S.activeTpl) { toast('Sélectionnez un template', 'warn'); return; }
-  const t = S.tpls.find(x => x.id === S.activeTpl);
+function saveTpl(notify) {
+  notify = (notify !== false);
+  // Auto-crée un template si aucun n'est sélectionné
+  if (!S.activeTpl) {
+    var name = $('te-name') ? ($('te-name').value.trim() || 'Nouveau template') : 'Nouveau template';
+    var t = {id:Date.now(), name:name, subject:'', content:'', mode:'rich', created:new Date().toISOString()};
+    S.tpls.push(t);
+    S.activeTpl = t.id;
+    renderTplList();
+  }
+  var t = S.tpls.find(function(x){ return x.id === S.activeTpl; });
   if (!t) return;
-  t.name    = $('te-name')?.value || 'Sans nom';
-  t.subject = $('te-subj')?.value || '';
+  var tn = $('te-name'); t.name    = tn ? (tn.value || 'Sans nom') : 'Sans nom';
+  var ts = $('te-subj'); t.subject = ts ? (ts.value || '')         : '';
   t.mode    = S.tplMode;
   t.content = getTplContent();
   t.updated = new Date().toISOString();
@@ -4310,12 +4353,11 @@ function resetData() {
 //  INIT
 // ═══════════════════════════════════════════════════════
 function init() {
-  // Restore UI state from saved config
   setProv(S.prov);
   setSMSP(S.smsProv);
   updateWorkerUI();
 
-  // Populate settings fields
+  // Remplir les champs des Réglages
   if ($('cid-inp') && S.cid)          $('cid-inp').value = S.cid;
   if ($('worker-url-inp') && S.wurl)  $('worker-url-inp').value = S.wurl;
   if ($('sms-key-inp') && S.smsKey)   $('sms-key-inp').value = S.smsKey;
@@ -4323,7 +4365,11 @@ function init() {
   if ($('sms-from-inp') && S.smsFrom) $('sms-from-inp').value = S.smsFrom;
   if ($('custom-form'))               $('custom-form').style.display = S.prov === 'custom' ? 'block' : 'none';
 
-  // Render all lists
+  // Construire les toolbars éditeur
+  buildToolbar('te-toolbar', 'pane-rich');   // Templates
+  buildToolbar('qs-toolbar', 'qs-pane-rich'); // Envoi rapide
+
+  // Rendu initial de toutes les listes
   renderCampList('email');
   renderCampList('sms');
   renderTplList();
@@ -4333,25 +4379,37 @@ function init() {
   renderDashboard();
   updateStats();
 
-  // Start on dashboard
+  // Ouvrir automatiquement la première campagne si elle existe
+  var firstEmail = S.camps.find(function(c){ return c.type !== 'sms'; });
+  if (firstEmail) { setTimeout(function(){ openCamp(firstEmail.id, 'email'); }, 100); }
+  var firstSMS = S.camps.find(function(c){ return c.type === 'sms'; });
+  if (firstSMS)   { setTimeout(function(){ openCamp(firstSMS.id, 'sms'); }, 100); }
+
+  // Démarrage sur le Dashboard
   showView('dashboard');
 
-  // Init GIS if we have cid
-  window.addEventListener('load', () => {
-    setTimeout(() => {
+  // Init Google Identity Services
+  window.addEventListener('load', function() {
+    setTimeout(function() {
       if (window.google && S.cid && S.prov === 'gmail') initGIS();
     }, 1200);
   });
 
-  // Handle resize for FABs
   window.addEventListener('resize', checkMobFABs);
+
+  // Construire les toolbars des éditeurs visuels
+  buildToolbar('te-toolbar', 'pane-rich');
+  buildToolbar('qs-toolbar', 'qs-pane-rich');
+
+  // Bibliothèque images
+  renderImgGal();
 }
 
-// Keyboard shortcut: Ctrl+S to save template
-document.addEventListener('keydown', e => {
+// Ctrl+S = sauvegarde template
+document.addEventListener('keydown', function(e) {
   if ((e.ctrlKey || e.metaKey) && e.key === 's') {
     e.preventDefault();
-    if (S.activeTpl) saveTpl(true);
+    if (S.currentView === 'templates') saveTpl(true);
   }
 });
 
@@ -4428,6 +4486,245 @@ function makeDraggable(el) {
 });
 
 /* ================================================================
+   FONCTIONS MANQUANTES — IMAGE, APERÇU, TOOLBAR
+   Injectées ici pour garantir leur disponibilité globale
+================================================================ */
+
+/* Barre d'image Templates */
+function showImgBar() {
+  var bar = $('te-img-bar');
+  var gal = $('te-img-gal');
+  if (!bar) return;
+  var isOpen = bar.classList.contains('show');
+  bar.classList.toggle('show');
+  if (gal) {
+    gal.classList.toggle('show', !isOpen && S.imgLib.length > 0);
+    if (!isOpen) renderImgGal();
+  }
+}
+function hideImgBar() {
+  var bar = $('te-img-bar'); if (bar) bar.classList.remove('show');
+  var gal = $('te-img-gal'); if (gal) gal.classList.remove('show');
+}
+function insertImgURL() {
+  var inp = $('img-url-inp');
+  var url = inp ? inp.value.trim() : '';
+  if (!url) { toast('Entrez une URL image', 'warn'); return; }
+  var r = $('pane-rich'); if (r) r.focus();
+  document.execCommand('insertHTML', false,
+    '<img src="' + url + '" style="max-width:100%;height:auto;border-radius:4px;margin:6px 0;display:block;" alt="image">');
+  if (inp) inp.value = '';
+  toast('Image insérée ✓', 'success');
+}
+function insertImgFile(input) {
+  var file = input.files[0]; if (!file) return;
+  if (file.size > 5*1024*1024) { toast('Image trop lourde (max 5 Mo)', 'error'); return; }
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    var b64 = e.target.result;
+    S.imgLib.push({id:Date.now(), src:b64, name:file.name});
+    lsS(SK.imgLib, S.imgLib);
+    renderImgGal();
+    var r = $('pane-rich'); if (r) r.focus();
+    document.execCommand('insertHTML', false,
+      '<img src="' + b64 + '" style="max-width:100%;height:auto;border-radius:4px;margin:6px 0;display:block;" alt="' + file.name + '">');
+    toast('Image insérée et sauvegardée ✓', 'success');
+  };
+  reader.readAsDataURL(file);
+  input.value = '';
+}
+function renderImgGal() {
+  var el = $('te-img-gal'); if (!el) return;
+  if (!S.imgLib.length) { el.classList.remove('show'); return; }
+  var html = '';
+  S.imgLib.forEach(function(img, i) {
+    html += '<div class="igi" title="' + img.name + '" onclick="insertLibImg(\'' + img.id + '\')">' +
+      '<img src="' + img.src + '" alt="' + img.name + '">' +
+      '<button class="igdel" onclick="event.stopPropagation();delLibImg(' + i + ')">×</button></div>';
+  });
+  el.innerHTML = html;
+}
+function insertLibImg(imgId) {
+  var img = S.imgLib.find(function(x){return String(x.id)===String(imgId);});
+  if (!img) return;
+  var r = $('pane-rich'); if (r) r.focus();
+  document.execCommand('insertHTML', false,
+    '<img src="' + img.src + '" style="max-width:100%;height:auto;border-radius:4px;margin:6px 0;display:block;" alt="' + img.name + '">');
+  toast('Image insérée ✓', 'success');
+}
+function delLibImg(i) { S.imgLib.splice(i,1); lsS(SK.imgLib,S.imgLib); renderImgGal(); }
+
+/* Aperçu complet template */
+function prevTpl() {
+  if (S.activeTpl) saveTpl(false);
+  var subj    = $('te-subj')  ? $('te-subj').value   : '';
+  var content = getTplContent();
+  var rSubj   = applyVars(subj, EX);
+  var rBody   = '';
+  if (S.tplMode === 'html') {
+    rBody = applyVars(content, EX);
+  } else if (S.tplMode === 'plain') {
+    rBody = '<div style="white-space:pre-wrap;font-family:Arial,sans-serif;font-size:14px;line-height:1.7;color:#111;">' + applyVars(content, EX) + '</div>';
+  } else {
+    var tmp = document.createElement('div');
+    tmp.innerHTML = content;
+    rBody = applyVars(tmp.innerHTML, EX);
+  }
+  var ps = $('prev-subj'); if (ps) ps.textContent = rSubj || '(Sans objet)';
+  var pb = $('prev-body'); if (pb) pb.innerHTML   = rBody || '<em style="color:#999;">Corps vide</em>';
+  showModal('modal-prev');
+}
+
+/* execForEditor — exécute une commande dans l'éditeur indiqué par son ID */
+function execForEditor(editorId, cmd, val) {
+  var ed = $(editorId); if (ed && ed.contentEditable) ed.focus();
+  document.execCommand(cmd, false, val || null);
+}
+
+/* toolbarShowImg — affiche la barre image pour l'éditeur concerné */
+function toolbarShowImg(editorId) {
+  if (editorId === 'pane-rich') {
+    showImgBar();
+  } else if (editorId === 'qs-pane-rich') {
+    var bar = $('qs-img-bar');
+    if (bar) bar.classList.toggle('show');
+  }
+}
+
+/* toolbarLink — lien avec sélection de texte */
+function toolbarLink(editorId) {
+  var ed = $(editorId); if (!ed) return;
+  ed.focus();
+  var sel = window.getSelection();
+  var selectedText = sel ? sel.toString().trim() : '';
+  var url = prompt('URL du lien :');
+  if (!url) return;
+  if (selectedText) {
+    document.execCommand('createLink', false, url);
+    ed.querySelectorAll('a[href="' + url + '"]').forEach(function(a) {
+      a.target = '_blank'; a.style.color = '#c060ff'; a.style.textDecoration = 'underline';
+    });
+  } else {
+    var text = prompt('Texte affiché :') || url;
+    document.execCommand('insertHTML', false,
+      '<a href="' + url + '" target="_blank" style="color:#c060ff;text-decoration:underline;">' + text + '</a>');
+  }
+}
+
+/* toolbarTelLink */
+function toolbarTelLink(editorId) {
+  var tel  = prompt('Numéro de téléphone (ex: +33695468923) :'); if (!tel) return;
+  var text = prompt('Texte affiché :') || tel;
+  var clean = tel.replace(/[\s\-().]/g,'');
+  execForEditor(editorId, 'insertHTML',
+    '<a href="tel:' + clean + '" style="color:#00e8ff;text-decoration:none;font-weight:700;">📞 ' + text + '</a>');
+}
+
+/* toolbarImgLink */
+function toolbarImgLink(editorId) {
+  var imgUrl  = prompt('URL de l\'image :'); if (!imgUrl) return;
+  var linkUrl = prompt('URL du lien (clic sur l\'image) :') || '#';
+  execForEditor(editorId, 'insertHTML',
+    '<a href="' + linkUrl + '" target="_blank" style="border:none;display:inline-block;">' +
+    '<img src="' + imgUrl + '" style="max-width:100%;height:auto;border-radius:4px;margin:6px 0;display:block;"></a>');
+}
+
+/* buildToolbar — construit la toolbar dans un conteneur donné */
+function buildToolbar(containerId, editorId) {
+  var container = $(containerId); if (!container) return;
+  container.innerHTML = '';
+
+  var tools = [
+    {t:'font', cls:'tfont', opts:[['','Police'],['Arial','Arial'],['Georgia','Georgia'],['Montserrat','Montserrat'],['Verdana','Verdana'],['Times New Roman','Times'],['Courier New','Courier'],['Impact','Impact']], cmd:'fontName'},
+    {t:'size', cls:'tsel', style:'width:44px;', opts:[['3','T'],['1','10'],['2','12'],['3','14'],['4','16'],['5','20'],['6','24'],['7','32']], cmd:'fontSize'},
+    {t:'fmt',  cls:'tsel', opts:[['p','P'],['h1','H1'],['h2','H2'],['h3','H3']], cmd:'formatBlock', reset:true},
+    {t:'sep'},
+    {t:'btn',label:'<b>B</b>',    cmd:'bold',              title:'Gras'},
+    {t:'btn',label:'<i>I</i>',    cmd:'italic',            title:'Italique'},
+    {t:'btn',label:'<u>U</u>',    cmd:'underline',         title:'Souligné'},
+    {t:'btn',label:'<s>S</s>',    cmd:'strikeThrough',     title:'Barré'},
+    {t:'sep'},
+    {t:'btn',label:'⬛',           cmd:'justifyLeft',       title:'Gauche'},
+    {t:'btn',label:'⬜',           cmd:'justifyCenter',     title:'Centre'},
+    {t:'btn',label:'⬛',           cmd:'justifyRight',      title:'Droite'},
+    {t:'sep'},
+    {t:'btn',label:'•',            cmd:'insertUnorderedList',title:'Liste puces'},
+    {t:'btn',label:'1.',           cmd:'insertOrderedList', title:'Liste numéros'},
+    {t:'sep'},
+    {t:'color',label:'A',          cmd:'foreColor',         title:'Couleur texte'},
+    {t:'color',label:'◼',          cmd:'hiliteColor',       title:'Couleur fond'},
+    {t:'sep'},
+    {t:'fn',label:'🖼',   fn:'toolbarShowImg',  title:'Image (URL ou upload depuis appareil)'},
+    {t:'fn',label:'🔗',   fn:'toolbarLink',     title:'Lien — sélectionnez le texte puis cliquez'},
+    {t:'fn',label:'📞',   fn:'toolbarTelLink',  title:'Lien téléphone (tap to call)'},
+    {t:'fn',label:'🖼🔗', fn:'toolbarImgLink',  title:'Image cliquable avec lien'},
+    {t:'fn',label:'▶🎬', fn:'toolbarVideo',    title:'Vidéo YouTube/Vimeo/mp4'},
+    {t:'fn',label:'🎵',   fn:'toolbarAudio',    title:'Lecteur audio'},
+    {t:'fn',label:'😊',   fn:'toolbarEmoji',    title:'Emoji'},
+    {t:'sep'},
+    {t:'fn',label:'⊞',   fn:'toolbarTable',    title:'Insérer un tableau'},
+    {t:'fn',label:'—',   fn:'toolbarHR',       title:'Ligne séparatrice'},
+    {t:'btn',label:'→',  cmd:'indent',          title:'Indenter'},
+    {t:'btn',label:'←',  cmd:'outdent',         title:'Désindenter'},
+    {t:'btn',label:'x²', cmd:'superscript',     title:'Exposant'},
+    {t:'btn',label:'x₂', cmd:'subscript',       title:'Indice'},
+    {t:'sep'},
+    {t:'btn',label:'✕fmt',cmd:'removeFormat',   title:'Effacer tout le formatage', style:'font-size:8px;'}
+  ];
+
+  tools.forEach(function(tool) {
+    if (tool.t === 'sep') {
+      var sep = document.createElement('div'); sep.className='tbs'; container.appendChild(sep); return;
+    }
+    if (tool.t === 'font' || tool.t === 'size' || tool.t === 'fmt') {
+      var sel = document.createElement('select');
+      sel.className = tool.cls || 'tsel';
+      if (tool.style) sel.style.cssText = tool.style;
+      tool.opts.forEach(function(o) {
+        var opt = document.createElement('option'); opt.value=o[0]; opt.textContent=o[1]; sel.appendChild(opt);
+      });
+      (function(t,s,eId){
+        s.onchange=function(){execForEditor(eId,t.cmd,s.value); if(t.reset) s.value=t.opts[0][0];};
+      })(tool,sel,editorId);
+      container.appendChild(sel); return;
+    }
+    if (tool.t === 'color') {
+      var lbl = document.createElement('label'); lbl.className='tb'; lbl.style.cursor='pointer'; lbl.title=tool.title||''; lbl.innerHTML=tool.label;
+      var inp = document.createElement('input'); inp.type='color'; inp.style.cssText='display:none;width:0;height:0;';
+      (function(t,i,eId){ i.oninput=function(){execForEditor(eId,t.cmd,i.value);}; })(tool,inp,editorId);
+      lbl.appendChild(inp); container.appendChild(lbl); return;
+    }
+    var btn = document.createElement('button'); btn.className='tb'; btn.title=tool.title||''; btn.innerHTML=tool.label;
+    if (tool.style) btn.style.cssText=tool.style;
+    if (tool.t === 'btn') {
+      (function(t,b,eId){ b.onclick=function(){execForEditor(eId,t.cmd);}; })(tool,btn,editorId);
+    } else if (tool.t === 'fn') {
+      (function(t,b,eId){ b.onclick=function(){if(window[t.fn]) window[t.fn](eId);}; })(tool,btn,editorId);
+    }
+    container.appendChild(btn);
+  });
+}
+
+/* QS image insert from URL */
+function qsInsertImgURL() {
+  var inp = $('qs-img-url-inp'); var url = inp ? inp.value.trim() : '';
+  if (!url) { toast('Entrez une URL image', 'warn'); return; }
+  execForEditor('qs-pane-rich','insertHTML',
+    '<img src="' + url + '" style="max-width:100%;height:auto;border-radius:4px;margin:6px 0;display:block;" alt="image">');
+  if (inp) inp.value='';
+  toast('Image insérée ✓', 'success');
+}
+function qsInsertImgFile(input) {
+  var file = input.files[0]; if (!file) return;
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    execForEditor('qs-pane-rich','insertHTML',
+      '<img src="' + e.target.result + '" style="max-width:100%;height:auto;border-radius:4px;margin:6px 0;display:block;" alt="' + file.name + '">');
+  };
+  reader.readAsDataURL(file); input.value='';
+}
+
+/* ================================================================
    CONTACTS — COLLER DES EMAILS EN MASSE
 ================================================================ */
 function countPastedEmails() {
@@ -4467,29 +4764,57 @@ function importPastedEmails() {
 function insertQuickBlock(type) {
   var html = '';
   if (type === 'divider') {
-    html = '<hr style="border:none;border-top:2px solid #c060ff;margin:20px 0;opacity:0.5;">';
+    // Séparateur avec couleur sélectionnable
+    var col = getEditorColor() || '#c060ff';
+    html = '<hr style="border:none;border-top:2px solid ' + col + ';margin:20px 0;">';
   } else if (type === 'btn') {
-    var url = prompt('URL du bouton :') || 'https://monsite.fr';
-    var label = prompt('Texte du bouton :') || 'Cliquez ici';
+    var url = prompt('URL du bouton :') || 'https://www.clairvoyancemedium.com/';
+    var label = prompt('Texte du bouton :') || 'Consulter maintenant';
+    var col = getEditorColor() || '#c060ff';
     html = '<div style="text-align:center;margin:20px 0;">' +
-      '<a href="' + url + '" target="_blank" style="display:inline-block;background:linear-gradient(135deg,#c060ff,#8a30cc);color:#fff;padding:14px 32px;border-radius:8px;text-decoration:none;font-weight:700;font-size:15px;letter-spacing:1px;">' + label + '</a></div>';
+      '<a href="' + url + '" target="_blank" style="display:inline-block;background:' + col + ';color:#fff;padding:14px 32px;border-radius:8px;text-decoration:none;font-weight:700;font-size:15px;letter-spacing:1px;">' + label + '</a></div>';
   } else if (type === 'signature') {
     html = '<div style="margin-top:30px;padding-top:15px;border-top:1px solid #ddd;font-family:Arial,sans-serif;font-size:13px;color:#555;">' +
-      '<strong style="color:#333;">Votre Nom</strong><br>Votre Poste · Votre Entreprise<br>' +
-      '<a href="mailto:contact@monsite.fr" style="color:#c060ff;">contact@monsite.fr</a> · ' +
-      '<a href="tel:+33600000000" style="color:#c060ff;">+33 6 00 00 00 00</a></div>';
+      '<strong style="color:#333;">Frédéric</strong><br>' +
+      'Cabinet ClairvoyanceMedium.com<br>' +
+      '<a href="mailto:contact.clairvoyancemedium@gmail.com" style="color:#c060ff;">contact.clairvoyancemedium@gmail.com</a><br>' +
+      '<a href="tel:+33695468923" style="color:#c060ff;">📞 06 95 46 89 23</a><br>' +
+      '<a href="https://www.clairvoyancemedium.com/" target="_blank" style="color:#c060ff;font-weight:700;">🌐 www.clairvoyancemedium.com</a>' +
+      '</div>';
   } else if (type === 'unsubscribe') {
     html = '<div style="text-align:center;margin-top:30px;font-size:11px;color:#999;font-family:Arial,sans-serif;">' +
-      'Vous recevez cet email car vous êtes inscrit(e) à notre liste.<br>' +
+      'Vous recevez cet email car vous avez demandé à être contacté(e).<br>' +
       '<a href="{{lien_desinscription}}" style="color:#999;text-decoration:underline;">Se désinscrire</a></div>';
   } else if (type === 'header') {
+    var col = getEditorColor() || '#c060ff';
     html = '<div style="background:linear-gradient(135deg,#1a1c40,#2d1060);padding:30px 20px;text-align:center;border-radius:8px;margin-bottom:20px;">' +
-      '<h1 style="color:#c060ff;font-family:Arial,sans-serif;margin:0;font-size:28px;text-shadow:0 0 20px rgba(192,96,255,0.5);">Votre Titre</h1>' +
-      '<p style="color:#aaa;margin:8px 0 0;font-family:Arial,sans-serif;">Votre sous-titre ou accroche</p></div>';
+      '<h1 style="color:' + col + ';font-family:Arial,sans-serif;margin:0;font-size:28px;">Cabinet ClairvoyanceMedium</h1>' +
+      '<p style="color:#aaa;margin:8px 0 0;font-family:Arial,sans-serif;">Votre message personnalisé ici</p></div>';
   }
   if (!html) return;
   var r = $('pane-rich');
   if (r) { r.focus(); document.execCommand('insertHTML', false, html); }
+}
+
+/* Couleur active de l'éditeur */
+var EDITOR_ACTIVE_COLOR = '#c060ff';
+
+function applyEditorColor(val) {
+  EDITOR_ACTIVE_COLOR = val;
+  // Applique immédiatement la couleur au texte sélectionné
+  var r = $('pane-rich');
+  if (r) {
+    r.focus();
+    var sel = window.getSelection();
+    if (sel && sel.toString().trim()) {
+      document.execCommand('foreColor', false, val);
+    }
+  }
+}
+
+function getEditorColor() {
+  var pick = $('editor-color-picker');
+  return pick ? pick.value : EDITOR_ACTIVE_COLOR;
 }
 
 /* ================================================================
