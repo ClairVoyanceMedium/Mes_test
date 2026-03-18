@@ -2247,16 +2247,103 @@ function buildCampForm(c) {
   }
   h += '</div></div>'; // ab-body + ab
 
-  // ── SECTION 2 — TEMPLATE (email only)
+  // ── SECTION 2/2 — CONTENU (éditeur riche intégré dans la campagne)
+  var secN2 = isSMS ? '2b' : '2';
+  h += '<div class="ab sc-p open">';
+  h += '<div class="ab-hd" onclick="togAB(this)"><div class="ab-ttl"><span class="ab-n">' + secN2 + '</span>' + (isSMS ? 'Message SMS' : 'Contenu de l\'email') + '</div><div class="ab-cv">▾</div></div>';
+  h += '<div class="ab-body">';
+
   if (!isSMS) {
-    h += '<div class="ab sc-p">';
-    h += '<div class="ab-hd" onclick="togAB(this)"><div class="ab-ttl"><span class="ab-n">2</span>Template email <span class="ab-opt">OPTIONNEL</span></div><div class="ab-cv">▾</div></div>';
-    h += '<div class="ab-body"><div class="fc"><label class="fl">Choisir un template</label>';
-    h += '<select class="fsel" onchange="updC(' + c.id + ',\'templateId\',this.value)">';
-    h += '<option value="">— Aucun template —</option>';
-    S.tpls.forEach(function(t) { h += '<option value="' + t.id + '"' + (c.templateId == t.id ? ' selected' : '') + '>' + esc(t.name) + '</option>'; });
-    h += '</select></div></div></div>';
+    // Template selector
+    h += '<div style="display:flex;gap:8px;align-items:flex-end;margin-bottom:10px;flex-wrap:wrap;">';
+    h += '<div class="fc" style="flex:1;min-width:160px;"><label class="fl">Charger un template sauvegardé</label>';
+    h += '<select class="fsel" onchange="loadTplIntoCamp(' + c.id + ',this.value)">';
+    h += '<option value="">— Choisir un template à charger —</option>';
+    S.tpls.forEach(function(t) { h += '<option value="' + t.id + '">' + esc(t.name) + '</option>'; });
+    h += '</select></div>';
+    h += '<button class="btn-sm" onclick="saveCampAsTpl(' + c.id + ')">💾 Sauvegarder comme template</button>';
+    h += '<a href="#" onclick="event.preventDefault();showView(\'templates\')" style="font-size:10px;color:var(--purl);text-decoration:none;">✏️ Gérer les templates →</a>';
+    h += '</div>';
+    // Subject
+    h += '<div class="fc" style="margin-bottom:8px;"><label class="fl">Objet de l\'email</label>';
+    h += '<input type="text" class="fi" id="camp-subj2-' + c.id + '" value="' + esc(c.subject||'') + '" placeholder="Votre objet — {{prénom}}, voici un message pour vous..." onchange="updC(' + c.id + ',\'subject\',this.value)"></div>';
   }
+
+  // Rich editor intégré dans la campagne
+  var edId = 'camp-editor-' + c.id;
+  var tbId = 'camp-tb-' + c.id;
+  var imgBarId = 'camp-imgbar-' + c.id;
+
+  h += '<div id="' + edId + '-wrap" class="editor-wrap">';
+  // Quick inserts bar
+  h += '<div style="padding:5px 10px;background:var(--bg3);border-bottom:1px solid var(--b2);display:flex;gap:4px;flex-wrap:wrap;align-items:center;">';
+  if (!isSMS) {
+    h += '<span style="font-size:8px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--text3);margin-right:4px;">Insérer :</span>';
+    h += '<button class="vc" onclick="campInsertVar(' + c.id + ',\'{{prénom}}\')">👤 Prénom</button>';
+    h += '<button class="vc" onclick="campInsertVar(' + c.id + ',\'{{email}}\')">📧 Email</button>';
+    h += '<button class="vc" style="background:rgba(0,255,136,.1);border-color:rgba(0,255,136,.3);color:var(--grn);" onclick="campInsertBlock(' + c.id + ',\'btn\')">🔘 Bouton CTA</button>';
+    h += '<button class="vc" style="background:rgba(255,122,0,.1);border-color:rgba(255,122,0,.3);color:var(--ora);" onclick="campInsertBlock(' + c.id + ',\'signature\')">✍️ Signature</button>';
+    h += '<button class="vc" style="background:rgba(255,45,120,.1);border-color:rgba(255,45,120,.3);color:var(--pnk);" onclick="campInsertBlock(' + c.id + ',\'unsubscribe\')">🚫 Désinscription</button>';
+    h += '<label style="display:inline-flex;align-items:center;gap:3px;cursor:pointer;background:var(--bg3);border:1px solid var(--b2);border-radius:4px;padding:3px 7px;" title="Couleur active">';
+    h += '🎨<input type="color" id="camp-color-' + c.id + '" value="#c060ff" style="width:20px;height:16px;border:none;padding:0;background:none;cursor:pointer;" title="Couleur de l\'éditeur"></label>';
+  } else {
+    h += '<span style="font-size:8px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--text3);margin-right:4px;">SMS :</span>';
+    h += '<button class="vc" onclick="campSMSInsert(' + c.id + ',\'{{prénom}}\')">👤 Prénom</button>';
+    h += '<button class="vc" onclick="campSMSInsertEmoji(' + c.id + ')">😊 Emoji</button>';
+    h += '<button class="vc" onclick="campSMSInsertLink(' + c.id + ')">🔗 Lien</button>';
+    h += '<span id="camp-sms-cnt-' + c.id + '" style="margin-left:auto;font-family:var(--mono);font-size:10px;color:var(--text3);">0/160</span>';
+  }
+  h += '</div>';
+  // Toolbar (only for email)
+  if (!isSMS) {
+    h += '<div id="' + tbId + '" class="editor-toolbar"></div>';
+    h += '<div id="' + imgBarId + '" class="img-bar">';
+    h += '<input type="text" class="ip-inp" id="camp-img-url-' + c.id + '" placeholder="https://url-image.jpg">';
+    h += '<button class="ip-btn" onclick="campInsertImgURL(' + c.id + ')">Insérer URL</button>';
+    h += '<label class="ip-btn" style="cursor:pointer;">📁 Upload<input type="file" accept="image/*" style="display:none;" onchange="campInsertImgFile(this,' + c.id + ')"></label>';
+    h += '<button class="btn-ico" style="padding:5px 8px;" onclick="document.getElementById(\'camp-imgbar-' + c.id + '\').classList.remove(\'show\')">✕</button>';
+    h += '</div>';
+    // Rich text area
+    h += '<div id="' + edId + '" class="pane-rich" contenteditable="true"';
+    h += ' data-placeholder="Rédigez votre email ici — toutes les fonctionnalités sont disponibles dans la toolbar ci-dessus...">';
+    if (c.campBody) h += c.campBody;
+    h += '</div>';
+    // Bottom bar
+    h += '<div style="background:var(--bg3);border-top:1px solid var(--b2);padding:5px 10px;display:flex;align-items:center;gap:8px;">';
+    h += '<button class="ela" onclick="toggleCampHtmlMode(' + c.id + ')" id="camp-mode-btn-' + c.id + '">⇄ HTML brut</button>';
+    h += '<span style="font-size:9px;color:var(--text3);"><span id="camp-mode-lbl-' + c.id + '">Éditeur visuel</span></span>';
+    h += '<button class="ela" onclick="prevCampEmail(' + c.id + ')" style="margin-left:auto;">👁 Aperçu</button>';
+    h += '</div>';
+    // HTML pane (hidden)
+    h += '<textarea id="camp-html-' + c.id + '" class="pane-code" style="display:none;" spellcheck="false" oninput="campSyncHtml(' + c.id + ')" placeholder="<!-- HTML ici -->"></textarea>';
+  } else {
+    // SMS textarea with counter
+    h += '<textarea id="' + edId + '" class="fta" style="min-height:100px;border-radius:0 0 8px 8px;border-top:none;" placeholder="Votre message SMS...&#10;Conseil : ajoutez STOP SMS à la fin pour la conformité RGPD" oninput="updCampSMSCnt(' + c.id + ')"></textarea>';
+  }
+  h += '</div>'; // editor-wrap
+
+  h += '</div></div>'; // ab-body + ab
+
+  // Initialiser la toolbar après rendu
+  setTimeout(function() {
+    if (!isSMS) {
+      buildToolbar(tbId, edId);
+      // Relier le bouton image à la barre image de la campagne
+      var btn = document.querySelector('#' + tbId + ' button[title*="Image"]');
+      if (btn) btn.onclick = function(){
+        var bar = document.getElementById(imgBarId);
+        if (bar) bar.classList.toggle('show');
+      };
+    }
+    // Restaurer le contenu si existant
+    if (!isSMS && c.campBody) {
+      var ed = document.getElementById(edId);
+      if (ed) ed.innerHTML = c.campBody;
+    } else if (isSMS && c.smsText) {
+      var ta = document.getElementById(edId);
+      if (ta) { ta.value = c.smsText; updCampSMSCnt(c.id); }
+    }
+  }, 100);
 
   // ── SECTION 3/2 — AUTOMATISATION
   var autoN = isSMS ? 2 : 3;
@@ -2415,6 +2502,25 @@ function esc(str) {
 /* Alias for backward compat */
 var escHtml = esc;
 
+
+/* Activer/désactiver la planification horaire dans une campagne */
+function togSchedEnabled(id, row) {
+  var c = S.camps.find(function(x){return x.id===id;});
+  if (!c) return;
+  c.schedEnabled = !c.schedEnabled;
+  row.classList.toggle('on', c.schedEnabled);
+  // Mettre à jour le texte du toggle
+  var togT = row.querySelector('.tog-t');
+  var togD = row.querySelector('.tog-d');
+  if (togT) togT.textContent = c.schedEnabled ? '✅ Planification ACTIVE' : '⏸ Planification DÉSACTIVÉE';
+  if (togD) togD.innerHTML = c.schedEnabled
+    ? '<strong style="color:var(--grn);">✓ Le Worker envoie uniquement aux horaires définis ci-dessous</strong>'
+    : 'Désactivé = envoi continu 24h/24 selon la cadence · Activez pour choisir des horaires précis par jour';
+  // Afficher/masquer le corps de planification
+  var body = document.getElementById('sched-body-' + id);
+  if (body) body.style.display = c.schedEnabled ? 'block' : 'none';
+  saveCamps();
+}
 
 function buildAS(c) {
   const t   = c.emailList.length || '?';
@@ -2915,7 +3021,20 @@ async function launchCamp(id) {
 
   c.status = 'running';
   c.startDate = c.startDate || new Date().toISOString().split('T')[0];
-  const tpl = S.tpls.find(t => t.id == c.templateId) || null;
+
+  // Récupérer le contenu de l'éditeur intégré
+  var edEl = document.getElementById('camp-editor-' + id);
+  if (edEl && edEl.contentEditable === 'true') c.campBody = edEl.innerHTML;
+  var sEl = document.getElementById('camp-subj2-' + id);
+  if (sEl && sEl.value) c.subject = sEl.value;
+
+  // Priorité : contenu direct > template sauvegardé
+  var tpl;
+  if (c.campBody && c.campBody.trim() && c.campBody !== '<br>') {
+    tpl = {id:'inline', name:c.name, subject:c.subject||'', content:c.campBody, mode:'rich'};
+  } else {
+    tpl = S.tpls.find(function(t){return t.id==c.templateId;}) || null;
+  }
 
   // ── Tracking GA4
   track('campaign_launch', {
@@ -4725,6 +4844,191 @@ function qsInsertImgFile(input) {
 }
 
 /* ================================================================
+   ÉDITEUR INTÉGRÉ DANS LES CAMPAGNES (Email + SMS)
+   Chaque campagne a son propre éditeur riche
+================================================================ */
+
+/* Insérer une variable dans l'éditeur de campagne email */
+function campInsertVar(id, v) {
+  var ed = document.getElementById('camp-editor-' + id);
+  if (!ed) return; ed.focus();
+  document.execCommand('insertText', false, v);
+  saveCampBody(id);
+}
+
+/* Insérer un bloc rapide dans l'éditeur de campagne email */
+function campInsertBlock(id, type) {
+  var col = document.getElementById('camp-color-' + id);
+  var color = col ? col.value : '#c060ff';
+  var html = '';
+  if (type === 'btn') {
+    var url = prompt('URL du bouton :') || 'https://www.clairvoyancemedium.com/';
+    var label = prompt('Texte du bouton :') || 'Consulter maintenant';
+    html = '<div style="text-align:center;margin:20px 0;"><a href="' + url + '" target="_blank" style="display:inline-block;background:' + color + ';color:#fff;padding:14px 32px;border-radius:8px;text-decoration:none;font-weight:700;font-size:15px;">' + label + '</a></div>';
+  } else if (type === 'signature') {
+    html = '<div style="margin-top:30px;padding-top:15px;border-top:1px solid ' + color + ';font-family:Arial,sans-serif;font-size:13px;color:#555;">' +
+      '<strong style="color:#333;">Frédéric</strong><br>Cabinet ClairvoyanceMedium.com<br>' +
+      '<a href="mailto:contact.clairvoyancemedium@gmail.com" style="color:' + color + ';">contact.clairvoyancemedium@gmail.com</a><br>' +
+      '<a href="tel:+33695468923" style="color:' + color + ';">📞 06 95 46 89 23</a><br>' +
+      '<a href="https://www.clairvoyancemedium.com/" target="_blank" style="color:' + color + ';font-weight:700;">🌐 www.clairvoyancemedium.com</a></div>';
+  } else if (type === 'unsubscribe') {
+    html = '<div style="text-align:center;margin-top:30px;font-size:11px;color:#999;font-family:Arial,sans-serif;">Vous recevez cet email car vous avez demandé à être contacté(e).<br>' +
+      '<a href="{{lien_desinscription}}" style="color:#999;text-decoration:underline;">Se désinscrire</a></div>';
+  }
+  if (!html) return;
+  var ed = document.getElementById('camp-editor-' + id);
+  if (ed) { ed.focus(); document.execCommand('insertHTML', false, html); }
+  saveCampBody(id);
+}
+
+/* Sauvegarder le contenu de l'éditeur dans la campagne */
+function saveCampBody(id) {
+  var c = S.camps.find(function(x){return x.id===id;});
+  if (!c) return;
+  var ed = document.getElementById('camp-editor-' + id);
+  if (ed && ed.contentEditable) c.campBody = ed.innerHTML;
+  saveCamps();
+}
+
+/* Insérer image par URL dans éditeur campagne */
+function campInsertImgURL(id) {
+  var inp = document.getElementById('camp-img-url-' + id);
+  var url = inp ? inp.value.trim() : '';
+  if (!url) { toast('Entrez une URL image', 'warn'); return; }
+  var ed = document.getElementById('camp-editor-' + id);
+  if (ed) { ed.focus(); document.execCommand('insertHTML', false, '<img src="' + url + '" style="max-width:100%;height:auto;border-radius:4px;margin:6px 0;display:block;">'); }
+  if (inp) inp.value = '';
+  saveCampBody(id);
+}
+
+function campInsertImgFile(input, id) {
+  var file = input.files[0]; if (!file) return;
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    var ed = document.getElementById('camp-editor-' + id);
+    if (ed) { ed.focus(); document.execCommand('insertHTML', false, '<img src="' + e.target.result + '" style="max-width:100%;height:auto;border-radius:4px;margin:6px 0;display:block;">'); }
+    saveCampBody(id);
+  };
+  reader.readAsDataURL(file); input.value = '';
+}
+
+/* Basculer HTML brut dans éditeur campagne */
+function toggleCampHtmlMode(id) {
+  var ed   = document.getElementById('camp-editor-' + id);
+  var html = document.getElementById('camp-html-' + id);
+  var btn  = document.getElementById('camp-mode-btn-' + id);
+  var lbl  = document.getElementById('camp-mode-lbl-' + id);
+  var tb   = document.getElementById('camp-tb-' + id);
+  if (!ed || !html) return;
+  var isRich = ed.style.display !== 'none';
+  if (isRich) {
+    html.value = ed.innerHTML;
+    ed.style.display = 'none'; html.style.display = 'block';
+    if (tb) tb.style.display = 'none';
+    if (btn) btn.textContent = '⇄ Éditeur visuel';
+    if (lbl) lbl.textContent = 'HTML brut';
+  } else {
+    ed.innerHTML = html.value;
+    html.style.display = 'none'; ed.style.display = 'block';
+    if (tb) tb.style.display = '';
+    if (btn) btn.textContent = '⇄ HTML brut';
+    if (lbl) lbl.textContent = 'Éditeur visuel';
+  }
+}
+
+function campSyncHtml(id) {
+  var html = document.getElementById('camp-html-' + id);
+  var c = S.camps.find(function(x){return x.id===id;});
+  if (c && html) { c.campBody = html.value; saveCamps(); }
+}
+
+/* Aperçu de l'email de campagne */
+function prevCampEmail(id) {
+  var c = S.camps.find(function(x){return x.id===id;});
+  if (!c) return;
+  saveCampBody(id);
+  var subj = c.subject || '(Sans objet)';
+  var body = c.campBody || '';
+  var ps = document.getElementById('prev-subj'); if (ps) ps.textContent = applyVars(subj, EX);
+  var pb = document.getElementById('prev-body'); if (pb) pb.innerHTML = applyVars(body, EX) || '<em style="color:#999;">Corps vide</em>';
+  showModal('modal-prev');
+}
+
+/* Charger un template dans l'éditeur de campagne */
+function loadTplIntoCamp(id, tplId) {
+  if (!tplId) return;
+  var tpl = S.tpls.find(function(t){return t.id==tplId;});
+  if (!tpl) return;
+  var ed = document.getElementById('camp-editor-' + id);
+  if (ed) { ed.innerHTML = tpl.content || ''; }
+  var subjInp = document.getElementById('camp-subj2-' + id);
+  if (subjInp && tpl.subject) subjInp.value = tpl.subject;
+  var c = S.camps.find(function(x){return x.id===id;});
+  if (c) {
+    c.campBody = tpl.content || '';
+    if (tpl.subject) c.subject = tpl.subject;
+    saveCamps();
+  }
+  toast('Template "' + tpl.name + '" chargé ✓', 'success');
+}
+
+/* Sauvegarder le contenu de la campagne comme nouveau template */
+function saveCampAsTpl(id) {
+  saveCampBody(id);
+  var c = S.camps.find(function(x){return x.id===id;});
+  if (!c) return;
+  var name = prompt('Nom du template :', c.name + ' — template') || c.name;
+  S.tpls.push({
+    id: Date.now(), name: name,
+    subject: c.subject||'', content: c.campBody||'',
+    mode: 'rich', created: new Date().toISOString()
+  });
+  saveTpls(false);
+  toast('Template "' + name + '" sauvegardé ✓ — disponible dans l\'onglet Templates', 'success');
+}
+
+/* SMS — fonctions éditeur */
+function updCampSMSCnt(id) {
+  var ta = document.getElementById('camp-editor-' + id);
+  var cnt = document.getElementById('camp-sms-cnt-' + id);
+  var c = S.camps.find(function(x){return x.id===id;});
+  if (!ta || !cnt) return;
+  var l = ta.value.length;
+  cnt.textContent = l + '/160 · ' + (Math.ceil(l/160)||1) + ' SMS';
+  cnt.style.color = l > 320 ? 'var(--red)' : l > 160 ? 'var(--yel)' : 'var(--text3)';
+  if (c) { c.smsText = ta.value; }
+}
+
+function campSMSInsert(id, text) {
+  var ta = document.getElementById('camp-editor-' + id);
+  if (!ta) return;
+  var p = ta.selectionStart || ta.value.length;
+  ta.value = ta.value.slice(0,p) + text + ta.value.slice(p);
+  ta.selectionStart = ta.selectionEnd = p + text.length;
+  ta.focus(); updCampSMSCnt(id);
+}
+
+function campSMSInsertEmoji(id) {
+  _emojiTargetEditor = 'camp-editor-' + id;
+  showEmojiPicker('camp-editor-' + id);
+}
+
+function campSMSInsertLink(id) {
+  var url = prompt('URL à insérer dans le SMS :'); if (!url) return;
+  campSMSInsert(id, url);
+}
+
+/* Auto-save du contenu éditeur quand on quitte la campagne */
+document.addEventListener('blur', function(e) {
+  var el = e.target;
+  if (el && el.id && el.id.startsWith('camp-editor-') && el.contentEditable) {
+    var id = parseInt(el.id.replace('camp-editor-',''));
+    if (!isNaN(id)) saveCampBody(id);
+  }
+}, true);
+
+
+/* ================================================================
    CONTACTS — COLLER DES EMAILS EN MASSE
 ================================================================ */
 function countPastedEmails() {
@@ -4847,10 +5151,109 @@ function toolbarAudio(editorId) {
 }
 
 function toolbarEmoji(editorId) {
-  var emojis = '😀 😂 😍 🥰 😎 🤩 🎉 🎊 ✨ ⭐ 🔥 💥 ❤️ 💙 💜 💚 🧡 💛 🎁 🎯 📧 📱 💻 🌟 🏆 🎮 🎵 🎬 📸 🌈 🦋 🌺 🌻 🍀 ✅ ❌ ⚠️ 💡 📌 🔑 👍 💪 🙏';
-  var pick = prompt('Emoji — copiez-collez :\n' + emojis + '\n\nOu entrez directement :');
-  if (!pick) return;
-  execForEditor(editorId, 'insertText', pick);
+  // Afficher la modal emoji
+  showEmojiPicker(editorId);
+}
+
+/* Sélecteur emoji inline — clique sur un emoji = l'insère directement */
+var _emojiTargetEditor = null;
+
+function showEmojiPicker(editorId) {
+  _emojiTargetEditor = editorId;
+  var existing = document.getElementById('emoji-modal');
+  if (existing) { existing.remove(); }
+
+  var groups = [
+    { label: '😀 Expressions', emojis: ['😀','😁','😂','🤣','😃','😄','😅','😊','😎','🤩','🥰','😍','😘','🤗','🤔','🥳','😴','😑'] },
+    { label: '👍 Positif & Confiance', emojis: ['👍','👌','✅','🏆','⭐','🌟','💫','✨','🎯','💪','🙌','👏','🤝','💎','🔥','🚀','⚡','💡','🎉','🎊','🏅','🥇','💰','📈','✔️','💯','🆒','🌈'] },
+    { label: '❤️ Émotions', emojis: ['❤️','🧡','💛','💚','💙','💜','🖤','🤍','❣️','💕','💞','💓','💗','💖','💘','💝','😻','🥺','😢','😭','💔','🫶'] },
+    { label: '📧 Business', emojis: ['📧','📱','💻','📊','📈','📉','💼','🏢','📝','📋','📌','📎','🔗','📣','📢','🔔','💬','📞','☎️','📠','🗓️','⏰','🔑','🔐','🛡️','⚙️','📦','💳'] },
+    { label: '🌺 Nature', emojis: ['🌺','🌸','🌹','🌷','🌻','🌼','🍀','🌿','🌱','🌳','🍃','🌴','🌵','🍁','🍂','🌊','🌈','⭐','🌙','☀️','🌍','🌺','🦋','🐝'] },
+    { label: '🎁 Divers', emojis: ['🎁','🎀','🎈','🎉','🎊','🎯','🎲','🎵','🎶','🎤','🎧','📷','🔮','🪄','💎','👑','🗝️','✏️','📚','🖊️','📖'] }
+  ];
+
+  // Construire la modal avec createElement (aucun problème de quotes)
+  var modal = document.createElement('div');
+  modal.id = 'emoji-modal';
+  modal.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(26,28,34,.9);z-index:9999;display:flex;align-items:center;justify-content:center;';
+  modal.addEventListener('click', function(e){ if(e.target===modal) modal.remove(); });
+
+  var box = document.createElement('div');
+  box.style.cssText = 'background:#22252e;border:1px solid #3d4256;border-radius:14px;padding:16px;width:min(520px,95vw);max-height:80vh;overflow-y:auto;';
+
+  // Header
+  var hdr = document.createElement('div');
+  hdr.style.cssText = 'display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;';
+  var title = document.createElement('span');
+  title.style.cssText = 'font-size:14px;font-weight:800;color:#c060ff;';
+  title.textContent = '😊 Choisir un emoji';
+  var closeBtn = document.createElement('button');
+  closeBtn.textContent = '×';
+  closeBtn.style.cssText = 'background:none;border:none;color:#6b7899;font-size:20px;cursor:pointer;line-height:1;';
+  closeBtn.onclick = function(){ modal.remove(); };
+  hdr.appendChild(title); hdr.appendChild(closeBtn);
+  box.appendChild(hdr);
+
+  // Groupes d'emojis
+  groups.forEach(function(g) {
+    var grpLabel = document.createElement('div');
+    grpLabel.style.cssText = 'font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:#6b7899;margin:10px 0 6px;';
+    grpLabel.textContent = g.label;
+    box.appendChild(grpLabel);
+    var grid = document.createElement('div');
+    grid.style.cssText = 'display:flex;flex-wrap:wrap;gap:4px;';
+    g.emojis.forEach(function(em) {
+      var btn = document.createElement('button');
+      btn.textContent = em;
+      btn.style.cssText = 'width:36px;height:36px;background:#292c36;border:1px solid #3d4256;border-radius:6px;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;';
+      btn.title = em;
+      btn.addEventListener('mouseenter', function(){ this.style.background='#3d4256'; });
+      btn.addEventListener('mouseleave', function(){ this.style.background='#292c36'; });
+      btn.addEventListener('click', function() { insertEmoji(em); });
+      grid.appendChild(btn);
+    });
+    box.appendChild(grid);
+  });
+
+  modal.appendChild(box);
+  document.body.appendChild(modal);
+}
+
+function closeEmojiModal() {
+  var m = document.getElementById('emoji-modal'); if(m) m.remove();
+}
+function insertEmoji(em) {
+  var editorId = _emojiTargetEditor || 'pane-rich';
+  var ed = $(editorId);
+  if (ed && ed.contentEditable) {
+    ed.focus();
+    // Insérer l'emoji directement
+    var sel = window.getSelection();
+    if (sel && sel.rangeCount) {
+      var range = sel.getRangeAt(0);
+      range.deleteContents();
+      var node = document.createTextNode(em);
+      range.insertNode(node);
+      range.setStartAfter(node);
+      range.setEndAfter(node);
+      sel.removeAllRanges();
+      sel.addRange(range);
+    } else {
+      ed.innerHTML += em;
+    }
+  } else {
+    // Textarea (SMS, texte brut)
+    var ta = $(editorId);
+    if (ta && ta.tagName === 'TEXTAREA') {
+      var p = ta.selectionStart || ta.value.length;
+      ta.value = ta.value.slice(0,p) + em + ta.value.slice(p);
+      ta.selectionStart = ta.selectionEnd = p + em.length;
+      ta.focus();
+    }
+  }
+  // Fermer la modal après sélection
+  var modal = document.getElementById('emoji-modal');
+  if (modal) modal.remove();
 }
 
 function toolbarTable(editorId) {
