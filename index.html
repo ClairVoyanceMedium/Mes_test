@@ -887,10 +887,12 @@ td.em{font-family:var(--mono);font-size:10px;color:var(--purl);}
         </tbody>
       </table>
     </div>
+    <div id="sms-analytics-more" style="text-align:center;padding:8px;display:none">
+      <button class="date-qbtn" onclick="loadMoreSMS()">Charger plus de SMS</button>
+    </div>
   </div>
 
   <!-- ═══════════════════════════════════
-       CONTACTS — STATISTIQUES RAPIDES
   ════════════════════════════════════ -->
   <div class="sec-box">
     <div class="sec-ttl" style="color:var(--cyan)">👥 Contacts — Vue rapide</div>
@@ -972,49 +974,92 @@ td.em{font-family:var(--mono);font-size:10px;color:var(--purl);}
         <div class="fc"><label class="fl">Template (optionnel)</label><select class="fsel" id="qs-email-tpl"><option value="">— Contenu manuel ci-dessous —</option></select></div>
       </div>
 
-      <!-- Mini-toolbar éditeur envoi rapide -->
+      <!-- Éditeur Envoi Rapide — même niveau que Templates -->
       <div style="border:1px solid var(--b2);border-radius:8px;overflow:hidden;margin-bottom:10px">
+        <!-- TOOLBAR IDENTIQUE À TEMPLATES -->
         <div style="background:var(--bg3);padding:5px 10px;display:flex;gap:1px;flex-wrap:wrap;border-bottom:1px solid var(--b2)">
-          <select class="tsel" onchange="execQS('fontName',this.value)" style="max-width:90px"><option value="">Police</option><option value="Arial">Arial</option><option value="Georgia">Georgia</option><option value="Montserrat">Montserrat</option><option value="Verdana">Verdana</option><option value="Times New Roman">Times</option></select>
-          <select class="tsel" style="width:40px" onchange="execQS('fontSize',this.value)"><option value="3">T</option><option value="1">10</option><option value="2">12</option><option value="3">14</option><option value="4">16</option><option value="5">20</option><option value="6">24</option></select>
+          <!-- Police + Taille + Format -->
+          <select class="tfont" onchange="execQS('fontName',this.value)" style="max-width:95px">
+            <option value="">Police</option>
+            <option value="Arial">Arial</option>
+            <option value="Georgia">Georgia</option>
+            <option value="Montserrat">Montserrat</option>
+            <option value="Verdana">Verdana</option>
+            <option value="Times New Roman">Times</option>
+            <option value="Courier New">Courier</option>
+            <option value="Trebuchet MS">Trebuchet</option>
+            <option value="Impact">Impact</option>
+          </select>
+          <select class="tsel" style="width:44px" onchange="execQS('fontSize',this.value)">
+            <option value="3">T</option>
+            <option value="1">10</option><option value="2">12</option><option value="3">14</option>
+            <option value="4">16</option><option value="5">20</option><option value="6">24</option><option value="7">32</option>
+          </select>
+          <select class="tsel" onchange="execQS('formatBlock',this.value);this.value='p'">
+            <option value="p">P</option>
+            <option value="h1">H1</option><option value="h2">H2</option><option value="h3">H3</option>
+          </select>
           <div class="tbs"></div>
-          <button class="tb" onclick="execQS('bold')"><b>B</b></button>
-          <button class="tb" onclick="execQS('italic')"><i>I</i></button>
-          <button class="tb" onclick="execQS('underline')"><u>U</u></button>
+          <!-- Formatage texte -->
+          <button class="tb" onclick="execQS('bold')" title="Gras"><b>B</b></button>
+          <button class="tb" onclick="execQS('italic')" title="Italique"><i>I</i></button>
+          <button class="tb" onclick="execQS('underline')" title="Souligné"><u>U</u></button>
+          <button class="tb" onclick="execQS('strikeThrough')" title="Barré"><s>S</s></button>
           <div class="tbs"></div>
-          <button class="tb" onclick="execQS('justifyLeft')">⬛</button>
-          <button class="tb" onclick="execQS('justifyCenter')">⬜</button>
-          <button class="tb" onclick="execQS('justifyRight')">⬛</button>
+          <!-- Alignements -->
+          <button class="tb" onclick="execQS('justifyLeft')" title="Gauche">⬛</button>
+          <button class="tb" onclick="execQS('justifyCenter')" title="Centre">⬜</button>
+          <button class="tb" onclick="execQS('justifyRight')" title="Droite">⬛</button>
           <div class="tbs"></div>
+          <!-- Listes -->
+          <button class="tb" onclick="execQS('insertUnorderedList')" title="Liste à puces">•</button>
+          <button class="tb" onclick="execQS('insertOrderedList')" title="Liste numérotée">1.</button>
+          <div class="tbs"></div>
+          <!-- Couleurs -->
           <label class="tb" style="cursor:pointer" title="Couleur texte">A<input type="color" style="display:none;width:0;height:0" oninput="execQS('foreColor',this.value)"></label>
+          <label class="tb" style="cursor:pointer" title="Couleur fond texte">◼<input type="color" style="display:none;width:0;height:0" oninput="execQS('hiliteColor',this.value)"></label>
           <div class="tbs"></div>
-          <button class="tb" onclick="insertQSLink()" title="Lien">🔗</button>
-          <button class="tb" onclick="insertQSTelLink()" title="Lien téléphone">📞</button>
-          <button class="tb" onclick="insertQSImg()" title="Image">🖼</button>
-          <button class="tb" onclick="insertQSImgLink()" title="Image cliquable">🖼🔗</button>
+          <!-- Images et médias -->
+          <button class="tb" onclick="insertQSImg()" title="Image URL">🖼</button>
+          <label class="tb" style="cursor:pointer" title="Upload image">📁<input type="file" accept="image/*" style="display:none" onchange="insertQSImgFile(this)"></label>
+          <button class="tb" onclick="insertQSLink()" title="Lien — sélectionnez d'abord le texte">🔗</button>
+          <button class="tb" onclick="insertQSTelLink()" title="Lien téléphone tap-to-call">📞</button>
+          <button class="tb" onclick="insertQSImgLink()" title="Image cliquable avec lien">🖼🔗</button>
+          <button class="tb" onclick="insertQSVideo()" title="Vidéo YouTube/Vimeo/mp4">▶🎬</button>
+          <button class="tb" onclick="insertQSAudio()" title="Lecteur audio">🎵</button>
+          <button class="tb" onclick="insertQSEmoji()" title="Insérer emoji">😊</button>
           <div class="tbs"></div>
-          <button class="tb" onclick="execQS('removeFormat')" style="font-size:8px" title="Effacer format">✕</button>
+          <!-- Mise en page -->
+          <button class="tb" onclick="insertQSTable()" title="Tableau">⊞</button>
+          <button class="tb" onclick="insertQSHR()" title="Ligne séparatrice">—</button>
+          <button class="tb" onclick="execQS('indent')" title="Indenter">→</button>
+          <button class="tb" onclick="execQS('outdent')" title="Désindenter">←</button>
+          <button class="tb" onclick="execQS('superscript')" title="Exposant">x²</button>
+          <button class="tb" onclick="execQS('subscript')" title="Indice">x₂</button>
+          <div class="tbs"></div>
+          <button class="tb" onclick="execQS('removeFormat')" style="font-size:8px" title="Effacer tout le formatage">✕fmt</button>
         </div>
-        <!-- Éditeur visuel envoi rapide -->
+        <!-- Zone d'édition visuelle -->
         <div id="qs-email-rich"
           contenteditable="true"
-          style="min-height:120px;padding:12px 14px;outline:none;color:var(--text);font-family:Arial,sans-serif;font-size:13px;line-height:1.8;background:var(--bg)"
-          data-placeholder="Rédigez votre email ici... Images, liens, mise en forme — tout est supporté."
+          style="min-height:150px;padding:12px 16px;outline:none;color:var(--text);font-family:Arial,sans-serif;font-size:13px;line-height:1.8;background:var(--bg)"
+          data-placeholder="Rédigez votre email ici...&#10;&#10;💡 Sélectionnez du texte puis cliquez 🔗 pour créer un lien · Glissez vos images · YouTube/Vimeo supportés"
           oninput="updQSEmailPreview()">
         </div>
-        <!-- Basculer vers HTML brut -->
+        <!-- Bascule HTML brut -->
         <div style="background:var(--bg3);border-top:1px solid var(--b2);padding:5px 10px;display:flex;align-items:center;gap:8px">
-          <button class="ela" onclick="toggleQSMode()" id="qs-mode-btn">⇄ Basculer vers HTML brut</button>
-          <span style="font-size:9px;color:var(--text3)">Mode actuel : <span id="qs-mode-lbl">Éditeur visuel</span></span>
+          <button class="ela" onclick="toggleQSMode()" id="qs-mode-btn">⇄ HTML brut</button>
+          <span style="font-size:9px;color:var(--text3)">Mode : <span id="qs-mode-lbl">Éditeur visuel</span></span>
+          <button class="ela" onclick="prevQSEmail()" style="margin-left:auto">👁 Aperçu</button>
         </div>
-        <!-- HTML brut (caché par défaut) -->
-        <textarea id="qs-email-body" style="display:none;width:100%;background:var(--bg);border:none;color:#7dd3fc;font-family:var(--mono);font-size:11px;padding:12px;min-height:120px;outline:none;resize:vertical" placeholder="<!-- Collez votre HTML ici -->&#10;<h1>Bonjour</h1>&#10;<p>Votre message...</p>"></textarea>
+        <!-- HTML brut -->
+        <textarea id="qs-email-body" style="display:none;width:100%;background:var(--bg);border:none;color:#7dd3fc;font-family:var(--mono);font-size:11px;padding:12px;min-height:150px;outline:none;resize:vertical" spellcheck="false" autocomplete="off" placeholder="<!-- Collez votre HTML ici -->&#10;<h1 style='color:#c060ff'>Bonjour {{prénom}}</h1>&#10;<p>Votre message...</p>&#10;<a href='https://monsite.fr'>Cliquez ici</a>"></textarea>
       </div>
 
       <div class="fc" style="margin-bottom:10px">
         <label class="fl">Destinataires — Collez des milliers d'emails d'un seul coup</label>
         <textarea class="fta" id="qs-email-to" style="min-height:80px"
-          placeholder="jean@email.com&#10;marie@gmail.com, pierre@yahoo.fr&#10;paul@outlook.com&#10;&#10;→ Un email par ligne, ou séparés par virgule/point-virgule&#10;→ Collez des milliers d'adresses d'un seul coup"
+          placeholder="jean@email.com&#10;marie@gmail.com, pierre@yahoo.fr&#10;paul@outlook.com&#10;&#10;→ Un email par ligne, ou séparés par virgule/point-virgule&#10;→ Collez autant d'adresses que vous voulez — aucune limite dans l'app"
           oninput="updateQSEmailCnt()"></textarea>
       </div>
       <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
@@ -1028,18 +1073,46 @@ td.em{font-family:var(--mono);font-size:10px;color:var(--purl);}
 
     <!-- Quick SMS -->
     <div class="qs-card">
-      <div class="qs-ttl" style="color:var(--pnk)">💬 SMS rapide</div>
-      <div class="fc" style="margin-bottom:10px">
-        <label class="fl">Message SMS <span style="font-weight:400;color:var(--text3)">(160 car. = 1 SMS)</span></label>
-        <textarea class="fta" id="qs-sms-body" style="min-height:80px" placeholder="Votre message SMS..." oninput="updQSSMSCnt()"></textarea>
-        <div id="qs-sms-cnt-lbl" style="font-size:9px;color:var(--text3);margin-top:3px">0 / 160 car.</div>
+      <div class="qs-ttl" style="color:var(--pnk)">💬 SMS / MMS rapide</div>
+
+      <!-- Toolbar SMS enrichi -->
+      <div style="background:var(--bg3);border:1px solid var(--b2);border-radius:8px 8px 0 0;padding:5px 10px;display:flex;gap:4px;flex-wrap:wrap;border-bottom:none">
+        <button class="tb" onclick="insertSMSEmoji()" title="Emoji">😊</button>
+        <button class="tb" onclick="insertSMSImg()" title="Image MMS (URL)">🖼 MMS</button>
+        <button class="tb" onclick="insertSMSLink()" title="Lien court">🔗</button>
+        <button class="tb" onclick="insertSMSPhone()" title="Lien téléphone cliquable">📞</button>
+        <button class="tb" onclick="insertSMSVariable()" title="Variable personnalisation">{{x}}</button>
+        <div class="tbs"></div>
+        <span id="qs-sms-cnt-lbl" style="font-size:9px;color:var(--text3);margin-left:auto;display:flex;align-items:center">0 / 160</span>
       </div>
+
       <div class="fc" style="margin-bottom:10px">
-        <label class="fl">Numéros — 1 par ligne, ou séparés par virgule/point-virgule</label>
-        <textarea class="fta" id="qs-sms-to" style="min-height:80px" placeholder="+33600000001&#10;+33600000002&#10;06 00 00 00 03&#10;&#10;→ Formats acceptés : +33, 06, 07"></textarea>
+        <textarea class="fta" id="qs-sms-body" style="min-height:90px;border-radius:0 0 8px 8px;border-top:none" placeholder="Votre message SMS...&#10;&#10;💡 Astuce : sous 160 car. = 1 SMS · Ajoutez STOP SMS pour la conformité RGPD&#10;Exemple : Bonjour {{prénom}}, voici notre offre → https://monsite.fr · STOP SMS" oninput="updQSSMSCnt()"></textarea>
+      </div>
+
+      <!-- Info MMS -->
+      <div style="background:rgba(255,45,120,.05);border:1px solid rgba(255,45,120,.15);border-radius:7px;padding:9px 12px;margin-bottom:10px;font-size:10px;color:var(--text2);line-height:1.7">
+        <strong style="color:var(--pnk)">📱 SMS vs MMS :</strong>
+        SMS = texte pur (160 car. max par SMS) · MMS = texte + image (via URL) — supporté par Twilio/Vonage.
+        Pour les images : ajoutez l'URL de l'image dans le champ MMS URL ci-dessous.
+      </div>
+
+      <!-- MMS Image URL optionnel -->
+      <div class="fc" style="margin-bottom:10px">
+        <label class="fl">URL image MMS <span style="font-weight:400;color:var(--text3)">(optionnel — Twilio/Vonage uniquement, URL publique)</span></label>
+        <input type="url" class="fi" id="qs-sms-media-url" placeholder="https://monsite.fr/image.jpg — laissez vide pour SMS texte">
+      </div>
+
+      <div class="fc" style="margin-bottom:10px">
+        <label class="fl">Numéros — Collez des milliers d'un coup</label>
+        <textarea class="fta" id="qs-sms-to" style="min-height:80px"
+          placeholder="+33600000001&#10;+33600000002, +33600000003&#10;06 00 00 00 04&#10;&#10;→ Formats acceptés : +33, 06, 07, international&#10;→ Séparateurs : saut de ligne, virgule, point-virgule"
+          oninput="updateQSSMSToCnt()"></textarea>
       </div>
       <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
-        <label class="btn-sm pk" style="cursor:pointer">📁 Import fichier<input type="file" accept=".csv,.txt" style="display:none" onchange="loadQSSMSFile(this)"></label>
+        <label class="btn-sm pk" style="cursor:pointer">📁 Fichier<input type="file" accept=".csv,.txt" style="display:none" onchange="loadQSSMSFile(this)"></label>
+        <label class="btn-sm pk" style="cursor:pointer">📊 Excel<input type="file" accept=".xlsx,.xls" style="display:none" onchange="loadQSSMSExcel(this)"></label>
+        <button class="btn-sm" onclick="importSMSQSFromContacts()">👥 Contacts</button>
         <button class="btn-sm" onclick="clearQSSMS()">✕ Vider</button>
         <div id="qs-sms-to-cnt" style="font-family:var(--mono);font-size:10px;color:var(--text3)">0 numéro(s)</div>
         <button class="btl pnk" style="margin-left:auto;padding:9px 20px" onclick="sendQuickSMS()">▶ Envoyer maintenant</button>
@@ -1049,9 +1122,10 @@ td.em{font-family:var(--mono);font-size:10px;color:var(--purl);}
     <div style="background:var(--bg2);border:1px solid var(--b1);border-radius:10px;padding:14px">
       <div style="font-size:10px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--yel);margin-bottom:8px">💡 Conseils envoi rapide</div>
       <div style="font-size:11px;color:var(--text2);line-height:1.8">
-        • Idéal pour les messages urgents ou ponctuels à moins de 500 destinataires<br>
-        • Pour les grandes campagnes régulières, utilisez l'onglet Email ou SMS avec automatisation<br>
-        • Les envois rapides sont tracés dans le Dashboard · L'historique est accessible dans Analytics
+        • Idéal pour les messages urgents ou ponctuels — <strong style="color:var(--purl)">aucune limite de destinataires</strong> dans l'application<br>
+        • Pour les grandes campagnes automatisées récurrentes, utilisez les onglets Email ou SMS<br>
+        • La limite réelle est celle de votre provider : Gmail 500/j, Workspace 2000/j, Outlook 300/j<br>
+        • Les envois rapides sont tracés dans le Dashboard · Historique complet dans Analytics
       </div>
     </div>
   </div>
@@ -1139,6 +1213,14 @@ td.em{font-family:var(--mono);font-size:10px;color:var(--purl);}
       <div class="tbs"></div>
       <button class="tb" onclick="iRTable()" title="Insérer tableau">⊞</button>
       <button class="tb" onclick="iRHR()" title="Ligne séparatrice">—</button>
+      <button class="tb" onclick="iRVideo()" title="Intégrer vidéo YouTube/Vimeo">▶🎬</button>
+      <button class="tb" onclick="iRAudio()" title="Lecteur audio">🎵</button>
+      <button class="tb" onclick="iREmoji()" title="Insérer emoji">😊</button>
+      <div class="tbs"></div>
+      <button class="tb" onclick="execR('indent')" title="Indenter">→</button>
+      <button class="tb" onclick="execR('outdent')" title="Désindenter">←</button>
+      <button class="tb" onclick="execR('superscript')" title="Exposant">x²</button>
+      <button class="tb" onclick="execR('subscript')" title="Indice">x₂</button>
       <div class="tbs"></div>
       <button class="tb" onclick="execR('removeFormat')" style="font-size:8px" title="Effacer tout le formatage">✕fmt</button>
     </div>
@@ -2898,9 +2980,20 @@ function execQS(cmd, val = null) {
 }
 
 function insertQSLink() {
+  const r = $('qs-email-rich');
+  if (!r) return; r.focus();
+  const sel = window.getSelection();
+  const selectedText = sel && sel.toString().trim();
   const url = prompt('URL du lien :'); if (!url) return;
-  const text = prompt('Texte affiché :') || url;
-  execQS('insertHTML', `<a href="${url}" target="_blank" style="color:#c060ff;text-decoration:underline">${text}</a>`);
+  if (selectedText) {
+    document.execCommand('createLink', false, url);
+    r.querySelectorAll('a[href="'+url+'"]').forEach(a => {
+      a.target='_blank'; a.style.color='#c060ff'; a.style.textDecoration='underline';
+    });
+  } else {
+    const text = prompt('Texte affiché :') || url;
+    execQS('insertHTML', `<a href="${url}" target="_blank" style="color:#c060ff;text-decoration:underline">${text}</a>`);
+  }
 }
 
 function insertQSTelLink() {
@@ -2919,6 +3012,50 @@ function insertQSImgLink() {
   const lnk = prompt('URL du lien (clic sur l\'image) :') || '#';
   execQS('insertHTML', `<a href="${lnk}" target="_blank"><img src="${img}" style="max-width:100%;height:auto;border-radius:4px;margin:6px 0;display:block"></a>`);
 }
+
+/* Tableau dans l'éditeur QS */
+function insertQSTable() {
+  const cols = parseInt(prompt('Colonnes :', '3') || '3');
+  const rows = parseInt(prompt('Lignes :', '3') || '3');
+  if (!cols || !rows) return;
+  const hdr = '<tr>' + Array(cols).fill(0).map((_,i) =>
+    `<th style="padding:8px 12px;background:#c060ff22;border:1px solid #3d4256;font-weight:700;color:#e8efff">Col ${i+1}</th>`).join('') + '</tr>';
+  const bdy = Array(rows).fill(0).map(() =>
+    '<tr>' + Array(cols).fill(0).map(() =>
+      `<td style="padding:8px 12px;border:1px solid #3d4256;color:#dde2f0">Cellule</td>`).join('') + '</tr>').join('');
+  execQS('insertHTML',
+    `<table style="border-collapse:collapse;width:100%;margin:10px 0;font-family:Arial,sans-serif;font-size:13px"><thead>${hdr}</thead><tbody>${bdy}</tbody></table>`);
+}
+
+/* Ligne séparatrice dans l'éditeur QS */
+function insertQSHR() {
+  execQS('insertHTML', '<hr style="border:none;border-top:1px solid #3d4256;margin:16px 0">');
+}
+
+/* Upload image depuis l'ordinateur dans le QS */
+function insertQSImgFile(input) {
+  const file = input.files[0]; if (!file) return;
+  if (file.size > 5*1024*1024) { toast('Image trop lourde (max 5 Mo)', 'error'); return; }
+  const reader = new FileReader();
+  reader.onload = e => {
+    execQS('insertHTML',
+      `<img src="${e.target.result}" style="max-width:100%;height:auto;border-radius:4px;margin:6px 0;display:block" alt="${file.name}">`);
+    toast('Image insérée ✓', 'success');
+  };
+  reader.readAsDataURL(file);
+  input.value = '';
+}
+
+/* Aperçu de l'email QS dans la modal */
+function prevQSEmail() {
+  const subj  = $('qs-email-subj')?.value || '(Sans objet)';
+  const body  = getQSBody();
+  if ($('prev-subj')) $('prev-subj').textContent = applyVars(subj, EX);
+  if ($('prev-body')) $('prev-body').innerHTML   = applyVars(body, EX) || '<em style="color:#999">Corps vide</em>';
+  showModal('modal-prev');
+}
+
+
 
 function toggleQSMode() {
   const rich = $('qs-email-rich');
@@ -3010,6 +3147,72 @@ function loadQSSMSFile(input) {
   r.readAsText(file);
 }
 
+/* ─── SMS EDITOR HELPERS ─────────────────────────── */
+function insertSMSEmoji() {
+  const pick = prompt('Emoji — copiez-collez :\n😀😂😍🥰😎🎉✨⭐🔥❤️🎁🎯📧📱🌟🏆✅❌💡👍💪🙏');
+  if (!pick) return;
+  const ta = $('qs-sms-body'); if (!ta) return;
+  const p = ta.selectionStart || ta.value.length;
+  ta.value = ta.value.slice(0,p) + pick + ta.value.slice(p);
+  ta.selectionStart = ta.selectionEnd = p + pick.length;
+  ta.focus(); updQSSMSCnt();
+}
+function insertSMSImg() {
+  const url = prompt('URL image publique pour MMS (.jpg, .png) :');
+  if (!url) return;
+  const el = $('qs-sms-media-url'); if (el) el.value = url;
+  toast('URL image MMS définie ✓ — sera envoyée via Twilio/Vonage', 'success');
+}
+function insertSMSLink() {
+  const url = prompt('URL à insérer dans le SMS :'); if (!url) return;
+  const ta = $('qs-sms-body'); if (!ta) return;
+  const p = ta.selectionStart || ta.value.length;
+  ta.value = ta.value.slice(0,p) + url + ta.value.slice(p);
+  ta.selectionStart = ta.selectionEnd = p + url.length;
+  ta.focus(); updQSSMSCnt();
+}
+function insertSMSPhone() {
+  const tel = prompt('Numéro (ex: +33600000000) :'); if (!tel) return;
+  const ta = $('qs-sms-body'); if (!ta) return;
+  const p = ta.selectionStart || ta.value.length;
+  const insert = `Appeler: ${tel}`;
+  ta.value = ta.value.slice(0,p) + insert + ta.value.slice(p);
+  ta.focus(); updQSSMSCnt();
+}
+function insertSMSVariable() {
+  const v = prompt('Variable à insérer (ex: prénom) :', 'prénom'); if (!v) return;
+  const ta = $('qs-sms-body'); if (!ta) return;
+  const p = ta.selectionStart || ta.value.length;
+  ta.value = ta.value.slice(0,p) + '{{' + v + '}}' + ta.value.slice(p);
+  ta.focus(); updQSSMSCnt();
+}
+function loadQSSMSExcel(input) {
+  const file = input.files[0]; if (!file) return;
+  if (!window.XLSX) { toast('SheetJS non chargé', 'warn'); return; }
+  const r = new FileReader();
+  r.onload = e => {
+    try {
+      const wb = XLSX.read(e.target.result, {type:'binary'});
+      const ws = wb.Sheets[wb.SheetNames[0]];
+      const rows = XLSX.utils.sheet_to_json(ws, {header:1, defval:''});
+      const phones = rows.flat().map(x => cleanPhone(String(x).trim()))
+        .filter(x => x.match(/^(\+|00)?[0-9]{8,15}$/));
+      const ta = $('qs-sms-to');
+      if (ta) ta.value += (ta.value ? '\n' : '') + phones.join('\n');
+      updateQSSMSToCnt();
+      toast(phones.length + ' numéros importés depuis Excel', 'success');
+    } catch(err) { toast('Erreur Excel : ' + err.message, 'error'); }
+  };
+  r.readAsBinaryString(file);
+}
+function importSMSQSFromContacts() {
+  const phones = S.contacts.map(c => c.téléphone).filter(Boolean)
+    .map(cleanPhone).filter(x => x.match(/^(\+|00)?[0-9]{8,15}$/));
+  const ta = $('qs-sms-to'); if (ta) ta.value = phones.join('\n');
+  updateQSSMSToCnt();
+  toast(phones.length + ' numéros importés depuis les contacts', 'success');
+}
+
 function updateQSEmailCnt() {
   const ta = $('qs-email-to');
   const cnt = $('qs-email-cnt');
@@ -3025,9 +3228,13 @@ function updateQSSMSToCnt() {
 }
 
 function updQSSMSCnt() {
-  const ta = $('qs-sms-body');
+  const ta  = $('qs-sms-body');
   const cnt = $('qs-sms-cnt-lbl');
-  if (ta && cnt) cnt.textContent = ta.value.length + ' / 160 car. (' + (Math.ceil(ta.value.length/160)||1) + ' SMS)';
+  if (!ta || !cnt) return;
+  const l = ta.value.length;
+  const n = Math.ceil(l/160)||1;
+  cnt.textContent = l + ' / 160 · ' + n + ' SMS';
+  cnt.style.color = l > 320 ? 'var(--red)' : l > 160 ? 'var(--yel)' : 'var(--text3)';
 }
 
 function clearQSEmail() {
@@ -3067,20 +3274,29 @@ async function sendQuickEmail() {
 }
 
 async function sendQuickSMS() {
-  const body  = $('qs-sms-body')?.value.trim();
-  const toText = $('qs-sms-to')?.value.trim();
-  const phones = parseQSPhones(toText);
-  if (!phones.length) { toast('Aucun numéro valide', 'error'); return; }
+  const body     = $('qs-sms-body')?.value.trim();
+  const mediaUrl = $('qs-sms-media-url')?.value.trim() || null;
+  const toText   = $('qs-sms-to')?.value.trim();
+  const phones   = parseQSPhones(toText);
+  if (!phones.length) { toast('Aucun numéro valide dans la zone destinataires', 'error'); return; }
   if (!body) { toast('Le message SMS est vide', 'error'); return; }
-  toast('Envoi SMS en cours vers ' + phones.length + ' numéro(s)...', 'info');
-  const campName = 'SMS rapide — ' + new Date().toLocaleDateString('fr-FR');
+  const isMMS = !!mediaUrl;
+  toast((isMMS?'MMS':'SMS')+' en cours vers ' + phones.length + ' numéro(s)...', 'info');
+  track('quick_send_sms', { recipients_count: phones.length, is_mms: isMMS });
+  const campName = (isMMS?'MMS':'SMS') + ' rapide — ' + new Date().toLocaleDateString('fr-FR');
   phones.forEach(p => {
     S.analytics.push({type:'sms', email:p, campaign:campName, date:new Date().toISOString(), status:'sent', opened:false, unsubscribed:false});
   });
   lsS(SK.analytics, S.analytics);
-  await syncW('/quick-send', {type:'sms', to:phones, body, smsConfig:{provider:S.smsProv, apiKey:S.smsKey, apiSecret:S.smsSecret, from:S.smsFrom}});
+  await syncW('/quick-send', {
+    type: 'sms',
+    to: phones,
+    body,
+    mediaUrl,           // null si SMS texte, URL si MMS image
+    smsConfig: {provider:S.smsProv, apiKey:S.smsKey, apiSecret:S.smsSecret, from:S.smsFrom}
+  });
   updateStats();
-  toast('✓ ' + phones.length + ' SMS envoyé(s)', 'success');
+  toast('✓ ' + phones.length + ' ' + (isMMS?'MMS':'SMS') + ' envoyé(s)', 'success');
 }
 
 // Attach live count events
@@ -3218,15 +3434,119 @@ function execR(cmd, val = null) {
   document.execCommand(cmd, false, val);
 }
 
-/* Lien texte cliquable */
-function iRLink() {
-  const url  = prompt('URL du lien (ex: https://monsite.fr) :');
+/* ─── VIDÉO ────────────────────────────────────────────
+   Intègre une vidéo YouTube, Vimeo ou URL directe
+   Responsive, avec lecteur embarqué HTML5
+──────────────────────────────────────────────────── */
+function iRVideo() {
+  const input = prompt('URL YouTube, Vimeo ou fichier vidéo (.mp4) :');
+  if (!input) return;
+  const r = $('pane-rich'); if (r) r.focus();
+  let html = '';
+  // YouTube
+  const ytMatch = input.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+  const vimeoMatch = input.match(/vimeo\.com\/(\d+)/);
+  if (ytMatch) {
+    html = `<div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;margin:10px 0;border-radius:8px">
+      <iframe style="position:absolute;top:0;left:0;width:100%;height:100%" src="https://www.youtube.com/embed/${ytMatch[1]}" frameborder="0" allowfullscreen loading="lazy"></iframe>
+    </div>`;
+  } else if (vimeoMatch) {
+    html = `<div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;margin:10px 0;border-radius:8px">
+      <iframe style="position:absolute;top:0;left:0;width:100%;height:100%" src="https://player.vimeo.com/video/${vimeoMatch[1]}" frameborder="0" allowfullscreen></iframe>
+    </div>`;
+  } else {
+    // Vidéo directe (mp4, webm...)
+    html = `<video controls style="max-width:100%;border-radius:8px;margin:10px 0;display:block">
+      <source src="${input}">
+      Votre navigateur ne supporte pas la lecture vidéo.
+    </video>`;
+  }
+  document.execCommand('insertHTML', false, html);
+}
+
+/* ─── AUDIO ────────────────────────────────────────────
+   Intègre un lecteur audio natif HTML5
+──────────────────────────────────────────────────── */
+function iRAudio() {
+  const url = prompt('URL du fichier audio (.mp3, .ogg, .wav) :');
   if (!url) return;
-  const text = prompt('Texte affiché :') || url;
-  const r = $('pane-rich');
-  if (r) r.focus();
+  const title = prompt('Titre (optionnel) :') || 'Audio';
+  const r = $('pane-rich'); if (r) r.focus();
   document.execCommand('insertHTML', false,
-    `<a href="${url}" target="_blank" style="color:#c060ff;text-decoration:underline">${text}</a>`);
+    `<div style="margin:10px 0;padding:10px;background:#1a2548;border-radius:8px;border:1px solid #3d4256">
+      <div style="font-size:11px;color:#c060ff;margin-bottom:6px;font-weight:700">🎵 ${title}</div>
+      <audio controls style="width:100%;outline:none">
+        <source src="${url}">
+        Votre navigateur ne supporte pas la lecture audio.
+      </audio>
+    </div>`);
+}
+
+/* ─── EMOJI ────────────────────────────────────────────
+   Sélecteur d'emoji rapide avec catégories
+──────────────────────────────────────────────────── */
+function iREmoji() {
+  const emojis = '😀😂😍🥰😎🤩🎉🎊✨⭐🔥💥❤️💙💜💚🧡💛🖤🤍🎁🎯📧📱💻🌟🏆🎮🎵🎬📸🌈🦋🌺🌻🍀✅❌⚠️💡📌🔑🎪';
+  const pick = prompt(`Choisissez un emoji (copiez-collez directement) :\n${emojis}\n\nOu entrez votre emoji :`);
+  if (!pick) return;
+  const r = $('pane-rich'); if (r) r.focus();
+  document.execCommand('insertText', false, pick);
+}
+
+/* ─── QS VIDEO ──────────────────────────────────────── */
+function insertQSVideo() {
+  const input = prompt('URL YouTube, Vimeo ou vidéo (.mp4) :'); if (!input) return;
+  const ytM = input.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+  const vimM = input.match(/vimeo\.com\/(\d+)/);
+  let html = '';
+  if (ytM) html = `<div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;margin:10px 0;border-radius:8px"><iframe style="position:absolute;top:0;left:0;width:100%;height:100%" src="https://www.youtube.com/embed/${ytM[1]}" frameborder="0" allowfullscreen></iframe></div>`;
+  else if (vimM) html = `<div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;margin:10px 0;border-radius:8px"><iframe style="position:absolute;top:0;left:0;width:100%;height:100%" src="https://player.vimeo.com/video/${vimM[1]}" frameborder="0" allowfullscreen></iframe></div>`;
+  else html = `<video controls style="max-width:100%;border-radius:8px;margin:10px 0;display:block"><source src="${input}">Vidéo non supportée.</video>`;
+  execQS('insertHTML', html);
+}
+
+function insertQSAudio() {
+  const url = prompt('URL audio (.mp3, .ogg) :'); if (!url) return;
+  const title = prompt('Titre :') || 'Audio';
+  execQS('insertHTML', `<div style="margin:10px 0;padding:10px;background:#1a2548;border-radius:8px"><div style="font-size:11px;color:#c060ff;margin-bottom:6px">🎵 ${title}</div><audio controls style="width:100%"><source src="${url}"></audio></div>`);
+}
+
+function insertQSEmoji() {
+  const emojis = '😀😂😍🥰😎🤩🎉✨⭐🔥💥❤️💙💜🎁🎯📧📱🌟🏆🎵🎬🌈🍀✅❌⚠️💡';
+  const pick = prompt(`Emoji :\n${emojis}\n\nEntrez ou copiez-collez :`);
+  if (!pick) return;
+  const r = $('qs-email-rich'); if (r) r.focus();
+  document.execCommand('insertText', false, pick);
+}
+
+
+   Sélectionne le texte → clique 🔗 → entre l'URL
+   Si aucun texte sélectionné, demande aussi le texte
+──────────────────────────────────────────────────── */
+function iRLink() {
+  const r = $('pane-rich');
+  if (!r) return;
+  r.focus();
+  const sel = window.getSelection();
+  const selectedText = sel && sel.toString().trim();
+  const url = prompt('URL du lien (ex: https://monsite.fr) :');
+  if (!url) return;
+  if (selectedText) {
+    // Texte sélectionné → on l'entoure d'un lien
+    document.execCommand('createLink', false, url);
+    // Appliquer le style sur le lien créé
+    const links = r.querySelectorAll('a[href="' + url + '"]');
+    links.forEach(a => {
+      a.target = '_blank';
+      a.style.color = '#c060ff';
+      a.style.textDecoration = 'underline';
+    });
+  } else {
+    // Aucune sélection → demande le texte
+    const text = prompt('Texte affiché :') || url;
+    document.execCommand('insertHTML', false,
+      `<a href="${url}" target="_blank" style="color:#c060ff;text-decoration:underline">${text}</a>`);
+  }
 }
 
 /* Lien téléphone — tap pour appeler sur mobile */
@@ -3280,217 +3600,6 @@ function iRHR() {
   if (r) r.focus();
   document.execCommand('insertHTML', false,
     '<hr style="border:none;border-top:1px solid #3d4256;margin:16px 0">');
-}
-
-function showImgBar() {
-  const bar = $('img-bar');
-  const gal = $('img-gal');
-  if (!bar) return;
-  bar.classList.toggle('show');
-  if (gal) gal.classList.toggle('show', S.imgLib.length > 0 && bar.classList.contains('show'));
-}
-
-function hideImgBar() {
-  $('img-bar')?.classList.remove('show');
-  $('img-gal')?.classList.remove('show');
-}
-
-function insertImgURL() {
-  const url = $('img-url-inp')?.value.trim();
-  if (!url) { toast('Entrez une URL image', 'warn'); return; }
-  const r = $('pane-rich');
-  if (r) r.focus();
-  document.execCommand('insertHTML', false,
-    `<img src="${url}" style="max-width:100%;height:auto;border-radius:4px;margin:6px 0;display:block" alt="image">`);
-  if ($('img-url-inp')) $('img-url-inp').value = '';
-  toast('Image insérée ✓', 'success');
-}
-
-function insertImgFile(input) {
-  const file = input.files[0];
-  if (!file) return;
-  // Limite 5 Mo
-  if (file.size > 5 * 1024 * 1024) { toast('Image trop lourde (max 5 Mo)', 'error'); return; }
-  const reader = new FileReader();
-  reader.onload = e => {
-    const b64 = e.target.result;
-    S.imgLib.push({id: Date.now(), src: b64, name: file.name, size: file.size});
-    lsS(SK.imgLib, S.imgLib);
-    renderImgGal();
-    const r = $('pane-rich');
-    if (r) r.focus();
-    document.execCommand('insertHTML', false,
-      `<img src="${b64}" style="max-width:100%;height:auto;border-radius:4px;margin:6px 0;display:block" alt="${file.name}">`);
-    toast('Image insérée et sauvegardée dans la bibliothèque ✓', 'success');
-  };
-  reader.readAsDataURL(file);
-  input.value = '';
-}
-
-function renderImgGal() {
-  const el = $('img-gal');
-  if (!el) return;
-  if (!S.imgLib.length) { el.classList.remove('show'); return; }
-  el.innerHTML = S.imgLib.map((img,i) =>
-    `<div class="igi" title="${img.name}" onclick="insertLibImg('${img.src}','${img.name}')">` +
-    `<img src="${img.src}" alt="${img.name}">` +
-    `<button class="igdel" onclick="event.stopPropagation();delLibImg(${i})">×</button></div>`
-  ).join('');
-}
-
-function insertLibImg(src, name) {
-  const r = $('pane-rich');
-  if (r) r.focus();
-  document.execCommand('insertHTML', false,
-    `<img src="${src}" style="max-width:100%;height:auto;border-radius:4px;margin:6px 0;display:block" alt="${name}">`);
-  toast('Image insérée ✓', 'success');
-}
-
-function delLibImg(i) {
-  S.imgLib.splice(i, 1);
-  lsS(SK.imgLib, S.imgLib);
-  renderImgGal();
-}
-
-/* Insère une variable {{...}} au curseur selon le mode actif */
-function iVar(v) {
-  if (S.tplMode === 'rich') {
-    const r = $('pane-rich');
-    if (r) r.focus();
-    document.execCommand('insertText', false, v);
-  } else if (S.tplMode === 'html') {
-    const ta = $('pane-code');
-    if (!ta) return;
-    const p = ta.selectionStart;
-    ta.value = ta.value.slice(0,p) + v + ta.value.slice(ta.selectionEnd);
-    ta.selectionStart = ta.selectionEnd = p + v.length;
-    syncPrev();
-  } else {
-    const ta = $('pane-plain');
-    if (!ta) return;
-    const p = ta.selectionStart;
-    ta.value = ta.value.slice(0,p) + v + ta.value.slice(ta.selectionEnd);
-    ta.selectionStart = ta.selectionEnd = p + v.length;
-  }
-}
-
-/* Aperçu complet — sauvegarde auto + rendu avec données d'exemple */
-function prevTpl() {
-  if (S.activeTpl) saveTpl(false); // Auto-sauvegarde avant aperçu
-  const subj    = $('te-subj')?.value || '';
-  const content = getTplContent();
-  const rSubj   = applyVars(subj, EX);
-  let rBody = '';
-  if (S.tplMode === 'html') {
-    rBody = applyVars(content, EX);
-  } else if (S.tplMode === 'plain') {
-    rBody = `<div style="white-space:pre-wrap;font-family:Arial,sans-serif;font-size:14px;line-height:1.7;color:#111;padding:10px">${applyVars(content, EX)}</div>`;
-  } else {
-    const tmp = document.createElement('div');
-    tmp.innerHTML = content;
-    rBody = applyVars(tmp.innerHTML, EX);
-  }
-  if ($('prev-subj')) $('prev-subj').textContent = rSubj || '(Sans objet)';
-  if ($('prev-body')) $('prev-body').innerHTML   = rBody || '<em style="color:#999">Corps vide</em>';
-  showModal('modal-prev');
-}
-
-function showImgBar() {
-  const bar = $('img-bar');
-  const gal = $('img-gal');
-  if (!bar) return;
-  bar.classList.toggle('show');
-  if (gal) gal.classList.toggle('show', S.imgLib.length > 0 && bar.classList.contains('show'));
-}
-
-function hideImgBar() {
-  $('img-bar')?.classList.remove('show');
-  $('img-gal')?.classList.remove('show');
-}
-
-function insertImgURL() {
-  const url = $('img-url-inp')?.value.trim();
-  if (!url) { toast('Entrez une URL image', 'warn'); return; }
-  const r = $('pane-rich');
-  if (r) r.focus();
-  document.execCommand('insertHTML', false, `<img src="${url}" style="max-width:100%;height:auto;border-radius:4px;margin:6px 0" alt="image">`);
-  if ($('img-url-inp')) $('img-url-inp').value = '';
-  toast('Image insérée ✓', 'success');
-}
-
-function insertImgFile(input) {
-  const file = input.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = e => {
-    const b64 = e.target.result;
-    S.imgLib.push({id: Date.now(), src: b64, name: file.name});
-    lsS(SK.imgLib, S.imgLib);
-    renderImgGal();
-    const r = $('pane-rich');
-    if (r) r.focus();
-    document.execCommand('insertHTML', false, `<img src="${b64}" style="max-width:100%;height:auto;border-radius:4px;margin:6px 0" alt="${file.name}">`);
-    toast('Image insérée et sauvegardée ✓', 'success');
-  };
-  reader.readAsDataURL(file);
-  input.value = '';
-}
-
-function renderImgGal() {
-  const el = $('img-gal');
-  if (!el) return;
-  if (!S.imgLib.length) { el.classList.remove('show'); return; }
-  el.innerHTML = S.imgLib.map((img,i) =>
-    `<div class="igi" onclick="insertLibImg('${img.src}','${img.name}')"><img src="${img.src}" alt="${img.name}"><button class="igdel" onclick="event.stopPropagation();delLibImg(${i})">×</button></div>`
-  ).join('');
-}
-
-function insertLibImg(src, name) {
-  const r = $('pane-rich');
-  if (r) r.focus();
-  document.execCommand('insertHTML', false, `<img src="${src}" style="max-width:100%;height:auto;border-radius:4px;margin:6px 0" alt="${name}">`);
-  toast('Image insérée ✓', 'success');
-}
-
-function delLibImg(i) { S.imgLib.splice(i,1); lsS(SK.imgLib, S.imgLib); renderImgGal(); }
-
-function iVar(v) {
-  if (S.tplMode === 'rich') {
-    const r = $('pane-rich');
-    if (r) r.focus();
-    document.execCommand('insertText', false, v);
-  } else if (S.tplMode === 'html') {
-    const ta = $('pane-code');
-    if (!ta) return;
-    const p = ta.selectionStart;
-    ta.value = ta.value.slice(0,p) + v + ta.value.slice(ta.selectionEnd);
-    ta.selectionStart = ta.selectionEnd = p + v.length;
-    syncPrev();
-  } else {
-    const ta = $('pane-plain');
-    if (!ta) return;
-    const p = ta.selectionStart;
-    ta.value = ta.value.slice(0,p) + v + ta.value.slice(ta.selectionEnd);
-    ta.selectionStart = ta.selectionEnd = p + v.length;
-  }
-}
-
-function prevTpl() {
-  if (S.activeTpl) saveTpl(false); // Auto-save before preview
-  const subj = $('te-subj')?.value || '';
-  const content = getTplContent();
-  const rSubj = applyVars(subj, EX);
-  let rBody = '';
-  if (S.tplMode === 'html') rBody = applyVars(content, EX);
-  else if (S.tplMode === 'plain') rBody = `<div style="white-space:pre-wrap;font-family:Arial,sans-serif;font-size:14px;line-height:1.7">${applyVars(content, EX)}</div>`;
-  else {
-    const tmp = document.createElement('div');
-    tmp.innerHTML = content;
-    rBody = applyVars(tmp.innerHTML, EX);
-  }
-  if ($('prev-subj')) $('prev-subj').textContent = rSubj || '(Sans objet)';
-  if ($('prev-body')) $('prev-body').innerHTML = rBody || '<em style="color:#999">Corps vide</em>';
-  showModal('modal-prev');
 }
 
 // Char counter
@@ -3844,6 +3953,7 @@ let emailFilter = 'all';
 let smsFilter   = 'all';
 let analyticsSortField = 'date';
 let analyticsShownCount = 50;
+let smsShownCount = 50; // Limite d'affichage SMS, extensible via "Charger plus"
 
 function renderDashboard() {
   const lbl = periodLabel();
@@ -4050,6 +4160,7 @@ function setEmailFilter(f, btn) {
 
 function setSMSFilter(f, btn) {
   smsFilter = f;
+  smsShownCount = 50; // Réinitialise le compteur à chaque changement de filtre
   document.querySelectorAll('[id^="sf-"]').forEach(b => b.classList.remove('sel'));
   if (btn) btn.classList.add('sel');
   renderAnalytics();
@@ -4062,6 +4173,11 @@ function sortAnalytics(field) {
 
 function loadMoreAnalytics() {
   analyticsShownCount += 50;
+  renderAnalytics();
+}
+
+function loadMoreSMS() {
+  smsShownCount += 50;
   renderAnalytics();
 }
 
@@ -4119,7 +4235,7 @@ function renderAnalytics() {
   // Tableau SMS
   const sbody = $('sms-analytics-body');
   if (sbody) {
-    const shownSMS = smsLogs.slice(0, 100);
+    const shownSMS = smsLogs.slice(0, smsShownCount);
     if (!shownSMS.length) {
       sbody.innerHTML = `<tr><td colspan="6"><div class="empty" style="padding:16px"><p>Aucun SMS correspondant</p></div></td></tr>`;
     } else {
@@ -4138,6 +4254,9 @@ function renderAnalytics() {
         </tr>`;
       }).join('');
     }
+    // Bouton charger plus SMS
+    const smsBtnEl = $('sms-analytics-more');
+    if (smsBtnEl) smsBtnEl.style.display = smsLogs.length > smsShownCount ? 'block' : 'none';
   }
 }
 
