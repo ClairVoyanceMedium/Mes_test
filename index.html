@@ -2088,307 +2088,281 @@ function openCamp(id, type) {
   }
 }
 
+
+/* ================================================================
+   buildCampForm — Construit le HTML d'une campagne
+   Utilise la concaténation de chaînes (pas de template literals)
+   pour éviter tout conflit de syntaxe JS
+================================================================ */
 function buildCampForm(c) {
-  const isSMS = c.type === 'sms';
-  const pct  = c.emailList.length ? Math.round((c.sent / c.emailList.length) * 100) : 0;
-  const q    = QUOTAS[S.prov] || QUOTAS.gmail;
-  const over = c.dailyLimit > q.safe && !isSMS;
-  const tplOpts = S.tpls.map(t => `<option value="${t.id}" ${c.templateId == t.id ? 'selected' : ''}>${t.name}</option>`).join('');
-  const listOpts = S.lists.map(l => `<option value="${l.id}">${l.name}</option>`).join('');
-  const days = ['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];
-  const daysH = days.map((d,i) => `<button class="dchip ${c.days.includes(i+1)?'on':''}" onclick="toggleDay(${c.id},${i+1},this)">${d}</button>`).join('');
-  const slotsH = Array.from({length:24},(_,i)=>String(i).padStart(2,'0')+':00').map(h =>
-    `<button class="schip ${c.timeSlots.includes(h)?'on':''}" onclick="toggleSlot(${c.id},'${h}',this)">${h}</button>`).join('');
-  const durH = DUR_OPTS.map(o =>
-    `<div class="dc ${o.v===-1?'inf':''} ${(o.v===c.durationH&&!c.durationInfinite)||(o.v===-1&&c.durationInfinite)?'sel':''}" onclick="setDur(${c.id},${o.v},this)">${o.l}</div>`).join('');
-  const orders = [
-    {v:'inorder',l:"L'un après l'autre", i:'➡️',s:"Suit l'ordre exact",         col:'var(--cyan)'},
-    {v:'random', l:'Au hasard',          i:'🎲',s:'Pioche aléatoirement',        col:'var(--yel)'},
-    {v:'loop',   l:'En boucle',          i:'🔁',s:'Recommence automatiquement',  col:'var(--grn)'}
+  var isSMS = c.type === 'sms';
+  var pct   = c.emailList.length ? Math.round((c.sent / c.emailList.length) * 100) : 0;
+  var dayNames = ['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];
+  var h = '';
+
+  // ── HEADER
+  h += '<div class="camp-hdr">';
+  h += '<input type="text" class="camp-name-inp" id="cn-' + c.id + '" value="' + esc(c.name) + '" placeholder="Nom" onchange="updC(' + c.id + ',\'name\',this.value)">';
+  h += '<div style="display:flex;gap:6px;flex-wrap:wrap;">';
+  h += '<button class="btn-ico" onclick="saveCamps();toast(\'✓ Sauvegardé\',\'success\')">💾</button>';
+  if (c.status === 'running') {
+    h += '<button class="btp" onclick="pauseCamp(' + c.id + ')">⏸ Pause</button>';
+  } else {
+    h += '<button class="btl ' + (isSMS ? 'pnk' : '') + '" onclick="launchCamp(' + c.id + ')">▶ Lancer</button>';
+  }
+  h += '<button class="btd" onclick="delCamp(' + c.id + ',\'' + c.type + '\')">✕</button>';
+  h += '</div></div>';
+
+  // ── PROGRESS
+  h += '<div class="prog-row">';
+  h += '<div class="prc prc-c"><div class="prv">' + c.emailList.length.toLocaleString() + '</div><div class="prl">CONTACTS</div></div>';
+  h += '<div class="prc prc-g"><div class="prv">' + c.sent.toLocaleString() + '</div><div class="prl">ENVOYÉS</div></div>';
+  h += '<div class="prc prc-y"><div class="prv">' + (isSMS ? c.errors : (c.opened||0)) + '</div><div class="prl">' + (isSMS ? 'ERREURS' : 'OUVERTS') + '</div></div>';
+  h += '<div class="prc prc-o"><div class="prv">' + pct + '%</div><div class="prl">AVANCEMENT</div></div>';
+  h += '</div>';
+  h += '<div class="pbar"><div class="pfill" style="width:' + pct + '%;' + (isSMS ? 'background:linear-gradient(90deg,var(--pnk),var(--pur));' : '') + '"></div></div>';
+
+  // ── SECTION 1 — DESTINATAIRES
+  h += '<div class="ab sc-c open">';
+  h += '<div class="ab-hd" onclick="togAB(this)">';
+  h += '<div class="ab-ttl" style="' + (isSMS ? 'color:var(--pnk)' : '') + '">';
+  h += '<span class="ab-n" style="' + (isSMS ? 'background:rgba(255,45,120,.1);color:var(--pnk)' : '') + '">1</span>';
+  h += (isSMS ? 'Numéros &amp; Message' : 'Destinataires &amp; Sujet');
+  h += '</div><div class="ab-cv">▾</div></div>';
+  h += '<div class="ab-body">';
+
+  // Bulk paste zone
+  h += '<div class="bulk-zone">';
+  h += '<div class="bulk-hd" style="color:' + (isSMS ? 'var(--pnk)' : 'var(--purl)') + ';">';
+  h += '📋 Copier-coller en masse';
+  h += '<div style="display:flex;gap:5px;">';
+  h += '<button class="ela ' + (isSMS ? 'pk' : 'g') + '" onclick="addBulkToList(' + c.id + ')">+ Ajouter tout</button>';
+  if (!isSMS) {
+    h += '<label class="ela" style="cursor:pointer;">📊 Excel<input type="file" accept=".xlsx,.xls" style="display:none;" onchange="importExcelToEList(this.files[0],' + c.id + ')"></label>';
+  }
+  h += '</div></div>';
+  var bulkPH = isSMS
+    ? '+33600000001\\n+33600000002\\n→ Un numéro par ligne ou séparés par virgule'
+    : 'jean@email.com\\nmarie@gmail.com, pierre@yahoo.fr\\n→ Collez des milliers d\'adresses d\'un coup';
+  h += '<textarea class="bulk-ta" id="bulk-ta-' + c.id + '" placeholder="' + bulkPH + '" oninput="updBulkCnt(' + c.id + ')"></textarea>';
+  h += '<div style="display:flex;align-items:center;justify-content:space-between;margin-top:5px;">';
+  h += '<span id="bulk-cnt-' + c.id + '" style="font-size:9px;color:var(--text3);">0 adresse(s)</span>';
+  h += '<button class="ela" onclick="clearBulk(' + c.id + ')">✕ Vider</button></div>';
+  h += '</div>';
+
+  // Email list
+  h += '<div class="el-wrap">';
+  h += '<div class="el-hd">';
+  h += '<span class="el-cnt" id="elcnt-' + c.id + '">' + c.emailList.length.toLocaleString() + ' adresse(s)</span>';
+  h += '<div class="el-acts">';
+  if (!isSMS) h += '<button class="ela g" onclick="importFromContactList(' + c.id + ')">👥 Depuis liste</button>';
+  h += '<button class="ela y" onclick="resetSent(' + c.id + ')">↺ Tout recommencer</button>';
+  h += '<button class="ela" onclick="clearEList(' + c.id + ')">✕ Vider</button>';
+  h += '</div></div>';
+  h += '<div class="el-sc" id="elsc-' + c.id + '"></div>';
+  h += '<div class="el-add">';
+  h += '<input class="el-inp" id="eli-inp-' + c.id + '" placeholder="' + (isSMS ? '+33600000000' : 'email@exemple.com') + '" onkeydown="if(event.key===\'Enter\'){event.preventDefault();addToEList(' + c.id + ')}">';
+  h += '<button class="el-abtn" onclick="addToEList(' + c.id + ')">+ Ajouter</button>';
+  h += '<label class="el-abtn" style="cursor:pointer;">📁<input type="file" accept=".csv,.txt" style="display:none;" onchange="importEFile(this.files[0],' + c.id + ')"></label>';
+  h += '</div></div>';
+
+  if (isSMS) {
+    h += '<div class="fc" style="margin-top:10px;">';
+    h += '<label class="fl">Message SMS (160 car. = 1 SMS)</label>';
+    h += '<textarea class="fta" id="sms-txt-' + c.id + '" style="min-height:80px;" oninput="updSMSCnt(' + c.id + ')">' + esc(c.smsText||'') + '</textarea>';
+    h += '<div id="sms-cnt-' + c.id + '" style="font-size:9px;color:var(--text3);margin-top:3px;">0 / 160</div>';
+    h += '</div>';
+  } else {
+    // Template select + subject + per-campaign sender
+    h += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;">';
+    h += '<div class="fc"><label class="fl">Importer depuis liste</label>';
+    h += '<select class="fsel" onchange="importListToEList(' + c.id + ',this.value)">';
+    h += '<option value="">— Choisir —</option>';
+    S.lists.forEach(function(l) { h += '<option value="' + l.id + '">' + esc(l.name) + '</option>'; });
+    h += '</select></div>';
+    h += '<div class="fc"><label class="fl">Sujet</label>';
+    h += '<input type="text" class="fi" value="' + esc(c.subject||'') + '" placeholder="{{prénom}}, voici notre offre..." onchange="updC(' + c.id + ',\'subject\',this.value)">';
+    h += '</div></div>';
+    // Provider par campagne
+    h += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;">';
+    h += '<div class="fc"><label class="fl">Provider pour cette campagne</label>';
+    h += '<select class="fsel" onchange="updC(' + c.id + ',\'campProvider\',this.value)">';
+    h += '<option value=""' + (!c.campProvider ? ' selected' : '') + '>— Défaut (Réglages) —</option>';
+    h += '<option value="gmail"' + (c.campProvider==='gmail' ? ' selected' : '') + '>🔴 Gmail</option>';
+    h += '<option value="outlook"' + (c.campProvider==='outlook' ? ' selected' : '') + '>🔵 Outlook</option>';
+    h += '<option value="custom"' + (c.campProvider==='custom' ? ' selected' : '') + '>✉️ Adresse perso</option>';
+    h += '</select></div>';
+    h += '<div class="fc" id="camp-from-' + c.id + '" style="' + (c.campProvider==='custom' ? '' : 'display:none;') + '">';
+    h += '<label class="fl">Email d\'envoi spécifique</label>';
+    h += '<input type="email" class="fi" value="' + esc(c.campFromEmail||'') + '" placeholder="envoi@domaine.com" onchange="updC(' + c.id + ',\'campFromEmail\',this.value)">';
+    h += '</div></div>';
+  }
+  h += '</div></div>'; // ab-body + ab
+
+  // ── SECTION 2 — TEMPLATE (email only)
+  if (!isSMS) {
+    h += '<div class="ab sc-p">';
+    h += '<div class="ab-hd" onclick="togAB(this)"><div class="ab-ttl"><span class="ab-n">2</span>Template email <span class="ab-opt">OPTIONNEL</span></div><div class="ab-cv">▾</div></div>';
+    h += '<div class="ab-body"><div class="fc"><label class="fl">Choisir un template</label>';
+    h += '<select class="fsel" onchange="updC(' + c.id + ',\'templateId\',this.value)">';
+    h += '<option value="">— Aucun template —</option>';
+    S.tpls.forEach(function(t) { h += '<option value="' + t.id + '"' + (c.templateId == t.id ? ' selected' : '') + '>' + esc(t.name) + '</option>'; });
+    h += '</select></div></div></div>';
+  }
+
+  // ── SECTION 3/2 — AUTOMATISATION
+  var autoN = isSMS ? 2 : 3;
+  h += '<div class="ab sc-y open">';
+  h += '<div class="ab-hd" onclick="togAB(this)"><div class="ab-ttl"><span class="ab-n">' + autoN + '</span>Automatisation &amp; Cadence</div><div class="ab-cv">▾</div></div>';
+  h += '<div class="ab-body">';
+
+  // Slider emails/h
+  var fillRph = Math.min(100, (c.ratePerHour / 100000) * 100);
+  h += '<div class="sblock">';
+  h += '<div class="sbtop"><span class="slbl">' + (isSMS ? 'SMS' : 'Emails') + ' par heure</span>';
+  h += '<span class="sval" style="color:var(--yel);" id="sv-rph-' + c.id + '">' + c.ratePerHour.toLocaleString() + '<span class="ssub">/h</span></span></div>';
+  h += '<div class="strk"><div class="sfill" style="background:var(--yel);width:' + fillRph + '%;" id="sf-rph-' + c.id + '"></div>';
+  h += '<input type="range" class="sr" min="1" max="100000" value="' + c.ratePerHour + '"';
+  h += ' oninput="updSl(' + c.id + ',\'ratePerHour\',this.value,\'rph\',100000)"';
+  h += ' onchange="updC(' + c.id + ',\'ratePerHour\',+this.value)"></div>';
+  h += '<div class="smks"><span class="smk">1</span><span class="smk">1K</span><span class="smk">10K</span><span class="smk">100K</span></div></div>';
+
+  // Slider limite/j
+  var fillDay = Math.min(100, (c.dailyLimit / 1000000) * 100);
+  h += '<div class="sblock">';
+  h += '<div class="sbtop"><span class="slbl">Limite par jour</span>';
+  h += '<span class="sval" style="color:var(--yel);" id="sv-day-' + c.id + '">' + c.dailyLimit.toLocaleString() + '<span class="ssub">/j</span></span></div>';
+  h += '<div class="strk"><div class="sfill" style="background:var(--yel);width:' + fillDay + '%;" id="sf-day-' + c.id + '"></div>';
+  h += '<input type="range" class="sr" min="1" max="1000000" value="' + c.dailyLimit + '"';
+  h += ' oninput="updSl(' + c.id + ',\'dailyLimit\',this.value,\'day\',1000000)"';
+  h += ' onchange="updC(' + c.id + ',\'dailyLimit\',+this.value)"></div>';
+  h += '<div class="smks"><span class="smk">1</span><span class="smk">10K</span><span class="smk">100K</span><span class="smk">1M</span></div></div>';
+
+  // Durée chips
+  h += '<div style="margin-bottom:12px;"><div class="slbl" style="display:block;margin-bottom:7px;">Durée de la campagne</div><div class="dur-row">';
+  DUR_OPTS.forEach(function(o) {
+    var isSel = (o.v === -1 && c.durationInfinite) || (o.v === c.durationH && !c.durationInfinite);
+    var cls = 'dc' + (isSel ? ' sel' : '') + (o.v === -1 ? ' inf' : '');
+    h += '<div class="' + cls + '" onclick="setDur(' + c.id + ',' + o.v + ',this)">' + o.l + '</div>';
+  });
+  h += '</div></div>';
+
+  // Dates
+  h += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">';
+  h += '<div class="fc"><label class="fl">Date début (optionnel)</label>';
+  h += '<input type="date" class="fi" value="' + esc(c.startDate||'') + '" onchange="updC(' + c.id + ',\'startDate\',this.value)"></div>';
+  h += '<div class="fc"><label class="fl">Date fin (optionnel)</label>';
+  h += '<input type="date" class="fi" value="' + esc(c.endDate||'') + '" onchange="updC(' + c.id + ',\'endDate\',this.value)"></div>';
+  h += '</div>';
+
+  // Ordre + fin liste
+  var orders = [
+    {v:'inorder', l:"L'un/l'autre", i:'➡️', s:'Ordre CSV', col:'var(--cyan)'},
+    {v:'random',  l:'Au hasard',    i:'🎲', s:'Aléatoire',  col:'var(--yel)'},
+    {v:'loop',    l:'En boucle',    i:'🔁', s:'Boucle ∞',   col:'var(--grn)'}
   ];
-  const eols = [
-    {v:'stop',    l:'Arrêter',    i:'🛑',s:'Campagne terminée',           col:'var(--red)'},
-    {v:'restart', l:'Recommencer',i:'↩️',s:'Repart depuis le début',      col:'var(--grn)'},
-    {v:'resume',  l:'Reprendre',  i:'▶️',s:"Reprend là où c'était arrêté",col:'var(--purl)'}
+  var eols = [
+    {v:'stop',    l:'Arrêter',     i:'🛑', s:'Campagne terminée',   col:'var(--red)'},
+    {v:'restart', l:'Recommencer', i:'↩️', s:'Depuis le début',     col:'var(--grn)'},
+    {v:'resume',  l:'Reprendre',   i:'▶️', s:'Reprend après arrêt', col:'var(--purl)'}
   ];
-  const mcard = (arr, field) => arr.map(o =>
-    `<div class="mc ${c[field]===o.v?'on':''}" style="${c[field]===o.v?`color:${o.col};border-color:${o.col};box-shadow:0 0 10px ${o.col}40`:''}" onclick="setMC(${c.id},'${field}','${o.v}',this,'${o.col}')"><span class="mci">${o.i}</span>${o.l}<span class="mcs">${o.s}</span></div>`).join('');
 
-  return `
-  <div class="camp-hdr">
-    <input type="text" class="camp-name-inp" value="${c.name}" onchange="updC(${c.id},'name',this.value)" placeholder="Nom">
-    <div style="display:flex;gap:6px;flex-wrap:wrap">
-      <button class="btn-ico" onclick="saveCamps();toast('✓ Sauvegardé','success')">💾</button>
-      ${c.status === 'running'
-        ? `<button class="btp" onclick="pauseCamp(${c.id})">⏸ Pause</button>`
-        : `<button class="btl ${isSMS?'pnk':''}" onclick="launchCamp(${c.id})">▶ Lancer</button>`}
-      <button class="btd" onclick="delCamp(${c.id},'${c.type}')">✕</button>
-    </div>
-  </div>
+  function mcCards(arr, field) {
+    var out = '<div class="mcards">';
+    arr.forEach(function(o) {
+      var active = c[field] === o.v;
+      var st = active ? ('color:' + o.col + ';border-color:' + o.col + ';box-shadow:0 0 10px ' + o.col + '40;') : '';
+      out += '<div class="mc" style="' + st + '" onclick="setMC(' + c.id + ',\'' + field + '\',\'' + o.v + '\',this,\'' + o.col + '\')">';
+      out += '<span class="mci">' + o.i + '</span>' + o.l + '<span class="mcs">' + o.s + '</span></div>';
+    });
+    return out + '</div>';
+  }
 
-  <div class="prog-row">
-    <div class="prc prc-c"><div class="prv">${c.emailList.length}</div><div class="prl">CONTACTS</div></div>
-    <div class="prc prc-g"><div class="prv">${c.sent}</div><div class="prl">ENVOYÉS</div></div>
-    <div class="prc prc-y"><div class="prv">${isSMS ? c.errors : (c.opened||0)}</div><div class="prl">${isSMS?'ERREURS':'OUVERTS'}</div></div>
-    <div class="prc prc-o"><div class="prv">${pct}%</div><div class="prl">AVANCEMENT</div></div>
-  </div>
-  <div class="pbar"><div class="pfill" style="width:${pct}%;${isSMS?'background:linear-gradient(90deg,var(--pnk),var(--pur))':''}"></div></div>
+  h += '<div style="margin-bottom:12px;"><div class="slbl" style="display:block;margin-bottom:7px;">Ordre d\'envoi</div>' + mcCards(orders, 'sendOrder') + '</div>';
+  h += '<div style="margin-bottom:12px;"><div class="slbl" style="display:block;margin-bottom:7px;">Fin de liste</div>' + mcCards(eols, 'endOfList') + '</div>';
 
-  <!-- 1 — DESTINATAIRES -->
-  <div class="ab sc-c open">
-    <div class="ab-hd" onclick="togAB(this)">
-      <div class="ab-ttl ${isSMS?'style="color:var(--pnk)"':''}"><span class="ab-n ${isSMS?'style="background:rgba(255,45,120,.1);color:var(--pnk)"':''}">1</span>${isSMS?'Numéros & Message SMS':'Destinataires & Sujet'}</div>
-      <div class="ab-cv">▾</div>
-    </div>
-    <div class="ab-body">
-      ${isSMS ? `
-      <div style="background:var(--bg3);border:1px dashed var(--b2);border-radius:8px;padding:10px;margin-bottom:10px">
-        <div style="font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--pnk);margin-bottom:7px;display:flex;align-items:center;justify-content:space-between">
-          Copier-coller des numéros
-          <button class="ela pk" onclick="parseSMSPaste(${c.id})">Ajouter tous</button>
-        </div>
-        <textarea id="sms-paste-${c.id}" style="width:100%;background:none;border:none;color:var(--text);font-family:var(--mono);font-size:11px;outline:none;resize:vertical;min-height:70px;line-height:1.7" placeholder="+33600000001&#10;+33600000002, +33600000003&#10;06 00 00 00 04&#10;Formats: +33, 06, 07 — séparateurs: virgule, point-virgule, saut de ligne"></textarea>
-      </div>
-      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">
-        <button class="ela pk" onclick="importSMSFromContacts(${c.id})">👥 Depuis contacts (tél.)</button>
-        <label class="ela pk" style="cursor:pointer">📁 Fichier<input type="file" accept=".csv,.txt" style="display:none" onchange="importPhoneFile(this.files[0],${c.id})"></label>
-      </div>
-      ` : ''}
+  h += '<div class="as-box" id="as-' + c.id + '">' + buildAS(c) + '</div>';
+  h += '</div></div>'; // ab-body + ab
 
-      <!-- ══ ZONE COPIER-COLLER MASSIF ══ -->
-      <div class="bulk-zone" style="margin-bottom:10px">
-        <div class="bulk-hd" style="color:${isSMS?'var(--pnk)':'var(--purl)'}">
-          📋 Copier-coller en masse — ${isSMS?'numéros':'emails'} (des milliers d\'un coup)
-          <div style="display:flex;gap:5px">
-            <button class="ela g" onclick="addBulkToList(${c.id})">+ Ajouter tout</button>
-            ${!isSMS?`<label class="ela" style="cursor:pointer">📊 Excel<input type="file" accept=".xlsx,.xls" style="display:none" onchange="importExcelToEList(this.files[0],${c.id})"></label>`:''}
-          </div>
-        </div>
-        <textarea class="bulk-ta" id="bulk-ta-${c.id}"
-          placeholder="${isSMS
-            ? '+33600000001\n+33600000002, +33600000003\n06 00 00 00 04\n→ Un numéro par ligne, ou séparés par virgule/point-virgule'
-            : 'jean@email.com\nmarie@gmail.com, pierre@yahoo.fr\npaul@outlook.com\n→ Un email par ligne, ou séparés par virgule/point-virgule\n→ Collez des milliers d\'adresses d\'un seul coup'}"
-        ></textarea>
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-top:5px">
-          <span id="bulk-cnt-${c.id}" style="font-size:9px;color:var(--text3)">0 adresse(s) détectée(s)</span>
-          <button class="ela" onclick="clearBulk(${c.id})">✕ Vider</button>
-        </div>
-      </div>
+  // ── SECTION 4/3 — PLANIFICATION PAR JOUR
+  var schedN = isSMS ? 3 : 4;
+  h += '<div class="ab sc-o">';
+  h += '<div class="ab-hd" onclick="togAB(this)"><div class="ab-ttl"><span class="ab-n">' + schedN + '</span>Planification horaire <span class="ab-opt">OPTIONNEL</span></div><div class="ab-cv">▾</div></div>';
+  h += '<div class="ab-body">';
+  h += '<div class="tog ' + (c.schedEnabled ? 'on' : '') + '" onclick="togSchedEnabled(' + c.id + ',this)">';
+  h += '<div><div class="tog-t">Activer la planification</div>';
+  h += '<div class="tog-d">Si désactivé : envoi 24h/24. Si activé : chaque jour a ses propres horaires.</div></div>';
+  h += '<div class="tsw"></div></div>';
+  h += '<div id="sched-body-' + c.id + '" style="' + (c.schedEnabled ? '' : 'display:none;') + '">';
+  h += '<div style="font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--ora);margin-bottom:10px;">Cochez les jours → définissez les horaires de chaque jour indépendamment</div>';
 
-      <div class="el-wrap">
-        <div class="el-hd">
-          <span class="el-cnt" id="elcnt-${c.id}">${c.emailList.length} adresse(s)</span>
-          <div class="el-acts">
-            ${!isSMS ? `<button class="ela g" onclick="importFromContactList(${c.id})">👥 Depuis liste</button>` : ''}
-            <button class="ela y" onclick="resetSent(${c.id})">↺ Tout recommencer</button>
-            <button class="ela" onclick="clearEList(${c.id})">✕ Vider</button>
-          </div>
-        </div>
-        <div class="el-sc" id="elsc-${c.id}"></div>
-        <div class="el-add">
-          <input class="el-inp" id="eli-inp-${c.id}" placeholder="${isSMS?'+33600000000 — Entrée':'email@exemple.com — Entrée'}" onkeydown="if(event.key==='Enter'){event.preventDefault();addToEList(${c.id})}">
-          <button class="el-abtn ${isSMS?'style=\\"border-color:rgba(255,45,120,.3);color:var(--pnk)\\"':''}" onclick="addToEList(${c.id})">+ Ajouter</button>
-          <label class="el-abtn" style="cursor:pointer">📁<input type="file" accept=".csv,.txt" style="display:none" onchange="importEFile(this.files[0],${c.id})"></label>
-        </div>
-      </div>
-      ${isSMS ? `
-      <div class="fc">
-        <label class="fl">Message SMS <span style="font-weight:400;color:var(--text3)">(160 car. = 1 SMS)</span></label>
-        <textarea class="fta" id="sms-txt-${c.id}" style="min-height:90px" oninput="updSMSCnt(${c.id})">${c.smsText||''}</textarea>
-        <div id="sms-cnt-${c.id}" style="font-size:9px;color:var(--text3);margin-top:3px">0 / 160 car.</div>
-      </div>
-      ` : `
-      <div class="fg c2">
-        <div class="fc">
-          <label class="fl">Importer depuis liste</label>
-          <select class="fsel" onchange="importListToEList(${c.id},this.value)"><option value="">— Choisir une liste —</option>${listOpts}</select>
-        </div>
-        <div class="fc">
-          <label class="fl">Sujet (prioritaire sur template)</label>
-          <input type="text" class="fi" value="${c.subject||''}" placeholder="{{prénom}}, voici notre offre..." onchange="updC(${c.id},'subject',this.value)">
-        </div>
-      </div>
-      <!-- Adresse d'envoi spécifique à cette campagne -->
-      <div class="fg c2" style="margin-top:4px">
-        <div class="fc">
-          <label class="fl">Provider d'envoi pour cette campagne</label>
-          <select class="fsel" onchange="updC(${c.id},'campProvider',this.value)">
-            <option value="" ${!c.campProvider?'selected':''}>— Compte par défaut (Réglages) —</option>
-            <option value="gmail"   ${c.campProvider==='gmail'  ?'selected':''}>🔴 Gmail</option>
-            <option value="outlook" ${c.campProvider==='outlook'?'selected':''}>🔵 Outlook</option>
-            <option value="custom"  ${c.campProvider==='custom' ?'selected':''}>✉️ Adresse personnalisée</option>
-          </select>
-        </div>
-        <div class="fc" id="camp-sender-custom-${c.id}" style="${c.campProvider==='custom'?'':'display:none'}">
-          <label class="fl">Adresse email d'envoi spécifique</label>
-          <input type="email" class="fi" value="${c.campFromEmail||''}" placeholder="expediteur@mondomaine.com"
-            onchange="updC(${c.id},'campFromEmail',this.value)">
-        </div>
-      </div>
-      `}
-    </div>
-  </div>
+  dayNames.forEach(function(dayName, i) {
+    var dn = i + 1;
+    var active = c.days.indexOf(dn) > -1;
+    var ds = (c.daySchedules && c.daySchedules['day'+dn]) || {from:'09:00', to:'18:00'};
+    var maxSend = calcDayMax(ds, c.ratePerHour);
+    h += '<div class="day-sched-row ' + (active ? 'on' : '') + '" id="dayrow-' + c.id + '-' + dn + '">';
+    h += '<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">';
+    h += '<div class="dchip ' + (active ? 'on' : '') + '" onclick="toggleDaySchedule(' + c.id + ',' + dn + ',this)" style="min-width:44px;font-size:10px;font-weight:700;">' + dayName + '</div>';
+    h += '<div id="dayhours-' + c.id + '-' + dn + '" style="display:' + (active ? 'flex' : 'none') + ';align-items:center;gap:8px;flex-wrap:wrap;flex:1;">';
+    h += '<span style="font-size:9px;color:var(--text2);font-weight:700;">De</span>';
+    h += '<input type="time" class="fi" style="width:100px;padding:5px 8px;font-size:11px;" value="' + ds.from + '" onchange="updDaySchedule(' + c.id + ',' + dn + ',\'from\',this.value)">';
+    h += '<span style="font-size:9px;color:var(--text2);font-weight:700;">à</span>';
+    h += '<input type="time" class="fi" style="width:100px;padding:5px 8px;font-size:11px;" value="' + ds.to + '" onchange="updDaySchedule(' + c.id + ',' + dn + ',\'to\',this.value)">';
+    h += '<span id="daymax-' + c.id + '-' + dn + '" style="font-size:9px;color:var(--text3);">Max ' + maxSend + ' ' + (isSMS ? 'SMS' : 'emails') + '</span>';
+    h += '</div>';
+    h += '<div id="dayoff-' + c.id + '-' + dn + '" style="' + (active ? 'display:none;' : '') + 'font-size:10px;color:var(--text3);">Pas d\'envoi</div>';
+    h += '</div></div>';
+  });
 
-  ${!isSMS ? `
-  <!-- 2 — TEMPLATE -->
-  <div class="ab sc-p">
-    <div class="ab-hd" onclick="togAB(this)">
-      <div class="ab-ttl"><span class="ab-n">2</span>Template email <span class="ab-opt">OPTIONNEL</span></div>
-      <div class="ab-cv">▾</div>
-    </div>
-    <div class="ab-body">
-      <div class="fc"><label class="fl">Choisir un template sauvegardé</label>
-        <select class="fsel" onchange="updC(${c.id},'templateId',this.value)"><option value="">— Aucun template —</option>${tplOpts}</select>
-      </div>
-    </div>
-  </div>` : ''}
+  h += '</div></div></div>'; // sched-body + ab-body + ab
 
-  <!-- ${isSMS?2:3} — AUTOMATISATION -->
-  <div class="ab sc-y open">
-    <div class="ab-hd" onclick="togAB(this)">
-      <div class="ab-ttl"><span class="ab-n">${isSMS?2:3}</span>Automatisation & Cadence</div>
-      <div class="ab-cv">▾</div>
-    </div>
-    <div class="ab-body">
-      <div class="sblock">
-        <div class="sbtop"><span class="slbl">${isSMS?'SMS':'Emails'} par heure</span><span class="sval" style="color:var(--yel)" id="sv-rph-${c.id}">${c.ratePerHour}<span class="ssub">/h</span></span></div>
-        <div class="strk"><div class="sfill" style="background:var(--yel);width:${(c.ratePerHour/100000)*100}%" id="sf-rph-${c.id}"></div><input type="range" class="sr" min="1" max="100000" value="${c.ratePerHour}" oninput="updSl(${c.id},'ratePerHour',this.value,'rph',100000)" onchange="updC(${c.id},'ratePerHour',+this.value)"></div>
-        <div class="smks"><span class="smk">1</span><span class="smk">1000</span><span class="smk">10K</span><span class="smk">100K</span></div>
-      </div>
-      <div class="sblock">
-        <div class="sbtop"><span class="slbl">Limite par jour</span><span class="sval" id="sv-day-${c.id}" style="color:${over?'var(--red)':'var(--yel)'}">${c.dailyLimit}<span class="ssub">/j</span></span></div>
-        <div class="strk"><div class="sfill" style="background:${over?'var(--red)':'var(--yel)'};width:${(c.dailyLimit/1000000)*100}%" id="sf-day-${c.id}"></div><input type="range" class="sr" min="1" max="1000000" value="${c.dailyLimit}" oninput="updSl(${c.id},'dailyLimit',this.value,'day',1000000)" onchange="updC(${c.id},'dailyLimit',+this.value);checkQ(${c.id})"></div>
-        <div class="smks"><span class="smk">1</span><span class="smk">10K</span><span class="smk">100K</span><span class="smk">1M</span></div>
-      </div>
-      <div style="margin-bottom:12px">
-        <div class="slbl" style="margin-bottom:7px;display:block">Durée de la campagne</div>
-        <div class="dur-row">${durH}</div>
-      </div>
-      <div class="fg c2" style="margin-bottom:12px">
-        <div class="fc"><label class="fl">Date début <span style="font-weight:400;color:var(--text3)">(optionnel)</span></label><input type="date" class="fi" value="${c.startDate}" onchange="updC(${c.id},'startDate',this.value)"></div>
-        <div class="fc"><label class="fl">Date fin <span style="font-weight:400;color:var(--text3)">(optionnel)</span></label><input type="date" class="fi" value="${c.endDate||''}" onchange="updC(${c.id},'endDate',this.value)"></div>
-      </div>
-      <div style="margin-bottom:12px">
-        <div class="slbl" style="margin-bottom:7px;display:block">Ordre d'envoi</div>
-        <div class="mcards">${mcard(orders,'sendOrder')}</div>
-      </div>
-      <div style="margin-bottom:12px">
-        <div class="slbl" style="margin-bottom:7px;display:block">Fin de liste</div>
-        <div class="mcards">${mcard(eols,'endOfList')}</div>
-      </div>
-      <div class="as-box" id="as-${c.id}">${buildAS(c)}</div>
-    </div>
-  </div>
+  // ── SECTION 5/4 — ANTI-BAN
+  var banN = isSMS ? 4 : 5;
+  h += '<div class="ab sc-r">';
+  h += '<div class="ab-hd" onclick="togAB(this)"><div class="ab-ttl"><span class="ab-n">' + banN + '</span>Anti-bannissement</div><div class="ab-cv">▾</div></div>';
+  h += '<div class="ab-body">';
+  if (isSMS) {
+    h += '<div style="background:var(--bg3);border:1px solid rgba(255,45,120,.2);border-radius:8px;padding:12px;font-size:11px;color:var(--text2);line-height:1.7;">';
+    h += '<strong style="color:var(--pnk);">Règles SMS :</strong><br>• RGPD : consentement requis — mentionnez STOP SMS<br>• Interdit entre 22h et 8h<br>• Twilio : max recommandé 1 SMS/sec</div>';
+  } else {
+    h += '<div>';
+    Object.keys(QUOTAS).forEach(function(k) {
+      var q = QUOTAS[k];
+      var p2 = Math.min(100, Math.round((c.dailyLimit / q.day) * 100));
+      var col = c.dailyLimit > q.day ? 'var(--red)' : c.dailyLimit > q.safe ? 'var(--yel)' : 'var(--grn)';
+      h += '<div style="display:flex;align-items:center;padding:6px 0;border-bottom:1px solid var(--b1);gap:8px;">';
+      h += '<span style="font-size:10px;color:var(--text2);flex:1;">' + q.lbl + '</span>';
+      h += '<span style="font-family:var(--mono);font-size:9px;color:' + col + ';min-width:100px;text-align:right;">' + c.dailyLimit.toLocaleString() + '/' + q.day.toLocaleString() + '/j</span>';
+      h += '<div style="width:50px;height:2px;background:var(--bg4);border-radius:2px;"><div style="height:100%;background:' + col + ';width:' + p2 + '%;"></div></div>';
+      h += '</div>';
+    });
+    h += '</div>';
+  }
+  h += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px;">';
+  h += '<div class="fc"><label class="fl">Délai min entre envois (sec)</label>';
+  h += '<input type="number" class="fi" value="' + (c.delayMin||2) + '" min="0" onchange="updC(' + c.id + ',\'delayMin\',+this.value)"></div>';
+  h += '<div class="fc"><label class="fl">Délai max entre envois (sec)</label>';
+  h += '<input type="number" class="fi" value="' + (c.delayMax||8) + '" min="0" onchange="updC(' + c.id + ',\'delayMax\',+this.value)"></div>';
+  h += '</div>';
+  h += '</div></div>';
 
-  <!-- Planification -->
-  <div class="ab sc-o">
-    <div class="ab-hd" onclick="togAB(this)">
-      <div class="ab-ttl"><span class="ab-n">${isSMS?3:4}</span>Planification horaire <span class="ab-opt">OPTIONNEL</span></div>
-      <div class="ab-cv">▾</div>
-    </div>
-    <div class="ab-body">
-      <div class="tog ${c.schedEnabled?\'on\':\'\'}" onclick="togOpt(${c.id},\'schedEnabled\',this,\'sched-body-${c.id}\')">
-        <div><div class="tog-t">Activer la planification</div><div class="tog-d">Si désactivé : envoi continu 24h/24. Si activé : choisissez les jours et heures précises pour chaque jour.</div></div>
-        <div class="tsw"></div>
-      </div>
-      <div id="sched-body-${c.id}" style="${c.schedEnabled?\'\':`+`\'display:none\'}">
+  // ── BOUTONS BAS
+  h += '<div style="padding:12px 18px;display:flex;gap:7px;flex-wrap:wrap;">';
+  h += '<button class="btn-ico" style="flex:1;padding:11px;" onclick="saveCamps();toast(\'✓ Sauvegardé\',\'success\')">💾 Sauvegarder</button>';
+  h += '<button class="btl ' + (isSMS ? 'pnk' : '') + '" style="flex:2;justify-content:center;padding:11px;" onclick="launchCamp(' + c.id + ')">▶ Lancer la campagne</button>';
+  h += '</div>';
 
-        <!-- ───── PLANIFICATION PAR JOUR AVEC HEURES SPÉCIFIQUES ───── -->
-        <!-- Chaque jour actif peut avoir ses propres horaires         -->
-        <div class="slbl" style="display:block;margin-bottom:8px">
-          Sélectionnez les jours et configurez les heures pour chaque jour
-        </div>
-
-        <div id="day-sched-${c.id}" style="display:flex;flex-direction:column;gap:6px">
-          ${['Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi','Dimanche'].map((dayName,i) => {
-            const dayNum = i+1;
-            const isActive = c.days.includes(dayNum);
-            const dayKey = 'day'+dayNum;
-            const daySchedule = c.daySchedules && c.daySchedules[dayKey] || {from:'09:00',to:'18:00'};
-            return `<div id="dayrow-${c.id}-${dayNum}" style="background:${isActive?'var(--pur-bg)':'var(--bg3)'};border:1px solid ${isActive?'var(--pur-b)':'var(--b2)'};border-radius:8px;padding:8px 12px;transition:all .2s">
-              <div style="display:flex;align-items:center;gap:10px">
-                <!-- Checkbox jour -->
-                <div class="dchip ${isActive?'on':''}"
-                  style="cursor:pointer;flex-shrink:0"
-                  onclick="toggleDaySchedule(${c.id},${dayNum},this)">
-                  ${dayName.substring(0,3)}
-                </div>
-                <!-- Heures — visibles seulement si le jour est actif -->
-                <div id="dayhours-${c.id}-${dayNum}" style="${isActive?'':'display:none'};display:${isActive?'flex':'none'};align-items:center;gap:8px;flex:1;flex-wrap:wrap">
-                  <div style="font-size:9px;color:var(--text2);font-weight:700;white-space:nowrap">De</div>
-                  <input type="time" class="fi"
-                    style="width:100px;padding:5px 8px;font-size:11px"
-                    value="${daySchedule.from}"
-                    onchange="updDaySchedule(${c.id},${dayNum},'from',this.value)">
-                  <div style="font-size:9px;color:var(--text2);font-weight:700;white-space:nowrap">à</div>
-                  <input type="time" class="fi"
-                    style="width:100px;padding:5px 8px;font-size:11px"
-                    value="${daySchedule.to}"
-                    onchange="updDaySchedule(${c.id},${dayNum},'to',this.value)">
-                  <div style="font-size:9px;color:var(--text3);flex:1;white-space:nowrap">
-                    Max ${Math.round(calcDayMax(daySchedule,c.ratePerHour))} ${isSMS?'SMS':'emails'} ce jour
-                  </div>
-                </div>
-                <!-- Indication jour inactif -->
-                <div id="dayoff-${c.id}-${dayNum}" style="${isActive?'display:none':'font-size:10px;color:var(--text3)'}">
-                  Pas d'envoi ce jour
-                </div>
-              </div>
-            </div>`;
-          }).join('')}
-        </div>
-
-        <!-- Résumé planification semaine -->
-        <div style="margin-top:10px;background:var(--bg3);border:1px solid var(--pur-b);border-radius:8px;padding:10px 12px;font-size:10px;color:var(--text2);line-height:1.8">
-          <strong style="color:var(--purl)">⚡ Résumé de la semaine :</strong><br>
-          ${['Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi','Dimanche'].map((dayName,i) => {
-            const dayNum = i+1;
-            if (!c.days.includes(dayNum)) return '';
-            const dayKey = 'day'+dayNum;
-            const ds = c.daySchedules && c.daySchedules[dayKey] || {from:'09:00',to:'18:00'};
-            const maxSend = Math.round(calcDayMax(ds, c.ratePerHour));
-            return `<span style="color:var(--text)">${dayName}</span> ${ds.from}→${ds.to} · <strong style="color:var(--yel)">${maxSend}</strong> max &nbsp; `;
-          }).join('')}
-        </div>
-
-      </div>
-    </div>
-  </div>
-  <!-- Anti-ban -->
-  <div class="ab sc-r">
-    <div class="ab-hd" onclick="togAB(this)">
-      <div class="ab-ttl"><span class="ab-n">${isSMS?4:5}</span>Recommandations anti-bannissement</div>
-      <div class="ab-cv">▾</div>
-    </div>
-    <div class="ab-body">
-      ${isSMS ? `<div style="background:var(--bg3);border:1px solid rgba(255,45,120,.2);border-radius:8px;padding:12px;margin-bottom:10px;font-size:11px;color:var(--text2);line-height:1.7"><strong style="color:var(--pnk)">Règles SMS France :</strong><br>• RGPD — consentement explicite requis<br>• Interdiction d'envoi entre 22h et 8h<br>• Mention STOP SMS recommandée<br>• Twilio : recommandé 1 SMS/sec max</div>` :
-      `<div>${Object.entries(QUOTAS).map(([k,q]) => {
-        const p2 = Math.min(100,Math.round((c.dailyLimit/q.day)*100));
-        const cl = c.dailyLimit>q.day?'qd':c.dailyLimit>q.safe?'qw':'qs';
-        const co = c.dailyLimit>q.day?'var(--red)':c.dailyLimit>q.safe?'var(--yel)':'var(--grn)';
-        return `<div class="qrow"><span class="qprov">${q.lbl}</span><span class="qnum ${cl}">${c.dailyLimit}/${q.day}/j</span><div class="qbar"><div class="qfill" style="width:${p2}%;background:${co}"></div></div></div>`;
-      }).join('')}</div>`}
-      <div class="ban-alert ${over?'show':''}" id="ba-${c.id}">⚠️ Limite dépasse le quota recommandé — risque de blocage du compte.</div>
-      <div style="margin-top:10px">
-        <div class="tog" onclick="this.classList.toggle('on')"><div><div class="tog-t">Délai entre envois <span style="font-size:9px;opacity:.6">(optionnel)</span></div><div class="tog-d">Pause aléatoire pour simuler un comportement humain</div></div><div class="tsw"></div></div>
-        <div class="fg c2" style="margin-top:6px">
-          <div class="fc"><label class="fl">Min (sec)</label><input type="number" class="fi" value="${c.delayMin}" min="0" onchange="updC(${c.id},'delayMin',+this.value)"></div>
-          <div class="fc"><label class="fl">Max (sec)</label><input type="number" class="fi" value="${c.delayMax}" min="0" onchange="updC(${c.id},'delayMax',+this.value)"></div>
-        </div>
-        <div class="tog" style="margin-top:6px" onclick="this.classList.toggle('on')"><div><div class="tog-t">Pause automatique <span style="font-size:9px;opacity:.6">(optionnel)</span></div><div class="tog-d">Pause longue après N envois consécutifs</div></div><div class="tsw"></div></div>
-        <div class="fg c2" style="margin-top:6px">
-          <div class="fc"><label class="fl">Pause après N envois</label><input type="number" class="fi" value="${c.pauseAfter}" min="0" placeholder="0=désactivé" onchange="updC(${c.id},'pauseAfter',+this.value||0)"></div>
-          <div class="fc"><label class="fl">Durée (minutes)</label><input type="number" class="fi" value="${c.pauseDuration}" min="0" onchange="updC(${c.id},'pauseDuration',+this.value||0)"></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div style="padding:12px 18px;display:flex;gap:7px;flex-wrap:wrap">
-    <button class="btn-ico" style="flex:1;padding:11px" onclick="saveCamps();toast('✓ Sauvegardé','success')">💾 Sauvegarder</button>
-    <button class="btl ${isSMS?'pnk':''}" style="flex:2;justify-content:center;padding:11px" onclick="launchCamp(${c.id})">▶ Lancer la campagne</button>
-  </div>`;
+  return h;
 }
+
+function esc(str) {
+  return (str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+
+/* Alias for backward compat */
+var escHtml = esc;
+
 
 function buildAS(c) {
   const t   = c.emailList.length || '?';
@@ -3520,6 +3494,7 @@ function insertQSEmoji() {
 }
 
 
+/* ─── LIEN TEXTE
    Sélectionne le texte → clique 🔗 → entre l'URL
    Si aucun texte sélectionné, demande aussi le texte
 ──────────────────────────────────────────────────── */
