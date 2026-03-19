@@ -1169,11 +1169,14 @@ td.em{font-family:var(--mono);font-size:10px;color:var(--purl);}
 <!-- ═══ TEMPLATES ═══ -->
 <div class="view split-layout" id="view-templates">
   <div class="side-panel" id="panel-templates">
-    <div class="ph">
-      <span class="ph-lbl pur">Templates</span>
-      <button class="btn-sm" onclick="newTpl()">+ Nouveau</button>
+    <div class="ph" style="display:flex;align-items:center;justify-content:space-between;">
+      <span class="ph-lbl pur">Mes templates</span>
+      <div style="display:flex;gap:6px;align-items:center;">
+        <button class="btn-sm" onclick="newTpl()">+ Nouveau</button>
+        <button class="btn-ico" id="close-tpl-panel" onclick="closeTplPanel()" style="display:none;padding:5px 9px;font-size:14px;color:var(--text2);" title="Fermer">✕</button>
+      </div>
     </div>
-    <div style="flex:1;overflow-y:auto" id="tpl-scroll"></div>
+    <div style="flex:1;overflow-y:auto;" id="tpl-scroll"></div>
     <div class="pfooter"><button class="btn-p" onclick="newTpl()">+ Nouveau template</button></div>
   </div>
   <!-- Bouton mobile pour accéder à la liste des templates -->
@@ -1912,6 +1915,10 @@ function toggleMob(panelId, fabId) {
   } else {
     panel.classList.add('mob-open');
     if (fab) fab.textContent = '✕ Fermer';
+    // Afficher le bouton fermer dans le panneau templates
+    if (panelId === 'panel-templates') {
+      var closeBtn = $('close-tpl-panel'); if (closeBtn) closeBtn.style.display = 'flex';
+    }
   }
 }
 
@@ -1919,7 +1926,9 @@ function closeMob(panelId, fabId) {
   const panel = $(panelId);
   const fab   = $(fabId);
   if (panel) panel.classList.remove('mob-open');
-  if (fab) fab.textContent = fabId === 'fab-sms' ? '☰ Campagnes SMS' : '☰ Campagnes';
+  const labels = {'fab-sms':'☰ Campagnes SMS','fab-email':'☰ Campagnes','fab-templates':'📋 Mes templates'};
+  if (fab) fab.textContent = labels[fabId] || '☰ Menu';
+  var closeBtn = $('close-tpl-panel'); if (closeBtn) closeBtn.style.display = 'none';
 }
 
 // ═══════════════════════════════════════════════════════
@@ -3922,8 +3931,49 @@ function renderTplList() {
   if (!el) return;
   const icons = ['📧','📨','💼','🎯','📢','✉️','💬','📬','🌟','🔥'];
   el.innerHTML = S.tpls.length
-    ? S.tpls.map((t,i) => `<div class="tpl-row ${S.activeTpl===t.id?'sel':''}" onclick="loadTpl(${t.id})"><div class="tpl-ico">${icons[i%icons.length]}</div><div><div class="tpl-nm">${t.name}</div><div class="tpl-sb">${t.subject||'Sans objet'}</div></div></div>`).join('')
-    : '<div class="empty" style="padding:24px 10px"><p style="font-size:10px">Aucun template</p></div>';
+    ? S.tpls.map((t,i) => {
+        var sel = S.activeTpl === t.id ? ' sel' : '';
+        return '<div class="tpl-row' + sel + '" onclick="loadTplAndClose(' + t.id + ')" style="position:relative;">' +
+          '<div class="tpl-ico">' + icons[i % icons.length] + '</div>' +
+          '<div style="flex:1;min-width:0;">' +
+            '<div class="tpl-nm" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + (t.name || 'Sans nom') + '</div>' +
+            '<div class="tpl-sb" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + (t.subject || 'Sans objet') + '</div>' +
+          '</div>' +
+          '<button data-delid="' + t.id + '" onclick="event.stopPropagation();delTplById(+this.getAttribute(\"data-delid\"))" title="Supprimer" style="background:none;border:none;color:var(--red);cursor:pointer;font-size:16px;padding:2px 6px;line-height:1;opacity:.6;flex-shrink:0;">✕</button>' +
+        '</div>';
+      }).join('')
+    : '<div class="empty" style="padding:24px 10px"><p style="font-size:10px">Aucun template — cliquez + Nouveau</p></div>';
+}
+
+/* Charger un template ET fermer le panneau mobile */
+function loadTplAndClose(id) {
+  loadTpl(id);
+  closeTplPanel();
+}
+
+/* Fermer le panneau templates sur mobile */
+function closeTplPanel() {
+  var panel = $('panel-templates');
+  var fab   = $('fab-templates');
+  if (panel) panel.classList.remove('mob-open');
+  if (fab)   fab.textContent = '📋 Mes templates';
+}
+
+/* Supprimer un template par son ID directement depuis la liste */
+function delTplById(id) {
+  var t = S.tpls.find(function(x){return x.id===id;});
+  if (!t) return;
+  if (!confirm('Supprimer le template "' + t.name + '" ?')) return;
+  S.tpls = S.tpls.filter(function(x){return x.id!==id;});
+  if (S.activeTpl === id) {
+    S.activeTpl = null;
+    if ($('te-name'))   $('te-name').value = '';
+    if ($('te-subj'))   $('te-subj').value = '';
+    if ($('pane-rich')) $('pane-rich').innerHTML = '';
+  }
+  saveTpls(false);
+  renderTplList();
+  toast('Template supprimé', 'info');
 }
 
 function loadTpl(id) {
