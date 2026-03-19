@@ -2783,17 +2783,7 @@ function campSMSTaInsert(edId, text) {
   ta.focus();
 }
 function campSMSInsertLinkToTa(edId) {
-  var ta = document.getElementById(edId); if (!ta) return;
-  var start = ta.selectionStart || 0;
-  var end   = ta.selectionEnd   || start;
-  var sel   = ta.value.slice(start, end).trim();
-  var url   = prompt('URL du lien :'); if (!url) return;
-  if (!/^https?:\/\//i.test(url)) url = 'https://' + url;
-  var insert = sel ? sel + ' → ' + url : url;
-  ta.value = ta.value.slice(0, start) + insert + ta.value.slice(end);
-  ta.selectionStart = ta.selectionEnd = start + insert.length;
-  ta.focus();
-  if (sel) toast('💡 SMS texte brut · Lien ajouté après : "' + sel + '"', 'info');
+  createSMSClickableLink(edId, null);
 }
 function openEmojiForTa(edId) {
   _emojiTargetEditor = edId;
@@ -3821,37 +3811,63 @@ function insertSMSImg() {
   const el = $('qs-sms-media-url'); if (el) el.value = url;
   toast('URL image MMS définie ✓ — sera envoyée via Twilio/Vonage', 'success');
 }
+/* ─── LIEN SMS CLIQUABLE ─────────────────────────────────────────
+   Sélectionnez un mot → cliquez 🔗 → entrez l'URL
+   Le mot devient une URL courte cliquable via le Worker Cloudflare
+   Sans Worker : l'URL complète est insérée (cliquable quand même)
+──────────────────────────────────────────────────────────────── */
 function insertSMSLink() {
-  var ta = $('qs-sms-body'); if (!ta) return;
+  createSMSClickableLink('qs-sms-body', function() { updQSSMSCnt(); });
+}
+
+function createSMSClickableLink(taId, callback) {
+  var ta = document.getElementById(taId) || $(taId);
+  if (!ta) return;
+
   var start = (typeof ta.selectionStart === 'number') ? ta.selectionStart : 0;
   var end   = (typeof ta.selectionEnd   === 'number') ? ta.selectionEnd   : start;
-  var selectedText = ta.value.slice(start, end).trim();
+  var word  = ta.value.slice(start, end).trim();
 
-  var url = prompt('URL du lien (ex: https://www.clairvoyancemedium.com) :');
+  var url = prompt('URL de destination :');
   if (!url) return;
-  if (!/^https?:\/\//i.test(url) && !url.startsWith('tel:') && !url.startsWith('mailto:')) {
-    url = 'https://' + url;
-  }
+  if (!/^https?:\/\//i.test(url)) url = 'https://' + url;
 
-  // ⚠️ SMS = texte brut : pas de lien caché derrière un mot.
-  // Si du texte est sélectionné → on insère : "texte sélectionné → url"
-  // Sinon → on insère juste l'url
-  var insert;
-  if (selectedText) {
-    insert = selectedText + ' → ' + url;
+  // Si le Worker est configuré → créer un lien court via Worker
+  if (S.wurl) {
+    var code = word
+      ? word.toLowerCase().replace(/[^a-z0-9]/g, '').slice(0, 20) + '-' + Math.random().toString(36).slice(2,6)
+      : Math.random().toString(36).slice(2, 8);
+    var shortUrl = S.wurl.replace(/\/+$/, '') + '/r/' + code;
+
+    // Sauvegarder le redirect dans le Worker KV
+    fetch(S.wurl.replace(/\/+$/, '') + '/redirect', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({code: code, target: url, word: word})
+    }).then(function() {
+      toast('✓ Lien court créé : ' + shortUrl, 'success');
+    }).catch(function() {
+      // Worker pas encore configuré pour les redirects : insérer URL directe
+      shortUrl = url;
+    });
+
+    var insert = word ? shortUrl : shortUrl;
+    ta.value = ta.value.slice(0, start) + insert + ta.value.slice(end);
+    ta.selectionStart = ta.selectionEnd = start + insert.length;
+
+    if (word && word !== insert) {
+      toast('✓ "' + word + '" → lien court créé · Cliquable sur le téléphone du destinataire', 'success');
+    }
   } else {
-    insert = url;
+    // Pas de Worker : insérer l'URL directe (cliquable nativement sur tous les téléphones)
+    var insert = url;
+    ta.value = ta.value.slice(0, start) + insert + ta.value.slice(end);
+    ta.selectionStart = ta.selectionEnd = start + insert.length;
+    toast('URL insérée — cliquable automatiquement sur le téléphone du destinataire', 'info');
   }
 
-  ta.value = ta.value.slice(0, start) + insert + ta.value.slice(end);
-  ta.selectionStart = ta.selectionEnd = start + insert.length;
   ta.focus();
-  updQSSMSCnt();
-
-  // Petite notification pour expliquer la limitation SMS
-  if (selectedText) {
-    toast('💡 SMS = texte brut · Le lien est ajouté après le mot sélectionné', 'info');
-  }
+  if (callback) callback();
 }
 function insertSMSPhone() {
   const tel = prompt('Numéro (ex: +33600000000) :'); if (!tel) return;
