@@ -2282,6 +2282,8 @@ function buildCampForm(c) {
     });
     h += '</select></div>';
     var selTpl = c.templateId ? S.tpls.find(function(t){return t.id==c.templateId;}) : null;
+    // Block dynamique — mis à jour par selectCampTpl()
+    h += '<div id="camp-tpl-status-' + c.id + '">';
     if (selTpl) {
       h += '<div style="background:rgba(0,255,136,.05);border:1px solid rgba(0,255,136,.2);border-radius:7px;padding:10px;margin-bottom:10px;">';
       h += '<div style="color:var(--grn);font-weight:700;margin-bottom:3px;">✓ ' + esc(selTpl.name) + '</div>';
@@ -2289,12 +2291,13 @@ function buildCampForm(c) {
       h += '</div>';
     } else {
       h += '<div style="background:rgba(255,230,0,.05);border:1px solid rgba(255,230,0,.2);border-radius:7px;padding:10px;margin-bottom:10px;font-size:11px;color:var(--yel);">';
-      h += '⚠️ Aucun template. Créez votre email dans l\'onglet Templates puis sélectionnez-le ici.';
+      h += '⚠️ Aucun template sélectionné. Allez dans <a href="#" onclick="event.preventDefault();showView(\'templates\')" style="color:var(--purl);font-weight:700;">✏️ Templates</a> pour créer votre email.';
       h += '</div>';
     }
+    h += '</div>'; // camp-tpl-status
     h += '<div style="display:flex;gap:8px;flex-wrap:wrap;">';
     h += '<button class="btn-sm" onclick="showView(\'templates\')">✏️ Gérer les templates</button>';
-    h += '<button class="btn-sm grn" onclick="prevCampTpl(' + c.id + ')" ' + (selTpl?'':'style="opacity:.4;cursor:not-allowed;" disabled') + '>👁 Aperçu</button>';
+    h += '<button class="btn-sm grn" id="camp-prev-btn-' + c.id + '" onclick="prevCampTpl(' + c.id + ')" ' + (selTpl?'':'style="opacity:.4;cursor:not-allowed;" disabled') + '>👁 Aperçu</button>';
     h += '</div></div>';
 
   } else {
@@ -2328,15 +2331,23 @@ function buildCampForm(c) {
 
   // Sliders cadence + limite
   var fillRph = Math.min(100, (c.ratePerHour / 100000) * 100);
-  h += '<div class="sblock"><div class="sbtop"><span class="slbl">' + (isSMS?'SMS':'Emails') + ' par heure</span>';
-  h += '<span class="sval" style="color:var(--yel);" id="sv-rph-' + c.id + '">' + c.ratePerHour.toLocaleString() + '<span class="ssub">/h</span></span></div>';
+  h += '<div class="sblock">';
+  h += '<div class="sbtop"><span class="slbl">' + (isSMS?'SMS':'Emails') + ' par heure</span>';
+  h += '<div style="display:flex;align-items:center;gap:6px;">';
+  h += '<input type="number" id="ni-rph-' + c.id + '" min="1" max="100000" value="' + c.ratePerHour + '" style="width:80px;background:var(--bg3);border:1px solid var(--b2);border-radius:6px;color:var(--yel);font-family:var(--mono);font-size:13px;font-weight:700;padding:3px 8px;outline:none;text-align:right;" onchange="updSlManual(' + c.id + ',\'ratePerHour\',this.value,\'rph\',100000)">';
+  h += '<span style="font-size:11px;color:var(--text3);">/ heure</span>';
+  h += '</div></div>';
   h += '<div class="strk"><div class="sfill" style="background:var(--yel);width:' + fillRph + '%;" id="sf-rph-' + c.id + '"></div>';
   h += '<input type="range" class="sr" min="1" max="100000" value="' + c.ratePerHour + '" oninput="updSl(' + c.id + ',\'ratePerHour\',this.value,\'rph\',100000)" onchange="updC(' + c.id + ',\'ratePerHour\',+this.value)"></div>';
   h += '<div class="smks"><span class="smk">1</span><span class="smk">1 000</span><span class="smk">10 000</span><span class="smk">100 000</span></div></div>';
 
   var fillDay = Math.min(100, (c.dailyLimit / 1000000) * 100);
-  h += '<div class="sblock"><div class="sbtop"><span class="slbl">Limite maximum par jour</span>';
-  h += '<span class="sval" style="color:var(--yel);" id="sv-day-' + c.id + '">' + c.dailyLimit.toLocaleString() + '<span class="ssub">/j</span></span></div>';
+  h += '<div class="sblock">';
+  h += '<div class="sbtop"><span class="slbl">Limite maximum par jour</span>';
+  h += '<div style="display:flex;align-items:center;gap:6px;">';
+  h += '<input type="number" id="ni-day-' + c.id + '" min="1" max="1000000" value="' + c.dailyLimit + '" style="width:90px;background:var(--bg3);border:1px solid var(--b2);border-radius:6px;color:var(--yel);font-family:var(--mono);font-size:13px;font-weight:700;padding:3px 8px;outline:none;text-align:right;" onchange="updSlManual(' + c.id + ',\'dailyLimit\',this.value,\'day\',1000000)">';
+  h += '<span style="font-size:11px;color:var(--text3);">/ jour</span>';
+  h += '</div></div>';
   h += '<div class="strk"><div class="sfill" style="background:var(--yel);width:' + fillDay + '%;" id="sf-day-' + c.id + '"></div>';
   h += '<input type="range" class="sr" min="1" max="1000000" value="' + c.dailyLimit + '" oninput="updSl(' + c.id + ',\'dailyLimit\',this.value,\'day\',1000000)" onchange="updC(' + c.id + ',\'dailyLimit\',+this.value)"></div>';
   h += '<div class="smks"><span class="smk">1</span><span class="smk">10K</span><span class="smk">100K</span><span class="smk">1M</span></div></div>';
@@ -2788,17 +2799,29 @@ function insertQuickBlock(type) {
 /* ─── Sauvegarder corps campagne et tout ─── */
 /* Sélectionner un template pour une campagne */
 function selectCampTpl(campId, tplId) {
+  campId = parseInt(campId)||campId;
   var c = S.camps.find(function(x){return x.id==campId;}); if (!c) return;
-  c.templateId = tplId ? parseInt(tplId)||tplId : null;
+  c.templateId = tplId ? (parseInt(tplId)||tplId) : null;
   saveCamps();
-  if (tplId) {
-    var tpl = S.tpls.find(function(t){return String(t.id)===String(tplId);});
-    if (tpl && tpl.subject) {
-      var sEl = document.getElementById('camp-subj2-' + campId);
-      if (sEl && !sEl.value) sEl.value = tpl.subject;
+  var tpl = tplId ? S.tpls.find(function(t){return String(t.id)===String(tplId);}) : null;
+  if (tpl && tpl.subject) {
+    var sEl = document.getElementById('camp-subj2-' + campId);
+    if (sEl && !sEl.value) sEl.value = tpl.subject;
+  }
+  // Mise à jour dynamique du bloc status
+  var statusEl = document.getElementById('camp-tpl-status-' + campId);
+  if (statusEl) {
+    if (tpl) {
+      var tplSubj = esc(tpl.subject||'');
+      statusEl.innerHTML = '<div style="background:rgba(0,255,136,.05);border:1px solid rgba(0,255,136,.2);border-radius:7px;padding:10px;margin-bottom:10px;"><div style="color:var(--grn);font-weight:700;margin-bottom:3px;">✓ ' + esc(tpl.name) + '</div><div style="color:var(--text2);font-size:10px;">Objet : ' + (tplSubj||'(aucun objet)') + '</div></div>';
+    } else {
+      statusEl.innerHTML = '<div style="background:rgba(255,230,0,.05);border:1px solid rgba(255,230,0,.2);border-radius:7px;padding:10px;margin-bottom:10px;font-size:11px;color:var(--yel);">⚠️ Aucun template sélectionné.</div>';
     }
   }
-  toast(tplId ? 'Template sélectionné ✓' : 'Template retiré', tplId ? 'success' : 'info');
+  // Activer bouton Aperçu
+  var prevBtn = document.getElementById('camp-prev-btn-' + campId);
+  if (prevBtn) { prevBtn.disabled=!tpl; prevBtn.style.opacity=tpl?'1':'0.4'; prevBtn.style.cursor=tpl?'pointer':'not-allowed'; }
+  toast(tpl ? 'Template "' + tpl.name + '" sélectionné ✓' : 'Template retiré', tpl ? 'success' : 'info');
 }
 
 /* Aperçu du template pour une campagne */
@@ -2828,6 +2851,7 @@ function saveCampBodyAndAll(campId) {
 
 /* ─── Mode continu vs planifié ─── */
 function setSchedMode(campId, enabled) {
+  campId = parseInt(campId)||campId;
   var c = S.camps.find(function(x){return x.id==campId;}); if (!c) return;
   c.schedEnabled = enabled;
   var onBtn  = document.getElementById('btn-sched-on-'  + campId);
@@ -3195,13 +3219,41 @@ function updSl(id, field, val, key, max) {
   const c = S.camps.find(x => x.id === id);
   if (!c) return;
   c[field] = parseInt(val);
-  const sv = $('sv-' + key + '-' + id);
   const sf = $('sf-' + key + '-' + id);
-  if (sv) sv.innerHTML = val + (key==='rph' ? '<span class="ssub">/h</span>' : '<span class="ssub">/j</span>');
   if (sf) sf.style.width = (val/max*100) + '%';
+  // Synchroniser le champ de saisie manuelle
+  const ni = $('ni-' + key + '-' + id);
+  if (ni) ni.value = parseInt(val).toLocaleString().replace(/\s/g,'');
   const as = $('as-' + id);
   if (as) as.innerHTML = buildAS(c);
 }
+
+/* Mise à jour depuis le champ manuel (saisie directe du nombre) */
+function updSlManual(id, field, val, key, max) {
+  var n = parseInt(String(val).replace(/[^0-9]/g,''));
+  if (isNaN(n) || n < 1) n = 1;
+  if (n > max) n = max;
+  // Mettre à jour le champ avec la valeur nettoyée
+  var ni = $('ni-' + key + '-' + id);
+  if (ni) ni.value = n;
+  // Mettre à jour le slider
+  var rangeInputs = document.querySelectorAll('#sf-' + key + '-' + id);
+  var strk = $('sf-' + key + '-' + id);
+  if (strk) strk.style.width = (n/max*100) + '%';
+  // Mettre à jour l'état
+  var c = S.camps.find(function(x){return x.id===id;});
+  if (!c) return;
+  c[field] = n;
+  // Synchroniser le range input
+  var parent = strk ? strk.closest('.strk') : null;
+  if (parent) {
+    var range = parent.querySelector('input[type="range"]');
+    if (range) range.value = n;
+  }
+  saveCamps();
+  var as = $('as-' + id); if (as) as.innerHTML = buildAS(c);
+}
+
 
 function setDur(id, v, btn) {
   const c = S.camps.find(x => x.id === id);
@@ -3302,7 +3354,8 @@ function refreshQuotaBanner() {
 ═══════════════════════════════════════════════════════ */
 
 function toggleDaySchedule(campId, dayNum, btn) {
-  const c = S.camps.find(x => x.id === campId);
+  campId = parseInt(campId) || campId;
+  const c = S.camps.find(x => x.id == campId);
   if (!c) return;
 
   const isNowActive = !c.days.includes(dayNum);
@@ -3336,7 +3389,8 @@ function toggleDaySchedule(campId, dayNum, btn) {
 }
 
 function updDaySchedule(campId, dayNum, field, val) {
-  const c = S.camps.find(x => x.id === campId);
+  campId = parseInt(campId)||campId;
+  const c = S.camps.find(x => x.id == campId);
   if (!c) return;
   if (!c.daySchedules) c.daySchedules = {};
   const key = 'day' + dayNum;
