@@ -306,7 +306,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:13
   box-shadow:0 0 8px rgba(255,230,0,.7);cursor:grab;
 }
 /* Track container — plus besoin de sfill séparé */
-.strk{position:relative;height:22px;display:flex;align-items:center;margin-bottom:3px;}
+.strk{position:relative;height:22px;display:flex;align-items:center;margin-bottom:3px;overflow:visible;}
 .sfill{display:none;}
 .smks{display:flex;justify-content:space-between;}
 .smk{font-family:var(--mono);font-size:8px;color:var(--text3);}
@@ -718,6 +718,15 @@ td.em{font-family:var(--mono);font-size:10px;color:var(--purl);}
 
 <!-- ═══ DASHBOARD ═══ -->
 <div class="view" id="view-dashboard" style="overflow-y:auto;-webkit-overflow-scrolling:touch;padding:14px;gap:0;flex-direction:column;">
+
+  <!-- Bannière de synchronisation Worker -->
+  <div id="sync-banner" style="display:none;background:var(--bg2);border:1px solid var(--b1);border-radius:10px;padding:10px 14px;margin-bottom:10px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+    <div style="font-size:11px;color:var(--text2);flex:1;">
+      <span id="sync-status-lbl" style="color:var(--text3);">Synchronisation avec le Worker...</span>
+    </div>
+    <button class="btn-sm" onclick="forceSyncNow()" style="white-space:nowrap;">🔄 Synchroniser maintenant</button>
+    <span id="sync-last-lbl" style="font-size:9px;color:var(--text3);"></span>
+  </div>
 
   <!-- ═══════════════════════════════════
        LIGNE 1 — 6 KPIs GLOBAUX CLIQUABLES
@@ -1774,6 +1783,7 @@ const SK = {
   prov:'p7_prov', cid:'p7_cid', tok:'p7_tok', email:'p7_email', wurl:'p7_wurl',
   ce:'p7_ce', cn:'p7_cn',
   smsProv:'p7_smp', smsKey:'p7_smk', smsSecret:'p7_sms', smsFrom:'p7_smf',
+  smsWebhook:'p7_smswh', smsWebhookBody:'p7_smswhb',
   contacts:'p7_contacts', tpls:'p7_tpls', camps:'p7_camps',
   lists:'p7_lists', imgLib:'p7_imgs', analytics:'p7_analytics',
   stats:'p7_stats',
@@ -1826,8 +1836,12 @@ const DUR_OPTS = [
 // ─── EXAMPLE VARS ───────────────────────────────────────
 const EX = {
   prénom:'Frédéric', nom:'', email:'contact.clairvoyancemedium@gmail.com',
-  entreprise:'Cabinet ClairvoyanceMedium.com', ville:'',
-  téléphone:'06 95 46 89 23', custom1:'', custom2:''
+  entreprise:'Cabinet ClairvoyanceMedium.com', téléphone:'06 95 46 89 23',
+  ville:'Paris', custom1:'VIP', custom2:'',
+  date: new Date().toLocaleDateString('fr-FR'),
+  heure: new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'}),
+  annee: String(new Date().getFullYear()),
+  mois: new Date().toLocaleDateString('fr-FR',{month:'long'})
 };
 
 // ─── HELPERS ────────────────────────────────────────────
@@ -1853,7 +1867,9 @@ let S = {
   smsProv:   ls(SK.smsProv) || 'twilio',
   smsKey:    ls(SK.smsKey)  || '',
   smsSecret: ls(SK.smsSecret) || '',
-  smsFrom:   ls(SK.smsFrom) || '',
+  smsFrom:        ls(SK.smsFrom)        || '',
+  smsWebhook:     ls(SK.smsWebhook)     || '',
+  smsWebhookBody: ls(SK.smsWebhookBody) || '',
   contacts:  lsJ(SK.contacts,  []),
   tpls:      lsJ(SK.tpls,      []),
   camps:     lsJ(SK.camps,     []),
@@ -2116,6 +2132,142 @@ async function syncW(ep, data) {
     });
   } catch (e) { console.warn('Worker sync:', e.message); }
 }
+
+/* ================================================================
+   SYNC DEPUIS LE WORKER — Tire les données du Worker vers l'app
+   Appelé au démarrage + toutes les 60 secondes
+   Permet de voir les résultats même si l'appareil était éteint
+================================================================ */
+var _syncInterval = null;
+var _isSyncing = false;
+
+async function syncFromWorker() {
+  if (!S.wurl || _isSyncing) return;
+  _isSyncing = true;
+
+  try {
+    // 1 — Statut des campagnes (envoyés, erreurs, ouverts, statut)
+    const campRes = await fetch(S.wurl + '/sync/campaigns');
+    if (campRes.ok) {
+      const data = await campRes.json();
+      if (data.campaigns && Array.isArray(data.campaigns)) {
+        var updated = 0;
+        data.campaigns.forEach(function(wc) {
+          var local = S.camps.find(function(c){ return c.id == wc.id; });
+          if (!local) return;
+          // Mettre à jour les compteurs depuis le Worker
+          if (wc.sent      !== undefined && wc.sent      > (local.sent||0))      { local.sent      = wc.sent;      updated++; }
+          if (wc.opened    !== undefined && wc.opened    > (local.opened||0))    { local.opened    = wc.opened;    updated++; }
+          if (wc.errors    !== undefined && wc.errors    > (local.errors||0))    { local.errors    = wc.errors;    updated++; }
+          if (wc.unsubscribed !== undefined)                                       { local.unsubscribed = wc.unsubscribed; }
+          // Statut (running → done, paused, etc.)
+          if (wc.status && wc.status !== local.status) {
+            local.status = wc.status;
+            updated++;
+          }
+          // Mettre à jour les statuts des contacts individuels
+          if (wc.contacts && Array.isArray(wc.contacts)) {
+            wc.contacts.forEach(function(wContact) {
+              var lContact = local.emailList.find(function(e){ return e.email === wContact.email; });
+              if (lContact && wContact.status && wContact.status !== lContact.status) {
+                lContact.status = wContact.status;
+              }
+            });
+          }
+        });
+        if (updated > 0) {
+          lsS(SK.camps, S.camps);
+          renderCampList('email');
+          renderCampList('sms');
+          renderDashboard();
+          updateStats();
+          // Rouvrir la campagne active si elle est affichée
+          if (S.activeCamp) {
+            var c = S.camps.find(function(x){ return x.id === S.activeCamp; });
+            if (c) openCamp(c.id, 'email');
+          }
+          if (S.activeSMS) {
+            var cs = S.camps.find(function(x){ return x.id === S.activeSMS; });
+            if (cs) openCamp(cs.id, 'sms');
+          }
+        }
+      }
+    }
+
+    // 2 — Analytics (logs d'envoi détaillés)
+    const analRes = await fetch(S.wurl + '/sync/analytics');
+    if (analRes.ok) {
+      const data2 = await analRes.json();
+      if (data2.analytics && Array.isArray(data2.analytics) && data2.analytics.length > 0) {
+        // Fusionner avec les analytics locaux (éviter les doublons par email+date)
+        var existing = new Set(S.analytics.map(function(a){ return a.email + '|' + a.date; }));
+        var newLogs = data2.analytics.filter(function(a){ return !existing.has(a.email + '|' + a.date); });
+        if (newLogs.length > 0) {
+          S.analytics = S.analytics.concat(newLogs);
+          lsS(SK.analytics, S.analytics);
+          renderDashboard();
+        }
+      }
+    }
+
+    // 3 — Mettre à jour l'indicateur de dernière sync
+    var chip = $('wchip');
+    if (chip) chip.className = 'wchip ok';
+    var now = new Date();
+    var timeStr = now.getHours() + ':' + String(now.getMinutes()).padStart(2,'0');
+    var wlbl = $('wlbl');
+    if (wlbl) wlbl.textContent = 'Sync ' + timeStr;
+
+    // Mettre à jour la bannière de sync dans le dashboard
+    var banner = $('sync-banner');
+    var statusLbl = $('sync-status-lbl');
+    var lastLbl = $('sync-last-lbl');
+    if (banner) banner.style.display = 'flex';
+    if (statusLbl) {
+      var activeCamps = S.camps.filter(function(c){ return c.status === 'running'; });
+      if (activeCamps.length > 0) {
+        statusLbl.innerHTML = '⚡ <strong style="color:var(--yel);">' + activeCamps.length + ' campagne(s) en cours</strong> — Le Worker envoie automatiquement';
+        statusLbl.style.color = 'var(--yel)';
+      } else {
+        statusLbl.innerHTML = '✅ <strong style="color:var(--grn);">Synchronisé</strong> — Toutes les campagnes sont à jour';
+        statusLbl.style.color = 'var(--grn)';
+      }
+    }
+    if (lastLbl) lastLbl.textContent = 'Dernière sync : ' + timeStr;
+
+  } catch(e) {
+    console.warn('syncFromWorker error:', e.message);
+    var statusLbl2 = $('sync-status-lbl');
+    if (statusLbl2) { statusLbl2.textContent = '⚠️ Worker inaccessible'; statusLbl2.style.color = 'var(--red)'; }
+  }
+
+  _isSyncing = false;
+}
+
+/* Lancer la synchronisation automatique toutes les 60 secondes */
+function startAutoSync() {
+  if (!S.wurl) {
+    // Pas de Worker : cacher la bannière
+    var banner = $('sync-banner');
+    if (banner) banner.style.display = 'none';
+    return;
+  }
+  // Sync immédiate au démarrage
+  setTimeout(syncFromWorker, 2000);
+  // Puis toutes les 60 secondes
+  if (_syncInterval) clearInterval(_syncInterval);
+  _syncInterval = setInterval(syncFromWorker, 60000);
+}
+
+/* Forcer une sync manuelle (bouton dans le dashboard) */
+async function forceSyncNow() {
+  if (!S.wurl) { toast('Worker non configuré', 'warn'); return; }
+  toast('Synchronisation en cours...', 'info');
+  await syncFromWorker();
+  toast('✓ Données synchronisées depuis le Worker', 'success');
+}
+
+
 
 // ═══════════════════════════════════════════════════════
 //  CAMPAIGNS ENGINE (Email + SMS)
@@ -2390,26 +2542,31 @@ function buildCampForm(c) {
 
   // Sliders cadence + limite
   var fillRph = Math.round(((c.ratePerHour - 1) / (100000 - 1)) * 100);
+  var logRph = Math.round((Math.log(Math.max(1,c.ratePerHour)) / Math.log(100000)) * 1000);
   h += '<div class="sblock">';
   h += '<div class="sbtop"><span class="slbl">' + (isSMS?'SMS':'Emails') + ' par minute</span>';
   h += '<div style="display:flex;align-items:center;gap:6px;">';
   h += '<input type="number" id="ni-rph-' + c.id + '" min="1" max="100000" value="' + c.ratePerHour + '" style="width:80px;background:var(--bg3);border:1px solid var(--b2);border-radius:6px;color:var(--yel);font-family:var(--mono);font-size:13px;font-weight:700;padding:3px 8px;outline:none;text-align:right;" onchange="updSlManual(' + c.id + ',\'ratePerHour\',this.value,\'rph\',100000)">';
   h += '<span style="font-size:11px;color:var(--text3);">/ minute</span>';
   h += '</div></div>';
-  h += '<div class="strk"><div class="sfill" style="background:var(--yel);width:' + fillRph + '%;" id="sf-rph-' + c.id + '"></div>';
-  h += '<input type="range" class="sr" min="1" max="100000" value="' + c.ratePerHour + '"' + ' style="--val-pct:' + fillRph + '%"' + ' oninput="this.style.setProperty(\'--val-pct\',(((+this.value-1)/99999)*100).toFixed(1)+\'%\');updSl(' + c.id + ',\'ratePerHour\',this.value,\'rph\',100000)" onchange="updC(' + c.id + ',\'ratePerHour\',+this.value)"></div>';
-  h += '<div class="smks"><span class="smk">1</span><span class="smk">100</span><span class="smk">1 000</span><span class="smk">100 000</span></div></div>';
+  h += '<div class="strk"><div class="sfill" id="sf-rph-' + c.id + '" style="background:var(--yel);width:' + (logRph/10) + '%;position:absolute;top:0;left:0;height:100%;border-radius:3px;"></div>';
+  h += '<input type="range" class="sr" min="0" max="1000" value="' + logRph + '" style="--val-pct:' + (logRph/10) + '%"';
+  h += ' oninput="var v=Math.round(Math.pow(100000,this.value/1000));if(v<1)v=1;document.getElementById(\'ni-rph-' + c.id + '\').value=v;this.style.setProperty(\'--val-pct\',(this.value/10)+\'%\');var sf=document.getElementById(\'sf-rph-' + c.id + '\');if(sf)sf.style.width=(this.value/10)+\'%\';updSl(' + c.id + ',\'ratePerHour\',v,\'rph\',100000);"';
+  h += ' onchange="var v=Math.round(Math.pow(100000,this.value/1000));if(v<1)v=1;updC(' + c.id + ',\'ratePerHour\',v);"></div>';
+  h += '<div class="smks"><span class="smk">1</span><span class="smk">10</span><span class="smk">100</span><span class="smk">1K</span><span class="smk">10K</span><span class="smk">100K</span></div></div>';
 
-  var fillDay = Math.round(((c.dailyLimit - 1) / (1000000 - 1)) * 100);
+  var logDay = Math.round((Math.log(Math.max(1,c.dailyLimit)) / Math.log(1000000)) * 1000);
   h += '<div class="sblock">';
   h += '<div class="sbtop"><span class="slbl">Limite maximum par jour</span>';
   h += '<div style="display:flex;align-items:center;gap:6px;">';
   h += '<input type="number" id="ni-day-' + c.id + '" min="1" max="1000000" value="' + c.dailyLimit + '" style="width:90px;background:var(--bg3);border:1px solid var(--b2);border-radius:6px;color:var(--yel);font-family:var(--mono);font-size:13px;font-weight:700;padding:3px 8px;outline:none;text-align:right;" onchange="updSlManual(' + c.id + ',\'dailyLimit\',this.value,\'day\',1000000)">';
   h += '<span style="font-size:11px;color:var(--text3);">/ jour</span>';
   h += '</div></div>';
-  h += '<div class="strk"><div class="sfill" style="background:var(--yel);width:' + fillDay + '%;" id="sf-day-' + c.id + '"></div>';
-  h += '<input type="range" class="sr" min="1" max="1000000" value="' + c.dailyLimit + '"' + ' style="--val-pct:' + fillDay + '%"' + ' oninput="this.style.setProperty(\'--val-pct\',(((+this.value-1)/999999)*100).toFixed(1)+\'%\');updSl(' + c.id + ',\'dailyLimit\',this.value,\'day\',1000000)" onchange="updC(' + c.id + ',\'dailyLimit\',+this.value)"></div>';
-  h += '<div class="smks"><span class="smk">1</span><span class="smk">10K</span><span class="smk">100K</span><span class="smk">1M</span></div></div>';
+  h += '<div class="strk"><div class="sfill" id="sf-day-' + c.id + '" style="background:var(--yel);width:' + (logDay/10) + '%;position:absolute;top:0;left:0;height:100%;border-radius:3px;"></div>';
+  h += '<input type="range" class="sr" min="0" max="1000" value="' + logDay + '" style="--val-pct:' + (logDay/10) + '%"';
+  h += ' oninput="var v=Math.round(Math.pow(1000000,this.value/1000));if(v<1)v=1;document.getElementById(\'ni-day-' + c.id + '\').value=v;this.style.setProperty(\'--val-pct\',(this.value/10)+\'%\');var sf=document.getElementById(\'sf-day-' + c.id + '\');if(sf)sf.style.width=(this.value/10)+\'%\';updSl(' + c.id + ',\'dailyLimit\',v,\'day\',1000000);"';
+  h += ' onchange="var v=Math.round(Math.pow(1000000,this.value/1000));if(v<1)v=1;updC(' + c.id + ',\'dailyLimit\',v);"></div>';
+  h += '<div class="smks"><span class="smk">1</span><span class="smk">100</span><span class="smk">1K</span><span class="smk">10K</span><span class="smk">100K</span><span class="smk">1M</span></div></div>';
 
   // Durée
   h += '<div style="margin-bottom:14px;"><div class="slbl" style="display:block;margin-bottom:7px;">Durée totale</div><div class="dur-row">';
@@ -3557,26 +3714,45 @@ async function launchCamp(id) {
     campaign: c,
     contacts: c.emailList,
     template: tpl,
-    // Provider spécifique à la campagne, sinon celui des Réglages
-    accessToken: S.tok,
-    provider:    c.campProvider || S.prov,
-    fromEmail:   c.campFromEmail || S.ce || S.email,
-    // Planification par jour avec heures spécifiques
+
+    // Authentification email
+    accessToken:  S.tok,
+    provider:     c.campProvider || S.prov,
+    fromEmail:    c.campFromEmail || S.ce || S.email,
+    // Note : le refresh_token n'est pas disponible via GIS token flow.
+    // Le Worker re-demandera un nouveau token si le précédent expire.
+    // Pour les campagnes > 1h, re-lancez depuis l'app pour rafraîchir le token.
+
+    // Cadence (top-level pour que le Worker y accède directement)
+    rate_per_minute: c.ratePerHour,
+
+    // Planification horaire
     schedule: {
-      enabled:      c.schedEnabled,
-      days:         c.days,
-      daySchedules: c.daySchedules || {},
-      ratePerHour:  c.ratePerHour,
-      dailyLimit:   c.dailyLimit,
-      durationH:    c.durationH,
-      durationInfinite: c.durationInfinite
+      enabled:          c.schedEnabled,
+      days:             c.days,
+      daySchedules:     c.daySchedules || {},
     },
+
+    // Limites et durée
+    dailyLimit:       c.dailyLimit,
+    durationH:        c.durationH        || null,
+    durationInfinite: c.durationInfinite || false,
+
+    // MMS (image dans les SMS)
+    mediaUrl: c.mmsUrl || null,
+
+    // Config SMS (Twilio / Vonage / Webhook)
     smsConfig: {
-      provider:  S.smsProv,
-      apiKey:    S.smsKey,
-      apiSecret: S.smsSecret,
-      from:      S.smsFrom
-    }
+      provider:    S.smsProv,
+      apiKey:      S.smsKey,
+      apiSecret:   S.smsSecret,
+      from:        S.smsFrom,
+      webhookUrl:  S.smsWebhook  || null,
+      webhookBody: S.smsWebhookBody || null
+    },
+
+    // URL du Worker lui-même (pour les liens de désinscription)
+    _workerOrigin: S.wurl ? S.wurl.replace(/\/+$/, '') : ''
   });
   saveCamps();
   renderCampList(c.type);
@@ -5108,6 +5284,9 @@ function init() {
 
   window.addEventListener('resize', checkMobFABs);
 
+  // Synchronisation automatique depuis le Worker (toutes les 60s)
+  startAutoSync();
+
   // Construire les toolbars des éditeurs visuels
   buildToolbar('te-toolbar', 'pane-rich');
   buildToolbar('qs-toolbar', 'qs-pane-rich');
@@ -6069,6 +6248,18 @@ function iVar(v) {
     ta2.value = ta2.value.slice(0,p2) + v + ta2.value.slice(ta2.selectionEnd);
     ta2.selectionStart = ta2.selectionEnd = p2 + v.length;
   }
+}
+
+
+/* smsTaInsertText — insère du texte dans une textarea SMS (alias simplifié) */
+function smsTaInsertText(ta, text) {
+  if (!ta || !text) return;
+  var p = (typeof ta.selectionStart === 'number') ? ta.selectionStart : ta.value.length;
+  var e = (typeof ta.selectionEnd   === 'number') ? ta.selectionEnd   : p;
+  ta.value = ta.value.slice(0, p) + text + ta.value.slice(e);
+  ta.selectionStart = ta.selectionEnd = p + text.length;
+  ta.focus();
+  ta.dispatchEvent(new Event('input', {bubbles:true}));
 }
 
 </script>
