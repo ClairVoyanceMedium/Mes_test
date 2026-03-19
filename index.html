@@ -395,7 +395,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:13
 .pfill{height:100%;background:linear-gradient(90deg,var(--pur),var(--cyan));transition:width .6s;}
 
 /* ============ TEMPLATE EDITOR ============ */
-.te-row{display:flex;align-items:center;gap:8px;padding:8px 14px;border-bottom:1px solid var(--b1);flex-shrink:0;background:var(--bg2);}
+.te-row{display:flex;align-items:center;gap:8px;padding:8px 14px;border-bottom:1px solid var(--b1);flex-shrink:0;background:var(--bg2);flex-wrap:wrap;}
 #te-name{flex:1;background:none;border:none;color:var(--text);font-family:var(--sans);font-size:14px;font-weight:800;outline:none;}
 #te-name::placeholder{color:var(--text3);}
 .subj-lbl{font-size:8px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--purl);white-space:nowrap;}
@@ -612,6 +612,19 @@ td.em{font-family:var(--mono);font-size:10px;color:var(--purl);}
 }
 @media(max-width:699px){
   .side-panel{display:none;}
+  /* Templates : le panneau liste est accessible via bouton dédié */
+  #panel-templates.mob-open{
+    display:flex !important;
+    position:fixed;top:52px;left:0;right:0;bottom:calc(58px + var(--sb));
+    width:100% !important;z-index:50;border-right:none;
+    box-shadow:0 0 40px rgba(0,0,0,.5);
+  }
+  /* te-row : empêcher le débordement des boutons */
+  .te-row{flex-wrap:wrap !important;}
+  #te-name{min-width:0;flex:1 1 120px;}
+  #tpl-editor .te-row .btn-ico,#tpl-editor .te-row .btn-sm{flex-shrink:0;}
+  /* Masquer "Objet" label et réduire */
+  .subj-lbl{font-size:9px;white-space:nowrap;}
   .kpi-row{grid-template-columns:1fr 1fr;}
   .sg{grid-template-columns:1fr;}
   .fg.c2{grid-template-columns:1fr;}
@@ -1163,6 +1176,8 @@ td.em{font-family:var(--mono);font-size:10px;color:var(--purl);}
     <div style="flex:1;overflow-y:auto" id="tpl-scroll"></div>
     <div class="pfooter"><button class="btn-p" onclick="newTpl()">+ Nouveau template</button></div>
   </div>
+  <!-- Bouton mobile pour accéder à la liste des templates -->
+  <button class="mob-fab" id="fab-templates" onclick="toggleMob('panel-templates','fab-templates')" style="display:none;border-color:rgba(192,96,255,.3);color:var(--purl);">📋 Mes templates</button>
   <div id="tpl-editor" style="flex:1;display:flex;flex-direction:column;overflow:hidden;">
     <div class="te-row">
       <input type="text" id="te-name" placeholder="Nom du template...">
@@ -1869,20 +1884,18 @@ function showView(name) {
 function checkMobFABs() {
   const isMob = window.innerWidth < 700;
   [
-    {fab:'fab-email', view:'email'},
-    {fab:'fab-sms', view:'sms'},
-  ].forEach(({fab,view}) => {
-    const el = $(fab);
+    {fab:'fab-email',     view:'email'},
+    {fab:'fab-sms',       view:'sms'},
+    {fab:'fab-templates', view:'templates'},
+  ].forEach(function(item) {
+    var el = $(item.fab);
     if (!el) return;
-    const shouldShow = isMob && S.currentView === view;
+    var shouldShow = isMob && S.currentView === item.view;
     el.style.display = shouldShow ? 'flex' : 'none';
-    if (shouldShow) {
-      // Reset to center if not yet dragged
-      if (!el.dataset.dragged) {
-        el.style.left = '50%';
-        el.style.bottom = 'calc(70px + ' + (parseInt(getComputedStyle(document.documentElement).getPropertyValue('--sb')||'0')||0) + 'px)';
-        el.style.transform = 'translateX(-50%)';
-      }
+    if (shouldShow && !el.dataset.dragged) {
+      el.style.left = '50%';
+      el.style.bottom = 'calc(70px + 0px)';
+      el.style.transform = 'translateX(-50%)';
     }
   });
 }
@@ -1894,7 +1907,8 @@ function toggleMob(panelId, fabId) {
   const isOpen = panel.classList.contains('mob-open');
   if (isOpen) {
     panel.classList.remove('mob-open');
-    if (fab) fab.textContent = fabId === 'fab-sms' ? '☰ Campagnes SMS' : '☰ Campagnes';
+    const labels = {'fab-sms':'☰ Campagnes SMS','fab-email':'☰ Campagnes','fab-templates':'📋 Mes templates'};
+    if (fab) fab.textContent = labels[fabId] || '☰ Menu';
   } else {
     panel.classList.add('mob-open');
     if (fab) fab.textContent = '✕ Fermer';
