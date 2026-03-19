@@ -634,6 +634,10 @@ td.em{font-family:var(--mono);font-size:10px;color:var(--purl);}
   cursor:grab;
 }
 .mob-fab:active{cursor:grabbing;}
+
+/* Links in rich editors */
+[contenteditable] a{color:#c060ff !important;text-decoration:underline !important;cursor:pointer !important;}
+[contenteditable] a:hover{color:#d890ff !important;}
 </style>
 </head>
 <body>
@@ -1247,7 +1251,7 @@ td.em{font-family:var(--mono);font-size:10px;color:var(--purl);}
       <div class="tbs"></div>
       <button class="tb" onclick="execR('removeFormat')" style="font-size:8px" title="Effacer tout le formatage">✕fmt</button>
     </div>
-    <div class="img-bar" id="img-bar">
+    <div class="img-bar" id="te-img-bar">
       <input type="text" class="ip-inp" id="img-url-inp" placeholder="https://url-image.jpg">
       <button class="ip-btn" onclick="insertImgURL()">Insérer URL</button>
       <label class="ip-btn" style="cursor:pointer">📁 Upload<input type="file" accept="image/*" style="display:none" onchange="insertImgFile(this)"></label>
@@ -2263,23 +2267,54 @@ function buildCampForm(c) {
   h += '<div class="ab-body">';
 
   if (!isSMS) {
-    // Objet + Charger template
-    h += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;">';
-    h += '<div class="fc"><label class="fl">Objet de l\'email</label>';
-    h += '<input type="text" class="fi" id="camp-subj2-' + c.id + '" value="' + esc(c.subject||'') + '" placeholder="Votre objet — {{prénom}}, voici notre offre..." onchange="updC(' + c.id + ',\'subject\',this.value)"></div>';
-    h += '<div class="fc"><label class="fl">Charger un template existant</label>';
-    h += '<select class="fsel" onchange="loadTplIntoCamp(\'' + c.id + '\',this.value)">';
-    h += '<option value="">— Choisir un template à charger —</option>';
-    S.tpls.forEach(function(t) { h += '<option value="' + t.id + '">' + esc(t.name) + '</option>'; });
-    h += '</select></div>';
+    // EMAIL : Sujet + Template selector uniquement (éditeur = onglet Templates)
+    h += '<div class="fc" style="margin-bottom:8px;">';
+    h += '<label class="fl">Objet de l\'email</label>';
+    h += '<input type="text" class="fi" id="camp-subj2-' + c.id + '" value="' + esc(c.subject||'') + '" placeholder="Votre objet — {{prénom}}, notre offre exclusive..." onchange="updC(' + c.id + ',\'subject\',this.value)">';
     h += '</div>';
-
-    // ─── ÉDITEUR RICHE EMAIL (identique à Templates)
-    h += buildUnifiedEditor(campEdId, campTbId, campIbId, campHtId, c.id, 'email', c.campBody||'');
+    h += '<div style="background:var(--pur-bg);border:1px solid var(--pur-b);border-radius:10px;padding:14px;">';
+    h += '<div style="font-size:11px;font-weight:800;color:var(--purl);margin-bottom:10px;">📄 Contenu de l\'email</div>';
+    h += '<div class="fc" style="margin-bottom:10px;"><label class="fl">Template à utiliser pour cette campagne</label>';
+    h += '<select class="fsel" id="camp-tpl-sel-' + c.id + '" onchange="selectCampTpl(' + c.id + ',this.value)">';
+    h += '<option value="">— Aucun template sélectionné —</option>';
+    S.tpls.forEach(function(t) {
+      h += '<option value="' + t.id + '"' + (c.templateId==t.id?' selected':'') + '>' + esc(t.name) + (t.subject?' — '+esc(t.subject):'') + '</option>';
+    });
+    h += '</select></div>';
+    var selTpl = c.templateId ? S.tpls.find(function(t){return t.id==c.templateId;}) : null;
+    if (selTpl) {
+      h += '<div style="background:rgba(0,255,136,.05);border:1px solid rgba(0,255,136,.2);border-radius:7px;padding:10px;margin-bottom:10px;">';
+      h += '<div style="color:var(--grn);font-weight:700;margin-bottom:3px;">✓ ' + esc(selTpl.name) + '</div>';
+      h += '<div style="color:var(--text2);font-size:10px;">Objet : ' + esc(selTpl.subject||'(pas d\'objet)') + '</div>';
+      h += '</div>';
+    } else {
+      h += '<div style="background:rgba(255,230,0,.05);border:1px solid rgba(255,230,0,.2);border-radius:7px;padding:10px;margin-bottom:10px;font-size:11px;color:var(--yel);">';
+      h += '⚠️ Aucun template. Créez votre email dans l\'onglet Templates puis sélectionnez-le ici.';
+      h += '</div>';
+    }
+    h += '<div style="display:flex;gap:8px;flex-wrap:wrap;">';
+    h += '<button class="btn-sm" onclick="showView(\'templates\')">✏️ Gérer les templates</button>';
+    h += '<button class="btn-sm grn" onclick="prevCampTpl(' + c.id + ')" ' + (selTpl?'':'style="opacity:.4;cursor:not-allowed;" disabled') + '>👁 Aperçu</button>';
+    h += '</div></div>';
 
   } else {
-    // ─── ÉDITEUR SMS ENRICHI
-    h += buildUnifiedEditor(campEdId, campTbId, campIbId, campHtId, c.id, 'sms', c.smsText||'');
+    // SMS : Textarea enrichi simple
+    h += '<div style="background:var(--bg3);border:1px solid rgba(255,45,120,.2);border-radius:8px 8px 0 0;padding:6px 12px;display:flex;gap:5px;flex-wrap:wrap;align-items:center;border-bottom:none;">';
+    h += '<span style="font-size:8px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--text3);">Insérer :</span>';
+    h += '<button class="vc" onclick="campSMSTaInsert(\'camp-sms-' + c.id + '\',\'{{prénom}}\')">👤 Prénom</button>';
+    h += '<button class="vc" onclick="campSMSTaInsert(\'camp-sms-' + c.id + '\',\'{{email}}\')">📧 Email</button>';
+    h += '<button class="vc" onclick="openEmojiForTa(\'camp-sms-' + c.id + '\')">😊 Emoji</button>';
+    h += '<button class="vc" onclick="campSMSInsertLinkToTa(\'camp-sms-' + c.id + '\')">🔗 Lien</button>';
+    h += '<button class="vc" style="background:rgba(255,45,120,.1);border-color:rgba(255,45,120,.3);color:var(--pnk);" onclick="campSMSTaInsert(\'camp-sms-' + c.id + '\', \' STOP SMS\')">🚫 STOP SMS</button>';
+    h += '<span id="camp-sms-cnt-' + c.id + '" style="margin-left:auto;font-family:var(--mono);font-size:10px;color:var(--text3);">0/160</span>';
+    h += '</div>';
+    h += '<textarea id="camp-sms-' + c.id + '" class="fta" style="min-height:120px;border-radius:0 0 8px 8px;border-top:none;" placeholder="Votre message SMS...\n\n→ {{prénom}} = remplacé par le prénom de chaque contact\n→ 160 caractères = 1 SMS · Au-delà = plusieurs SMS\n→ STOP SMS obligatoire à la fin (RGPD)"';
+    h += ' oninput="updSMSCnt(\'camp-sms-' + c.id + '\',' + c.id + ')">';
+    if (c.smsText) h += esc(c.smsText);
+    h += '</textarea>';
+    h += '<div class="fc" style="margin-top:8px;">';
+    h += '<label class="fl">URL image MMS <span style="font-weight:400;color:var(--text3);">(optionnel — Twilio/Vonage uniquement — URL publique)</span></label>';
+    h += '<input type="url" class="fi" id="mms-url-' + c.id + '" value="' + esc(c.mmsUrl||'') + '" placeholder="https://monsite.fr/image.jpg"></div>';
   }
 
   h += '</div></div>'; // ab-body + ab
@@ -2751,6 +2786,32 @@ function insertQuickBlock(type) {
 }
 
 /* ─── Sauvegarder corps campagne et tout ─── */
+/* Sélectionner un template pour une campagne */
+function selectCampTpl(campId, tplId) {
+  var c = S.camps.find(function(x){return x.id==campId;}); if (!c) return;
+  c.templateId = tplId ? parseInt(tplId)||tplId : null;
+  saveCamps();
+  if (tplId) {
+    var tpl = S.tpls.find(function(t){return String(t.id)===String(tplId);});
+    if (tpl && tpl.subject) {
+      var sEl = document.getElementById('camp-subj2-' + campId);
+      if (sEl && !sEl.value) sEl.value = tpl.subject;
+    }
+  }
+  toast(tplId ? 'Template sélectionné ✓' : 'Template retiré', tplId ? 'success' : 'info');
+}
+
+/* Aperçu du template pour une campagne */
+function prevCampTpl(campId) {
+  var c = S.camps.find(function(x){return x.id==campId;}); if (!c) return;
+  var tpl = S.tpls.find(function(t){return String(t.id)===String(c.templateId);});
+  if (!tpl) { toast('Aucun template sélectionné', 'warn'); return; }
+  var subj = c.subject || tpl.subject || '(Sans objet)';
+  var ps = document.getElementById('prev-subj'); if (ps) ps.textContent = applyVars(subj, EX);
+  var pb = document.getElementById('prev-body'); if (pb) pb.innerHTML = applyVars(tpl.content||'', EX) || '<em style="color:#999">Corps vide</em>';
+  showModal('modal-prev');
+}
+
 function saveCampBodyAndAll(campId) {
   var c = S.camps.find(function(x){return x.id==campId;}); if (!c) return;
   var edEl = document.getElementById('camp-rich-' + campId);
@@ -4801,7 +4862,8 @@ function init() {
   if ($('custom-form'))               $('custom-form').style.display = S.prov === 'custom' ? 'block' : 'none';
 
   // Construire les toolbars éditeur
-  buildToolbar('te-toolbar', 'pane-rich');   // Templates
+  buildToolbar('te-toolbar', 'pane-rich');
+  enableEditorLinks();   // Templates
   buildToolbar('qs-toolbar', 'qs-pane-rich'); // Envoi rapide
 
   // Rendu initial de toutes les listes
@@ -4962,8 +5024,7 @@ function showImgBar() {
   }
 }
 function hideImgBar() {
-  var bar = $('te-img-bar'); if (bar) bar.classList.remove('show');
-  var gal = $('te-img-gal'); if (gal) gal.classList.remove('show');
+  ['te-img-bar','te-img-gal'].forEach(function(id){var e=$(id);if(e)e.classList.remove('show');});
 }
 function insertImgURL() {
   var inp = $('img-url-inp');
@@ -5056,17 +5117,20 @@ function toolbarLink(editorId) {
   ed.focus();
   var sel = window.getSelection();
   var selectedText = sel ? sel.toString().trim() : '';
-  var url = prompt('URL du lien :');
+  var url = prompt('URL du lien (ex: https://www.clairvoyancemedium.com) :');
   if (!url) return;
+  // Ajouter https:// si manquant
+  if (!/^https?:\/\//i.test(url) && !url.startsWith('mailto:') && !url.startsWith('tel:')) {
+    url = 'https://' + url;
+  }
   if (selectedText) {
-    document.execCommand('createLink', false, url);
-    ed.querySelectorAll('a[href="' + url + '"]').forEach(function(a) {
-      a.target = '_blank'; a.style.color = '#c060ff'; a.style.textDecoration = 'underline';
-    });
+    // Encadrer le texte sélectionné avec un lien
+    var html = '<a href="' + url + '" target="_blank" rel="noopener" style="color:#c060ff;text-decoration:underline;cursor:pointer;">' + selectedText + '</a>';
+    document.execCommand('insertHTML', false, html);
   } else {
-    var text = prompt('Texte affiché :') || url;
+    var text = prompt('Texte du lien :') || url;
     document.execCommand('insertHTML', false,
-      '<a href="' + url + '" target="_blank" style="color:#c060ff;text-decoration:underline;">' + text + '</a>');
+      '<a href="' + url + '" target="_blank" rel="noopener" style="color:#c060ff;text-decoration:underline;cursor:pointer;">' + text + '</a>');
   }
 }
 
@@ -5110,8 +5174,8 @@ function buildToolbar(containerId, editorId) {
     {t:'btn',label:'•',            cmd:'insertUnorderedList',title:'Liste puces'},
     {t:'btn',label:'1.',           cmd:'insertOrderedList', title:'Liste numéros'},
     {t:'sep'},
-    {t:'color',label:'A',          cmd:'foreColor',         title:'Couleur texte'},
-    {t:'color',label:'◼',          cmd:'hiliteColor',       title:'Couleur fond'},
+    {t:'colorpalette', label:'A',  cmd:'foreColor',  title:'Couleur texte'},
+    {t:'colorpalette', label:'◼',  cmd:'hiliteColor',title:'Couleur de fond'},
     {t:'sep'},
     {t:'fn',label:'🖼',   fn:'toolbarShowImg',  title:'Image (URL ou upload depuis appareil)'},
     {t:'fn',label:'🔗',   fn:'toolbarLink',     title:'Lien — sélectionnez le texte puis cliquez'},
@@ -5152,6 +5216,22 @@ function buildToolbar(containerId, editorId) {
       var inp = document.createElement('input'); inp.type='color'; inp.style.cssText='display:none;width:0;height:0;';
       (function(t,i,eId){ i.oninput=function(){execForEditor(eId,t.cmd,i.value);}; })(tool,inp,editorId);
       lbl.appendChild(inp); container.appendChild(lbl); return;
+    }
+    if (tool.t === 'colorpalette') {
+      // Bouton ouvrant une vraie palette de couleurs visuelle
+      var btn = document.createElement('button');
+      btn.className = 'tb';
+      btn.title = tool.title || '';
+      btn.innerHTML = tool.label;
+      btn.style.cssText = 'position:relative;';
+      (function(t, b, eId) {
+        b.onclick = function(ev) {
+          ev.stopPropagation();
+          showColorPalette(b, eId, t.cmd);
+        };
+      })(tool, btn, editorId);
+      container.appendChild(btn);
+      return;
     }
     var btn = document.createElement('button'); btn.className='tb'; btn.title=tool.title||''; btn.innerHTML=tool.label;
     if (tool.style) btn.style.cssText=tool.style;
@@ -5340,7 +5420,209 @@ document.addEventListener('blur', function(e) {
 
 
 /* ================================================================
-   CONTACTS — COLLER DES EMAILS EN MASSE
+   PALETTE DE COULEURS VISUELLE — 2026
+   showColorPalette(btn, editorId, cmd)
+   Palette professionnelle 60+ couleurs avec organisation visuelle
+================================================================ */
+var _colorPaletteOpen = null;
+
+function showColorPalette(btn, editorId, cmd) {
+  // Fermer toute palette ouverte
+  var existing = document.getElementById('color-palette-popup');
+  if (existing) {
+    existing.remove();
+    if (_colorPaletteOpen === btn) { _colorPaletteOpen = null; return; }
+  }
+  _colorPaletteOpen = btn;
+
+  // Sauvegarder la sélection AVANT d'ouvrir la palette
+  var savedRange = null;
+  var sel = window.getSelection();
+  if (sel && sel.rangeCount > 0) savedRange = sel.getRangeAt(0).cloneRange();
+
+  var palette = [
+    // Noirs et gris
+    ['#000000','#1a1a1a','#333333','#555555','#777777','#999999','#bbbbbb','#dddddd','#eeeeee','#ffffff'],
+    // Rouges
+    ['#ff0000','#cc0000','#990000','#ff3333','#ff6666','#ff9999','#ffcccc','#ff4444','#dd2222','#aa0000'],
+    // Oranges
+    ['#ff8800','#ff6600','#dd5500','#ff9933','#ffaa55','#ffcc88','#ff7722','#ee6600','#cc4400','#ff5500'],
+    // Jaunes
+    ['#ffff00','#ffee00','#ffcc00','#ddaa00','#ffdd44','#ffe066','#fff3a0','#ffd700','#f0c000','#e0a000'],
+    // Verts
+    ['#00ff00','#00cc00','#009900','#33cc33','#66dd66','#99ee99','#00aa00','#22bb22','#007700','#005500'],
+    // Teals
+    ['#00ffcc','#00ddaa','#00bb88','#00ff88','#44ffcc','#88ffdd','#00ccaa','#009988','#007766','#00eeaa'],
+    // Bleus
+    ['#0000ff','#0033cc','#0066ff','#3399ff','#66b3ff','#99ccff','#0055cc','#0077ee','#0044bb','#001188'],
+    // Violets
+    ['#8800ff','#aa00ff','#cc33ff','#dd66ff','#9933cc','#bb44ee','#7700dd','#5500aa','#aa55ff','#cc88ff'],
+    // Roses/Magentas
+    ['#ff00ff','#ff00cc','#ff0099','#ff2d78','#ff66aa','#ff99cc','#dd0088','#cc0066','#ee4499','#ff55bb'],
+    // Couleurs supplémentaires & pastel
+    ['#00cfff','#c060ff','#ffe600','#ff7a00','#00ff88','#7de8ff','#d890ff','#ffb347','#ff6b6b','#4ecdc4'],
+  ];
+
+  var popup = document.createElement('div');
+  popup.id = 'color-palette-popup';
+  popup.style.cssText = 'position:fixed;z-index:99999;background:#22252e;border:1px solid #3d4256;border-radius:10px;padding:10px;box-shadow:0 8px 32px rgba(0,0,0,.6);min-width:220px;';
+
+  // Titre
+  var title = document.createElement('div');
+  title.style.cssText = 'font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:' + (cmd==='foreColor'?'#c060ff':'#6b7899') + ';margin-bottom:8px;';
+  title.textContent = cmd === 'foreColor' ? '🎨 Couleur du texte' : '◼ Couleur de fond';
+  popup.appendChild(title);
+
+  // Grille
+  var grid = document.createElement('div');
+  grid.style.cssText = 'display:grid;grid-template-columns:repeat(10,20px);gap:2px;';
+
+  palette.forEach(function(row) {
+    row.forEach(function(color) {
+      var swatch = document.createElement('button');
+      swatch.style.cssText = 'width:20px;height:20px;border-radius:3px;border:1px solid rgba(255,255,255,.15);background:' + color + ';cursor:pointer;transition:transform .1s;padding:0;';
+      swatch.title = color;
+      swatch.addEventListener('mouseenter', function(){ this.style.transform='scale(1.3)'; this.style.zIndex='2'; });
+      swatch.addEventListener('mouseleave', function(){ this.style.transform=''; this.style.zIndex=''; });
+      swatch.addEventListener('click', function(e) {
+        e.stopPropagation();
+        // Restaurer la sélection avant d'appliquer la couleur
+        var ed = document.getElementById(editorId);
+        if (ed) ed.focus();
+        if (savedRange) {
+          var sel2 = window.getSelection();
+          sel2.removeAllRanges();
+          sel2.addRange(savedRange);
+        }
+        document.execCommand(cmd, false, color);
+        popup.remove();
+        _colorPaletteOpen = null;
+      });
+      grid.appendChild(swatch);
+    });
+  });
+  popup.appendChild(grid);
+
+  // Input couleur custom
+  var customRow = document.createElement('div');
+  customRow.style.cssText = 'display:flex;gap:6px;align-items:center;margin-top:8px;padding-top:8px;border-top:1px solid #3d4256;';
+  customRow.innerHTML = '<span style="font-size:9px;color:#6b7899;">Couleur exacte :</span>';
+  var ci = document.createElement('input');
+  ci.type = 'color'; ci.value = '#c060ff';
+  ci.style.cssText = 'width:28px;height:22px;border:none;border-radius:3px;cursor:pointer;padding:0;';
+  ci.addEventListener('input', function() {
+    var ed = document.getElementById(editorId); if (ed) ed.focus();
+    if (savedRange) { var s=window.getSelection(); s.removeAllRanges(); s.addRange(savedRange); }
+    document.execCommand(cmd, false, ci.value);
+  });
+  ci.addEventListener('change', function() { popup.remove(); _colorPaletteOpen=null; });
+  customRow.appendChild(ci);
+  var hexInp = document.createElement('input');
+  hexInp.type='text'; hexInp.placeholder='#ff0000'; hexInp.maxLength=7;
+  hexInp.style.cssText='flex:1;background:#292c36;border:1px solid #3d4256;border-radius:4px;color:#dde2f0;font-family:monospace;font-size:10px;padding:3px 6px;outline:none;';
+  hexInp.addEventListener('change', function() {
+    var v = hexInp.value; if (!/^#[0-9a-f]{6}$/i.test(v)) return;
+    var ed = document.getElementById(editorId); if (ed) ed.focus();
+    if (savedRange) { var s=window.getSelection(); s.removeAllRanges(); s.addRange(savedRange); }
+    document.execCommand(cmd, false, v);
+    popup.remove(); _colorPaletteOpen=null;
+  });
+  customRow.appendChild(hexInp);
+  popup.appendChild(customRow);
+
+  // Position sous le bouton
+  document.body.appendChild(popup);
+  var rect = btn.getBoundingClientRect();
+  var pw = popup.offsetWidth; var ph = popup.offsetHeight;
+  var left = Math.max(4, Math.min(rect.left, window.innerWidth - pw - 4));
+  var top  = rect.bottom + 4;
+  if (top + ph > window.innerHeight) top = rect.top - ph - 4;
+  popup.style.left = left + 'px';
+  popup.style.top  = top  + 'px';
+
+  // Fermer si clic ailleurs
+  setTimeout(function() {
+    document.addEventListener('click', function closePalette() {
+      popup.remove(); _colorPaletteOpen=null;
+      document.removeEventListener('click', closePalette);
+    }, {once:true});
+  }, 50);
+}
+
+/* ================================================================
+   LIENS CLIQUABLES DANS L'ÉDITEUR
+   Dans un contenteditable, les liens ne sont pas cliquables par défaut
+   On ajoute un listener pour les ouvrir avec Ctrl+Clic ou double-clic
+================================================================ */
+function enableEditorLinks() {
+  // ── CSS : liens dans éditeur = curseur pointeur + style visible
+  var style = document.createElement('style');
+  style.textContent =
+    '[contenteditable] a { cursor: pointer !important; color: #c060ff !important; text-decoration: underline !important; }' +
+    '[contenteditable] a:hover { opacity: 0.8; }';
+  document.head.appendChild(style);
+
+  // ── CLIC SIMPLE sur un lien dans un éditeur = ouvrir le lien
+  // Technique : on intercepte mousedown, on mémorise la cible,
+  // et au mouseup si la souris n'a pas bougé = c'est un clic sur le lien
+  var _mouseDownTarget = null;
+  var _mouseDownTime = 0;
+
+  document.addEventListener('mousedown', function(e) {
+    var a = e.target.closest('a[href]');
+    if (!a) { _mouseDownTarget = null; return; }
+    var editor = a.closest('[contenteditable="true"]');
+    if (!editor) { _mouseDownTarget = null; return; }
+    _mouseDownTarget = a;
+    _mouseDownTime = Date.now();
+  });
+
+  document.addEventListener('mouseup', function(e) {
+    var a = e.target.closest('a[href]');
+    if (!a || a !== _mouseDownTarget) return;
+    var editor = a.closest('[contenteditable="true"]');
+    if (!editor) return;
+    // Si le clic dure moins de 500ms = ouverture du lien
+    if (Date.now() - _mouseDownTime < 500) {
+      e.preventDefault();
+      e.stopPropagation();
+      var url = a.getAttribute('href');
+      if (url && url !== '#') {
+        window.open(url, '_blank', 'noopener,noreferrer');
+      }
+    }
+    _mouseDownTarget = null;
+  });
+
+  // ── MOBILE : touch sur un lien = ouvrir
+  document.addEventListener('touchend', function(e) {
+    var a = e.target.closest('a[href]');
+    if (!a) return;
+    var editor = a.closest('[contenteditable="true"]');
+    if (!editor) return;
+    var url = a.getAttribute('href');
+    if (url && url !== '#') {
+      e.preventDefault();
+      window.open(url, '_blank', 'noopener,noreferrer');
+    }
+  }, { passive: false });
+
+  // ── Tooltip informatif au survol
+  document.addEventListener('mouseover', function(e) {
+    var a = e.target.closest('a[href]');
+    if (!a) return;
+    var editor = a.closest('[contenteditable="true"]');
+    if (!editor) return;
+    var href = a.getAttribute('href') || '';
+    a.title = '🔗 ' + href;
+    a.style.cursor = 'pointer';
+  });
+}
+
+
+
+/* ================================================================
+   CONTACTS — PASTE EMAILS
 ================================================================ */
 function countPastedEmails() {
   var ta = $('paste-emails-ta');
