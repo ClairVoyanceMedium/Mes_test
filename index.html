@@ -1843,17 +1843,23 @@ function showView(name) {
   // ── Rafraîchir le dashboard quota si vue email/sms
   if (name === 'email' || name === 'sms') {
     refreshQuotaBanner();
-    // Si aucune campagne affichée, ouvrir la première disponible
     var campList = S.camps.filter(function(c){return c.type===name;});
     if (campList.length > 0) {
       var activeId = name === 'sms' ? S.activeSMS : S.activeCamp;
       if (!activeId) {
-        // Ouvrir la campagne la plus récente automatiquement
         var latest = campList[campList.length-1];
         setTimeout(function(){ openCamp(latest.id, name); }, 50);
       }
     }
   }
+  if (name === 'templates') {
+    renderTplList();
+    // Auto-ouvrir le premier template si aucun actif
+    if (!S.activeTpl && S.tpls.length > 0) {
+      setTimeout(function(){ loadTpl(S.tpls[0].id); }, 50);
+    }
+  }
+  if (name === 'contacts') { renderContacts(); renderLists(); renderListSelects(); }
 }
 
 function checkMobFABs() {
@@ -2142,15 +2148,21 @@ function openCamp(id, type) {
    Utilise la concaténation de chaînes (pas de template literals)
    pour éviter tout conflit de syntaxe JS
 ================================================================ */
+
+/* ================================================================
+   buildCampForm — Construit le formulaire complet d'une campagne
+   Éditeur UNIFIÉ identique partout : Email + SMS + Templates + QS
+   Planification remontée avant anti-ban
+================================================================ */
 function buildCampForm(c) {
   var isSMS = c.type === 'sms';
   var pct   = c.emailList.length ? Math.round((c.sent / c.emailList.length) * 100) : 0;
   var dayNames = ['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];
   var h = '';
 
-  // ── HEADER
+  // ─── HEADER
   h += '<div class="camp-hdr">';
-  h += '<input type="text" class="camp-name-inp" id="cn-' + c.id + '" value="' + esc(c.name) + '" placeholder="Nom" onchange="updC(' + c.id + ',\'name\',this.value)">';
+  h += '<input type="text" class="camp-name-inp" id="cn-' + c.id + '" value="' + esc(c.name) + '" placeholder="Nom de la campagne" onchange="updC(' + c.id + ',\'name\',this.value)">';
   h += '<div style="display:flex;gap:6px;flex-wrap:wrap;">';
   h += '<button class="btn-ico" onclick="saveCamps();toast(\'✓ Sauvegardé\',\'success\')">💾</button>';
   if (c.status === 'running') {
@@ -2161,28 +2173,29 @@ function buildCampForm(c) {
   h += '<button class="btd" onclick="delCamp(' + c.id + ',\'' + c.type + '\')">✕</button>';
   h += '</div></div>';
 
-  // ── PROGRESS
+  // ─── PROGRESSION
   h += '<div class="prog-row">';
   h += '<div class="prc prc-c"><div class="prv">' + c.emailList.length.toLocaleString() + '</div><div class="prl">CONTACTS</div></div>';
   h += '<div class="prc prc-g"><div class="prv">' + c.sent.toLocaleString() + '</div><div class="prl">ENVOYÉS</div></div>';
-  h += '<div class="prc prc-y"><div class="prv">' + (isSMS ? c.errors : (c.opened||0)) + '</div><div class="prl">' + (isSMS ? 'ERREURS' : 'OUVERTS') + '</div></div>';
+  h += '<div class="prc prc-y"><div class="prv">' + (isSMS ? (c.errors||0) : (c.opened||0)) + '</div><div class="prl">' + (isSMS ? 'ERREURS' : 'OUVERTS') + '</div></div>';
   h += '<div class="prc prc-o"><div class="prv">' + pct + '%</div><div class="prl">AVANCEMENT</div></div>';
   h += '</div>';
   h += '<div class="pbar"><div class="pfill" style="width:' + pct + '%;' + (isSMS ? 'background:linear-gradient(90deg,var(--pnk),var(--pur));' : '') + '"></div></div>';
 
-  // ── SECTION 1 — DESTINATAIRES
+  // ════════════════════════════════════════
+  // SECTION 1 — DESTINATAIRES
+  // ════════════════════════════════════════
   h += '<div class="ab sc-c open">';
   h += '<div class="ab-hd" onclick="togAB(this)">';
-  h += '<div class="ab-ttl" style="' + (isSMS ? 'color:var(--pnk)' : '') + '">';
-  h += '<span class="ab-n" style="' + (isSMS ? 'background:rgba(255,45,120,.1);color:var(--pnk)' : '') + '">1</span>';
-  h += (isSMS ? 'Numéros &amp; Message' : 'Destinataires &amp; Sujet');
+  h += '<div class="ab-ttl" style="' + (isSMS ? 'color:var(--pnk)' : '') + '"><span class="ab-n" style="' + (isSMS ? 'background:rgba(255,45,120,.1);color:var(--pnk)' : '') + '">1</span>';
+  h += isSMS ? 'Numéros de téléphone' : 'Destinataires';
   h += '</div><div class="ab-cv">▾</div></div>';
   h += '<div class="ab-body">';
 
-  // Bulk paste zone
+  // Zone de collage massif
   h += '<div class="bulk-zone">';
   h += '<div class="bulk-hd" style="color:' + (isSMS ? 'var(--pnk)' : 'var(--purl)') + ';">';
-  h += '📋 Copier-coller en masse';
+  h += '📋 Copier-coller en masse — illimité';
   h += '<div style="display:flex;gap:5px;">';
   h += '<button class="ela ' + (isSMS ? 'pk' : 'g') + '" onclick="addBulkToList(' + c.id + ')">+ Ajouter tout</button>';
   if (!isSMS) {
@@ -2190,23 +2203,21 @@ function buildCampForm(c) {
   }
   h += '</div></div>';
   var bulkPH = isSMS
-    ? '+33600000001\\n+33600000002\\n→ Un numéro par ligne ou séparés par virgule'
-    : 'jean@email.com\\nmarie@gmail.com, pierre@yahoo.fr\\n→ Collez des milliers d\'adresses d\'un coup';
+    ? '+33600000001\n+33600000002, 06 00 00 00 03\nFormats: +33, 06, 07, international'
+    : 'jean@email.com\nmarie@gmail.com, pierre@yahoo.fr\nCollez des milliers d\'adresses d\'un coup — aucune limite dans l\'app';
   h += '<textarea class="bulk-ta" id="bulk-ta-' + c.id + '" placeholder="' + bulkPH + '" oninput="updBulkCnt(' + c.id + ')"></textarea>';
   h += '<div style="display:flex;align-items:center;justify-content:space-between;margin-top:5px;">';
-  h += '<span id="bulk-cnt-' + c.id + '" style="font-size:9px;color:var(--text3);">0 adresse(s)</span>';
+  h += '<span id="bulk-cnt-' + c.id + '" style="font-size:9px;color:var(--text3);">0 adresse(s) valide(s)</span>';
   h += '<button class="ela" onclick="clearBulk(' + c.id + ')">✕ Vider</button></div>';
   h += '</div>';
 
-  // Email list
+  // Liste emails
   h += '<div class="el-wrap">';
-  h += '<div class="el-hd">';
-  h += '<span class="el-cnt" id="elcnt-' + c.id + '">' + c.emailList.length.toLocaleString() + ' adresse(s)</span>';
+  h += '<div class="el-hd"><span class="el-cnt" id="elcnt-' + c.id + '">' + c.emailList.length.toLocaleString() + ' adresse(s)</span>';
   h += '<div class="el-acts">';
-  if (!isSMS) h += '<button class="ela g" onclick="importFromContactList(' + c.id + ')">👥 Depuis liste</button>';
+  if (!isSMS) h += '<button class="ela g" onclick="importFromContactList(' + c.id + ')">👥 Depuis contacts</button>';
   h += '<button class="ela y" onclick="resetSent(' + c.id + ')">↺ Tout recommencer</button>';
-  h += '<button class="ela" onclick="clearEList(' + c.id + ')">✕ Vider</button>';
-  h += '</div></div>';
+  h += '<button class="ela" onclick="clearEList(' + c.id + ')">✕ Vider tout</button></div></div>';
   h += '<div class="el-sc" id="elsc-' + c.id + '"></div>';
   h += '<div class="el-add">';
   h += '<input class="el-inp" id="eli-inp-' + c.id + '" placeholder="' + (isSMS ? '+33600000000' : 'email@exemple.com') + '" onkeydown="if(event.key===\'Enter\'){event.preventDefault();addToEList(' + c.id + ')}">';
@@ -2214,286 +2225,600 @@ function buildCampForm(c) {
   h += '<label class="el-abtn" style="cursor:pointer;">📁<input type="file" accept=".csv,.txt" style="display:none;" onchange="importEFile(this.files[0],' + c.id + ')"></label>';
   h += '</div></div>';
 
-  if (isSMS) {
-    h += '<div class="fc" style="margin-top:10px;">';
-    h += '<label class="fl">Message SMS (160 car. = 1 SMS)</label>';
-    h += '<textarea class="fta" id="sms-txt-' + c.id + '" style="min-height:80px;" oninput="updSMSCnt(' + c.id + ')">' + esc(c.smsText||'') + '</textarea>';
-    h += '<div id="sms-cnt-' + c.id + '" style="font-size:9px;color:var(--text3);margin-top:3px;">0 / 160</div>';
-    h += '</div>';
-  } else {
-    // Template select + subject + per-campaign sender
+  if (!isSMS) {
+    // Importer depuis liste + Provider
     h += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;">';
-    h += '<div class="fc"><label class="fl">Importer depuis liste</label>';
+    h += '<div class="fc"><label class="fl">Importer depuis une liste de contacts</label>';
     h += '<select class="fsel" onchange="importListToEList(' + c.id + ',this.value)">';
-    h += '<option value="">— Choisir —</option>';
-    S.lists.forEach(function(l) { h += '<option value="' + l.id + '">' + esc(l.name) + '</option>'; });
+    h += '<option value="">— Sélectionner une liste —</option>';
+    S.lists.forEach(function(l) {
+      var cnt = l.system ? S.contacts.length : S.contacts.filter(function(x){return x.listIds&&x.listIds.indexOf(l.id)>-1;}).length;
+      h += '<option value="' + l.id + '">' + esc(l.name) + ' (' + cnt + ')</option>';
+    });
     h += '</select></div>';
-    h += '<div class="fc"><label class="fl">Sujet</label>';
-    h += '<input type="text" class="fi" value="' + esc(c.subject||'') + '" placeholder="{{prénom}}, voici notre offre..." onchange="updC(' + c.id + ',\'subject\',this.value)">';
-    h += '</div></div>';
-    // Provider par campagne
-    h += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;">';
-    h += '<div class="fc"><label class="fl">Provider pour cette campagne</label>';
+    h += '<div class="fc"><label class="fl">Provider d\'envoi pour cette campagne</label>';
     h += '<select class="fsel" onchange="updC(' + c.id + ',\'campProvider\',this.value)">';
-    h += '<option value=""' + (!c.campProvider ? ' selected' : '') + '>— Défaut (Réglages) —</option>';
-    h += '<option value="gmail"' + (c.campProvider==='gmail' ? ' selected' : '') + '>🔴 Gmail</option>';
-    h += '<option value="outlook"' + (c.campProvider==='outlook' ? ' selected' : '') + '>🔵 Outlook</option>';
-    h += '<option value="custom"' + (c.campProvider==='custom' ? ' selected' : '') + '>✉️ Adresse perso</option>';
+    h += '<option value=""' + (!c.campProvider ? ' selected' : '') + '>— Par défaut (Réglages) —</option>';
+    h += '<option value="gmail"' + (c.campProvider==='gmail'?' selected':'') + '>🔴 Gmail</option>';
+    h += '<option value="outlook"' + (c.campProvider==='outlook'?' selected':'') + '>🔵 Outlook</option>';
+    h += '<option value="custom"' + (c.campProvider==='custom'?' selected':'') + '>✉️ Adresse personnalisée</option>';
     h += '</select></div>';
-    h += '<div class="fc" id="camp-from-' + c.id + '" style="' + (c.campProvider==='custom' ? '' : 'display:none;') + '">';
-    h += '<label class="fl">Email d\'envoi spécifique</label>';
-    h += '<input type="email" class="fi" value="' + esc(c.campFromEmail||'') + '" placeholder="envoi@domaine.com" onchange="updC(' + c.id + ',\'campFromEmail\',this.value)">';
-    h += '</div></div>';
+    h += '</div>';
   }
+
   h += '</div></div>'; // ab-body + ab
 
-  // ── SECTION 2/2 — CONTENU (éditeur riche intégré dans la campagne)
-  var secN2 = isSMS ? '2b' : '2';
+  // ════════════════════════════════════════
+  // SECTION 2 — CONTENU / ÉDITEUR UNIFIÉ
+  // ════════════════════════════════════════
+  var campEdId = 'camp-rich-' + c.id;
+  var campTbId = 'camp-tb-'   + c.id;
+  var campIbId = 'camp-ib-'   + c.id;
+  var campHtId = 'camp-ht-'   + c.id;
+
   h += '<div class="ab sc-p open">';
-  h += '<div class="ab-hd" onclick="togAB(this)"><div class="ab-ttl"><span class="ab-n">' + secN2 + '</span>' + (isSMS ? 'Message SMS' : 'Contenu de l\'email') + '</div><div class="ab-cv">▾</div></div>';
+  h += '<div class="ab-hd" onclick="togAB(this)">';
+  h += '<div class="ab-ttl"><span class="ab-n">2</span>' + (isSMS ? 'Message SMS / MMS' : 'Contenu de l\'email') + '</div>';
+  h += '<div class="ab-cv">▾</div></div>';
   h += '<div class="ab-body">';
 
   if (!isSMS) {
-    // Template selector
-    h += '<div style="display:flex;gap:8px;align-items:flex-end;margin-bottom:10px;flex-wrap:wrap;">';
-    h += '<div class="fc" style="flex:1;min-width:160px;"><label class="fl">Charger un template sauvegardé</label>';
-    h += '<select class="fsel" onchange="loadTplIntoCamp(' + c.id + ',this.value)">';
+    // Objet + Charger template
+    h += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;">';
+    h += '<div class="fc"><label class="fl">Objet de l\'email</label>';
+    h += '<input type="text" class="fi" id="camp-subj2-' + c.id + '" value="' + esc(c.subject||'') + '" placeholder="Votre objet — {{prénom}}, voici notre offre..." onchange="updC(' + c.id + ',\'subject\',this.value)"></div>';
+    h += '<div class="fc"><label class="fl">Charger un template existant</label>';
+    h += '<select class="fsel" onchange="loadTplIntoCamp(\'' + c.id + '\',this.value)">';
     h += '<option value="">— Choisir un template à charger —</option>';
     S.tpls.forEach(function(t) { h += '<option value="' + t.id + '">' + esc(t.name) + '</option>'; });
     h += '</select></div>';
-    h += '<button class="btn-sm" onclick="saveCampAsTpl(' + c.id + ')">💾 Sauvegarder comme template</button>';
-    h += '<a href="#" onclick="event.preventDefault();showView(\'templates\')" style="font-size:10px;color:var(--purl);text-decoration:none;">✏️ Gérer les templates →</a>';
     h += '</div>';
-    // Subject
-    h += '<div class="fc" style="margin-bottom:8px;"><label class="fl">Objet de l\'email</label>';
-    h += '<input type="text" class="fi" id="camp-subj2-' + c.id + '" value="' + esc(c.subject||'') + '" placeholder="Votre objet — {{prénom}}, voici un message pour vous..." onchange="updC(' + c.id + ',\'subject\',this.value)"></div>';
-  }
 
-  // Rich editor intégré dans la campagne
-  var edId = 'camp-editor-' + c.id;
-  var tbId = 'camp-tb-' + c.id;
-  var imgBarId = 'camp-imgbar-' + c.id;
+    // ─── ÉDITEUR RICHE EMAIL (identique à Templates)
+    h += buildUnifiedEditor(campEdId, campTbId, campIbId, campHtId, c.id, 'email', c.campBody||'');
 
-  h += '<div id="' + edId + '-wrap" class="editor-wrap">';
-  // Quick inserts bar
-  h += '<div style="padding:5px 10px;background:var(--bg3);border-bottom:1px solid var(--b2);display:flex;gap:4px;flex-wrap:wrap;align-items:center;">';
-  if (!isSMS) {
-    h += '<span style="font-size:8px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--text3);margin-right:4px;">Insérer :</span>';
-    h += '<button class="vc" onclick="campInsertVar(' + c.id + ',\'{{prénom}}\')">👤 Prénom</button>';
-    h += '<button class="vc" onclick="campInsertVar(' + c.id + ',\'{{email}}\')">📧 Email</button>';
-    h += '<button class="vc" style="background:rgba(0,255,136,.1);border-color:rgba(0,255,136,.3);color:var(--grn);" onclick="campInsertBlock(' + c.id + ',\'btn\')">🔘 Bouton CTA</button>';
-    h += '<button class="vc" style="background:rgba(255,122,0,.1);border-color:rgba(255,122,0,.3);color:var(--ora);" onclick="campInsertBlock(' + c.id + ',\'signature\')">✍️ Signature</button>';
-    h += '<button class="vc" style="background:rgba(255,45,120,.1);border-color:rgba(255,45,120,.3);color:var(--pnk);" onclick="campInsertBlock(' + c.id + ',\'unsubscribe\')">🚫 Désinscription</button>';
-    h += '<label style="display:inline-flex;align-items:center;gap:3px;cursor:pointer;background:var(--bg3);border:1px solid var(--b2);border-radius:4px;padding:3px 7px;" title="Couleur active">';
-    h += '🎨<input type="color" id="camp-color-' + c.id + '" value="#c060ff" style="width:20px;height:16px;border:none;padding:0;background:none;cursor:pointer;" title="Couleur de l\'éditeur"></label>';
   } else {
-    h += '<span style="font-size:8px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--text3);margin-right:4px;">SMS :</span>';
-    h += '<button class="vc" onclick="campSMSInsert(' + c.id + ',\'{{prénom}}\')">👤 Prénom</button>';
-    h += '<button class="vc" onclick="campSMSInsertEmoji(' + c.id + ')">😊 Emoji</button>';
-    h += '<button class="vc" onclick="campSMSInsertLink(' + c.id + ')">🔗 Lien</button>';
-    h += '<span id="camp-sms-cnt-' + c.id + '" style="margin-left:auto;font-family:var(--mono);font-size:10px;color:var(--text3);">0/160</span>';
+    // ─── ÉDITEUR SMS ENRICHI
+    h += buildUnifiedEditor(campEdId, campTbId, campIbId, campHtId, c.id, 'sms', c.smsText||'');
   }
-  h += '</div>';
-  // Toolbar (only for email)
-  if (!isSMS) {
-    h += '<div id="' + tbId + '" class="editor-toolbar"></div>';
-    h += '<div id="' + imgBarId + '" class="img-bar">';
-    h += '<input type="text" class="ip-inp" id="camp-img-url-' + c.id + '" placeholder="https://url-image.jpg">';
-    h += '<button class="ip-btn" onclick="campInsertImgURL(' + c.id + ')">Insérer URL</button>';
-    h += '<label class="ip-btn" style="cursor:pointer;">📁 Upload<input type="file" accept="image/*" style="display:none;" onchange="campInsertImgFile(this,' + c.id + ')"></label>';
-    h += '<button class="btn-ico" style="padding:5px 8px;" onclick="document.getElementById(\'camp-imgbar-' + c.id + '\').classList.remove(\'show\')">✕</button>';
-    h += '</div>';
-    // Rich text area
-    h += '<div id="' + edId + '" class="pane-rich" contenteditable="true"';
-    h += ' data-placeholder="Rédigez votre email ici — toutes les fonctionnalités sont disponibles dans la toolbar ci-dessus...">';
-    if (c.campBody) h += c.campBody;
-    h += '</div>';
-    // Bottom bar
-    h += '<div style="background:var(--bg3);border-top:1px solid var(--b2);padding:5px 10px;display:flex;align-items:center;gap:8px;">';
-    h += '<button class="ela" onclick="toggleCampHtmlMode(' + c.id + ')" id="camp-mode-btn-' + c.id + '">⇄ HTML brut</button>';
-    h += '<span style="font-size:9px;color:var(--text3);"><span id="camp-mode-lbl-' + c.id + '">Éditeur visuel</span></span>';
-    h += '<button class="ela" onclick="prevCampEmail(' + c.id + ')" style="margin-left:auto;">👁 Aperçu</button>';
-    h += '</div>';
-    // HTML pane (hidden)
-    h += '<textarea id="camp-html-' + c.id + '" class="pane-code" style="display:none;" spellcheck="false" oninput="campSyncHtml(' + c.id + ')" placeholder="<!-- HTML ici -->"></textarea>';
-  } else {
-    // SMS textarea with counter
-    h += '<textarea id="' + edId + '" class="fta" style="min-height:100px;border-radius:0 0 8px 8px;border-top:none;" placeholder="Votre message SMS...&#10;Conseil : ajoutez STOP SMS à la fin pour la conformité RGPD" oninput="updCampSMSCnt(' + c.id + ')"></textarea>';
-  }
-  h += '</div>'; // editor-wrap
 
   h += '</div></div>'; // ab-body + ab
 
-  // Initialiser la toolbar après rendu
-  setTimeout(function() {
-    if (!isSMS) {
-      buildToolbar(tbId, edId);
-      // Relier le bouton image à la barre image de la campagne
-      var btn = document.querySelector('#' + tbId + ' button[title*="Image"]');
-      if (btn) btn.onclick = function(){
-        var bar = document.getElementById(imgBarId);
-        if (bar) bar.classList.toggle('show');
-      };
-    }
-    // Restaurer le contenu si existant
-    if (!isSMS && c.campBody) {
-      var ed = document.getElementById(edId);
-      if (ed) ed.innerHTML = c.campBody;
-    } else if (isSMS && c.smsText) {
-      var ta = document.getElementById(edId);
-      if (ta) { ta.value = c.smsText; updCampSMSCnt(c.id); }
-    }
-  }, 100);
-
-  // ── SECTION 3/2 — AUTOMATISATION
-  var autoN = isSMS ? 2 : 3;
+  // ════════════════════════════════════════
+  // SECTION 3 — AUTOMATISATION & PLANIFICATION
+  // ════════════════════════════════════════
   h += '<div class="ab sc-y open">';
-  h += '<div class="ab-hd" onclick="togAB(this)"><div class="ab-ttl"><span class="ab-n">' + autoN + '</span>Automatisation &amp; Cadence</div><div class="ab-cv">▾</div></div>';
+  h += '<div class="ab-hd" onclick="togAB(this)"><div class="ab-ttl"><span class="ab-n">3</span>Automatisation &amp; Planification horaire</div><div class="ab-cv">▾</div></div>';
   h += '<div class="ab-body">';
 
-  // Slider emails/h
+  // Sliders cadence + limite
   var fillRph = Math.min(100, (c.ratePerHour / 100000) * 100);
-  h += '<div class="sblock">';
-  h += '<div class="sbtop"><span class="slbl">' + (isSMS ? 'SMS' : 'Emails') + ' par heure</span>';
+  h += '<div class="sblock"><div class="sbtop"><span class="slbl">' + (isSMS?'SMS':'Emails') + ' par heure</span>';
   h += '<span class="sval" style="color:var(--yel);" id="sv-rph-' + c.id + '">' + c.ratePerHour.toLocaleString() + '<span class="ssub">/h</span></span></div>';
   h += '<div class="strk"><div class="sfill" style="background:var(--yel);width:' + fillRph + '%;" id="sf-rph-' + c.id + '"></div>';
-  h += '<input type="range" class="sr" min="1" max="100000" value="' + c.ratePerHour + '"';
-  h += ' oninput="updSl(' + c.id + ',\'ratePerHour\',this.value,\'rph\',100000)"';
-  h += ' onchange="updC(' + c.id + ',\'ratePerHour\',+this.value)"></div>';
-  h += '<div class="smks"><span class="smk">1</span><span class="smk">1K</span><span class="smk">10K</span><span class="smk">100K</span></div></div>';
+  h += '<input type="range" class="sr" min="1" max="100000" value="' + c.ratePerHour + '" oninput="updSl(' + c.id + ',\'ratePerHour\',this.value,\'rph\',100000)" onchange="updC(' + c.id + ',\'ratePerHour\',+this.value)"></div>';
+  h += '<div class="smks"><span class="smk">1</span><span class="smk">1 000</span><span class="smk">10 000</span><span class="smk">100 000</span></div></div>';
 
-  // Slider limite/j
   var fillDay = Math.min(100, (c.dailyLimit / 1000000) * 100);
-  h += '<div class="sblock">';
-  h += '<div class="sbtop"><span class="slbl">Limite par jour</span>';
+  h += '<div class="sblock"><div class="sbtop"><span class="slbl">Limite maximum par jour</span>';
   h += '<span class="sval" style="color:var(--yel);" id="sv-day-' + c.id + '">' + c.dailyLimit.toLocaleString() + '<span class="ssub">/j</span></span></div>';
   h += '<div class="strk"><div class="sfill" style="background:var(--yel);width:' + fillDay + '%;" id="sf-day-' + c.id + '"></div>';
-  h += '<input type="range" class="sr" min="1" max="1000000" value="' + c.dailyLimit + '"';
-  h += ' oninput="updSl(' + c.id + ',\'dailyLimit\',this.value,\'day\',1000000)"';
-  h += ' onchange="updC(' + c.id + ',\'dailyLimit\',+this.value)"></div>';
+  h += '<input type="range" class="sr" min="1" max="1000000" value="' + c.dailyLimit + '" oninput="updSl(' + c.id + ',\'dailyLimit\',this.value,\'day\',1000000)" onchange="updC(' + c.id + ',\'dailyLimit\',+this.value)"></div>';
   h += '<div class="smks"><span class="smk">1</span><span class="smk">10K</span><span class="smk">100K</span><span class="smk">1M</span></div></div>';
 
-  // ── Durée et planning cohérents
-  // On choisit SOIT une durée rapide, SOIT une date de fin précise — pas les deux
-  h += '<div style="background:var(--bg3);border:1px solid var(--b2);border-radius:8px;padding:12px;margin-bottom:12px;">';
-  h += '<div class="slbl" style="display:block;margin-bottom:8px;">⏱ Durée de la campagne</div>';
-  // Durée rapide
-  h += '<div style="margin-bottom:10px;"><div style="font-size:10px;color:var(--text2);margin-bottom:5px;">Durée rapide :</div><div class="dur-row">';
+  // Durée
+  h += '<div style="margin-bottom:14px;"><div class="slbl" style="display:block;margin-bottom:7px;">Durée totale</div><div class="dur-row">';
   DUR_OPTS.forEach(function(o) {
-    var isSel = (o.v === -1 && c.durationInfinite) || (o.v === c.durationH && !c.durationInfinite);
-    var cls = 'dc' + (isSel ? ' sel' : '') + (o.v === -1 ? ' inf' : '');
-    h += '<div class="' + cls + '" onclick="setDur(' + c.id + ',' + o.v + ',this)">' + o.l + '</div>';
+    var isSel = (o.v===-1&&c.durationInfinite)||(o.v===c.durationH&&!c.durationInfinite);
+    h += '<div class="dc' + (isSel?' sel':'') + (o.v===-1?' inf':'') + '" onclick="setDur(' + c.id + ',' + o.v + ',this)">' + o.l + '</div>';
   });
   h += '</div></div>';
-  // OU date précise
-  h += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">';
-  h += '<div class="fc"><label class="fl">📅 Date de début <span style="font-weight:400;color:var(--text3);">(optionnel)</span></label>';
+
+  // Dates
+  h += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;">';
+  h += '<div class="fc"><label class="fl">📅 Date de début (optionnel)</label>';
   h += '<input type="date" class="fi" value="' + esc(c.startDate||'') + '" onchange="updC(' + c.id + ',\'startDate\',this.value)"></div>';
-  h += '<div class="fc"><label class="fl">📅 Date de fin <span style="font-weight:400;color:var(--text3);">(optionnel)</span></label>';
-  h += '<input type="date" class="fi" value="' + esc(c.endDate||'') + '" onchange="updC(' + c.id + ',\'endDate\',this.value)">';
-  h += '<div style="font-size:9px;color:var(--text3);margin-top:3px;">Si une date de fin est définie, elle prime sur la durée rapide</div></div>';
-  h += '</div></div>';
+  h += '<div class="fc"><label class="fl">📅 Date de fin (prime sur durée)</label>';
+  h += '<input type="date" class="fi" value="' + esc(c.endDate||'') + '" onchange="updC(' + c.id + ',\'endDate\',this.value)"></div>';
+  h += '</div>';
 
   // Ordre + fin liste
   var orders = [
-    {v:'inorder', l:"L'un/l'autre", i:'➡️', s:'Ordre CSV', col:'var(--cyan)'},
-    {v:'random',  l:'Au hasard',    i:'🎲', s:'Aléatoire',  col:'var(--yel)'},
-    {v:'loop',    l:'En boucle',    i:'🔁', s:'Boucle ∞',   col:'var(--grn)'}
+    {v:'inorder',l:"L'un après l'autre",i:'➡️',s:'Ordre CSV',col:'var(--cyan)'},
+    {v:'random', l:'Au hasard',          i:'🎲',s:'Aléatoire',  col:'var(--yel)'},
+    {v:'loop',   l:'En boucle',          i:'🔁',s:'Boucle ∞',   col:'var(--grn)'}
   ];
   var eols = [
-    {v:'stop',    l:'Arrêter',     i:'🛑', s:'Campagne terminée',   col:'var(--red)'},
-    {v:'restart', l:'Recommencer', i:'↩️', s:'Depuis le début',     col:'var(--grn)'},
-    {v:'resume',  l:'Reprendre',   i:'▶️', s:'Reprend après arrêt', col:'var(--purl)'}
+    {v:'stop',    l:'Arrêter',     i:'🛑',s:'Fin immédiate',  col:'var(--red)'},
+    {v:'restart', l:'Recommencer', i:'↩️',s:'Depuis début',   col:'var(--grn)'},
+    {v:'resume',  l:'Reprendre',   i:'▶️',s:'Après arrêt',    col:'var(--purl)'}
   ];
+  h += '<div style="margin-bottom:12px;"><div class="slbl" style="display:block;margin-bottom:7px;">Ordre d\'envoi</div><div class="mcards">';
+  orders.forEach(function(o) {
+    var on=c.sendOrder===o.v, st=on?'color:'+o.col+';border-color:'+o.col+';box-shadow:0 0 10px '+o.col+'40;':'';
+    h+='<div class="mc" style="'+st+'" onclick="setMC('+c.id+',\'sendOrder\',\''+o.v+'\',this,\''+o.col+'\')"><span class="mci">'+o.i+'</span>'+o.l+'<span class="mcs">'+o.s+'</span></div>';
+  });
+  h += '</div></div>';
+  h += '<div style="margin-bottom:14px;"><div class="slbl" style="display:block;margin-bottom:7px;">Fin de liste</div><div class="mcards">';
+  eols.forEach(function(o) {
+    var on=c.endOfList===o.v, st=on?'color:'+o.col+';border-color:'+o.col+';box-shadow:0 0 10px '+o.col+'40;':'';
+    h+='<div class="mc" style="'+st+'" onclick="setMC('+c.id+',\'endOfList\',\''+o.v+'\',this,\''+o.col+'\')"><span class="mci">'+o.i+'</span>'+o.l+'<span class="mcs">'+o.s+'</span></div>';
+  });
+  h += '</div></div>';
 
-  function mcCards(arr, field) {
-    var out = '<div class="mcards">';
-    arr.forEach(function(o) {
-      var active = c[field] === o.v;
-      var st = active ? ('color:' + o.col + ';border-color:' + o.col + ';box-shadow:0 0 10px ' + o.col + '40;') : '';
-      out += '<div class="mc" style="' + st + '" onclick="setMC(' + c.id + ',\'' + field + '\',\'' + o.v + '\',this,\'' + o.col + '\')">';
-      out += '<span class="mci">' + o.i + '</span>' + o.l + '<span class="mcs">' + o.s + '</span></div>';
-    });
-    return out + '</div>';
+  // ─── PLANIFICATION HORAIRE
+  h += '<div style="background:var(--bg3);border:1px solid var(--b2);border-radius:10px;padding:14px;margin-bottom:12px;">';
+  h += '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px;">';
+  h += '<div style="font-size:11px;font-weight:800;color:var(--ora);">📅 Planification horaire <span style="font-weight:400;font-size:10px;color:var(--text3);">(optionnel)</span></div>';
+  // Toggle continu vs planifié
+  h += '<div style="display:flex;gap:6px;">';
+  h += '<button id="btn-sched-off-' + c.id + '" onclick="setSchedMode(' + c.id + ',false)" style="padding:5px 12px;border-radius:6px;font-size:10px;font-weight:700;cursor:pointer;border:1px solid ' + (!c.schedEnabled?'var(--cyan)':'var(--b2)') + ';background:' + (!c.schedEnabled?'rgba(0,232,255,.1)':'none') + ';color:' + (!c.schedEnabled?'var(--cyan)':'var(--text2)') + ';">⚡ Continu 24h/24</button>';
+  h += '<button id="btn-sched-on-' + c.id + '" onclick="setSchedMode(' + c.id + ',true)" style="padding:5px 12px;border-radius:6px;font-size:10px;font-weight:700;cursor:pointer;border:1px solid ' + (c.schedEnabled?'var(--ora)':'var(--b2)') + ';background:' + (c.schedEnabled?'rgba(255,122,0,.1)':'none') + ';color:' + (c.schedEnabled?'var(--ora)':'var(--text2)') + ';">📅 Créneaux horaires</button>';
+  h += '</div></div>';
+
+  // Explication mode actif
+  h += '<div id="sched-explain-' + c.id + '" style="font-size:10px;color:var(--text2);background:' + (!c.schedEnabled?'rgba(0,232,255,.05)':'rgba(255,122,0,.05)') + ';border:1px solid ' + (!c.schedEnabled?'rgba(0,232,255,.15)':'rgba(255,122,0,.15)') + ';border-radius:7px;padding:8px 12px;margin-bottom:10px;line-height:1.6;">';
+  if (!c.schedEnabled) {
+    h += '⚡ <strong style="color:var(--cyan);">Mode continu :</strong> Le Worker envoie ' + c.ratePerHour + ' ' + (isSMS?'SMS':'emails') + '/h en permanence, jusqu\'à la limite journalière ou la fin de liste.';
+  } else {
+    h += '📅 <strong style="color:var(--ora);">Mode planifié :</strong> Le Worker envoie uniquement dans les créneaux définis ci-dessous à raison de ' + c.ratePerHour + ' ' + (isSMS?'SMS':'emails') + '/h. En dehors des créneaux = aucun envoi.';
   }
+  h += '</div>';
 
-  h += '<div style="margin-bottom:12px;"><div class="slbl" style="display:block;margin-bottom:7px;">Ordre d\'envoi</div>' + mcCards(orders, 'sendOrder') + '</div>';
-  h += '<div style="margin-bottom:12px;"><div class="slbl" style="display:block;margin-bottom:7px;">Fin de liste</div>' + mcCards(eols, 'endOfList') + '</div>';
+  // Grille des jours (toujours affichée en mode planifié)
+  h += '<div id="sched-days-' + c.id + '" style="' + (!c.schedEnabled?'display:none;':'') + '">';
+  h += '<div style="font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--ora);margin-bottom:10px;">Cochez les jours — définissez les horaires de chaque jour</div>';
 
-  h += '<div class="as-box" id="as-' + c.id + '">' + buildAS(c) + '</div>';
-  h += '</div></div>'; // ab-body + ab
-
-  // ── SECTION 4/3 — PLANIFICATION PAR JOUR
-  var schedN = isSMS ? 3 : 4;
-  h += '<div class="ab sc-o">';
-  h += '<div class="ab-hd" onclick="togAB(this)"><div class="ab-ttl"><span class="ab-n">' + schedN + '</span>Planification horaire <span class="ab-opt">OPTIONNEL</span></div><div class="ab-cv">▾</div></div>';
-  h += '<div class="ab-body">';
-  h += '<div class="tog ' + (c.schedEnabled ? 'on' : '') + '" onclick="togSchedEnabled(' + c.id + ',this)">';
-  h += '<div><div class="tog-t">' + (c.schedEnabled ? '✅ Planification ACTIVE' : '⏸ Planification DÉSACTIVÉE') + '</div>';
-  h += '<div class="tog-d">' + (c.schedEnabled ? '<strong style="color:var(--grn);">✓ Le Worker envoie uniquement aux horaires définis ci-dessous</strong>' : 'Désactivé = envoi continu 24h/24 selon la cadence · Activez pour choisir des horaires précis par jour') + '</div></div>';
-  h += '<div class="tsw"></div></div>';
-  h += '<div id="sched-body-' + c.id + '" style="' + (c.schedEnabled ? '' : 'display:none;') + '">';
-  h += '<div style="font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--ora);margin-bottom:10px;">Cochez les jours → définissez les horaires de chaque jour indépendamment</div>';
-
-  dayNames.forEach(function(dayName, i) {
-    var dn = i + 1;
+  dayNames.forEach(function(dayName, idx) {
+    var dn = idx + 1;
     var active = c.days.indexOf(dn) > -1;
     var ds = (c.daySchedules && c.daySchedules['day'+dn]) || {from:'09:00', to:'18:00'};
     var maxSend = calcDayMax(ds, c.ratePerHour);
-    h += '<div class="day-sched-row ' + (active ? 'on' : '') + '" id="dayrow-' + c.id + '-' + dn + '">';
+    h += '<div class="day-sched-row ' + (active?'on':'') + '" id="dayrow-' + c.id + '-' + dn + '" style="margin-bottom:5px;">';
     h += '<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">';
-    h += '<div class="dchip ' + (active ? 'on' : '') + '" onclick="toggleDaySchedule(' + c.id + ',' + dn + ',this)" style="min-width:44px;font-size:10px;font-weight:700;">' + dayName + '</div>';
-    h += '<div id="dayhours-' + c.id + '-' + dn + '" style="display:' + (active ? 'flex' : 'none') + ';align-items:center;gap:8px;flex-wrap:wrap;flex:1;">';
+    h += '<div class="dchip ' + (active?'on':'') + '" onclick="toggleDaySchedule(\'' + c.id + '\',' + dn + ',this)" style="min-width:44px;font-size:10px;font-weight:700;">' + dayName + '</div>';
+    h += '<div id="dayhours-' + c.id + '-' + dn + '" style="display:' + (active?'flex':'none') + ';align-items:center;gap:8px;flex-wrap:wrap;flex:1;">';
     h += '<span style="font-size:9px;color:var(--text2);font-weight:700;">De</span>';
-    h += '<input type="time" class="fi" style="width:100px;padding:5px 8px;font-size:11px;" value="' + ds.from + '" onchange="updDaySchedule(' + c.id + ',' + dn + ',\'from\',this.value)">';
+    h += '<input type="time" class="fi" style="width:100px;padding:5px 8px;font-size:11px;" value="' + ds.from + '" onchange="updDaySchedule(\'' + c.id + '\',' + dn + ',\'from\',this.value)">';
     h += '<span style="font-size:9px;color:var(--text2);font-weight:700;">à</span>';
-    h += '<input type="time" class="fi" style="width:100px;padding:5px 8px;font-size:11px;" value="' + ds.to + '" onchange="updDaySchedule(' + c.id + ',' + dn + ',\'to\',this.value)">';
-    h += '<span id="daymax-' + c.id + '-' + dn + '" style="font-size:9px;color:var(--text3);">Max ' + maxSend + ' ' + (isSMS ? 'SMS' : 'emails') + '</span>';
+    h += '<input type="time" class="fi" style="width:100px;padding:5px 8px;font-size:11px;" value="' + ds.to + '" onchange="updDaySchedule(\'' + c.id + '\',' + dn + ',\'to\',this.value)">';
+    h += '<span id="daymax-' + c.id + '-' + dn + '" style="font-size:9px;color:var(--grn);font-weight:700;">→ ' + maxSend + ' ' + (isSMS?'SMS':'emails') + ' max</span>';
     h += '</div>';
-    h += '<div id="dayoff-' + c.id + '-' + dn + '" style="' + (active ? 'display:none;' : '') + 'font-size:10px;color:var(--text3);">Pas d\'envoi</div>';
+    h += '<div id="dayoff-' + c.id + '-' + dn + '" style="' + (active?'display:none;':'') + 'font-size:10px;color:var(--text3);">Pas d\'envoi</div>';
     h += '</div></div>';
   });
+  h += '</div>'; // sched-days
 
-  h += '</div></div></div>'; // sched-body + ab-body + ab
+  h += '</div>'; // bloc planification
 
-  // ── SECTION 5/4 — ANTI-BAN
-  var banN = isSMS ? 4 : 5;
+  // Résumé automatisation
+  h += '<div class="as-box" id="as-' + c.id + '">' + buildAS(c) + '</div>';
+  h += '</div></div>'; // ab-body + ab
+
+  // ════════════════════════════════════════
+  // SECTION 4 — ANTI-BANNISSEMENT
+  // ════════════════════════════════════════
   h += '<div class="ab sc-r">';
-  h += '<div class="ab-hd" onclick="togAB(this)"><div class="ab-ttl"><span class="ab-n">' + banN + '</span>Anti-bannissement</div><div class="ab-cv">▾</div></div>';
+  h += '<div class="ab-hd" onclick="togAB(this)"><div class="ab-ttl"><span class="ab-n">4</span>Anti-bannissement &amp; Délais</div><div class="ab-cv">▾</div></div>';
   h += '<div class="ab-body">';
   if (isSMS) {
-    h += '<div style="background:var(--bg3);border:1px solid rgba(255,45,120,.2);border-radius:8px;padding:12px;font-size:11px;color:var(--text2);line-height:1.7;">';
-    h += '<strong style="color:var(--pnk);">Règles SMS :</strong><br>• RGPD : consentement requis — mentionnez STOP SMS<br>• Interdit entre 22h et 8h<br>• Twilio : max recommandé 1 SMS/sec</div>';
+    h += '<div style="background:var(--bg3);border:1px solid rgba(255,45,120,.2);border-radius:8px;padding:12px;font-size:11px;color:var(--text2);line-height:1.8;margin-bottom:10px;">';
+    h += '<strong style="color:var(--pnk);">Règles SMS :</strong><br>';
+    h += '• RGPD obligatoire : mentionnez STOP SMS dans chaque message<br>';
+    h += '• Interdit entre 22h et 8h et le dimanche matin avant 9h<br>';
+    h += '• Twilio : recommandé max 1 SMS/seconde';
+    h += '</div>';
   } else {
-    h += '<div>';
+    h += '<div style="margin-bottom:10px;">';
     Object.keys(QUOTAS).forEach(function(k) {
       var q = QUOTAS[k];
-      var p2 = Math.min(100, Math.round((c.dailyLimit / q.day) * 100));
-      var col = c.dailyLimit > q.day ? 'var(--red)' : c.dailyLimit > q.safe ? 'var(--yel)' : 'var(--grn)';
-      h += '<div style="display:flex;align-items:center;padding:6px 0;border-bottom:1px solid var(--b1);gap:8px;">';
+      var p2 = Math.min(100, Math.round((c.dailyLimit/q.day)*100));
+      var col = c.dailyLimit>q.day ? 'var(--red)' : c.dailyLimit>q.safe ? 'var(--yel)' : 'var(--grn)';
+      h += '<div style="display:flex;align-items:center;padding:5px 0;border-bottom:1px solid var(--b1);gap:8px;">';
       h += '<span style="font-size:10px;color:var(--text2);flex:1;">' + q.lbl + '</span>';
-      h += '<span style="font-family:var(--mono);font-size:9px;color:' + col + ';min-width:100px;text-align:right;">' + c.dailyLimit.toLocaleString() + '/' + q.day.toLocaleString() + '/j</span>';
-      h += '<div style="width:50px;height:2px;background:var(--bg4);border-radius:2px;"><div style="height:100%;background:' + col + ';width:' + p2 + '%;"></div></div>';
+      h += '<span style="font-family:var(--mono);font-size:9px;color:'+col+';min-width:110px;text-align:right;">' + c.dailyLimit.toLocaleString() + '/' + q.day.toLocaleString() + '/j</span>';
+      h += '<div style="width:50px;height:2px;background:var(--bg4);border-radius:2px;"><div style="height:100%;background:'+col+';width:'+p2+'%;"></div></div>';
       h += '</div>';
     });
     h += '</div>';
   }
-  h += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px;">';
-  h += '<div class="fc"><label class="fl">Délai min entre envois (sec)</label>';
-  h += '<input type="number" class="fi" value="' + (c.delayMin||2) + '" min="0" onchange="updC(' + c.id + ',\'delayMin\',+this.value)"></div>';
-  h += '<div class="fc"><label class="fl">Délai max entre envois (sec)</label>';
-  h += '<input type="number" class="fi" value="' + (c.delayMax||8) + '" min="0" onchange="updC(' + c.id + ',\'delayMax\',+this.value)"></div>';
+  h += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">';
+  h += '<div class="fc"><label class="fl">Délai min entre envois (sec)</label><input type="number" class="fi" value="' + (c.delayMin||2) + '" min="0" onchange="updC(' + c.id + ',\'delayMin\',+this.value)"></div>';
+  h += '<div class="fc"><label class="fl">Délai max entre envois (sec)</label><input type="number" class="fi" value="' + (c.delayMax||8) + '" min="0" onchange="updC(' + c.id + ',\'delayMax\',+this.value)"></div>';
   h += '</div>';
   h += '</div></div>';
 
-  // ── BOUTONS BAS
+  // BOUTONS BAS
   h += '<div style="padding:12px 18px;display:flex;gap:7px;flex-wrap:wrap;">';
-  h += '<button class="btn-ico" style="flex:1;padding:11px;" onclick="saveCamps();toast(\'✓ Sauvegardé\',\'success\')">💾 Sauvegarder</button>';
-  h += '<button class="btl ' + (isSMS ? 'pnk' : '') + '" style="flex:2;justify-content:center;padding:11px;" onclick="launchCamp(' + c.id + ')">▶ Lancer la campagne</button>';
+  h += '<button class="btn-ico" style="flex:1;padding:11px;" onclick="saveCampBodyAndAll(' + c.id + ');saveCamps();toast(\'✓ Sauvegardé\',\'success\')">💾 Sauvegarder</button>';
+  h += '<button class="btl ' + (isSMS?'pnk':'') + '" style="flex:2;justify-content:center;padding:11px;" onclick="launchCamp(' + c.id + ')">▶ Lancer la campagne</button>';
   h += '</div>';
+
+  // Init toolbar après rendu DOM
+  setTimeout(function() {
+    if (!isSMS) {
+      initCampEditor(c.id, campEdId, campTbId, campIbId);
+      if (c.campBody) {
+        var ed = document.getElementById(campEdId);
+        if (ed) ed.innerHTML = c.campBody;
+      }
+    } else {
+      if (c.smsText) {
+        var ta = document.getElementById(campEdId);
+        if (ta) { ta.value = c.smsText; updCampSMSCnt(c.id); }
+      }
+    }
+  }, 80);
 
   return h;
 }
+
+/* ─── ÉDITEUR UNIFIÉ — Construit le HTML de l'éditeur complet
+   Utilisé dans : Campagne Email, SMS, Envoi Rapide, Templates
+   type = 'email' | 'sms'
+──────────────────────────────────────────────────────────── */
+function buildUnifiedEditor(edId, tbId, ibId, htId, campId, type, initialContent) {
+  var isSMS = type === 'sms';
+  var h = '';
+  h += '<div class="editor-wrap" id="ew-' + (campId||edId) + '">';
+
+  if (!isSMS) {
+    // ── Barre raccourcis email
+    h += '<div style="padding:5px 10px;background:var(--bg3);border-bottom:1px solid var(--b2);display:flex;gap:3px;flex-wrap:wrap;align-items:center;">';
+    h += '<span style="font-size:8px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--text3);">Insérer :</span>';
+    if (campId) {
+      h += '<button class="vc" onclick="campRichInsertVar(\'' + campId + '\',\'{{prénom}}\')">👤 Prénom</button>';
+      h += '<button class="vc" onclick="campRichInsertVar(\'' + campId + '\',\'{{email}}\')">📧 Email</button>';
+      h += '<button class="vc" style="background:rgba(0,255,136,.1);border-color:rgba(0,255,136,.3);color:var(--grn);" onclick="campRichInsertBlock(\'' + campId + '\',\'btn\')">🔘 Bouton CTA</button>';
+      h += '<button class="vc" style="background:rgba(255,122,0,.1);border-color:rgba(255,122,0,.3);color:var(--ora);" onclick="campRichInsertBlock(\'' + campId + '\',\'signature\')">✍️ Signature</button>';
+      h += '<button class="vc" style="background:rgba(0,232,255,.1);border-color:rgba(0,232,255,.3);color:var(--cyan);" onclick="campRichInsertBlock(\'' + campId + '\',\'divider\')">— Séparateur</button>';
+      h += '<button class="vc" style="background:rgba(255,45,120,.1);border-color:rgba(255,45,120,.3);color:var(--pnk);" onclick="campRichInsertBlock(\'' + campId + '\',\'unsubscribe\')">🚫 Désinscription</button>';
+      h += '<label style="display:inline-flex;align-items:center;gap:3px;cursor:pointer;background:var(--bg3);border:1px solid var(--b2);border-radius:4px;padding:3px 7px;" title="Couleur active — affecte séparateurs et boutons">🎨<input type="color" id="camp-color-' + campId + '" value="#c060ff" style="width:20px;height:16px;border:none;padding:0;background:none;cursor:pointer;"></label>';
+      h += '<button class="ela" onclick="saveCampAsTpl(\'' + campId + '\')" style="margin-left:auto;">💾 → Template</button>';
+    } else {
+      h += '<button class="vc" onclick="iVar(\'{{prénom}}\')">👤 Prénom</button>';
+      h += '<button class="vc" onclick="iVar(\'{{email}}\')">📧 Email</button>';
+      h += '<button class="vc" style="background:rgba(0,255,136,.1);border-color:rgba(0,255,136,.3);color:var(--grn);" onclick="insertQuickBlock(\'btn\')">🔘 Bouton CTA</button>';
+      h += '<button class="vc" style="background:rgba(255,122,0,.1);border-color:rgba(255,122,0,.3);color:var(--ora);" onclick="insertQuickBlock(\'signature\')">✍️ Signature</button>';
+      h += '<button class="vc" style="background:rgba(0,232,255,.1);border-color:rgba(0,232,255,.3);color:var(--cyan);" onclick="insertQuickBlock(\'divider\')">— Séparateur</button>';
+      h += '<button class="vc" style="background:rgba(255,45,120,.1);border-color:rgba(255,45,120,.3);color:var(--pnk);" onclick="insertQuickBlock(\'unsubscribe\')">🚫 Désinscription</button>';
+      h += '<label style="display:inline-flex;align-items:center;gap:3px;cursor:pointer;background:var(--bg3);border:1px solid var(--b2);border-radius:4px;padding:3px 7px;" title="Couleur active">🎨<input type="color" id="editor-color-picker" value="#c060ff" style="width:20px;height:16px;border:none;padding:0;background:none;cursor:pointer;" oninput="applyEditorColor(this.value)"></label>';
+    }
+    h += '</div>';
+
+    // Toolbar principale (construite dynamiquement)
+    h += '<div id="' + tbId + '" class="editor-toolbar"></div>';
+
+    // Barre image
+    h += '<div id="' + ibId + '" class="img-bar">';
+    h += '<input type="text" class="ip-inp" id="ib-url-' + (campId||'tpl') + '" placeholder="https://url-image.jpg">';
+    h += '<button class="ip-btn" onclick="uEditorInsertImgURL(\'' + edId + '\',\'' + (campId||'') + '\')">Insérer URL</button>';
+    h += '<label class="ip-btn" style="cursor:pointer;">📁 Upload<input type="file" accept="image/*" style="display:none;" onchange="uEditorInsertImgFile(this,\'' + edId + '\',\'' + (campId||'') + '\')"></label>';
+    h += '<label class="ip-btn" style="cursor:pointer;">📚 Bibliothèque<input type="file" accept="image/*" style="display:none;" onchange="uEditorSaveAndInsertImg(this,\'' + edId + '\')"></label>';
+    h += '<button class="btn-ico" style="padding:5px 8px;" onclick="document.getElementById(\'' + ibId + '\').classList.remove(\'show\')">✕</button>';
+    h += '</div>';
+
+    // Zone d'édition visuelle
+    h += '<div id="' + edId + '" class="pane-rich" contenteditable="true" style="min-height:200px;" data-cid="' + (campId||'') + '" data-placeholder="Rédigez votre email ici — images, liens, vidéos YouTube, tableaux, musiques...">';
+    if (initialContent) h += initialContent;
+    h += '</div>';
+
+    // Zone HTML brut
+    h += '<textarea id="' + htId + '" class="pane-code" style="display:none;min-height:200px;" spellcheck="false" placeholder="<!-- Collez votre HTML ici -->\n\n<h1 style=\'color:#c060ff;\'>Bonjour {{prénom}}</h1>\n<p>Votre message...</p>"></textarea>';
+
+    // Pied
+    h += '<div style="background:var(--bg2);border-top:1px solid var(--b2);padding:6px 12px;display:flex;align-items:center;gap:8px;">';
+    h += '<button class="ela" onclick="toggleUEditorHtml(\'' + edId + '\',\'' + htId + '\',\'' + tbId + '\',\'' + (campId||'') + '\')" id="ueb-' + edId + '">⇄ HTML brut</button>';
+    h += '<span style="font-size:9px;color:var(--text3);" id="uelbl-' + edId + '">Éditeur visuel</span>';
+    h += '<button class="ela" onclick="previewUEditor(\'' + edId + '\',\'' + (campId||'') + '\')" style="margin-left:auto;">👁 Aperçu complet</button>';
+    h += '</div>';
+
+  } else {
+    // ── ÉDITEUR SMS ENRICHI
+    h += '<div style="background:var(--bg3);border:1px solid var(--b2);border-radius:8px 8px 0 0;padding:5px 10px;display:flex;gap:4px;flex-wrap:wrap;align-items:center;border-bottom:none;">';
+    h += '<span style="font-size:8px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--text3);">SMS :</span>';
+    if (campId) {
+      h += '<button class="vc" onclick="campSMSTaInsert(\'' + edId + '\',\'{{prénom}}\')">👤 Prénom</button>';
+      h += '<button class="vc" onclick="openEmojiForTa(\'' + edId + '\')">😊 Emoji</button>';
+      h += '<button class="vc" onclick="campSMSInsertLinkToTa(\'' + edId + '\')">🔗 Lien</button>';
+      h += '<button class="vc" style="background:rgba(255,45,120,.1);border-color:rgba(255,45,120,.3);color:var(--pnk);" onclick="campSMSTaInsert(\'' + edId + '\', \' STOP SMS\')">🚫 STOP SMS</button>';
+    } else {
+      h += '<button class="vc" onclick="smsTaInsertText(document.getElementById(\'' + edId + '\'),\'{{prénom}}\')">👤 Prénom</button>';
+      h += '<button class="vc" onclick="openEmojiForTa(\'' + edId + '\')">😊 Emoji</button>';
+      h += '<button class="vc" onclick="smsInsertLink(\'' + edId + '\')">🔗 Lien</button>';
+    }
+    h += '<span id="sms-cnt-' + edId + '" style="margin-left:auto;font-family:var(--mono);font-size:10px;color:var(--text3);">0/160</span>';
+    h += '</div>';
+    h += '<textarea id="' + edId + '" class="fta" style="min-height:120px;border-radius:0 0 8px 8px;border-top:none;" placeholder="Votre message SMS...\n\n→ 160 caractères = 1 SMS · Plus = plusieurs SMS facturés\n→ Variables : {{prénom}}, {{nom}}, {{email}}\n→ Ajoutez STOP SMS à la fin (RGPD obligatoire)" oninput="updSMSCnt(\'' + edId + '\',\'' + campId + '\')">';
+    if (initialContent) h += initialContent;
+    h += '</textarea>';
+    // URL MMS
+    h += '<div class="fc" style="margin-top:8px;">';
+    h += '<label class="fl">URL image MMS <span style="font-weight:400;color:var(--text3);">(optionnel — Twilio/Vonage — URL publique https://...)</span></label>';
+    h += '<input type="url" class="fi" id="mms-url-' + (campId||edId) + '" placeholder="https://monsite.fr/image.jpg" value="' + (initialContent&&initialContent.mmsUrl?initialContent.mmsUrl:'') + '">';
+    h += '</div>';
+  }
+
+  h += '</div>'; // editor-wrap
+  return h;
+}
+
+/* ─── Initialiser la toolbar d'un éditeur de campagne ─── */
+function initCampEditor(campId, edId, tbId, ibId) {
+  buildToolbar(tbId, edId);
+  // Relier bouton image à la barre image
+  var tb = document.getElementById(tbId);
+  if (!tb) return;
+  tb.querySelectorAll('button').forEach(function(btn) {
+    if (btn.title && btn.title.indexOf('Image') > -1 && btn.title.indexOf('cliquable') === -1) {
+      btn.onclick = function() {
+        var ib = document.getElementById(ibId);
+        if (ib) ib.classList.toggle('show');
+      };
+    }
+    if (btn.title && btn.title.indexOf('Emoji') > -1) {
+      (function(bid){ btn.onclick = function(){ _emojiTargetEditor=bid; showEmojiPicker(bid); }; })(edId);
+    }
+  });
+  // Auto-save du contenu
+  var ed = document.getElementById(edId);
+  if (ed) ed.addEventListener('input', function() {
+    var c = S.camps.find(function(x){return x.id==campId;});
+    if (c) c.campBody = ed.innerHTML;
+  });
+}
+
+/* ─── Basculer mode HTML brut pour tout éditeur unifié ─── */
+function toggleUEditorHtml(edId, htId, tbId, campId) {
+  var ed  = document.getElementById(edId);
+  var ht  = document.getElementById(htId);
+  var tb  = document.getElementById(tbId);
+  var btn = document.getElementById('ueb-' + edId);
+  var lbl = document.getElementById('uelbl-' + edId);
+  if (!ed || !ht) return;
+  var isRich = ed.style.display !== 'none';
+  if (isRich) {
+    ht.value = ed.innerHTML;
+    ed.style.display = 'none'; ht.style.display = 'block';
+    if (tb) tb.style.display = 'none';
+    if (btn) btn.textContent = '⇄ Éditeur visuel';
+    if (lbl) lbl.textContent = 'HTML brut';
+  } else {
+    ed.innerHTML = ht.value;
+    ht.style.display = 'none'; ed.style.display = 'block';
+    if (tb) tb.style.display = '';
+    if (btn) btn.textContent = '⇄ HTML brut';
+    if (lbl) lbl.textContent = 'Éditeur visuel';
+  }
+  if (campId) {
+    var c = S.camps.find(function(x){return x.id==campId;});
+    if (c && ed.style.display!=='none') c.campBody = ed.innerHTML;
+    else if (c) c.campBody = ht.value;
+  }
+}
+
+/* ─── Aperçu éditeur unifié ─── */
+function previewUEditor(edId, campId) {
+  var ed = document.getElementById(edId);
+  var body = ed ? (ed.contentEditable?ed.innerHTML:ed.value) : '';
+  var subj = '';
+  if (campId) {
+    var c = S.camps.find(function(x){return x.id==campId;});
+    if (c) subj = c.subject||'';
+    var sEl = document.getElementById('camp-subj2-' + campId);
+    if (sEl) subj = sEl.value;
+  } else {
+    var tsEl = document.getElementById('te-subj');
+    if (tsEl) subj = tsEl.value;
+  }
+  var ps = document.getElementById('prev-subj'); if (ps) ps.textContent = applyVars(subj, EX)||'(Sans objet)';
+  var pb = document.getElementById('prev-body'); if (pb) pb.innerHTML = applyVars(body, EX)||'<em style="color:#999">Corps vide</em>';
+  showModal('modal-prev');
+}
+
+/* ─── Insérer image par URL dans éditeur unifié ─── */
+function uEditorInsertImgURL(edId, campId) {
+  var urlEl = document.getElementById('ib-url-' + (campId||'tpl'));
+  var url = urlEl ? urlEl.value.trim() : prompt('URL de l\'image :');
+  if (!url) return;
+  var ed = document.getElementById(edId); if (!ed) return;
+  ed.focus();
+  document.execCommand('insertHTML', false, '<img src="' + url + '" style="max-width:100%;height:auto;border-radius:4px;margin:8px 0;display:block;" alt="image">');
+  if (urlEl) urlEl.value = '';
+  if (campId) { var c=S.camps.find(function(x){return x.id==campId;}); if(c) c.campBody=ed.innerHTML; }
+  toast('Image insérée ✓', 'success');
+}
+
+function uEditorInsertImgFile(input, edId, campId) {
+  var file = input.files[0]; if (!file) return;
+  if (file.size > 5*1024*1024) { toast('Image trop lourde (max 5 Mo)', 'error'); return; }
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    var ed = document.getElementById(edId); if (!ed) return;
+    ed.focus();
+    document.execCommand('insertHTML', false, '<img src="' + e.target.result + '" style="max-width:100%;height:auto;border-radius:4px;margin:8px 0;display:block;" alt="' + file.name + '">');
+    if (campId) { var c=S.camps.find(function(x){return x.id==campId;}); if(c) c.campBody=ed.innerHTML; }
+    toast('Image insérée ✓', 'success');
+  };
+  reader.readAsDataURL(file); input.value = '';
+}
+
+function uEditorSaveAndInsertImg(input, edId) {
+  var file = input.files[0]; if (!file) return;
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    S.imgLib.push({id:Date.now(), src:e.target.result, name:file.name});
+    lsS(SK.imgLib, S.imgLib);
+    var ed = document.getElementById(edId); if (!ed) return;
+    ed.focus();
+    document.execCommand('insertHTML', false, '<img src="' + e.target.result + '" style="max-width:100%;height:auto;border-radius:4px;margin:8px 0;display:block;" alt="' + file.name + '">');
+    renderImgGal();
+    toast('Image sauvegardée et insérée ✓', 'success');
+  };
+  reader.readAsDataURL(file); input.value = '';
+}
+
+/* ─── Compteur SMS universel ─── */
+function updSMSCnt(edId, campId) {
+  var ta  = document.getElementById(edId);
+  var cnt = document.getElementById('sms-cnt-' + edId);
+  if (!ta) return;
+  var l = ta.value.length;
+  var n = Math.ceil(l/160)||1;
+  if (cnt) { cnt.textContent = l + '/160 · ' + n + ' SMS'; cnt.style.color = l>320?'var(--red)':l>160?'var(--yel)':'var(--text3)'; }
+  if (campId) { var c=S.camps.find(function(x){return x.id==campId;}); if(c) c.smsText=ta.value; }
+}
+
+/* ─── Insérer dans textarea SMS ─── */
+function campSMSTaInsert(edId, text) {
+  var ta = document.getElementById(edId); if (!ta) return;
+  var p = ta.selectionStart || ta.value.length;
+  ta.value = ta.value.slice(0,p) + text + ta.value.slice(p);
+  ta.selectionStart = ta.selectionEnd = p + text.length;
+  ta.focus();
+}
+function campSMSInsertLinkToTa(edId) {
+  var url = prompt('URL à insérer :'); if (!url) return;
+  campSMSTaInsert(edId, url);
+}
+function openEmojiForTa(edId) {
+  _emojiTargetEditor = edId;
+  showEmojiPicker(edId);
+}
+function smsInsertLink(edId) {
+  var url = prompt('URL :'); if (!url) return;
+  campSMSTaInsert(edId, url);
+}
+
+/* ─── Variables dans éditeur de campagne ─── */
+function campRichInsertVar(campId, v) {
+  var edId = 'camp-rich-' + campId;
+  var ed = document.getElementById(edId); if (!ed) return;
+  ed.focus(); document.execCommand('insertText', false, v);
+  var c=S.camps.find(function(x){return x.id==campId;}); if(c) c.campBody=ed.innerHTML;
+}
+
+function campRichInsertBlock(campId, type) {
+  var edId = 'camp-rich-' + campId;
+  var ed = document.getElementById(edId); if (!ed) return;
+  var colEl = document.getElementById('camp-color-' + campId);
+  var col = colEl ? colEl.value : '#c060ff';
+  var html = buildQuickBlockHTML(type, col);
+  if (!html) return;
+  ed.focus(); document.execCommand('insertHTML', false, html);
+  var c=S.camps.find(function(x){return x.id==campId;}); if(c) c.campBody=ed.innerHTML;
+}
+
+/* ─── Blocs rapides partagés ─── */
+function buildQuickBlockHTML(type, col) {
+  col = col || '#c060ff';
+  if (type === 'divider') return '<hr style="border:none;border-top:2px solid ' + col + ';margin:20px 0;">';
+  if (type === 'btn') {
+    var url = prompt('URL du bouton :') || 'https://www.clairvoyancemedium.com/';
+    var label = prompt('Texte du bouton :') || 'Consulter maintenant';
+    return '<div style="text-align:center;margin:20px 0;"><a href="' + url + '" target="_blank" style="display:inline-block;background:' + col + ';color:#fff;padding:14px 32px;border-radius:8px;text-decoration:none;font-weight:700;font-size:15px;">' + label + '</a></div>';
+  }
+  if (type === 'signature') {
+    return '<div style="margin-top:30px;padding-top:15px;border-top:2px solid ' + col + ';font-family:Arial,sans-serif;font-size:13px;color:#555;">' +
+      '<strong style="color:#333;font-size:15px;">Frédéric</strong><br>' +
+      '<span style="color:' + col + ';font-weight:600;">Cabinet ClairvoyanceMedium.com</span><br><br>' +
+      '📧 <a href="mailto:contact.clairvoyancemedium@gmail.com" style="color:' + col + ';text-decoration:none;">contact.clairvoyancemedium@gmail.com</a><br>' +
+      '📞 <a href="tel:+33695468923" style="color:' + col + ';text-decoration:none;">06 95 46 89 23</a><br>' +
+      '🌐 <a href="https://www.clairvoyancemedium.com/" target="_blank" style="color:' + col + ';font-weight:700;text-decoration:none;">www.clairvoyancemedium.com</a>' +
+      '</div>';
+  }
+  if (type === 'unsubscribe') {
+    return '<div style="text-align:center;margin-top:30px;font-size:11px;color:#999;font-family:Arial,sans-serif;">' +
+      'Vous recevez cet email car vous avez demandé à être contacté(e).<br>' +
+      '<a href="{{lien_desinscription}}" style="color:#999;text-decoration:underline;">Se désinscrire de la liste</a></div>';
+  }
+  if (type === 'header') {
+    return '<div style="background:linear-gradient(135deg,#1a1c40,#2d1060);padding:30px 20px;text-align:center;border-radius:8px;margin-bottom:20px;">' +
+      '<h1 style="color:' + col + ';font-family:Arial,sans-serif;margin:0;font-size:28px;">Cabinet ClairvoyanceMedium</h1>' +
+      '<p style="color:#aaa;margin:10px 0 0;font-family:Arial,sans-serif;font-size:14px;">Votre accompagnement spirituel personnalisé</p></div>';
+  }
+  return '';
+}
+
+/* insertQuickBlock appelle buildQuickBlockHTML et insère dans pane-rich */
+function insertQuickBlock(type) {
+  var colEl = document.getElementById('editor-color-picker');
+  var col = colEl ? colEl.value : '#c060ff';
+  var html = buildQuickBlockHTML(type, col);
+  if (!html) return;
+  var r = document.getElementById('pane-rich');
+  if (r) { r.focus(); document.execCommand('insertHTML', false, html); }
+}
+
+/* ─── Sauvegarder corps campagne et tout ─── */
+function saveCampBodyAndAll(campId) {
+  var c = S.camps.find(function(x){return x.id==campId;}); if (!c) return;
+  var edEl = document.getElementById('camp-rich-' + campId);
+  if (edEl && edEl.contentEditable==='true') c.campBody = edEl.innerHTML;
+  var htEl = document.getElementById('camp-ht-' + campId);
+  if (htEl && htEl.style.display!=='none') c.campBody = htEl.value;
+  var subjEl = document.getElementById('camp-subj2-' + campId);
+  if (subjEl) c.subject = subjEl.value;
+  var smsEl = document.getElementById('camp-rich-' + campId);
+  if (c.type==='sms' && smsEl && smsEl.tagName==='TEXTAREA') c.smsText = smsEl.value;
+  var mmsEl = document.getElementById('mms-url-' + campId);
+  if (mmsEl) c.mmsUrl = mmsEl.value;
+}
+
+/* ─── Mode continu vs planifié ─── */
+function setSchedMode(campId, enabled) {
+  var c = S.camps.find(function(x){return x.id==campId;}); if (!c) return;
+  c.schedEnabled = enabled;
+  var onBtn  = document.getElementById('btn-sched-on-'  + campId);
+  var offBtn = document.getElementById('btn-sched-off-' + campId);
+  var days   = document.getElementById('sched-days-'    + campId);
+  var expl   = document.getElementById('sched-explain-' + campId);
+  if (onBtn) {
+    onBtn.style.borderColor  = enabled ? 'var(--ora)' : 'var(--b2)';
+    onBtn.style.background   = enabled ? 'rgba(255,122,0,.1)' : 'none';
+    onBtn.style.color        = enabled ? 'var(--ora)' : 'var(--text2)';
+  }
+  if (offBtn) {
+    offBtn.style.borderColor = !enabled ? 'var(--cyan)' : 'var(--b2)';
+    offBtn.style.background  = !enabled ? 'rgba(0,232,255,.1)' : 'none';
+    offBtn.style.color       = !enabled ? 'var(--cyan)' : 'var(--text2)';
+  }
+  if (days) days.style.display = enabled ? 'block' : 'none';
+  if (expl) {
+    expl.style.background   = !enabled ? 'rgba(0,232,255,.05)' : 'rgba(255,122,0,.05)';
+    expl.style.borderColor  = !enabled ? 'rgba(0,232,255,.15)' : 'rgba(255,122,0,.15)';
+    expl.innerHTML = !enabled
+      ? '⚡ <strong style="color:var(--cyan);">Mode continu :</strong> Le Worker envoie ' + c.ratePerHour + ' ' + (c.type==='sms'?'SMS':'emails') + '/h en permanence, jusqu\'à la limite journalière ou la fin de liste.'
+      : '📅 <strong style="color:var(--ora);">Mode planifié :</strong> Le Worker envoie uniquement dans les créneaux définis à raison de ' + c.ratePerHour + ' ' + (c.type==='sms'?'SMS':'emails') + '/h.';
+  }
+  saveCamps();
+  var as = document.getElementById('as-' + campId); if (as) as.innerHTML = buildAS(c);
+}
+
+/* ─── saveCampAsTpl ─── */
+function saveCampAsTpl(campId) {
+  saveCampBodyAndAll(campId);
+  var c = S.camps.find(function(x){return x.id==campId;}); if (!c) return;
+  var name = prompt('Nom du template :', c.name) || c.name;
+  S.tpls.push({id:Date.now(), name:name, subject:c.subject||'', content:c.campBody||'', mode:'rich', created:new Date().toISOString()});
+  saveTpls(false);
+  toast('Template "' + name + '" sauvegardé ✓', 'success');
+}
+
+/* ─── loadTplIntoCamp ─── */
+function loadTplIntoCamp(campId, tplId) {
+  if (!tplId) return;
+  var tpl = S.tpls.find(function(t){return t.id==tplId;}); if (!tpl) return;
+  var ed = document.getElementById('camp-rich-' + campId);
+  if (ed) ed.innerHTML = tpl.content||'';
+  var sEl = document.getElementById('camp-subj2-' + campId);
+  if (sEl && tpl.subject) sEl.value = tpl.subject;
+  var c = S.camps.find(function(x){return x.id==campId;});
+  if (c) { c.campBody = tpl.content||''; if (tpl.subject) c.subject = tpl.subject; saveCamps(); }
+  toast('Template "' + tpl.name + '" chargé ✓', 'success');
+}
+
+
 
 function esc(str) {
   return (str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
@@ -2734,15 +3059,6 @@ function importEFile(file, id) {
 }
 
 // ─── SMS SPECIFIC ────────────────────────────────────────
-function updSMSCnt(id) {
-  const ta  = $('sms-txt-' + id);
-  const cnt = $('sms-cnt-' + id);
-  if (!ta || !cnt) return;
-  const l = ta.value.length;
-  cnt.textContent = l + ' / 160 car. (' + (Math.ceil(l/160)||1) + ' SMS)';
-  const c = S.camps.find(x => x.id === id);
-  if (c) c.smsText = ta.value;
-}
 
 function parseSMSPaste(id) {
   const c   = S.camps.find(x => x.id === id);
@@ -4520,6 +4836,30 @@ function init() {
   buildToolbar('te-toolbar', 'pane-rich');
   buildToolbar('qs-toolbar', 'qs-pane-rich');
 
+  // Relier bouton image des toolbars aux barres image
+  setTimeout(function() {
+    // Templates
+    var teTb = document.getElementById('te-toolbar');
+    if (teTb) teTb.querySelectorAll('button').forEach(function(btn) {
+      if (btn.title && btn.title.indexOf('Image') > -1 && btn.title.indexOf('cliquable')===-1) {
+        btn.onclick = function() { var bar=$('te-img-bar'); if(bar) bar.classList.toggle('show'); };
+      }
+      if (btn.title && btn.title.indexOf('Emoji') > -1) {
+        btn.onclick = function() { _emojiTargetEditor='pane-rich'; showEmojiPicker('pane-rich'); };
+      }
+    });
+    // QS
+    var qsTb = document.getElementById('qs-toolbar');
+    if (qsTb) qsTb.querySelectorAll('button').forEach(function(btn) {
+      if (btn.title && btn.title.indexOf('Image') > -1 && btn.title.indexOf('cliquable')===-1) {
+        btn.onclick = function() { var bar=$('qs-img-bar'); if(bar) bar.classList.toggle('show'); };
+      }
+      if (btn.title && btn.title.indexOf('Emoji') > -1) {
+        btn.onclick = function() { _emojiTargetEditor='qs-pane-rich'; showEmojiPicker('qs-pane-rich'); };
+      }
+    });
+  }, 200);
+
   // Bibliothèque images
   renderImgGal();
 }
@@ -4955,37 +5295,8 @@ function prevCampEmail(id) {
 }
 
 /* Charger un template dans l'éditeur de campagne */
-function loadTplIntoCamp(id, tplId) {
-  if (!tplId) return;
-  var tpl = S.tpls.find(function(t){return t.id==tplId;});
-  if (!tpl) return;
-  var ed = document.getElementById('camp-editor-' + id);
-  if (ed) { ed.innerHTML = tpl.content || ''; }
-  var subjInp = document.getElementById('camp-subj2-' + id);
-  if (subjInp && tpl.subject) subjInp.value = tpl.subject;
-  var c = S.camps.find(function(x){return x.id===id;});
-  if (c) {
-    c.campBody = tpl.content || '';
-    if (tpl.subject) c.subject = tpl.subject;
-    saveCamps();
-  }
-  toast('Template "' + tpl.name + '" chargé ✓', 'success');
-}
 
 /* Sauvegarder le contenu de la campagne comme nouveau template */
-function saveCampAsTpl(id) {
-  saveCampBody(id);
-  var c = S.camps.find(function(x){return x.id===id;});
-  if (!c) return;
-  var name = prompt('Nom du template :', c.name + ' — template') || c.name;
-  S.tpls.push({
-    id: Date.now(), name: name,
-    subject: c.subject||'', content: c.campBody||'',
-    mode: 'rich', created: new Date().toISOString()
-  });
-  saveTpls(false);
-  toast('Template "' + name + '" sauvegardé ✓ — disponible dans l\'onglet Templates', 'success');
-}
 
 /* SMS — fonctions éditeur */
 function updCampSMSCnt(id) {
@@ -5065,40 +5376,6 @@ function importPastedEmails() {
 /* ================================================================
    ÉDITEUR — BLOCS RAPIDES PRÊTS À L'EMPLOI
 ================================================================ */
-function insertQuickBlock(type) {
-  var html = '';
-  if (type === 'divider') {
-    // Séparateur avec couleur sélectionnable
-    var col = getEditorColor() || '#c060ff';
-    html = '<hr style="border:none;border-top:2px solid ' + col + ';margin:20px 0;">';
-  } else if (type === 'btn') {
-    var url = prompt('URL du bouton :') || 'https://www.clairvoyancemedium.com/';
-    var label = prompt('Texte du bouton :') || 'Consulter maintenant';
-    var col = getEditorColor() || '#c060ff';
-    html = '<div style="text-align:center;margin:20px 0;">' +
-      '<a href="' + url + '" target="_blank" style="display:inline-block;background:' + col + ';color:#fff;padding:14px 32px;border-radius:8px;text-decoration:none;font-weight:700;font-size:15px;letter-spacing:1px;">' + label + '</a></div>';
-  } else if (type === 'signature') {
-    html = '<div style="margin-top:30px;padding-top:15px;border-top:1px solid #ddd;font-family:Arial,sans-serif;font-size:13px;color:#555;">' +
-      '<strong style="color:#333;">Frédéric</strong><br>' +
-      'Cabinet ClairvoyanceMedium.com<br>' +
-      '<a href="mailto:contact.clairvoyancemedium@gmail.com" style="color:#c060ff;">contact.clairvoyancemedium@gmail.com</a><br>' +
-      '<a href="tel:+33695468923" style="color:#c060ff;">📞 06 95 46 89 23</a><br>' +
-      '<a href="https://www.clairvoyancemedium.com/" target="_blank" style="color:#c060ff;font-weight:700;">🌐 www.clairvoyancemedium.com</a>' +
-      '</div>';
-  } else if (type === 'unsubscribe') {
-    html = '<div style="text-align:center;margin-top:30px;font-size:11px;color:#999;font-family:Arial,sans-serif;">' +
-      'Vous recevez cet email car vous avez demandé à être contacté(e).<br>' +
-      '<a href="{{lien_desinscription}}" style="color:#999;text-decoration:underline;">Se désinscrire</a></div>';
-  } else if (type === 'header') {
-    var col = getEditorColor() || '#c060ff';
-    html = '<div style="background:linear-gradient(135deg,#1a1c40,#2d1060);padding:30px 20px;text-align:center;border-radius:8px;margin-bottom:20px;">' +
-      '<h1 style="color:' + col + ';font-family:Arial,sans-serif;margin:0;font-size:28px;">Cabinet ClairvoyanceMedium</h1>' +
-      '<p style="color:#aaa;margin:8px 0 0;font-family:Arial,sans-serif;">Votre message personnalisé ici</p></div>';
-  }
-  if (!html) return;
-  var r = $('pane-rich');
-  if (r) { r.focus(); document.execCommand('insertHTML', false, html); }
-}
 
 /* Couleur active de l'éditeur */
 var EDITOR_ACTIVE_COLOR = '#c060ff';
