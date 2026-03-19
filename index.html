@@ -269,9 +269,13 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:13
 .slbl{font-size:8px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--text2);}
 .sval{font-family:var(--mono);font-size:15px;font-weight:700;}
 .ssub{font-size:9px;color:var(--text3);margin-left:2px;}
-.strk{position:relative;height:4px;background:var(--bg4);border-radius:2px;margin-bottom:3px;}
+/* .strk redefined in sr block */
 .sfill{position:absolute;top:0;left:0;height:100%;border-radius:2px;pointer-events:none;}
 .sr{position:absolute;top:-10px;left:0;width:100%;height:24px;opacity:0;cursor:pointer;-webkit-appearance:none;margin:0;}
+.strk{position:relative;height:6px;background:var(--bg4);border-radius:3px;margin-bottom:3px;}
+.sfill{position:absolute;top:0;left:0;height:100%;border-radius:3px;pointer-events:none;}
+/* Thumb visible sur la track */
+.strk::after{content:'';position:absolute;top:50%;transform:translate(-50%,-50%);width:18px;height:18px;border-radius:50%;background:var(--yel);box-shadow:0 0 8px rgba(255,230,0,.6);border:2px solid var(--bg);pointer-events:none;left:var(--thumb-pos,0%);}
 .smks{display:flex;justify-content:space-between;}
 .smk{font-family:var(--mono);font-size:8px;color:var(--text3);}
 
@@ -2353,7 +2357,7 @@ function buildCampForm(c) {
   h += '<div class="ab-body">';
 
   // Sliders cadence + limite
-  var fillRph = Math.min(100, (c.ratePerHour / 100000) * 100);
+  var fillRph = Math.round((Math.log(Math.max(1,c.ratePerHour)) / Math.log(100000)) * 100);
   h += '<div class="sblock">';
   h += '<div class="sbtop"><span class="slbl">' + (isSMS?'SMS':'Emails') + ' par minute</span>';
   h += '<div style="display:flex;align-items:center;gap:6px;">';
@@ -2364,7 +2368,7 @@ function buildCampForm(c) {
   h += '<input type="range" class="sr" min="1" max="100000" value="' + c.ratePerHour + '" oninput="updSl(' + c.id + ',\'ratePerHour\',this.value,\'rph\',100000)" onchange="updC(' + c.id + ',\'ratePerHour\',+this.value)"></div>';
   h += '<div class="smks"><span class="smk">1</span><span class="smk">100</span><span class="smk">1 000</span><span class="smk">100 000</span></div></div>';
 
-  var fillDay = Math.min(100, (c.dailyLimit / 1000000) * 100);
+  var fillDay = Math.round((Math.log(Math.max(1,c.dailyLimit)) / Math.log(1000000)) * 100);
   h += '<div class="sblock">';
   h += '<div class="sbtop"><span class="slbl">Limite maximum par jour</span>';
   h += '<div style="display:flex;align-items:center;gap:6px;">';
@@ -3238,15 +3242,28 @@ function updC(id, field, val) {
   if (as) as.innerHTML = buildAS(c);
 }
 
+/* Calcul logarithmique pour la position visuelle du fill+thumb */
+function logPercent(val, max) {
+  if (val <= 0) return 0;
+  // log scale: 1→0%, max→100%
+  return Math.round((Math.log(val) / Math.log(max)) * 100);
+}
+
 function updSl(id, field, val, key, max) {
   const c = S.camps.find(x => x.id === id);
   if (!c) return;
   c[field] = parseInt(val);
+  const pct = logPercent(parseInt(val), max);
   const sf = $('sf-' + key + '-' + id);
-  if (sf) sf.style.width = (val/max*100) + '%';
+  if (sf) {
+    sf.style.width = pct + '%';
+    // Déplacer le thumb via CSS variable
+    const strk = sf.parentElement;
+    if (strk) strk.style.setProperty('--thumb-pos', pct + '%');
+  }
   // Synchroniser le champ de saisie manuelle
   const ni = $('ni-' + key + '-' + id);
-  if (ni) ni.value = parseInt(val).toLocaleString().replace(/\s/g,'');
+  if (ni) ni.value = parseInt(val);
   const as = $('as-' + id);
   if (as) as.innerHTML = buildAS(c);
 }
@@ -3262,7 +3279,11 @@ function updSlManual(id, field, val, key, max) {
   // Mettre à jour le slider
   var rangeInputs = document.querySelectorAll('#sf-' + key + '-' + id);
   var strk = $('sf-' + key + '-' + id);
-  if (strk) strk.style.width = (n/max*100) + '%';
+  if (strk) {
+    var pct2 = logPercent(n, max);
+    strk.style.width = pct2 + '%';
+    if (strk.parentElement) strk.parentElement.style.setProperty('--thumb-pos', pct2 + '%');
+  }
   // Mettre à jour l'état
   var c = S.camps.find(function(x){return x.id===id;});
   if (!c) return;
@@ -3748,13 +3769,8 @@ function loadQSSMSFile(input) {
 
 /* ─── SMS EDITOR HELPERS ─────────────────────────── */
 function insertSMSEmoji() {
-  const pick = prompt('Emoji — copiez-collez :\n😀😂😍🥰😎🎉✨⭐🔥❤️🎁🎯📧📱🌟🏆✅❌💡👍💪🙏');
-  if (!pick) return;
-  const ta = $('qs-sms-body'); if (!ta) return;
-  const p = ta.selectionStart || ta.value.length;
-  ta.value = ta.value.slice(0,p) + pick + ta.value.slice(p);
-  ta.selectionStart = ta.selectionEnd = p + pick.length;
-  ta.focus(); updQSSMSCnt();
+  _emojiTargetEditor = 'qs-sms-body';
+  showEmojiPicker('qs-sms-body');
 }
 function insertSMSImg() {
   const url = prompt('URL image publique pour MMS (.jpg, .png) :');
@@ -3763,11 +3779,19 @@ function insertSMSImg() {
   toast('URL image MMS définie ✓ — sera envoyée via Twilio/Vonage', 'success');
 }
 function insertSMSLink() {
-  const url = prompt('URL à insérer dans le SMS :'); if (!url) return;
-  const ta = $('qs-sms-body'); if (!ta) return;
-  const p = ta.selectionStart || ta.value.length;
-  ta.value = ta.value.slice(0,p) + url + ta.value.slice(p);
-  ta.selectionStart = ta.selectionEnd = p + url.length;
+  var ta = $('qs-sms-body'); if (!ta) return;
+  var start = ta.selectionStart || 0;
+  var end   = ta.selectionEnd   || start;
+  var selectedText = ta.value.slice(start, end);
+  // On demande l'URL
+  var url = prompt('URL du lien (ex: https://www.clairvoyancemedium.com) :');
+  if (!url) return;
+  if (!/^https?:\/\//i.test(url) && !url.startsWith('tel:') && !url.startsWith('mailto:')) url = 'https://' + url;
+  // Dans un SMS, un lien = juste l'URL (pas de texte cliquable — SMS = texte brut)
+  // Si du texte est sélectionné, on le conserve puis ajoute l'URL dessous
+  var insert = selectedText ? selectedText + ' ' + url : url;
+  ta.value = ta.value.slice(0, start) + insert + ta.value.slice(end);
+  ta.selectionStart = ta.selectionEnd = start + insert.length;
   ta.focus(); updQSSMSCnt();
 }
 function insertSMSPhone() {
@@ -4160,11 +4184,8 @@ function insertQSAudio() {
 }
 
 function insertQSEmoji() {
-  const emojis = '😀😂😍🥰😎🤩🎉✨⭐🔥💥❤️💙💜🎁🎯📧📱🌟🏆🎵🎬🌈🍀✅❌⚠️💡';
-  const pick = prompt(`Emoji :\n${emojis}\n\nEntrez ou copiez-collez :`);
-  if (!pick) return;
-  const r = $('qs-email-rich'); if (r) r.focus();
-  document.execCommand('insertText', false, pick);
+  _emojiTargetEditor = 'qs-pane-rich';
+  showEmojiPicker('qs-pane-rich');
 }
 
 
