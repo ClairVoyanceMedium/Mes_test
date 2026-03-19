@@ -5068,8 +5068,8 @@ function makeDraggable(el) {
   el.addEventListener('touchstart', onStart, {passive:true});
 }
 
-// Init draggable on both FABs
-['fab-email','fab-sms'].forEach(function(id) {
+// Init draggable on all FABs
+['fab-email','fab-sms','fab-templates'].forEach(function(id) {
   var el = $(id);
   if (el) makeDraggable(el);
 });
