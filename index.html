@@ -2355,14 +2355,14 @@ function buildCampForm(c) {
   // Sliders cadence + limite
   var fillRph = Math.min(100, (c.ratePerHour / 100000) * 100);
   h += '<div class="sblock">';
-  h += '<div class="sbtop"><span class="slbl">' + (isSMS?'SMS':'Emails') + ' par heure</span>';
+  h += '<div class="sbtop"><span class="slbl">' + (isSMS?'SMS':'Emails') + ' par minute</span>';
   h += '<div style="display:flex;align-items:center;gap:6px;">';
   h += '<input type="number" id="ni-rph-' + c.id + '" min="1" max="100000" value="' + c.ratePerHour + '" style="width:80px;background:var(--bg3);border:1px solid var(--b2);border-radius:6px;color:var(--yel);font-family:var(--mono);font-size:13px;font-weight:700;padding:3px 8px;outline:none;text-align:right;" onchange="updSlManual(' + c.id + ',\'ratePerHour\',this.value,\'rph\',100000)">';
-  h += '<span style="font-size:11px;color:var(--text3);">/ heure</span>';
+  h += '<span style="font-size:11px;color:var(--text3);">/ minute</span>';
   h += '</div></div>';
   h += '<div class="strk"><div class="sfill" style="background:var(--yel);width:' + fillRph + '%;" id="sf-rph-' + c.id + '"></div>';
   h += '<input type="range" class="sr" min="1" max="100000" value="' + c.ratePerHour + '" oninput="updSl(' + c.id + ',\'ratePerHour\',this.value,\'rph\',100000)" onchange="updC(' + c.id + ',\'ratePerHour\',+this.value)"></div>';
-  h += '<div class="smks"><span class="smk">1</span><span class="smk">1 000</span><span class="smk">10 000</span><span class="smk">100 000</span></div></div>';
+  h += '<div class="smks"><span class="smk">1</span><span class="smk">100</span><span class="smk">1 000</span><span class="smk">100 000</span></div></div>';
 
   var fillDay = Math.min(100, (c.dailyLimit / 1000000) * 100);
   h += '<div class="sblock">';
@@ -2896,8 +2896,8 @@ function setSchedMode(campId, enabled) {
     expl.style.background   = !enabled ? 'rgba(0,232,255,.05)' : 'rgba(255,122,0,.05)';
     expl.style.borderColor  = !enabled ? 'rgba(0,232,255,.15)' : 'rgba(255,122,0,.15)';
     expl.innerHTML = !enabled
-      ? '⚡ <strong style="color:var(--cyan);">Mode continu :</strong> Le Worker envoie ' + c.ratePerHour + ' ' + (c.type==='sms'?'SMS':'emails') + '/h en permanence, jusqu\'à la limite journalière ou la fin de liste.'
-      : '📅 <strong style="color:var(--ora);">Mode planifié :</strong> Le Worker envoie uniquement dans les créneaux définis à raison de ' + c.ratePerHour + ' ' + (c.type==='sms'?'SMS':'emails') + '/h.';
+      ? '⚡ <strong style="color:var(--cyan);">Mode continu :</strong> Le Worker envoie ' + c.ratePerHour + ' ' + (c.type==='sms'?'SMS':'emails') + '/min en permanence, jusqu\'à la limite journalière ou la fin de liste.'
+      : '📅 <strong style="color:var(--ora);">Mode planifié :</strong> Le Worker envoie uniquement dans les créneaux définis à raison de ' + c.ratePerHour + ' ' + (c.type==='sms'?'SMS':'emails') + '/min.';
   }
   saveCamps();
   var as = document.getElementById('as-' + campId); if (as) as.innerHTML = buildAS(c);
@@ -2974,7 +2974,7 @@ function buildAS(c) {
 
   return `<div class="as-title">⚡ Résumé automatisation</div>
   <div class="as-grid">
-    <div class="as-row">Cadence <strong>${c.ratePerHour}/h</strong></div>
+    <div class="as-row">Cadence <strong>${c.ratePerHour}/min</strong></div>
     <div class="as-row">Limite <strong>${c.dailyLimit.toLocaleString()}/j</strong></div>
     <div class="as-row">Durée <strong>${c.durationInfinite?'∞ Infini':c.durationH+'h'}</strong></div>
     <div class="as-row">Contacts <strong>${typeof t === 'number' ? t.toLocaleString() : t}</strong></div>
@@ -3495,7 +3495,7 @@ async function launchCamp(id) {
     campaign_type: c.type,
     campaign_name: c.name,
     contacts_count: c.emailList.length,
-    rate_per_hour: c.ratePerHour,
+    rate_per_minute: c.ratePerHour, rate_per_hour: c.ratePerHour * 60, // ratePerHour field = per minute
     daily_limit: c.dailyLimit
   });
 
@@ -5902,9 +5902,27 @@ function closeEmojiModal() {
 function insertEmoji(em) {
   var editorId = _emojiTargetEditor || 'pane-rich';
   var ed = $(editorId);
-  if (ed && ed.contentEditable) {
+  // Fermer la modal AVANT d'insérer (pour ne pas perdre le focus/sélection)
+  var modal = document.getElementById('emoji-modal');
+  if (modal) modal.remove();
+
+  if (!ed) return;
+
+  // Textarea SMS/texte — vérifier en premier
+  if (ed.tagName === 'TEXTAREA' || ed.tagName === 'INPUT') {
+    var pos = (typeof ed.selectionStart === 'number') ? ed.selectionStart : ed.value.length;
+    var end = (typeof ed.selectionEnd === 'number') ? ed.selectionEnd : pos;
+    ed.value = ed.value.slice(0, pos) + em + ed.value.slice(end);
+    ed.selectionStart = ed.selectionEnd = pos + em.length;
     ed.focus();
-    // Insérer l'emoji directement
+    // Déclencher l'événement input pour mettre à jour les compteurs
+    ed.dispatchEvent(new Event('input', {bubbles:true}));
+    return;
+  }
+
+  // Éditeur riche contenteditable
+  if (ed.isContentEditable) {
+    ed.focus();
     var sel = window.getSelection();
     if (sel && sel.rangeCount) {
       var range = sel.getRangeAt(0);
@@ -5916,21 +5934,9 @@ function insertEmoji(em) {
       sel.removeAllRanges();
       sel.addRange(range);
     } else {
-      ed.innerHTML += em;
-    }
-  } else {
-    // Textarea (SMS, texte brut)
-    var ta = $(editorId);
-    if (ta && ta.tagName === 'TEXTAREA') {
-      var p = ta.selectionStart || ta.value.length;
-      ta.value = ta.value.slice(0,p) + em + ta.value.slice(p);
-      ta.selectionStart = ta.selectionEnd = p + em.length;
-      ta.focus();
+      document.execCommand('insertText', false, em);
     }
   }
-  // Fermer la modal après sélection
-  var modal = document.getElementById('emoji-modal');
-  if (modal) modal.remove();
 }
 
 function toolbarTable(editorId) {
