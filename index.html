@@ -269,13 +269,45 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:13
 .slbl{font-size:8px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--text2);}
 .sval{font-family:var(--mono);font-size:15px;font-weight:700;}
 .ssub{font-size:9px;color:var(--text3);margin-left:2px;}
-/* .strk redefined in sr block */
+
 .sfill{position:absolute;top:0;left:0;height:100%;border-radius:2px;pointer-events:none;}
-.sr{position:absolute;top:-10px;left:0;width:100%;height:24px;opacity:0;cursor:pointer;-webkit-appearance:none;margin:0;}
-.strk{position:relative;height:6px;background:var(--bg4);border-radius:3px;margin-bottom:3px;}
-.sfill{position:absolute;top:0;left:0;height:100%;border-radius:3px;pointer-events:none;}
-/* Thumb visible sur la track */
-.strk::after{content:'';position:absolute;top:50%;transform:translate(-50%,-50%);width:18px;height:18px;border-radius:50%;background:var(--yel);box-shadow:0 0 8px rgba(255,230,0,.6);border:2px solid var(--bg);pointer-events:none;left:var(--thumb-pos,0%);}
+/* ─── SLIDER NATIF STYLÉ ─── */
+.sr{
+  -webkit-appearance:none;appearance:none;
+  position:relative;
+  width:100%;height:6px;
+  background:transparent;
+  cursor:pointer;margin:8px 0;
+  outline:none;border:none;padding:0;
+}
+/* Track */
+.sr::-webkit-slider-runnable-track{
+  height:6px;border-radius:3px;
+  background:linear-gradient(to right, var(--yel) var(--val-pct,0%), var(--bg4) var(--val-pct,0%));
+}
+.sr::-moz-range-track{height:6px;border-radius:3px;background:var(--bg4);}
+.sr::-moz-range-progress{height:6px;border-radius:3px;background:var(--yel);}
+/* Thumb */
+.sr::-webkit-slider-thumb{
+  -webkit-appearance:none;appearance:none;
+  width:18px;height:18px;
+  border-radius:50%;
+  background:var(--yel);
+  border:2px solid var(--bg);
+  box-shadow:0 0 8px rgba(255,230,0,.7);
+  cursor:grab;
+  margin-top:-6px;
+  transition:box-shadow .15s;
+}
+.sr::-webkit-slider-thumb:active{cursor:grabbing;box-shadow:0 0 14px rgba(255,230,0,.9);transform:scale(1.15);}
+.sr::-moz-range-thumb{
+  width:18px;height:18px;border-radius:50%;
+  background:var(--yel);border:2px solid var(--bg);
+  box-shadow:0 0 8px rgba(255,230,0,.7);cursor:grab;
+}
+/* Track container — plus besoin de sfill séparé */
+.strk{position:relative;height:22px;display:flex;align-items:center;margin-bottom:3px;}
+.sfill{display:none;}
 .smks{display:flex;justify-content:space-between;}
 .smk{font-family:var(--mono);font-size:8px;color:var(--text3);}
 
@@ -2357,7 +2389,7 @@ function buildCampForm(c) {
   h += '<div class="ab-body">';
 
   // Sliders cadence + limite
-  var fillRph = Math.round((Math.log(Math.max(1,c.ratePerHour)) / Math.log(100000)) * 100);
+  var fillRph = Math.round(((c.ratePerHour - 1) / (100000 - 1)) * 100);
   h += '<div class="sblock">';
   h += '<div class="sbtop"><span class="slbl">' + (isSMS?'SMS':'Emails') + ' par minute</span>';
   h += '<div style="display:flex;align-items:center;gap:6px;">';
@@ -2365,10 +2397,10 @@ function buildCampForm(c) {
   h += '<span style="font-size:11px;color:var(--text3);">/ minute</span>';
   h += '</div></div>';
   h += '<div class="strk"><div class="sfill" style="background:var(--yel);width:' + fillRph + '%;" id="sf-rph-' + c.id + '"></div>';
-  h += '<input type="range" class="sr" min="1" max="100000" value="' + c.ratePerHour + '" oninput="updSl(' + c.id + ',\'ratePerHour\',this.value,\'rph\',100000)" onchange="updC(' + c.id + ',\'ratePerHour\',+this.value)"></div>';
+  h += '<input type="range" class="sr" min="1" max="100000" value="' + c.ratePerHour + '"' + ' style="--val-pct:' + fillRph + '%"' + ' oninput="this.style.setProperty(\'--val-pct\',(((+this.value-1)/99999)*100).toFixed(1)+\'%\');updSl(' + c.id + ',\'ratePerHour\',this.value,\'rph\',100000)" onchange="updC(' + c.id + ',\'ratePerHour\',+this.value)"></div>';
   h += '<div class="smks"><span class="smk">1</span><span class="smk">100</span><span class="smk">1 000</span><span class="smk">100 000</span></div></div>';
 
-  var fillDay = Math.round((Math.log(Math.max(1,c.dailyLimit)) / Math.log(1000000)) * 100);
+  var fillDay = Math.round(((c.dailyLimit - 1) / (1000000 - 1)) * 100);
   h += '<div class="sblock">';
   h += '<div class="sbtop"><span class="slbl">Limite maximum par jour</span>';
   h += '<div style="display:flex;align-items:center;gap:6px;">';
@@ -2376,7 +2408,7 @@ function buildCampForm(c) {
   h += '<span style="font-size:11px;color:var(--text3);">/ jour</span>';
   h += '</div></div>';
   h += '<div class="strk"><div class="sfill" style="background:var(--yel);width:' + fillDay + '%;" id="sf-day-' + c.id + '"></div>';
-  h += '<input type="range" class="sr" min="1" max="1000000" value="' + c.dailyLimit + '" oninput="updSl(' + c.id + ',\'dailyLimit\',this.value,\'day\',1000000)" onchange="updC(' + c.id + ',\'dailyLimit\',+this.value)"></div>';
+  h += '<input type="range" class="sr" min="1" max="1000000" value="' + c.dailyLimit + '"' + ' style="--val-pct:' + fillDay + '%"' + ' oninput="this.style.setProperty(\'--val-pct\',(((+this.value-1)/999999)*100).toFixed(1)+\'%\');updSl(' + c.id + ',\'dailyLimit\',this.value,\'day\',1000000)" onchange="updC(' + c.id + ',\'dailyLimit\',+this.value)"></div>';
   h += '<div class="smks"><span class="smk">1</span><span class="smk">10K</span><span class="smk">100K</span><span class="smk">1M</span></div></div>';
 
   // Durée
@@ -2751,8 +2783,17 @@ function campSMSTaInsert(edId, text) {
   ta.focus();
 }
 function campSMSInsertLinkToTa(edId) {
-  var url = prompt('URL à insérer :'); if (!url) return;
-  campSMSTaInsert(edId, url);
+  var ta = document.getElementById(edId); if (!ta) return;
+  var start = ta.selectionStart || 0;
+  var end   = ta.selectionEnd   || start;
+  var sel   = ta.value.slice(start, end).trim();
+  var url   = prompt('URL du lien :'); if (!url) return;
+  if (!/^https?:\/\//i.test(url)) url = 'https://' + url;
+  var insert = sel ? sel + ' → ' + url : url;
+  ta.value = ta.value.slice(0, start) + insert + ta.value.slice(end);
+  ta.selectionStart = ta.selectionEnd = start + insert.length;
+  ta.focus();
+  if (sel) toast('💡 SMS texte brut · Lien ajouté après : "' + sel + '"', 'info');
 }
 function openEmojiForTa(edId) {
   _emojiTargetEditor = edId;
@@ -3253,13 +3294,15 @@ function updSl(id, field, val, key, max) {
   const c = S.camps.find(x => x.id === id);
   if (!c) return;
   c[field] = parseInt(val);
-  const pct = logPercent(parseInt(val), max);
-  const sf = $('sf-' + key + '-' + id);
-  if (sf) {
-    sf.style.width = pct + '%';
-    // Déplacer le thumb via CSS variable
-    const strk = sf.parentElement;
-    if (strk) strk.style.setProperty('--thumb-pos', pct + '%');
+  // Mettre à jour le dégradé de la track via CSS variable --val-pct (linéaire = natif)
+  // On cherche le range input dans la .strk correspondante
+  const strk = $('sf-' + key + '-' + id); // sfill = on garde l'ID pour retrouver le parent
+  if (strk && strk.parentElement) {
+    const range = strk.parentElement.querySelector('input[type="range"]');
+    if (range) {
+      const pct = ((parseInt(val) - 1) / (max - 1)) * 100;
+      range.style.setProperty('--val-pct', pct.toFixed(1) + '%');
+    }
   }
   // Synchroniser le champ de saisie manuelle
   const ni = $('ni-' + key + '-' + id);
@@ -3780,19 +3823,35 @@ function insertSMSImg() {
 }
 function insertSMSLink() {
   var ta = $('qs-sms-body'); if (!ta) return;
-  var start = ta.selectionStart || 0;
-  var end   = ta.selectionEnd   || start;
-  var selectedText = ta.value.slice(start, end);
-  // On demande l'URL
+  var start = (typeof ta.selectionStart === 'number') ? ta.selectionStart : 0;
+  var end   = (typeof ta.selectionEnd   === 'number') ? ta.selectionEnd   : start;
+  var selectedText = ta.value.slice(start, end).trim();
+
   var url = prompt('URL du lien (ex: https://www.clairvoyancemedium.com) :');
   if (!url) return;
-  if (!/^https?:\/\//i.test(url) && !url.startsWith('tel:') && !url.startsWith('mailto:')) url = 'https://' + url;
-  // Dans un SMS, un lien = juste l'URL (pas de texte cliquable — SMS = texte brut)
-  // Si du texte est sélectionné, on le conserve puis ajoute l'URL dessous
-  var insert = selectedText ? selectedText + ' ' + url : url;
+  if (!/^https?:\/\//i.test(url) && !url.startsWith('tel:') && !url.startsWith('mailto:')) {
+    url = 'https://' + url;
+  }
+
+  // ⚠️ SMS = texte brut : pas de lien caché derrière un mot.
+  // Si du texte est sélectionné → on insère : "texte sélectionné → url"
+  // Sinon → on insère juste l'url
+  var insert;
+  if (selectedText) {
+    insert = selectedText + ' → ' + url;
+  } else {
+    insert = url;
+  }
+
   ta.value = ta.value.slice(0, start) + insert + ta.value.slice(end);
   ta.selectionStart = ta.selectionEnd = start + insert.length;
-  ta.focus(); updQSSMSCnt();
+  ta.focus();
+  updQSSMSCnt();
+
+  // Petite notification pour expliquer la limitation SMS
+  if (selectedText) {
+    toast('💡 SMS = texte brut · Le lien est ajouté après le mot sélectionné', 'info');
+  }
 }
 function insertSMSPhone() {
   const tel = prompt('Numéro (ex: +33600000000) :'); if (!tel) return;
