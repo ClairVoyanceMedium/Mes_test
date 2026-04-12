@@ -3,502 +3,581 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>MédiumAssist Pro — Frederick</title>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Nunito:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<title>PGI • MediumAssist Pro</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
+/* ═══════════════ VARIABLES ═══════════════ */
 :root {
-  --bg: #07000f;
-  --bg2: #0e0020;
-  --bg3: #160030;
-  --gold: #c9a227;
-  --gold2: #e8c060;
-  --purple: #7c3aed;
-  --purple2: #a855f7;
-  --cyan: #06b6d4;
-  --red: #ef4444;
-  --green: #10b981;
-  --text: #e8e0f0;
-  --text2: #a090c0;
-  --text3: #604080;
-  --border: rgba(201,162,39,0.15);
-  --border2: rgba(124,58,237,0.2);
-  --shadow-gold: 0 0 30px rgba(201,162,39,0.15);
-  --shadow-purple: 0 0 30px rgba(124,58,237,0.2);
-  --r: 14px;
+  --bg:      #111111;
+  --bg2:     #181818;
+  --bg3:     #1f1f1f;
+  --border:  rgba(255,255,255,0.07);
+  --text:    #f0f0f0;
+  --text2:   #888;
+  --text3:   #444;
+
+  /* FLUO FIXES PAR SECTION */
+  --cyan:    #00cfff;  /* Transcription */
+  --green:   #39ff14;  /* Suggestion */
+  --red:     #ff4400;  /* Alerte */
+  --yellow:  #ffd000;  /* Opportunité */
+  --orange:  #ff8800;  /* Actions rapides */
+  --purple:  #cc44ff;  /* Client/CRM */
+  --teal:    #00ffcc;  /* Résumé */
+  --pink:    #ff3399;  /* Voix */
+
+  --r: 12px;
+  --r-sm: 8px;
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
-html,body{height:100%;overflow:hidden;}
+html{height:100%;overflow:hidden;}
 body{
-  background:var(--bg);
-  color:var(--text);
-  font-family:'Nunito',sans-serif;
-  font-weight:400;
-  display:flex;
-  flex-direction:column;
-  height:100dvh;
-  position:relative;
-  overflow:hidden;
+  background:var(--bg);color:var(--text);
+  font-family:'Inter',sans-serif;
+  display:flex;flex-direction:column;
+  height:100dvh;overflow:hidden;
 }
 
-/* ─── BACKGROUND ─── */
-.bg-layer{
-  position:fixed;inset:0;pointer-events:none;z-index:0;
-  background:
-    radial-gradient(ellipse 60% 40% at 20% 0%, rgba(124,58,237,0.08) 0%, transparent 60%),
-    radial-gradient(ellipse 50% 50% at 80% 100%, rgba(201,162,39,0.06) 0%, transparent 60%),
-    radial-gradient(ellipse 80% 60% at 50% 50%, rgba(6,182,212,0.03) 0%, transparent 70%);
-}
-.stars{
-  position:fixed;inset:0;pointer-events:none;z-index:0;
-  background-image:
-    radial-gradient(1px 1px at 15% 20%, rgba(255,255,255,0.4) 0%, transparent 100%),
-    radial-gradient(1px 1px at 35% 70%, rgba(255,255,255,0.3) 0%, transparent 100%),
-    radial-gradient(1px 1px at 55% 15%, rgba(255,255,255,0.5) 0%, transparent 100%),
-    radial-gradient(1px 1px at 75% 55%, rgba(255,255,255,0.3) 0%, transparent 100%),
-    radial-gradient(1px 1px at 90% 30%, rgba(255,255,255,0.4) 0%, transparent 100%),
-    radial-gradient(1px 1px at 10% 80%, rgba(255,255,255,0.2) 0%, transparent 100%),
-    radial-gradient(1px 1px at 60% 85%, rgba(255,255,255,0.3) 0%, transparent 100%),
-    radial-gradient(1px 1px at 45% 45%, rgba(201,162,39,0.6) 0%, transparent 100%),
-    radial-gradient(1px 1px at 25% 50%, rgba(168,85,247,0.5) 0%, transparent 100%);
-}
+/* ═══════════════ SCROLLBAR ═══════════════ */
+::-webkit-scrollbar{width:3px;height:3px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.1);border-radius:3px;}
 
-/* ─── HEADER ─── */
+/* ═══════════════ HEADER ═══════════════ */
 header{
-  position:relative;z-index:10;
-  display:flex;align-items:center;justify-content:space-between;
-  padding:12px 16px;
-  background:rgba(7,0,15,0.9);
-  border-bottom:1px solid var(--border);
-  backdrop-filter:blur(10px);
   flex-shrink:0;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 14px;
+  background:rgba(17,17,17,0.97);
+  border-bottom:1px solid var(--border);
+  z-index:10;
 }
 .logo{display:flex;align-items:center;gap:10px;}
 .logo-icon{
-  width:34px;height:34px;border-radius:8px;
-  background:linear-gradient(135deg,#7c3aed,#c9a227);
-  display:flex;align-items:center;justify-content:center;
-  font-size:18px;
-  box-shadow:0 0 15px rgba(201,162,39,0.3);
+  font-size:22px;
+  filter:drop-shadow(0 0 6px rgba(0,207,255,0.5));
 }
 .logo-text{
-  font-family:'Cinzel',serif;
-  font-size:15px;font-weight:700;
-  letter-spacing:0.5px;
-  background:linear-gradient(90deg,#c9a227,#e8c060);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  font-family:'Orbitron',monospace;
+  font-size:13px;font-weight:900;
+  letter-spacing:1px;line-height:1.1;
 }
-.logo-sub{font-size:9px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-top:1px;}
+.logo-pgi{
+  color:var(--cyan);
+  animation:blink-pgi 1.8s ease-in-out infinite;
+}
+@keyframes blink-pgi{
+  0%,100%{opacity:1;text-shadow:0 0 12px rgba(0,207,255,0.9),0 0 24px rgba(0,207,255,0.4);}
+  50%{opacity:0.45;text-shadow:none;}
+}
+.logo-sep{color:rgba(255,255,255,0.3);margin:0 4px;}
+.logo-name{color:var(--text);font-size:11px;font-weight:700;}
+.logo-sub{font-size:8px;font-family:'Inter',sans-serif;color:var(--text3);letter-spacing:0.5px;margin-top:1px;}
 
+.header-right{display:flex;align-items:center;gap:7px;}
 .status-pill{
-  display:flex;align-items:center;gap:6px;
-  padding:5px 12px;border-radius:100px;
-  font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;
+  display:flex;align-items:center;gap:5px;
+  padding:4px 10px;border-radius:100px;
+  font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;
   transition:all 0.3s;
 }
-.status-idle{background:rgba(255,255,255,0.05);color:var(--text3);border:1px solid rgba(255,255,255,0.05);}
-.status-listening{background:rgba(6,182,212,0.1);color:var(--cyan);border:1px solid rgba(6,182,212,0.2);}
-.status-processing{background:rgba(124,58,237,0.15);color:var(--purple2);border:1px solid rgba(124,58,237,0.25);}
-.status-dot{width:6px;height:6px;border-radius:50%;background:currentColor;}
-.status-listening .status-dot{animation:blink 1s infinite;}
-.status-processing .status-dot{animation:pulse-dot 0.8s ease-in-out infinite;}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:0.15}}
-@keyframes pulse-dot{0%,100%{transform:scale(1)}50%{transform:scale(1.6)}}
+.s-idle{background:rgba(255,255,255,0.04);color:var(--text3);border:1px solid rgba(255,255,255,0.06);}
+.s-listening{background:rgba(0,207,255,0.1);color:var(--cyan);border:1px solid rgba(0,207,255,0.25);}
+.s-processing{background:rgba(204,68,255,0.1);color:var(--purple);border:1px solid rgba(204,68,255,0.25);}
+.s-dot{width:5px;height:5px;border-radius:50%;background:currentColor;}
+.s-listening .s-dot{animation:blink 1s infinite;}
+.s-processing .s-dot{animation:pulse 0.7s ease-in-out infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.1}}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.7)}}
 
-.header-right{display:flex;align-items:center;gap:8px;}
-.icon-btn{
-  width:34px;height:34px;border-radius:8px;border:none;cursor:pointer;
+.hbtn{
+  width:32px;height:32px;border-radius:var(--r-sm);border:none;cursor:pointer;
   background:rgba(255,255,255,0.05);color:var(--text2);
-  display:flex;align-items:center;justify-content:center;font-size:16px;
+  display:flex;align-items:center;justify-content:center;font-size:15px;
   transition:all 0.2s;
 }
-.icon-btn:hover{background:rgba(255,255,255,0.1);color:var(--text);}
+.hbtn:hover{background:rgba(255,255,255,0.1);color:var(--text);}
 
-/* ─── MAIN ─── */
+/* ═══════════════ SPEAKER INDICATOR ═══════════════ */
+#speaker-bar{
+  flex-shrink:0;
+  display:none;
+  background:var(--bg2);
+  border-bottom:1px solid var(--border);
+  padding:5px 14px;
+  display:flex;align-items:center;gap:10px;
+  font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;
+}
+.speaker-chip{
+  padding:3px 10px;border-radius:100px;font-size:9px;font-weight:700;
+  letter-spacing:0.5px;
+}
+.chip-you{background:rgba(255,136,0,0.15);color:var(--orange);border:1px solid rgba(255,136,0,0.25);}
+.chip-client{background:rgba(0,207,255,0.1);color:var(--cyan);border:1px solid rgba(0,207,255,0.2);}
+.chip-unknown{background:rgba(255,255,255,0.05);color:var(--text3);border:1px solid var(--border);}
+#speaker-name{color:var(--text2);font-size:10px;}
+
+/* ═══════════════ CLIENT BANNER ═══════════════ */
+#client-banner{
+  flex-shrink:0;
+  display:none;
+  background:rgba(204,68,255,0.06);
+  border-bottom:1px solid rgba(204,68,255,0.15);
+  padding:7px 14px;
+  align-items:center;justify-content:space-between;
+  gap:10px;
+}
+#client-banner.show{display:flex;}
+.cb-left{display:flex;align-items:center;gap:8px;}
+.cb-avatar{
+  width:28px;height:28px;border-radius:50%;
+  background:rgba(204,68,255,0.2);border:1px solid rgba(204,68,255,0.35);
+  display:flex;align-items:center;justify-content:center;font-size:13px;
+}
+.cb-name{font-size:13px;font-weight:700;color:var(--text);}
+.cb-detail{font-size:10px;color:var(--text2);margin-top:1px;}
+.cb-right{display:flex;align-items:center;gap:6px;}
+.cb-btn{
+  padding:4px 10px;border-radius:var(--r-sm);border:none;cursor:pointer;
+  font-family:'Inter',sans-serif;font-size:10px;font-weight:700;
+  background:rgba(204,68,255,0.12);color:var(--purple);
+  border:1px solid rgba(204,68,255,0.2);transition:all 0.2s;
+}
+.cb-btn:hover{background:rgba(204,68,255,0.22);}
+.cb-close{
+  background:transparent;border:none;cursor:pointer;
+  color:var(--text3);font-size:14px;padding:2px;
+}
+
+/* ═══════════════ MAIN ═══════════════ */
 main{
   flex:1;overflow-y:auto;overflow-x:hidden;
-  position:relative;z-index:5;
-  padding:12px 14px;
-  display:flex;flex-direction:column;gap:10px;
+  padding:10px 12px;
+  display:flex;flex-direction:column;gap:8px;
   -webkit-overflow-scrolling:touch;
 }
-main::-webkit-scrollbar{width:3px;}
-main::-webkit-scrollbar-track{background:transparent;}
-main::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px;}
 
-/* ─── CARDS ─── */
+/* ═══════════════ CARDS ═══════════════ */
 .card{
-  background:rgba(14,0,32,0.7);
+  background:var(--bg2);
   border:1px solid var(--border);
   border-radius:var(--r);
-  padding:12px 14px;
-  backdrop-filter:blur(6px);
+  padding:11px 13px;
 }
-.card-label{
-  font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
-  color:var(--text3);margin-bottom:8px;display:flex;align-items:center;gap:6px;
+.clabel{
+  font-size:8px;font-weight:800;letter-spacing:2px;text-transform:uppercase;
+  margin-bottom:7px;display:flex;align-items:center;gap:5px;
 }
-.card-label-dot{width:4px;height:4px;border-radius:50%;background:currentColor;}
+.clabel-dot{width:4px;height:4px;border-radius:50%;background:currentColor;flex-shrink:0;}
 
-/* ─── TRANSCRIPT ─── */
-#transcript-card{min-height:70px;}
-#transcript-display{
+/* TRANSCRIPT — CYAN */
+#transcript-card{border-color:rgba(0,207,255,0.2);}
+#transcript-card .clabel{color:var(--cyan);}
+#transcript-scroll{max-height:75px;overflow-y:auto;margin-bottom:3px;}
+#transcript-text{
   font-family:'JetBrains Mono',monospace;
-  font-size:12px;line-height:1.7;color:var(--text2);
-  max-height:80px;overflow-y:auto;
-  word-break:break-word;
+  font-size:11px;line-height:1.7;color:#ccc;word-break:break-word;
 }
-#transcript-display::-webkit-scrollbar{width:2px;}
-#transcript-display::-webkit-scrollbar-thumb{background:var(--border2);}
-#interim-display{
+#transcript-interim{
   font-family:'JetBrains Mono',monospace;
-  font-size:11px;color:var(--text3);font-style:italic;
-  margin-top:4px;min-height:16px;
-}
-.transcript-placeholder{color:var(--text3);font-style:italic;font-size:12px;}
-
-/* ─── CONTEXT BADGE ─── */
-#context-card{
-  padding:8px 14px;
-  background:rgba(124,58,237,0.06);
-  border-color:var(--border2);
-  display:none;
-}
-#context-text{
-  font-size:11px;color:var(--purple2);font-style:italic;
-  display:flex;align-items:center;gap:6px;
+  font-size:10px;color:var(--text3);font-style:italic;min-height:14px;
 }
 
-/* ─── SUGGESTION ─── */
+/* SUGGESTION — GREEN */
 #suggestion-card{
-  background:rgba(14,0,32,0.85);
-  border-color:rgba(201,162,39,0.25);
-  box-shadow:var(--shadow-gold);
-  min-height:90px;
-  position:relative;overflow:hidden;
+  border-color:rgba(57,255,20,0.25);
+  box-shadow:0 0 20px rgba(57,255,20,0.05);
 }
-#suggestion-card::before{
-  content:'';position:absolute;left:0;top:0;bottom:0;width:3px;
-  background:linear-gradient(180deg,#7c3aed,#c9a227);
-  border-radius:3px 0 0 3px;
+#suggestion-card .clabel{color:var(--green);}
+#suggestion-text{
+  font-size:16px;line-height:1.6;color:var(--text);font-weight:500;
+  min-height:48px;
 }
-#suggestion-display{
-  font-size:17px;line-height:1.6;color:var(--text);
-  font-weight:500;padding-left:4px;
-  min-height:50px;
-}
-#suggestion-display.placeholder{
-  color:var(--text3);font-size:13px;font-style:italic;font-weight:400;
-}
-.processing-shimmer{
-  background:linear-gradient(90deg,var(--text3) 25%,var(--text2) 50%,var(--text3) 75%);
-  background-size:200% 100%;
-  animation:shimmer 1.5s infinite;
+#suggestion-text.ph{color:var(--text3);font-size:12px;font-weight:400;font-style:italic;}
+#suggestion-text.loading{
+  background:linear-gradient(90deg,var(--text3) 25%,#999 50%,var(--text3) 75%);
+  background-size:200%;animation:shimmer 1.5s infinite;
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;
 }
 @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
 
-/* ─── ALERT BANNER ─── */
-#alert-banner{
+/* ALERT — RED */
+#alert-card{
   display:none;
-  background:rgba(239,68,68,0.08);
-  border:1px solid rgba(239,68,68,0.25);
-  border-radius:var(--r);
-  padding:10px 14px;
+  background:rgba(255,68,0,0.07);
+  border-color:rgba(255,68,0,0.3);
   animation:slide-in 0.3s ease-out;
 }
-#alert-banner.show{display:block;}
-.alert-header{
-  display:flex;align-items:center;gap:8px;
-  font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
-  color:#f87171;margin-bottom:6px;
-}
-#alert-text{font-size:13px;color:#fca5a5;line-height:1.5;font-weight:500;}
+#alert-card.show{display:block;}
+#alert-card .clabel{color:var(--red);}
+#alert-text{font-size:14px;line-height:1.5;color:#ff9977;font-weight:500;}
 
-/* ─── OPPORTUNITY BANNER ─── */
-#opportunity-banner{
+/* OPPORTUNITY — YELLOW */
+#opp-card{
   display:none;
-  background:rgba(201,162,39,0.07);
-  border:1px solid rgba(201,162,39,0.25);
-  border-radius:var(--r);
-  padding:12px 14px;
+  background:rgba(255,208,0,0.05);
+  border-color:rgba(255,208,0,0.25);
   animation:slide-in 0.3s ease-out;
 }
-#opportunity-banner.show{display:block;}
-.opp-header{
-  display:flex;align-items:center;justify-content:space-between;
-  margin-bottom:8px;
+#opp-card.show{display:block;}
+#opp-card .clabel{color:var(--yellow);}
+.opp-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;}
+#opp-service{font-size:13px;font-weight:700;color:#ffe566;}
+#opp-price{
+  background:rgba(255,208,0,0.15);border:1px solid rgba(255,208,0,0.25);
+  border-radius:6px;padding:2px 8px;font-size:11px;font-weight:700;color:var(--yellow);
 }
-.opp-label{
-  display:flex;align-items:center;gap:8px;
-  font-size:10px;font-weight:700;letter-spacing:1.5px;
-  text-transform:uppercase;color:var(--gold);
+#opp-why{font-size:12px;color:#ccaa44;line-height:1.5;margin-bottom:9px;}
+#btn-conv{
+  width:100%;padding:9px;
+  background:rgba(255,208,0,0.1);border:1px solid rgba(255,208,0,0.25);
+  border-radius:var(--r-sm);cursor:pointer;
+  color:var(--yellow);font-family:'Inter',sans-serif;
+  font-size:11px;font-weight:800;letter-spacing:0.5px;
+  transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:6px;
 }
-.opp-badge{
-  background:rgba(201,162,39,0.15);
-  border:1px solid rgba(201,162,39,0.3);
-  border-radius:6px;padding:2px 8px;
-  font-size:12px;font-weight:700;color:var(--gold2);
-}
-#opp-declencheur{font-size:12px;color:#d4b060;line-height:1.5;margin-bottom:10px;}
-#btn-conversion{
-  width:100%;padding:10px;
-  background:linear-gradient(135deg,rgba(201,162,39,0.2),rgba(201,162,39,0.1));
-  border:1px solid rgba(201,162,39,0.35);
-  border-radius:10px;cursor:pointer;
-  color:var(--gold2);font-family:'Nunito',sans-serif;
-  font-size:12px;font-weight:700;letter-spacing:0.5px;
-  transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:8px;
-}
-#btn-conversion:hover{background:rgba(201,162,39,0.25);transform:translateY(-1px);}
+#btn-conv:hover{background:rgba(255,208,0,0.18);}
 
-/* ─── CONVERSION PANEL ─── */
-#conversion-panel{
+/* CONVERSION — YELLOW */
+#conv-panel{
   display:none;
-  background:rgba(201,162,39,0.05);
-  border:1px solid rgba(201,162,39,0.2);
-  border-radius:var(--r);
-  padding:14px;
+  background:rgba(255,208,0,0.04);
+  border:1px solid rgba(255,208,0,0.15);
+  border-radius:var(--r);padding:11px 13px;
   animation:slide-in 0.3s ease-out;
 }
-#conversion-panel.show{display:block;}
-.conv-label{
-  font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
-  color:var(--gold);margin-bottom:10px;display:flex;align-items:center;gap:6px;
-}
+#conv-panel.show{display:block;}
+#conv-panel .clabel{color:var(--yellow);}
 .conv-phrase{
-  background:rgba(14,0,32,0.6);
-  border:1px solid rgba(201,162,39,0.15);
-  border-left:3px solid var(--gold);
-  border-radius:10px;padding:12px 14px;
-  font-size:14px;line-height:1.6;color:var(--text);
-  margin-bottom:8px;cursor:pointer;transition:all 0.2s;
-  position:relative;
+  background:var(--bg2);border:1px solid rgba(255,208,0,0.12);
+  border-left:3px solid var(--yellow);border-radius:var(--r-sm);
+  padding:10px 12px;margin-bottom:7px;cursor:pointer;
+  transition:all 0.2s;font-size:13px;line-height:1.5;color:var(--text);
 }
-.conv-phrase:hover{background:rgba(201,162,39,0.08);border-color:rgba(201,162,39,0.3);}
 .conv-phrase:last-child{margin-bottom:0;}
-.conv-num{
-  font-size:9px;font-weight:700;color:var(--gold);
-  letter-spacing:1px;margin-bottom:4px;opacity:0.8;
-}
+.conv-phrase:hover{background:rgba(255,208,0,0.06);border-color:rgba(255,208,0,0.25);}
+.conv-num{font-size:8px;font-weight:800;color:var(--yellow);letter-spacing:1px;margin-bottom:3px;}
 
-/* ─── FOOTER ─── */
-footer{
-  position:relative;z-index:10;
-  padding:12px 14px 16px;
-  background:rgba(7,0,15,0.95);
-  border-top:1px solid var(--border);
-  backdrop-filter:blur(10px);
-  display:flex;gap:10px;align-items:center;
+/* CONTEXT */
+#context-card{
+  display:none;padding:7px 12px;
+  background:rgba(204,68,255,0.05);
+  border-color:rgba(204,68,255,0.15);
+}
+#context-card.show{display:block;}
+#context-text{font-size:11px;color:#cc88ff;font-style:italic;}
+
+/* EMPTY STATE */
+#empty-state{
+  flex:1;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  text-align:center;padding:30px 20px;gap:10px;
+}
+.es-icon{font-size:52px;margin-bottom:8px;opacity:0.5;}
+.es-title{
+  font-family:'Orbitron',monospace;font-size:14px;font-weight:900;
+  color:var(--cyan);text-shadow:0 0 10px rgba(0,207,255,0.4);
+}
+.es-sub{font-size:12px;color:var(--text3);line-height:1.7;max-width:260px;}
+.es-sub strong{color:var(--text2);}
+
+/* ═══════════════ QUICK ACTIONS ═══════════════ */
+#quick-actions{
   flex-shrink:0;
+  padding:8px 12px;
+  background:var(--bg2);
+  border-top:1px solid var(--border);
+  overflow-x:auto;
+  display:flex;gap:7px;align-items:center;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
 }
+#quick-actions::-webkit-scrollbar{display:none;}
+.qa-label{
+  font-size:8px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--orange);white-space:nowrap;flex-shrink:0;margin-right:2px;
+}
+.qa-btn{
+  flex-shrink:0;
+  padding:7px 12px;border-radius:20px;border:none;cursor:pointer;
+  font-family:'Inter',sans-serif;font-size:11px;font-weight:700;
+  white-space:nowrap;transition:all 0.2s;
+  display:flex;align-items:center;gap:5px;
+}
+.qa-btn:hover{filter:brightness(1.2);transform:translateY(-1px);}
+.qa-btn:active{transform:scale(0.96);}
+/* Colors per button */
+.qa-1{background:rgba(0,207,255,0.12);color:var(--cyan);border:1px solid rgba(0,207,255,0.2);}
+.qa-2{background:rgba(57,255,20,0.1);color:var(--green);border:1px solid rgba(57,255,20,0.2);}
+.qa-3{background:rgba(255,68,0,0.1);color:var(--red);border:1px solid rgba(255,68,0,0.2);}
+.qa-4{background:rgba(255,208,0,0.1);color:var(--yellow);border:1px solid rgba(255,208,0,0.2);}
+.qa-5{background:rgba(204,68,255,0.1);color:var(--purple);border:1px solid rgba(204,68,255,0.2);}
+.qa-6{background:rgba(0,255,204,0.1);color:var(--teal);border:1px solid rgba(0,255,204,0.2);}
+.qa-7{background:rgba(255,51,153,0.1);color:var(--pink);border:1px solid rgba(255,51,153,0.2);}
+.qa-8{background:rgba(255,136,0,0.1);color:var(--orange);border:1px solid rgba(255,136,0,0.2);}
 
+/* ═══════════════ FOOTER ═══════════════ */
+footer{
+  flex-shrink:0;
+  padding:10px 12px 14px;
+  background:rgba(17,17,17,0.98);
+  border-top:1px solid var(--border);
+  display:flex;gap:7px;align-items:center;
+}
 #btn-mic{
-  flex:1;height:56px;border-radius:14px;border:none;cursor:pointer;
-  font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;
-  letter-spacing:0.5px;transition:all 0.2s;
-  display:flex;align-items:center;justify-content:center;gap:10px;
+  flex:1;height:50px;border-radius:12px;border:none;cursor:pointer;
+  font-family:'Inter',sans-serif;font-size:13px;font-weight:800;letter-spacing:0.5px;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  transition:all 0.2s;
 }
 #btn-mic.idle{
-  background:rgba(6,182,212,0.1);
-  border:2px solid rgba(6,182,212,0.3);
-  color:var(--cyan);
+  background:rgba(0,207,255,0.1);color:var(--cyan);
+  border:2px solid rgba(0,207,255,0.3);
 }
-#btn-mic.idle:hover{background:rgba(6,182,212,0.18);transform:translateY(-1px);}
+#btn-mic.idle:hover{background:rgba(0,207,255,0.18);}
 #btn-mic.active{
-  background:linear-gradient(135deg,#0891b2,#06b6d4);
+  background:linear-gradient(135deg,#0088bb,#00cfff);color:#000;
   border:2px solid var(--cyan);
-  color:#fff;
-  box-shadow:0 0 25px rgba(6,182,212,0.35);
-  animation:mic-glow 2s ease-in-out infinite;
+  box-shadow:0 0 20px rgba(0,207,255,0.35);
+  animation:mic-pulse 2s ease-in-out infinite;
 }
-@keyframes mic-glow{
-  0%,100%{box-shadow:0 0 25px rgba(6,182,212,0.35);}
-  50%{box-shadow:0 0 40px rgba(6,182,212,0.55);}
+@keyframes mic-pulse{
+  0%,100%{box-shadow:0 0 20px rgba(0,207,255,0.35);}
+  50%{box-shadow:0 0 35px rgba(0,207,255,0.6);}
 }
-.mic-icon{font-size:20px;}
-.mic-ring{
-  position:absolute;border-radius:14px;
-  border:2px solid rgba(6,182,212,0.3);
-  animation:ring-out 2s ease-out infinite;
-  pointer-events:none;
+.fbtn{
+  width:50px;height:50px;border-radius:12px;border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;font-size:18px;
+  transition:all 0.2s;flex-shrink:0;
 }
-@keyframes ring-out{
-  0%{inset:0;opacity:0.6;}
-  100%{inset:-8px;opacity:0;}
-}
+#btn-force{background:rgba(57,255,20,0.1);border:1px solid rgba(57,255,20,0.2);color:var(--green);}
+#btn-force:hover{background:rgba(57,255,20,0.2);}
+#btn-force:disabled{opacity:0.25;cursor:not-allowed;}
+#btn-summary{background:rgba(0,255,204,0.1);border:1px solid rgba(0,255,204,0.2);color:var(--teal);}
+#btn-summary:hover{background:rgba(0,255,204,0.2);}
+#btn-client-select{background:rgba(204,68,255,0.1);border:1px solid rgba(204,68,255,0.2);color:var(--purple);}
+#btn-client-select:hover{background:rgba(204,68,255,0.2);}
+#btn-clear{background:rgba(255,255,255,0.04);border:1px solid var(--border);color:var(--text3);}
+#btn-clear:hover{background:rgba(255,68,0,0.1);color:var(--red);border-color:rgba(255,68,0,0.2);}
 
-#btn-force{
-  width:56px;height:56px;border-radius:14px;border:none;cursor:pointer;
-  background:rgba(124,58,237,0.12);
-  border:2px solid rgba(124,58,237,0.25);
-  color:var(--purple2);font-size:20px;
-  transition:all 0.2s;display:flex;align-items:center;justify-content:center;
-}
-#btn-force:hover{background:rgba(124,58,237,0.22);transform:translateY(-1px);}
-#btn-force:disabled{opacity:0.3;cursor:not-allowed;}
-
-#btn-clear{
-  width:44px;height:56px;border-radius:14px;border:none;cursor:pointer;
-  background:rgba(255,255,255,0.04);
-  border:1px solid rgba(255,255,255,0.07);
-  color:var(--text3);font-size:16px;
-  transition:all 0.2s;display:flex;align-items:center;justify-content:center;
-}
-#btn-clear:hover{background:rgba(239,68,68,0.1);color:#f87171;border-color:rgba(239,68,68,0.2);}
-
-/* ─── SETTINGS OVERLAY ─── */
-#settings-overlay{
+/* ═══════════════ OVERLAY BASE ═══════════════ */
+.overlay{
   position:fixed;inset:0;z-index:100;
-  background:rgba(0,0,0,0.75);
-  backdrop-filter:blur(4px);
+  background:rgba(0,0,0,0.8);backdrop-filter:blur(4px);
   display:none;align-items:flex-end;
 }
-#settings-overlay.show{display:flex;animation:fade-in 0.2s;}
+.overlay.show{display:flex;animation:fade-in 0.2s;}
 @keyframes fade-in{from{opacity:0}to{opacity:1}}
 
-#settings-drawer{
-  width:100%;max-height:88vh;
-  background:#0e0020;
-  border:1px solid var(--border2);
-  border-radius:24px 24px 0 0;
-  padding:20px 16px 32px;
+.drawer{
+  width:100%;max-height:90vh;
+  background:#161616;
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:20px 20px 0 0;
+  padding:18px 14px 28px;
   overflow-y:auto;
-  animation:slide-up-modal 0.3s ease-out;
+  animation:slide-modal 0.3s ease-out;
 }
-#settings-drawer::-webkit-scrollbar{width:3px;}
-#settings-drawer::-webkit-scrollbar-thumb{background:var(--border2);}
-@keyframes slide-up-modal{from{transform:translateY(100%)}to{transform:translateY(0)}}
-
+@keyframes slide-modal{from{transform:translateY(100%)}to{transform:translateY(0)}}
 .drawer-handle{
-  width:40px;height:4px;border-radius:2px;
-  background:rgba(255,255,255,0.1);
-  margin:0 auto 20px;
+  width:36px;height:3px;border-radius:2px;
+  background:rgba(255,255,255,0.1);margin:0 auto 16px;
 }
 .drawer-title{
-  font-family:'Cinzel',serif;
-  font-size:17px;font-weight:700;
-  background:linear-gradient(90deg,#c9a227,#e8c060);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-  margin-bottom:20px;
+  font-family:'Orbitron',monospace;font-size:14px;font-weight:900;
+  margin-bottom:16px;display:flex;align-items:center;gap:8px;
 }
 
-.field-group{margin-bottom:16px;}
-.field-label{
-  font-size:10px;font-weight:700;letter-spacing:1.5px;
-  text-transform:uppercase;color:var(--text3);margin-bottom:6px;
-}
-.field-hint{font-size:11px;color:var(--text3);margin-top:5px;line-height:1.5;font-style:italic;}
-
-.field-input,.field-textarea,.field-select{
-  width:100%;
-  background:rgba(255,255,255,0.04);
+/* ═══════════════ FORM ELEMENTS ═══════════════ */
+.fg{margin-bottom:14px;}
+.fl{font-size:9px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);margin-bottom:5px;}
+.fhint{font-size:10px;color:var(--text3);margin-top:4px;line-height:1.5;font-style:italic;}
+.fi,.fta,.fsel{
+  width:100%;background:rgba(255,255,255,0.04);
   border:1px solid rgba(255,255,255,0.08);
-  border-radius:10px;padding:10px 12px;
-  color:var(--text);font-family:'Nunito',sans-serif;
-  font-size:13px;outline:none;
-  transition:border 0.2s;
+  border-radius:var(--r-sm);padding:9px 11px;
+  color:var(--text);font-family:'Inter',sans-serif;font-size:13px;
+  outline:none;transition:border 0.2s;
 }
-.field-input:focus,.field-textarea:focus{border-color:rgba(201,162,39,0.35);}
-.field-textarea{
-  font-family:'JetBrains Mono',monospace;font-size:11px;
-  line-height:1.7;resize:vertical;min-height:140px;
-}
-.field-select{appearance:none;cursor:pointer;}
+.fi:focus,.fta:focus{border-color:rgba(0,207,255,0.35);}
+.fta{font-family:'JetBrains Mono',monospace;font-size:11px;line-height:1.7;resize:vertical;min-height:100px;}
+.fsel{appearance:none;cursor:pointer;}
+.fi-row{display:flex;gap:7px;}
+.fi-row .fi{flex:1;}
 
-.btn-save{
-  width:100%;padding:14px;margin-top:8px;
-  background:linear-gradient(135deg,#7c3aed,#c9a227);
-  border:none;border-radius:12px;cursor:pointer;
-  color:#fff;font-family:'Nunito',sans-serif;
-  font-size:14px;font-weight:800;letter-spacing:0.5px;
-  transition:all 0.2s;box-shadow:0 4px 20px rgba(124,58,237,0.3);
+.btn-primary{
+  width:100%;padding:13px;
+  background:linear-gradient(135deg,rgba(0,207,255,0.3),rgba(0,207,255,0.15));
+  border:1px solid rgba(0,207,255,0.4);border-radius:10px;cursor:pointer;
+  color:var(--cyan);font-family:'Inter',sans-serif;
+  font-size:13px;font-weight:800;letter-spacing:0.5px;
+  transition:all 0.2s;margin-top:6px;
 }
-.btn-save:hover{filter:brightness(1.1);transform:translateY(-1px);}
-
-.btn-reset{
-  width:100%;padding:10px;margin-top:8px;
-  background:transparent;
-  border:1px solid rgba(255,255,255,0.08);
-  border-radius:10px;cursor:pointer;
-  color:var(--text3);font-family:'Nunito',sans-serif;
-  font-size:12px;font-weight:600;transition:all 0.2s;
+.btn-primary:hover{filter:brightness(1.2);transform:translateY(-1px);}
+.btn-secondary{
+  width:100%;padding:9px;margin-top:6px;
+  background:transparent;border:1px solid rgba(255,255,255,0.08);
+  border-radius:10px;cursor:pointer;color:var(--text3);
+  font-family:'Inter',sans-serif;font-size:12px;font-weight:600;transition:all 0.2s;
 }
-.btn-reset:hover{border-color:rgba(255,255,255,0.15);color:var(--text2);}
+.btn-secondary:hover{border-color:rgba(255,255,255,0.15);color:var(--text2);}
+.btn-danger{
+  background:rgba(255,68,0,0.1);border:1px solid rgba(255,68,0,0.2);
+  color:var(--red);
+}
+.btn-danger:hover{background:rgba(255,68,0,0.2);}
 
-.api-key-row{display:flex;gap:8px;align-items:center;}
-.api-key-row .field-input{flex:1;}
-.toggle-eye{
+.divider{height:1px;background:var(--border);margin:14px 0;}
+.section-title{font-size:11px;font-weight:700;color:var(--text2);margin-bottom:10px;display:flex;align-items:center;gap:6px;}
+
+/* ═══════════════ SETTINGS ═══════════════ */
+.api-row{display:flex;gap:7px;align-items:center;}
+.api-row .fi{flex:1;}
+.eye-btn{
   background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);
-  border-radius:10px;padding:10px 12px;cursor:pointer;color:var(--text3);font-size:14px;
-  white-space:nowrap;
+  border-radius:var(--r-sm);padding:9px 10px;cursor:pointer;color:var(--text3);font-size:13px;
 }
 
-.divider{
-  height:1px;background:var(--border);margin:16px 0;
+/* ═══════════════ VOICE ENROLLMENT ═══════════════ */
+#voice-status{
+  text-align:center;padding:20px;
+  font-size:14px;line-height:1.7;
 }
-.section-title{
-  font-size:12px;font-weight:700;color:var(--text2);
-  margin-bottom:12px;display:flex;align-items:center;gap:8px;
+.voice-ring{
+  width:80px;height:80px;border-radius:50%;
+  background:rgba(255,51,153,0.1);border:2px solid rgba(255,51,153,0.25);
+  display:flex;align-items:center;justify-content:center;
+  font-size:32px;margin:0 auto 14px;
+  transition:all 0.3s;
+}
+.voice-ring.recording{
+  background:rgba(255,51,153,0.2);border-color:rgba(255,51,153,0.6);
+  animation:ring-pulse 1s ease-in-out infinite;
+  box-shadow:0 0 25px rgba(255,51,153,0.3);
+}
+@keyframes ring-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+#voice-progress{
+  height:3px;background:rgba(255,51,153,0.15);border-radius:2px;margin:10px 0;
+  overflow:hidden;
+}
+#voice-progress-bar{
+  height:100%;background:var(--pink);border-radius:2px;
+  width:0%;transition:width 0.1s;
+}
+.voice-done-text{color:var(--pink);font-weight:700;}
+
+/* ═══════════════ CLIENT LIST ═══════════════ */
+.client-item{
+  background:var(--bg3);border:1px solid var(--border);
+  border-radius:var(--r-sm);padding:10px 12px;
+  margin-bottom:7px;cursor:pointer;transition:all 0.2s;
+  display:flex;align-items:center;gap:10px;
+}
+.client-item:hover{background:rgba(204,68,255,0.07);border-color:rgba(204,68,255,0.2);}
+.client-item.active{background:rgba(204,68,255,0.1);border-color:rgba(204,68,255,0.3);}
+.ci-avatar{
+  width:34px;height:34px;border-radius:50%;flex-shrink:0;
+  background:rgba(204,68,255,0.15);border:1px solid rgba(204,68,255,0.25);
+  display:flex;align-items:center;justify-content:center;font-size:15px;
+}
+.ci-info{flex:1;min-width:0;}
+.ci-name{font-size:13px;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.ci-detail{font-size:10px;color:var(--text2);margin-top:1px;}
+.ci-badge{
+  flex-shrink:0;font-size:9px;font-weight:700;padding:2px 7px;
+  border-radius:100px;background:rgba(204,68,255,0.12);
+  color:var(--purple);border:1px solid rgba(204,68,255,0.2);
+}
+.search-bar{
+  width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);
+  border-radius:var(--r-sm);padding:9px 11px;color:var(--text);
+  font-family:'Inter',sans-serif;font-size:13px;outline:none;margin-bottom:10px;
+}
+.search-bar:focus{border-color:rgba(204,68,255,0.35);}
+
+/* ═══════════════ CLIENT FILE ═══════════════ */
+.consult-item{
+  background:var(--bg3);border:1px solid var(--border);
+  border-radius:var(--r-sm);padding:10px 12px;margin-bottom:7px;cursor:pointer;
+  transition:all 0.2s;
+}
+.consult-item:hover{background:rgba(0,255,204,0.04);border-color:rgba(0,255,204,0.15);}
+.consult-date{font-size:10px;color:var(--teal);font-weight:700;margin-bottom:4px;}
+.consult-summary{font-size:12px;color:var(--text2);line-height:1.5;}
+.kp-badge{
+  display:inline-block;background:rgba(0,255,204,0.08);
+  border:1px solid rgba(0,255,204,0.15);border-radius:4px;
+  padding:1px 6px;font-size:10px;color:#66ffdd;margin:2px 2px 0 0;
+}
+.tab-row{display:flex;gap:5px;margin-bottom:12px;}
+.tab-btn{
+  flex:1;padding:7px;border-radius:var(--r-sm);border:none;cursor:pointer;
+  font-family:'Inter',sans-serif;font-size:10px;font-weight:700;letter-spacing:0.5px;
+  background:rgba(255,255,255,0.04);color:var(--text3);transition:all 0.2s;
+}
+.tab-btn.active{background:rgba(204,68,255,0.12);color:var(--purple);border:1px solid rgba(204,68,255,0.2);}
+
+/* ═══════════════ SUMMARY ═══════════════ */
+#summary-content{
+  background:var(--bg3);border:1px solid rgba(0,255,204,0.15);
+  border-radius:var(--r);padding:13px;
+  font-size:13px;line-height:1.7;color:var(--text2);
+}
+.sum-section{margin-bottom:12px;}
+.sum-title{font-size:9px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--teal);margin-bottom:5px;}
+.sum-text{font-size:13px;color:var(--text);line-height:1.6;}
+.kp-list{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px;}
+
+/* ═══════════════ DOB / FREE TEXT MINI-OVERLAY ═══════════════ */
+.mini-overlay{
+  position:fixed;inset:0;z-index:150;
+  background:rgba(0,0,0,0.85);backdrop-filter:blur(4px);
+  display:none;align-items:center;justify-content:center;padding:20px;
+}
+.mini-overlay.show{display:flex;animation:fade-in 0.2s;}
+.mini-box{
+  background:#161616;border:1px solid rgba(255,255,255,0.1);
+  border-radius:16px;padding:20px;width:100%;max-width:360px;
+}
+.mini-title{font-size:14px;font-weight:800;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.mini-close{
+  margin-left:auto;background:transparent;border:none;cursor:pointer;
+  color:var(--text3);font-size:18px;
 }
 
-/* ─── TOAST ─── */
+/* ═══════════════ TOAST ═══════════════ */
 #toast{
-  position:fixed;bottom:100px;left:50%;transform:translateX(-50%);
-  background:rgba(16,185,129,0.15);border:1px solid rgba(16,185,129,0.3);
-  color:#34d399;padding:8px 20px;border-radius:100px;
-  font-size:12px;font-weight:700;z-index:200;
-  display:none;white-space:nowrap;
+  position:fixed;bottom:90px;left:50%;transform:translateX(-50%);
+  background:rgba(57,255,20,0.12);border:1px solid rgba(57,255,20,0.3);
+  color:var(--green);padding:7px 18px;border-radius:100px;
+  font-size:11px;font-weight:700;z-index:200;display:none;white-space:nowrap;
+  box-shadow:0 4px 20px rgba(0,0,0,0.4);
 }
 #toast.show{display:block;animation:toast-in 0.2s ease-out;}
-@keyframes toast-in{from{opacity:0;transform:translate(-50%,8px)}to{opacity:1;transform:translate(-50%,0)}}
+@keyframes toast-in{from{opacity:0;transform:translate(-50%,6px)}to{opacity:1;transform:translate(-50%,0)}}
+#toast.warn{background:rgba(255,136,0,0.12);border-color:rgba(255,136,0,0.3);color:var(--orange);}
+#toast.err{background:rgba(255,68,0,0.12);border-color:rgba(255,68,0,0.3);color:var(--red);}
 
-/* ─── EMPTY STATE ─── */
-.empty-state{
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  padding:30px 20px;text-align:center;gap:10px;
-  flex:1;
-}
-.empty-icon{font-size:48px;opacity:0.4;margin-bottom:8px;}
-.empty-title{
-  font-family:'Cinzel',serif;font-size:16px;
-  background:linear-gradient(90deg,#7c3aed,#c9a227);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-}
-.empty-sub{font-size:12px;color:var(--text3);line-height:1.6;max-width:260px;}
+/* ═══════════════ ANIMS ═══════════════ */
+@keyframes slide-in{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
 
-/* ─── ANIMATIONS ─── */
-@keyframes slide-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-
-/* ─── NO SUPPORT ─── */
+/* ═══════════════ NO SUPPORT ═══════════════ */
 #no-support{
-  display:none;position:fixed;inset:0;z-index:500;
+  display:none;position:fixed;inset:0;z-index:999;
   background:var(--bg);align-items:center;justify-content:center;
-  padding:30px;text-align:center;flex-direction:column;gap:16px;
+  flex-direction:column;gap:14px;padding:30px;text-align:center;
 }
 #no-support.show{display:flex;}
-.no-support-icon{font-size:48px;}
-.no-support-text{font-size:14px;color:#f87171;line-height:1.6;}
-
-/* ─── RESPONSIVE ─── */
-@media(min-width:600px){
-  main{max-width:540px;margin:0 auto;width:100%;}
-  footer{max-width:540px;margin:0 auto;width:100%;}
-}
+.ns-icon{font-size:48px;}
+.ns-text{font-size:13px;color:var(--red);line-height:1.7;}
 </style>
 </head>
 <body>
 
-<div class="bg-layer"></div>
-<div class="stars"></div>
-
-<!-- NO SUPPORT WARNING -->
+<!-- NO SUPPORT -->
 <div id="no-support">
-  <div class="no-support-icon">🎤</div>
-  <div class="no-support-text">
-    <strong>Reconnaissance vocale non supportée.</strong><br>
-    Veuillez utiliser <strong>Google Chrome</strong> sur Android ou PC.<br>
-    Safari (iOS) a un support limité.
-  </div>
+  <div class="ns-icon">🎤</div>
+  <div class="ns-text"><strong>Reconnaissance vocale non supportée.</strong><br>Utilisez <strong>Google Chrome</strong> sur Android ou tablette.</div>
 </div>
 
 <!-- HEADER -->
@@ -506,343 +585,474 @@ footer{
   <div class="logo">
     <div class="logo-icon">🔮</div>
     <div>
-      <div class="logo-text">MédiumAssist Pro</div>
-      <div class="logo-sub">ClairvoyanceMedium.com</div>
+      <div class="logo-text">
+        <span class="logo-pgi">PGI</span>
+        <span class="logo-sep">•</span>
+        <span class="logo-name">MediumAssist Pro</span>
+      </div>
+      <div class="logo-sub">ClairvoyanceMedium.com — Frederick</div>
     </div>
   </div>
   <div class="header-right">
-    <div id="status-pill" class="status-pill status-idle">
-      <div class="status-dot"></div>
-      <span id="status-text">En veille</span>
+    <div id="status-pill" class="status-pill s-idle">
+      <div class="s-dot"></div>
+      <span id="status-txt">Veille</span>
     </div>
-    <button class="icon-btn" id="btn-settings" title="Paramètres">⚙️</button>
+    <button class="hbtn" id="btn-settings-open" title="Paramètres">⚙️</button>
   </div>
 </header>
 
+<!-- SPEAKER BAR -->
+<div id="speaker-bar">
+  <span id="speaker-label" class="speaker-chip chip-unknown">❓ Inconnu</span>
+  <span id="speaker-name"></span>
+</div>
+
+<!-- CLIENT BANNER -->
+<div id="client-banner">
+  <div class="cb-left">
+    <div class="cb-avatar">👤</div>
+    <div>
+      <div class="cb-name" id="cb-name-txt">—</div>
+      <div class="cb-detail" id="cb-detail-txt"></div>
+    </div>
+  </div>
+  <div class="cb-right">
+    <button class="cb-btn" onclick="openClientFile()">📋 Fiche</button>
+    <button class="cb-close" onclick="deselectClient()">✕</button>
+  </div>
+</div>
+
 <!-- MAIN -->
-<main id="main-content">
-
-  <!-- Empty state (initial) -->
-  <div class="empty-state" id="empty-state">
-    <div class="empty-icon">🔮</div>
-    <div class="empty-title">Assistant Médium Actif</div>
-    <div class="empty-sub">Appuyez sur <strong style="color:var(--cyan)">DÉMARRER L'ÉCOUTE</strong> pour activer le télésouffleur.<br>Posez votre tablette à côté du téléphone en haut-parleur.</div>
+<main id="main">
+  <div id="empty-state">
+    <div class="es-icon">🔮</div>
+    <div class="es-title">Prêt à l'écoute</div>
+    <div class="es-sub">Appuyez sur <strong>DÉMARRER</strong> pour activer l'assistant.<br>Posez votre tablette à côté du téléphone en haut-parleur.</div>
   </div>
 
-  <!-- Transcript -->
-  <div class="card" id="transcript-card" style="display:none;">
-    <div class="card-label"><span class="card-label-dot" style="color:var(--cyan);"></span>TRANSCRIPTION EN DIRECT</div>
-    <div id="transcript-display"><span class="transcript-placeholder">En attente de parole...</span></div>
-    <div id="interim-display"></div>
+  <div class="card" id="transcript-card" style="display:none">
+    <div class="clabel"><div class="clabel-dot"></div>🎙️ TRANSCRIPTION EN DIRECT</div>
+    <div id="transcript-scroll"><div id="transcript-text"><span style="color:var(--text3);font-style:italic;font-size:11px;">En attente de parole...</span></div></div>
+    <div id="transcript-interim"></div>
   </div>
 
-  <!-- Context -->
   <div class="card" id="context-card">
-    <div id="context-text">🧿 <span id="context-content"></span></div>
+    <div id="context-text"></div>
   </div>
 
-  <!-- Suggestion principale -->
-  <div class="card" id="suggestion-card" style="display:none;">
-    <div class="card-label"><span class="card-label-dot" style="color:var(--gold);"></span>💬 DIS MAINTENANT</div>
-    <div id="suggestion-display" class="placeholder">En attente d'analyse...</div>
+  <div class="card" id="suggestion-card" style="display:none">
+    <div class="clabel"><div class="clabel-dot"></div>💬 DIS MAINTENANT</div>
+    <div id="suggestion-text" class="ph">En attente d'analyse...</div>
   </div>
 
-  <!-- Alerte / Mise en garde -->
-  <div id="alert-banner">
-    <div class="alert-header">⚠️ MISE EN GARDE À LANCER</div>
+  <div class="card" id="alert-card">
+    <div class="clabel"><div class="clabel-dot"></div>⚠️ MISE EN GARDE À LANCER</div>
     <div id="alert-text"></div>
   </div>
 
-  <!-- Opportunité service -->
-  <div id="opportunity-banner">
-    <div class="opp-header">
-      <div class="opp-label">💜 OPPORTUNITÉ DÉTECTÉE</div>
-      <div class="opp-badge" id="opp-prix"></div>
+  <div class="card" id="opp-card">
+    <div class="clabel"><div class="clabel-dot"></div>💜 OPPORTUNITÉ DÉTECTÉE</div>
+    <div class="opp-row">
+      <div id="opp-service"></div>
+      <div id="opp-price"></div>
     </div>
-    <div id="opp-service" style="font-size:13px;font-weight:700;color:var(--gold2);margin-bottom:4px;"></div>
-    <div id="opp-declencheur"></div>
-    <button id="btn-conversion" onclick="loadConversionPhrases()">
-      ✨ PHRASES DE CONVERSION →
-    </button>
+    <div id="opp-why"></div>
+    <button id="btn-conv" onclick="loadConversion()">✨ GÉNÉRER PHRASES DE CONVERSION →</button>
   </div>
 
-  <!-- Phrases de conversion -->
-  <div id="conversion-panel">
-    <div class="conv-label">💛 DIS POUR CONVERTIR</div>
-    <div id="conversion-phrases-container"></div>
+  <div id="conv-panel">
+    <div class="clabel"><div class="clabel-dot"></div>💛 PHRASES DE CONVERSION — CLIQUER POUR COPIER</div>
+    <div id="conv-phrases"></div>
   </div>
 
 </main>
 
+<!-- QUICK ACTIONS -->
+<div id="quick-actions">
+  <div class="qa-label">⚡ ACTIONS</div>
+  <button class="qa-btn qa-1" onclick="quickAction('epate')">🌟 Épate</button>
+  <button class="qa-btn qa-2" onclick="quickAction('question')">🎯 Question</button>
+  <button class="qa-btn qa-3" onclick="quickAction('alerte')">⚠️ Mise en garde</button>
+  <button class="qa-btn qa-4" onclick="quickAction('service')">💜 Propose service</button>
+  <button class="qa-btn qa-5" onclick="quickAction('revelation')">🔥 Révélation</button>
+  <button class="qa-btn qa-6" onclick="quickAction('energie')">🧿 Énergie</button>
+  <button class="qa-btn qa-7" onclick="openDOB()">🎂 Date de naissance</button>
+  <button class="qa-btn qa-8" onclick="openFreeText()">✍️ Ma question</button>
+</div>
+
 <!-- FOOTER -->
 <footer>
-  <div style="position:relative;flex:1;display:flex;">
-    <button id="btn-mic" class="idle" onclick="toggleListening()">
-      <span class="mic-icon">🎙️</span>
-      <span id="btn-mic-text">DÉMARRER L'ÉCOUTE</span>
-    </button>
-  </div>
-  <button id="btn-force" title="Forcer une suggestion maintenant" onclick="forceSuggest()" disabled>⚡</button>
-  <button id="btn-clear" title="Effacer la transcription" onclick="clearAll()">🗑️</button>
+  <button id="btn-mic" class="idle" onclick="toggleListening()">
+    <span id="mic-icon">🎙️</span>
+    <span id="mic-txt">DÉMARRER L'ÉCOUTE</span>
+  </button>
+  <button class="fbtn" id="btn-force" onclick="forceSuggest()" disabled title="Forcer suggestion">⚡</button>
+  <button class="fbtn" id="btn-summary" onclick="generateSummary()" title="Résumé consultation">📋</button>
+  <button class="fbtn" id="btn-client-select" onclick="openClientOverlay()" title="Client">👤</button>
+  <button class="fbtn" id="btn-clear" onclick="clearAll()" title="Effacer">🗑️</button>
 </footer>
 
 <!-- TOAST -->
 <div id="toast"></div>
 
-<!-- ════════════════════════════════════════════════════════════ -->
-<!-- SETTINGS DRAWER                                             -->
-<!-- ════════════════════════════════════════════════════════════ -->
-<div id="settings-overlay" onclick="closeSettings(event)">
-  <div id="settings-drawer">
+<!-- ══════════════════════════════════════════════
+     SETTINGS OVERLAY
+══════════════════════════════════════════════ -->
+<div class="overlay" id="settings-overlay" onclick="overlayClose(event,'settings-overlay')">
+  <div class="drawer">
     <div class="drawer-handle"></div>
-    <div class="drawer-title">⚙️ Configuration & Entraînement</div>
+    <div class="drawer-title" style="color:var(--cyan)">⚙️ Configuration</div>
 
-    <!-- API Key -->
-    <div class="field-group">
-      <div class="field-label">🔑 Clé API Groq (gratuite)</div>
-      <div class="api-key-row">
-        <input type="password" id="api-key-input" class="field-input" placeholder="gsk_xxxxxxxxxxxxxxxxxxxx">
-        <button class="toggle-eye" onclick="toggleApiKeyVisibility()">👁️</button>
+    <!-- API -->
+    <div class="section-title">🤖 Intelligence Artificielle</div>
+    <div class="fg">
+      <div class="fl">Fournisseur IA</div>
+      <select id="s-provider" class="fsel" onchange="updateProviderUI()">
+        <option value="openrouter">OpenRouter (recommandé — gratuit)</option>
+        <option value="openai">OpenAI (ChatGPT)</option>
+        <option value="anthropic">Anthropic (Claude)</option>
+        <option value="groq">Groq (ultra-rapide)</option>
+        <option value="custom">URL personnalisée</option>
+      </select>
+    </div>
+    <div class="fg">
+      <div class="fl">Clé API</div>
+      <div class="api-row">
+        <input type="password" id="s-apikey" class="fi" placeholder="sk-... ou gsk_...">
+        <button class="eye-btn" onclick="toggleEye('s-apikey')">👁️</button>
       </div>
-      <div class="field-hint">Créez votre clé gratuite sur <strong style="color:var(--gold);">console.groq.com</strong> → API Keys → Create. Aucune CB requise.</div>
+      <div class="fhint" id="s-provider-hint">Créez votre clé gratuite sur <strong style="color:var(--cyan)">openrouter.ai</strong> → Keys</div>
+    </div>
+    <div class="fg" id="s-model-group">
+      <div class="fl">Modèle IA</div>
+      <select id="s-model" class="fsel"></select>
+    </div>
+    <div class="fg" id="s-custom-group" style="display:none">
+      <div class="fl">URL API personnalisée</div>
+      <input type="text" id="s-custom-url" class="fi" placeholder="https://...">
     </div>
 
     <div class="divider"></div>
 
-    <!-- Behaviour -->
+    <!-- Cloudflare Worker -->
+    <div class="section-title">☁️ Cloudflare Worker (sync multi-appareils)</div>
+    <div class="fg">
+      <div class="fl">URL du Worker</div>
+      <input type="text" id="s-worker-url" class="fi" placeholder="https://pgi-mediumassist.votreuser.workers.dev">
+    </div>
+    <div class="fg">
+      <div class="fl">Token secret</div>
+      <div class="api-row">
+        <input type="password" id="s-worker-token" class="fi" placeholder="votre_token_secret">
+        <button class="eye-btn" onclick="toggleEye('s-worker-token')">👁️</button>
+      </div>
+      <div class="fhint">Laisser vide si Worker non encore configuré — données stockées localement.</div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Comportement -->
     <div class="section-title">🧠 Comportement de l'assistant</div>
-
-    <div class="field-group">
-      <div class="field-label">Prompt principal (le cerveau)</div>
-      <textarea id="system-prompt-input" class="field-textarea" rows="10"></textarea>
-      <button class="btn-reset" onclick="resetPrompt()">↺ Restaurer le prompt par défaut</button>
+    <div class="fg">
+      <div class="fl">Instructions personnalisées (ajustements rapides)</div>
+      <textarea id="s-extra" class="fta" style="min-height:75px" placeholder="Ex: Ne jamais paraître pressé de vendre. Toujours commencer par de l'empathie. Si le client hésite sur le prix, insister sur les résultats visibles et non sur le tarif..."></textarea>
     </div>
-
-    <div class="field-group">
-      <div class="field-label">Instructions complémentaires (ajustements rapides)</div>
-      <textarea id="extra-input" class="field-textarea" style="min-height:80px;" placeholder="Ex: Ne jamais paraître pressé de vendre. Toujours commencer par de l'empathie. Si la personne hésite sur le prix, insister sur les résultats visibles plutôt que le tarif..."></textarea>
-      <div class="field-hint">Ces instructions s'ajoutent au prompt principal. Modifiez-les sans toucher au reste.</div>
+    <div class="fg">
+      <div class="fl">Services & Tarifs (modifiables)</div>
+      <textarea id="s-services" class="fta" style="min-height:90px"></textarea>
     </div>
 
     <div class="divider"></div>
 
-    <!-- Language -->
-    <div class="section-title">🌐 Langue de reconnaissance</div>
-    <div class="field-group">
-      <select id="lang-select" class="field-select">
-        <option value="fr-FR">🇫🇷 Français (France)</option>
-        <option value="fr-BE">🇧🇪 Français (Belgique)</option>
-        <option value="fr-CH">🇨🇭 Français (Suisse)</option>
-        <option value="fr-CA">🇨🇦 Français (Canada)</option>
+    <!-- Voice enrollment link -->
+    <div class="section-title">🎤 Reconnaissance de voix</div>
+    <div class="fg">
+      <div class="fhint" id="s-voice-status-txt">Aucun profil vocal enregistré.</div>
+      <button class="btn-secondary" style="margin-top:8px" onclick="openVoiceOverlay()">🎤 Enregistrer / Mettre à jour ma voix</button>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Lang -->
+    <div class="section-title">🌐 Langue</div>
+    <div class="fg">
+      <select id="s-lang" class="fsel">
+        <option value="fr-FR">🇫🇷 Français — France</option>
+        <option value="fr-BE">🇧🇪 Français — Belgique</option>
+        <option value="fr-CH">🇨🇭 Français — Suisse</option>
+        <option value="fr-CA">🇨🇦 Français — Canada</option>
       </select>
     </div>
 
-    <div class="divider"></div>
-
-    <!-- Services -->
-    <div class="section-title">💼 Vos services & tarifs</div>
-    <div class="field-group">
-      <textarea id="services-input" class="field-textarea" style="min-height:120px;" placeholder="Listez vos services et tarifs ici..."></textarea>
-      <div class="field-hint">Ces informations sont intégrées au prompt pour des suggestions de conversion précises.</div>
-    </div>
-
-    <button class="btn-save" onclick="saveSettings()">💾 SAUVEGARDER</button>
+    <button class="btn-primary" onclick="saveSettings()">💾 SAUVEGARDER</button>
+    <button class="btn-secondary" onclick="resetPrompt()">↺ Réinitialiser le prompt système</button>
   </div>
 </div>
 
-<!-- ════════════════════════════════════════════════════════════ -->
-<!-- JAVASCRIPT                                                   -->
-<!-- ════════════════════════════════════════════════════════════ -->
+<!-- ══════════════════════════════════════════════
+     VOICE ENROLLMENT OVERLAY
+══════════════════════════════════════════════ -->
+<div class="overlay" id="voice-overlay" onclick="overlayClose(event,'voice-overlay')">
+  <div class="drawer">
+    <div class="drawer-handle"></div>
+    <div class="drawer-title" style="color:var(--pink)">🎤 Enregistrement vocal</div>
+    <p style="font-size:12px;color:var(--text2);line-height:1.7;margin-bottom:16px;">
+      L'assistant mémorisera votre voix pour distinguer vos paroles de celles de vos clients. Parlez normalement pendant <strong>15 secondes</strong> (racontez votre journée, lisez un texte, etc.).
+    </p>
+    <div class="voice-ring" id="voice-ring">🎤</div>
+    <div id="voice-progress"><div id="voice-progress-bar"></div></div>
+    <div id="voice-status" style="color:var(--text2);font-size:12px;text-align:center;"></div>
+    <button class="btn-primary" style="background:rgba(255,51,153,0.2);border-color:rgba(255,51,153,0.4);color:var(--pink);margin-top:12px;" id="btn-voice-record" onclick="startVoiceEnrollment()">▶ Commencer l'enregistrement</button>
+    <button class="btn-secondary btn-danger" id="btn-voice-delete" onclick="deleteVoiceProfile()" style="display:none;margin-top:8px;">🗑️ Supprimer mon profil vocal</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     CLIENT OVERLAY
+══════════════════════════════════════════════ -->
+<div class="overlay" id="client-overlay" onclick="overlayClose(event,'client-overlay')">
+  <div class="drawer">
+    <div class="drawer-handle"></div>
+    <div class="drawer-title" style="color:var(--purple)">👤 Clients</div>
+    <div class="tab-row">
+      <button class="tab-btn active" id="tab-list-btn" onclick="showClientTab('list')">📋 Mes clients</button>
+      <button class="tab-btn" id="tab-new-btn" onclick="showClientTab('new')">➕ Nouveau</button>
+    </div>
+
+    <!-- LIST TAB -->
+    <div id="client-tab-list">
+      <input type="text" class="search-bar" id="client-search" placeholder="🔍 Rechercher par nom ou téléphone..." oninput="filterClients()">
+      <div id="client-list-container">
+        <div style="text-align:center;color:var(--text3);font-size:12px;padding:20px;">Chargement...</div>
+      </div>
+    </div>
+
+    <!-- NEW TAB -->
+    <div id="client-tab-new" style="display:none">
+      <div class="fg"><div class="fl">Nom complet *</div><input type="text" id="nc-name" class="fi" placeholder="Marie Dupont"></div>
+      <div class="fg"><div class="fl">Téléphone</div><input type="text" id="nc-phone" class="fi" placeholder="06 ..."></div>
+      <div class="fg"><div class="fl">Date de naissance</div><input type="date" id="nc-dob" class="fi"></div>
+      <div class="fg"><div class="fl">Signe astrologique</div><input type="text" id="nc-sign" class="fi" placeholder="Ex: Balance, Scorpion..."></div>
+      <div class="fg"><div class="fl">Profil / Notes initiales</div><textarea id="nc-profile" class="fta" style="min-height:70px" placeholder="Personne sensible, problèmes amoureux récurrents, croyante..."></textarea></div>
+      <button class="btn-primary" style="background:rgba(204,68,255,0.2);border-color:rgba(204,68,255,0.4);color:var(--purple)" onclick="createClient()">✅ Créer le client</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     CLIENT FILE OVERLAY
+══════════════════════════════════════════════ -->
+<div class="overlay" id="clientfile-overlay" onclick="overlayClose(event,'clientfile-overlay')">
+  <div class="drawer">
+    <div class="drawer-handle"></div>
+    <div class="drawer-title" style="color:var(--purple)" id="cf-title">Fiche client</div>
+    <div class="tab-row">
+      <button class="tab-btn active" id="cft-info-btn" onclick="showCFTab('info')">📋 Infos</button>
+      <button class="tab-btn" id="cft-notes-btn" onclick="showCFTab('notes')">📝 Notes</button>
+      <button class="tab-btn" id="cft-hist-btn" onclick="showCFTab('hist')">📖 Historique</button>
+    </div>
+
+    <!-- INFO TAB -->
+    <div id="cf-tab-info">
+      <div class="fg"><div class="fl">Nom</div><input type="text" id="cf-name" class="fi"></div>
+      <div class="fg"><div class="fl">Téléphone</div><input type="text" id="cf-phone" class="fi"></div>
+      <div class="fg"><div class="fl">Date de naissance</div><input type="date" id="cf-dob" class="fi"></div>
+      <div class="fg"><div class="fl">Signe astrologique</div><input type="text" id="cf-sign" class="fi"></div>
+      <button class="btn-primary" style="background:rgba(204,68,255,0.2);border-color:rgba(204,68,255,0.4);color:var(--purple)" onclick="saveClientInfo()">💾 Sauvegarder</button>
+      <button class="btn-secondary btn-danger" onclick="deleteClientConfirm()" style="margin-top:8px;">🗑️ Supprimer ce client</button>
+    </div>
+
+    <!-- NOTES TAB -->
+    <div id="cf-tab-notes" style="display:none">
+      <div class="fg">
+        <div class="fl">Profil & informations</div>
+        <textarea id="cf-profile" class="fta" style="min-height:100px" placeholder="Caractère, croyances, situation de vie, thèmes récurrents..."></textarea>
+      </div>
+      <div class="fg">
+        <div class="fl">Notes privées</div>
+        <textarea id="cf-notes" class="fta" style="min-height:80px" placeholder="Observations personnelles, à ne pas oublier..."></textarea>
+      </div>
+      <button class="btn-primary" style="background:rgba(204,68,255,0.2);border-color:rgba(204,68,255,0.4);color:var(--purple)" onclick="saveClientNotes()">💾 Sauvegarder</button>
+    </div>
+
+    <!-- HISTORY TAB -->
+    <div id="cf-tab-hist" style="display:none">
+      <div id="cf-hist-container">
+        <div style="text-align:center;color:var(--text3);font-size:12px;padding:20px;">Aucune consultation enregistrée.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     SUMMARY OVERLAY
+══════════════════════════════════════════════ -->
+<div class="overlay" id="summary-overlay" onclick="overlayClose(event,'summary-overlay')">
+  <div class="drawer">
+    <div class="drawer-handle"></div>
+    <div class="drawer-title" style="color:var(--teal)">📋 Résumé de consultation</div>
+    <div id="summary-content">
+      <div style="text-align:center;color:var(--text3);font-size:12px;padding:20px;">Génération en cours...</div>
+    </div>
+    <button class="btn-primary" style="background:rgba(0,255,204,0.12);border-color:rgba(0,255,204,0.3);color:var(--teal);margin-top:10px" id="btn-save-summary" onclick="saveSummaryToClient()" style="display:none">💾 Sauvegarder dans la fiche client</button>
+    <button class="btn-secondary" onclick="copySummary()" style="margin-top:6px">📋 Copier le résumé</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     DOB MINI-OVERLAY
+══════════════════════════════════════════════ -->
+<div class="mini-overlay" id="dob-overlay" onclick="miniClose(event,'dob-overlay')">
+  <div class="mini-box">
+    <div class="mini-title" style="color:var(--pink)">🎂 Analyse date de naissance <button class="mini-close" onclick="closeOverlay('dob-overlay')">✕</button></div>
+    <div class="fg"><div class="fl">Date de naissance du client</div><input type="date" id="dob-input" class="fi"></div>
+    <div class="fg"><div class="fl">Prénom (optionnel)</div><input type="text" id="dob-name" class="fi" placeholder="Marie"></div>
+    <button class="btn-primary" style="background:rgba(255,51,153,0.15);border-color:rgba(255,51,153,0.3);color:var(--pink)" onclick="runDOBAnalysis()">🔮 Analyser</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     FREE TEXT MINI-OVERLAY
+══════════════════════════════════════════════ -->
+<div class="mini-overlay" id="freetext-overlay" onclick="miniClose(event,'freetext-overlay')">
+  <div class="mini-box">
+    <div class="mini-title" style="color:var(--orange)">✍️ Ma question <button class="mini-close" onclick="closeOverlay('freetext-overlay')">✕</button></div>
+    <div class="fg"><textarea id="ft-input" class="fta" style="min-height:80px" placeholder="Ex: Comment conclure cette consultation ? Que dire pour rassurer cette personne ? Propose une phrase percutante sur son travail..."></textarea></div>
+    <button class="btn-primary" style="background:rgba(255,136,0,0.15);border-color:rgba(255,136,0,0.3);color:var(--orange)" onclick="runFreeText()">⚡ Répondre</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     JAVASCRIPT
+══════════════════════════════════════════════ -->
 <script>
 'use strict';
 
-/* ══════════════════════════════════════════════════
-   DEFAULT SYSTEM PROMPT
-══════════════════════════════════════════════════ */
+/* ─────────────────── DEFAULTS ─────────────────── */
 const DEFAULT_SYSTEM_PROMPT = `Tu es le télésouffleur personnel de Frederick, médium et guide spirituel professionnel depuis plus de 25 ans, fondateur de ClairvoyanceMedium.com.
 
-══ TON RÔLE EXACT ══
-Frederick est en ce moment au téléphone avec un client. Tu analyses en temps réel la transcription de ce que dit le client et tu fournis UNE phrase parfaite et complète que Frederick doit prononcer immédiatement. La phrase doit être prête à être dite telle quelle, naturellement.
+══ TON RÔLE ══
+Frederick est en appel téléphonique. Tu analyses la transcription en temps réel et fournis UNE réponse parfaite, prête à être prononcée immédiatement.
 
 ══ PERSONNALITÉ DE FREDERICK ══
-• Voix posée, chaleureuse, mystérieuse — il inspire immédiatement confiance et profondeur
-• Il ressent les choses AVANT que la personne les formule entièrement
-• Il crée l'effet "waouh" avec des détails précis, inattendus, qui semblent impossibles à connaître
-• Il n'est JAMAIS dans la précipitation, JAMAIS commercial ou pressé
-• Il utilise naturellement : "je ressens...", "je perçois clairement...", "quelque chose d'important me parvient en ce moment...", "je dois vous dire quelque chose...", "les énergies autour de vous m'indiquent...", "je vois...", "il y a quelque chose que vous ne me dites pas encore..."
-• Il pose des questions qui semblent impossibles à deviner ("Est-ce que le chiffre 7 revient souvent dans votre vie en ce moment ?", "Je perçois une présence féminine très forte autour de vous, est-ce que cela vous parle ?", "Je ressens une date importante en novembre, ça vous dit quelque chose ?")
-• Il donne des révélations avec précision et assurance, sans jamais hésiter
-• Il relie toujours ses perceptions à la situation émotionnelle profonde de la personne
+• Voix posée, mystérieuse, enveloppante — inspire confiance et profondeur immédiatement
+• Il ressent les choses AVANT que la personne les finisse de formuler
+• Il utilise : "je ressens...", "je perçois clairement...", "les énergies m'indiquent...", "je vois...", "quelque chose me parvient à votre sujet...", "il y a quelque chose que vous ne me dites pas encore..."
+• Il crée l'effet waouh : détails précis et inattendus, apparemment impossibles à connaître, tirés de la transcription (prénoms, chiffres, couleurs, dates mentionnés)
+• Il pose des questions impossibles à deviner : "Je perçois le chiffre 7 — est-ce qu'il revient dans votre vie en ce moment ?", "Je ressens une présence féminine très forte — est-ce que cela vous parle ?"
+• Il n'est JAMAIS pressé, JAMAIS commercial, JAMAIS artificiel
+• Il relie toujours ses perceptions à l'état émotionnel profond de la personne
+• Quand il détecte un blocage ou danger : il le nomme franchement, avec gravité et bienveillance
 
-══ ANALYSE OBLIGATOIRE AVANT CHAQUE RÉPONSE ══
-1. Quel est le VRAI problème émotionnel (pas juste la question de surface) ?
-2. Quel est le niveau de détresse ? Fort = ton plus grave, protecteur, révélateur. Faible = plus serein, exploratoire
-3. Y a-t-il des mots-clés exploitables dans la transcription ? (prénoms, dates, lieux, couleurs, chiffres) → LES RÉINTÉGRER dans la suggestion pour créer l'effet waouh
-4. Quelle est la progression naturelle de la consultation ? (explorer davantage / rassurer / révéler / mettre en garde / proposer une action)
-5. Y a-t-il un signe de blocage énergétique, d'envoûtement, de rupture de lien ? → le signaler
+══ ANALYSE OBLIGATOIRE ══
+1. Quel est le VRAI problème émotionnel sous-jacent (pas juste la question de surface) ?
+2. Niveau de détresse ? (fort = ton grave, protecteur / faible = serein, exploratoire)
+3. Mots-clés exploitables dans la transcription ? (prénoms, dates, chiffres, lieux) → LES RÉUTILISER pour créer l'effet waouh
+4. Étape naturelle de la consultation ? (explorer / approfondir / rassurer / révéler / mettre en garde / conclure / proposer)
+5. Signe de blocage énergétique, envoûtement, manipulation extérieure ? → le signaler
 
-══ DOMAINES (maîtrise totale de chacun) ══
-Amour & Relations, Rupture & Retour ex, Trahison & Jalousie, Travail & Carrière, Argent & Blocages financiers, Famille & Entourage toxique, Deuil & Communication avec défunts, Santé & Énergies corporelles, Envoûtement & Protection, Magie Blanche & Rouge, Astrologie & Thème astral, Numérologie, Tarologie & Cartomancie, Rêves & Symboles, Karma & Vies antérieures, Clairvoyance & Clairsentience
+══ DOMAINES (maîtrise totale) ══
+Amour & Relations, Rupture & Retour ex, Trahison, Travail & Carrière, Argent & Blocages financiers, Famille & Entourage toxique, Deuil & Communication défunts, Envoûtement & Protection, Magie Blanche & Rouge, Astrologie & Thème natal, Numérologie, Tarot & Cartomancie, Rêves & Symboles, Karma & Vies antérieures, Clairvoyance & Clairsentience
 
-══ FORMAT DE RÉPONSE STRICT ══
-Réponds UNIQUEMENT en JSON valide, sans markdown, sans backtick, sans texte avant ou après :
+══ FORMAT STRICT — JSON UNIQUEMENT ══
+Réponds UNIQUEMENT en JSON valide, sans markdown, sans backtick :
 {
-  "suggestion": "La phrase complète et naturelle de 2 à 4 phrases que Frederick prononce maintenant. Utilise le vocabulaire médium authentique. Crée l'effet waouh. Intègre si possible un détail précis tiré de la transcription.",
-  "contexte": "Ce que Frederick perçoit de la personne en 8 mots max",
-  "opportunite": null,
-  "alerte": null
+  "suggestion": "La phrase complète et naturelle (2-4 phrases) que Frederick prononce maintenant. Effet waouh obligatoire. Vocabulaire médium authentique. Intègre si possible un détail précis tiré de la transcription.",
+  "contexte": "Ce que Frederick perçoit en 8 mots max",
+  "alerte": null,
+  "opportunite": null
 }
 
-Si une opportunité de service est détectée :
-"opportunite": {"service": "nom exact du service", "prix": "montant €", "declencheur": "pourquoi c'est LE bon moment maintenant, en 1 phrase précise"}
+Si mise en garde pertinente :
+"alerte": "La mise en garde précise et percutante"
+Exemples : "Je perçois une tentative de manipulation d'une personne proche — restez très vigilant(e) les 15 prochains jours" / "Les énergies indiquent un blocage posé intentionnellement sur votre chemin amoureux" / "Je vois une rupture possible d'ici 3 semaines si rien n'est fait"
 
-Si une mise en garde ou révélation dramatique est pertinente :
-"alerte": "La mise en garde précise et percutante que Frederick peut lancer pour créer un effet fort"
+Si opportunité de service détectée :
+"opportunite": {"service": "nom exact du service", "prix": "montant €", "pourquoi": "raison précise en 1 phrase"}`;
 
-Exemples de bonnes alertes :
-- "Je perçois une tentative de manipulation de la part d'une personne proche — soyez très vigilant(e) dans les 15 prochains jours"
-- "Les énergies m'indiquent clairement un blocage posé intentionnellement sur votre chemin amoureux"
-- "Je vois une séparation possible d'ici 3 semaines si rien n'est fait — il y a urgence à agir"
-- "Quelque chose me dérange fortement dans l'énergie de cette personne dont vous parlez — je dois approfondir"`;
+const DEFAULT_SERVICES = `• Consultation téléphone : 15€/10min — 22€/20min (approfondir, aller plus loin)
+• Consultation email : dès 6€ (pour ceux qui hésitent ou préfèrent réfléchir)
+• Rituel Magie Rouge — Retour Affectif à distance : 250€ (rupture, ex silencieux, abandon, trahison amoureuse)
+• Désenvoûtement spirituel — malchance répétée, relations qui échouent, fatigue inexpliquée, blocages persistants
+• Magie Blanche — protection, chance, harmonie, déblocage positif
+• Dialogue avec un défunt — deuil, questions non résolues, message d'un proche disparu
+• Voyance par photo — analyse énergétique d'une personne à distance
+• Voyance par pendule — réponses précises oui/non
+• Horoscope personnalisé — thème astral complet, prévisions
+• Compatibilité amoureuse — analyse des liens karmiques entre deux personnes`;
 
-const DEFAULT_SERVICES = `• Consultation téléphone : 15€/10min, 22€/20min — Pour approfondir, aller plus loin
-• Consultation email : dès 6€ — Pour ceux qui hésitent sur le prix ou veulent réfléchir
-• Rituel Magie Rouge — Retour Affectif à distance : 250€ — Rupture, ex qui ne répond plus, abandon, trahison amoureuse
-• Désenvoûtement spirituel — Malchance répétée, relations qui échouent toutes, fatigue inexpliquée, blocages
-• Magie Blanche — Protection, chance, harmonie, déblocage positif
-• Dialogue avec un défunt — Deuil, questions non résolues, message d'un proche disparu
-• Voyance par photo — Analyse énergétique d'une personne à distance
-• Voyance par pendule — Réponses précises oui/non sur des situations concrètes
-• Horoscope personnalisé — Thème astral complet, prévisions mensuelles
-• Compatibilité amoureuse — Analyse des liens karmiques entre deux personnes`;
-
-/* ══════════════════════════════════════════════════
-   CONFIG & STATE
-══════════════════════════════════════════════════ */
-let cfg = {
-  apiKey:       localStorage.getItem('ma_api_key')       || '',
-  systemPrompt: localStorage.getItem('ma_system_prompt') || DEFAULT_SYSTEM_PROMPT,
-  extraInstr:   localStorage.getItem('ma_extra')         || '',
-  services:     localStorage.getItem('ma_services')      || DEFAULT_SERVICES,
-  lang:         localStorage.getItem('ma_lang')          || 'fr-FR'
+const MODELS = {
+  openrouter: [
+    {v:'meta-llama/llama-3.3-70b-instruct:free',l:'Llama 3.3 70B (Gratuit)'},
+    {v:'meta-llama/llama-3.1-8b-instruct:free',l:'Llama 3.1 8B (Gratuit rapide)'},
+    {v:'google/gemma-3-27b-it:free',l:'Gemma 3 27B (Gratuit)'},
+    {v:'mistralai/mistral-7b-instruct:free',l:'Mistral 7B (Gratuit)'},
+    {v:'openai/gpt-4o-mini',l:'GPT-4o Mini (Payant)'},
+    {v:'anthropic/claude-3.5-haiku',l:'Claude 3.5 Haiku (Payant)'},
+  ],
+  openai: [
+    {v:'gpt-4o-mini',l:'GPT-4o Mini'},
+    {v:'gpt-4o',l:'GPT-4o'},
+    {v:'gpt-3.5-turbo',l:'GPT-3.5 Turbo'},
+  ],
+  anthropic: [
+    {v:'claude-3-5-haiku-20241022',l:'Claude 3.5 Haiku (rapide)'},
+    {v:'claude-3-5-sonnet-20241022',l:'Claude 3.5 Sonnet'},
+  ],
+  groq: [
+    {v:'llama-3.3-70b-versatile',l:'Llama 3.3 70B (ultra-rapide)'},
+    {v:'llama-3.1-8b-instant',l:'Llama 3.1 8B Instant'},
+    {v:'mixtral-8x7b-32768',l:'Mixtral 8x7B'},
+  ],
+  custom: [{v:'custom',l:'Modèle personnalisé'}]
 };
 
-let state = {
-  isListening:  false,
-  isProcessing: false,
-  fullTranscript: '',
-  currentOpportunity: null,
-  debounceTimer: null,
-  recognitionActive: false
+const PROVIDER_HINTS = {
+  openrouter: 'Créez votre clé gratuite sur <strong style="color:var(--cyan)">openrouter.ai</strong> → Keys',
+  openai:     'Clé API sur <strong style="color:var(--cyan)">platform.openai.com</strong> → API Keys',
+  anthropic:  'Clé API sur <strong style="color:var(--cyan)">console.anthropic.com</strong> → API Keys',
+  groq:       'Clé API gratuite sur <strong style="color:var(--cyan)">console.groq.com</strong> → API Keys',
+  custom:     'Entrez l\'URL complète de votre endpoint compatible OpenAI'
 };
 
+/* ─────────────────── CONFIG ─────────────────── */
+const cfg = {
+  get provider()    { return ls('ma_provider')    || 'openrouter'; },
+  get apiKey()      { return ls('ma_apikey')       || ''; },
+  get model()       { return ls('ma_model')        || 'meta-llama/llama-3.3-70b-instruct:free'; },
+  get customUrl()   { return ls('ma_custom_url')   || ''; },
+  get workerUrl()   { return ls('ma_worker_url')   || ''; },
+  get workerToken() { return ls('ma_worker_token') || ''; },
+  get sysPrompt()   { return ls('ma_sys_prompt')   || DEFAULT_SYSTEM_PROMPT; },
+  get extra()       { return ls('ma_extra')        || ''; },
+  get services()    { return ls('ma_services')     || DEFAULT_SERVICES; },
+  get lang()        { return ls('ma_lang')         || 'fr-FR'; },
+  get voiceProfile(){ try{return JSON.parse(ls('ma_voice'))||null;}catch{return null;} },
+};
+function ls(k,v){ if(v!==undefined){localStorage.setItem(k,v);return v;}return localStorage.getItem(k)||''; }
+
+/* ─────────────────── STATE ─────────────────── */
+const S = {
+  listening:   false,
+  processing:  false,
+  transcript:  '',
+  debounce:    null,
+  activeClient: null,
+  currentSummary: null,
+  currentOpp:  null,
+  voiceCtx:    null,
+  voiceAnalyser:null,
+  speakerCheckInterval: null,
+  speakerHistory: [],
+};
+
+/* ─────────────────── SPEECH RECOGNITION ─────────────────── */
 let recognition = null;
 
-/* ══════════════════════════════════════════════════
-   GROQ API
-══════════════════════════════════════════════════ */
-function buildSystemPrompt() {
-  let prompt = cfg.systemPrompt;
-  if (cfg.extraInstr.trim()) {
-    prompt += `\n\n══ INSTRUCTIONS COMPLÉMENTAIRES DE FREDERICK ══\n${cfg.extraInstr}`;
-  }
-  if (cfg.services.trim()) {
-    prompt += `\n\n══ SERVICES ET TARIFS DISPONIBLES ══\n${cfg.services}`;
-  }
-  return prompt;
-}
-
-async function callGroq(userMsg, maxTokens = 500) {
-  if (!cfg.apiKey) {
-    showToast('⚠️ Clé API manquante — ouvrez les paramètres');
-    return null;
-  }
-  const resp = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${cfg.apiKey}`
-    },
-    body: JSON.stringify({
-      model: 'llama-3.3-70b-versatile',
-      temperature: 0.75,
-      max_tokens: maxTokens,
-      response_format: { type: 'json_object' },
-      messages: [
-        { role: 'system', content: buildSystemPrompt() },
-        { role: 'user', content: userMsg }
-      ]
-    })
-  });
-  if (!resp.ok) {
-    const err = await resp.json().catch(() => ({}));
-    console.error('Groq error:', err);
-    if (resp.status === 401) showToast('❌ Clé API invalide');
-    else showToast('❌ Erreur API — réessayez');
-    return null;
-  }
-  const data = await resp.json();
-  return data.choices?.[0]?.message?.content || null;
-}
-
-async function getSuggestion(transcript) {
-  if (!transcript.trim() || transcript.trim().length < 8) return;
-  setProcessing(true);
-
-  const userMsg = `Voici la transcription de l'appel jusqu'à présent (les dernières paroles du client) :\n\n"${transcript.slice(-1200)}"\n\nAnalyse la situation et fournis la réponse JSON.`;
-
-  try {
-    const raw = await callGroq(userMsg, 600);
-    if (!raw) return;
-    const parsed = safeParseJSON(raw);
-    if (!parsed) return;
-    renderSuggestion(parsed);
-  } catch (e) {
-    console.error('getSuggestion error:', e);
-  } finally {
-    setProcessing(false);
-  }
-}
-
-async function loadConversionPhrases() {
-  if (!state.currentOpportunity) return;
-  const opp = state.currentOpportunity;
-  const btn = document.getElementById('btn-conversion');
-  btn.textContent = '⏳ Génération en cours...';
-  btn.disabled = true;
-
-  const userMsg = `Frederick est au téléphone avec un client et vient de détecter le bon moment pour proposer : ${opp.service} (${opp.prix}).
-
-Contexte de l'appel : "${state.fullTranscript.slice(-600)}"
-Raison du bon timing : ${opp.declencheur}
-
-Génère 3 phrases de conversion naturelles, non commerciales, dans le style médium authentique de Frederick. Les phrases doivent sembler spontanées, jamais forcées. Elles doivent proposer le service en partant du problème de la personne, pas du produit.
-
-Réponds UNIQUEMENT en JSON :
-{"phrases": ["phrase 1", "phrase 2", "phrase 3"]}`;
-
-  try {
-    const raw = await callGroq(userMsg, 500);
-    if (!raw) return;
-    const parsed = safeParseJSON(raw);
-    if (parsed?.phrases) renderConversionPhrases(parsed.phrases);
-  } catch(e) {
-    console.error('conversion error:', e);
-  } finally {
-    btn.textContent = '✨ PHRASES DE CONVERSION →';
-    btn.disabled = false;
-  }
-}
-
-/* ══════════════════════════════════════════════════
-   SPEECH RECOGNITION
-══════════════════════════════════════════════════ */
-function initRecognition() {
+function initReco() {
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (!SR) {
-    document.getElementById('no-support').classList.add('show');
-    return false;
-  }
+  if (!SR) { document.getElementById('no-support').classList.add('show'); return false; }
   recognition = new SR();
   recognition.continuous = true;
   recognition.interimResults = true;
@@ -850,314 +1060,901 @@ function initRecognition() {
   recognition.maxAlternatives = 1;
 
   recognition.onstart = () => {
-    state.recognitionActive = true;
     setStatus('listening');
-    showMainContent();
+    showSessionUI();
   };
 
-  recognition.onresult = (event) => {
-    let interim = '';
-    let finalText = '';
-    for (let i = event.resultIndex; i < event.results.length; i++) {
-      const t = event.results[i][0].transcript;
-      if (event.results[i].isFinal) finalText += t + ' ';
+  recognition.onresult = (e) => {
+    let final='', interim='';
+    for(let i=e.resultIndex;i<e.results.length;i++){
+      const t = e.results[i][0].transcript;
+      if(e.results[i].isFinal) final += t+' ';
       else interim += t;
     }
-    if (finalText) {
-      state.fullTranscript += finalText;
-      updateTranscriptUI(state.fullTranscript, interim);
-      clearTimeout(state.debounceTimer);
-      state.debounceTimer = setTimeout(() => getSuggestion(state.fullTranscript), 1400);
+    if(final){
+      S.transcript += final;
+      updateTranscriptUI();
+      clearTimeout(S.debounce);
+      S.debounce = setTimeout(() => getSuggestion(), 1600);
     }
-    updateInterim(interim);
+    document.getElementById('transcript-interim').textContent = interim ? `⟩ ${interim}` : '';
   };
 
   recognition.onerror = (e) => {
-    if (e.error === 'no-speech') return;
-    if (e.error === 'not-allowed') {
-      showToast('❌ Accès micro refusé — vérifiez les permissions Chrome');
-      stopListening();
-      return;
-    }
-    console.warn('Recognition error:', e.error);
+    if(e.error==='no-speech') return;
+    if(e.error==='not-allowed'){ toast('❌ Accès micro refusé — vérifiez Chrome','err'); stopListening(); return; }
   };
 
   recognition.onend = () => {
-    state.recognitionActive = false;
-    if (state.isListening) {
-      setTimeout(() => {
-        if (state.isListening && recognition) {
-          try { recognition.start(); } catch(e) {}
-        }
-      }, 300);
-    }
+    if(S.listening) setTimeout(() => { try{ if(recognition)recognition.start(); }catch(e){} }, 300);
   };
 
   return true;
 }
 
-function startListening() {
-  if (!initRecognition()) return;
-  state.isListening = true;
+function startListening(){
+  if(!initReco()) return;
+  S.listening = true;
   document.getElementById('btn-force').disabled = false;
-  try {
-    recognition.start();
-    setMicActive(true);
-  } catch(e) { console.warn(e); }
+  try{ recognition.start(); } catch(e){}
+  setMicUI(true);
+  startSpeakerDetection();
 }
 
-function stopListening() {
-  state.isListening = false;
-  if (recognition) {
-    try { recognition.stop(); } catch(e) {}
-    recognition = null;
-  }
-  setMicActive(false);
+function stopListening(){
+  S.listening = false;
+  if(recognition){ try{recognition.stop();}catch(e){} recognition=null; }
+  setMicUI(false);
   setStatus('idle');
   document.getElementById('btn-force').disabled = true;
-  updateInterim('');
+  stopSpeakerDetection();
+  document.getElementById('transcript-interim').textContent = '';
 }
 
-function toggleListening() {
-  if (state.isListening) stopListening();
-  else startListening();
+function toggleListening(){ S.listening ? stopListening() : startListening(); }
+function forceSuggest(){
+  if(!S.transcript.trim()){ toast('⚠️ Aucune transcription','warn'); return; }
+  clearTimeout(S.debounce);
+  getSuggestion();
 }
 
-function forceSuggest() {
-  if (!state.fullTranscript.trim()) {
-    showToast('⚠️ Aucune transcription disponible');
+/* ─────────────────── VOICE ANALYSIS (Speaker ID) ─────────────────── */
+let voiceStream = null;
+
+async function startSpeakerDetection(){
+  if(!cfg.voiceProfile) return;
+  try{
+    voiceStream = await navigator.mediaDevices.getUserMedia({audio:true});
+    S.voiceCtx = new (window.AudioContext||window.webkitAudioContext)();
+    const src = S.voiceCtx.createMediaStreamSource(voiceStream);
+    S.voiceAnalyser = S.voiceCtx.createAnalyser();
+    S.voiceAnalyser.fftSize = 256;
+    src.connect(S.voiceAnalyser);
+    S.speakerCheckInterval = setInterval(checkSpeaker, 400);
+    document.getElementById('speaker-bar').style.display = 'flex';
+  }catch(e){ console.warn('Speaker detection unavailable:', e); }
+}
+
+function stopSpeakerDetection(){
+  if(S.speakerCheckInterval){ clearInterval(S.speakerCheckInterval); S.speakerCheckInterval=null; }
+  if(voiceStream){ voiceStream.getTracks().forEach(t=>t.stop()); voiceStream=null; }
+  if(S.voiceCtx){ S.voiceCtx.close(); S.voiceCtx=null; }
+  document.getElementById('speaker-bar').style.display = 'none';
+}
+
+function checkSpeaker(){
+  if(!S.voiceAnalyser || !cfg.voiceProfile) return;
+  const data = new Uint8Array(S.voiceAnalyser.frequencyBinCount);
+  S.voiceAnalyser.getByteFrequencyData(data);
+  const profile = cfg.voiceProfile.fft;
+  if(!profile) return;
+  const sim = cosineSim(Array.from(data).slice(0, profile.length), profile);
+  S.speakerHistory.push(sim);
+  if(S.speakerHistory.length > 5) S.speakerHistory.shift();
+  const avg = S.speakerHistory.reduce((a,b)=>a+b,0)/S.speakerHistory.length;
+  const label = document.getElementById('speaker-label');
+  const nameEl = document.getElementById('speaker-name');
+  if(avg > 0.70){
+    label.className='speaker-chip chip-you';
+    label.textContent='🎤 Frederick';
+    nameEl.textContent='(suggestions en pause)';
+  } else if(avg < 0.40){
+    label.className='speaker-chip chip-client';
+    const cn = S.activeClient?.name || 'Client';
+    label.textContent=`🎧 ${cn}`;
+    nameEl.textContent='(analyse active)';
+  } else {
+    label.className='speaker-chip chip-unknown';
+    label.textContent='❓ En détection...';
+    nameEl.textContent='';
+  }
+}
+
+function cosineSim(a, b){
+  let dot=0, na=0, nb=0;
+  for(let i=0;i<Math.min(a.length,b.length);i++){
+    dot+=a[i]*b[i]; na+=a[i]*a[i]; nb+=b[i]*b[i];
+  }
+  return na&&nb ? dot/(Math.sqrt(na)*Math.sqrt(nb)) : 0;
+}
+
+/* ─────────────────── VOICE ENROLLMENT ─────────────────── */
+let enrollStream=null, enrollCtx=null, enrollSamples=[];
+
+async function startVoiceEnrollment(){
+  const btn = document.getElementById('btn-voice-record');
+  btn.disabled = true;
+  const ring = document.getElementById('voice-ring');
+  const statusEl = document.getElementById('voice-status');
+  const bar = document.getElementById('voice-progress-bar');
+  enrollSamples = [];
+
+  try{
+    enrollStream = await navigator.mediaDevices.getUserMedia({audio:true});
+    enrollCtx = new (window.AudioContext||window.webkitAudioContext)();
+    const src = enrollCtx.createMediaStreamSource(enrollStream);
+    const analyser = enrollCtx.createAnalyser();
+    analyser.fftSize = 256;
+    src.connect(analyser);
+
+    ring.classList.add('recording');
+    ring.textContent = '🎙️';
+    statusEl.innerHTML = '<strong style="color:var(--pink)">Parlez maintenant...</strong>';
+
+    const total = 15000, interval = 100;
+    let elapsed = 0;
+    const timer = setInterval(() => {
+      elapsed += interval;
+      bar.style.width = (elapsed/total*100)+'%';
+      const data = new Uint8Array(analyser.frequencyBinCount);
+      analyser.getByteFrequencyData(data);
+      enrollSamples.push(Array.from(data));
+      if(elapsed >= total){
+        clearInterval(timer);
+        finishEnrollment(ring, statusEl, btn);
+      }
+    }, interval);
+
+  }catch(e){
+    statusEl.innerHTML = '<span style="color:var(--red)">Accès micro refusé.</span>';
+    btn.disabled = false;
+    ring.classList.remove('recording');
+  }
+}
+
+async function finishEnrollment(ring, statusEl, btn){
+  ring.classList.remove('recording');
+  ring.textContent = '✅';
+
+  // Average FFT across all samples
+  const bins = enrollSamples[0].length;
+  const avgFft = Array(bins).fill(0);
+  enrollSamples.forEach(s => s.forEach((v,i) => avgFft[i]+=v));
+  avgFft.forEach((_,i) => avgFft[i] /= enrollSamples.length);
+
+  const profile = { fft: avgFft, recordedAt: new Date().toISOString() };
+  ls('ma_voice', JSON.stringify(profile));
+
+  // Save to Worker if available
+  await workerRequest('PUT', '/voice', profile);
+
+  statusEl.innerHTML = '<span class="voice-done-text">✅ Profil vocal enregistré avec succès !</span>';
+  document.getElementById('s-voice-status-txt').textContent = 'Profil vocal enregistré le '+new Date().toLocaleDateString('fr-FR');
+  document.getElementById('btn-voice-delete').style.display = 'block';
+
+  if(enrollStream){ enrollStream.getTracks().forEach(t=>t.stop()); enrollStream=null; }
+  if(enrollCtx){ enrollCtx.close(); enrollCtx=null; }
+  btn.disabled = false;
+}
+
+async function deleteVoiceProfile(){
+  if(!confirm('Supprimer votre profil vocal ?')) return;
+  ls('ma_voice','');
+  await workerRequest('DELETE', '/voice');
+  document.getElementById('s-voice-status-txt').textContent = 'Aucun profil vocal enregistré.';
+  document.getElementById('btn-voice-delete').style.display = 'none';
+  document.getElementById('voice-status').textContent = '';
+  document.getElementById('voice-ring').textContent = '🎤';
+  document.getElementById('voice-progress-bar').style.width='0%';
+  toast('🗑️ Profil vocal supprimé');
+}
+
+/* ─────────────────── AI API ─────────────────── */
+function getApiEndpoint(){
+  switch(cfg.provider){
+    case 'openrouter': return 'https://openrouter.ai/api/v1/chat/completions';
+    case 'openai':     return 'https://api.openai.com/v1/chat/completions';
+    case 'anthropic':  return 'https://api.anthropic.com/v1/messages';
+    case 'groq':       return 'https://api.groq.com/openai/v1/chat/completions';
+    case 'custom':     return cfg.customUrl;
+    default:           return 'https://openrouter.ai/api/v1/chat/completions';
+  }
+}
+
+function buildHeaders(){
+  const h = {'Content-Type':'application/json','Authorization':`Bearer ${cfg.apiKey}`};
+  if(cfg.provider==='openrouter'){
+    h['HTTP-Referer']='https://clairvoyancemedium.com';
+    h['X-Title']='PGI MediumAssist Pro';
+  }
+  return h;
+}
+
+function buildSysPrompt(){
+  let p = cfg.sysPrompt;
+  if(cfg.extra.trim()) p += `\n\n══ INSTRUCTIONS COMPLÉMENTAIRES ══\n${cfg.extra}`;
+  p += `\n\n══ SERVICES & TARIFS ══\n${cfg.services}`;
+  if(S.activeClient){
+    const c = S.activeClient;
+    p += `\n\n══ CONTEXTE CLIENT ACTUEL ══\nNom: ${c.name}`;
+    if(c.birthdate) p += `\nDate de naissance: ${c.birthdate}`;
+    if(c.sign) p += `\nSigne: ${c.sign}`;
+    if(c.profile) p += `\nProfil: ${c.profile}`;
+    if(c.notes) p += `\nNotes: ${c.notes}`;
+    if(c.consultations?.length){
+      p += `\n\nHistorique consultations précédentes:\n`;
+      c.consultations.slice(0,3).forEach(cs=>{
+        p += `— ${new Date(cs.date).toLocaleDateString('fr-FR')}: ${cs.summary}\n`;
+      });
+    }
+  }
+  return p;
+}
+
+async function callAI(userMsg, maxTokens=600, customSys=null){
+  if(!cfg.apiKey){ toast('⚠️ Clé API manquante — Paramètres ⚙️','warn'); return null; }
+  const sys = customSys || buildSysPrompt();
+  const body = {
+    model: cfg.model,
+    max_tokens: maxTokens,
+    temperature: 0.72,
+    response_format: {type:'json_object'},
+    messages: [{role:'system',content:sys},{role:'user',content:userMsg}]
+  };
+  try{
+    const r = await fetch(getApiEndpoint(), {method:'POST',headers:buildHeaders(),body:JSON.stringify(body)});
+    if(!r.ok){
+      const err = await r.json().catch(()=>({}));
+      console.error('AI error:',r.status,err);
+      if(r.status===401) toast('❌ Clé API invalide','err');
+      else toast('❌ Erreur IA — réessayez','err');
+      return null;
+    }
+    const data = await r.json();
+    return data.choices?.[0]?.message?.content || null;
+  }catch(e){
+    console.error('callAI error:',e);
+    toast('❌ Connexion IA échouée','err');
+    return null;
+  }
+}
+
+function safeJSON(raw){
+  try{ return JSON.parse(raw.replace(/```json|```/g,'').trim()); }
+  catch(e){ console.warn('JSON parse fail:',raw); return null; }
+}
+
+/* ─────────────────── MAIN SUGGESTION ─────────────────── */
+async function getSuggestion(userMsg=null){
+  if(!S.transcript.trim()&&!userMsg) return;
+  if(S.processing) return;
+  S.processing = true;
+  setStatus('processing');
+  setSuggestionLoading(true);
+
+  const msg = userMsg || `Transcription de l'appel (dernières paroles):\n\n"${S.transcript.slice(-1400)}"\n\nAnalyse et fournis la réponse JSON.`;
+  try{
+    const raw = await callAI(msg);
+    if(!raw) return;
+    const data = safeJSON(raw);
+    if(data) renderResponse(data);
+  }finally{
+    S.processing = false;
+    setStatus(S.listening?'listening':'idle');
+    setSuggestionLoading(false);
+  }
+}
+
+function renderResponse(d){
+  if(d.suggestion){
+    const el = document.getElementById('suggestion-text');
+    el.className = '';
+    el.textContent = d.suggestion;
+    el.style.animation='none';
+    requestAnimationFrame(()=>el.style.animation='slide-in 0.35s ease-out');
+  }
+  if(d.contexte){
+    const cc = document.getElementById('context-card');
+    cc.classList.add('show');
+    document.getElementById('context-text').textContent = '🧿 ' + d.contexte;
+  }
+  const alertEl = document.getElementById('alert-card');
+  if(d.alerte){
+    document.getElementById('alert-text').textContent = d.alerte;
+    alertEl.classList.add('show');
+  } else alertEl.classList.remove('show');
+
+  const oppEl = document.getElementById('opp-card');
+  if(d.opportunite){
+    S.currentOpp = d.opportunite;
+    document.getElementById('opp-service').textContent = '🔮 '+d.opportunite.service;
+    document.getElementById('opp-price').textContent = d.opportunite.prix;
+    document.getElementById('opp-why').textContent = d.opportunite.pourquoi;
+    oppEl.classList.add('show');
+    document.getElementById('conv-panel').classList.remove('show');
+  } else {
+    oppEl.classList.remove('show');
+    S.currentOpp = null;
+  }
+}
+
+/* ─────────────────── CONVERSION ─────────────────── */
+async function loadConversion(){
+  if(!S.currentOpp) return;
+  const btn = document.getElementById('btn-conv');
+  btn.textContent = '⏳ Génération...'; btn.disabled=true;
+  const opp = S.currentOpp;
+  const msg = `Frederick est en appel. Contexte : "${S.transcript.slice(-600)}"
+Service à proposer : ${opp.service} (${opp.prix})
+Raison du bon timing : ${opp.pourquoi}
+
+Génère 3 phrases de conversion naturelles, non commerciales, style médium authentique. Partir du problème de la personne, pas du produit. Ne jamais sembler pressé.
+
+JSON: {"phrases":["phrase 1","phrase 2","phrase 3"]}`;
+
+  const raw = await callAI(msg, 400);
+  const data = safeJSON(raw);
+  if(data?.phrases){
+    const container = document.getElementById('conv-phrases');
+    container.innerHTML = '';
+    data.phrases.forEach((p,i)=>{
+      const div = document.createElement('div');
+      div.className = 'conv-phrase';
+      div.innerHTML = `<div class="conv-num">OPTION ${i+1}</div><div>${p}</div>`;
+      div.onclick = () => { navigator.clipboard?.writeText(p).catch(()=>{}); toast('📋 Copié !'); };
+      container.appendChild(div);
+    });
+    document.getElementById('conv-panel').classList.add('show');
+    document.getElementById('conv-panel').scrollIntoView({behavior:'smooth',block:'nearest'});
+  }
+  btn.textContent = '✨ GÉNÉRER PHRASES DE CONVERSION →'; btn.disabled=false;
+}
+
+/* ─────────────────── QUICK ACTIONS ─────────────────── */
+const QA_PROMPTS = {
+  epate: (t,c) => `Transcription: "${t.slice(-800)}"${c}
+Action demandée : "Épate le client" — Génère une réponse médium SPECTACULAIRE avec un effet waouh maximal. Détail inattendu, précis, impossible à deviner. Crée la stupéfaction.
+JSON: {"suggestion":"...","contexte":"...","alerte":null,"opportunite":null}`,
+
+  question: (t,c) => `Transcription: "${t.slice(-800)}"${c}
+Action demandée : "Question percutante" — Génère une question qui semble impossible à poser sans capacités médiumniques. La personne doit se demander comment Frederick peut savoir ça.
+JSON: {"suggestion":"...","contexte":"...","alerte":null,"opportunite":null}`,
+
+  alerte: (t,c) => `Transcription: "${t.slice(-800)}"${c}
+Action demandée : "Mise en garde" — Lance une alerte sérieuse, grave, sur un danger ou risque perçu dans l'énergie de la personne. Sois précis et percutant.
+JSON: {"suggestion":"...","contexte":"...","alerte":"la mise en garde","opportunite":null}`,
+
+  service: (t,c) => `Transcription: "${t.slice(-800)}"${c}
+Action demandée : "Propose un service" — Identifie le service le plus adapté à la situation et génère une phrase de proposition naturelle et non commerciale.
+JSON: {"suggestion":"...","contexte":"...","alerte":null,"opportunite":{"service":"...","prix":"...","pourquoi":"..."}}`,
+
+  revelation: (t,c) => `Transcription: "${t.slice(-800)}"${c}
+Action demandée : "Révélation surprise" — Lance un flash inattendu sur la personne, quelque chose qu'elle n'a pas dit mais qui la touche profondément. Sois audacieux.
+JSON: {"suggestion":"...","contexte":"...","alerte":null,"opportunite":null}`,
+
+  energie: (t,c) => `Transcription: "${t.slice(-800)}"${c}
+Action demandée : "Lis son énergie" — Fais une lecture énergétique complète de l'état intérieur de la personne : émotions, blocages, forces, faiblesses énergétiques perçues.
+JSON: {"suggestion":"...","contexte":"...","alerte":null,"opportunite":null}`,
+};
+
+async function quickAction(type){
+  if(!S.listening && !S.transcript){ toast('⚠️ Démarrez l\'écoute d\'abord','warn'); return; }
+  S.processing = true;
+  setStatus('processing');
+  setSuggestionLoading(true);
+  const cCtx = S.activeClient ? `\nClient: ${S.activeClient.name}${S.activeClient.profile?' — '+S.activeClient.profile:''}` : '';
+  const msgFn = QA_PROMPTS[type];
+  const msg = msgFn(S.transcript||'Début de consultation', cCtx);
+  try{
+    const raw = await callAI(msg, 600);
+    const data = safeJSON(raw);
+    if(data) renderResponse(data);
+  }finally{
+    S.processing = false;
+    setStatus(S.listening?'listening':'idle');
+    setSuggestionLoading(false);
+  }
+}
+
+/* ─────────────────── DATE OF BIRTH ─────────────────── */
+function openDOB(){
+  if(S.activeClient?.birthdate) document.getElementById('dob-input').value = S.activeClient.birthdate;
+  if(S.activeClient?.name) document.getElementById('dob-name').value = S.activeClient.name;
+  document.getElementById('dob-overlay').classList.add('show');
+}
+
+async function runDOBAnalysis(){
+  const dob = document.getElementById('dob-input').value;
+  if(!dob){ toast('⚠️ Entrez une date de naissance','warn'); return; }
+  closeOverlay('dob-overlay');
+  S.processing = true; setStatus('processing'); setSuggestionLoading(true);
+  const name = document.getElementById('dob-name').value || 'le client';
+  const d = new Date(dob);
+  const age = new Date().getFullYear() - d.getFullYear();
+  const msg = `Date de naissance de ${name}: ${d.toLocaleDateString('fr-FR')} (${age} ans)
+Transcription de l'appel: "${S.transcript.slice(-600)||'Début de consultation'}"
+
+Fais une analyse médium professionnelle complète basée sur cette date : signe astrologique, thème natal simplifié, numérologie (chemin de vie, expression), traits de personnalité profonds, tendances énergétiques actuelles, points de vigilance. Intègre le contexte de l'appel. Crée l'effet waouh.
+
+JSON: {"suggestion":"...","contexte":"Analyse date de naissance","alerte":null,"opportunite":null}`;
+
+  try{
+    const raw = await callAI(msg, 700);
+    const data = safeJSON(raw);
+    if(data) renderResponse(data);
+  }finally{
+    S.processing=false; setStatus(S.listening?'listening':'idle'); setSuggestionLoading(false);
+  }
+}
+
+/* ─────────────────── FREE TEXT ─────────────────── */
+function openFreeText(){ document.getElementById('ft-input').value=''; document.getElementById('freetext-overlay').classList.add('show'); }
+
+async function runFreeText(){
+  const q = document.getElementById('ft-input').value.trim();
+  if(!q){ toast('⚠️ Écrivez votre question','warn'); return; }
+  closeOverlay('freetext-overlay');
+  S.processing=true; setStatus('processing'); setSuggestionLoading(true);
+  const msg = `Transcription de l'appel: "${S.transcript.slice(-600)||'Début de consultation'}"
+${S.activeClient?`Client: ${S.activeClient.name}`:''}
+
+Question de Frederick : "${q}"
+
+Réponds en restant dans le rôle du télésouffleur médium. Fournis une réponse exploitable immédiatement par téléphone.
+JSON: {"suggestion":"...","contexte":"...","alerte":null,"opportunite":null}`;
+
+  try{
+    const raw = await callAI(msg, 600);
+    const data = safeJSON(raw);
+    if(data) renderResponse(data);
+  }finally{
+    S.processing=false; setStatus(S.listening?'listening':'idle'); setSuggestionLoading(false);
+  }
+}
+
+/* ─────────────────── SUMMARY ─────────────────── */
+async function generateSummary(){
+  if(!S.transcript.trim()){ toast('⚠️ Aucune transcription à résumer','warn'); return; }
+  openOverlay('summary-overlay');
+  document.getElementById('summary-content').innerHTML = '<div style="text-align:center;color:var(--text3);font-size:12px;padding:20px;">⏳ Génération du résumé...</div>';
+  document.getElementById('btn-save-summary').style.display='none';
+
+  const msg = `Voici la transcription complète d'une consultation de voyance par téléphone:\n\n"${S.transcript}"\n${S.activeClient?`\nClient: ${S.activeClient.name}`:''}
+
+Génère un résumé structuré professionnel. JSON UNIQUEMENT :
+{
+  "resume": "Résumé général en 3-4 phrases",
+  "points_forts": ["point 1", "point 2", "point 3"],
+  "themes": ["thème 1", "thème 2"],
+  "services_abordes": ["service 1"],
+  "recommandations": "Ce qui pourrait être fait lors de la prochaine consultation"
+}`;
+
+  const sys = `Tu es un assistant qui fait des comptes-rendus de consultations de voyance pour Frederick. Sois précis, professionnel, confidentiel. JSON uniquement.`;
+  const raw = await callAI(msg, 600, sys);
+  const data = safeJSON(raw);
+  if(!data){ document.getElementById('summary-content').innerHTML='<div style="color:var(--red);font-size:12px">Erreur de génération.</div>'; return; }
+
+  S.currentSummary = data;
+  const container = document.getElementById('summary-content');
+  container.innerHTML = `
+    <div class="sum-section"><div class="sum-title">📋 RÉSUMÉ</div><div class="sum-text">${data.resume||''}</div></div>
+    ${data.points_forts?.length?`<div class="sum-section"><div class="sum-title">⭐ POINTS FORTS</div><div class="kp-list">${data.points_forts.map(p=>`<span class="kp-badge">${p}</span>`).join('')}</div></div>`:''}
+    ${data.themes?.length?`<div class="sum-section"><div class="sum-title">🔮 THÈMES</div><div class="kp-list">${data.themes.map(t=>`<span class="kp-badge">${t}</span>`).join('')}</div></div>`:''}
+    ${data.services_abordes?.length?`<div class="sum-section"><div class="sum-title">💼 SERVICES ABORDÉS</div><div class="kp-list">${data.services_abordes.map(s=>`<span class="kp-badge">${s}</span>`).join('')}</div></div>`:''}
+    ${data.recommandations?`<div class="sum-section"><div class="sum-title">📌 PROCHAINE FOIS</div><div class="sum-text">${data.recommandations}</div></div>`:''}
+  `;
+  if(S.activeClient) document.getElementById('btn-save-summary').style.display='block';
+}
+
+async function saveSummaryToClient(){
+  if(!S.currentSummary || !S.activeClient) return;
+  const cid = S.activeClient.id;
+  const payload = {
+    summary: S.currentSummary.resume,
+    keyPoints: S.currentSummary.points_forts||[],
+    transcript: S.transcript.slice(-2000),
+    servicesDiscussed: S.currentSummary.services_abordes||[],
+    notes: S.currentSummary.recommandations||''
+  };
+  const r = await workerRequest('POST', `/clients/${cid}/consultations`, payload);
+  if(r){
+    // Update local client
+    S.activeClient.consultations = [r, ...(S.activeClient.consultations||[])];
+    toast('✅ Résumé sauvegardé dans la fiche');
+    closeOverlay('summary-overlay');
+  } else {
+    // Fallback: save locally
+    const lc = JSON.parse(ls(`ma_client_${cid}`)||'{}');
+    lc.consultations = [{...payload, date: new Date().toISOString(), cid:`c_${Date.now()}`}, ...(lc.consultations||[])];
+    ls(`ma_client_${cid}`, JSON.stringify(lc));
+    toast('✅ Sauvegardé localement');
+    closeOverlay('summary-overlay');
+  }
+}
+
+function copySummary(){
+  if(!S.currentSummary) return;
+  const txt = `Résumé consultation — ${new Date().toLocaleDateString('fr-FR')}\n${S.activeClient?`Client: ${S.activeClient.name}\n`:''}\n${S.currentSummary.resume}\n\nPoints forts: ${(S.currentSummary.points_forts||[]).join(', ')}\nThèmes: ${(S.currentSummary.themes||[]).join(', ')}\nRecommandations: ${S.currentSummary.recommandations||''}`;
+  navigator.clipboard?.writeText(txt).catch(()=>{});
+  toast('📋 Résumé copié');
+}
+
+/* ─────────────────── CLOUDFLARE WORKER ─────────────────── */
+async function workerRequest(method, path, body=null){
+  if(!cfg.workerUrl) return null;
+  try{
+    const opts = {
+      method,
+      headers:{'Content-Type':'application/json','Authorization':`Bearer ${cfg.workerToken}`}
+    };
+    if(body) opts.body = JSON.stringify(body);
+    const r = await fetch(cfg.workerUrl.replace(/\/$/,'')+path, opts);
+    if(!r.ok) return null;
+    return await r.json();
+  }catch(e){ console.warn('Worker request failed:',e); return null; }
+}
+
+/* ─────────────────── CLIENT MANAGEMENT ─────────────────── */
+let allClients = [];
+
+async function loadClients(){
+  const remote = await workerRequest('GET','/clients');
+  if(remote && Array.isArray(remote)){
+    allClients = remote;
+  } else {
+    // Local fallback
+    const local = ls('ma_clients_index');
+    allClients = local ? JSON.parse(local) : [];
+  }
+  renderClientList();
+}
+
+function renderClientList(){
+  const q = document.getElementById('client-search')?.value?.toLowerCase()||'';
+  const filtered = allClients.filter(c =>
+    c.name?.toLowerCase().includes(q) || c.phone?.includes(q)
+  );
+  const container = document.getElementById('client-list-container');
+  if(!filtered.length){
+    container.innerHTML = '<div style="text-align:center;color:var(--text3);font-size:12px;padding:20px;">Aucun client trouvé.</div>';
     return;
   }
-  clearTimeout(state.debounceTimer);
-  getSuggestion(state.fullTranscript);
+  container.innerHTML = filtered.map(c => `
+    <div class="client-item ${S.activeClient?.id===c.id?'active':''}" onclick="selectClient('${c.id}')">
+      <div class="ci-avatar">👤</div>
+      <div class="ci-info">
+        <div class="ci-name">${c.name}</div>
+        <div class="ci-detail">${c.phone||''} ${c.birthdate?'· '+new Date(c.birthdate).toLocaleDateString('fr-FR'):''}</div>
+      </div>
+      <div class="ci-badge">📋</div>
+    </div>
+  `).join('');
 }
 
-function clearAll() {
-  state.fullTranscript = '';
-  state.currentOpportunity = null;
-  document.getElementById('transcript-display').innerHTML = '<span class="transcript-placeholder">En attente de parole...</span>';
-  document.getElementById('interim-display').textContent = '';
-  document.getElementById('suggestion-display').className = 'placeholder';
-  document.getElementById('suggestion-display').textContent = 'En attente d\'analyse...';
-  document.getElementById('context-card').style.display = 'none';
-  document.getElementById('alert-banner').classList.remove('show');
-  document.getElementById('opportunity-banner').classList.remove('show');
-  document.getElementById('conversion-panel').classList.remove('show');
-  showToast('🗑️ Effacé');
+function filterClients(){ renderClientList(); }
+
+async function selectClient(id){
+  let client = null;
+  const remote = await workerRequest('GET',`/clients/${id}`);
+  if(remote) client = remote;
+  else {
+    const lc = ls(`ma_client_${id}`);
+    client = lc ? JSON.parse(lc) : allClients.find(c=>c.id===id)||null;
+  }
+  if(!client) return;
+  S.activeClient = client;
+  updateClientBanner();
+  closeOverlay('client-overlay');
+  toast(`👤 Client : ${client.name}`);
+  renderClientList();
 }
 
-/* ══════════════════════════════════════════════════
-   UI HELPERS
-══════════════════════════════════════════════════ */
-function showMainContent() {
+function deselectClient(){
+  S.activeClient = null;
+  document.getElementById('client-banner').classList.remove('show');
+}
+
+function updateClientBanner(){
+  if(!S.activeClient) return;
+  const c = S.activeClient;
+  document.getElementById('cb-name-txt').textContent = c.name;
+  document.getElementById('cb-detail-txt').textContent = [
+    c.phone, c.birthdate?new Date(c.birthdate).toLocaleDateString('fr-FR'):'', c.sign
+  ].filter(Boolean).join(' · ');
+  document.getElementById('client-banner').classList.add('show');
+}
+
+async function createClient(){
+  const name = document.getElementById('nc-name').value.trim();
+  if(!name){ toast('⚠️ Nom requis','warn'); return; }
+  const payload = {
+    name,
+    phone: document.getElementById('nc-phone').value.trim(),
+    birthdate: document.getElementById('nc-dob').value,
+    sign: document.getElementById('nc-sign').value.trim(),
+    profile: document.getElementById('nc-profile').value.trim(),
+  };
+  let client = await workerRequest('POST','/clients',payload);
+  if(!client){
+    // Local fallback
+    const id = `c_${Date.now()}`;
+    client = {...payload, id, createdAt:new Date().toISOString(), consultations:[]};
+    const index = JSON.parse(ls('ma_clients_index')||'[]');
+    index.unshift({id, name:client.name, phone:client.phone, birthdate:client.birthdate, createdAt:client.createdAt});
+    ls('ma_clients_index', JSON.stringify(index));
+    ls(`ma_client_${id}`, JSON.stringify(client));
+    allClients = index;
+  } else {
+    allClients.unshift({id:client.id, name:client.name, phone:client.phone, birthdate:client.birthdate, createdAt:client.createdAt});
+  }
+  S.activeClient = client;
+  updateClientBanner();
+  closeOverlay('client-overlay');
+  toast(`✅ Client créé : ${name}`);
+}
+
+/* ─────────────────── CLIENT FILE ─────────────────── */
+function openClientFile(){
+  if(!S.activeClient) return;
+  const c = S.activeClient;
+  document.getElementById('cf-title').textContent = `📋 ${c.name}`;
+  document.getElementById('cf-name').value = c.name||'';
+  document.getElementById('cf-phone').value = c.phone||'';
+  document.getElementById('cf-dob').value = c.birthdate||'';
+  document.getElementById('cf-sign').value = c.sign||'';
+  document.getElementById('cf-profile').value = c.profile||'';
+  document.getElementById('cf-notes').value = c.notes||'';
+  showCFTab('info');
+  renderConsultHistory();
+  openOverlay('clientfile-overlay');
+}
+
+function renderConsultHistory(){
+  if(!S.activeClient) return;
+  const ch = S.activeClient.consultations||[];
+  const container = document.getElementById('cf-hist-container');
+  if(!ch.length){
+    container.innerHTML='<div style="text-align:center;color:var(--text3);font-size:12px;padding:20px;">Aucune consultation enregistrée.</div>';
+    return;
+  }
+  container.innerHTML = ch.map(c=>`
+    <div class="consult-item" onclick="loadConsultContext('${c.cid}')">
+      <div class="consult-date">${new Date(c.date).toLocaleDateString('fr-FR',{day:'2-digit',month:'long',year:'numeric'})}</div>
+      <div class="consult-summary">${c.summary||'—'}</div>
+      ${c.keyPoints?.length?`<div class="kp-list" style="margin-top:5px">${c.keyPoints.map(k=>`<span class="kp-badge">${k}</span>`).join('')}</div>`:''}
+    </div>
+  `).join('');
+}
+
+function loadConsultContext(cid){
+  const c = S.activeClient?.consultations?.find(x=>x.cid===cid);
+  if(!c) return;
+  toast('📖 Contexte chargé pour cette consultation');
+  closeOverlay('clientfile-overlay');
+}
+
+async function saveClientInfo(){
+  if(!S.activeClient) return;
+  const updates = {
+    name: document.getElementById('cf-name').value.trim(),
+    phone: document.getElementById('cf-phone').value.trim(),
+    birthdate: document.getElementById('cf-dob').value,
+    sign: document.getElementById('cf-sign').value.trim(),
+  };
+  Object.assign(S.activeClient, updates);
+  await workerRequest('PUT',`/clients/${S.activeClient.id}`,S.activeClient);
+  ls(`ma_client_${S.activeClient.id}`, JSON.stringify(S.activeClient));
+  updateClientBanner();
+  toast('✅ Infos sauvegardées');
+}
+
+async function saveClientNotes(){
+  if(!S.activeClient) return;
+  S.activeClient.profile = document.getElementById('cf-profile').value.trim();
+  S.activeClient.notes   = document.getElementById('cf-notes').value.trim();
+  await workerRequest('PUT',`/clients/${S.activeClient.id}`,S.activeClient);
+  ls(`ma_client_${S.activeClient.id}`, JSON.stringify(S.activeClient));
+  toast('✅ Notes sauvegardées');
+}
+
+async function deleteClientConfirm(){
+  if(!S.activeClient) return;
+  if(!confirm(`Supprimer définitivement ${S.activeClient.name} ?`)) return;
+  await workerRequest('DELETE',`/clients/${S.activeClient.id}`);
+  allClients = allClients.filter(c=>c.id!==S.activeClient.id);
+  ls('ma_clients_index', JSON.stringify(allClients));
+  ls(`ma_client_${S.activeClient.id}`,'');
+  deselectClient();
+  closeOverlay('clientfile-overlay');
+  toast('🗑️ Client supprimé');
+}
+
+function showCFTab(t){
+  ['info','notes','hist'].forEach(tab=>{
+    document.getElementById(`cf-tab-${tab}`).style.display = tab===t?'block':'none';
+    const btn = document.getElementById(`cft-${tab}-btn`);
+    if(btn) btn.classList.toggle('active', tab===t);
+  });
+}
+
+/* ─────────────────── SETTINGS ─────────────────── */
+function updateProviderUI(){
+  const p = document.getElementById('s-provider').value;
+  const models = MODELS[p]||[];
+  const sel = document.getElementById('s-model');
+  sel.innerHTML = models.map(m=>`<option value="${m.v}">${m.l}</option>`).join('');
+  document.getElementById('s-provider-hint').innerHTML = PROVIDER_HINTS[p]||'';
+  document.getElementById('s-custom-group').style.display = p==='custom'?'block':'none';
+  document.getElementById('s-model-group').style.display = p==='custom'?'none':'block';
+}
+
+function saveSettings(){
+  ls('ma_provider',   document.getElementById('s-provider').value);
+  ls('ma_apikey',     document.getElementById('s-apikey').value.trim());
+  ls('ma_model',      document.getElementById('s-model').value||document.getElementById('s-custom-url').value.trim());
+  ls('ma_custom_url', document.getElementById('s-custom-url').value.trim());
+  ls('ma_worker_url', document.getElementById('s-worker-url').value.trim());
+  ls('ma_worker_token', document.getElementById('s-worker-token').value.trim());
+  ls('ma_extra',      document.getElementById('s-extra').value.trim());
+  ls('ma_services',   document.getElementById('s-services').value.trim());
+  ls('ma_lang',       document.getElementById('s-lang').value);
+  closeOverlay('settings-overlay');
+  toast('✅ Paramètres sauvegardés');
+}
+
+function resetPrompt(){
+  if(confirm('Restaurer les paramètres par défaut du prompt et des services ?')){
+    ls('ma_sys_prompt', DEFAULT_SYSTEM_PROMPT);
+    ls('ma_services', DEFAULT_SERVICES);
+    toast('↺ Prompt restauré');
+  }
+}
+
+function openSettingsDrawer(){
+  document.getElementById('s-provider').value = cfg.provider;
+  updateProviderUI();
+  document.getElementById('s-apikey').value = cfg.apiKey;
+  const models = MODELS[cfg.provider]||[];
+  const sel = document.getElementById('s-model');
+  Array.from(sel.options).forEach(o=>{if(o.value===cfg.model)o.selected=true;});
+  document.getElementById('s-custom-url').value = cfg.customUrl;
+  document.getElementById('s-worker-url').value = cfg.workerUrl;
+  document.getElementById('s-worker-token').value = cfg.workerToken;
+  document.getElementById('s-extra').value = cfg.extra;
+  document.getElementById('s-services').value = cfg.services||DEFAULT_SERVICES;
+  document.getElementById('s-lang').value = cfg.lang;
+  const vp = cfg.voiceProfile;
+  document.getElementById('s-voice-status-txt').textContent = vp
+    ? `✅ Profil vocal enregistré le ${new Date(vp.recordedAt).toLocaleDateString('fr-FR')}`
+    : 'Aucun profil vocal enregistré.';
+  openOverlay('settings-overlay');
+}
+
+function toggleEye(id){
+  const el = document.getElementById(id);
+  el.type = el.type==='password' ? 'text' : 'password';
+}
+
+/* ─────────────────── UI HELPERS ─────────────────── */
+function setStatus(s){
+  const pill = document.getElementById('status-pill');
+  const txt  = document.getElementById('status-txt');
+  pill.className = 'status-pill';
+  if(s==='listening'){ pill.classList.add('s-listening'); txt.textContent='Écoute'; }
+  else if(s==='processing'){ pill.classList.add('s-processing'); txt.textContent='Analyse'; }
+  else { pill.classList.add('s-idle'); txt.textContent='Veille'; }
+}
+
+function setMicUI(active){
+  const btn = document.getElementById('btn-mic');
+  btn.className = active ? 'active' : 'idle';
+  document.getElementById('mic-icon').textContent = active ? '⏹️' : '🎙️';
+  document.getElementById('mic-txt').textContent   = active ? 'ARRÊTER L\'ÉCOUTE' : 'DÉMARRER L\'ÉCOUTE';
+}
+
+function showSessionUI(){
   document.getElementById('empty-state').style.display = 'none';
   document.getElementById('transcript-card').style.display = 'block';
   document.getElementById('suggestion-card').style.display = 'block';
 }
 
-function setStatus(status) {
-  const pill = document.getElementById('status-pill');
-  const txt  = document.getElementById('status-text');
-  pill.className = 'status-pill';
-  if (status === 'listening') {
-    pill.classList.add('status-listening');
-    txt.textContent = 'En écoute';
-  } else if (status === 'processing') {
-    pill.classList.add('status-processing');
-    txt.textContent = 'Analyse...';
-  } else {
-    pill.classList.add('status-idle');
-    txt.textContent = 'En veille';
-  }
+function updateTranscriptUI(){
+  const words = S.transcript.trim().split(/\s+/);
+  const last  = words.slice(-80).join(' ');
+  const el = document.getElementById('transcript-text');
+  el.textContent = last;
+  document.getElementById('transcript-scroll').scrollTop = 9999;
 }
 
-function setMicActive(active) {
-  const btn = document.getElementById('btn-mic');
-  const txt = document.getElementById('btn-mic-text');
-  btn.className = active ? 'active' : 'idle';
-  txt.textContent = active ? 'ARRÊTER L\'ÉCOUTE' : 'DÉMARRER L\'ÉCOUTE';
-  document.querySelector('.mic-icon').textContent = active ? '⏹️' : '🎙️';
+function setSuggestionLoading(v){
+  const el = document.getElementById('suggestion-text');
+  if(v){ el.className='loading'; el.textContent='Frederick analyse...'; }
+  else if(!el.textContent||el.className==='loading'){ el.className='ph'; el.textContent='En attente d\'analyse...'; }
 }
 
-function setProcessing(val) {
-  state.isProcessing = val;
-  if (val) {
-    setStatus('processing');
-    document.getElementById('suggestion-display').className = 'processing-shimmer';
-    document.getElementById('suggestion-display').textContent = 'Frederick analyse la situation...';
-  } else {
-    setStatus(state.isListening ? 'listening' : 'idle');
-  }
+function clearAll(){
+  S.transcript=''; S.currentOpp=null; S.currentSummary=null;
+  document.getElementById('transcript-text').innerHTML='<span style="color:var(--text3);font-style:italic;font-size:11px">En attente de parole...</span>';
+  document.getElementById('transcript-interim').textContent='';
+  document.getElementById('suggestion-text').className='ph';
+  document.getElementById('suggestion-text').textContent='En attente d\'analyse...';
+  document.getElementById('context-card').classList.remove('show');
+  document.getElementById('alert-card').classList.remove('show');
+  document.getElementById('opp-card').classList.remove('show');
+  document.getElementById('conv-panel').classList.remove('show');
+  document.getElementById('conv-phrases').innerHTML='';
+  toast('🗑️ Session effacée');
 }
 
-function updateTranscriptUI(full, interim) {
-  const d = document.getElementById('transcript-display');
-  const words = full.trim().split(/\s+/);
-  const last = words.slice(-60).join(' ');
-  d.innerHTML = `<span>${escapeHtml(last)}</span>`;
-  d.scrollTop = d.scrollHeight;
-}
-
-function updateInterim(text) {
-  document.getElementById('interim-display').textContent = text ? `⟩ ${text}` : '';
-}
-
-function renderSuggestion(data) {
-  // Suggestion principale
-  if (data.suggestion) {
-    const el = document.getElementById('suggestion-display');
-    el.className = '';
-    el.textContent = data.suggestion;
-    el.style.animation = 'none';
-    requestAnimationFrame(() => { el.style.animation = 'slide-in 0.4s ease-out'; });
-  }
-
-  // Contexte
-  if (data.contexte) {
-    const card = document.getElementById('context-card');
-    card.style.display = 'block';
-    document.getElementById('context-content').textContent = data.contexte;
-  }
-
-  // Alerte
-  const alertBanner = document.getElementById('alert-banner');
-  if (data.alerte) {
-    document.getElementById('alert-text').textContent = data.alerte;
-    alertBanner.classList.add('show');
-  } else {
-    alertBanner.classList.remove('show');
-  }
-
-  // Opportunité
-  const oppBanner = document.getElementById('opportunity-banner');
-  const convPanel = document.getElementById('conversion-panel');
-  if (data.opportunite) {
-    state.currentOpportunity = data.opportunite;
-    document.getElementById('opp-service').textContent = '🔮 ' + data.opportunite.service;
-    document.getElementById('opp-prix').textContent = data.opportunite.prix;
-    document.getElementById('opp-declencheur').textContent = data.opportunite.declencheur;
-    oppBanner.classList.add('show');
-    convPanel.classList.remove('show');
-    document.getElementById('conversion-phrases-container').innerHTML = '';
-  } else {
-    oppBanner.classList.remove('show');
-    state.currentOpportunity = null;
-  }
-}
-
-function renderConversionPhrases(phrases) {
-  const panel = document.getElementById('conversion-panel');
-  const container = document.getElementById('conversion-phrases-container');
-  container.innerHTML = '';
-  phrases.forEach((p, i) => {
-    const div = document.createElement('div');
-    div.className = 'conv-phrase';
-    div.innerHTML = `<div class="conv-num">OPTION ${i+1}</div><div>${escapeHtml(p)}</div>`;
-    div.onclick = () => {
-      navigator.clipboard?.writeText(p).catch(() => {});
-      showToast('📋 Phrase copiée !');
-    };
-    container.appendChild(div);
-  });
-  panel.classList.add('show');
-  panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-}
-
-function showToast(msg) {
+function toast(msg, type='ok'){
   const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2500);
+  t.textContent = msg; t.className = type==='warn'?'show warn':type==='err'?'show err':'show';
+  clearTimeout(t._timer);
+  t._timer = setTimeout(()=>t.className='', 2600);
 }
 
-function escapeHtml(s) {
-  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+/* Overlay helpers */
+function openOverlay(id){ document.getElementById(id).classList.add('show'); }
+function closeOverlay(id){ document.getElementById(id).classList.remove('show'); }
+function overlayClose(e, id){ if(e.target.id===id) closeOverlay(id); }
+function miniClose(e, id){ if(e.target.id===id) closeOverlay(id); }
+function openVoiceOverlay(){
+  const vp = cfg.voiceProfile;
+  document.getElementById('btn-voice-delete').style.display = vp?'block':'none';
+  document.getElementById('voice-status').innerHTML = vp
+    ? `<span class="voice-done-text">✅ Profil existant enregistré le ${new Date(vp.recordedAt).toLocaleDateString('fr-FR')}</span>`
+    : '';
+  document.getElementById('voice-progress-bar').style.width='0%';
+  document.getElementById('voice-ring').classList.remove('recording');
+  document.getElementById('voice-ring').textContent='🎤';
+  closeOverlay('settings-overlay');
+  openOverlay('voice-overlay');
 }
 
-function safeParseJSON(raw) {
-  try {
-    const clean = raw.replace(/```json|```/g,'').trim();
-    return JSON.parse(clean);
-  } catch(e) {
-    console.warn('JSON parse failed:', raw);
-    return null;
-  }
+function showClientTab(t){
+  document.getElementById('client-tab-list').style.display = t==='list'?'block':'none';
+  document.getElementById('client-tab-new').style.display  = t==='new'?'block':'none';
+  document.getElementById('tab-list-btn').classList.toggle('active',t==='list');
+  document.getElementById('tab-new-btn').classList.toggle('active',t==='new');
 }
 
-/* ══════════════════════════════════════════════════
-   SETTINGS
-══════════════════════════════════════════════════ */
-function openSettings() {
-  document.getElementById('api-key-input').value   = cfg.apiKey;
-  document.getElementById('system-prompt-input').value = cfg.systemPrompt;
-  document.getElementById('extra-input').value     = cfg.extraInstr;
-  document.getElementById('services-input').value  = cfg.services;
-  document.getElementById('lang-select').value     = cfg.lang;
-  document.getElementById('settings-overlay').classList.add('show');
+function openClientOverlay(){
+  loadClients();
+  showClientTab('list');
+  openOverlay('client-overlay');
 }
 
-function closeSettings(e) {
-  if (e.target.id === 'settings-overlay') {
-    document.getElementById('settings-overlay').classList.remove('show');
-  }
-}
+/* ─────────────────── INIT ─────────────────── */
+document.getElementById('btn-settings-open').addEventListener('click', openSettingsDrawer);
 
-function saveSettings() {
-  cfg.apiKey       = document.getElementById('api-key-input').value.trim();
-  cfg.systemPrompt = document.getElementById('system-prompt-input').value.trim() || DEFAULT_SYSTEM_PROMPT;
-  cfg.extraInstr   = document.getElementById('extra-input').value.trim();
-  cfg.services     = document.getElementById('services-input').value.trim();
-  cfg.lang         = document.getElementById('lang-select').value;
-
-  localStorage.setItem('ma_api_key',       cfg.apiKey);
-  localStorage.setItem('ma_system_prompt', cfg.systemPrompt);
-  localStorage.setItem('ma_extra',         cfg.extraInstr);
-  localStorage.setItem('ma_services',      cfg.services);
-  localStorage.setItem('ma_lang',          cfg.lang);
-
-  document.getElementById('settings-overlay').classList.remove('show');
-  showToast('✅ Paramètres sauvegardés');
-}
-
-function resetPrompt() {
-  if (confirm('Restaurer le prompt par défaut ? Vos modifications seront perdues.')) {
-    document.getElementById('system-prompt-input').value = DEFAULT_SYSTEM_PROMPT;
-    document.getElementById('services-input').value = DEFAULT_SERVICES;
-  }
-}
-
-function toggleApiKeyVisibility() {
-  const input = document.getElementById('api-key-input');
-  input.type = input.type === 'password' ? 'text' : 'password';
-}
-
-/* ══════════════════════════════════════════════════
-   EVENT LISTENERS
-══════════════════════════════════════════════════ */
-document.getElementById('btn-settings').addEventListener('click', openSettings);
-
-// Prevent scroll on footer buttons double-tap
-document.querySelector('footer').addEventListener('touchend', e => {
-  if (e.target.tagName === 'BUTTON') e.preventDefault();
-}, { passive: false });
-
-/* ══════════════════════════════════════════════════
-   INIT
-══════════════════════════════════════════════════ */
-(function init() {
-  // Check Speech API
+(function init(){
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (!SR) {
-    document.getElementById('no-support').classList.add('show');
-    return;
+  if(!SR){ document.getElementById('no-support').classList.add('show'); return; }
+
+  // First run → open settings
+  if(!cfg.apiKey){
+    setTimeout(()=>{
+      openSettingsDrawer();
+      toast('👋 Bienvenue ! Configurez votre clé API pour démarrer','warn');
+    }, 900);
   }
 
-  // Prompt new users to set API key
-  if (!cfg.apiKey) {
-    setTimeout(() => {
-      openSettings();
-      showToast('👋 Bienvenue ! Configurez votre clé API Groq');
-    }, 800);
+  // Try to load voice profile from Worker
+  if(cfg.workerUrl){
+    workerRequest('GET','/voice').then(p=>{
+      if(p?.fft) ls('ma_voice', JSON.stringify(p));
+    });
   }
 })();
 </script>
