@@ -4,6 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>PGI • MediumAssist Pro</title>
+<!-- ══ FAVICON — remplacez le lien par l'URL de votre image ══ -->
+<link rel="icon" type="image/png" id="site-favicon" href="VOTRE_IMAGE_ICI.png">
+<link rel="apple-touch-icon" href="VOTRE_IMAGE_ICI.png">
+<!-- ══════════════════════════════════════════════════════════ -->
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 /* ═══════════════ VARIABLES ═══════════════ */
@@ -30,12 +34,13 @@
   --r-sm: 8px;
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
-html{height:100%;overflow:hidden;}
+html{height:100%;overflow:hidden;overscroll-behavior:none;}
 body{
   background:var(--bg);color:var(--text);
   font-family:'Inter',sans-serif;
   display:flex;flex-direction:column;
   height:100dvh;overflow:hidden;
+  overscroll-behavior:none;
 }
 
 /* ═══════════════ SCROLLBAR ═══════════════ */
@@ -52,27 +57,20 @@ header{
   border-bottom:1px solid var(--border);
   z-index:10;
 }
-.logo{display:flex;align-items:center;gap:10px;}
-.logo-icon{
-  font-size:22px;
-  filter:drop-shadow(0 0 6px rgba(0,207,255,0.5));
-}
+.logo{display:flex;align-items:center;gap:0;}
 .logo-text{
   font-family:'Orbitron',monospace;
-  font-size:13px;font-weight:900;
-  letter-spacing:1px;line-height:1.1;
-}
-.logo-pgi{
+  font-size:14px;font-weight:900;
+  letter-spacing:2px;line-height:1.1;
   color:var(--cyan);
   animation:blink-pgi 1.8s ease-in-out infinite;
+  text-shadow:0 0 14px rgba(0,207,255,0.9),0 0 28px rgba(0,207,255,0.4);
 }
 @keyframes blink-pgi{
-  0%,100%{opacity:1;text-shadow:0 0 12px rgba(0,207,255,0.9),0 0 24px rgba(0,207,255,0.4);}
-  50%{opacity:0.45;text-shadow:none;}
+  0%,100%{opacity:1;text-shadow:0 0 14px rgba(0,207,255,0.9),0 0 28px rgba(0,207,255,0.4),0 0 50px rgba(0,207,255,0.15);}
+  50%{opacity:0.5;text-shadow:0 0 4px rgba(0,207,255,0.3);}
 }
-.logo-sep{color:rgba(255,255,255,0.3);margin:0 4px;}
-.logo-name{color:var(--text);font-size:11px;font-weight:700;}
-.logo-sub{font-size:8px;font-family:'Inter',sans-serif;color:var(--text3);letter-spacing:0.5px;margin-top:1px;}
+.logo-sub{font-size:8px;font-family:'Inter',sans-serif;color:var(--text3);letter-spacing:0.5px;margin-top:2px;}
 
 .header-right{display:flex;align-items:center;gap:7px;}
 .status-pill{
@@ -465,6 +463,16 @@ footer{
   width:0%;transition:width 0.1s;
 }
 .voice-done-text{color:var(--pink);font-weight:700;}
+.voice-playback{
+  display:none;
+  background:rgba(255,51,153,0.07);
+  border:1px solid rgba(255,51,153,0.2);
+  border-radius:var(--r-sm);padding:10px 12px;
+  margin-top:10px;
+}
+.voice-playback.show{display:block;}
+.voice-playback audio{width:100%;height:36px;margin-top:4px;}
+.voice-play-label{font-size:10px;font-weight:700;color:var(--pink);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;}
 
 /* ═══════════════ CLIENT LIST ═══════════════ */
 .client-item{
@@ -576,20 +584,15 @@ footer{
 
 <!-- NO SUPPORT -->
 <div id="no-support">
-  <div class="ns-icon">🎤</div>
+  <div class="ns-icon" style="font-size:40px;color:var(--red);font-family:'Orbitron',monospace;font-weight:900;">MIC</div>
   <div class="ns-text"><strong>Reconnaissance vocale non supportée.</strong><br>Utilisez <strong>Google Chrome</strong> sur Android ou tablette.</div>
 </div>
 
 <!-- HEADER -->
 <header>
   <div class="logo">
-    <div class="logo-icon">🔮</div>
     <div>
-      <div class="logo-text">
-        <span class="logo-pgi">PGI</span>
-        <span class="logo-sep">•</span>
-        <span class="logo-name">MediumAssist Pro</span>
-      </div>
+      <div class="logo-text">PGI &bull; MediumAssist Pro</div>
       <div class="logo-sub">ClairvoyanceMedium.com — Frederick</div>
     </div>
   </div>
@@ -598,27 +601,27 @@ footer{
       <div class="s-dot"></div>
       <span id="status-txt">Veille</span>
     </div>
-    <button class="hbtn" id="btn-settings-open" title="Paramètres">⚙️</button>
+    <button class="hbtn" id="btn-settings-open" title="Paramètres" style="font-size:11px;font-weight:800;letter-spacing:1px;">CFG</button>
   </div>
 </header>
 
 <!-- SPEAKER BAR -->
 <div id="speaker-bar">
-  <span id="speaker-label" class="speaker-chip chip-unknown">❓ Inconnu</span>
+  <span id="speaker-label" class="speaker-chip chip-unknown">? Inconnu</span>
   <span id="speaker-name"></span>
 </div>
 
 <!-- CLIENT BANNER -->
 <div id="client-banner">
   <div class="cb-left">
-    <div class="cb-avatar">👤</div>
+    <div class="cb-avatar" style="font-family:'Orbitron',monospace;font-size:10px;font-weight:900;color:var(--purple);">CLT</div>
     <div>
       <div class="cb-name" id="cb-name-txt">—</div>
       <div class="cb-detail" id="cb-detail-txt"></div>
     </div>
   </div>
   <div class="cb-right">
-    <button class="cb-btn" onclick="openClientFile()">📋 Fiche</button>
+    <button class="cb-btn" onclick="openClientFile()">FICHE</button>
     <button class="cb-close" onclick="deselectClient()">✕</button>
   </div>
 </div>
@@ -626,13 +629,13 @@ footer{
 <!-- MAIN -->
 <main id="main">
   <div id="empty-state">
-    <div class="es-icon">🔮</div>
-    <div class="es-title">Prêt à l'écoute</div>
-    <div class="es-sub">Appuyez sur <strong>DÉMARRER</strong> pour activer l'assistant.<br>Posez votre tablette à côté du téléphone en haut-parleur.</div>
+    <div class="es-icon" style="font-family:'Orbitron',monospace;font-size:28px;font-weight:900;color:var(--cyan);letter-spacing:3px;opacity:0.5;">PGI</div>
+    <div class="es-title">Pret a l'ecoute</div>
+    <div class="es-sub">Appuyez sur <strong>DEMARRER</strong> pour activer l'assistant.<br>Posez votre tablette a cote du telephone en haut-parleur.</div>
   </div>
 
   <div class="card" id="transcript-card" style="display:none">
-    <div class="clabel"><div class="clabel-dot"></div>🎙️ TRANSCRIPTION EN DIRECT</div>
+    <div class="clabel"><div class="clabel-dot"></div>TRANSCRIPTION EN DIRECT</div>
     <div id="transcript-scroll"><div id="transcript-text"><span style="color:var(--text3);font-style:italic;font-size:11px;">En attente de parole...</span></div></div>
     <div id="transcript-interim"></div>
   </div>
@@ -642,27 +645,27 @@ footer{
   </div>
 
   <div class="card" id="suggestion-card" style="display:none">
-    <div class="clabel"><div class="clabel-dot"></div>💬 DIS MAINTENANT</div>
+    <div class="clabel"><div class="clabel-dot"></div>DIS MAINTENANT</div>
     <div id="suggestion-text" class="ph">En attente d'analyse...</div>
   </div>
 
   <div class="card" id="alert-card">
-    <div class="clabel"><div class="clabel-dot"></div>⚠️ MISE EN GARDE À LANCER</div>
+    <div class="clabel"><div class="clabel-dot"></div>MISE EN GARDE A LANCER</div>
     <div id="alert-text"></div>
   </div>
 
   <div class="card" id="opp-card">
-    <div class="clabel"><div class="clabel-dot"></div>💜 OPPORTUNITÉ DÉTECTÉE</div>
+    <div class="clabel"><div class="clabel-dot"></div>OPPORTUNITE DETECTEE</div>
     <div class="opp-row">
       <div id="opp-service"></div>
       <div id="opp-price"></div>
     </div>
     <div id="opp-why"></div>
-    <button id="btn-conv" onclick="loadConversion()">✨ GÉNÉRER PHRASES DE CONVERSION →</button>
+    <button id="btn-conv" onclick="loadConversion()">GENERER PHRASES DE CONVERSION &rarr;</button>
   </div>
 
   <div id="conv-panel">
-    <div class="clabel"><div class="clabel-dot"></div>💛 PHRASES DE CONVERSION — CLIQUER POUR COPIER</div>
+    <div class="clabel"><div class="clabel-dot"></div>PHRASES DE CONVERSION — CLIQUER POUR COPIER</div>
     <div id="conv-phrases"></div>
   </div>
 
@@ -670,27 +673,27 @@ footer{
 
 <!-- QUICK ACTIONS -->
 <div id="quick-actions">
-  <div class="qa-label">⚡ ACTIONS</div>
-  <button class="qa-btn qa-1" onclick="quickAction('epate')">🌟 Épate</button>
-  <button class="qa-btn qa-2" onclick="quickAction('question')">🎯 Question</button>
-  <button class="qa-btn qa-3" onclick="quickAction('alerte')">⚠️ Mise en garde</button>
-  <button class="qa-btn qa-4" onclick="quickAction('service')">💜 Propose service</button>
-  <button class="qa-btn qa-5" onclick="quickAction('revelation')">🔥 Révélation</button>
-  <button class="qa-btn qa-6" onclick="quickAction('energie')">🧿 Énergie</button>
-  <button class="qa-btn qa-7" onclick="openDOB()">🎂 Date de naissance</button>
-  <button class="qa-btn qa-8" onclick="openFreeText()">✍️ Ma question</button>
+  <div class="qa-label">ACTIONS</div>
+  <button class="qa-btn qa-1" onclick="quickAction('epate')">EPATE</button>
+  <button class="qa-btn qa-2" onclick="quickAction('question')">QUESTION</button>
+  <button class="qa-btn qa-3" onclick="quickAction('alerte')">ALERTE</button>
+  <button class="qa-btn qa-4" onclick="quickAction('service')">SERVICE</button>
+  <button class="qa-btn qa-5" onclick="quickAction('revelation')">REVELATION</button>
+  <button class="qa-btn qa-6" onclick="quickAction('energie')">ENERGIE</button>
+  <button class="qa-btn qa-7" onclick="openDOB()">DATE NAISS.</button>
+  <button class="qa-btn qa-8" onclick="openFreeText()">MA QUESTION</button>
 </div>
 
 <!-- FOOTER -->
 <footer>
   <button id="btn-mic" class="idle" onclick="toggleListening()">
-    <span id="mic-icon">🎙️</span>
-    <span id="mic-txt">DÉMARRER L'ÉCOUTE</span>
+    <span id="mic-icon" style="font-size:11px;font-weight:900;letter-spacing:1px;">REC</span>
+    <span id="mic-txt">DEMARRER L'ECOUTE</span>
   </button>
-  <button class="fbtn" id="btn-force" onclick="forceSuggest()" disabled title="Forcer suggestion">⚡</button>
-  <button class="fbtn" id="btn-summary" onclick="generateSummary()" title="Résumé consultation">📋</button>
-  <button class="fbtn" id="btn-client-select" onclick="openClientOverlay()" title="Client">👤</button>
-  <button class="fbtn" id="btn-clear" onclick="clearAll()" title="Effacer">🗑️</button>
+  <button class="fbtn" id="btn-force" onclick="forceSuggest()" disabled title="Forcer suggestion" style="font-size:9px;font-weight:900;letter-spacing:0.5px;">FORCE</button>
+  <button class="fbtn" id="btn-summary" onclick="generateSummary()" title="Resume" style="font-size:9px;font-weight:900;letter-spacing:0.5px;">BILAN</button>
+  <button class="fbtn" id="btn-client-select" onclick="openClientOverlay()" title="Client" style="font-size:9px;font-weight:900;letter-spacing:0.5px;">CLIENT</button>
+  <button class="fbtn" id="btn-clear" onclick="clearAll()" title="Effacer" style="font-size:9px;font-weight:900;letter-spacing:0.5px;">RAZ</button>
 </footer>
 
 <!-- TOAST -->
@@ -702,41 +705,44 @@ footer{
 <div class="overlay" id="settings-overlay" onclick="overlayClose(event,'settings-overlay')">
   <div class="drawer">
     <div class="drawer-handle"></div>
-    <div class="drawer-title" style="color:var(--cyan)">⚙️ Configuration</div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+      <div class="drawer-title" style="color:var(--cyan);margin-bottom:0;">CONFIGURATION</div>
+      <button onclick="closeOverlay('settings-overlay')" style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);border-radius:8px;color:var(--text2);font-size:13px;font-weight:800;padding:5px 12px;cursor:pointer;">FERMER ✕</button>
+    </div>
 
     <!-- API -->
-    <div class="section-title">🤖 Intelligence Artificielle</div>
+    <div class="section-title">INTELLIGENCE ARTIFICIELLE</div>
     <div class="fg">
       <div class="fl">Fournisseur IA</div>
       <select id="s-provider" class="fsel" onchange="updateProviderUI()">
-        <option value="openrouter">OpenRouter (recommandé — gratuit)</option>
-        <option value="openai">OpenAI (ChatGPT)</option>
-        <option value="anthropic">Anthropic (Claude)</option>
-        <option value="groq">Groq (ultra-rapide)</option>
-        <option value="custom">URL personnalisée</option>
+        <option value="groq">Groq — GRATUIT (ultra-rapide, recommande)</option>
+        <option value="openrouter">OpenRouter — GRATUIT (multi-modeles)</option>
+        <option value="openai">OpenAI (ChatGPT — payant)</option>
+        <option value="anthropic">Anthropic (Claude — payant)</option>
+        <option value="custom">URL personnalisee</option>
       </select>
     </div>
     <div class="fg">
-      <div class="fl">Clé API</div>
+      <div class="fl">Cle API</div>
       <div class="api-row">
         <input type="password" id="s-apikey" class="fi" placeholder="sk-... ou gsk_...">
-        <button class="eye-btn" onclick="toggleEye('s-apikey')">👁️</button>
+        <button class="eye-btn" onclick="toggleEye('s-apikey')">VOIR</button>
       </div>
-      <div class="fhint" id="s-provider-hint">Créez votre clé gratuite sur <strong style="color:var(--cyan)">openrouter.ai</strong> → Keys</div>
+      <div class="fhint" id="s-provider-hint">Cle gratuite sur <strong style="color:var(--cyan)">console.groq.com</strong> &rarr; API Keys (aucune CB)</div>
     </div>
     <div class="fg" id="s-model-group">
-      <div class="fl">Modèle IA</div>
+      <div class="fl">Modele IA</div>
       <select id="s-model" class="fsel"></select>
     </div>
     <div class="fg" id="s-custom-group" style="display:none">
-      <div class="fl">URL API personnalisée</div>
+      <div class="fl">URL API personnalisee</div>
       <input type="text" id="s-custom-url" class="fi" placeholder="https://...">
     </div>
 
     <div class="divider"></div>
 
     <!-- Cloudflare Worker -->
-    <div class="section-title">☁️ Cloudflare Worker (sync multi-appareils)</div>
+    <div class="section-title">CLOUDFLARE WORKER (sync multi-appareils)</div>
     <div class="fg">
       <div class="fl">URL du Worker</div>
       <input type="text" id="s-worker-url" class="fi" placeholder="https://pgi-mediumassist.votreuser.workers.dev">
@@ -745,48 +751,50 @@ footer{
       <div class="fl">Token secret</div>
       <div class="api-row">
         <input type="password" id="s-worker-token" class="fi" placeholder="votre_token_secret">
-        <button class="eye-btn" onclick="toggleEye('s-worker-token')">👁️</button>
+        <button class="eye-btn" onclick="toggleEye('s-worker-token')">VOIR</button>
       </div>
-      <div class="fhint">Laisser vide si Worker non encore configuré — données stockées localement.</div>
+      <div class="fhint">Laisser vide si Worker non configure — donnees stockees localement.</div>
     </div>
 
     <div class="divider"></div>
 
     <!-- Comportement -->
-    <div class="section-title">🧠 Comportement de l'assistant</div>
+    <div class="section-title">COMPORTEMENT DE L'ASSISTANT</div>
     <div class="fg">
-      <div class="fl">Instructions personnalisées (ajustements rapides)</div>
-      <textarea id="s-extra" class="fta" style="min-height:75px" placeholder="Ex: Ne jamais paraître pressé de vendre. Toujours commencer par de l'empathie. Si le client hésite sur le prix, insister sur les résultats visibles et non sur le tarif..."></textarea>
+      <div class="fl">Instructions complementaires</div>
+      <textarea id="s-extra" class="fta" style="min-height:75px" placeholder="Ex: Ne jamais paraitre presse de vendre. Toujours commencer par de l'empathie..."></textarea>
     </div>
     <div class="fg">
-      <div class="fl">Services & Tarifs (modifiables)</div>
+      <div class="fl">Services et Tarifs</div>
       <textarea id="s-services" class="fta" style="min-height:90px"></textarea>
     </div>
 
     <div class="divider"></div>
 
-    <!-- Voice enrollment link -->
-    <div class="section-title">🎤 Reconnaissance de voix</div>
+    <!-- Voice -->
+    <div class="section-title">RECONNAISSANCE DE VOIX</div>
     <div class="fg">
-      <div class="fhint" id="s-voice-status-txt">Aucun profil vocal enregistré.</div>
-      <button class="btn-secondary" style="margin-top:8px" onclick="openVoiceOverlay()">🎤 Enregistrer / Mettre à jour ma voix</button>
+      <div class="fhint" id="s-voice-status-txt">Aucun profil vocal enregistre.</div>
+      <button class="btn-secondary" style="margin-top:8px" onclick="openVoiceOverlay()">ENREGISTRER / METTRE A JOUR MA VOIX</button>
     </div>
 
     <div class="divider"></div>
 
     <!-- Lang -->
-    <div class="section-title">🌐 Langue</div>
+    <div class="section-title">LANGUE DE RECONNAISSANCE</div>
     <div class="fg">
       <select id="s-lang" class="fsel">
-        <option value="fr-FR">🇫🇷 Français — France</option>
-        <option value="fr-BE">🇧🇪 Français — Belgique</option>
-        <option value="fr-CH">🇨🇭 Français — Suisse</option>
-        <option value="fr-CA">🇨🇦 Français — Canada</option>
+        <option value="fr-FR">Francais — France</option>
+        <option value="fr-BE">Francais — Belgique</option>
+        <option value="fr-CH">Francais — Suisse</option>
+        <option value="fr-CA">Francais — Canada</option>
+        <option value="en-US">English — United States</option>
+        <option value="en-GB">English — United Kingdom</option>
       </select>
     </div>
 
-    <button class="btn-primary" onclick="saveSettings()">💾 SAUVEGARDER</button>
-    <button class="btn-secondary" onclick="resetPrompt()">↺ Réinitialiser le prompt système</button>
+    <button class="btn-primary" onclick="saveSettings()">SAUVEGARDER</button>
+    <button class="btn-secondary" onclick="resetPrompt()" style="margin-top:8px">Reinitialiser le prompt systeme</button>
   </div>
 </div>
 
@@ -796,15 +804,25 @@ footer{
 <div class="overlay" id="voice-overlay" onclick="overlayClose(event,'voice-overlay')">
   <div class="drawer">
     <div class="drawer-handle"></div>
-    <div class="drawer-title" style="color:var(--pink)">🎤 Enregistrement vocal</div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+      <div class="drawer-title" style="color:var(--pink);margin-bottom:0;">EMPREINTE VOCALE</div>
+      <button onclick="closeOverlay('voice-overlay')" style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);border-radius:8px;color:var(--text2);font-size:13px;font-weight:800;padding:5px 12px;cursor:pointer;">FERMER ✕</button>
+    </div>
     <p style="font-size:12px;color:var(--text2);line-height:1.7;margin-bottom:16px;">
-      L'assistant mémorisera votre voix pour distinguer vos paroles de celles de vos clients. Parlez normalement pendant <strong>15 secondes</strong> (racontez votre journée, lisez un texte, etc.).
+      Enregistrez votre voix une seule fois — elle sera memorisee definitivement. L'assistant distinguera automatiquement votre voix de celle de vos clients.<br><br>
+      Parlez normalement pendant <strong style="color:var(--pink)">15 secondes</strong> : racontez votre journee, lisez n'importe quel texte.
     </p>
-    <div class="voice-ring" id="voice-ring">🎤</div>
+    <div class="voice-ring" id="voice-ring" style="font-family:'Orbitron',monospace;font-size:11px;font-weight:900;color:var(--pink);">MIC</div>
     <div id="voice-progress"><div id="voice-progress-bar"></div></div>
-    <div id="voice-status" style="color:var(--text2);font-size:12px;text-align:center;"></div>
-    <button class="btn-primary" style="background:rgba(255,51,153,0.2);border-color:rgba(255,51,153,0.4);color:var(--pink);margin-top:12px;" id="btn-voice-record" onclick="startVoiceEnrollment()">▶ Commencer l'enregistrement</button>
-    <button class="btn-secondary btn-danger" id="btn-voice-delete" onclick="deleteVoiceProfile()" style="display:none;margin-top:8px;">🗑️ Supprimer mon profil vocal</button>
+    <div id="voice-status" style="color:var(--text2);font-size:12px;text-align:center;margin:8px 0;"></div>
+    <!-- PLAYBACK SECTION -->
+    <div class="voice-playback" id="voice-playback">
+      <div class="voice-play-label">ECOUTER MON ENREGISTREMENT</div>
+      <audio id="voice-audio" controls></audio>
+    </div>
+    <button class="btn-primary" style="background:rgba(255,51,153,0.2);border-color:rgba(255,51,153,0.4);color:var(--pink);margin-top:12px;" id="btn-voice-record" onclick="startVoiceEnrollment()">COMMENCER L'ENREGISTREMENT</button>
+    <button class="btn-secondary" id="btn-voice-validate" onclick="validateVoiceProfile()" style="display:none;margin-top:8px;background:rgba(57,255,20,0.1);border-color:rgba(57,255,20,0.25);color:var(--green);">VALIDER ET SAUVEGARDER</button>
+    <button class="btn-secondary btn-danger" id="btn-voice-delete" onclick="deleteVoiceProfile()" style="display:none;margin-top:8px;">SUPPRIMER MON PROFIL VOCAL</button>
   </div>
 </div>
 
@@ -814,15 +832,18 @@ footer{
 <div class="overlay" id="client-overlay" onclick="overlayClose(event,'client-overlay')">
   <div class="drawer">
     <div class="drawer-handle"></div>
-    <div class="drawer-title" style="color:var(--purple)">👤 Clients</div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+      <div class="drawer-title" style="color:var(--purple);margin-bottom:0;">CLIENTS</div>
+      <button onclick="closeOverlay('client-overlay')" style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);border-radius:8px;color:var(--text2);font-size:13px;font-weight:800;padding:5px 12px;cursor:pointer;">FERMER ✕</button>
+    </div>
     <div class="tab-row">
-      <button class="tab-btn active" id="tab-list-btn" onclick="showClientTab('list')">📋 Mes clients</button>
-      <button class="tab-btn" id="tab-new-btn" onclick="showClientTab('new')">➕ Nouveau</button>
+      <button class="tab-btn active" id="tab-list-btn" onclick="showClientTab('list')">MES CLIENTS</button>
+      <button class="tab-btn" id="tab-new-btn" onclick="showClientTab('new')">NOUVEAU +</button>
     </div>
 
     <!-- LIST TAB -->
     <div id="client-tab-list">
-      <input type="text" class="search-bar" id="client-search" placeholder="🔍 Rechercher par nom ou téléphone..." oninput="filterClients()">
+      <input type="text" class="search-bar" id="client-search" placeholder="Rechercher par nom ou telephone..." oninput="filterClients()">
       <div id="client-list-container">
         <div style="text-align:center;color:var(--text3);font-size:12px;padding:20px;">Chargement...</div>
       </div>
@@ -835,7 +856,7 @@ footer{
       <div class="fg"><div class="fl">Date de naissance</div><input type="date" id="nc-dob" class="fi"></div>
       <div class="fg"><div class="fl">Signe astrologique</div><input type="text" id="nc-sign" class="fi" placeholder="Ex: Balance, Scorpion..."></div>
       <div class="fg"><div class="fl">Profil / Notes initiales</div><textarea id="nc-profile" class="fta" style="min-height:70px" placeholder="Personne sensible, problèmes amoureux récurrents, croyante..."></textarea></div>
-      <button class="btn-primary" style="background:rgba(204,68,255,0.2);border-color:rgba(204,68,255,0.4);color:var(--purple)" onclick="createClient()">✅ Créer le client</button>
+      <button class="btn-primary" style="background:rgba(204,68,255,0.2);border-color:rgba(204,68,255,0.4);color:var(--purple)" onclick="createClient()">CREER LE CLIENT</button>
     </div>
   </div>
 </div>
@@ -848,9 +869,9 @@ footer{
     <div class="drawer-handle"></div>
     <div class="drawer-title" style="color:var(--purple)" id="cf-title">Fiche client</div>
     <div class="tab-row">
-      <button class="tab-btn active" id="cft-info-btn" onclick="showCFTab('info')">📋 Infos</button>
-      <button class="tab-btn" id="cft-notes-btn" onclick="showCFTab('notes')">📝 Notes</button>
-      <button class="tab-btn" id="cft-hist-btn" onclick="showCFTab('hist')">📖 Historique</button>
+      <button class="tab-btn active" id="cft-info-btn" onclick="showCFTab('info')">INFOS</button>
+      <button class="tab-btn" id="cft-notes-btn" onclick="showCFTab('notes')">NOTES</button>
+      <button class="tab-btn" id="cft-hist-btn" onclick="showCFTab('hist')">HISTORIQUE</button>
     </div>
 
     <!-- INFO TAB -->
@@ -859,8 +880,8 @@ footer{
       <div class="fg"><div class="fl">Téléphone</div><input type="text" id="cf-phone" class="fi"></div>
       <div class="fg"><div class="fl">Date de naissance</div><input type="date" id="cf-dob" class="fi"></div>
       <div class="fg"><div class="fl">Signe astrologique</div><input type="text" id="cf-sign" class="fi"></div>
-      <button class="btn-primary" style="background:rgba(204,68,255,0.2);border-color:rgba(204,68,255,0.4);color:var(--purple)" onclick="saveClientInfo()">💾 Sauvegarder</button>
-      <button class="btn-secondary btn-danger" onclick="deleteClientConfirm()" style="margin-top:8px;">🗑️ Supprimer ce client</button>
+      <button class="btn-primary" style="background:rgba(204,68,255,0.2);border-color:rgba(204,68,255,0.4);color:var(--purple)" onclick="saveClientInfo()">SAUVEGARDER</button>
+      <button class="btn-secondary btn-danger" onclick="deleteClientConfirm()" style="margin-top:8px;">SUPPRIMER CE CLIENT</button>
     </div>
 
     <!-- NOTES TAB -->
@@ -873,7 +894,7 @@ footer{
         <div class="fl">Notes privées</div>
         <textarea id="cf-notes" class="fta" style="min-height:80px" placeholder="Observations personnelles, à ne pas oublier..."></textarea>
       </div>
-      <button class="btn-primary" style="background:rgba(204,68,255,0.2);border-color:rgba(204,68,255,0.4);color:var(--purple)" onclick="saveClientNotes()">💾 Sauvegarder</button>
+      <button class="btn-primary" style="background:rgba(204,68,255,0.2);border-color:rgba(204,68,255,0.4);color:var(--purple)" onclick="saveClientNotes()">SAUVEGARDER</button>
     </div>
 
     <!-- HISTORY TAB -->
@@ -891,12 +912,12 @@ footer{
 <div class="overlay" id="summary-overlay" onclick="overlayClose(event,'summary-overlay')">
   <div class="drawer">
     <div class="drawer-handle"></div>
-    <div class="drawer-title" style="color:var(--teal)">📋 Résumé de consultation</div>
+    <div class="drawer-title" style="color:var(--teal)">RESUME DE CONSULTATION</div>
     <div id="summary-content">
       <div style="text-align:center;color:var(--text3);font-size:12px;padding:20px;">Génération en cours...</div>
     </div>
-    <button class="btn-primary" style="background:rgba(0,255,204,0.12);border-color:rgba(0,255,204,0.3);color:var(--teal);margin-top:10px" id="btn-save-summary" onclick="saveSummaryToClient()" style="display:none">💾 Sauvegarder dans la fiche client</button>
-    <button class="btn-secondary" onclick="copySummary()" style="margin-top:6px">📋 Copier le résumé</button>
+    <button class="btn-primary" style="background:rgba(0,255,204,0.12);border-color:rgba(0,255,204,0.3);color:var(--teal);margin-top:10px" id="btn-save-summary" onclick="saveSummaryToClient()" style="display:none">SAUVEGARDER DANS LA FICHE</button>
+    <button class="btn-secondary" onclick="copySummary()" style="margin-top:6px">COPIER LE RESUME</button>
   </div>
 </div>
 
@@ -905,10 +926,10 @@ footer{
 ══════════════════════════════════════════════ -->
 <div class="mini-overlay" id="dob-overlay" onclick="miniClose(event,'dob-overlay')">
   <div class="mini-box">
-    <div class="mini-title" style="color:var(--pink)">🎂 Analyse date de naissance <button class="mini-close" onclick="closeOverlay('dob-overlay')">✕</button></div>
+    <div class="mini-title" style="color:var(--pink)">ANALYSE DATE DE NAISSANCE <button class="mini-close" onclick="closeOverlay('dob-overlay')">✕</button></div>
     <div class="fg"><div class="fl">Date de naissance du client</div><input type="date" id="dob-input" class="fi"></div>
     <div class="fg"><div class="fl">Prénom (optionnel)</div><input type="text" id="dob-name" class="fi" placeholder="Marie"></div>
-    <button class="btn-primary" style="background:rgba(255,51,153,0.15);border-color:rgba(255,51,153,0.3);color:var(--pink)" onclick="runDOBAnalysis()">🔮 Analyser</button>
+    <button class="btn-primary" style="background:rgba(255,51,153,0.15);border-color:rgba(255,51,153,0.3);color:var(--pink)" onclick="runDOBAnalysis()">ANALYSER</button>
   </div>
 </div>
 
@@ -917,9 +938,9 @@ footer{
 ══════════════════════════════════════════════ -->
 <div class="mini-overlay" id="freetext-overlay" onclick="miniClose(event,'freetext-overlay')">
   <div class="mini-box">
-    <div class="mini-title" style="color:var(--orange)">✍️ Ma question <button class="mini-close" onclick="closeOverlay('freetext-overlay')">✕</button></div>
+    <div class="mini-title" style="color:var(--orange)">MA QUESTION <button class="mini-close" onclick="closeOverlay('freetext-overlay')">✕</button></div>
     <div class="fg"><textarea id="ft-input" class="fta" style="min-height:80px" placeholder="Ex: Comment conclure cette consultation ? Que dire pour rassurer cette personne ? Propose une phrase percutante sur son travail..."></textarea></div>
-    <button class="btn-primary" style="background:rgba(255,136,0,0.15);border-color:rgba(255,136,0,0.3);color:var(--orange)" onclick="runFreeText()">⚡ Répondre</button>
+    <button class="btn-primary" style="background:rgba(255,136,0,0.15);border-color:rgba(255,136,0,0.3);color:var(--orange)" onclick="runFreeText()">REPONDRE</button>
   </div>
 </div>
 
@@ -983,13 +1004,21 @@ const DEFAULT_SERVICES = `• Consultation téléphone : 15€/10min — 22€/2
 • Compatibilité amoureuse — analyse des liens karmiques entre deux personnes`;
 
 const MODELS = {
+  groq: [
+    {v:'llama-3.3-70b-versatile',l:'Llama 3.3 70B — GRATUIT (recommande)'},
+    {v:'llama-3.1-8b-instant',l:'Llama 3.1 8B Instant — GRATUIT rapide'},
+    {v:'mixtral-8x7b-32768',l:'Mixtral 8x7B — GRATUIT'},
+    {v:'gemma2-9b-it',l:'Gemma 2 9B — GRATUIT'},
+  ],
   openrouter: [
-    {v:'meta-llama/llama-3.3-70b-instruct:free',l:'Llama 3.3 70B (Gratuit)'},
-    {v:'meta-llama/llama-3.1-8b-instruct:free',l:'Llama 3.1 8B (Gratuit rapide)'},
-    {v:'google/gemma-3-27b-it:free',l:'Gemma 3 27B (Gratuit)'},
-    {v:'mistralai/mistral-7b-instruct:free',l:'Mistral 7B (Gratuit)'},
-    {v:'openai/gpt-4o-mini',l:'GPT-4o Mini (Payant)'},
-    {v:'anthropic/claude-3.5-haiku',l:'Claude 3.5 Haiku (Payant)'},
+    {v:'meta-llama/llama-3.3-70b-instruct:free',l:'Llama 3.3 70B — GRATUIT'},
+    {v:'deepseek/deepseek-r1:free',l:'DeepSeek R1 — GRATUIT (tres puissant)'},
+    {v:'google/gemini-2.0-flash-exp:free',l:'Gemini 2.0 Flash — GRATUIT'},
+    {v:'meta-llama/llama-3.1-8b-instruct:free',l:'Llama 3.1 8B — GRATUIT rapide'},
+    {v:'mistralai/mistral-7b-instruct:free',l:'Mistral 7B — GRATUIT'},
+    {v:'google/gemma-3-27b-it:free',l:'Gemma 3 27B — GRATUIT'},
+    {v:'openai/gpt-4o-mini',l:'GPT-4o Mini (payant)'},
+    {v:'anthropic/claude-3.5-haiku',l:'Claude 3.5 Haiku (payant)'},
   ],
   openai: [
     {v:'gpt-4o-mini',l:'GPT-4o Mini'},
@@ -1000,27 +1029,22 @@ const MODELS = {
     {v:'claude-3-5-haiku-20241022',l:'Claude 3.5 Haiku (rapide)'},
     {v:'claude-3-5-sonnet-20241022',l:'Claude 3.5 Sonnet'},
   ],
-  groq: [
-    {v:'llama-3.3-70b-versatile',l:'Llama 3.3 70B (ultra-rapide)'},
-    {v:'llama-3.1-8b-instant',l:'Llama 3.1 8B Instant'},
-    {v:'mixtral-8x7b-32768',l:'Mixtral 8x7B'},
-  ],
-  custom: [{v:'custom',l:'Modèle personnalisé'}]
+  custom: [{v:'custom',l:'Modele personnalise'}]
 };
 
 const PROVIDER_HINTS = {
-  openrouter: 'Créez votre clé gratuite sur <strong style="color:var(--cyan)">openrouter.ai</strong> → Keys',
-  openai:     'Clé API sur <strong style="color:var(--cyan)">platform.openai.com</strong> → API Keys',
-  anthropic:  'Clé API sur <strong style="color:var(--cyan)">console.anthropic.com</strong> → API Keys',
-  groq:       'Clé API gratuite sur <strong style="color:var(--cyan)">console.groq.com</strong> → API Keys',
-  custom:     'Entrez l\'URL complète de votre endpoint compatible OpenAI'
+  groq:       'Cle gratuite sur <strong style="color:var(--cyan)">console.groq.com</strong> &rarr; API Keys — aucune CB requise',
+  openrouter: 'Cle gratuite sur <strong style="color:var(--cyan)">openrouter.ai</strong> &rarr; Keys — aucune CB requise',
+  openai:     'Cle API sur <strong style="color:var(--cyan)">platform.openai.com</strong> &rarr; API Keys',
+  anthropic:  'Cle API sur <strong style="color:var(--cyan)">console.anthropic.com</strong> &rarr; API Keys',
+  custom:     'Entrez l\'URL complete de votre endpoint compatible OpenAI'
 };
 
 /* ─────────────────── CONFIG ─────────────────── */
 const cfg = {
-  get provider()    { return ls('ma_provider')    || 'openrouter'; },
+  get provider()    { return ls('ma_provider')    || 'groq'; },
   get apiKey()      { return ls('ma_apikey')       || ''; },
-  get model()       { return ls('ma_model')        || 'meta-llama/llama-3.3-70b-instruct:free'; },
+  get model()       { return ls('ma_model')        || 'llama-3.3-70b-versatile'; },
   get customUrl()   { return ls('ma_custom_url')   || ''; },
   get workerUrl()   { return ls('ma_worker_url')   || ''; },
   get workerToken() { return ls('ma_worker_token') || ''; },
@@ -1113,7 +1137,7 @@ function stopListening(){
 
 function toggleListening(){ S.listening ? stopListening() : startListening(); }
 function forceSuggest(){
-  if(!S.transcript.trim()){ toast('⚠️ Aucune transcription','warn'); return; }
+  if(!S.transcript.trim()){ toast('Aucune transcription','warn'); return; }
   clearTimeout(S.debounce);
   getSuggestion();
 }
@@ -1156,12 +1180,12 @@ function checkSpeaker(){
   const nameEl = document.getElementById('speaker-name');
   if(avg > 0.70){
     label.className='speaker-chip chip-you';
-    label.textContent='🎤 Frederick';
+    label.textContent='MIC — Frederick';
     nameEl.textContent='(suggestions en pause)';
   } else if(avg < 0.40){
     label.className='speaker-chip chip-client';
     const cn = S.activeClient?.name || 'Client';
-    label.textContent=`🎧 ${cn}`;
+    label.textContent=`ECT — ${cn}`;
     nameEl.textContent='(analyse active)';
   } else {
     label.className='speaker-chip chip-unknown';
@@ -1180,6 +1204,7 @@ function cosineSim(a, b){
 
 /* ─────────────────── VOICE ENROLLMENT ─────────────────── */
 let enrollStream=null, enrollCtx=null, enrollSamples=[];
+let enrollMediaRecorder=null, enrollAudioChunks=[], enrollAudioBlob=null;
 
 async function startVoiceEnrollment(){
   const btn = document.getElementById('btn-voice-record');
@@ -1187,19 +1212,38 @@ async function startVoiceEnrollment(){
   const ring = document.getElementById('voice-ring');
   const statusEl = document.getElementById('voice-status');
   const bar = document.getElementById('voice-progress-bar');
-  enrollSamples = [];
+  const playbackDiv = document.getElementById('voice-playback');
+  const validateBtn = document.getElementById('btn-voice-validate');
+  enrollSamples = []; enrollAudioChunks = []; enrollAudioBlob = null;
+  playbackDiv.classList.remove('show');
+  validateBtn.style.display='none';
 
   try{
     enrollStream = await navigator.mediaDevices.getUserMedia({audio:true});
+
+    // FFT analyser for voice profile
     enrollCtx = new (window.AudioContext||window.webkitAudioContext)();
     const src = enrollCtx.createMediaStreamSource(enrollStream);
     const analyser = enrollCtx.createAnalyser();
     analyser.fftSize = 256;
     src.connect(analyser);
 
+    // MediaRecorder for playback audio
+    enrollMediaRecorder = new MediaRecorder(enrollStream);
+    enrollMediaRecorder.ondataavailable = e => { if(e.data.size>0) enrollAudioChunks.push(e.data); };
+    enrollMediaRecorder.onstop = () => {
+      enrollAudioBlob = new Blob(enrollAudioChunks, {type:'audio/webm'});
+      const url = URL.createObjectURL(enrollAudioBlob);
+      document.getElementById('voice-audio').src = url;
+      playbackDiv.classList.add('show');
+      validateBtn.style.display='block';
+      statusEl.innerHTML = '<span class="voice-done-text">Enregistrement termine. Ecoutez votre voix ci-dessous, puis validez.</span>';
+    };
+    enrollMediaRecorder.start();
+
     ring.classList.add('recording');
-    ring.textContent = '🎙️';
-    statusEl.innerHTML = '<strong style="color:var(--pink)">Parlez maintenant...</strong>';
+    ring.textContent = 'REC';
+    statusEl.innerHTML = '<strong style="color:var(--pink)">Parlez maintenant... (15 secondes)</strong>';
 
     const total = 15000, interval = 100;
     let elapsed = 0;
@@ -1211,52 +1255,69 @@ async function startVoiceEnrollment(){
       enrollSamples.push(Array.from(data));
       if(elapsed >= total){
         clearInterval(timer);
-        finishEnrollment(ring, statusEl, btn);
+        enrollMediaRecorder.stop();
+        ring.classList.remove('recording');
+        ring.textContent = 'OK';
+        if(enrollStream){ enrollStream.getTracks().forEach(t=>t.stop()); enrollStream=null; }
+        if(enrollCtx){ enrollCtx.close(); enrollCtx=null; }
+        btn.disabled = false;
       }
     }, interval);
 
   }catch(e){
-    statusEl.innerHTML = '<span style="color:var(--red)">Accès micro refusé.</span>';
+    statusEl.innerHTML = '<span style="color:var(--red)">Acces micro refuse — verifiez les permissions Chrome.</span>';
     btn.disabled = false;
     ring.classList.remove('recording');
   }
 }
 
-async function finishEnrollment(ring, statusEl, btn){
-  ring.classList.remove('recording');
-  ring.textContent = '✅';
+async function validateVoiceProfile(){
+  if(!enrollSamples.length){ toast('Enregistrez votre voix d\'abord','warn'); return; }
 
-  // Average FFT across all samples
+  // Average FFT
   const bins = enrollSamples[0].length;
   const avgFft = Array(bins).fill(0);
   enrollSamples.forEach(s => s.forEach((v,i) => avgFft[i]+=v));
   avgFft.forEach((_,i) => avgFft[i] /= enrollSamples.length);
 
-  const profile = { fft: avgFft, recordedAt: new Date().toISOString() };
+  // Save audio as base64 for future playback
+  let audioBase64 = '';
+  if(enrollAudioBlob){
+    const reader = new FileReader();
+    audioBase64 = await new Promise(res => {
+      reader.onloadend = () => res(reader.result);
+      reader.readAsDataURL(enrollAudioBlob);
+    });
+  }
+
+  const profile = {
+    fft: avgFft,
+    audioBase64,
+    recordedAt: new Date().toISOString()
+  };
   ls('ma_voice', JSON.stringify(profile));
+  await workerRequest('PUT', '/voice', {fft: avgFft, recordedAt: profile.recordedAt});
 
-  // Save to Worker if available
-  await workerRequest('PUT', '/voice', profile);
-
-  statusEl.innerHTML = '<span class="voice-done-text">✅ Profil vocal enregistré avec succès !</span>';
-  document.getElementById('s-voice-status-txt').textContent = 'Profil vocal enregistré le '+new Date().toLocaleDateString('fr-FR');
+  document.getElementById('s-voice-status-txt').textContent =
+    'Profil vocal enregistre le ' + new Date(profile.recordedAt).toLocaleDateString('fr-FR');
   document.getElementById('btn-voice-delete').style.display = 'block';
-
-  if(enrollStream){ enrollStream.getTracks().forEach(t=>t.stop()); enrollStream=null; }
-  if(enrollCtx){ enrollCtx.close(); enrollCtx=null; }
-  btn.disabled = false;
+  document.getElementById('voice-status').innerHTML = '<span class="voice-done-text">Profil vocal sauvegarde definitvement.</span>';
+  document.getElementById('btn-voice-validate').style.display = 'none';
+  toast('Profil vocal sauvegarde');
 }
 
 async function deleteVoiceProfile(){
   if(!confirm('Supprimer votre profil vocal ?')) return;
   ls('ma_voice','');
   await workerRequest('DELETE', '/voice');
-  document.getElementById('s-voice-status-txt').textContent = 'Aucun profil vocal enregistré.';
+  document.getElementById('s-voice-status-txt').textContent = 'Aucun profil vocal enregistre.';
   document.getElementById('btn-voice-delete').style.display = 'none';
   document.getElementById('voice-status').textContent = '';
-  document.getElementById('voice-ring').textContent = '🎤';
+  document.getElementById('voice-ring').textContent = 'MIC';
   document.getElementById('voice-progress-bar').style.width='0%';
-  toast('🗑️ Profil vocal supprimé');
+  document.getElementById('voice-playback').classList.remove('show');
+  document.getElementById('btn-voice-validate').style.display='none';
+  toast('Profil vocal supprime');
 }
 
 /* ─────────────────── AI API ─────────────────── */
@@ -1302,7 +1363,7 @@ function buildSysPrompt(){
 }
 
 async function callAI(userMsg, maxTokens=600, customSys=null){
-  if(!cfg.apiKey){ toast('⚠️ Clé API manquante — Paramètres ⚙️','warn'); return null; }
+  if(!cfg.apiKey){ toast('Cle API manquante — ouvrez CFG','warn'); return null; }
   const sys = customSys || buildSysPrompt();
   const body = {
     model: cfg.model,
@@ -1366,7 +1427,7 @@ function renderResponse(d){
   if(d.contexte){
     const cc = document.getElementById('context-card');
     cc.classList.add('show');
-    document.getElementById('context-text').textContent = '🧿 ' + d.contexte;
+    document.getElementById('context-text').textContent = '[' + d.contexte + ']';
   }
   const alertEl = document.getElementById('alert-card');
   if(d.alerte){
@@ -1377,7 +1438,7 @@ function renderResponse(d){
   const oppEl = document.getElementById('opp-card');
   if(d.opportunite){
     S.currentOpp = d.opportunite;
-    document.getElementById('opp-service').textContent = '🔮 '+d.opportunite.service;
+    document.getElementById('opp-service').textContent = d.opportunite.service;
     document.getElementById('opp-price').textContent = d.opportunite.prix;
     document.getElementById('opp-why').textContent = d.opportunite.pourquoi;
     oppEl.classList.add('show');
@@ -1411,7 +1472,7 @@ JSON: {"phrases":["phrase 1","phrase 2","phrase 3"]}`;
       const div = document.createElement('div');
       div.className = 'conv-phrase';
       div.innerHTML = `<div class="conv-num">OPTION ${i+1}</div><div>${p}</div>`;
-      div.onclick = () => { navigator.clipboard?.writeText(p).catch(()=>{}); toast('📋 Copié !'); };
+      div.onclick = () => { navigator.clipboard?.writeText(p).catch(()=>{}); toast('Copie'); };
       container.appendChild(div);
     });
     document.getElementById('conv-panel').classList.add('show');
@@ -1448,7 +1509,7 @@ JSON: {"suggestion":"...","contexte":"...","alerte":null,"opportunite":null}`,
 };
 
 async function quickAction(type){
-  if(!S.listening && !S.transcript){ toast('⚠️ Démarrez l\'écoute d\'abord','warn'); return; }
+  if(!S.listening && !S.transcript){ toast('Demarrez l\'ecoute d\'abord','warn'); return; }
   S.processing = true;
   setStatus('processing');
   setSuggestionLoading(true);
@@ -1475,7 +1536,7 @@ function openDOB(){
 
 async function runDOBAnalysis(){
   const dob = document.getElementById('dob-input').value;
-  if(!dob){ toast('⚠️ Entrez une date de naissance','warn'); return; }
+  if(!dob){ toast('Entrez une date de naissance','warn'); return; }
   closeOverlay('dob-overlay');
   S.processing = true; setStatus('processing'); setSuggestionLoading(true);
   const name = document.getElementById('dob-name').value || 'le client';
@@ -1502,7 +1563,7 @@ function openFreeText(){ document.getElementById('ft-input').value=''; document.
 
 async function runFreeText(){
   const q = document.getElementById('ft-input').value.trim();
-  if(!q){ toast('⚠️ Écrivez votre question','warn'); return; }
+  if(!q){ toast('Ecrivez votre question','warn'); return; }
   closeOverlay('freetext-overlay');
   S.processing=true; setStatus('processing'); setSuggestionLoading(true);
   const msg = `Transcription de l'appel: "${S.transcript.slice(-600)||'Début de consultation'}"
@@ -1524,7 +1585,7 @@ JSON: {"suggestion":"...","contexte":"...","alerte":null,"opportunite":null}`;
 
 /* ─────────────────── SUMMARY ─────────────────── */
 async function generateSummary(){
-  if(!S.transcript.trim()){ toast('⚠️ Aucune transcription à résumer','warn'); return; }
+  if(!S.transcript.trim()){ toast('Aucune transcription a resumer','warn'); return; }
   openOverlay('summary-overlay');
   document.getElementById('summary-content').innerHTML = '<div style="text-align:center;color:var(--text3);font-size:12px;padding:20px;">⏳ Génération du résumé...</div>';
   document.getElementById('btn-save-summary').style.display='none';
@@ -1548,11 +1609,11 @@ Génère un résumé structuré professionnel. JSON UNIQUEMENT :
   S.currentSummary = data;
   const container = document.getElementById('summary-content');
   container.innerHTML = `
-    <div class="sum-section"><div class="sum-title">📋 RÉSUMÉ</div><div class="sum-text">${data.resume||''}</div></div>
-    ${data.points_forts?.length?`<div class="sum-section"><div class="sum-title">⭐ POINTS FORTS</div><div class="kp-list">${data.points_forts.map(p=>`<span class="kp-badge">${p}</span>`).join('')}</div></div>`:''}
-    ${data.themes?.length?`<div class="sum-section"><div class="sum-title">🔮 THÈMES</div><div class="kp-list">${data.themes.map(t=>`<span class="kp-badge">${t}</span>`).join('')}</div></div>`:''}
-    ${data.services_abordes?.length?`<div class="sum-section"><div class="sum-title">💼 SERVICES ABORDÉS</div><div class="kp-list">${data.services_abordes.map(s=>`<span class="kp-badge">${s}</span>`).join('')}</div></div>`:''}
-    ${data.recommandations?`<div class="sum-section"><div class="sum-title">📌 PROCHAINE FOIS</div><div class="sum-text">${data.recommandations}</div></div>`:''}
+    <div class="sum-section"><div class="sum-title">RESUME</div><div class="sum-text">${data.resume||''}</div></div>
+    ${data.points_forts?.length?`<div class="sum-section"><div class="sum-title">POINTS FORTS</div><div class="kp-list">${data.points_forts.map(p=>`<span class="kp-badge">${p}</span>`).join('')}</div></div>`:''}
+    ${data.themes?.length?`<div class="sum-section"><div class="sum-title">THEMES</div><div class="kp-list">${data.themes.map(t=>`<span class="kp-badge">${t}</span>`).join('')}</div></div>`:''}
+    ${data.services_abordes?.length?`<div class="sum-section"><div class="sum-title">SERVICES ABORDES</div><div class="kp-list">${data.services_abordes.map(s=>`<span class="kp-badge">${s}</span>`).join('')}</div></div>`:''}
+    ${data.recommandations?`<div class="sum-section"><div class="sum-title">PROCHAINE FOIS</div><div class="sum-text">${data.recommandations}</div></div>`:''}
   `;
   if(S.activeClient) document.getElementById('btn-save-summary').style.display='block';
 }
@@ -1571,14 +1632,14 @@ async function saveSummaryToClient(){
   if(r){
     // Update local client
     S.activeClient.consultations = [r, ...(S.activeClient.consultations||[])];
-    toast('✅ Résumé sauvegardé dans la fiche');
+    toast('Resume sauvegarde dans la fiche');
     closeOverlay('summary-overlay');
   } else {
     // Fallback: save locally
     const lc = JSON.parse(ls(`ma_client_${cid}`)||'{}');
     lc.consultations = [{...payload, date: new Date().toISOString(), cid:`c_${Date.now()}`}, ...(lc.consultations||[])];
     ls(`ma_client_${cid}`, JSON.stringify(lc));
-    toast('✅ Sauvegardé localement');
+    toast('Sauvegarde localement');
     closeOverlay('summary-overlay');
   }
 }
@@ -1587,7 +1648,7 @@ function copySummary(){
   if(!S.currentSummary) return;
   const txt = `Résumé consultation — ${new Date().toLocaleDateString('fr-FR')}\n${S.activeClient?`Client: ${S.activeClient.name}\n`:''}\n${S.currentSummary.resume}\n\nPoints forts: ${(S.currentSummary.points_forts||[]).join(', ')}\nThèmes: ${(S.currentSummary.themes||[]).join(', ')}\nRecommandations: ${S.currentSummary.recommandations||''}`;
   navigator.clipboard?.writeText(txt).catch(()=>{});
-  toast('📋 Résumé copié');
+  toast('Resume copie');
 }
 
 /* ─────────────────── CLOUDFLARE WORKER ─────────────────── */
@@ -1632,12 +1693,12 @@ function renderClientList(){
   }
   container.innerHTML = filtered.map(c => `
     <div class="client-item ${S.activeClient?.id===c.id?'active':''}" onclick="selectClient('${c.id}')">
-      <div class="ci-avatar">👤</div>
+      <div class="ci-avatar" style="font-family:Orbitron,monospace;font-size:9px;font-weight:900;color:var(--purple);">CLT</div>
       <div class="ci-info">
         <div class="ci-name">${c.name}</div>
         <div class="ci-detail">${c.phone||''} ${c.birthdate?'· '+new Date(c.birthdate).toLocaleDateString('fr-FR'):''}</div>
       </div>
-      <div class="ci-badge">📋</div>
+      <div class="ci-badge">+</div>
     </div>
   `).join('');
 }
@@ -1656,7 +1717,7 @@ async function selectClient(id){
   S.activeClient = client;
   updateClientBanner();
   closeOverlay('client-overlay');
-  toast(`👤 Client : ${client.name}`);
+  toast('Client : ' + client.name);
   renderClientList();
 }
 
@@ -1677,7 +1738,7 @@ function updateClientBanner(){
 
 async function createClient(){
   const name = document.getElementById('nc-name').value.trim();
-  if(!name){ toast('⚠️ Nom requis','warn'); return; }
+  if(!name){ toast('Nom requis','warn'); return; }
   const payload = {
     name,
     phone: document.getElementById('nc-phone').value.trim(),
@@ -1701,14 +1762,14 @@ async function createClient(){
   S.activeClient = client;
   updateClientBanner();
   closeOverlay('client-overlay');
-  toast(`✅ Client créé : ${name}`);
+  toast('Client cree : ' + name);
 }
 
 /* ─────────────────── CLIENT FILE ─────────────────── */
 function openClientFile(){
   if(!S.activeClient) return;
   const c = S.activeClient;
-  document.getElementById('cf-title').textContent = `📋 ${c.name}`;
+  document.getElementById('cf-title').textContent = `FICHE — ${c.name}`;
   document.getElementById('cf-name').value = c.name||'';
   document.getElementById('cf-phone').value = c.phone||'';
   document.getElementById('cf-dob').value = c.birthdate||'';
@@ -1740,7 +1801,7 @@ function renderConsultHistory(){
 function loadConsultContext(cid){
   const c = S.activeClient?.consultations?.find(x=>x.cid===cid);
   if(!c) return;
-  toast('📖 Contexte chargé pour cette consultation');
+  toast('Contexte charge');
   closeOverlay('clientfile-overlay');
 }
 
@@ -1756,7 +1817,7 @@ async function saveClientInfo(){
   await workerRequest('PUT',`/clients/${S.activeClient.id}`,S.activeClient);
   ls(`ma_client_${S.activeClient.id}`, JSON.stringify(S.activeClient));
   updateClientBanner();
-  toast('✅ Infos sauvegardées');
+  toast('Infos sauvegardees');
 }
 
 async function saveClientNotes(){
@@ -1765,7 +1826,7 @@ async function saveClientNotes(){
   S.activeClient.notes   = document.getElementById('cf-notes').value.trim();
   await workerRequest('PUT',`/clients/${S.activeClient.id}`,S.activeClient);
   ls(`ma_client_${S.activeClient.id}`, JSON.stringify(S.activeClient));
-  toast('✅ Notes sauvegardées');
+  toast('Notes sauvegardees');
 }
 
 async function deleteClientConfirm(){
@@ -1777,7 +1838,7 @@ async function deleteClientConfirm(){
   ls(`ma_client_${S.activeClient.id}`,'');
   deselectClient();
   closeOverlay('clientfile-overlay');
-  toast('🗑️ Client supprimé');
+  toast('Client supprime');
 }
 
 function showCFTab(t){
@@ -1810,22 +1871,21 @@ function saveSettings(){
   ls('ma_services',   document.getElementById('s-services').value.trim());
   ls('ma_lang',       document.getElementById('s-lang').value);
   closeOverlay('settings-overlay');
-  toast('✅ Paramètres sauvegardés');
+  toast('Parametres sauvegardes');
 }
 
 function resetPrompt(){
   if(confirm('Restaurer les paramètres par défaut du prompt et des services ?')){
     ls('ma_sys_prompt', DEFAULT_SYSTEM_PROMPT);
     ls('ma_services', DEFAULT_SERVICES);
-    toast('↺ Prompt restauré');
+    toast('Prompt restaure');
   }
 }
 
 function openSettingsDrawer(){
-  document.getElementById('s-provider').value = cfg.provider;
+  document.getElementById('s-provider').value = cfg.provider || 'groq';
   updateProviderUI();
   document.getElementById('s-apikey').value = cfg.apiKey;
-  const models = MODELS[cfg.provider]||[];
   const sel = document.getElementById('s-model');
   Array.from(sel.options).forEach(o=>{if(o.value===cfg.model)o.selected=true;});
   document.getElementById('s-custom-url').value = cfg.customUrl;
@@ -1836,8 +1896,8 @@ function openSettingsDrawer(){
   document.getElementById('s-lang').value = cfg.lang;
   const vp = cfg.voiceProfile;
   document.getElementById('s-voice-status-txt').textContent = vp
-    ? `✅ Profil vocal enregistré le ${new Date(vp.recordedAt).toLocaleDateString('fr-FR')}`
-    : 'Aucun profil vocal enregistré.';
+    ? `Profil vocal enregistre le ${new Date(vp.recordedAt).toLocaleDateString('fr-FR')}`
+    : 'Aucun profil vocal enregistre.';
   openOverlay('settings-overlay');
 }
 
@@ -1859,8 +1919,8 @@ function setStatus(s){
 function setMicUI(active){
   const btn = document.getElementById('btn-mic');
   btn.className = active ? 'active' : 'idle';
-  document.getElementById('mic-icon').textContent = active ? '⏹️' : '🎙️';
-  document.getElementById('mic-txt').textContent   = active ? 'ARRÊTER L\'ÉCOUTE' : 'DÉMARRER L\'ÉCOUTE';
+  document.getElementById('mic-icon').textContent = active ? 'STOP' : 'REC';
+  document.getElementById('mic-txt').textContent   = active ? "ARRETER L'ECOUTE" : "DEMARRER L'ECOUTE";
 }
 
 function showSessionUI(){
@@ -1894,7 +1954,7 @@ function clearAll(){
   document.getElementById('opp-card').classList.remove('show');
   document.getElementById('conv-panel').classList.remove('show');
   document.getElementById('conv-phrases').innerHTML='';
-  toast('🗑️ Session effacée');
+  toast('Session effacee');
 }
 
 function toast(msg, type='ok'){
@@ -1911,13 +1971,31 @@ function overlayClose(e, id){ if(e.target.id===id) closeOverlay(id); }
 function miniClose(e, id){ if(e.target.id===id) closeOverlay(id); }
 function openVoiceOverlay(){
   const vp = cfg.voiceProfile;
-  document.getElementById('btn-voice-delete').style.display = vp?'block':'none';
-  document.getElementById('voice-status').innerHTML = vp
-    ? `<span class="voice-done-text">✅ Profil existant enregistré le ${new Date(vp.recordedAt).toLocaleDateString('fr-FR')}</span>`
-    : '';
+  const deleteBtn = document.getElementById('btn-voice-delete');
+  const statusEl = document.getElementById('voice-status');
+  const playbackDiv = document.getElementById('voice-playback');
+  const validateBtn = document.getElementById('btn-voice-validate');
+
+  deleteBtn.style.display = vp ? 'block' : 'none';
+  validateBtn.style.display = 'none';
+
+  if(vp){
+    statusEl.innerHTML = `<span class="voice-done-text">Profil enregistre le ${new Date(vp.recordedAt).toLocaleDateString('fr-FR')}</span>`;
+    // Restore audio if saved
+    if(vp.audioBase64){
+      document.getElementById('voice-audio').src = vp.audioBase64;
+      playbackDiv.classList.add('show');
+    } else {
+      playbackDiv.classList.remove('show');
+    }
+  } else {
+    statusEl.innerHTML = '';
+    playbackDiv.classList.remove('show');
+  }
+
   document.getElementById('voice-progress-bar').style.width='0%';
   document.getElementById('voice-ring').classList.remove('recording');
-  document.getElementById('voice-ring').textContent='🎤';
+  document.getElementById('voice-ring').textContent = vp ? 'OK' : 'MIC';
   closeOverlay('settings-overlay');
   openOverlay('voice-overlay');
 }
@@ -1942,18 +2020,19 @@ document.getElementById('btn-settings-open').addEventListener('click', openSetti
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
   if(!SR){ document.getElementById('no-support').classList.add('show'); return; }
 
-  // First run → open settings
   if(!cfg.apiKey){
     setTimeout(()=>{
       openSettingsDrawer();
-      toast('👋 Bienvenue ! Configurez votre clé API pour démarrer','warn');
+      toast('Bienvenue — configurez votre cle API Groq (gratuit) pour demarrer','warn');
     }, 900);
   }
 
-  // Try to load voice profile from Worker
   if(cfg.workerUrl){
     workerRequest('GET','/voice').then(p=>{
-      if(p?.fft) ls('ma_voice', JSON.stringify(p));
+      if(p?.fft){
+        const existing = cfg.voiceProfile;
+        if(!existing?.fft) ls('ma_voice', JSON.stringify(p));
+      }
     });
   }
 })();
