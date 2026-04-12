@@ -324,9 +324,9 @@ footer{
 }
 #btn-mic{
   flex:1;height:50px;border-radius:12px;border:none;cursor:pointer;
-  font-family:'Inter',sans-serif;font-size:13px;font-weight:800;letter-spacing:0.5px;
+  font-family:'Inter',sans-serif;font-size:12px;font-weight:700;letter-spacing:1px;
   display:flex;align-items:center;justify-content:center;gap:8px;
-  transition:all 0.2s;
+  transition:all 0.2s;text-transform:uppercase;
 }
 #btn-mic.idle{
   background:rgba(0,207,255,0.1);color:var(--cyan);
@@ -334,14 +334,14 @@ footer{
 }
 #btn-mic.idle:hover{background:rgba(0,207,255,0.18);}
 #btn-mic.active{
-  background:linear-gradient(135deg,#0088bb,#00cfff);color:#000;
-  border:2px solid var(--cyan);
-  box-shadow:0 0 20px rgba(0,207,255,0.35);
-  animation:mic-pulse 2s ease-in-out infinite;
+  background:linear-gradient(135deg,#990000,#cc0000);color:#fff;
+  border:2px solid #ff3333;
+  box-shadow:0 0 20px rgba(255,50,50,0.5),0 0 40px rgba(255,50,50,0.2);
+  animation:mic-pulse-red 2s ease-in-out infinite;
 }
-@keyframes mic-pulse{
-  0%,100%{box-shadow:0 0 20px rgba(0,207,255,0.35);}
-  50%{box-shadow:0 0 35px rgba(0,207,255,0.6);}
+@keyframes mic-pulse-red{
+  0%,100%{box-shadow:0 0 20px rgba(255,50,50,0.5),0 0 40px rgba(255,50,50,0.2);}
+  50%{box-shadow:0 0 35px rgba(255,50,50,0.8),0 0 60px rgba(255,50,50,0.35);}
 }
 .fbtn{
   width:50px;height:50px;border-radius:12px;border:none;cursor:pointer;
@@ -601,7 +601,11 @@ footer{
       <div class="s-dot"></div>
       <span id="status-txt">Veille</span>
     </div>
-    <button class="hbtn" id="btn-settings-open" title="Paramètres" style="font-size:11px;font-weight:800;letter-spacing:1px;">CFG</button>
+    <button class="hbtn" id="btn-settings-open" title="Parametres" style="padding:0;overflow:hidden;">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" style="display:block;">
+        <path d="M19.14 12.94c.04-.3.06-.61.06-.94s-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
+      </svg>
+    </button>
   </div>
 </header>
 
@@ -673,7 +677,7 @@ footer{
 
 <!-- QUICK ACTIONS -->
 <div id="quick-actions">
-  <div class="qa-label">ACTIONS</div>
+  <div class="qa-label" style="color:rgba(255,255,255,0.5);">ASSISTANT A LA CONSULTATION</div>
   <button class="qa-btn qa-1" onclick="quickAction('epate')">EPATE</button>
   <button class="qa-btn qa-2" onclick="quickAction('question')">QUESTION</button>
   <button class="qa-btn qa-3" onclick="quickAction('alerte')">ALERTE</button>
@@ -682,13 +686,14 @@ footer{
   <button class="qa-btn qa-6" onclick="quickAction('energie')">ENERGIE</button>
   <button class="qa-btn qa-7" onclick="openDOB()">DATE NAISS.</button>
   <button class="qa-btn qa-8" onclick="openFreeText()">MA QUESTION</button>
+  <button class="qa-btn" onclick="openEmailOverlay()" style="background:rgba(0,255,204,0.1);color:var(--teal);border:1px solid rgba(0,255,204,0.2);flex-shrink:0;">EMAIL</button>
 </div>
 
 <!-- FOOTER -->
 <footer>
   <button id="btn-mic" class="idle" onclick="toggleListening()">
-    <span id="mic-icon" style="font-size:11px;font-weight:900;letter-spacing:1px;">REC</span>
-    <span id="mic-txt">DEMARRER L'ECOUTE</span>
+    <span id="mic-icon" style="font-size:10px;font-weight:900;">●</span>
+    <span id="mic-txt">DEMARRER LA CONSULTATION</span>
   </button>
   <button class="fbtn" id="btn-force" onclick="forceSuggest()" disabled title="Forcer suggestion" style="font-size:9px;font-weight:900;letter-spacing:0.5px;">FORCE</button>
   <button class="fbtn" id="btn-summary" onclick="generateSummary()" title="Resume" style="font-size:9px;font-weight:900;letter-spacing:0.5px;">BILAN</button>
@@ -927,8 +932,14 @@ footer{
 <div class="mini-overlay" id="dob-overlay" onclick="miniClose(event,'dob-overlay')">
   <div class="mini-box">
     <div class="mini-title" style="color:var(--pink)">ANALYSE DATE DE NAISSANCE <button class="mini-close" onclick="closeOverlay('dob-overlay')">✕</button></div>
-    <div class="fg"><div class="fl">Date de naissance du client</div><input type="date" id="dob-input" class="fi"></div>
-    <div class="fg"><div class="fl">Prénom (optionnel)</div><input type="text" id="dob-name" class="fi" placeholder="Marie"></div>
+    <div class="fg">
+      <div class="fl">Date de naissance</div>
+      <input type="text" id="dob-input" class="fi" placeholder="15/03/1985" maxlength="10"
+        style="font-size:22px;font-weight:700;letter-spacing:3px;text-align:center;font-family:'JetBrains Mono',monospace;"
+        oninput="formatDOBInput(this)">
+      <div class="fhint">Tapez JJ/MM/AAAA — les / s'ajoutent automatiquement</div>
+    </div>
+    <div class="fg"><div class="fl">Prenom (optionnel)</div><input type="text" id="dob-name" class="fi" placeholder="Marie"></div>
     <button class="btn-primary" style="background:rgba(255,51,153,0.15);border-color:rgba(255,51,153,0.3);color:var(--pink)" onclick="runDOBAnalysis()">ANALYSER</button>
   </div>
 </div>
@@ -941,6 +952,60 @@ footer{
     <div class="mini-title" style="color:var(--orange)">MA QUESTION <button class="mini-close" onclick="closeOverlay('freetext-overlay')">✕</button></div>
     <div class="fg"><textarea id="ft-input" class="fta" style="min-height:80px" placeholder="Ex: Comment conclure cette consultation ? Que dire pour rassurer cette personne ? Propose une phrase percutante sur son travail..."></textarea></div>
     <button class="btn-primary" style="background:rgba(255,136,0,0.15);border-color:rgba(255,136,0,0.3);color:var(--orange)" onclick="runFreeText()">REPONDRE</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     EMAIL QUESTION OVERLAY
+══════════════════════════════════════════════ -->
+<div class="overlay" id="email-overlay" onclick="overlayClose(event,'email-overlay')">
+  <div class="drawer">
+    <div class="drawer-handle"></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+      <div class="drawer-title" style="color:var(--teal);margin-bottom:0;">QUESTION PAR EMAIL</div>
+      <button onclick="closeOverlay('email-overlay')" style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);border-radius:8px;color:var(--text2);font-size:13px;font-weight:800;padding:5px 12px;cursor:pointer;">FERMER ✕</button>
+    </div>
+
+    <!-- DIRECTIVES (sauvegardees automatiquement) -->
+    <div class="fg">
+      <div class="fl" style="color:var(--teal);">MES DIRECTIVES — style de reponse souhaite</div>
+      <textarea id="email-directives" class="fta" style="min-height:90px;border-color:rgba(0,255,204,0.15);"
+        placeholder="Ex: Repondre de maniere chaleureuse et spirituelle. Evoquer des symboles energetiques. Proposer une consultation approfondie si la question est complexe. Signer 'Frederick — Guide Spirituel ClairvoyanceMedium.com'. Ne jamais donner de conseils medicaux..."
+        oninput="saveEmailDirectives()"></textarea>
+      <div class="fhint" style="color:rgba(0,255,204,0.4);">Ces directives sont sauvegardees automatiquement et restent d'une session a l'autre.</div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- QUESTION DU CLIENT -->
+    <div class="fg">
+      <div class="fl">QUESTION DU CLIENT PAR EMAIL</div>
+      <textarea id="email-question" class="fta" style="min-height:100px;" placeholder="Collez ici la question recue par email..."></textarea>
+    </div>
+
+    <button class="btn-primary" style="background:rgba(0,255,204,0.12);border-color:rgba(0,255,204,0.3);color:var(--teal)" onclick="generateEmailResponse()">
+      GENERER LA REPONSE
+    </button>
+
+    <!-- REPONSE GENEREE -->
+    <div id="email-response-section" style="display:none;margin-top:14px;">
+      <div class="divider"></div>
+      <div class="fl" style="color:var(--teal);margin-bottom:8px;">REPONSE A ENVOYER</div>
+      <div id="email-response-text" style="
+        background:rgba(0,255,204,0.04);
+        border:1px solid rgba(0,255,204,0.15);
+        border-radius:var(--r);
+        padding:14px;
+        font-size:13px;
+        line-height:1.7;
+        color:var(--text);
+        white-space:pre-wrap;
+        margin-bottom:10px;
+      "></div>
+      <button class="btn-primary" style="background:rgba(0,255,204,0.12);border-color:rgba(0,255,204,0.3);color:var(--teal)" onclick="copyEmailResponse()">
+        COPIER LA REPONSE
+      </button>
+    </div>
   </div>
 </div>
 
@@ -1005,29 +1070,37 @@ const DEFAULT_SERVICES = `• Consultation téléphone : 15€/10min — 22€/2
 
 const MODELS = {
   groq: [
-    {v:'llama-3.3-70b-versatile',l:'Llama 3.3 70B — GRATUIT (recommande)'},
-    {v:'llama-3.1-8b-instant',l:'Llama 3.1 8B Instant — GRATUIT rapide'},
-    {v:'mixtral-8x7b-32768',l:'Mixtral 8x7B — GRATUIT'},
-    {v:'gemma2-9b-it',l:'Gemma 2 9B — GRATUIT'},
+    {v:'llama-3.3-70b-versatile',      l:'Llama 3.3 70B Versatile — GRATUIT  (recommande, 128k context)'},
+    {v:'llama-3.1-70b-versatile',      l:'Llama 3.1 70B Versatile — GRATUIT  (128k context)'},
+    {v:'llama-3.1-8b-instant',         l:'Llama 3.1 8B Instant — GRATUIT  (tres rapide)'},
+    {v:'mixtral-8x7b-32768',           l:'Mixtral 8x7B — GRATUIT  (32k context)'},
+    {v:'gemma2-9b-it',                 l:'Gemma 2 9B — GRATUIT '},
   ],
   openrouter: [
-    {v:'meta-llama/llama-3.3-70b-instruct:free',l:'Llama 3.3 70B — GRATUIT'},
-    {v:'deepseek/deepseek-r1:free',l:'DeepSeek R1 — GRATUIT (tres puissant)'},
-    {v:'google/gemini-2.0-flash-exp:free',l:'Gemini 2.0 Flash — GRATUIT'},
-    {v:'meta-llama/llama-3.1-8b-instruct:free',l:'Llama 3.1 8B — GRATUIT rapide'},
-    {v:'mistralai/mistral-7b-instruct:free',l:'Mistral 7B — GRATUIT'},
-    {v:'google/gemma-3-27b-it:free',l:'Gemma 3 27B — GRATUIT'},
-    {v:'openai/gpt-4o-mini',l:'GPT-4o Mini (payant)'},
-    {v:'anthropic/claude-3.5-haiku',l:'Claude 3.5 Haiku (payant)'},
+    {v:'meta-llama/llama-3.3-70b-instruct:free',          l:'Llama 3.3 70B — GRATUIT  (128k context)'},
+    {v:'deepseek/deepseek-r1:free',                       l:'DeepSeek R1 — GRATUIT  (tres puissant, raisonnement)'},
+    {v:'deepseek/deepseek-chat:free',                     l:'DeepSeek V3 — GRATUIT  (128k context)'},
+    {v:'google/gemini-2.0-flash-exp:free',                l:'Gemini 2.0 Flash — GRATUIT  (1M context)'},
+    {v:'google/gemma-3-27b-it:free',                      l:'Gemma 3 27B — GRATUIT '},
+    {v:'mistralai/mistral-7b-instruct:free',              l:'Mistral 7B — GRATUIT '},
+    {v:'meta-llama/llama-3.1-8b-instruct:free',          l:'Llama 3.1 8B — GRATUIT  (rapide)'},
+    {v:'microsoft/phi-3-medium-128k-instruct:free',      l:'Phi-3 Medium 128k — GRATUIT '},
+    {v:'openai/gpt-4o',                                   l:'GPT-4o (payant — tres puissant)'},
+    {v:'openai/gpt-4o-mini',                              l:'GPT-4o Mini (payant — rapide)'},
+    {v:'anthropic/claude-3.5-sonnet',                     l:'Claude 3.5 Sonnet (payant — excellent)'},
+    {v:'anthropic/claude-3.5-haiku',                      l:'Claude 3.5 Haiku (payant — rapide)'},
+    {v:'google/gemini-pro-1.5',                           l:'Gemini Pro 1.5 (payant — 1M context)'},
   ],
   openai: [
-    {v:'gpt-4o-mini',l:'GPT-4o Mini'},
-    {v:'gpt-4o',l:'GPT-4o'},
-    {v:'gpt-3.5-turbo',l:'GPT-3.5 Turbo'},
+    {v:'gpt-4o',               l:'GPT-4o — le plus puissant'},
+    {v:'gpt-4o-mini',          l:'GPT-4o Mini — rapide et economique'},
+    {v:'gpt-4-turbo',          l:'GPT-4 Turbo — 128k context'},
+    {v:'gpt-3.5-turbo',        l:'GPT-3.5 Turbo — economique'},
   ],
   anthropic: [
-    {v:'claude-3-5-haiku-20241022',l:'Claude 3.5 Haiku (rapide)'},
-    {v:'claude-3-5-sonnet-20241022',l:'Claude 3.5 Sonnet'},
+    {v:'claude-3-5-sonnet-20241022',  l:'Claude 3.5 Sonnet — excellent (200k context)'},
+    {v:'claude-3-5-haiku-20241022',   l:'Claude 3.5 Haiku — rapide'},
+    {v:'claude-3-opus-20240229',      l:'Claude 3 Opus — le plus puissant'},
   ],
   custom: [{v:'custom',l:'Modele personnalise'}]
 };
@@ -1274,35 +1347,37 @@ async function startVoiceEnrollment(){
 async function validateVoiceProfile(){
   if(!enrollSamples.length){ toast('Enregistrez votre voix d\'abord','warn'); return; }
 
-  // Average FFT
+  // Average FFT (petite donnee, stockable en localStorage)
   const bins = enrollSamples[0].length;
   const avgFft = Array(bins).fill(0);
   enrollSamples.forEach(s => s.forEach((v,i) => avgFft[i]+=v));
   avgFft.forEach((_,i) => avgFft[i] /= enrollSamples.length);
 
-  // Save audio as base64 for future playback
-  let audioBase64 = '';
-  if(enrollAudioBlob){
-    const reader = new FileReader();
-    audioBase64 = await new Promise(res => {
-      reader.onloadend = () => res(reader.result);
-      reader.readAsDataURL(enrollAudioBlob);
-    });
-  }
-
   const profile = {
     fft: avgFft,
-    audioBase64,
     recordedAt: new Date().toISOString()
   };
-  ls('ma_voice', JSON.stringify(profile));
-  await workerRequest('PUT', '/voice', {fft: avgFft, recordedAt: profile.recordedAt});
 
+  // Sauvegarde localStorage (FFT uniquement — petit, fiable)
+  try {
+    ls('ma_voice', JSON.stringify(profile));
+  } catch(e) {
+    console.error('localStorage error:', e);
+    toast('Erreur sauvegarde locale — espace insuffisant ?', 'err');
+    return;
+  }
+
+  // Sauvegarde Worker si disponible
+  await workerRequest('PUT', '/voice', profile);
+
+  // Mise à jour UI
   document.getElementById('s-voice-status-txt').textContent =
     'Profil vocal enregistre le ' + new Date(profile.recordedAt).toLocaleDateString('fr-FR');
   document.getElementById('btn-voice-delete').style.display = 'block';
-  document.getElementById('voice-status').innerHTML = '<span class="voice-done-text">Profil vocal sauvegarde definitvement.</span>';
+  document.getElementById('voice-status').innerHTML =
+    '<span class="voice-done-text">Profil vocal sauvegarde avec succes. Vous pouvez fermer.</span>';
   document.getElementById('btn-voice-validate').style.display = 'none';
+  document.getElementById('btn-voice-record').textContent = 'NOUVEL ENREGISTREMENT';
   toast('Profil vocal sauvegarde');
 }
 
@@ -1529,26 +1604,47 @@ async function quickAction(type){
 
 /* ─────────────────── DATE OF BIRTH ─────────────────── */
 function openDOB(){
-  if(S.activeClient?.birthdate) document.getElementById('dob-input').value = S.activeClient.birthdate;
+  if(S.activeClient?.birthdate){
+    // Convertir format YYYY-MM-DD en JJ/MM/AAAA
+    const parts = S.activeClient.birthdate.split('-');
+    if(parts.length===3) document.getElementById('dob-input').value = `${parts[2]}/${parts[1]}/${parts[0]}`;
+  }
   if(S.activeClient?.name) document.getElementById('dob-name').value = S.activeClient.name;
   document.getElementById('dob-overlay').classList.add('show');
 }
 
+function formatDOBInput(el){
+  let v = el.value.replace(/\D/g,'');
+  if(v.length > 2) v = v.slice(0,2)+'/'+v.slice(2);
+  if(v.length > 5) v = v.slice(0,5)+'/'+v.slice(5);
+  el.value = v.slice(0,10);
+}
+
+function parseDOBText(str){
+  // Accepte JJ/MM/AAAA ou JJ-MM-AAAA ou AAAA-MM-JJ
+  const clean = str.trim();
+  const m1 = clean.match(/^(\d{1,2})[\/\-\.](\d{1,2})[\/\-\.](\d{4})$/);
+  if(m1) return new Date(parseInt(m1[3]), parseInt(m1[2])-1, parseInt(m1[1]));
+  const m2 = clean.match(/^(\d{4})[\/\-\.](\d{1,2})[\/\-\.](\d{1,2})$/);
+  if(m2) return new Date(parseInt(m2[1]), parseInt(m2[2])-1, parseInt(m2[3]));
+  return null;
+}
+
 async function runDOBAnalysis(){
-  const dob = document.getElementById('dob-input').value;
-  if(!dob){ toast('Entrez une date de naissance','warn'); return; }
+  const dobStr = document.getElementById('dob-input').value.trim();
+  if(!dobStr){ toast('Entrez une date de naissance','warn'); return; }
+  const d = parseDOBText(dobStr);
+  if(!d || isNaN(d.getTime())){ toast('Format invalide — utilisez JJ/MM/AAAA','warn'); return; }
   closeOverlay('dob-overlay');
-  S.processing = true; setStatus('processing'); setSuggestionLoading(true);
+  S.processing=true; setStatus('processing'); setSuggestionLoading(true);
   const name = document.getElementById('dob-name').value || 'le client';
-  const d = new Date(dob);
   const age = new Date().getFullYear() - d.getFullYear();
   const msg = `Date de naissance de ${name}: ${d.toLocaleDateString('fr-FR')} (${age} ans)
-Transcription de l'appel: "${S.transcript.slice(-600)||'Début de consultation'}"
+Transcription de l'appel: "${S.transcript.slice(-600)||'Debut de consultation'}"
 
-Fais une analyse médium professionnelle complète basée sur cette date : signe astrologique, thème natal simplifié, numérologie (chemin de vie, expression), traits de personnalité profonds, tendances énergétiques actuelles, points de vigilance. Intègre le contexte de l'appel. Crée l'effet waouh.
+Fais une analyse medium professionnelle complete basee sur cette date : signe astrologique, theme natal simplifie, numerologie (chemin de vie, expression), traits de personnalite profonds, tendances energetiques actuelles, points de vigilance. Integre le contexte de l'appel. Cree l'effet waouh.
 
 JSON: {"suggestion":"...","contexte":"Analyse date de naissance","alerte":null,"opportunite":null}`;
-
   try{
     const raw = await callAI(msg, 700);
     const data = safeJSON(raw);
@@ -1919,8 +2015,8 @@ function setStatus(s){
 function setMicUI(active){
   const btn = document.getElementById('btn-mic');
   btn.className = active ? 'active' : 'idle';
-  document.getElementById('mic-icon').textContent = active ? 'STOP' : 'REC';
-  document.getElementById('mic-txt').textContent   = active ? "ARRETER L'ECOUTE" : "DEMARRER L'ECOUTE";
+  document.getElementById('mic-icon').textContent = active ? '■' : '●';
+  document.getElementById('mic-txt').textContent = active ? 'ARRETER LA CONSULTATION' : 'DEMARRER LA CONSULTATION';
 }
 
 function showSessionUI(){
@@ -2013,6 +2109,69 @@ function openClientOverlay(){
   openOverlay('client-overlay');
 }
 
+/* ─────────────────── EMAIL QUESTION ─────────────────── */
+function openEmailOverlay(){
+  const saved = ls('ma_email_directives');
+  if(saved) document.getElementById('email-directives').value = saved;
+  document.getElementById('email-question').value = '';
+  document.getElementById('email-response-section').style.display = 'none';
+  openOverlay('email-overlay');
+}
+
+function saveEmailDirectives(){
+  ls('ma_email_directives', document.getElementById('email-directives').value);
+}
+
+async function generateEmailResponse(){
+  const directives = document.getElementById('email-directives').value.trim();
+  const question   = document.getElementById('email-question').value.trim();
+  if(!question){ toast('Collez la question du client','warn'); return; }
+
+  const btn = document.querySelector('#email-overlay .btn-primary');
+  btn.textContent = 'GENERATION EN COURS...'; btn.disabled = true;
+  document.getElementById('email-response-section').style.display = 'none';
+
+  const sys = `Tu es Frederick, medium et guide spirituel depuis plus de 25 ans, fondateur de ClairvoyanceMedium.com. Tu rediges des reponses a des questions par email de maniere professionnelle, spirituelle, et personnalisee.${directives ? '\n\nDIRECTIVES OBLIGATOIRES :\n'+directives : ''}
+
+Regles :
+- Reponse complete, prete a envoyer, pas de JSON
+- Ton chaleureux, spirituel, professionnel
+- Montrer que tu as vraiment lu et analyse la question
+- Si pertinent, proposer naturellement une consultation approfondie
+- Longueur : 150 a 300 mots selon la complexite de la question`;
+
+  const msg = `Question recue par email :\n\n${question}\n\nRedige la reponse complete.`;
+
+  try {
+    const r = await fetch(getApiEndpoint(), {
+      method:'POST',
+      headers: buildHeaders(),
+      body: JSON.stringify({
+        model: cfg.model,
+        max_tokens: 700,
+        temperature: 0.7,
+        messages: [{role:'system',content:sys},{role:'user',content:msg}]
+      })
+    });
+    if(!r.ok){ toast('Erreur IA','err'); return; }
+    const data = await r.json();
+    const text = data.choices?.[0]?.message?.content || '';
+    document.getElementById('email-response-text').textContent = text;
+    document.getElementById('email-response-section').style.display = 'block';
+    document.getElementById('email-response-section').scrollIntoView({behavior:'smooth',block:'nearest'});
+  } catch(e){
+    toast('Connexion IA echouee','err');
+  } finally {
+    btn.textContent = 'GENERER LA REPONSE'; btn.disabled = false;
+  }
+}
+
+function copyEmailResponse(){
+  const text = document.getElementById('email-response-text').textContent;
+  navigator.clipboard?.writeText(text).catch(()=>{});
+  toast('Reponse email copiee');
+}
+
 /* ─────────────────── INIT ─────────────────── */
 document.getElementById('btn-settings-open').addEventListener('click', openSettingsDrawer);
 
@@ -2020,12 +2179,9 @@ document.getElementById('btn-settings-open').addEventListener('click', openSetti
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
   if(!SR){ document.getElementById('no-support').classList.add('show'); return; }
 
-  if(!cfg.apiKey){
-    setTimeout(()=>{
-      openSettingsDrawer();
-      toast('Bienvenue — configurez votre cle API Groq (gratuit) pour demarrer','warn');
-    }, 900);
-  }
+  // Charger les directives email sauvegardees
+  const savedDirectives = ls('ma_email_directives');
+  if(savedDirectives) document.getElementById('email-directives').value = savedDirectives;
 
   if(cfg.workerUrl){
     workerRequest('GET','/voice').then(p=>{
