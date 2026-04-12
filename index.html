@@ -1,1 +1,1165 @@
-okkk
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>MédiumAssist Pro — Frederick</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Nunito:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #07000f;
+  --bg2: #0e0020;
+  --bg3: #160030;
+  --gold: #c9a227;
+  --gold2: #e8c060;
+  --purple: #7c3aed;
+  --purple2: #a855f7;
+  --cyan: #06b6d4;
+  --red: #ef4444;
+  --green: #10b981;
+  --text: #e8e0f0;
+  --text2: #a090c0;
+  --text3: #604080;
+  --border: rgba(201,162,39,0.15);
+  --border2: rgba(124,58,237,0.2);
+  --shadow-gold: 0 0 30px rgba(201,162,39,0.15);
+  --shadow-purple: 0 0 30px rgba(124,58,237,0.2);
+  --r: 14px;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html,body{height:100%;overflow:hidden;}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Nunito',sans-serif;
+  font-weight:400;
+  display:flex;
+  flex-direction:column;
+  height:100dvh;
+  position:relative;
+  overflow:hidden;
+}
+
+/* ─── BACKGROUND ─── */
+.bg-layer{
+  position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(ellipse 60% 40% at 20% 0%, rgba(124,58,237,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 50% at 80% 100%, rgba(201,162,39,0.06) 0%, transparent 60%),
+    radial-gradient(ellipse 80% 60% at 50% 50%, rgba(6,182,212,0.03) 0%, transparent 70%);
+}
+.stars{
+  position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:
+    radial-gradient(1px 1px at 15% 20%, rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 35% 70%, rgba(255,255,255,0.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 55% 15%, rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 75% 55%, rgba(255,255,255,0.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 90% 30%, rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 10% 80%, rgba(255,255,255,0.2) 0%, transparent 100%),
+    radial-gradient(1px 1px at 60% 85%, rgba(255,255,255,0.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 45% 45%, rgba(201,162,39,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 25% 50%, rgba(168,85,247,0.5) 0%, transparent 100%);
+}
+
+/* ─── HEADER ─── */
+header{
+  position:relative;z-index:10;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:12px 16px;
+  background:rgba(7,0,15,0.9);
+  border-bottom:1px solid var(--border);
+  backdrop-filter:blur(10px);
+  flex-shrink:0;
+}
+.logo{display:flex;align-items:center;gap:10px;}
+.logo-icon{
+  width:34px;height:34px;border-radius:8px;
+  background:linear-gradient(135deg,#7c3aed,#c9a227);
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;
+  box-shadow:0 0 15px rgba(201,162,39,0.3);
+}
+.logo-text{
+  font-family:'Cinzel',serif;
+  font-size:15px;font-weight:700;
+  letter-spacing:0.5px;
+  background:linear-gradient(90deg,#c9a227,#e8c060);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.logo-sub{font-size:9px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-top:1px;}
+
+.status-pill{
+  display:flex;align-items:center;gap:6px;
+  padding:5px 12px;border-radius:100px;
+  font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;
+  transition:all 0.3s;
+}
+.status-idle{background:rgba(255,255,255,0.05);color:var(--text3);border:1px solid rgba(255,255,255,0.05);}
+.status-listening{background:rgba(6,182,212,0.1);color:var(--cyan);border:1px solid rgba(6,182,212,0.2);}
+.status-processing{background:rgba(124,58,237,0.15);color:var(--purple2);border:1px solid rgba(124,58,237,0.25);}
+.status-dot{width:6px;height:6px;border-radius:50%;background:currentColor;}
+.status-listening .status-dot{animation:blink 1s infinite;}
+.status-processing .status-dot{animation:pulse-dot 0.8s ease-in-out infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.15}}
+@keyframes pulse-dot{0%,100%{transform:scale(1)}50%{transform:scale(1.6)}}
+
+.header-right{display:flex;align-items:center;gap:8px;}
+.icon-btn{
+  width:34px;height:34px;border-radius:8px;border:none;cursor:pointer;
+  background:rgba(255,255,255,0.05);color:var(--text2);
+  display:flex;align-items:center;justify-content:center;font-size:16px;
+  transition:all 0.2s;
+}
+.icon-btn:hover{background:rgba(255,255,255,0.1);color:var(--text);}
+
+/* ─── MAIN ─── */
+main{
+  flex:1;overflow-y:auto;overflow-x:hidden;
+  position:relative;z-index:5;
+  padding:12px 14px;
+  display:flex;flex-direction:column;gap:10px;
+  -webkit-overflow-scrolling:touch;
+}
+main::-webkit-scrollbar{width:3px;}
+main::-webkit-scrollbar-track{background:transparent;}
+main::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px;}
+
+/* ─── CARDS ─── */
+.card{
+  background:rgba(14,0,32,0.7);
+  border:1px solid var(--border);
+  border-radius:var(--r);
+  padding:12px 14px;
+  backdrop-filter:blur(6px);
+}
+.card-label{
+  font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  color:var(--text3);margin-bottom:8px;display:flex;align-items:center;gap:6px;
+}
+.card-label-dot{width:4px;height:4px;border-radius:50%;background:currentColor;}
+
+/* ─── TRANSCRIPT ─── */
+#transcript-card{min-height:70px;}
+#transcript-display{
+  font-family:'JetBrains Mono',monospace;
+  font-size:12px;line-height:1.7;color:var(--text2);
+  max-height:80px;overflow-y:auto;
+  word-break:break-word;
+}
+#transcript-display::-webkit-scrollbar{width:2px;}
+#transcript-display::-webkit-scrollbar-thumb{background:var(--border2);}
+#interim-display{
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;color:var(--text3);font-style:italic;
+  margin-top:4px;min-height:16px;
+}
+.transcript-placeholder{color:var(--text3);font-style:italic;font-size:12px;}
+
+/* ─── CONTEXT BADGE ─── */
+#context-card{
+  padding:8px 14px;
+  background:rgba(124,58,237,0.06);
+  border-color:var(--border2);
+  display:none;
+}
+#context-text{
+  font-size:11px;color:var(--purple2);font-style:italic;
+  display:flex;align-items:center;gap:6px;
+}
+
+/* ─── SUGGESTION ─── */
+#suggestion-card{
+  background:rgba(14,0,32,0.85);
+  border-color:rgba(201,162,39,0.25);
+  box-shadow:var(--shadow-gold);
+  min-height:90px;
+  position:relative;overflow:hidden;
+}
+#suggestion-card::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;width:3px;
+  background:linear-gradient(180deg,#7c3aed,#c9a227);
+  border-radius:3px 0 0 3px;
+}
+#suggestion-display{
+  font-size:17px;line-height:1.6;color:var(--text);
+  font-weight:500;padding-left:4px;
+  min-height:50px;
+}
+#suggestion-display.placeholder{
+  color:var(--text3);font-size:13px;font-style:italic;font-weight:400;
+}
+.processing-shimmer{
+  background:linear-gradient(90deg,var(--text3) 25%,var(--text2) 50%,var(--text3) 75%);
+  background-size:200% 100%;
+  animation:shimmer 1.5s infinite;
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+/* ─── ALERT BANNER ─── */
+#alert-banner{
+  display:none;
+  background:rgba(239,68,68,0.08);
+  border:1px solid rgba(239,68,68,0.25);
+  border-radius:var(--r);
+  padding:10px 14px;
+  animation:slide-in 0.3s ease-out;
+}
+#alert-banner.show{display:block;}
+.alert-header{
+  display:flex;align-items:center;gap:8px;
+  font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
+  color:#f87171;margin-bottom:6px;
+}
+#alert-text{font-size:13px;color:#fca5a5;line-height:1.5;font-weight:500;}
+
+/* ─── OPPORTUNITY BANNER ─── */
+#opportunity-banner{
+  display:none;
+  background:rgba(201,162,39,0.07);
+  border:1px solid rgba(201,162,39,0.25);
+  border-radius:var(--r);
+  padding:12px 14px;
+  animation:slide-in 0.3s ease-out;
+}
+#opportunity-banner.show{display:block;}
+.opp-header{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:8px;
+}
+.opp-label{
+  display:flex;align-items:center;gap:8px;
+  font-size:10px;font-weight:700;letter-spacing:1.5px;
+  text-transform:uppercase;color:var(--gold);
+}
+.opp-badge{
+  background:rgba(201,162,39,0.15);
+  border:1px solid rgba(201,162,39,0.3);
+  border-radius:6px;padding:2px 8px;
+  font-size:12px;font-weight:700;color:var(--gold2);
+}
+#opp-declencheur{font-size:12px;color:#d4b060;line-height:1.5;margin-bottom:10px;}
+#btn-conversion{
+  width:100%;padding:10px;
+  background:linear-gradient(135deg,rgba(201,162,39,0.2),rgba(201,162,39,0.1));
+  border:1px solid rgba(201,162,39,0.35);
+  border-radius:10px;cursor:pointer;
+  color:var(--gold2);font-family:'Nunito',sans-serif;
+  font-size:12px;font-weight:700;letter-spacing:0.5px;
+  transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:8px;
+}
+#btn-conversion:hover{background:rgba(201,162,39,0.25);transform:translateY(-1px);}
+
+/* ─── CONVERSION PANEL ─── */
+#conversion-panel{
+  display:none;
+  background:rgba(201,162,39,0.05);
+  border:1px solid rgba(201,162,39,0.2);
+  border-radius:var(--r);
+  padding:14px;
+  animation:slide-in 0.3s ease-out;
+}
+#conversion-panel.show{display:block;}
+.conv-label{
+  font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  color:var(--gold);margin-bottom:10px;display:flex;align-items:center;gap:6px;
+}
+.conv-phrase{
+  background:rgba(14,0,32,0.6);
+  border:1px solid rgba(201,162,39,0.15);
+  border-left:3px solid var(--gold);
+  border-radius:10px;padding:12px 14px;
+  font-size:14px;line-height:1.6;color:var(--text);
+  margin-bottom:8px;cursor:pointer;transition:all 0.2s;
+  position:relative;
+}
+.conv-phrase:hover{background:rgba(201,162,39,0.08);border-color:rgba(201,162,39,0.3);}
+.conv-phrase:last-child{margin-bottom:0;}
+.conv-num{
+  font-size:9px;font-weight:700;color:var(--gold);
+  letter-spacing:1px;margin-bottom:4px;opacity:0.8;
+}
+
+/* ─── FOOTER ─── */
+footer{
+  position:relative;z-index:10;
+  padding:12px 14px 16px;
+  background:rgba(7,0,15,0.95);
+  border-top:1px solid var(--border);
+  backdrop-filter:blur(10px);
+  display:flex;gap:10px;align-items:center;
+  flex-shrink:0;
+}
+
+#btn-mic{
+  flex:1;height:56px;border-radius:14px;border:none;cursor:pointer;
+  font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;
+  letter-spacing:0.5px;transition:all 0.2s;
+  display:flex;align-items:center;justify-content:center;gap:10px;
+}
+#btn-mic.idle{
+  background:rgba(6,182,212,0.1);
+  border:2px solid rgba(6,182,212,0.3);
+  color:var(--cyan);
+}
+#btn-mic.idle:hover{background:rgba(6,182,212,0.18);transform:translateY(-1px);}
+#btn-mic.active{
+  background:linear-gradient(135deg,#0891b2,#06b6d4);
+  border:2px solid var(--cyan);
+  color:#fff;
+  box-shadow:0 0 25px rgba(6,182,212,0.35);
+  animation:mic-glow 2s ease-in-out infinite;
+}
+@keyframes mic-glow{
+  0%,100%{box-shadow:0 0 25px rgba(6,182,212,0.35);}
+  50%{box-shadow:0 0 40px rgba(6,182,212,0.55);}
+}
+.mic-icon{font-size:20px;}
+.mic-ring{
+  position:absolute;border-radius:14px;
+  border:2px solid rgba(6,182,212,0.3);
+  animation:ring-out 2s ease-out infinite;
+  pointer-events:none;
+}
+@keyframes ring-out{
+  0%{inset:0;opacity:0.6;}
+  100%{inset:-8px;opacity:0;}
+}
+
+#btn-force{
+  width:56px;height:56px;border-radius:14px;border:none;cursor:pointer;
+  background:rgba(124,58,237,0.12);
+  border:2px solid rgba(124,58,237,0.25);
+  color:var(--purple2);font-size:20px;
+  transition:all 0.2s;display:flex;align-items:center;justify-content:center;
+}
+#btn-force:hover{background:rgba(124,58,237,0.22);transform:translateY(-1px);}
+#btn-force:disabled{opacity:0.3;cursor:not-allowed;}
+
+#btn-clear{
+  width:44px;height:56px;border-radius:14px;border:none;cursor:pointer;
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.07);
+  color:var(--text3);font-size:16px;
+  transition:all 0.2s;display:flex;align-items:center;justify-content:center;
+}
+#btn-clear:hover{background:rgba(239,68,68,0.1);color:#f87171;border-color:rgba(239,68,68,0.2);}
+
+/* ─── SETTINGS OVERLAY ─── */
+#settings-overlay{
+  position:fixed;inset:0;z-index:100;
+  background:rgba(0,0,0,0.75);
+  backdrop-filter:blur(4px);
+  display:none;align-items:flex-end;
+}
+#settings-overlay.show{display:flex;animation:fade-in 0.2s;}
+@keyframes fade-in{from{opacity:0}to{opacity:1}}
+
+#settings-drawer{
+  width:100%;max-height:88vh;
+  background:#0e0020;
+  border:1px solid var(--border2);
+  border-radius:24px 24px 0 0;
+  padding:20px 16px 32px;
+  overflow-y:auto;
+  animation:slide-up-modal 0.3s ease-out;
+}
+#settings-drawer::-webkit-scrollbar{width:3px;}
+#settings-drawer::-webkit-scrollbar-thumb{background:var(--border2);}
+@keyframes slide-up-modal{from{transform:translateY(100%)}to{transform:translateY(0)}}
+
+.drawer-handle{
+  width:40px;height:4px;border-radius:2px;
+  background:rgba(255,255,255,0.1);
+  margin:0 auto 20px;
+}
+.drawer-title{
+  font-family:'Cinzel',serif;
+  font-size:17px;font-weight:700;
+  background:linear-gradient(90deg,#c9a227,#e8c060);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  margin-bottom:20px;
+}
+
+.field-group{margin-bottom:16px;}
+.field-label{
+  font-size:10px;font-weight:700;letter-spacing:1.5px;
+  text-transform:uppercase;color:var(--text3);margin-bottom:6px;
+}
+.field-hint{font-size:11px;color:var(--text3);margin-top:5px;line-height:1.5;font-style:italic;}
+
+.field-input,.field-textarea,.field-select{
+  width:100%;
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:10px;padding:10px 12px;
+  color:var(--text);font-family:'Nunito',sans-serif;
+  font-size:13px;outline:none;
+  transition:border 0.2s;
+}
+.field-input:focus,.field-textarea:focus{border-color:rgba(201,162,39,0.35);}
+.field-textarea{
+  font-family:'JetBrains Mono',monospace;font-size:11px;
+  line-height:1.7;resize:vertical;min-height:140px;
+}
+.field-select{appearance:none;cursor:pointer;}
+
+.btn-save{
+  width:100%;padding:14px;margin-top:8px;
+  background:linear-gradient(135deg,#7c3aed,#c9a227);
+  border:none;border-radius:12px;cursor:pointer;
+  color:#fff;font-family:'Nunito',sans-serif;
+  font-size:14px;font-weight:800;letter-spacing:0.5px;
+  transition:all 0.2s;box-shadow:0 4px 20px rgba(124,58,237,0.3);
+}
+.btn-save:hover{filter:brightness(1.1);transform:translateY(-1px);}
+
+.btn-reset{
+  width:100%;padding:10px;margin-top:8px;
+  background:transparent;
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:10px;cursor:pointer;
+  color:var(--text3);font-family:'Nunito',sans-serif;
+  font-size:12px;font-weight:600;transition:all 0.2s;
+}
+.btn-reset:hover{border-color:rgba(255,255,255,0.15);color:var(--text2);}
+
+.api-key-row{display:flex;gap:8px;align-items:center;}
+.api-key-row .field-input{flex:1;}
+.toggle-eye{
+  background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);
+  border-radius:10px;padding:10px 12px;cursor:pointer;color:var(--text3);font-size:14px;
+  white-space:nowrap;
+}
+
+.divider{
+  height:1px;background:var(--border);margin:16px 0;
+}
+.section-title{
+  font-size:12px;font-weight:700;color:var(--text2);
+  margin-bottom:12px;display:flex;align-items:center;gap:8px;
+}
+
+/* ─── TOAST ─── */
+#toast{
+  position:fixed;bottom:100px;left:50%;transform:translateX(-50%);
+  background:rgba(16,185,129,0.15);border:1px solid rgba(16,185,129,0.3);
+  color:#34d399;padding:8px 20px;border-radius:100px;
+  font-size:12px;font-weight:700;z-index:200;
+  display:none;white-space:nowrap;
+}
+#toast.show{display:block;animation:toast-in 0.2s ease-out;}
+@keyframes toast-in{from{opacity:0;transform:translate(-50%,8px)}to{opacity:1;transform:translate(-50%,0)}}
+
+/* ─── EMPTY STATE ─── */
+.empty-state{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:30px 20px;text-align:center;gap:10px;
+  flex:1;
+}
+.empty-icon{font-size:48px;opacity:0.4;margin-bottom:8px;}
+.empty-title{
+  font-family:'Cinzel',serif;font-size:16px;
+  background:linear-gradient(90deg,#7c3aed,#c9a227);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.empty-sub{font-size:12px;color:var(--text3);line-height:1.6;max-width:260px;}
+
+/* ─── ANIMATIONS ─── */
+@keyframes slide-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* ─── NO SUPPORT ─── */
+#no-support{
+  display:none;position:fixed;inset:0;z-index:500;
+  background:var(--bg);align-items:center;justify-content:center;
+  padding:30px;text-align:center;flex-direction:column;gap:16px;
+}
+#no-support.show{display:flex;}
+.no-support-icon{font-size:48px;}
+.no-support-text{font-size:14px;color:#f87171;line-height:1.6;}
+
+/* ─── RESPONSIVE ─── */
+@media(min-width:600px){
+  main{max-width:540px;margin:0 auto;width:100%;}
+  footer{max-width:540px;margin:0 auto;width:100%;}
+}
+</style>
+</head>
+<body>
+
+<div class="bg-layer"></div>
+<div class="stars"></div>
+
+<!-- NO SUPPORT WARNING -->
+<div id="no-support">
+  <div class="no-support-icon">🎤</div>
+  <div class="no-support-text">
+    <strong>Reconnaissance vocale non supportée.</strong><br>
+    Veuillez utiliser <strong>Google Chrome</strong> sur Android ou PC.<br>
+    Safari (iOS) a un support limité.
+  </div>
+</div>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">
+    <div class="logo-icon">🔮</div>
+    <div>
+      <div class="logo-text">MédiumAssist Pro</div>
+      <div class="logo-sub">ClairvoyanceMedium.com</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <div id="status-pill" class="status-pill status-idle">
+      <div class="status-dot"></div>
+      <span id="status-text">En veille</span>
+    </div>
+    <button class="icon-btn" id="btn-settings" title="Paramètres">⚙️</button>
+  </div>
+</header>
+
+<!-- MAIN -->
+<main id="main-content">
+
+  <!-- Empty state (initial) -->
+  <div class="empty-state" id="empty-state">
+    <div class="empty-icon">🔮</div>
+    <div class="empty-title">Assistant Médium Actif</div>
+    <div class="empty-sub">Appuyez sur <strong style="color:var(--cyan)">DÉMARRER L'ÉCOUTE</strong> pour activer le télésouffleur.<br>Posez votre tablette à côté du téléphone en haut-parleur.</div>
+  </div>
+
+  <!-- Transcript -->
+  <div class="card" id="transcript-card" style="display:none;">
+    <div class="card-label"><span class="card-label-dot" style="color:var(--cyan);"></span>TRANSCRIPTION EN DIRECT</div>
+    <div id="transcript-display"><span class="transcript-placeholder">En attente de parole...</span></div>
+    <div id="interim-display"></div>
+  </div>
+
+  <!-- Context -->
+  <div class="card" id="context-card">
+    <div id="context-text">🧿 <span id="context-content"></span></div>
+  </div>
+
+  <!-- Suggestion principale -->
+  <div class="card" id="suggestion-card" style="display:none;">
+    <div class="card-label"><span class="card-label-dot" style="color:var(--gold);"></span>💬 DIS MAINTENANT</div>
+    <div id="suggestion-display" class="placeholder">En attente d'analyse...</div>
+  </div>
+
+  <!-- Alerte / Mise en garde -->
+  <div id="alert-banner">
+    <div class="alert-header">⚠️ MISE EN GARDE À LANCER</div>
+    <div id="alert-text"></div>
+  </div>
+
+  <!-- Opportunité service -->
+  <div id="opportunity-banner">
+    <div class="opp-header">
+      <div class="opp-label">💜 OPPORTUNITÉ DÉTECTÉE</div>
+      <div class="opp-badge" id="opp-prix"></div>
+    </div>
+    <div id="opp-service" style="font-size:13px;font-weight:700;color:var(--gold2);margin-bottom:4px;"></div>
+    <div id="opp-declencheur"></div>
+    <button id="btn-conversion" onclick="loadConversionPhrases()">
+      ✨ PHRASES DE CONVERSION →
+    </button>
+  </div>
+
+  <!-- Phrases de conversion -->
+  <div id="conversion-panel">
+    <div class="conv-label">💛 DIS POUR CONVERTIR</div>
+    <div id="conversion-phrases-container"></div>
+  </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div style="position:relative;flex:1;display:flex;">
+    <button id="btn-mic" class="idle" onclick="toggleListening()">
+      <span class="mic-icon">🎙️</span>
+      <span id="btn-mic-text">DÉMARRER L'ÉCOUTE</span>
+    </button>
+  </div>
+  <button id="btn-force" title="Forcer une suggestion maintenant" onclick="forceSuggest()" disabled>⚡</button>
+  <button id="btn-clear" title="Effacer la transcription" onclick="clearAll()">🗑️</button>
+</footer>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<!-- ════════════════════════════════════════════════════════════ -->
+<!-- SETTINGS DRAWER                                             -->
+<!-- ════════════════════════════════════════════════════════════ -->
+<div id="settings-overlay" onclick="closeSettings(event)">
+  <div id="settings-drawer">
+    <div class="drawer-handle"></div>
+    <div class="drawer-title">⚙️ Configuration & Entraînement</div>
+
+    <!-- API Key -->
+    <div class="field-group">
+      <div class="field-label">🔑 Clé API Groq (gratuite)</div>
+      <div class="api-key-row">
+        <input type="password" id="api-key-input" class="field-input" placeholder="gsk_xxxxxxxxxxxxxxxxxxxx">
+        <button class="toggle-eye" onclick="toggleApiKeyVisibility()">👁️</button>
+      </div>
+      <div class="field-hint">Créez votre clé gratuite sur <strong style="color:var(--gold);">console.groq.com</strong> → API Keys → Create. Aucune CB requise.</div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Behaviour -->
+    <div class="section-title">🧠 Comportement de l'assistant</div>
+
+    <div class="field-group">
+      <div class="field-label">Prompt principal (le cerveau)</div>
+      <textarea id="system-prompt-input" class="field-textarea" rows="10"></textarea>
+      <button class="btn-reset" onclick="resetPrompt()">↺ Restaurer le prompt par défaut</button>
+    </div>
+
+    <div class="field-group">
+      <div class="field-label">Instructions complémentaires (ajustements rapides)</div>
+      <textarea id="extra-input" class="field-textarea" style="min-height:80px;" placeholder="Ex: Ne jamais paraître pressé de vendre. Toujours commencer par de l'empathie. Si la personne hésite sur le prix, insister sur les résultats visibles plutôt que le tarif..."></textarea>
+      <div class="field-hint">Ces instructions s'ajoutent au prompt principal. Modifiez-les sans toucher au reste.</div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Language -->
+    <div class="section-title">🌐 Langue de reconnaissance</div>
+    <div class="field-group">
+      <select id="lang-select" class="field-select">
+        <option value="fr-FR">🇫🇷 Français (France)</option>
+        <option value="fr-BE">🇧🇪 Français (Belgique)</option>
+        <option value="fr-CH">🇨🇭 Français (Suisse)</option>
+        <option value="fr-CA">🇨🇦 Français (Canada)</option>
+      </select>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Services -->
+    <div class="section-title">💼 Vos services & tarifs</div>
+    <div class="field-group">
+      <textarea id="services-input" class="field-textarea" style="min-height:120px;" placeholder="Listez vos services et tarifs ici..."></textarea>
+      <div class="field-hint">Ces informations sont intégrées au prompt pour des suggestions de conversion précises.</div>
+    </div>
+
+    <button class="btn-save" onclick="saveSettings()">💾 SAUVEGARDER</button>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════ -->
+<!-- JAVASCRIPT                                                   -->
+<!-- ════════════════════════════════════════════════════════════ -->
+<script>
+'use strict';
+
+/* ══════════════════════════════════════════════════
+   DEFAULT SYSTEM PROMPT
+══════════════════════════════════════════════════ */
+const DEFAULT_SYSTEM_PROMPT = `Tu es le télésouffleur personnel de Frederick, médium et guide spirituel professionnel depuis plus de 25 ans, fondateur de ClairvoyanceMedium.com.
+
+══ TON RÔLE EXACT ══
+Frederick est en ce moment au téléphone avec un client. Tu analyses en temps réel la transcription de ce que dit le client et tu fournis UNE phrase parfaite et complète que Frederick doit prononcer immédiatement. La phrase doit être prête à être dite telle quelle, naturellement.
+
+══ PERSONNALITÉ DE FREDERICK ══
+• Voix posée, chaleureuse, mystérieuse — il inspire immédiatement confiance et profondeur
+• Il ressent les choses AVANT que la personne les formule entièrement
+• Il crée l'effet "waouh" avec des détails précis, inattendus, qui semblent impossibles à connaître
+• Il n'est JAMAIS dans la précipitation, JAMAIS commercial ou pressé
+• Il utilise naturellement : "je ressens...", "je perçois clairement...", "quelque chose d'important me parvient en ce moment...", "je dois vous dire quelque chose...", "les énergies autour de vous m'indiquent...", "je vois...", "il y a quelque chose que vous ne me dites pas encore..."
+• Il pose des questions qui semblent impossibles à deviner ("Est-ce que le chiffre 7 revient souvent dans votre vie en ce moment ?", "Je perçois une présence féminine très forte autour de vous, est-ce que cela vous parle ?", "Je ressens une date importante en novembre, ça vous dit quelque chose ?")
+• Il donne des révélations avec précision et assurance, sans jamais hésiter
+• Il relie toujours ses perceptions à la situation émotionnelle profonde de la personne
+
+══ ANALYSE OBLIGATOIRE AVANT CHAQUE RÉPONSE ══
+1. Quel est le VRAI problème émotionnel (pas juste la question de surface) ?
+2. Quel est le niveau de détresse ? Fort = ton plus grave, protecteur, révélateur. Faible = plus serein, exploratoire
+3. Y a-t-il des mots-clés exploitables dans la transcription ? (prénoms, dates, lieux, couleurs, chiffres) → LES RÉINTÉGRER dans la suggestion pour créer l'effet waouh
+4. Quelle est la progression naturelle de la consultation ? (explorer davantage / rassurer / révéler / mettre en garde / proposer une action)
+5. Y a-t-il un signe de blocage énergétique, d'envoûtement, de rupture de lien ? → le signaler
+
+══ DOMAINES (maîtrise totale de chacun) ══
+Amour & Relations, Rupture & Retour ex, Trahison & Jalousie, Travail & Carrière, Argent & Blocages financiers, Famille & Entourage toxique, Deuil & Communication avec défunts, Santé & Énergies corporelles, Envoûtement & Protection, Magie Blanche & Rouge, Astrologie & Thème astral, Numérologie, Tarologie & Cartomancie, Rêves & Symboles, Karma & Vies antérieures, Clairvoyance & Clairsentience
+
+══ FORMAT DE RÉPONSE STRICT ══
+Réponds UNIQUEMENT en JSON valide, sans markdown, sans backtick, sans texte avant ou après :
+{
+  "suggestion": "La phrase complète et naturelle de 2 à 4 phrases que Frederick prononce maintenant. Utilise le vocabulaire médium authentique. Crée l'effet waouh. Intègre si possible un détail précis tiré de la transcription.",
+  "contexte": "Ce que Frederick perçoit de la personne en 8 mots max",
+  "opportunite": null,
+  "alerte": null
+}
+
+Si une opportunité de service est détectée :
+"opportunite": {"service": "nom exact du service", "prix": "montant €", "declencheur": "pourquoi c'est LE bon moment maintenant, en 1 phrase précise"}
+
+Si une mise en garde ou révélation dramatique est pertinente :
+"alerte": "La mise en garde précise et percutante que Frederick peut lancer pour créer un effet fort"
+
+Exemples de bonnes alertes :
+- "Je perçois une tentative de manipulation de la part d'une personne proche — soyez très vigilant(e) dans les 15 prochains jours"
+- "Les énergies m'indiquent clairement un blocage posé intentionnellement sur votre chemin amoureux"
+- "Je vois une séparation possible d'ici 3 semaines si rien n'est fait — il y a urgence à agir"
+- "Quelque chose me dérange fortement dans l'énergie de cette personne dont vous parlez — je dois approfondir"`;
+
+const DEFAULT_SERVICES = `• Consultation téléphone : 15€/10min, 22€/20min — Pour approfondir, aller plus loin
+• Consultation email : dès 6€ — Pour ceux qui hésitent sur le prix ou veulent réfléchir
+• Rituel Magie Rouge — Retour Affectif à distance : 250€ — Rupture, ex qui ne répond plus, abandon, trahison amoureuse
+• Désenvoûtement spirituel — Malchance répétée, relations qui échouent toutes, fatigue inexpliquée, blocages
+• Magie Blanche — Protection, chance, harmonie, déblocage positif
+• Dialogue avec un défunt — Deuil, questions non résolues, message d'un proche disparu
+• Voyance par photo — Analyse énergétique d'une personne à distance
+• Voyance par pendule — Réponses précises oui/non sur des situations concrètes
+• Horoscope personnalisé — Thème astral complet, prévisions mensuelles
+• Compatibilité amoureuse — Analyse des liens karmiques entre deux personnes`;
+
+/* ══════════════════════════════════════════════════
+   CONFIG & STATE
+══════════════════════════════════════════════════ */
+let cfg = {
+  apiKey:       localStorage.getItem('ma_api_key')       || '',
+  systemPrompt: localStorage.getItem('ma_system_prompt') || DEFAULT_SYSTEM_PROMPT,
+  extraInstr:   localStorage.getItem('ma_extra')         || '',
+  services:     localStorage.getItem('ma_services')      || DEFAULT_SERVICES,
+  lang:         localStorage.getItem('ma_lang')          || 'fr-FR'
+};
+
+let state = {
+  isListening:  false,
+  isProcessing: false,
+  fullTranscript: '',
+  currentOpportunity: null,
+  debounceTimer: null,
+  recognitionActive: false
+};
+
+let recognition = null;
+
+/* ══════════════════════════════════════════════════
+   GROQ API
+══════════════════════════════════════════════════ */
+function buildSystemPrompt() {
+  let prompt = cfg.systemPrompt;
+  if (cfg.extraInstr.trim()) {
+    prompt += `\n\n══ INSTRUCTIONS COMPLÉMENTAIRES DE FREDERICK ══\n${cfg.extraInstr}`;
+  }
+  if (cfg.services.trim()) {
+    prompt += `\n\n══ SERVICES ET TARIFS DISPONIBLES ══\n${cfg.services}`;
+  }
+  return prompt;
+}
+
+async function callGroq(userMsg, maxTokens = 500) {
+  if (!cfg.apiKey) {
+    showToast('⚠️ Clé API manquante — ouvrez les paramètres');
+    return null;
+  }
+  const resp = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${cfg.apiKey}`
+    },
+    body: JSON.stringify({
+      model: 'llama-3.3-70b-versatile',
+      temperature: 0.75,
+      max_tokens: maxTokens,
+      response_format: { type: 'json_object' },
+      messages: [
+        { role: 'system', content: buildSystemPrompt() },
+        { role: 'user', content: userMsg }
+      ]
+    })
+  });
+  if (!resp.ok) {
+    const err = await resp.json().catch(() => ({}));
+    console.error('Groq error:', err);
+    if (resp.status === 401) showToast('❌ Clé API invalide');
+    else showToast('❌ Erreur API — réessayez');
+    return null;
+  }
+  const data = await resp.json();
+  return data.choices?.[0]?.message?.content || null;
+}
+
+async function getSuggestion(transcript) {
+  if (!transcript.trim() || transcript.trim().length < 8) return;
+  setProcessing(true);
+
+  const userMsg = `Voici la transcription de l'appel jusqu'à présent (les dernières paroles du client) :\n\n"${transcript.slice(-1200)}"\n\nAnalyse la situation et fournis la réponse JSON.`;
+
+  try {
+    const raw = await callGroq(userMsg, 600);
+    if (!raw) return;
+    const parsed = safeParseJSON(raw);
+    if (!parsed) return;
+    renderSuggestion(parsed);
+  } catch (e) {
+    console.error('getSuggestion error:', e);
+  } finally {
+    setProcessing(false);
+  }
+}
+
+async function loadConversionPhrases() {
+  if (!state.currentOpportunity) return;
+  const opp = state.currentOpportunity;
+  const btn = document.getElementById('btn-conversion');
+  btn.textContent = '⏳ Génération en cours...';
+  btn.disabled = true;
+
+  const userMsg = `Frederick est au téléphone avec un client et vient de détecter le bon moment pour proposer : ${opp.service} (${opp.prix}).
+
+Contexte de l'appel : "${state.fullTranscript.slice(-600)}"
+Raison du bon timing : ${opp.declencheur}
+
+Génère 3 phrases de conversion naturelles, non commerciales, dans le style médium authentique de Frederick. Les phrases doivent sembler spontanées, jamais forcées. Elles doivent proposer le service en partant du problème de la personne, pas du produit.
+
+Réponds UNIQUEMENT en JSON :
+{"phrases": ["phrase 1", "phrase 2", "phrase 3"]}`;
+
+  try {
+    const raw = await callGroq(userMsg, 500);
+    if (!raw) return;
+    const parsed = safeParseJSON(raw);
+    if (parsed?.phrases) renderConversionPhrases(parsed.phrases);
+  } catch(e) {
+    console.error('conversion error:', e);
+  } finally {
+    btn.textContent = '✨ PHRASES DE CONVERSION →';
+    btn.disabled = false;
+  }
+}
+
+/* ══════════════════════════════════════════════════
+   SPEECH RECOGNITION
+══════════════════════════════════════════════════ */
+function initRecognition() {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) {
+    document.getElementById('no-support').classList.add('show');
+    return false;
+  }
+  recognition = new SR();
+  recognition.continuous = true;
+  recognition.interimResults = true;
+  recognition.lang = cfg.lang;
+  recognition.maxAlternatives = 1;
+
+  recognition.onstart = () => {
+    state.recognitionActive = true;
+    setStatus('listening');
+    showMainContent();
+  };
+
+  recognition.onresult = (event) => {
+    let interim = '';
+    let finalText = '';
+    for (let i = event.resultIndex; i < event.results.length; i++) {
+      const t = event.results[i][0].transcript;
+      if (event.results[i].isFinal) finalText += t + ' ';
+      else interim += t;
+    }
+    if (finalText) {
+      state.fullTranscript += finalText;
+      updateTranscriptUI(state.fullTranscript, interim);
+      clearTimeout(state.debounceTimer);
+      state.debounceTimer = setTimeout(() => getSuggestion(state.fullTranscript), 1400);
+    }
+    updateInterim(interim);
+  };
+
+  recognition.onerror = (e) => {
+    if (e.error === 'no-speech') return;
+    if (e.error === 'not-allowed') {
+      showToast('❌ Accès micro refusé — vérifiez les permissions Chrome');
+      stopListening();
+      return;
+    }
+    console.warn('Recognition error:', e.error);
+  };
+
+  recognition.onend = () => {
+    state.recognitionActive = false;
+    if (state.isListening) {
+      setTimeout(() => {
+        if (state.isListening && recognition) {
+          try { recognition.start(); } catch(e) {}
+        }
+      }, 300);
+    }
+  };
+
+  return true;
+}
+
+function startListening() {
+  if (!initRecognition()) return;
+  state.isListening = true;
+  document.getElementById('btn-force').disabled = false;
+  try {
+    recognition.start();
+    setMicActive(true);
+  } catch(e) { console.warn(e); }
+}
+
+function stopListening() {
+  state.isListening = false;
+  if (recognition) {
+    try { recognition.stop(); } catch(e) {}
+    recognition = null;
+  }
+  setMicActive(false);
+  setStatus('idle');
+  document.getElementById('btn-force').disabled = true;
+  updateInterim('');
+}
+
+function toggleListening() {
+  if (state.isListening) stopListening();
+  else startListening();
+}
+
+function forceSuggest() {
+  if (!state.fullTranscript.trim()) {
+    showToast('⚠️ Aucune transcription disponible');
+    return;
+  }
+  clearTimeout(state.debounceTimer);
+  getSuggestion(state.fullTranscript);
+}
+
+function clearAll() {
+  state.fullTranscript = '';
+  state.currentOpportunity = null;
+  document.getElementById('transcript-display').innerHTML = '<span class="transcript-placeholder">En attente de parole...</span>';
+  document.getElementById('interim-display').textContent = '';
+  document.getElementById('suggestion-display').className = 'placeholder';
+  document.getElementById('suggestion-display').textContent = 'En attente d\'analyse...';
+  document.getElementById('context-card').style.display = 'none';
+  document.getElementById('alert-banner').classList.remove('show');
+  document.getElementById('opportunity-banner').classList.remove('show');
+  document.getElementById('conversion-panel').classList.remove('show');
+  showToast('🗑️ Effacé');
+}
+
+/* ══════════════════════════════════════════════════
+   UI HELPERS
+══════════════════════════════════════════════════ */
+function showMainContent() {
+  document.getElementById('empty-state').style.display = 'none';
+  document.getElementById('transcript-card').style.display = 'block';
+  document.getElementById('suggestion-card').style.display = 'block';
+}
+
+function setStatus(status) {
+  const pill = document.getElementById('status-pill');
+  const txt  = document.getElementById('status-text');
+  pill.className = 'status-pill';
+  if (status === 'listening') {
+    pill.classList.add('status-listening');
+    txt.textContent = 'En écoute';
+  } else if (status === 'processing') {
+    pill.classList.add('status-processing');
+    txt.textContent = 'Analyse...';
+  } else {
+    pill.classList.add('status-idle');
+    txt.textContent = 'En veille';
+  }
+}
+
+function setMicActive(active) {
+  const btn = document.getElementById('btn-mic');
+  const txt = document.getElementById('btn-mic-text');
+  btn.className = active ? 'active' : 'idle';
+  txt.textContent = active ? 'ARRÊTER L\'ÉCOUTE' : 'DÉMARRER L\'ÉCOUTE';
+  document.querySelector('.mic-icon').textContent = active ? '⏹️' : '🎙️';
+}
+
+function setProcessing(val) {
+  state.isProcessing = val;
+  if (val) {
+    setStatus('processing');
+    document.getElementById('suggestion-display').className = 'processing-shimmer';
+    document.getElementById('suggestion-display').textContent = 'Frederick analyse la situation...';
+  } else {
+    setStatus(state.isListening ? 'listening' : 'idle');
+  }
+}
+
+function updateTranscriptUI(full, interim) {
+  const d = document.getElementById('transcript-display');
+  const words = full.trim().split(/\s+/);
+  const last = words.slice(-60).join(' ');
+  d.innerHTML = `<span>${escapeHtml(last)}</span>`;
+  d.scrollTop = d.scrollHeight;
+}
+
+function updateInterim(text) {
+  document.getElementById('interim-display').textContent = text ? `⟩ ${text}` : '';
+}
+
+function renderSuggestion(data) {
+  // Suggestion principale
+  if (data.suggestion) {
+    const el = document.getElementById('suggestion-display');
+    el.className = '';
+    el.textContent = data.suggestion;
+    el.style.animation = 'none';
+    requestAnimationFrame(() => { el.style.animation = 'slide-in 0.4s ease-out'; });
+  }
+
+  // Contexte
+  if (data.contexte) {
+    const card = document.getElementById('context-card');
+    card.style.display = 'block';
+    document.getElementById('context-content').textContent = data.contexte;
+  }
+
+  // Alerte
+  const alertBanner = document.getElementById('alert-banner');
+  if (data.alerte) {
+    document.getElementById('alert-text').textContent = data.alerte;
+    alertBanner.classList.add('show');
+  } else {
+    alertBanner.classList.remove('show');
+  }
+
+  // Opportunité
+  const oppBanner = document.getElementById('opportunity-banner');
+  const convPanel = document.getElementById('conversion-panel');
+  if (data.opportunite) {
+    state.currentOpportunity = data.opportunite;
+    document.getElementById('opp-service').textContent = '🔮 ' + data.opportunite.service;
+    document.getElementById('opp-prix').textContent = data.opportunite.prix;
+    document.getElementById('opp-declencheur').textContent = data.opportunite.declencheur;
+    oppBanner.classList.add('show');
+    convPanel.classList.remove('show');
+    document.getElementById('conversion-phrases-container').innerHTML = '';
+  } else {
+    oppBanner.classList.remove('show');
+    state.currentOpportunity = null;
+  }
+}
+
+function renderConversionPhrases(phrases) {
+  const panel = document.getElementById('conversion-panel');
+  const container = document.getElementById('conversion-phrases-container');
+  container.innerHTML = '';
+  phrases.forEach((p, i) => {
+    const div = document.createElement('div');
+    div.className = 'conv-phrase';
+    div.innerHTML = `<div class="conv-num">OPTION ${i+1}</div><div>${escapeHtml(p)}</div>`;
+    div.onclick = () => {
+      navigator.clipboard?.writeText(p).catch(() => {});
+      showToast('📋 Phrase copiée !');
+    };
+    container.appendChild(div);
+  });
+  panel.classList.add('show');
+  panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+function escapeHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function safeParseJSON(raw) {
+  try {
+    const clean = raw.replace(/```json|```/g,'').trim();
+    return JSON.parse(clean);
+  } catch(e) {
+    console.warn('JSON parse failed:', raw);
+    return null;
+  }
+}
+
+/* ══════════════════════════════════════════════════
+   SETTINGS
+══════════════════════════════════════════════════ */
+function openSettings() {
+  document.getElementById('api-key-input').value   = cfg.apiKey;
+  document.getElementById('system-prompt-input').value = cfg.systemPrompt;
+  document.getElementById('extra-input').value     = cfg.extraInstr;
+  document.getElementById('services-input').value  = cfg.services;
+  document.getElementById('lang-select').value     = cfg.lang;
+  document.getElementById('settings-overlay').classList.add('show');
+}
+
+function closeSettings(e) {
+  if (e.target.id === 'settings-overlay') {
+    document.getElementById('settings-overlay').classList.remove('show');
+  }
+}
+
+function saveSettings() {
+  cfg.apiKey       = document.getElementById('api-key-input').value.trim();
+  cfg.systemPrompt = document.getElementById('system-prompt-input').value.trim() || DEFAULT_SYSTEM_PROMPT;
+  cfg.extraInstr   = document.getElementById('extra-input').value.trim();
+  cfg.services     = document.getElementById('services-input').value.trim();
+  cfg.lang         = document.getElementById('lang-select').value;
+
+  localStorage.setItem('ma_api_key',       cfg.apiKey);
+  localStorage.setItem('ma_system_prompt', cfg.systemPrompt);
+  localStorage.setItem('ma_extra',         cfg.extraInstr);
+  localStorage.setItem('ma_services',      cfg.services);
+  localStorage.setItem('ma_lang',          cfg.lang);
+
+  document.getElementById('settings-overlay').classList.remove('show');
+  showToast('✅ Paramètres sauvegardés');
+}
+
+function resetPrompt() {
+  if (confirm('Restaurer le prompt par défaut ? Vos modifications seront perdues.')) {
+    document.getElementById('system-prompt-input').value = DEFAULT_SYSTEM_PROMPT;
+    document.getElementById('services-input').value = DEFAULT_SERVICES;
+  }
+}
+
+function toggleApiKeyVisibility() {
+  const input = document.getElementById('api-key-input');
+  input.type = input.type === 'password' ? 'text' : 'password';
+}
+
+/* ══════════════════════════════════════════════════
+   EVENT LISTENERS
+══════════════════════════════════════════════════ */
+document.getElementById('btn-settings').addEventListener('click', openSettings);
+
+// Prevent scroll on footer buttons double-tap
+document.querySelector('footer').addEventListener('touchend', e => {
+  if (e.target.tagName === 'BUTTON') e.preventDefault();
+}, { passive: false });
+
+/* ══════════════════════════════════════════════════
+   INIT
+══════════════════════════════════════════════════ */
+(function init() {
+  // Check Speech API
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) {
+    document.getElementById('no-support').classList.add('show');
+    return;
+  }
+
+  // Prompt new users to set API key
+  if (!cfg.apiKey) {
+    setTimeout(() => {
+      openSettings();
+      showToast('👋 Bienvenue ! Configurez votre clé API Groq');
+    }, 800);
+  }
+})();
+</script>
+</body>
+</html>
