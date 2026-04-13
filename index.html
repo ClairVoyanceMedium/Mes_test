@@ -419,6 +419,21 @@ footer{flex-shrink:0;padding:9px 12px 13px;background:rgba(17,17,17,0.98);
 #no-support.show{display:flex;}
 
 @keyframes slide-in{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+/* ═══ LISERET DORE SUR TOUS LES BOUTONS ═══ */
+button, .qa-btn, .mod-btn, .fbtn, .sbar-btn, .cb-btn, .tarot-spread-btn,
+.tarot-card-chip, .mod-copy-btn, .eye-btn, .dbtn-close, .mini-close,
+.btn-primary, .btn-secondary, .confirm-yes, .confirm-no, .tab-btn {
+  outline: 1px solid rgba(201,162,39,0.35) !important;
+  outline-offset: 1px;
+}
+button:hover, .qa-btn:hover, .mod-btn:hover, .fbtn:hover,
+.btn-primary:hover, .btn-secondary:hover {
+  outline: 1px solid rgba(201,162,39,0.7) !important;
+  outline-offset: 1px;
+}
+/* Exceptions : icones SVG et boutons inline invisibles */
+.cb-close { outline: none !important; }
+
 </style>
 </head>
 <body>
@@ -541,7 +556,7 @@ footer{flex-shrink:0;padding:9px 12px 13px;background:rgba(17,17,17,0.98);
     <button class="fbtn" id="btn-rapports-f" onclick="openRapportsOverlay()"><div class="fbt-label">RAPPORTS<br>& BILAN</div></button>
     <button class="fbtn" id="btn-raz-f" onclick="confirmClear()"><div class="fbt-label">EFFACER<br>SESSION</div></button>
   </div>
-  <div id="fgroup-active" style="flex:1;display:flex;gap:6px;align-items:center;display:none">
+  <div id="fgroup-active" style="flex:1;gap:6px;align-items:center;display:none">
     <button class="fbtn" id="btn-force-f" onclick="forceSuggest()" disabled><div class="fbt-label" style="color:var(--green)">SUGGERER<br>MAINTENANT</div></button>
     <button class="fbtn" id="btn-clients-fa" onclick="openClientOverlay()" style="background:rgba(204,68,255,0.1);border:1px solid rgba(204,68,255,0.2)"><div class="fbt-label" style="color:var(--purple)">CLIENTS</div></button>
     <button class="fbtn" id="btn-email-fa" onclick="openEmailOverlay()" style="background:rgba(0,255,204,0.1);border:1px solid rgba(0,255,204,0.2)"><div class="fbt-label" style="color:var(--teal)">VOYANCE<br>EMAIL</div></button>
@@ -625,7 +640,7 @@ footer{flex-shrink:0;padding:9px 12px 13px;background:rgba(17,17,17,0.98);
       <button class="tab-btn" id="tab-new-btn" onclick="showClientTab('new')">NOUVEAU</button>
     </div>
     <div id="client-tab-list">
-      <input type="text" class="search-bar" id="client-search" placeholder="Rechercher par prenom, date de naissance, telephone..." oninput="filterClients()">
+      <input type="text" class="search-bar" id="client-search" placeholder="Prenom, date de naiss. (ex: 15/03), tel, signe..." oninput="filterClients()">
       <div id="client-list-container"><div style="text-align:center;color:var(--text3);font-size:12px;padding:20px">Chargement...</div></div>
     </div>
     <div id="client-tab-new" style="display:none">
@@ -865,13 +880,21 @@ footer{flex-shrink:0;padding:9px 12px 13px;background:rgba(17,17,17,0.98);
   <div class="drawer"><div class="drawer-handle"></div>
     <div class="dheader"><div class="drawer-title" style="color:var(--teal)">PENDULE OUI / NON</div><button class="dbtn-close" onclick="closeOverlay('mod-pendule')">FERMER ✕</button></div>
     <div class="pendule-wrap">
-      <div style="display:flex;align-items:center;justify-content:center;gap:20px;margin-bottom:4px">
-        <div style="font-family:'Orbitron',monospace;font-size:16px;font-weight:900;color:var(--green);opacity:0.5;text-shadow:0 0 10px rgba(57,255,20,0.3)">OUI</div>
-        <div class="pendule-container">
-          <div class="pendule-line" id="pendule-line"></div>
-          <div class="pendule-bob"></div>
+      <div style="display:flex;align-items:center;justify-content:center;gap:14px;margin-bottom:4px">
+        <div style="text-align:center">
+          <div style="font-family:'Orbitron',monospace;font-size:14px;font-weight:900;color:var(--green);opacity:0.5;text-shadow:0 0 10px rgba(57,255,20,0.3)">OUI</div>
         </div>
-        <div style="font-family:'Orbitron',monospace;font-size:16px;font-weight:900;color:var(--red);opacity:0.5;text-shadow:0 0 10px rgba(255,68,0,0.3)">NON</div>
+        <div style="text-align:center">
+          <div style="font-family:'Orbitron',monospace;font-size:10px;font-weight:900;color:var(--yellow);opacity:0.4;margin-bottom:2px">PEUT</div>
+          <div class="pendule-container">
+            <div class="pendule-line" id="pendule-line"></div>
+            <div class="pendule-bob"></div>
+          </div>
+          <div style="font-family:'Orbitron',monospace;font-size:10px;font-weight:900;color:var(--yellow);opacity:0.4;margin-top:2px">ETRE</div>
+        </div>
+        <div style="text-align:center">
+          <div style="font-family:'Orbitron',monospace;font-size:14px;font-weight:900;color:var(--red);opacity:0.5;text-shadow:0 0 10px rgba(255,68,0,0.3)">NON</div>
+        </div>
       </div>
       <div id="pendule-answer-display" style="min-height:40px;text-align:center"></div>
     </div>
@@ -1152,9 +1175,23 @@ function buildSysPrompt(){
   }
   if(S.session?.elements){
     const el=S.session.elements;
-    if(el.tarot.length)p+='\nTirages Tarot : '+el.tarot.map(t=>t.deck+' — '+t.cards.join(',')).join(' | ');
-    if(el.numerologie)p+='\nNumerologie : '+JSON.stringify(el.numerologie.calculs);
-    if(el.pendule.length)p+='\nPendule : '+el.pendule.map(p=>'"'+p.question+'" => '+p.reponse).join(' | ');
+    if(el.tarot.length)p+='\nTirages Tarot de cette session : '+el.tarot.map(t=>t.deck+' — '+t.spread+' : '+t.cards.join(',')).join(' | ');
+    if(el.numerologie)p+='\nNumerologie : nombres '+JSON.stringify(el.numerologie.nombres||[])+' — synthese : '+(el.numerologie.calculs?.Synthese||'');
+    if(el.horoscope)p+='\nHoroscope consulte : '+el.horoscope.sign;
+    if(el.astrologie)p+='\nAstrologie consultee : '+(el.astrologie.signe_solaire||'oui');
+    if(el.angeGardien)p+='\nMessage ange gardien recu';
+    if(el.main)p+='\nLecture de la main realisee';
+    if(el.pendule.length)p+='\nReponses pendule : '+el.pendule.map(x=>'"'+x.question+'" => '+x.reponse).join(' | ');
+    if(el.alertes.filter(a=>a.text).length)p+='\nAlertes emises : '+el.alertes.filter(a=>a.text).map(a=>a.text).join(' | ');
+    if(S.session.moduleLog?.length)p+='\nModules utilises cette session : '+S.session.moduleLog.map(m=>m.label).join(', ');
+  }
+  // Reload active session from client file if available (consultation precedente)
+  if(S.activeClient?.activeSession&&!S.session){
+    const as=S.activeClient.activeSession;
+    p+='\n\nSESSION PRECEDENTE INCOMPLETE ('+new Date(as.date).toLocaleDateString('fr-FR')+') :';
+    if(as.transcript)p+='\nDerniers echanges : "'+as.transcript.slice(-600)+'"';
+    if(as.elements?.tarot?.length)p+='\nTarot fait : '+as.elements.tarot.map(t=>t.cards?.join(',')).join(' | ');
+    if(as.elements?.pendule?.length)p+='\nPendule : '+as.elements.pendule.map(x=>x.question+'=>'+x.reponse).join(' | ');
   }
   return p;
 }
@@ -1256,6 +1293,8 @@ async function stopConsultation(){
   setStatus('idle');showSessionBar(false);
   document.getElementById('fgroup-idle').style.display='flex';
   document.getElementById('fgroup-active').style.display='none';
+  // Final auto-save before report
+  autoSaveSessionToClient();
   await generateAndShowReport();
 }
 
@@ -1513,6 +1552,11 @@ function addModuleResult(cssClass,label,text,closeOverlayId){
   showSessionUI();
   div.scrollIntoView({behavior:'smooth',block:'nearest'});
   if(closeOverlayId)closeOverlay(closeOverlayId);
+  // Auto-save this event to session log
+  if(S.session){
+    if(!S.session.moduleLog)S.session.moduleLog=[];
+    S.session.moduleLog.push({label,text:text.slice(0,500),timestamp:Date.now()});
+  }
 }
 function copyText(btn){
   const text=btn.dataset.text||btn.parentElement.querySelector('.mod-result-text')?.textContent||'';
@@ -1586,6 +1630,7 @@ async function interpretTarot(){
       'CARTES : '+S.tarotSelectedCards.join(' | ')+'\n\n'+data.interpretation+(data.cle?'\n\nCLE DU TIRAGE : '+data.cle:''),
       'mod-tarot');
     toast('Interpretation du tarot generee');
+    autoSaveSessionToClient();
   }
   btn.textContent='INTERPRETER CE TIRAGE';btn.disabled=false;
 }
@@ -1645,7 +1690,7 @@ async function runNumerologie(){
     +(c?'\nProfil client : '+(c.profile||'').slice(0,100):'')
     +(c&&c.consultations&&c.consultations.length?'\nHistorique : '+c.consultations.slice(0,2).map(cs=>cs.summary||'').join('. '):'')
     +'\nConsultation en cours : "'+t.slice(-400)+'"'
-    +'\n\nAnalyse numerologique professionnelle, detaillee et exploitable immediatement. Pour les 3 nombres choisis : leur signification individuelle profonde, ce qu'ils revelent sur la situation actuelle, les energies en jeu, les conseils pratiques. Inclure aussi : traits de personnalite, opportunites, defis, conseil cle.\nJSON: {"analyse":"analyse complete en 3-4 paragraphes","mot_cle":"le mot cle numerologique en quelques mots"}';
+    +'\n\nAnalyse numerologique professionnelle, detaillee et exploitable immediatement. Pour les 3 nombres choisis : leur signification individuelle profonde, ce qu\'ils revelent sur la situation actuelle, les energies en jeu, les conseils pratiques. Inclure aussi : traits de personnalite, opportunites, defis, conseil cle.\nJSON: {"analyse":"analyse complete en 3-4 paragraphes","mot_cle":"le mot cle numerologique en quelques mots"}';
   const raw=await callAI(msg,700,null,true);const data=safeJSON(raw);
   if(data?.analyse){
     if(S.session)S.session.elements.numerologie={prenom,nom,nombres:nums,calculs,analyse:data.analyse,timestamp:Date.now()};
@@ -1655,6 +1700,7 @@ async function runNumerologie(){
       +(data.mot_cle?'\nMOT CLE : '+data.mot_cle:'');
     addModuleResult('numerologie','NUMEROLOGIE',header+'\n\n'+data.analyse,'mod-numerologie');
     toast('Analyse numerologique generee');
+    autoSaveSessionToClient();
   }
 }
 
@@ -1673,6 +1719,7 @@ async function runHoroscope(){
       data.horoscope+(data.point_fort?'\n\nFORCE : '+data.point_fort:'')+(data.point_vigilance?'\nVIGILANCE : '+data.point_vigilance:''),
       'mod-horoscope');
     toast('Horoscope genere');
+    autoSaveSessionToClient();
   }
   btn.textContent='GENERER L\'HOROSCOPE';btn.disabled=false;
 }
@@ -1694,6 +1741,7 @@ async function runAstrologie(){
       (data.signe_solaire?'SIGNE : '+data.signe_solaire+' ':'')+(data.ascendant_estime?'| ASCENDANT : '+data.ascendant_estime:'')+(data.mot_cle?'\nESSENCE : '+data.mot_cle:'')+'\n\n'+data.analyse,
       'mod-astrologie');
     toast('Analyse astrologique generee');
+    autoSaveSessionToClient();
   }
   btn.textContent='GENERER L\'ANALYSE ASTROLOGIQUE';btn.disabled=false;
 }
@@ -1711,6 +1759,7 @@ async function runAngeGardien(){
       (data.nom_ange?'ANGE PERCU : '+data.nom_ange+'\n':'')+(data.symbole?'SYMBOLE : '+data.symbole+'\n\n':'\n')+data.message,
       'mod-ange');
     toast('Message de l\'ange recu');
+    autoSaveSessionToClient();
   }
   btn.textContent='RECEVOIR LE MESSAGE';btn.disabled=false;
 }
@@ -1764,6 +1813,7 @@ async function runPendule(){
     if(S.session)S.session.elements.pendule.push({question,reponse:rep,confiance:data.confiance,explication:data.explication,nuance:data.nuance,timestamp:Date.now()});
     addModuleResult('pendule','PENDULE — "'+question+'"','REPONSE : '+rep+(data.confiance?' (confiance '+data.confiance+'%)':'')+'\n\n'+data.explication+(data.nuance?'\n\nNUANCE : '+data.nuance:''),null);
     toast('Reponse du pendule : '+rep);
+    autoSaveSessionToClient();
   }
   btn.textContent='CONSULTER LE PENDULE';btn.disabled=false;
 }
@@ -1790,6 +1840,7 @@ async function runAlertes(){
     if(S.session)S.session.elements.alertes.push({type:'analyse_globale',data,timestamp:Date.now()});
     addModuleResult('alerte-glob','ANALYSE ET ALERTES',data.alertes.map(a=>'['+a.type.toUpperCase()+'] '+a.texte).join('\n')+(data.priorite?'\n\nPRIORITE : '+data.priorite:''),null);
     toast('Analyse globale generee');
+    autoSaveSessionToClient();
   }
   btn.textContent='LANCER L\'ANALYSE GLOBALE';btn.disabled=false;
 }
@@ -1924,10 +1975,37 @@ function downloadReport(){
 async function saveReportToClient(){
   if(!S.activeClient||!S.currentReport){toast('Aucun client selectionne','warn');return;}
   const sess=S.session||S.currentReport.session;const el=sess?.elements||{};
-  const payload={summary:S.currentReport.data?.resume||'',keyPoints:S.currentReport.data?.points_cles||[],transcript:(sess?.transcript||'').slice(-2000),servicesDiscussed:S.currentReport.data?.services_proposes||[],notes:S.currentReport.data?.recommandations_prochaine||'',fullText:S.currentReport.fullText,elements:{tarotCount:el.tarot?.length||0,hasPendule:el.pendule?.length>0,hasAstrologie:!!el.astrologie,hasAnge:!!el.angeGardien}};
+  const payload={
+    summary:S.currentReport.data?.resume||'',
+    keyPoints:S.currentReport.data?.points_cles||[],
+    transcript:(sess?.transcript||'').slice(-3000),
+    servicesDiscussed:S.currentReport.data?.services_proposes||[],
+    notes:S.currentReport.data?.recommandations_prochaine||'',
+    fullText:S.currentReport.fullText,
+    moduleLog:sess?.moduleLog||[],
+    elements:{
+      tarot:el.tarot||[],
+      numerologie:el.numerologie||null,
+      horoscope:el.horoscope||null,
+      astrologie:el.astrologie||null,
+      angeGardien:el.angeGardien||null,
+      main:el.main?{focus:el.main.focus}:null,
+      pendule:el.pendule||[],
+      alertes:el.alertes?.filter(a=>a.text)||[]
+    },
+    duration:sess?.endTime&&sess?.startTime?Math.floor((sess.endTime-sess.startTime-sess.pausedMs)/60000):0
+  };
+  // Save locally always
+  const lc=JSON.parse(ls('ma_client_'+S.activeClient.id)||'{}');
+  const newConsult={...payload,date:new Date().toISOString(),cid:'c_'+Date.now()};
+  lc.consultations=[newConsult,...(lc.consultations||[])];
+  delete lc.activeSession; // Clear active session after saving
+  ls('ma_client_'+S.activeClient.id,JSON.stringify(lc));
+  S.activeClient.consultations=[newConsult,...(S.activeClient.consultations||[])];
+  // Also save to Worker
   const r=await workerRequest('POST','/clients/'+S.activeClient.id+'/consultations',payload);
-  if(r){S.activeClient.consultations=[r,...(S.activeClient.consultations||[])];toast('Rapport sauvegarde dans la fiche client');}
-  else{const lc=JSON.parse(ls('ma_client_'+S.activeClient.id)||'{}');lc.consultations=[{...payload,date:new Date().toISOString(),cid:'c_'+Date.now()},...(lc.consultations||[])];ls('ma_client_'+S.activeClient.id,JSON.stringify(lc));toast('Sauvegarde localement');}
+  if(r) toast('Rapport sauvegarde dans la fiche client');
+  else toast('Rapport sauvegarde localement');
   closeOverlay('rapport-overlay');
 }
 function autoSaveReport(){
@@ -2051,7 +2129,18 @@ function renderClientList(){
   if(!filtered.length){container.innerHTML='<div style="text-align:center;color:var(--text3);font-size:12px;padding:20px">Aucun client trouve.</div>';return;}
   container.innerHTML=filtered.map(c=>'<div class="client-item'+(S.activeClient?.id===c.id?' active-cl':'')+'" onclick="selectClient(\''+c.id+'\')"><div class="ci-avatar">CLT</div><div class="ci-info"><div class="ci-name">'+c.name+'</div><div class="ci-detail">'+(c.phone||'')+(c.birthdate?' • '+c.birthdate:'')+'</div></div><div class="ci-badge">'+(c.consultations?.length||0)+' CONSUL.</div></div>').join('');
 }
-function filterClients(){renderClientList();}
+function filterClients(){
+  const q=(document.getElementById('client-search')?.value||'').toLowerCase().trim();
+  if(!q){renderClientList();return;}
+  const terms=q.split(/\s+/);
+  const container=document.getElementById('client-list-container');
+  const filtered=allClients.filter(c=>{
+    const hay=[c.name||'',c.phone||'',c.birthdate||'',c.sign||'',c.profile||'',c.notes||''].join(' ').toLowerCase();
+    return terms.every(t=>hay.includes(t));
+  });
+  if(!filtered.length){container.innerHTML='<div style="text-align:center;color:var(--text3);font-size:12px;padding:20px">Aucun client trouve.</div>';return;}
+  container.innerHTML=filtered.map(c=>'<div class="client-item'+(S.activeClient?.id===c.id?' active-cl':'')+'" onclick="selectClient(\''+c.id+'\')"><div class="ci-avatar">CLT</div><div class="ci-info"><div class="ci-name">'+c.name+'</div><div class="ci-detail">'+(c.phone||'')+(c.birthdate?' • '+c.birthdate:'')+(c.sign?' • '+c.sign:'')+'</div></div><div class="ci-badge">'+(c.consultations?.length||0)+'C</div></div>').join('');
+}
 
 async function selectClient(id){
   let client=null;
@@ -2060,8 +2149,21 @@ async function selectClient(id){
   else{const lc=ls('ma_client_'+id);client=lc?JSON.parse(lc):allClients.find(c=>c.id===id)||null;}
   if(!client)return;
   S.activeClient=client;updateClientBanner();closeOverlay('client-overlay');
-  if(S.session){S.session.clientId=client.id;S.session.clientName=client.name;document.getElementById('sbar-client').textContent=client.name;}
-  toast('Client : '+client.name);renderClientList();
+  if(S.session){
+    S.session.clientId=client.id;
+    S.session.clientName=client.name;
+    document.getElementById('sbar-client').textContent=client.name;
+    // Immediately save this session to the client
+    autoSaveSessionToClient();
+    // Show notification about history
+    const nbConsult=client.consultations?.length||0;
+    const nbEmail=client.emailConsultations?.length||0;
+    if(nbConsult+nbEmail>0)toast('Client charge — '+nbConsult+' consult. + '+nbEmail+' email(s) en memoire','info');
+    else toast('Client : '+client.name,'info');
+  } else {
+    toast('Client : '+client.name);
+  }
+  renderClientList();
 }
 function deselectClient(){S.activeClient=null;document.getElementById('client-banner').classList.remove('show');}
 function updateClientBanner(){
@@ -2259,6 +2361,46 @@ function toast(msg,type='ok'){
   const t=document.getElementById('toast');t.textContent=msg;t.className='show '+type;
   clearTimeout(t._t);t._t=setTimeout(()=>t.className='',2600);
 }
+
+/* ═══ AUTO-SAVE SESSION ═══ */
+function autoSaveSessionToClient(){
+  if(!S.activeClient||!S.session)return;
+  const el=S.session.elements;
+  // Build a live snapshot of the session for the client file
+  const snapshot={
+    sessionId:S.session.id,
+    date:new Date(S.session.startTime).toISOString(),
+    inProgress:true,
+    transcript:S.session.transcript.slice(-3000),
+    suggestions:S.session.suggestions.slice(-20),
+    elements:{
+      tarot:el.tarot,
+      numerologie:el.numerologie,
+      horoscope:el.horoscope,
+      astrologie:el.astrologie,
+      angeGardien:el.angeGardien,
+      main:el.main,
+      pendule:el.pendule,
+      alertes:el.alertes.filter(a=>a.text),
+      moduleLog:S.session.moduleLog||[]
+    }
+  };
+  // Save to localStorage immediately
+  const clientData=JSON.parse(ls('ma_client_'+S.activeClient.id)||'{}');
+  if(!clientData.activeSession)clientData.activeSession={};
+  clientData.activeSession=snapshot;
+  ls('ma_client_'+S.activeClient.id,JSON.stringify(clientData));
+  // Also update in-memory activeClient
+  if(!S.activeClient.activeSession)S.activeClient.activeSession={};
+  S.activeClient.activeSession=snapshot;
+  // Sync to Worker (non-blocking)
+  if(cfg.workerUrl){
+    workerRequest('PUT','/clients/'+S.activeClient.id+'/session',snapshot).catch(()=>{});
+  }
+}
+
+// Call autoSave every 30 seconds during active session
+setInterval(()=>{if(S.session&&!S.isPaused&&S.activeClient)autoSaveSessionToClient();},30000);
 
 /* ═══ INIT ═══ */
 document.getElementById('btn-settings-open').addEventListener('click',openSettingsDrawer);
