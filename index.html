@@ -224,17 +224,18 @@ main{flex:1;overflow-y:auto;overflow-x:hidden;padding:10px 12px;
 footer{flex-shrink:0;padding:9px 12px 13px;background:rgba(17,17,17,0.98);
   border-top:1px solid var(--border);display:flex;gap:6px;align-items:center;}
 #fgroup-idle,#fgroup-active{flex:1;display:flex;gap:6px;}
-#btn-start{flex:1;height:48px;border-radius:12px;border:none;cursor:pointer;
-  font-family:'Inter',sans-serif;font-size:12px;font-weight:800;letter-spacing:0.5px;
-  display:flex;align-items:center;justify-content:center;gap:7px;transition:all 0.2s;
+#btn-start{width:62px;height:62px;border-radius:50%;border:none;cursor:pointer;
+  font-family:'Inter',sans-serif;font-size:9px;font-weight:900;letter-spacing:0.5px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+  transition:all 0.3s;flex-shrink:0;
   background:rgba(0,207,255,0.1);color:var(--cyan);border:2px solid rgba(0,207,255,0.3);}
-#btn-start:hover{background:rgba(0,207,255,0.18);}
+#btn-start:hover{background:rgba(0,207,255,0.18);transform:scale(1.05);}
 .fbtn{width:48px;height:48px;border-radius:11px;border:none;cursor:pointer;
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
   transition:all 0.2s;flex-shrink:0;font-family:'Inter',sans-serif;}
 .fbtn:hover{filter:brightness(1.2);}
 .fbtn:disabled{opacity:0.25;cursor:not-allowed;}
-.fbt-label{font-size:8px;font-weight:900;letter-spacing:0.5px;}
+.fbt-label{font-size:7px;font-weight:900;letter-spacing:0.3px;text-align:center;line-height:1.3;}
 #btn-email-f{background:rgba(0,255,204,0.1);border:1px solid rgba(0,255,204,0.2);color:var(--teal);}
 #btn-clients-f{background:rgba(204,68,255,0.1);border:1px solid rgba(204,68,255,0.2);color:var(--purple);}
 #btn-rapports-f{background:rgba(255,208,0,0.1);border:1px solid rgba(255,208,0,0.2);color:var(--yellow);}
@@ -517,7 +518,7 @@ footer{flex-shrink:0;padding:9px 12px 13px;background:rgba(17,17,17,0.98);
 
 <!-- MODULES -->
 <div id="module-strip">
-  <div class="mod-strip-label">MODULES</div>
+  <div class="mod-strip-label">MODULES VOYANCE</div>
   <button class="mod-btn mb-tarot" onclick="openModule('tarot')">TAROT</button>
   <button class="mod-btn mb-num" onclick="openModule('numerologie')">NUMEROLOGIE</button>
   <button class="mod-btn mb-horoscope" onclick="openModule('horoscope')">HOROSCOPE</button>
@@ -530,22 +531,22 @@ footer{flex-shrink:0;padding:9px 12px 13px;background:rgba(17,17,17,0.98);
 
 <!-- FOOTER -->
 <footer>
-  <div id="fgroup-idle" style="flex:1;display:flex;gap:6px;">
+  <div id="fgroup-idle" style="flex:1;display:flex;gap:6px;align-items:center;">
     <button id="btn-start" onclick="startConsultation()">
-      <span style="font-size:10px;font-weight:900;">&#9679;</span>
-      <span>DEMARRER LA CONSULTATION</span>
+      <span id="btn-start-dot" style="font-size:20px;line-height:1;">&#9679;</span>
+      <span style="font-size:8px;letter-spacing:0.5px;text-align:center;line-height:1.2">DEMARRER<br>CONSULT.</span>
     </button>
-    <button class="fbtn" id="btn-clients-f" onclick="openClientOverlay()"><div class="fbt-label">CLIENT</div></button>
-    <button class="fbtn" id="btn-email-f" onclick="openEmailOverlay()"><div class="fbt-label">EMAIL</div></button>
-    <button class="fbtn" id="btn-rapports-f" onclick="openRapportsOverlay()"><div class="fbt-label">BILAN</div></button>
-    <button class="fbtn" id="btn-raz-f" onclick="confirmClear()"><div class="fbt-label">RAZ</div></button>
+    <button class="fbtn" id="btn-clients-f" onclick="openClientOverlay()"><div class="fbt-label">CLIENTS</div></button>
+    <button class="fbtn" id="btn-email-f" onclick="openEmailOverlay()"><div class="fbt-label">VOYANCE<br>EMAIL</div></button>
+    <button class="fbtn" id="btn-rapports-f" onclick="openRapportsOverlay()"><div class="fbt-label">RAPPORTS<br>& BILAN</div></button>
+    <button class="fbtn" id="btn-raz-f" onclick="confirmClear()"><div class="fbt-label">EFFACER<br>SESSION</div></button>
   </div>
-  <div id="fgroup-active" style="flex:1;display:flex;gap:6px;display:none">
-    <button class="fbtn" id="btn-force-f" onclick="forceSuggest()" disabled><div class="fbt-label" style="color:var(--green)">FORCE</div></button>
-    <button class="fbtn" id="btn-clients-fa" onclick="openClientOverlay()" style="background:rgba(204,68,255,0.1);border:1px solid rgba(204,68,255,0.2)"><div class="fbt-label" style="color:var(--purple)">CLIENT</div></button>
-    <button class="fbtn" id="btn-email-fa" onclick="openEmailOverlay()" style="background:rgba(0,255,204,0.1);border:1px solid rgba(0,255,204,0.2)"><div class="fbt-label" style="color:var(--teal)">EMAIL</div></button>
-    <button class="fbtn" id="btn-rapports-fa" onclick="openRapportsOverlay()" style="background:rgba(255,208,0,0.1);border:1px solid rgba(255,208,0,0.2)"><div class="fbt-label" style="color:var(--yellow)">BILAN</div></button>
-    <button class="fbtn" id="btn-raz-fa" onclick="confirmClear()" style="background:rgba(255,255,255,0.04);border:1px solid var(--border)"><div class="fbt-label" style="color:var(--text3)">RAZ</div></button>
+  <div id="fgroup-active" style="flex:1;display:flex;gap:6px;align-items:center;display:none">
+    <button class="fbtn" id="btn-force-f" onclick="forceSuggest()" disabled><div class="fbt-label" style="color:var(--green)">SUGGERER<br>MAINTENANT</div></button>
+    <button class="fbtn" id="btn-clients-fa" onclick="openClientOverlay()" style="background:rgba(204,68,255,0.1);border:1px solid rgba(204,68,255,0.2)"><div class="fbt-label" style="color:var(--purple)">CLIENTS</div></button>
+    <button class="fbtn" id="btn-email-fa" onclick="openEmailOverlay()" style="background:rgba(0,255,204,0.1);border:1px solid rgba(0,255,204,0.2)"><div class="fbt-label" style="color:var(--teal)">VOYANCE<br>EMAIL</div></button>
+    <button class="fbtn" id="btn-rapports-fa" onclick="openRapportsOverlay()" style="background:rgba(255,208,0,0.1);border:1px solid rgba(255,208,0,0.2)"><div class="fbt-label" style="color:var(--yellow)">RAPPORTS<br>& BILAN</div></button>
+    <button class="fbtn" id="btn-raz-fa" onclick="confirmClear()" style="background:rgba(255,255,255,0.04);border:1px solid var(--border)"><div class="fbt-label" style="color:var(--text3)">EFFACER<br>SESSION</div></button>
   </div>
 </footer>
 
@@ -692,7 +693,7 @@ footer{flex-shrink:0;padding:9px 12px 13px;background:rgba(17,17,17,0.98);
 <!-- EMAIL -->
 <div class="overlay" id="email-overlay" onclick="overlayClose(event,'email-overlay')">
   <div class="drawer"><div class="drawer-handle"></div>
-    <div class="dheader"><div class="drawer-title" style="color:var(--teal)">VOYANCE PAR EMAIL</div><button class="dbtn-close" onclick="closeOverlay('email-overlay')">FERMER ✕</button></div>
+    <div class="dheader"><div class="drawer-title" style="color:var(--teal)">VOYANCE EMAIL</div><button class="dbtn-close" onclick="closeOverlay('email-overlay')">FERMER ✕</button></div>
     <div class="fg"><div class="fl">Client concerne (optionnel)</div>
       <div style="display:flex;gap:6px;align-items:center">
         <div id="email-client-name" style="flex:1;font-size:13px;color:var(--text2);padding:9px 11px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:var(--r-sm)">Aucun client selectionne</div>
@@ -757,9 +758,18 @@ footer{flex-shrink:0;padding:9px 12px 13px;background:rgba(17,17,17,0.98);
     <div class="dheader"><div class="drawer-title" style="color:var(--purple)">NUMEROLOGIE</div><button class="dbtn-close" onclick="closeOverlay('mod-numerologie')">FERMER ✕</button></div>
     <div class="fg"><div class="fl">Prenom complet</div><input type="text" id="num-prenom" class="fi" placeholder="Marie-Claire"></div>
     <div class="fg"><div class="fl">Nom de famille (optionnel)</div><input type="text" id="num-nom" class="fi" placeholder="Dupont"></div>
-    <div class="fg"><div class="fl">Date de naissance</div>
-      <input type="text" id="num-dob" class="fi" placeholder="15/03/1985" maxlength="10" oninput="formatDOBInput(this)"
-        style="font-size:20px;font-weight:700;letter-spacing:3px;text-align:center;font-family:'JetBrains Mono',monospace"></div>
+    <div class="fg">
+      <div class="fl">Choisissez 3 nombres entre 1 et 84</div>
+      <p style="font-size:11px;color:var(--text3);margin-bottom:10px;line-height:1.5">Demandez au client de choisir 3 nombres qui lui viennent spontanement entre 1 et 84.</p>
+      <div style="display:flex;gap:8px;">
+        <div style="flex:1;text-align:center"><div style="font-size:9px;font-weight:700;color:var(--purple);letter-spacing:1px;margin-bottom:5px">NOMBRE 1</div>
+          <input type="number" id="num-n1" class="fi" placeholder="7" min="1" max="84" style="font-size:26px;font-weight:900;text-align:center;font-family:'JetBrains Mono',monospace;color:var(--purple);padding:10px 6px"></div>
+        <div style="flex:1;text-align:center"><div style="font-size:9px;font-weight:700;color:var(--purple);letter-spacing:1px;margin-bottom:5px">NOMBRE 2</div>
+          <input type="number" id="num-n2" class="fi" placeholder="23" min="1" max="84" style="font-size:26px;font-weight:900;text-align:center;font-family:'JetBrains Mono',monospace;color:var(--purple);padding:10px 6px"></div>
+        <div style="flex:1;text-align:center"><div style="font-size:9px;font-weight:700;color:var(--purple);letter-spacing:1px;margin-bottom:5px">NOMBRE 3</div>
+          <input type="number" id="num-n3" class="fi" placeholder="56" min="1" max="84" style="font-size:26px;font-weight:900;text-align:center;font-family:'JetBrains Mono',monospace;color:var(--purple);padding:10px 6px"></div>
+      </div>
+    </div>
     <div id="num-calc-display" style="display:none;margin-bottom:12px">
       <div class="fl" style="margin-bottom:8px">CALCULS NUMEROLOGIQUES</div>
       <div class="num-badges" id="num-badges"></div>
@@ -855,11 +865,15 @@ footer{flex-shrink:0;padding:9px 12px 13px;background:rgba(17,17,17,0.98);
   <div class="drawer"><div class="drawer-handle"></div>
     <div class="dheader"><div class="drawer-title" style="color:var(--teal)">PENDULE OUI / NON</div><button class="dbtn-close" onclick="closeOverlay('mod-pendule')">FERMER ✕</button></div>
     <div class="pendule-wrap">
-      <div class="pendule-container">
-        <div class="pendule-line" id="pendule-line"></div>
-        <div class="pendule-bob"></div>
+      <div style="display:flex;align-items:center;justify-content:center;gap:20px;margin-bottom:4px">
+        <div style="font-family:'Orbitron',monospace;font-size:16px;font-weight:900;color:var(--green);opacity:0.5;text-shadow:0 0 10px rgba(57,255,20,0.3)">OUI</div>
+        <div class="pendule-container">
+          <div class="pendule-line" id="pendule-line"></div>
+          <div class="pendule-bob"></div>
+        </div>
+        <div style="font-family:'Orbitron',monospace;font-size:16px;font-weight:900;color:var(--red);opacity:0.5;text-shadow:0 0 10px rgba(255,68,0,0.3)">NON</div>
       </div>
-      <div id="pendule-answer-display" style="min-height:40px"></div>
+      <div id="pendule-answer-display" style="min-height:40px;text-align:center"></div>
     </div>
     <div class="fg"><div class="fl">Question a poser au pendule</div>
       <input type="text" id="pendule-question" class="fi" placeholder="Est-ce que son ex l'aime encore ?" maxlength="150"></div>
@@ -1415,10 +1429,20 @@ async function getSuggestion(customMsg=null){
   }
 }
 
+function appendMediumAssistToTranscript(text){
+  if(!S.session) return;
+  const ts=document.getElementById('transcript-text');
+  const existing=ts.textContent||'';
+  const marker='\n\n[MediumAssist] '+text.slice(0,80)+(text.length>80?'...':'')+' \n\n';
+  if(S.session) S.session.transcript += marker;
+  updateTranscriptUI();
+}
+
 function renderResponse(d){
   if(d.suggestion){
     const el=document.getElementById('suggestion-text');el.className='';el.textContent=d.suggestion;
     el.style.animation='none';requestAnimationFrame(()=>el.style.animation='slide-in 0.35s ease-out');
+    appendMediumAssistToTranscript(d.suggestion);
   }
   if(d.contexte){document.getElementById('context-card').classList.add('show');document.getElementById('context-text').textContent='['+d.contexte+']';}
   const alertEl=document.getElementById('alert-card');
@@ -1501,7 +1525,7 @@ function openModule(type){
   const map={tarot:'mod-tarot',numerologie:'mod-numerologie',horoscope:'mod-horoscope',
     astrologie:'mod-astrologie',ange:'mod-ange',main:'mod-main',pendule:'mod-pendule',alertes:'mod-alertes'};
   if(type==='tarot'){updateTarotDeck();}
-  if(type==='numerologie'){const c=S.activeClient;if(c){document.getElementById('num-prenom').value=c.name||'';if(c.birthdate)document.getElementById('num-dob').value=c.birthdate;}}
+  if(type==='numerologie'){const c=S.activeClient;if(c){document.getElementById('num-prenom').value=c.name||'';}}
   if(type==='horoscope'){const c=S.activeClient;if(c?.sign)document.getElementById('horoscope-sign').value=c.sign;}
   if(type==='astrologie'){const c=S.activeClient;if(c?.birthdate)document.getElementById('astro-dob').value=c.birthdate;}
   if(type==='main'){document.getElementById('main-vision-warning').style.display=hasVision()?'none':'block';}
@@ -1589,12 +1613,21 @@ function calcIntimate(fullName){
 async function runNumerologie(){
   const prenom=document.getElementById('num-prenom').value.trim();
   const nom=document.getElementById('num-nom').value.trim();
-  const dobStr=document.getElementById('num-dob').value.trim();
-  if(!prenom&&!dobStr){toast('Entrez un prenom ou une date de naissance','warn');return;}
+  const n1=parseInt(document.getElementById('num-n1').value)||0;
+  const n2=parseInt(document.getElementById('num-n2').value)||0;
+  const n3=parseInt(document.getElementById('num-n3').value)||0;
+  if(!n1&&!n2&&!n3&&!prenom){toast('Entrez au moins un nombre ou un prenom','warn');return;}
+  const nums=[n1,n2,n3].filter(n=>n>=1&&n<=84);
+  if(nums.length>0&&nums.length<3){toast('Entrez les 3 nombres entre 1 et 84','warn');return;}
   const fullName=(prenom+' '+nom).trim();
   const calculs={};
-  if(dobStr)calculs['Chemin de vie']=calcLifePath(dobStr);
-  if(fullName.trim()){calculs['Nombre d\'expression']=calcExpression(fullName);calculs['Nombre intime']=calcIntimate(fullName);}
+  if(fullName.trim()){calculs["Nombre d'expression"]=calcExpression(fullName);calculs['Nombre intime']=calcIntimate(fullName);}
+  if(nums.length===3){
+    calculs['Nombre 1']=nums[0];calculs['Nombre 2']=nums[1];calculs['Nombre 3']=nums[2];
+    let sum=nums.reduce((a,b)=>a+b,0);
+    while(sum>9&&sum!==11&&sum!==22&&sum!==33)sum=String(sum).split('').reduce((a,b)=>a+parseInt(b),0);
+    calculs['Synthese']=sum;
+  }
   const badgesDiv=document.getElementById('num-badges');badgesDiv.innerHTML='';
   Object.entries(calculs).forEach(([label,val])=>{
     if(val===null)return;
@@ -1604,13 +1637,23 @@ async function runNumerologie(){
   });
   document.getElementById('num-calc-display').style.display='block';
   const t=S.session?.transcript||'';const c=S.activeClient;
-  const msg='Numerologie de '+(fullName||'le client')+':\nCalculs : '+Object.entries(calculs).map(([k,v])=>k+' = '+v).join(', ')+(dobStr?'\nDate de naissance : '+dobStr:'')+(c?'\nProfil : '+(c.profile||'').slice(0,100):'')+(c?.consultations?.length?'\nHistorique : '+c.consultations.slice(0,2).map(cs=>cs.summary||'').join('. '):'')+'\nConsultation : "'+t.slice(-400)+'"'+'\n\nAnalyse numerologique professionnelle, developpee et exploitable en direct. Inclus : signification de chaque nombre, traits de personnalite profonds, opportunites, defis, conseils pratiques.\nJSON: {"analyse":"analyse complete en 3-4 paragraphes","mot_cle":"le mot cle en quelques mots"}';
+  const nombresCtx=nums.length===3?'\nNombres choisis par le client : '+nums.join(', ')+' (choix spontane entre 1 et 84)':'';
+  const calcCtx=Object.entries(calculs).filter(([k])=>!k.startsWith('Nombre ')||k==='Nombre intime'||k==="Nombre d'expression").map(([k,v])=>k+' = '+v).join(', ');
+  const msg='Numerologie'+(fullName?' de '+fullName:'')+'.'
+    +nombresCtx
+    +(calcCtx?'\nCalculs : '+calcCtx:'')
+    +(c?'\nProfil client : '+(c.profile||'').slice(0,100):'')
+    +(c&&c.consultations&&c.consultations.length?'\nHistorique : '+c.consultations.slice(0,2).map(cs=>cs.summary||'').join('. '):'')
+    +'\nConsultation en cours : "'+t.slice(-400)+'"'
+    +'\n\nAnalyse numerologique professionnelle, detaillee et exploitable immediatement. Pour les 3 nombres choisis : leur signification individuelle profonde, ce qu'ils revelent sur la situation actuelle, les energies en jeu, les conseils pratiques. Inclure aussi : traits de personnalite, opportunites, defis, conseil cle.\nJSON: {"analyse":"analyse complete en 3-4 paragraphes","mot_cle":"le mot cle numerologique en quelques mots"}';
   const raw=await callAI(msg,700,null,true);const data=safeJSON(raw);
   if(data?.analyse){
-    if(S.session)S.session.elements.numerologie={prenom,nom,dobStr,calculs,analyse:data.analyse,timestamp:Date.now()};
-    addModuleResult('numerologie','NUMEROLOGIE',
-      Object.entries(calculs).map(([k,v])=>k+' : '+v).join(' | ')+(data.mot_cle?'\nMOT CLE : '+data.mot_cle:'')+'\n\n'+data.analyse,
-      'mod-numerologie');
+    if(S.session)S.session.elements.numerologie={prenom,nom,nombres:nums,calculs,analyse:data.analyse,timestamp:Date.now()};
+    const header=(nums.length?'NOMBRES : '+nums.join(' | ')+(calculs['Synthese']?' — SYNTHESE : '+calculs['Synthese']:''):'')
+      +(calculs["Nombre d'expression"]?' | EXPRESSION : '+calculs["Nombre d'expression"]:'')
+      +(calculs['Nombre intime']?' | INTIME : '+calculs['Nombre intime']:'')
+      +(data.mot_cle?'\nMOT CLE : '+data.mot_cle:'');
+    addModuleResult('numerologie','NUMEROLOGIE',header+'\n\n'+data.analyse,'mod-numerologie');
     toast('Analyse numerologique generee');
   }
 }
@@ -1904,15 +1947,20 @@ function filterRapports(){
   if(!filtered.length){container.innerHTML='<div style="text-align:center;color:var(--text3);font-size:12px;padding:20px">Aucun rapport sauvegarde.</div>';return;}
   container.innerHTML=filtered.map(r=>'<div class="consult-item" onclick="viewSavedReport(\''+r.id+'\')"><div class="consult-date">'+new Date(r.date).toLocaleDateString('fr-FR')+' — '+r.clientName+'</div><div class="consult-summary">'+(r.resume||'')+'</div></div>').join('');
 }
-function viewSavedReport(id){
+async function viewSavedReport(id){
   const reports=JSON.parse(ls('ma_reports')||'[]');const r=reports.find(x=>x.id===id);if(!r)return;
-  S.currentReport={fullText:r.fullText,session:{clientName:r.clientName,startTime:new Date(r.date).getTime(),endTime:0,pausedMs:0,elements:{tarot:[],numerologie:null,horoscope:null,astrologie:null,angeGardien:null,main:null,pendule:[],alertes:[]}}};
+  S.currentReport={fullText:r.fullText,session:{clientId:r.clientId,clientName:r.clientName,startTime:new Date(r.date).getTime(),endTime:0,pausedMs:0,elements:{tarot:[],numerologie:null,horoscope:null,astrologie:null,angeGardien:null,main:null,pendule:[],alertes:[]}}};
+  // Charger automatiquement le client pour la consultation en cours
+  if(r.clientId && !S.activeClient){
+    const lc=ls('ma_client_'+r.clientId);
+    if(lc){S.activeClient=JSON.parse(lc);updateClientBanner();toast('Client charge : '+S.activeClient.name,'info');}
+  }
   closeOverlay('rapports-overlay');
   document.getElementById('rapport-loading').style.display='none';
   document.getElementById('rapport-display').innerHTML='<pre style="font-size:12px;line-height:1.7;color:var(--text2);white-space:pre-wrap">'+escapeHtml(r.fullText||'')+'</pre>';
   document.getElementById('rapport-title').textContent='RAPPORT — '+r.clientName;
   document.getElementById('rapport-content').style.display='block';
-  document.getElementById('btn-save-rapport').style.display='none';
+  document.getElementById('btn-save-rapport').style.display=S.activeClient?'block':'none';
   openOverlay('rapport-overlay');
 }
 
