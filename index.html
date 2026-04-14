@@ -224,12 +224,25 @@ main{flex:1;overflow-y:auto;overflow-x:hidden;padding:10px 12px;
 footer{flex-shrink:0;padding:9px 12px 13px;background:rgba(17,17,17,0.98);
   border-top:1px solid var(--border);display:flex;gap:6px;align-items:center;}
 #fgroup-idle,#fgroup-active{flex:1;display:flex;gap:6px;}
-#btn-start{width:62px;height:62px;border-radius:50%;border:none;cursor:pointer;
-  font-family:'Inter',sans-serif;font-size:9px;font-weight:900;letter-spacing:0.5px;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+#btn-start{width:66px;height:66px;border-radius:50%;border:none;cursor:pointer;
+  font-family:'Orbitron',monospace;font-size:7px;font-weight:900;letter-spacing:0.5px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
   transition:all 0.3s;flex-shrink:0;
-  background:rgba(0,207,255,0.1);color:var(--cyan);border:2px solid rgba(0,207,255,0.3);}
-#btn-start:hover{background:rgba(0,207,255,0.18);transform:scale(1.05);}
+  background:radial-gradient(circle at 40% 35%, rgba(60,0,120,0.95), rgba(10,0,30,0.98));
+  border:2px solid transparent;
+  box-shadow:0 0 0 2px rgba(201,162,39,0.7), 0 0 20px rgba(100,0,200,0.4), inset 0 1px 0 rgba(255,255,255,0.1) !important;
+  color:#c9a227;
+  position:relative;overflow:visible;}
+#btn-start::before{content:'';position:absolute;inset:-4px;border-radius:50%;
+  background:conic-gradient(from 0deg, rgba(201,162,39,0) 0%, rgba(201,162,39,0.6) 30%, rgba(201,162,39,0) 60%);
+  animation:rotate-gold 3s linear infinite;z-index:-1;}
+@keyframes rotate-gold{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+#btn-start:hover{transform:scale(1.08);box-shadow:0 0 0 2px rgba(201,162,39,1), 0 0 30px rgba(150,0,255,0.5), inset 0 1px 0 rgba(255,255,255,0.15) !important;}
+#btn-start.rec-active{
+  background:radial-gradient(circle at 40% 35%, rgba(120,0,0,0.95), rgba(30,0,0,0.98));
+  box-shadow:0 0 0 2px rgba(255,68,0,0.8), 0 0 25px rgba(255,68,0,0.4), inset 0 1px 0 rgba(255,100,0,0.2) !important;
+  color:var(--red);animation:mic-pulse-gold 2s ease-in-out infinite;}
+@keyframes mic-pulse-gold{0%,100%{box-shadow:0 0 0 2px rgba(255,68,0,0.8), 0 0 25px rgba(255,68,0,0.4) !important;}50%{box-shadow:0 0 0 3px rgba(255,68,0,1), 0 0 40px rgba(255,68,0,0.6) !important;}}
 .fbtn{width:48px;height:48px;border-radius:11px;border:none;cursor:pointer;
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
   transition:all 0.2s;flex-shrink:0;font-family:'Inter',sans-serif;}
@@ -420,19 +433,22 @@ footer{flex-shrink:0;padding:9px 12px 13px;background:rgba(17,17,17,0.98);
 
 @keyframes slide-in{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
 /* ═══ LISERET DORE SUR TOUS LES BOUTONS ═══ */
-button, .qa-btn, .mod-btn, .fbtn, .sbar-btn, .cb-btn, .tarot-spread-btn,
-.tarot-card-chip, .mod-copy-btn, .eye-btn, .dbtn-close, .mini-close,
-.btn-primary, .btn-secondary, .confirm-yes, .confirm-no, .tab-btn {
-  outline: 1px solid rgba(201,162,39,0.35) !important;
-  outline-offset: 1px;
+button:not(.cb-close):not(.mini-close) {
+  box-shadow: 0 0 0 1.5px rgba(201,162,39,0.55), inset 0 0 0 0 transparent !important;
+  transition: box-shadow 0.2s, filter 0.2s, transform 0.2s !important;
 }
-button:hover, .qa-btn:hover, .mod-btn:hover, .fbtn:hover,
-.btn-primary:hover, .btn-secondary:hover {
-  outline: 1px solid rgba(201,162,39,0.7) !important;
-  outline-offset: 1px;
+button:not(.cb-close):not(.mini-close):hover {
+  box-shadow: 0 0 0 2px rgba(201,162,39,0.9), 0 0 12px rgba(201,162,39,0.25) !important;
 }
-/* Exceptions : icones SVG et boutons inline invisibles */
-.cb-close { outline: none !important; }
+.qa-btn, .mod-btn, .fbtn, .sbar-btn, .tarot-spread-btn, .tarot-card-chip {
+  box-shadow: 0 0 0 1.5px rgba(201,162,39,0.55) !important;
+}
+.btn-primary {
+  box-shadow: 0 0 0 1.5px rgba(201,162,39,0.6), 0 2px 12px rgba(0,0,0,0.3) !important;
+}
+.btn-primary:hover {
+  box-shadow: 0 0 0 2px rgba(201,162,39,1), 0 0 16px rgba(201,162,39,0.3) !important;
+}
 
 </style>
 </head>
@@ -547,9 +563,9 @@ button:hover, .qa-btn:hover, .mod-btn:hover, .fbtn:hover,
 <!-- FOOTER -->
 <footer>
   <div id="fgroup-idle" style="flex:1;display:flex;gap:6px;align-items:center;">
-    <button id="btn-start" onclick="startConsultation()">
-      <span id="btn-start-dot" style="font-size:20px;line-height:1;">&#9679;</span>
-      <span style="font-size:8px;letter-spacing:0.5px;text-align:center;line-height:1.2">DEMARRER<br>CONSULT.</span>
+    <button id="btn-start" onclick="startConsultation()" title="Demarrer la consultation">
+      <span id="btn-start-dot" style="font-size:22px;line-height:1;margin-bottom:2px">&#9679;</span>
+      <span style="font-family:'Orbitron',monospace;font-size:6px;letter-spacing:1px;text-align:center;line-height:1.3">START<br>CONSULT</span>
     </button>
     <button class="fbtn" id="btn-clients-f" onclick="openClientOverlay()"><div class="fbt-label">CLIENTS</div></button>
     <button class="fbtn" id="btn-email-f" onclick="openEmailOverlay()"><div class="fbt-label">VOYANCE<br>EMAIL</div></button>
@@ -620,7 +636,10 @@ button:hover, .qa-btn:hover, .mod-btn:hover, .fbtn:hover,
 <div class="overlay" id="voice-overlay" onclick="overlayClose(event,'voice-overlay')">
   <div class="drawer"><div class="drawer-handle"></div>
     <div class="dheader"><div class="drawer-title" style="color:var(--pink)">EMPREINTE VOCALE</div><button class="dbtn-close" onclick="closeOverlay('voice-overlay')">FERMER ✕</button></div>
-    <p style="font-size:12px;color:var(--text2);line-height:1.7;margin-bottom:14px">Enregistrez votre voix une seule fois — memorisee definitivement. Parlez naturellement pendant <strong style="color:var(--pink)">15 secondes</strong>.</p>
+    <p style="font-size:12px;color:var(--text2);line-height:1.7;margin-bottom:14px">
+      Enregistrez votre voix <strong style="color:var(--pink)">une seule fois</strong> — memorisee <strong style="color:var(--pink)">definitivement</strong> sur tous vos appareils (via Cloudflare).<br><br>
+      Frederick distinguera automatiquement <strong>votre voix</strong> de celle de vos <strong>clients</strong> pendant les appels. Parlez naturellement pendant <strong style="color:var(--pink)">15 secondes</strong>.
+    </p>
     <div class="voice-ring" id="voice-ring">MIC</div>
     <div id="voice-progress"><div id="voice-progress-bar"></div></div>
     <div id="voice-status" style="color:var(--text2);font-size:12px;text-align:center;margin:8px 0"></div>
@@ -676,7 +695,13 @@ button:hover, .qa-btn:hover, .mod-btn:hover, .fbtn:hover,
       <div class="fg"><div class="fl">Notes privees</div><textarea id="cf-notes" class="fta" style="min-height:65px" placeholder="Observations personnelles..."></textarea></div>
       <button class="btn-primary" style="background:rgba(204,68,255,0.2);border-color:rgba(204,68,255,0.4);color:var(--purple)" onclick="saveClientNotes()">SAUVEGARDER</button>
     </div>
-    <div id="cf-tab-hist" style="display:none"><div id="cf-hist-container"><div style="text-align:center;color:var(--text3);font-size:12px;padding:20px">Aucune consultation.</div></div></div>
+    <div id="cf-tab-hist" style="display:none">
+      <div style="display:flex;gap:6px;margin-bottom:10px">
+        <button class="btn-secondary" style="flex:1;margin-top:0;font-size:10px;font-weight:700" onclick="exportClientData('text')">COPIER FICHE COMPLETE</button>
+        <button class="btn-secondary" style="flex:1;margin-top:0;font-size:10px;font-weight:700" onclick="exportClientData('download')">TELECHARGER FICHE</button>
+      </div>
+      <div id="cf-hist-container"><div style="text-align:center;color:var(--text3);font-size:12px;padding:20px">Aucune consultation.</div></div>
+    </div>
   </div>
 </div>
 
@@ -686,6 +711,10 @@ button:hover, .qa-btn:hover, .mod-btn:hover, .fbtn:hover,
     <div class="dheader"><div class="drawer-title" style="color:var(--teal)" id="rapport-title">RAPPORT DE CONSULTATION</div><button class="dbtn-close" onclick="closeOverlay('rapport-overlay')">FERMER ✕</button></div>
     <div id="rapport-loading" style="text-align:center;padding:30px;color:var(--text3);font-size:12px">Generation du rapport en cours...</div>
     <div id="rapport-content" style="display:none">
+      <div id="rapport-no-client" style="display:none;background:rgba(255,136,0,0.08);border:1px solid rgba(255,136,0,0.2);border-radius:var(--r);padding:10px 13px;font-size:12px;color:#ffaa66;margin-bottom:10px;line-height:1.6">
+        Aucun client selectionne — selectionnez ou creez une fiche client pour sauvegarder ce rapport.
+        <button class="btn-secondary" style="margin-top:8px;background:rgba(204,68,255,0.1);border-color:rgba(204,68,255,0.2);color:var(--purple)" onclick="closeOverlay('rapport-overlay');openClientOverlay()">SELECTIONNER UN CLIENT</button>
+      </div>
       <div class="report-display" id="rapport-display"></div>
       <div style="display:flex;gap:7px;margin-top:10px">
         <button class="btn-primary" style="background:rgba(0,255,204,0.12);border-color:rgba(0,255,204,0.3);color:var(--teal)" onclick="copyReport()">COPIER LE RAPPORT</button>
@@ -797,8 +826,16 @@ button:hover, .qa-btn:hover, .mod-btn:hover, .fbtn:hover,
 <div class="overlay" id="mod-horoscope" onclick="overlayClose(event,'mod-horoscope')">
   <div class="drawer"><div class="drawer-handle"></div>
     <div class="dheader"><div class="drawer-title" style="color:var(--yellow)">HOROSCOPE</div><button class="dbtn-close" onclick="closeOverlay('mod-horoscope')">FERMER ✕</button></div>
-    <div class="fg"><div class="fl">Signe astrologique</div>
-      <select id="horoscope-sign" class="fsel">
+    <!-- Date de naissance avec detection automatique du signe -->
+    <div class="fg">
+      <div class="fl">Date de naissance (detection automatique du signe)</div>
+      <input type="text" id="horoscope-dob" class="fi" placeholder="15/03/1985" maxlength="10"
+        oninput="formatDOBInput(this);autoDetectSign()"
+        style="font-size:20px;font-weight:700;letter-spacing:3px;text-align:center;font-family:'JetBrains Mono',monospace;color:var(--yellow)">
+      <div id="horoscope-sign-detected" style="margin-top:7px;font-size:12px;color:var(--yellow);text-align:center;min-height:18px;font-weight:700;letter-spacing:1px"></div>
+    </div>
+    <div class="fg"><div class="fl">Ou choisir le signe directement</div>
+      <select id="horoscope-sign" class="fsel" onchange="document.getElementById('horoscope-dob').value='';document.getElementById('horoscope-sign-detected').textContent=''">
         <option value="">Selectionner un signe...</option>
         <option>Belier</option><option>Taureau</option><option>Gemeaux</option><option>Cancer</option>
         <option>Lion</option><option>Vierge</option><option>Balance</option><option>Scorpion</option>
@@ -809,8 +846,21 @@ button:hover, .qa-btn:hover, .mod-btn:hover, .fbtn:hover,
         <option value="jour">Aujourd'hui</option>
         <option value="semaine">Cette semaine</option>
         <option value="mois">Ce mois</option>
-        <option value="general">Lecture generale</option>
+        <option value="annee">Cette annee</option>
+        <option value="general">Lecture generale et energetique</option>
       </select></div>
+    <div class="fg"><div class="fl">Themes a approfondir (optionnel)</div>
+      <div style="display:flex;flex-wrap:wrap;gap:5px;margin-top:4px" id="horoscope-themes">
+        <button type="button" class="tarot-spread-btn" data-theme="amour" onclick="toggleTheme(this)">Amour</button>
+        <button type="button" class="tarot-spread-btn" data-theme="travail" onclick="toggleTheme(this)">Travail</button>
+        <button type="button" class="tarot-spread-btn" data-theme="argent" onclick="toggleTheme(this)">Argent</button>
+        <button type="button" class="tarot-spread-btn" data-theme="sante" onclick="toggleTheme(this)">Sante</button>
+        <button type="button" class="tarot-spread-btn" data-theme="famille" onclick="toggleTheme(this)">Famille</button>
+        <button type="button" class="tarot-spread-btn" data-theme="spirituel" onclick="toggleTheme(this)">Spirituel</button>
+        <button type="button" class="tarot-spread-btn" data-theme="rencontres" onclick="toggleTheme(this)">Rencontres</button>
+        <button type="button" class="tarot-spread-btn" data-theme="chance" onclick="toggleTheme(this)">Chance</button>
+      </div>
+    </div>
     <button class="btn-primary" style="background:rgba(255,208,0,0.12);border-color:rgba(255,208,0,0.3);color:var(--yellow)" onclick="runHoroscope()">GENERER L'HOROSCOPE</button>
   </div>
 </div>
@@ -1259,7 +1309,12 @@ function startConsultation(){
   document.getElementById('fgroup-idle').style.display='none';
   document.getElementById('fgroup-active').style.display='flex';
   document.getElementById('btn-force-f').disabled=false;
-  toast('Consultation demarree','info');
+  document.getElementById('btn-start').classList.add('rec-active');
+  if(S.activeClient){
+    toast('Consultation demarree — Client : '+S.activeClient.name,'info');
+  } else {
+    toast('Consultation demarree — Selectionnez un client pour lier la fiche','warn');
+  }
 }
 
 function togglePause(){
@@ -1293,8 +1348,13 @@ async function stopConsultation(){
   setStatus('idle');showSessionBar(false);
   document.getElementById('fgroup-idle').style.display='flex';
   document.getElementById('fgroup-active').style.display='none';
+  document.getElementById('btn-start').classList.remove('rec-active');
   // Final auto-save before report
   autoSaveSessionToClient();
+  // If no client selected, prompt to create/select one before saving report
+  if(!S.activeClient){
+    toast('Aucun client selectionne — le rapport sera genere mais non lie a une fiche','warn');
+  }
   await generateAndShowReport();
 }
 
@@ -1570,7 +1630,12 @@ function openModule(type){
     astrologie:'mod-astrologie',ange:'mod-ange',main:'mod-main',pendule:'mod-pendule',alertes:'mod-alertes'};
   if(type==='tarot'){updateTarotDeck();}
   if(type==='numerologie'){const c=S.activeClient;if(c){document.getElementById('num-prenom').value=c.name||'';}}
-  if(type==='horoscope'){const c=S.activeClient;if(c?.sign)document.getElementById('horoscope-sign').value=c.sign;}
+  if(type==='horoscope'){
+    const c=S.activeClient;
+    if(c?.sign)document.getElementById('horoscope-sign').value=c.sign;
+    if(c?.birthdate){document.getElementById('horoscope-dob').value=c.birthdate;autoDetectSign();}
+    document.querySelectorAll('#horoscope-themes .tarot-spread-btn').forEach(b=>b.classList.remove('active-spread'));
+  }
   if(type==='astrologie'){const c=S.activeClient;if(c?.birthdate)document.getElementById('astro-dob').value=c.birthdate;}
   if(type==='main'){document.getElementById('main-vision-warning').style.display=hasVision()?'none':'block';}
   if(type==='pendule'){document.getElementById('pendule-question').value='';document.getElementById('pendule-result').style.display='none';document.getElementById('pendule-answer-display').innerHTML='';}
@@ -1705,23 +1770,66 @@ async function runNumerologie(){
 }
 
 /* ═══ MODULE HOROSCOPE ═══ */
+// Sign detection table
+const SIGN_TABLE=[
+  {sign:'Capricorne',from:[12,22],to:[1,19]},{sign:'Verseau',from:[1,20],to:[2,18]},
+  {sign:'Poissons',from:[2,19],to:[3,20]},{sign:'Belier',from:[3,21],to:[4,19]},
+  {sign:'Taureau',from:[4,20],to:[5,20]},{sign:'Gemeaux',from:[5,21],to:[6,20]},
+  {sign:'Cancer',from:[6,21],to:[7,22]},{sign:'Lion',from:[7,23],to:[8,22]},
+  {sign:'Vierge',from:[8,23],to:[9,22]},{sign:'Balance',from:[9,23],to:[10,22]},
+  {sign:'Scorpion',from:[10,23],to:[11,21]},{sign:'Sagittaire',from:[11,22],to:[12,21]},
+];
+function getSignFromDate(dobStr){
+  const d=parseDOBText(dobStr);if(!d||isNaN(d.getTime()))return null;
+  const m=d.getMonth()+1,day=d.getDate();
+  for(const s of SIGN_TABLE){
+    const [fm,fd]=s.from,[tm,td]=s.to;
+    if((m===fm&&day>=fd)||(m===tm&&day<=td))return s.sign;
+  }
+  return null;
+}
+function autoDetectSign(){
+  const dobStr=document.getElementById('horoscope-dob').value;
+  const detected=document.getElementById('horoscope-sign-detected');
+  const sign=getSignFromDate(dobStr);
+  if(sign){
+    detected.textContent='Signe detecte : '+sign.toUpperCase();
+    document.getElementById('horoscope-sign').value=sign;
+  } else {
+    detected.textContent='';
+  }
+}
+function toggleTheme(btn){btn.classList.toggle('active-spread');}
+
 async function runHoroscope(){
   const sign=document.getElementById('horoscope-sign').value;
   const period=document.getElementById('horoscope-period').value;
-  if(!sign){toast('Selectionnez un signe astrologique','warn');return;}
+  const dobStr=document.getElementById('horoscope-dob').value.trim();
+  if(!sign){toast('Selectionnez un signe ou entrez une date de naissance','warn');return;}
+  // Collect selected themes
+  const themes=Array.from(document.querySelectorAll('#horoscope-themes .active-spread')).map(b=>b.dataset.theme);
   const btn=document.querySelector('#mod-horoscope .btn-primary');btn.textContent='GENERATION...';btn.disabled=true;
   const t=S.session?.transcript||'';const c=S.activeClient;
-  const msg='Horoscope '+period+' pour le signe '+sign+'.\nConsultation : "'+t.slice(-400)+'"'+(c?'\nClient : '+c.name+(c.profile?'. '+c.profile.slice(0,100):''):'')+'\n\nHoroscope professionnel, precis et personnalise en lien avec le contexte. Domaines : amour, travail, finances, sante, energie. Ton inspire, credible, exploitable en direct.\nJSON: {"horoscope":"texte complet","point_fort":"le point fort principal","point_vigilance":"le point de vigilance"}';
-  const raw=await callAI(msg,600,null,true);const data=safeJSON(raw);
+  const themesCtx=themes.length?'\nThemes a approfondir en priorite : '+themes.join(', '):'';
+  const dobCtx=dobStr?'\nDate de naissance : '+dobStr:'';
+  const msg='Horoscope '+period+' pour le signe '+sign+'.'+dobCtx+themesCtx
+    +'\nConsultation en cours : "'+t.slice(-400)+'"'
+    +(c?'\nClient : '+c.name+(c.profile?'. '+c.profile.slice(0,100):''):'')
+    +(c?.consultations?.length?'\nHistorique : '+c.consultations.slice(0,2).map(x=>x.summary||'').join('. '):'')
+    +'\n\nHoroscope professionnel, precis, personnalise et relie au contexte de la consultation. Couvrir les domaines demandes en profondeur. Ton inspire, credible, exploitable en direct. Eviter le generique.\nJSON: {"horoscope":"texte complet bien developpe","point_fort":"le point fort principal","point_vigilance":"le point de vigilance","conseil":"un conseil actionnable immediat"}';
+  const raw=await callAI(msg,700,null,true);const data=safeJSON(raw);
   if(data?.horoscope){
-    if(S.session)S.session.elements.horoscope={sign,period,...data,timestamp:Date.now()};
-    addModuleResult('horoscope','HOROSCOPE '+sign.toUpperCase()+' — '+period.toUpperCase(),
-      data.horoscope+(data.point_fort?'\n\nFORCE : '+data.point_fort:'')+(data.point_vigilance?'\nVIGILANCE : '+data.point_vigilance:''),
+    if(S.session)S.session.elements.horoscope={sign,period,dob:dobStr,themes,...data,timestamp:Date.now()};
+    addModuleResult('horoscope','HOROSCOPE '+sign.toUpperCase()+(period!=='general'?' — '+period.toUpperCase():''),
+      data.horoscope
+      +(data.point_fort?'\n\nFORCE : '+data.point_fort:'')
+      +(data.point_vigilance?'\nVIGILANCE : '+data.point_vigilance:'')
+      +(data.conseil?'\nCONSEIL : '+data.conseil:''),
       'mod-horoscope');
     toast('Horoscope genere');
     autoSaveSessionToClient();
   }
-  btn.textContent='GENERER L\'HOROSCOPE';btn.disabled=false;
+  btn.textContent="GENERER L'HOROSCOPE";btn.disabled=false;
 }
 
 /* ═══ MODULE ASTROLOGIE ═══ */
@@ -1912,6 +2020,7 @@ async function generateAndShowReport(){
   document.getElementById('rapport-loading').style.display='none';
   document.getElementById('rapport-content').style.display='block';
   document.getElementById('btn-save-rapport').style.display=S.activeClient?'block':'none';
+  document.getElementById('rapport-no-client').style.display=S.activeClient?'none':'block';
   autoSaveReport();
 }
 
@@ -2039,6 +2148,7 @@ async function viewSavedReport(id){
   document.getElementById('rapport-title').textContent='RAPPORT — '+r.clientName;
   document.getElementById('rapport-content').style.display='block';
   document.getElementById('btn-save-rapport').style.display=S.activeClient?'block':'none';
+  document.getElementById('rapport-no-client').style.display=S.activeClient?'none':'block';
   openOverlay('rapport-overlay');
 }
 
@@ -2048,7 +2158,12 @@ function openEmailOverlay(){
   document.getElementById('email-question').value='';document.getElementById('email-response-section').style.display='none';
   updateEmailClientDisplay();openOverlay('email-overlay');
 }
-function saveEmailDirectives(){ls('ma_email_directives',document.getElementById('email-directives').value);}
+function saveEmailDirectives(){
+  const val=document.getElementById('email-directives').value;
+  ls('ma_email_directives',val);
+  // Sync to Worker for cross-device access
+  if(cfg.workerUrl)workerRequest('PUT','/settings/email-directives',{value:val}).catch(()=>{});
+}
 function updateEmailClientDisplay(){
   const el=document.getElementById('email-client-name');
   if(S.emailClient)el.textContent=S.emailClient.name+(S.emailClient.birthdate?' — '+S.emailClient.birthdate:'');
@@ -2362,6 +2477,94 @@ function toast(msg,type='ok'){
   clearTimeout(t._t);t._t=setTimeout(()=>t.className='',2600);
 }
 
+/* ═══ EXPORT CLIENT ═══ */
+function exportClientData(mode){
+  if(!S.activeClient){toast('Aucun client selectionne','warn');return;}
+  const c=S.activeClient;
+  let txt='';
+  txt+='FICHE CLIENT — PGI MEDIUMASSIST PRO
+';
+  txt+='='.repeat(45)+'
+';
+  txt+='Prenom : '+(c.name||'—')+'
+';
+  txt+='Telephone : '+(c.phone||'—')+'
+';
+  txt+='Date de naissance : '+(c.birthdate||'—')+'
+';
+  txt+='Signe : '+(c.sign||'—')+'
+';
+  txt+='Cree le : '+new Date(c.createdAt||Date.now()).toLocaleDateString('fr-FR')+'
+
+';
+  if(c.profile)txt+='PROFIL
+'+c.profile+'
+
+';
+  if(c.notes)txt+='NOTES PRIVEES
+'+c.notes+'
+
+';
+  const consultations=c.consultations||[];
+  if(consultations.length){
+    txt+='CONSULTATIONS TELEPHONIQUES ('+consultations.length+')
+'+'—'.repeat(35)+'
+';
+    consultations.forEach((cs,i)=>{
+      txt+='
+['+(i+1)+'] '+new Date(cs.date).toLocaleDateString('fr-FR',{day:'2-digit',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit'})+'
+';
+      if(cs.duration)txt+='Duree : '+cs.duration+' min
+';
+      if(cs.summary)txt+='Resume : '+cs.summary+'
+';
+      if(cs.keyPoints?.length)txt+='Points cles : '+cs.keyPoints.join(', ')+'
+';
+      if(cs.elements?.tarot?.length)txt+='Tarot : '+cs.elements.tarot.map(t=>t.cards?.join(',')||'').join(' | ')+'
+';
+      if(cs.elements?.pendule?.length)txt+='Pendule : '+cs.elements.pendule.map(p=>p.question+'=>'+p.reponse).join(' | ')+'
+';
+      if(cs.notes)txt+='Recommandations : '+cs.notes+'
+';
+      if(cs.fullText)txt+='
+RAPPORT COMPLET :
+'+cs.fullText+'
+';
+      txt+='
+';
+    });
+  }
+  const emails=c.emailConsultations||[];
+  if(emails.length){
+    txt+='CONSULTATIONS EMAIL ('+emails.length+')
+'+'—'.repeat(35)+'
+';
+    emails.forEach((ec,i)=>{
+      txt+='
+['+(i+1)+'] '+new Date(ec.date).toLocaleDateString('fr-FR')+'
+';
+      if(ec.question)txt+='Question : '+ec.question+'
+';
+      if(ec.response)txt+='Reponse : '+ec.response+'
+
+';
+    });
+  }
+  txt+='='.repeat(45)+'
+Exporte le '+new Date().toLocaleDateString('fr-FR')+' — ClairvoyanceMedium.com
+';
+  if(mode==='text'){
+    navigator.clipboard?.writeText(txt).catch(()=>{});
+    toast('Fiche copiee dans le presse-papiers');
+  } else {
+    const blob=new Blob([txt],{type:'text/plain;charset=utf-8'});
+    const url=URL.createObjectURL(blob);const a=document.createElement('a');
+    a.href=url;a.download='fiche_'+(c.name||'client').replace(/\s+/g,'_')+'_'+new Date().toLocaleDateString('fr-FR').replace(/\//g,'-')+'.txt';
+    a.click();URL.revokeObjectURL(url);
+    toast('Fiche telecharge');
+  }
+}
+
 /* ═══ AUTO-SAVE SESSION ═══ */
 function autoSaveSessionToClient(){
   if(!S.activeClient||!S.session)return;
@@ -2408,10 +2611,32 @@ document.getElementById('btn-settings-open').addEventListener('click',openSettin
 (function init(){
   const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
   if(!SR){document.getElementById('no-support').classList.add('show');return;}
-  const saved=ls('ma_email_directives');
-  if(saved){const el=document.getElementById('email-directives');if(el)el.value=saved;}
+  // Load saved email directives permanently
+  const savedDir=ls('ma_email_directives');
+  if(savedDir){const el=document.getElementById('email-directives');if(el)el.value=savedDir;}
+  // Pre-populate from API key hint
+  if(!cfg.apiKey){
+    setTimeout(()=>toast('Configurez votre cle API dans les parametres (roue crantee)','warn'),1200);
+  }
   if(cfg.workerUrl){
-    workerRequest('GET','/voice').then(p=>{if(p?.fft){const existing=cfg.voiceProfile;if(!existing?.fft)ls('ma_voice',JSON.stringify(p));}});
+    // Sync voice profile from Worker
+    workerRequest('GET','/voice').then(p=>{
+      if(p?.fft){const existing=cfg.voiceProfile;if(!existing?.fft)ls('ma_voice',JSON.stringify(p));}
+    });
+    // Sync clients index from Worker
+    workerRequest('GET','/clients').then(clients=>{
+      if(clients&&Array.isArray(clients)&&clients.length>0){
+        allClients=clients;
+        ls('ma_clients_index',JSON.stringify(clients));
+      }
+    });
+    // Sync email directives from Worker
+    workerRequest('GET','/settings/email-directives').then(data=>{
+      if(data?.value&&!ls('ma_email_directives')){
+        ls('ma_email_directives',data.value);
+        const el=document.getElementById('email-directives');if(el)el.value=data.value;
+      }
+    });
   }
 })();
 </script>
