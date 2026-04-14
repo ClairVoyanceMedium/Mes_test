@@ -229,20 +229,20 @@ footer{flex-shrink:0;padding:9px 12px 13px;background:rgba(17,17,17,0.98);
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
   transition:all 0.3s;flex-shrink:0;
   background:radial-gradient(circle at 40% 35%, rgba(60,0,120,0.95), rgba(10,0,30,0.98));
-  border:2px solid transparent;
-  box-shadow:0 0 0 2px rgba(201,162,39,0.7), 0 0 20px rgba(100,0,200,0.4), inset 0 1px 0 rgba(255,255,255,0.1) !important;
+  border:2px solid rgba(201,162,39,0.8);
+  box-shadow:0 0 20px rgba(100,0,200,0.4), inset 0 1px 0 rgba(255,255,255,0.1);
   color:#c9a227;
   position:relative;overflow:visible;}
-#btn-start::before{content:'';position:absolute;inset:-4px;border-radius:50%;
-  background:conic-gradient(from 0deg, rgba(201,162,39,0) 0%, rgba(201,162,39,0.6) 30%, rgba(201,162,39,0) 60%);
-  animation:rotate-gold 3s linear infinite;z-index:-1;}
+#btn-start::before{content:'';position:absolute;inset:-3px;border-radius:50%;
+  background:conic-gradient(from 0deg, rgba(201,162,39,0) 0%, rgba(201,162,39,0.5) 30%, rgba(201,162,39,0) 60%);
+  animation:rotate-gold 3s linear infinite;z-index:0;pointer-events:none;}
 @keyframes rotate-gold{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
-#btn-start:hover{transform:scale(1.08);box-shadow:0 0 0 2px rgba(201,162,39,1), 0 0 30px rgba(150,0,255,0.5), inset 0 1px 0 rgba(255,255,255,0.15) !important;}
+#btn-start:hover{transform:scale(1.08);border-color:rgba(201,162,39,1);box-shadow:0 0 30px rgba(150,0,255,0.5), inset 0 1px 0 rgba(255,255,255,0.15);}
 #btn-start.rec-active{
   background:radial-gradient(circle at 40% 35%, rgba(120,0,0,0.95), rgba(30,0,0,0.98));
   box-shadow:0 0 0 2px rgba(255,68,0,0.8), 0 0 25px rgba(255,68,0,0.4), inset 0 1px 0 rgba(255,100,0,0.2) !important;
   color:var(--red);animation:mic-pulse-gold 2s ease-in-out infinite;}
-@keyframes mic-pulse-gold{0%,100%{box-shadow:0 0 0 2px rgba(255,68,0,0.8), 0 0 25px rgba(255,68,0,0.4) !important;}50%{box-shadow:0 0 0 3px rgba(255,68,0,1), 0 0 40px rgba(255,68,0,0.6) !important;}}
+@keyframes mic-pulse-gold{0%,100%{box-shadow:0 0 25px rgba(255,68,0,0.4);}50%{box-shadow:0 0 40px rgba(255,68,0,0.6);}}
 .fbtn{width:48px;height:48px;border-radius:11px;border:none;cursor:pointer;
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
   transition:all 0.2s;flex-shrink:0;font-family:'Inter',sans-serif;}
@@ -433,22 +433,18 @@ footer{flex-shrink:0;padding:9px 12px 13px;background:rgba(17,17,17,0.98);
 
 @keyframes slide-in{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
 /* ═══ LISERET DORE SUR TOUS LES BOUTONS ═══ */
-button:not(.cb-close):not(.mini-close) {
-  box-shadow: 0 0 0 1.5px rgba(201,162,39,0.55), inset 0 0 0 0 transparent !important;
-  transition: box-shadow 0.2s, filter 0.2s, transform 0.2s !important;
+button:not(.cb-close):not(.mini-close),
+.qa-btn, .mod-btn, .fbtn, .sbar-btn,
+.btn-primary, .btn-secondary, .tarot-spread-btn, .tarot-card-chip,
+.eye-btn, .dbtn-close, .tab-btn {
+  border: 1.5px solid rgba(201,162,39,0.65) !important;
 }
-button:not(.cb-close):not(.mini-close):hover {
-  box-shadow: 0 0 0 2px rgba(201,162,39,0.9), 0 0 12px rgba(201,162,39,0.25) !important;
+button:not(.cb-close):not(.mini-close):hover,
+.qa-btn:hover, .mod-btn:hover, .fbtn:hover, .btn-primary:hover {
+  border-color: rgba(201,162,39,1) !important;
+  box-shadow: 0 0 8px rgba(201,162,39,0.25);
 }
-.qa-btn, .mod-btn, .fbtn, .sbar-btn, .tarot-spread-btn, .tarot-card-chip {
-  box-shadow: 0 0 0 1.5px rgba(201,162,39,0.55) !important;
-}
-.btn-primary {
-  box-shadow: 0 0 0 1.5px rgba(201,162,39,0.6), 0 2px 12px rgba(0,0,0,0.3) !important;
-}
-.btn-primary:hover {
-  box-shadow: 0 0 0 2px rgba(201,162,39,1), 0 0 16px rgba(201,162,39,0.3) !important;
-}
+.cb-close, .mini-close { border: none !important; }
 
 </style>
 </head>
@@ -572,7 +568,7 @@ button:not(.cb-close):not(.mini-close):hover {
     <button class="fbtn" id="btn-rapports-f" onclick="openRapportsOverlay()"><div class="fbt-label">RAPPORTS<br>& BILAN</div></button>
     <button class="fbtn" id="btn-raz-f" onclick="confirmClear()"><div class="fbt-label">EFFACER<br>SESSION</div></button>
   </div>
-  <div id="fgroup-active" style="flex:1;gap:6px;align-items:center;display:none">
+  <div id="fgroup-active" style="flex:1;gap:6px;align-items:center;" hidden>
     <button class="fbtn" id="btn-force-f" onclick="forceSuggest()" disabled><div class="fbt-label" style="color:var(--green)">SUGGERER<br>MAINTENANT</div></button>
     <button class="fbtn" id="btn-clients-fa" onclick="openClientOverlay()" style="background:rgba(204,68,255,0.1);border:1px solid rgba(204,68,255,0.2)"><div class="fbt-label" style="color:var(--purple)">CLIENTS</div></button>
     <button class="fbtn" id="btn-email-fa" onclick="openEmailOverlay()" style="background:rgba(0,255,204,0.1);border:1px solid rgba(0,255,204,0.2)"><div class="fbt-label" style="color:var(--teal)">VOYANCE<br>EMAIL</div></button>
@@ -1307,6 +1303,7 @@ function startConsultation(){
   initReco();try{if(recognition)recognition.start();}catch(e){}
   setStatus('listening');showSessionBar(true);showSessionUI();startTimer();startSpeakerDetection();
   document.getElementById('fgroup-idle').style.display='none';
+  document.getElementById('fgroup-active').removeAttribute('hidden');
   document.getElementById('fgroup-active').style.display='flex';
   document.getElementById('btn-force-f').disabled=false;
   document.getElementById('btn-start').classList.add('rec-active');
@@ -1348,6 +1345,7 @@ async function stopConsultation(){
   setStatus('idle');showSessionBar(false);
   document.getElementById('fgroup-idle').style.display='flex';
   document.getElementById('fgroup-active').style.display='none';
+  document.getElementById('fgroup-active').setAttribute('hidden','');
   document.getElementById('btn-start').classList.remove('rec-active');
   // Final auto-save before report
   autoSaveSessionToClient();
@@ -2481,87 +2479,54 @@ function toast(msg,type='ok'){
 function exportClientData(mode){
   if(!S.activeClient){toast('Aucun client selectionne','warn');return;}
   const c=S.activeClient;
+  const nl='\n';
   let txt='';
-  txt+='FICHE CLIENT — PGI MEDIUMASSIST PRO
-';
-  txt+='='.repeat(45)+'
-';
-  txt+='Prenom : '+(c.name||'—')+'
-';
-  txt+='Telephone : '+(c.phone||'—')+'
-';
-  txt+='Date de naissance : '+(c.birthdate||'—')+'
-';
-  txt+='Signe : '+(c.sign||'—')+'
-';
-  txt+='Cree le : '+new Date(c.createdAt||Date.now()).toLocaleDateString('fr-FR')+'
-
-';
-  if(c.profile)txt+='PROFIL
-'+c.profile+'
-
-';
-  if(c.notes)txt+='NOTES PRIVEES
-'+c.notes+'
-
-';
+  txt+='FICHE CLIENT — PGI MEDIUMASSIST PRO'+nl;
+  txt+='='.repeat(45)+nl;
+  txt+='Prenom : '+(c.name||'—')+nl;
+  txt+='Telephone : '+(c.phone||'—')+nl;
+  txt+='Date de naissance : '+(c.birthdate||'—')+nl;
+  txt+='Signe : '+(c.sign||'—')+nl;
+  txt+='Cree le : '+new Date(c.createdAt||Date.now()).toLocaleDateString('fr-FR')+nl+nl;
+  if(c.profile) txt+='PROFIL'+nl+c.profile+nl+nl;
+  if(c.notes) txt+='NOTES PRIVEES'+nl+c.notes+nl+nl;
   const consultations=c.consultations||[];
   if(consultations.length){
-    txt+='CONSULTATIONS TELEPHONIQUES ('+consultations.length+')
-'+'—'.repeat(35)+'
-';
+    txt+='CONSULTATIONS TELEPHONIQUES ('+consultations.length+')'+nl+'—'.repeat(35)+nl;
     consultations.forEach((cs,i)=>{
-      txt+='
-['+(i+1)+'] '+new Date(cs.date).toLocaleDateString('fr-FR',{day:'2-digit',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit'})+'
-';
-      if(cs.duration)txt+='Duree : '+cs.duration+' min
-';
-      if(cs.summary)txt+='Resume : '+cs.summary+'
-';
-      if(cs.keyPoints?.length)txt+='Points cles : '+cs.keyPoints.join(', ')+'
-';
-      if(cs.elements?.tarot?.length)txt+='Tarot : '+cs.elements.tarot.map(t=>t.cards?.join(',')||'').join(' | ')+'
-';
-      if(cs.elements?.pendule?.length)txt+='Pendule : '+cs.elements.pendule.map(p=>p.question+'=>'+p.reponse).join(' | ')+'
-';
-      if(cs.notes)txt+='Recommandations : '+cs.notes+'
-';
-      if(cs.fullText)txt+='
-RAPPORT COMPLET :
-'+cs.fullText+'
-';
-      txt+='
-';
+      txt+=nl+'['+(i+1)+'] '+new Date(cs.date).toLocaleDateString('fr-FR',{day:'2-digit',month:'long',year:'numeric'})+nl;
+      if(cs.duration) txt+='Duree : '+cs.duration+' min'+nl;
+      if(cs.summary) txt+='Resume : '+cs.summary+nl;
+      if(cs.keyPoints&&cs.keyPoints.length) txt+='Points cles : '+cs.keyPoints.join(', ')+nl;
+      if(cs.elements&&cs.elements.tarot&&cs.elements.tarot.length) txt+='Tarot : '+cs.elements.tarot.map(function(t){return t.cards?t.cards.join(','):'';}).join(' | ')+nl;
+      if(cs.elements&&cs.elements.pendule&&cs.elements.pendule.length) txt+='Pendule : '+cs.elements.pendule.map(function(p){return p.question+'=>'+p.reponse;}).join(' | ')+nl;
+      if(cs.notes) txt+='Recommandations : '+cs.notes+nl;
+      if(cs.fullText) txt+=nl+'RAPPORT :'+nl+cs.fullText+nl;
+      txt+=nl;
     });
   }
   const emails=c.emailConsultations||[];
   if(emails.length){
-    txt+='CONSULTATIONS EMAIL ('+emails.length+')
-'+'—'.repeat(35)+'
-';
-    emails.forEach((ec,i)=>{
-      txt+='
-['+(i+1)+'] '+new Date(ec.date).toLocaleDateString('fr-FR')+'
-';
-      if(ec.question)txt+='Question : '+ec.question+'
-';
-      if(ec.response)txt+='Reponse : '+ec.response+'
-
-';
+    txt+='CONSULTATIONS EMAIL ('+emails.length+')'+nl+'—'.repeat(35)+nl;
+    emails.forEach(function(ec,i){
+      txt+=nl+'['+(i+1)+'] '+new Date(ec.date).toLocaleDateString('fr-FR')+nl;
+      if(ec.question) txt+='Q: '+ec.question+nl;
+      if(ec.response) txt+='R: '+ec.response+nl+nl;
     });
   }
-  txt+='='.repeat(45)+'
-Exporte le '+new Date().toLocaleDateString('fr-FR')+' — ClairvoyanceMedium.com
-';
+  txt+='='.repeat(45)+nl+'Exporte le '+new Date().toLocaleDateString('fr-FR')+' — ClairvoyanceMedium.com'+nl;
   if(mode==='text'){
-    navigator.clipboard?.writeText(txt).catch(()=>{});
+    navigator.clipboard&&navigator.clipboard.writeText(txt).catch(function(){});
     toast('Fiche copiee dans le presse-papiers');
   } else {
-    const blob=new Blob([txt],{type:'text/plain;charset=utf-8'});
-    const url=URL.createObjectURL(blob);const a=document.createElement('a');
-    a.href=url;a.download='fiche_'+(c.name||'client').replace(/\s+/g,'_')+'_'+new Date().toLocaleDateString('fr-FR').replace(/\//g,'-')+'.txt';
-    a.click();URL.revokeObjectURL(url);
-    toast('Fiche telecharge');
+    var blob=new Blob([txt],{type:'text/plain;charset=utf-8'});
+    var url=URL.createObjectURL(blob);
+    var a=document.createElement('a');
+    a.href=url;
+    a.download='fiche_'+(c.name||'client').replace(/\s+/g,'_')+'.txt';
+    a.click();
+    URL.revokeObjectURL(url);
+    toast('Fiche telechargee');
   }
 }
 
