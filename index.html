@@ -223,13 +223,14 @@ main{flex:1;overflow-y:auto;overflow-x:hidden;padding:10px 12px;
 /* FOOTER */
 footer{flex-shrink:0;padding:9px 12px 13px;background:rgba(17,17,17,0.98);
   border-top:1px solid var(--border);display:flex;gap:6px;align-items:center;}
-#fgroup-idle,#fgroup-active{flex:1;display:flex;gap:6px;}
+#fgroup-idle{flex:1;display:flex;gap:6px;}
+#fgroup-active{flex:1;gap:6px;}
 #btn-start{width:66px;height:66px;border-radius:50%;border:none;cursor:pointer;
   font-family:'Orbitron',monospace;font-size:7px;font-weight:900;letter-spacing:0.5px;
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
   transition:all 0.3s;flex-shrink:0;
   background:radial-gradient(circle at 40% 35%, rgba(60,0,120,0.95), rgba(10,0,30,0.98));
-  border:2px solid rgba(201,162,39,0.8);
+  border:2px solid rgba(201,162,39,1);
   box-shadow:0 0 20px rgba(100,0,200,0.4), inset 0 1px 0 rgba(255,255,255,0.1);
   color:#c9a227;
   position:relative;overflow:visible;}
@@ -532,7 +533,7 @@ button:not(.cb-close):not(.mini-close):hover,
 
 <!-- ASSISTANCE A LA CONSULTATION -->
 <div id="assistance-bar">
-  <div class="qa-bar-label">ASSISTANCE A LA CONSULTATION</div>
+  <div class="qa-bar-label" style="color:rgba(255,255,255,0.3)">ASSISTANCE A LA CONSULTATION</div>
   <button class="qa-btn qa-1" onclick="quickAction('epate')">EPATE</button>
   <button class="qa-btn qa-2" onclick="quickAction('question')">QUESTION</button>
   <button class="qa-btn qa-3" onclick="quickAction('alerte')">ALERTE</button>
@@ -545,7 +546,7 @@ button:not(.cb-close):not(.mini-close):hover,
 
 <!-- MODULES -->
 <div id="module-strip">
-  <div class="mod-strip-label">MODULES VOYANCE</div>
+  <div class="mod-strip-label" style="color:rgba(255,255,255,0.3)">MODULES VOYANCE</div>
   <button class="mod-btn mb-tarot" onclick="openModule('tarot')">TAROT</button>
   <button class="mod-btn mb-num" onclick="openModule('numerologie')">NUMEROLOGIE</button>
   <button class="mod-btn mb-horoscope" onclick="openModule('horoscope')">HOROSCOPE</button>
@@ -821,22 +822,50 @@ button:not(.cb-close):not(.mini-close):hover,
 <!-- MODULE HOROSCOPE -->
 <div class="overlay" id="mod-horoscope" onclick="overlayClose(event,'mod-horoscope')">
   <div class="drawer"><div class="drawer-handle"></div>
-    <div class="dheader"><div class="drawer-title" style="color:var(--yellow)">HOROSCOPE</div><button class="dbtn-close" onclick="closeOverlay('mod-horoscope')">FERMER ✕</button></div>
-    <!-- Date de naissance avec detection automatique du signe -->
+    <div class="dheader"><div class="drawer-title" style="color:var(--yellow)">HOROSCOPE & ASCENDANT</div><button class="dbtn-close" onclick="closeOverlay('mod-horoscope')">FERMER ✕</button></div>
+
     <div class="fg">
-      <div class="fl">Date de naissance (detection automatique du signe)</div>
+      <div class="fl">Date de naissance</div>
       <input type="text" id="horoscope-dob" class="fi" placeholder="15/03/1985" maxlength="10"
-        oninput="formatDOBInput(this);autoDetectSign()"
+        oninput="formatDOBInput(this);autoDetectSignAndAscendant()"
         style="font-size:20px;font-weight:700;letter-spacing:3px;text-align:center;font-family:'JetBrains Mono',monospace;color:var(--yellow)">
-      <div id="horoscope-sign-detected" style="margin-top:7px;font-size:12px;color:var(--yellow);text-align:center;min-height:18px;font-weight:700;letter-spacing:1px"></div>
+      <div id="horoscope-sign-detected" style="margin-top:6px;font-size:12px;color:var(--yellow);text-align:center;min-height:16px;font-weight:700;letter-spacing:1px"></div>
     </div>
+
+    <div style="display:flex;gap:8px">
+      <div class="fg" style="flex:1">
+        <div class="fl">Heure de naissance</div>
+        <input type="text" id="horoscope-time" class="fi" placeholder="14:30"
+          oninput="autoDetectSignAndAscendant()"
+          style="text-align:center;font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:700">
+        <div class="fhint">Requis pour l'ascendant</div>
+      </div>
+      <div class="fg" style="flex:1">
+        <div class="fl">Lieu de naissance</div>
+        <input type="text" id="horoscope-place" class="fi" placeholder="Paris, Lyon..."
+          style="font-size:13px">
+        <div class="fhint">Pour affiner l'ascendant</div>
+      </div>
+    </div>
+
+    <div id="horoscope-ascendant-display" style="display:none;background:rgba(255,208,0,0.07);border:1px solid rgba(255,208,0,0.2);border-radius:var(--r-sm);padding:9px 12px;margin-bottom:10px;font-size:12px;color:#ffe566;text-align:center;font-weight:700;letter-spacing:1px"></div>
+
     <div class="fg"><div class="fl">Ou choisir le signe directement</div>
-      <select id="horoscope-sign" class="fsel" onchange="document.getElementById('horoscope-dob').value='';document.getElementById('horoscope-sign-detected').textContent=''">
+      <select id="horoscope-sign" class="fsel" onchange="document.getElementById('horoscope-dob').value='';document.getElementById('horoscope-sign-detected').textContent='';document.getElementById('horoscope-ascendant-display').style.display='none'">
         <option value="">Selectionner un signe...</option>
         <option>Belier</option><option>Taureau</option><option>Gemeaux</option><option>Cancer</option>
         <option>Lion</option><option>Vierge</option><option>Balance</option><option>Scorpion</option>
         <option>Sagittaire</option><option>Capricorne</option><option>Verseau</option><option>Poissons</option>
       </select></div>
+
+    <div class="fg"><div class="fl">Ascendant (si connu)</div>
+      <select id="horoscope-ascendant" class="fsel">
+        <option value="">Non connu / Non calcule</option>
+        <option>Belier</option><option>Taureau</option><option>Gemeaux</option><option>Cancer</option>
+        <option>Lion</option><option>Vierge</option><option>Balance</option><option>Scorpion</option>
+        <option>Sagittaire</option><option>Capricorne</option><option>Verseau</option><option>Poissons</option>
+      </select></div>
+
     <div class="fg"><div class="fl">Periode</div>
       <select id="horoscope-period" class="fsel">
         <option value="jour">Aujourd'hui</option>
@@ -845,7 +874,8 @@ button:not(.cb-close):not(.mini-close):hover,
         <option value="annee">Cette annee</option>
         <option value="general">Lecture generale et energetique</option>
       </select></div>
-    <div class="fg"><div class="fl">Themes a approfondir (optionnel)</div>
+
+    <div class="fg"><div class="fl">Themes a approfondir</div>
       <div style="display:flex;flex-wrap:wrap;gap:5px;margin-top:4px" id="horoscope-themes">
         <button type="button" class="tarot-spread-btn" data-theme="amour" onclick="toggleTheme(this)">Amour</button>
         <button type="button" class="tarot-spread-btn" data-theme="travail" onclick="toggleTheme(this)">Travail</button>
@@ -857,7 +887,7 @@ button:not(.cb-close):not(.mini-close):hover,
         <button type="button" class="tarot-spread-btn" data-theme="chance" onclick="toggleTheme(this)">Chance</button>
       </div>
     </div>
-    <button class="btn-primary" style="background:rgba(255,208,0,0.12);border-color:rgba(255,208,0,0.3);color:var(--yellow)" onclick="runHoroscope()">GENERER L'HOROSCOPE</button>
+    <button class="btn-primary" style="background:rgba(255,208,0,0.12);border-color:rgba(255,208,0,0.3);color:var(--yellow)" onclick="runHoroscope()">GENERER HOROSCOPE & ASCENDANT</button>
   </div>
 </div>
 
@@ -1630,8 +1660,11 @@ function openModule(type){
   if(type==='numerologie'){const c=S.activeClient;if(c){document.getElementById('num-prenom').value=c.name||'';}}
   if(type==='horoscope'){
     const c=S.activeClient;
-    if(c?.sign)document.getElementById('horoscope-sign').value=c.sign;
-    if(c?.birthdate){document.getElementById('horoscope-dob').value=c.birthdate;autoDetectSign();}
+    document.getElementById('horoscope-ascendant-display') && (document.getElementById('horoscope-ascendant-display').style.display='none');
+    if(c){
+      if(c.sign)document.getElementById('horoscope-sign').value=c.sign;
+      if(c.birthdate){document.getElementById('horoscope-dob').value=c.birthdate;autoDetectSignAndAscendant();}
+    }
     document.querySelectorAll('#horoscope-themes .tarot-spread-btn').forEach(b=>b.classList.remove('active-spread'));
   }
   if(type==='astrologie'){const c=S.activeClient;if(c?.birthdate)document.getElementById('astro-dob').value=c.birthdate;}
@@ -1786,15 +1819,49 @@ function getSignFromDate(dobStr){
   }
   return null;
 }
-function autoDetectSign(){
+// Approximate ascendant calculation based on hour (simplified, not astronomically precise)
+// Each sign roughly rises for 2 hours - this is an approximation for professional guidance
+const ASCENDANT_TABLE=[
+  'Belier','Taureau','Gemeaux','Cancer','Lion','Vierge',
+  'Balance','Scorpion','Sagittaire','Capricorne','Verseau','Poissons'
+];
+function calcApproxAscendant(dobStr,timeStr){
+  if(!timeStr||!timeStr.includes(':'))return null;
+  const parts=timeStr.split(':');
+  const h=parseInt(parts[0]);const m=parseInt(parts[1]||0);
+  if(isNaN(h)||h<0||h>23)return null;
+  // Rough approximation: ascendant shifts ~2h per sign
+  // Offset adjusted by month (very rough — for professional use, mention it's approximate)
+  const d=parseDOBText(dobStr);
+  const monthOffset=d?Math.floor((d.getMonth()*30+d.getDate())/30.4*2)%12:0;
+  const totalMinutes=h*60+m;
+  const idx=Math.floor(totalMinutes/120+monthOffset)%12;
+  return ASCENDANT_TABLE[(idx+12)%12];
+}
+function autoDetectSign(){autoDetectSignAndAscendant();}
+function autoDetectSignAndAscendant(){
   const dobStr=document.getElementById('horoscope-dob').value;
+  const timeStr=(document.getElementById('horoscope-time')||{value:''}).value;
   const detected=document.getElementById('horoscope-sign-detected');
+  const ascDisplay=document.getElementById('horoscope-ascendant-display');
   const sign=getSignFromDate(dobStr);
   if(sign){
-    detected.textContent='Signe detecte : '+sign.toUpperCase();
+    detected.textContent='SIGNE SOLAIRE : '+sign.toUpperCase();
     document.getElementById('horoscope-sign').value=sign;
+    // Try ascendant
+    if(timeStr){
+      const asc=calcApproxAscendant(dobStr,timeStr);
+      if(asc){
+        ascDisplay.textContent='ASCENDANT CALCULE (approx.) : '+asc.toUpperCase();
+        ascDisplay.style.display='block';
+        document.getElementById('horoscope-ascendant').value=asc;
+      }
+    } else {
+      ascDisplay.style.display='none';
+    }
   } else {
     detected.textContent='';
+    ascDisplay.style.display='none';
   }
 }
 function toggleTheme(btn){btn.classList.toggle('active-spread');}
