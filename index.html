@@ -225,25 +225,26 @@ footer{flex-shrink:0;padding:9px 12px 13px;background:rgba(17,17,17,0.98);
   border-top:1px solid var(--border);display:flex;gap:6px;align-items:center;}
 #fgroup-idle{flex:1;display:flex;gap:6px;}
 #fgroup-active{flex:1;gap:6px;}
-#btn-start{width:66px;height:66px;border-radius:50%;border:none;cursor:pointer;
-  font-family:'Orbitron',monospace;font-size:7px;font-weight:900;letter-spacing:0.5px;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
-  transition:all 0.3s;flex-shrink:0;
-  background:radial-gradient(circle at 40% 35%, rgba(60,0,120,0.95), rgba(10,0,30,0.98));
-  border:2px solid rgba(201,162,39,1);
-  box-shadow:0 0 20px rgba(100,0,200,0.4), inset 0 1px 0 rgba(255,255,255,0.1);
-  color:#c9a227;
-  position:relative;overflow:visible;}
-#btn-start::before{content:'';position:absolute;inset:-3px;border-radius:50%;
-  background:conic-gradient(from 0deg, rgba(201,162,39,0) 0%, rgba(201,162,39,0.5) 30%, rgba(201,162,39,0) 60%);
-  animation:rotate-gold 3s linear infinite;z-index:0;pointer-events:none;}
+#btn-start{
+  width:72px;height:72px;border-radius:50%;border:none;cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+  transition:all 0.3s;flex-shrink:0;position:relative;overflow:visible;
+  background:radial-gradient(circle at 40% 40%,#c9a227 0%,#a07010 40%,#6b4a00 100%);
+  border:3px solid #ffd060;
+  box-shadow:0 0 0 1px rgba(201,162,39,0.4),0 0 18px rgba(201,162,39,0.5),0 4px 20px rgba(0,0,0,0.5),inset 0 1px 0 rgba(255,240,160,0.3);
+  color:#1a0a00;}
+#btn-start::before{
+  content:'';position:absolute;inset:-5px;border-radius:50%;
+  background:conic-gradient(from 0deg,rgba(201,162,39,0) 0%,rgba(255,220,80,0.8) 25%,rgba(201,162,39,0) 50%,rgba(255,220,80,0.6) 75%,rgba(201,162,39,0) 100%);
+  animation:rotate-gold 3s linear infinite;z-index:-1;pointer-events:none;}
 @keyframes rotate-gold{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
-#btn-start:hover{transform:scale(1.08);border-color:rgba(201,162,39,1);box-shadow:0 0 30px rgba(150,0,255,0.5), inset 0 1px 0 rgba(255,255,255,0.15);}
+#btn-start:hover{transform:scale(1.07);box-shadow:0 0 0 1px rgba(255,220,80,0.7),0 0 28px rgba(201,162,39,0.8),inset 0 1px 0 rgba(255,240,160,0.5);}
 #btn-start.rec-active{
-  background:radial-gradient(circle at 40% 35%, rgba(120,0,0,0.95), rgba(30,0,0,0.98));
-  box-shadow:0 0 0 2px rgba(255,68,0,0.8), 0 0 25px rgba(255,68,0,0.4), inset 0 1px 0 rgba(255,100,0,0.2) !important;
-  color:var(--red);animation:mic-pulse-gold 2s ease-in-out infinite;}
-@keyframes mic-pulse-gold{0%,100%{box-shadow:0 0 25px rgba(255,68,0,0.4);}50%{box-shadow:0 0 40px rgba(255,68,0,0.6);}}
+  background:radial-gradient(circle at 40% 40%,#ff6600 0%,#cc2200 50%,#800000 100%);
+  border-color:#ff4400;color:#fff;
+  box-shadow:0 0 0 1px rgba(255,68,0,0.5),0 0 25px rgba(255,68,0,0.6),inset 0 1px 0 rgba(255,150,100,0.3);
+  animation:rec-pulse 1.5s ease-in-out infinite;}
+@keyframes rec-pulse{0%,100%{box-shadow:0 0 0 1px rgba(255,68,0,0.5),0 0 18px rgba(255,68,0,0.5);}50%{box-shadow:0 0 0 2px rgba(255,68,0,0.8),0 0 35px rgba(255,68,0,0.7);}}
 .fbtn{width:48px;height:48px;border-radius:11px;border:none;cursor:pointer;
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
   transition:all 0.2s;flex-shrink:0;font-family:'Inter',sans-serif;}
@@ -555,14 +556,17 @@ button:not(.cb-close):not(.mini-close):hover,
   <button class="mod-btn mb-main-hand" onclick="openModule('main')">LIGNE DE MAIN</button>
   <button class="mod-btn mb-pendule" onclick="openModule('pendule')">PENDULE</button>
   <button class="mod-btn mb-alertes" onclick="openModule('alertes')">ALERTES</button>
+  <button class="mod-btn" onclick="openModule('compat')" style="background:rgba(255,51,153,0.12);color:var(--pink);border:1px solid rgba(255,51,153,0.25)">COMPAT. AMOUR</button>
 </div>
 
 <!-- FOOTER -->
 <footer>
   <div id="fgroup-idle" style="flex:1;display:flex;gap:6px;align-items:center;">
     <button id="btn-start" onclick="startConsultation()" title="Demarrer la consultation">
-      <span id="btn-start-dot" style="font-size:22px;line-height:1;margin-bottom:2px">&#9679;</span>
-      <span style="font-family:'Orbitron',monospace;font-size:6px;letter-spacing:1px;text-align:center;line-height:1.3">START<br>CONSULT</span>
+      <span id="btn-start-dot" style="font-size:10px;width:16px;height:16px;border-radius:50%;background:rgba(80,0,0,0.6);display:flex;align-items:center;justify-content:center;border:2px solid rgba(120,0,0,0.8);box-shadow:0 0 0 2px #1a0a00">
+        <span style="width:8px;height:8px;border-radius:50%;background:#cc0000;display:block;box-shadow:0 0 4px rgba(255,0,0,0.8)"></span>
+      </span>
+      <span style="font-family:'Orbitron',monospace;font-size:5.5px;letter-spacing:1px;text-align:center;line-height:1.4;font-weight:900;color:#1a0a00;text-shadow:0 1px 0 rgba(255,220,80,0.3)">START<br>CONSULT</span>
     </button>
     <button class="fbtn" id="btn-clients-f" onclick="openClientOverlay()"><div class="fbt-label">CLIENTS</div></button>
     <button class="fbtn" id="btn-email-f" onclick="openEmailOverlay()"><div class="fbt-label">VOYANCE<br>EMAIL</div></button>
@@ -725,9 +729,30 @@ button:not(.cb-close):not(.mini-close):hover,
 <!-- RAPPORTS HISTORIQUE -->
 <div class="overlay" id="rapports-overlay" onclick="overlayClose(event,'rapports-overlay')">
   <div class="drawer"><div class="drawer-handle"></div>
-    <div class="dheader"><div class="drawer-title" style="color:var(--yellow)">HISTORIQUE DES RAPPORTS</div><button class="dbtn-close" onclick="closeOverlay('rapports-overlay')">FERMER ✕</button></div>
-    <input type="text" class="search-bar" id="rapport-search" placeholder="Rechercher par prenom ou date..." oninput="filterRapports()">
-    <div id="rapports-list"><div style="text-align:center;color:var(--text3);font-size:12px;padding:20px">Aucun rapport sauvegarde.</div></div>
+    <div class="dheader"><div class="drawer-title" style="color:var(--yellow)">RAPPORTS & FICHES CLIENTS</div><button class="dbtn-close" onclick="closeOverlay('rapports-overlay')">FERMER ✕</button></div>
+    <div class="tab-row">
+      <button class="tab-btn active-tab" id="rbil-tab-rapports" onclick="showRBilTab('rapports')">RAPPORTS</button>
+      <button class="tab-btn" id="rbil-tab-clients" onclick="showRBilTab('clients')">FICHES CLIENTS</button>
+    </div>
+    <!-- RAPPORTS TAB -->
+    <div id="rbil-panel-rapports">
+      <input type="text" class="search-bar" id="rapport-search" placeholder="Rechercher par prenom ou date..." oninput="filterRapports()">
+      <div id="rapports-list"><div style="text-align:center;color:var(--text3);font-size:12px;padding:20px">Aucun rapport sauvegarde.</div></div>
+    </div>
+    <!-- CLIENTS TAB -->
+    <div id="rbil-panel-clients" style="display:none">
+      <input type="text" class="search-bar" id="rbil-client-search" placeholder="Rechercher par prenom, date, signe..." oninput="filterBilanClients()">
+      <div id="rbil-clients-list"><div style="text-align:center;color:var(--text3);font-size:12px;padding:20px">Chargement...</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- RENAME CLIENT MINI -->
+<div class="mini-overlay" id="rename-client-overlay" onclick="miniClose(event,'rename-client-overlay')">
+  <div class="mini-box">
+    <div class="mini-title" style="color:var(--purple)">RENOMMER LE CLIENT <button class="mini-close" onclick="closeOverlay('rename-client-overlay')">✕</button></div>
+    <div class="fg"><div class="fl">Nouveau prenom</div><input type="text" id="rename-input" class="fi" placeholder="Nouveau nom..."></div>
+    <button class="btn-primary" style="background:rgba(204,68,255,0.2);border-color:rgba(204,68,255,0.4);color:var(--purple)" onclick="confirmRename()">RENOMMER</button>
   </div>
 </div>
 
@@ -739,6 +764,7 @@ button:not(.cb-close):not(.mini-close):hover,
       <div style="display:flex;gap:6px;align-items:center">
         <div id="email-client-name" style="flex:1;font-size:13px;color:var(--text2);padding:9px 11px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:var(--r-sm)">Aucun client selectionne</div>
         <button class="eye-btn" onclick="openEmailClientSearch()">CHOISIR</button>
+        <button class="eye-btn" onclick="createClientFromEmail()" style="background:rgba(204,68,255,0.1);border-color:rgba(204,68,255,0.2);color:var(--purple)">+ CREER</button>
       </div>
       <div class="fhint">Si un client est selectionne, l'IA exploite son historique complet.</div></div>
     <div class="divider"></div>
@@ -1022,6 +1048,58 @@ button:not(.cb-close):not(.mini-close):hover,
   </div>
 </div>
 
+<!-- MODULE COMPATIBILITE AMOUREUSE -->
+<div class="overlay" id="mod-compat" onclick="overlayClose(event,'mod-compat')">
+  <div class="drawer"><div class="drawer-handle"></div>
+    <div class="dheader"><div class="drawer-title" style="color:var(--pink)">COMPATIBILITE AMOUREUSE</div><button class="dbtn-close" onclick="closeOverlay('mod-compat')">FERMER ✕</button></div>
+    <p style="font-size:11px;color:var(--text2);line-height:1.6;margin-bottom:14px">Analyse complete de la compatibilite entre deux personnes : astrologie, numerologie, affinites energetiques, obstacles et forces du couple.</p>
+    <div style="display:flex;gap:8px;margin-bottom:4px">
+      <div style="flex:1;background:rgba(255,51,153,0.06);border:1px solid rgba(255,51,153,0.2);border-radius:var(--r);padding:12px">
+        <div style="font-size:9px;font-weight:800;color:var(--pink);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;text-align:center">PERSONNE 1</div>
+        <div class="fg"><div class="fl">Prenom</div><input type="text" id="compat-p1-name" class="fi" placeholder="Marie"></div>
+        <div class="fg"><div class="fl">Date de naissance</div>
+          <input type="text" id="compat-p1-dob" class="fi" placeholder="15/03/1985" maxlength="10" oninput="formatDOBInput(this);detectCompatSign(1)"
+            style="font-size:16px;font-weight:700;text-align:center;font-family:'JetBrains Mono',monospace;color:var(--pink)">
+          <div id="compat-p1-sign" style="font-size:10px;color:var(--pink);text-align:center;margin-top:4px;font-weight:700;min-height:14px"></div>
+        </div>
+        <div class="fg"><div class="fl">Signe (si pas de date)</div>
+          <select id="compat-p1-sign-sel" class="fsel" style="font-size:12px">
+            <option value="">—</option>
+            <option>Belier</option><option>Taureau</option><option>Gemeaux</option><option>Cancer</option>
+            <option>Lion</option><option>Vierge</option><option>Balance</option><option>Scorpion</option>
+            <option>Sagittaire</option><option>Capricorne</option><option>Verseau</option><option>Poissons</option>
+          </select></div>
+      </div>
+      <div style="flex:1;background:rgba(0,207,255,0.05);border:1px solid rgba(0,207,255,0.2);border-radius:var(--r);padding:12px">
+        <div style="font-size:9px;font-weight:800;color:var(--cyan);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;text-align:center">PERSONNE 2</div>
+        <div class="fg"><div class="fl">Prenom</div><input type="text" id="compat-p2-name" class="fi" placeholder="Thomas"></div>
+        <div class="fg"><div class="fl">Date de naissance</div>
+          <input type="text" id="compat-p2-dob" class="fi" placeholder="22/07/1980" maxlength="10" oninput="formatDOBInput(this);detectCompatSign(2)"
+            style="font-size:16px;font-weight:700;text-align:center;font-family:'JetBrains Mono',monospace;color:var(--cyan)">
+          <div id="compat-p2-sign" style="font-size:10px;color:var(--cyan);text-align:center;margin-top:4px;font-weight:700;min-height:14px"></div>
+        </div>
+        <div class="fg"><div class="fl">Signe (si pas de date)</div>
+          <select id="compat-p2-sign-sel" class="fsel" style="font-size:12px">
+            <option value="">—</option>
+            <option>Belier</option><option>Taureau</option><option>Gemeaux</option><option>Cancer</option>
+            <option>Lion</option><option>Vierge</option><option>Balance</option><option>Scorpion</option>
+            <option>Sagittaire</option><option>Capricorne</option><option>Verseau</option><option>Poissons</option>
+          </select></div>
+      </div>
+    </div>
+    <div class="fg"><div class="fl">Focus de l'analyse</div>
+      <select id="compat-focus" class="fsel">
+        <option value="global">Analyse complete — forces, faiblesses, avenir</option>
+        <option value="affinites">Affinites emotionnelles et energetiques</option>
+        <option value="karma">Lien karmique et vie anterieure</option>
+        <option value="obstacles">Obstacles et defis du couple</option>
+        <option value="futur">Futur de la relation</option>
+        <option value="reunion">Chances de reunion / reconciliation</option>
+      </select></div>
+    <button class="btn-primary" style="background:rgba(255,51,153,0.15);border-color:rgba(255,51,153,0.35);color:var(--pink)" onclick="runCompatibilite()">ANALYSER LA COMPATIBILITE</button>
+  </div>
+</div>
+
 <!-- CONFIRMATION -->
 <div class="overlay center" id="confirm-overlay">
   <div class="confirm-box">
@@ -1194,7 +1272,7 @@ function createSession(){
     startTime:Date.now(),endTime:null,
     isPaused:false,pausedMs:0,pauseStart:null,
     transcript:'',suggestions:[],
-    elements:{tarot:[],numerologie:null,horoscope:null,astrologie:null,angeGardien:null,main:null,pendule:[],alertes:[]}
+    elements:{tarot:[],numerologie:null,horoscope:null,astrologie:null,angeGardien:null,main:null,pendule:[],alertes:[],compatibilite:null}
   };
 }
 
@@ -1337,6 +1415,8 @@ function startConsultation(){
   document.getElementById('fgroup-active').style.display='flex';
   document.getElementById('btn-force-f').disabled=false;
   document.getElementById('btn-start').classList.add('rec-active');
+  const dot=document.getElementById('btn-start-dot');
+  if(dot){dot.style.background='rgba(180,0,0,0.8)';dot.querySelector('span').style.background='#ff2200';dot.querySelector('span').style.boxShadow='0 0 8px rgba(255,0,0,1)';}
   if(S.activeClient){
     toast('Consultation demarree — Client : '+S.activeClient.name,'info');
   } else {
@@ -1377,6 +1457,8 @@ async function stopConsultation(){
   document.getElementById('fgroup-active').style.display='none';
   document.getElementById('fgroup-active').setAttribute('hidden','');
   document.getElementById('btn-start').classList.remove('rec-active');
+  const dotEl=document.getElementById('btn-start-dot');
+  if(dotEl){dotEl.style.background='rgba(80,0,0,0.6)';const sp=dotEl.querySelector('span');if(sp){sp.style.background='#cc0000';sp.style.boxShadow='0 0 4px rgba(255,0,0,0.8)';}}
   // Final auto-save before report
   autoSaveSessionToClient();
   // If no client selected, prompt to create/select one before saving report
@@ -1655,7 +1737,7 @@ function escapeHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').repla
 /* ═══ MODULE TAROT ═══ */
 function openModule(type){
   const map={tarot:'mod-tarot',numerologie:'mod-numerologie',horoscope:'mod-horoscope',
-    astrologie:'mod-astrologie',ange:'mod-ange',main:'mod-main',pendule:'mod-pendule',alertes:'mod-alertes'};
+    astrologie:'mod-astrologie',ange:'mod-ange',main:'mod-main',pendule:'mod-pendule',alertes:'mod-alertes',compat:'mod-compat'};
   if(type==='tarot'){updateTarotDeck();}
   if(type==='numerologie'){const c=S.activeClient;if(c){document.getElementById('num-prenom').value=c.name||'';}}
   if(type==='horoscope'){
@@ -1670,6 +1752,13 @@ function openModule(type){
   if(type==='astrologie'){const c=S.activeClient;if(c?.birthdate)document.getElementById('astro-dob').value=c.birthdate;}
   if(type==='main'){document.getElementById('main-vision-warning').style.display=hasVision()?'none':'block';}
   if(type==='pendule'){document.getElementById('pendule-question').value='';document.getElementById('pendule-result').style.display='none';document.getElementById('pendule-answer-display').innerHTML='';}
+  if(type==='compat'){
+    const c=S.activeClient;
+    if(c){document.getElementById('compat-p1-name').value=c.name||'';}
+    document.getElementById('compat-p1-dob').value='';document.getElementById('compat-p1-sign').textContent='';
+    document.getElementById('compat-p2-name').value='';document.getElementById('compat-p2-dob').value='';
+    document.getElementById('compat-p2-sign').textContent='';
+  }
   if(map[type])openOverlay(map[type]);
 }
 
@@ -2127,6 +2216,12 @@ function formatReportHTML(sess,data,el){
   if(el.astrologie)h+=sec('ASTROLOGIE','0,207,255',el.astrologie.analyse);
   if(el.angeGardien)h+=sec('ANGE GARDIEN','255,255,255',el.angeGardien.message);
   if(el.main)h+=sec('LIGNE DE LA MAIN','255,51,153',el.main.reading);
+  if(el.compatibilite){const cp=el.compatibilite;h+=sec('COMPATIBILITE AMOUREUSE','255,51,153',
+    cp.p1.name+(cp.p1.sign?' ('+cp.p1.sign+')':'')+' & '+cp.p2.name+(cp.p2.sign?' ('+cp.p2.sign+')':'')
+    +(cp.score?'\nScore : '+cp.score+'/10':'')+'\n\n'+(cp.analyse||'')
+    +(cp.forces&&cp.forces.length?'\nForces : '+cp.forces.join(', '):'')
+    +(cp.defis&&cp.defis.length?'\nDefis : '+cp.defis.join(', '):'')
+    +(cp.conseil?'\nConseil : '+cp.conseil:''));}
   if(el.pendule.length)h+=sec('PENDULE','0,255,204',el.pendule.map(p=>'Q: '+p.question+'\nR: '+p.reponse+'\n'+p.explication).join('\n\n'));
   if(data?.services_proposes?.length)h+=sec('SERVICES PROPOSES','255,136,0',data.services_proposes.map(s=>'• '+s).join('\n'));
   if(data?.recommandations_prochaine)h+=sec('PROCHAINE CONSULTATION','0,207,255',data.recommandations_prochaine);
@@ -2190,7 +2285,11 @@ function autoSaveReport(){
 }
 
 /* ═══ HISTORIQUE RAPPORTS ═══ */
-function openRapportsOverlay(){filterRapports();openOverlay('rapports-overlay');}
+function openRapportsOverlay(){
+  filterRapports();
+  showRBilTab('rapports');
+  openOverlay('rapports-overlay');
+}
 function filterRapports(){
   const q=(document.getElementById('rapport-search')?.value||'').toLowerCase();
   const reports=JSON.parse(ls('ma_reports')||'[]');
@@ -2201,7 +2300,7 @@ function filterRapports(){
 }
 async function viewSavedReport(id){
   const reports=JSON.parse(ls('ma_reports')||'[]');const r=reports.find(x=>x.id===id);if(!r)return;
-  S.currentReport={fullText:r.fullText,session:{clientId:r.clientId,clientName:r.clientName,startTime:new Date(r.date).getTime(),endTime:0,pausedMs:0,elements:{tarot:[],numerologie:null,horoscope:null,astrologie:null,angeGardien:null,main:null,pendule:[],alertes:[]}}};
+  S.currentReport={fullText:r.fullText,session:{clientId:r.clientId,clientName:r.clientName,startTime:new Date(r.date).getTime(),endTime:0,pausedMs:0,elements:{tarot:[],numerologie:null,horoscope:null,astrologie:null,angeGardien:null,main:null,pendule:[],alertes:[],compatibilite:null}}};
   // Charger automatiquement le client pour la consultation en cours
   if(r.clientId && !S.activeClient){
     const lc=ls('ma_client_'+r.clientId);
@@ -2596,6 +2695,171 @@ function exportClientData(mode){
     toast('Fiche telechargee');
   }
 }
+
+/* ═══ RAPPORTS & BILAN TABS ═══ */
+function showRBilTab(tab){
+  ['rapports','clients'].forEach(t=>{
+    const panel=document.getElementById('rbil-panel-'+t);
+    const btn=document.getElementById('rbil-tab-'+t);
+    if(panel) panel.style.display=t===tab?'block':'none';
+    if(btn) btn.classList.toggle('active-tab',t===tab);
+  });
+  if(tab==='clients'){loadBilanClients();}
+}
+async function loadBilanClients(){
+  if(!allClients.length){
+    const remote=await workerRequest('GET','/clients');
+    if(remote&&Array.isArray(remote)){allClients=remote;ls('ma_clients_index',JSON.stringify(remote));}
+    else{const loc=ls('ma_clients_index');allClients=loc?JSON.parse(loc):[];}
+  }
+  filterBilanClients();
+}
+function filterBilanClients(){
+  const q=(document.getElementById('rbil-client-search')?.value||'').toLowerCase().trim();
+  const terms=q?q.split(/ +/):[];
+  const list=terms.length?allClients.filter(c=>{
+    const hay=[c.name||'',c.phone||'',c.birthdate||'',c.sign||''].join(' ').toLowerCase();
+    return terms.every(t=>hay.includes(t));
+  }):allClients;
+  const container=document.getElementById('rbil-clients-list');
+  if(!list.length){container.innerHTML='<div style="text-align:center;color:var(--text3);font-size:12px;padding:20px">Aucun client.</div>';return;}
+  container.innerHTML=list.map(c=>`
+    <div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--r-sm);padding:9px 12px;margin-bottom:7px;display:flex;align-items:center;gap:8px">
+      <div style="flex:1;min-width:0">
+        <div style="font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${c.name}</div>
+        <div style="font-size:9px;color:var(--text2);margin-top:1px">${c.phone||''}${c.birthdate?' • '+c.birthdate:''}</div>
+      </div>
+      <button onclick="openRenameClient('${c.id}','${(c.name||'').replace(/'/g,'\\')}')" style="padding:4px 9px;border-radius:6px;border:none;cursor:pointer;font-family:'Inter',sans-serif;font-size:9px;font-weight:700;background:rgba(204,68,255,0.12);color:var(--purple)">RENOMMER</button>
+      <button onclick="confirmDeleteClientFromBilan('${c.id}','${(c.name||'').replace(/'/g,'\\')}')" style="padding:4px 9px;border-radius:6px;border:none;cursor:pointer;font-family:'Inter',sans-serif;font-size:9px;font-weight:700;background:rgba(255,68,0,0.1);color:var(--red)">SUPPRIMER</button>
+    </div>`).join('');
+}
+
+let _renameClientId=null;
+function openRenameClient(id,currentName){
+  _renameClientId=id;
+  document.getElementById('rename-input').value=currentName;
+  openOverlay('rename-client-overlay');
+}
+async function confirmRename(){
+  const newName=document.getElementById('rename-input').value.trim();
+  if(!newName){toast('Entrez un nom','warn');return;}
+  if(!_renameClientId){closeOverlay('rename-client-overlay');return;}
+  // Update locally
+  const lc=JSON.parse(ls('ma_client_'+_renameClientId)||'{}');
+  if(lc.id){lc.name=newName;ls('ma_client_'+_renameClientId,JSON.stringify(lc));}
+  // Update index
+  const idx2=allClients.findIndex(c=>c.id===_renameClientId);
+  if(idx2>=0){allClients[idx2].name=newName;ls('ma_clients_index',JSON.stringify(allClients));}
+  // Update Worker
+  await workerRequest('PUT','/clients/'+_renameClientId,{name:newName});
+  // Update active client if same
+  if(S.activeClient&&S.activeClient.id===_renameClientId){
+    S.activeClient.name=newName;updateClientBanner();
+  }
+  closeOverlay('rename-client-overlay');
+  filterBilanClients();
+  toast('Client renomme : '+newName);
+  _renameClientId=null;
+}
+function confirmDeleteClientFromBilan(id,name){
+  showConfirm('Supprimer '+name,'Supprimer definitivement la fiche de '+name+' et tout son historique ?',async ()=>{
+    await workerRequest('DELETE','/clients/'+id);
+    allClients=allClients.filter(c=>c.id!==id);
+    ls('ma_clients_index',JSON.stringify(allClients));
+    ls('ma_client_'+id,'');
+    if(S.activeClient&&S.activeClient.id===id)deselectClient();
+    filterBilanClients();
+    toast('Client supprime');
+  });
+}
+
+/* ═══ COMPATIBILITE AMOUREUSE ═══ */
+function detectCompatSign(n){
+  const dob=document.getElementById('compat-p'+n+'-dob').value;
+  const sign=getSignFromDate(dob);
+  const el=document.getElementById('compat-p'+n+'-sign');
+  if(sign){
+    el.textContent=sign.toUpperCase();
+    document.getElementById('compat-p'+n+'-sign-sel').value=sign;
+  } else {
+    el.textContent='';
+  }
+}
+
+async function runCompatibilite(){
+  const p1name=document.getElementById('compat-p1-name').value.trim()||'Personne 1';
+  const p2name=document.getElementById('compat-p2-name').value.trim()||'Personne 2';
+  const p1dob=document.getElementById('compat-p1-dob').value.trim();
+  const p2dob=document.getElementById('compat-p2-dob').value.trim();
+  const p1sign=document.getElementById('compat-p1-sign-sel').value||getSignFromDate(p1dob)||'';
+  const p2sign=document.getElementById('compat-p2-sign-sel').value||getSignFromDate(p2dob)||'';
+  const focus=document.getElementById('compat-focus').value;
+  if(!p1sign&&!p1dob){toast('Entrez la date ou le signe de la personne 1','warn');return;}
+  if(!p2sign&&!p2dob){toast('Entrez la date ou le signe de la personne 2','warn');return;}
+  const btn=document.querySelector('#mod-compat .btn-primary');
+  btn.textContent='ANALYSE EN COURS...';btn.disabled=true;
+  const t=S.session?.transcript||'';const c=S.activeClient;
+  // Calcul chemin de vie si dates disponibles
+  const p1lp=p1dob?calcLifePath(p1dob.replace(/\//g,'')):null;
+  const p2lp=p2dob?calcLifePath(p2dob.replace(/\//g,'')):null;
+  const msg='Analyse de compatibilite amoureuse — focus : '+focus+'.'
+    +'\nPersonne 1 : '+p1name+(p1sign?' — signe '+p1sign:'')+(p1dob?' — nee le '+p1dob:'')+(p1lp?' — chemin de vie '+p1lp:'')
+    +'\nPersonne 2 : '+p2name+(p2sign?' — signe '+p2sign:'')+(p2dob?' — nee le '+p2dob:'')+(p2lp?' — chemin de vie '+p2lp:'')
+    +'\nConsultation en cours : "'+t.slice(-500)+'"'
+    +(c?'\nClient : '+c.name+(c.profile?' — '+c.profile.slice(0,80):''):'')
+    +'\n\nRedige une analyse de compatibilite amoureuse ultra-professionnelle et detaillee. Inclure obligatoirement :'
+    +'\n1. Score de compatibilite global (sur 10) avec justification'
+    +'\n2. Compatibilite astrologique entre les deux signes'
+    +'\n3. Numerologie du couple si chemins de vie disponibles'
+    +'\n4. Affinites energetiques et emotionnelles'
+    +'\n5. Forces du couple — ce qui les unit profondement'
+    +'\n6. Defis et obstacles — ce qui peut fragiliser la relation'
+    +'\n7. Lien karmique si perceptible'
+    +'\n8. Conseils pratiques pour ameliorer la relation'
+    +'\n9. Pronostic sur l\'avenir de cette relation'
+    +'\nTon : medium experimente, precis, humain, non generique.'
+    +'\nJSON: {"analyse":"analyse complete 5-7 paragraphes","score":8,"forces":["force1","force2"],"defis":["defi1","defi2"],"conseil":"conseil cle","pronostic":"pronostic en 1-2 phrases"}';
+  const raw=await callAI(msg,900,null,true);const data=safeJSON(raw);
+  if(data?.analyse){
+    const result={p1:{name:p1name,sign:p1sign,dob:p1dob},p2:{name:p2name,sign:p2sign,dob:p2dob},focus,...data,timestamp:Date.now()};
+    if(S.session)S.session.elements.compatibilite=result;
+    const header='COUPLE : '+p1name+(p1sign?' ('+p1sign+')':'')+' & '+p2name+(p2sign?' ('+p2sign+')')
+      +(data.score?'\nSCORE DE COMPATIBILITE : '+data.score+'/10':'');
+    const forces=data.forces?.length?'\n\nFORCES : '+data.forces.join(' — '):'';
+    const defis=data.defis?.length?'\nDEFIS : '+data.defis.join(' — '):'';
+    const conseil=data.conseil?'\n\nCONSEIL CLE : '+data.conseil:'';
+    const pronostic=data.pronostic?'\nPRONOSTIC : '+data.pronostic:'';
+    addModuleResult('main','COMPATIBILITE AMOUREUSE — '+p1name+' & '+p2name,
+      header+'\n\n'+data.analyse+forces+defis+conseil+pronostic,'mod-compat');
+    autoSaveSessionToClient();
+    toast('Analyse de compatibilite generee');
+  }
+  btn.textContent='ANALYSER LA COMPATIBILITE';btn.disabled=false;
+}
+
+/* ═══ CREATE CLIENT FROM EMAIL ═══ */
+async function createClientFromEmail(){
+  const name=(document.getElementById('email-client-name')?.textContent||'').trim();
+  if(!name||name==='Aucun client selectionne'){
+    // Prompt to create new
+    const newName=prompt('Prenom du client pour cette consultation email :');
+    if(!newName||!newName.trim())return;
+    const id='c_'+Date.now();
+    const newClient={id,name:newName.trim(),phone:'',birthdate:'',sign:'',profile:'',notes:'',
+      createdAt:new Date().toISOString(),consultations:[],emailConsultations:[]};
+    const index=JSON.parse(ls('ma_clients_index')||'[]');
+    index.unshift({id,name:newClient.name,phone:'',birthdate:'',createdAt:newClient.createdAt});
+    ls('ma_clients_index',JSON.stringify(index));
+    ls('ma_client_'+id,JSON.stringify(newClient));
+    allClients=index;
+    S.emailClient=newClient;
+    updateEmailClientDisplay();
+    await workerRequest('POST','/clients',newClient);
+    toast('Fiche creee : '+newClient.name);
+  }
+}
+
+/* ═══ OPEN RAPPORTS OVERLAY — init tabs ═══ */
 
 /* ═══ AUTO-SAVE SESSION ═══ */
 function autoSaveSessionToClient(){
