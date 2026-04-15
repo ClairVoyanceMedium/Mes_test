@@ -230,15 +230,15 @@ footer{flex-shrink:0;padding:9px 12px 13px;background:rgba(17,17,17,0.98);
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
   transition:all 0.3s;flex-shrink:0;position:relative;overflow:visible;
   background:radial-gradient(circle at 40% 40%,#c9a227 0%,#a07010 40%,#6b4a00 100%);
-  border:3px solid #ffd060;
-  box-shadow:0 0 0 1px rgba(201,162,39,0.4),0 0 18px rgba(201,162,39,0.5),0 4px 20px rgba(0,0,0,0.5),inset 0 1px 0 rgba(255,240,160,0.3);
+  border:3px solid #cc1100;
+  box-shadow:0 0 0 1px rgba(180,0,0,0.4),0 0 14px rgba(201,162,39,0.4),0 4px 20px rgba(0,0,0,0.5),inset 0 1px 0 rgba(255,240,160,0.3);
   color:#1a0a00;}
 #btn-start::before{
   content:'';position:absolute;inset:-5px;border-radius:50%;
   background:conic-gradient(from 0deg,rgba(201,162,39,0) 0%,rgba(255,220,80,0.8) 25%,rgba(201,162,39,0) 50%,rgba(255,220,80,0.6) 75%,rgba(201,162,39,0) 100%);
   animation:rotate-gold 3s linear infinite;z-index:-1;pointer-events:none;}
 @keyframes rotate-gold{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
-#btn-start:hover{transform:scale(1.07);box-shadow:0 0 0 1px rgba(255,220,80,0.7),0 0 28px rgba(201,162,39,0.8),inset 0 1px 0 rgba(255,240,160,0.5);}
+#btn-start:hover{transform:scale(1.07);border-color:#ff2200;box-shadow:0 0 0 1px rgba(255,30,0,0.6),0 0 24px rgba(201,162,39,0.6),inset 0 1px 0 rgba(255,240,160,0.5);}
 #btn-start.rec-active{
   background:radial-gradient(circle at 40% 40%,#ff6600 0%,#cc2200 50%,#800000 100%);
   border-color:#ff4400;color:#fff;
@@ -2296,7 +2296,13 @@ function filterRapports(){
   const filtered=reports.filter(r=>!q||r.clientName?.toLowerCase().includes(q)||r.date?.includes(q));
   const container=document.getElementById('rapports-list');
   if(!filtered.length){container.innerHTML='<div style="text-align:center;color:var(--text3);font-size:12px;padding:20px">Aucun rapport sauvegarde.</div>';return;}
-  container.innerHTML=filtered.map(r=>'<div class="consult-item" onclick="viewSavedReport(\''+r.id+'\')"><div class="consult-date">'+new Date(r.date).toLocaleDateString('fr-FR')+' — '+r.clientName+'</div><div class="consult-summary">'+(r.resume||'')+'</div></div>').join('');
+  container.innerHTML='';
+  filtered.forEach(r=>{
+    const d=document.createElement('div');d.className='consult-item';
+    d.innerHTML='<div class="consult-date">'+new Date(r.date).toLocaleDateString('fr-FR')+' — '+escapeHtml(r.clientName||'')+'</div><div class="consult-summary">'+escapeHtml(r.resume||'')+'</div>';
+    d.addEventListener('click',function(){viewSavedReport(r.id);});
+    container.appendChild(d);
+  });
 }
 async function viewSavedReport(id){
   const reports=JSON.parse(ls('ma_reports')||'[]');const r=reports.find(x=>x.id===id);if(!r)return;
@@ -2341,7 +2347,13 @@ function filterEmailClients(){
   const filtered=clients.filter(c=>!q||c.name?.toLowerCase().includes(q)||c.birthdate?.includes(q)||c.phone?.includes(q));
   const container=document.getElementById('email-client-list');
   if(!filtered.length){container.innerHTML='<div style="text-align:center;color:var(--text3);font-size:12px;padding:12px">Aucun client trouve.</div>';return;}
-  container.innerHTML=filtered.map(c=>'<div class="client-item" onclick="selectEmailClient(\''+c.id+'\')"><div class="ci-avatar">CLT</div><div class="ci-info"><div class="ci-name">'+c.name+'</div><div class="ci-detail">'+(c.phone||'')+(c.birthdate?' • '+c.birthdate:'')+'</div></div></div>').join('');
+  container.innerHTML='';
+  filtered.forEach(c=>{
+    const d=document.createElement('div');d.className='client-item';
+    d.innerHTML='<div class="ci-avatar">CLT</div><div class="ci-info"><div class="ci-name">'+escapeHtml(c.name||'')+'</div><div class="ci-detail">'+escapeHtml(c.phone||'')+(c.birthdate?' &bull; '+c.birthdate:'')+'</div></div>';
+    d.addEventListener('click',function(){selectEmailClient(c.id);});
+    container.appendChild(d);
+  });
 }
 async function selectEmailClient(id){
   const lc=ls('ma_client_'+id);
@@ -2406,7 +2418,14 @@ function renderClientList(){
   });
   const container=document.getElementById('client-list-container');
   if(!filtered.length){container.innerHTML='<div style="text-align:center;color:var(--text3);font-size:12px;padding:20px">Aucun client trouve.</div>';return;}
-  container.innerHTML=filtered.map(c=>'<div class="client-item'+(S.activeClient?.id===c.id?' active-cl':'')+'" onclick="selectClient(\''+c.id+'\')"><div class="ci-avatar">CLT</div><div class="ci-info"><div class="ci-name">'+c.name+'</div><div class="ci-detail">'+(c.phone||'')+(c.birthdate?' • '+c.birthdate:'')+'</div></div><div class="ci-badge">'+(c.consultations?.length||0)+' CONSUL.</div></div>').join('');
+  container.innerHTML='';
+  filtered.forEach(c=>{
+    const d=document.createElement('div');
+    d.className='client-item'+(S.activeClient?.id===c.id?' active-cl':'');
+    d.innerHTML='<div class="ci-avatar">CLT</div><div class="ci-info"><div class="ci-name">'+escapeHtml(c.name||'')+'</div><div class="ci-detail">'+escapeHtml(c.phone||'')+(c.birthdate?' &bull; '+c.birthdate:'')+'</div></div><div class="ci-badge">'+(c.consultations?.length||0)+' CONSUL.</div>';
+    d.addEventListener('click',function(){selectClient(c.id);});
+    container.appendChild(d);
+  });
 }
 function filterClients(){
   const q=(document.getElementById('client-search')?.value||'').toLowerCase().trim();
@@ -2418,7 +2437,14 @@ function filterClients(){
     return terms.every(t=>hay.includes(t));
   });
   if(!filtered.length){container.innerHTML='<div style="text-align:center;color:var(--text3);font-size:12px;padding:20px">Aucun client trouve.</div>';return;}
-  container.innerHTML=filtered.map(c=>'<div class="client-item'+(S.activeClient?.id===c.id?' active-cl':'')+'" onclick="selectClient(\''+c.id+'\')"><div class="ci-avatar">CLT</div><div class="ci-info"><div class="ci-name">'+c.name+'</div><div class="ci-detail">'+(c.phone||'')+(c.birthdate?' • '+c.birthdate:'')+(c.sign?' • '+c.sign:'')+'</div></div><div class="ci-badge">'+(c.consultations?.length||0)+'C</div></div>').join('');
+  container.innerHTML='';
+  filtered.forEach(c=>{
+    const d=document.createElement('div');
+    d.className='client-item'+(S.activeClient?.id===c.id?' active-cl':'');
+    d.innerHTML='<div class="ci-avatar">CLT</div><div class="ci-info"><div class="ci-name">'+escapeHtml(c.name||'')+'</div><div class="ci-detail">'+escapeHtml(c.phone||'')+(c.birthdate?' &bull; '+c.birthdate:'')+(c.sign?' &bull; '+c.sign:'')+'</div></div><div class="ci-badge">'+(c.consultations?.length||0)+'C</div>';
+    d.addEventListener('click',function(){selectClient(c.id);});
+    container.appendChild(d);
+  });
 }
 
 async function selectClient(id){
@@ -2828,8 +2854,7 @@ async function runCompatibilite(){
   if(data?.analyse){
     const result={p1:{name:p1name,sign:p1sign,dob:p1dob},p2:{name:p2name,sign:p2sign,dob:p2dob},focus,...data,timestamp:Date.now()};
     if(S.session)S.session.elements.compatibilite=result;
-    const header='COUPLE : '+p1name+(p1sign?' ('+p1sign+')':'')+' & '+p2name+(p2sign?' ('+p2sign+')')
-      +(data.score?'\nSCORE DE COMPATIBILITE : '+data.score+'/10':'');
+    const header='COUPLE : '+p1name+(p1sign?' ('+p1sign+')':'')+' & '+p2name+(p2sign?' ('+p2sign+')':'')+(data.score?'\nSCORE : '+data.score+'/10':'');
     const forces=data.forces?.length?'\n\nFORCES : '+data.forces.join(' — '):'';
     const defis=data.defis?.length?'\nDEFIS : '+data.defis.join(' — '):'';
     const conseil=data.conseil?'\n\nCONSEIL CLE : '+data.conseil:'';
