@@ -226,7 +226,7 @@ footer{flex-shrink:0;padding:9px 12px 13px;background:rgba(17,17,17,0.98);
 #fgroup-idle{flex:1;display:flex;gap:6px;}
 #fgroup-active{flex:1;gap:6px;}
 #btn-start{
-  width:72px;height:72px;border-radius:50%;border:none;cursor:pointer;
+  width:74px;height:74px;border-radius:50%;border:none;cursor:pointer;
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
   transition:all 0.3s;flex-shrink:0;position:relative;overflow:visible;
   background:radial-gradient(circle at 40% 40%,#c9a227 0%,#a07010 40%,#6b4a00 100%);
@@ -482,7 +482,7 @@ button:not(.cb-close):not(.mini-close):hover,
   </div>
   <div class="sbar-right">
     <button class="sbar-btn" id="sbar-pause" onclick="togglePause()">PAUSE</button>
-    <button class="sbar-btn" id="sbar-stop" onclick="confirmStop()">ARRETER</button>
+    <button class="sbar-btn" id="sbar-stop" onclick="confirmStop()">ARRÊTER</button>
   </div>
 </div>
 
@@ -502,8 +502,8 @@ button:not(.cb-close):not(.mini-close):hover,
 <main id="main">
   <div id="empty-state">
     <div class="es-pgi">PGI</div>
-    <div class="es-title">Pret a la consultation</div>
-    <div class="es-sub">Selectionnez un client (optionnel), puis appuyez sur <strong>DEMARRER LA CONSULTATION</strong>.</div>
+    <div class="es-title">Prêt à la consultation</div>
+    <div class="es-sub">Sélectionnez un client (optionnel), puis appuyez sur <strong>DÉMARRER LA CONSULTATION</strong>.</div>
   </div>
   <div class="card" id="transcript-card" style="display:none">
     <div class="clabel"><div class="clabel-dot"></div>TRANSCRIPTION EN DIRECT</div>
@@ -532,15 +532,15 @@ button:not(.cb-close):not(.mini-close):hover,
   <div id="module-results"></div>
 </main>
 
-<!-- ASSISTANCE A LA CONSULTATION -->
+<!-- ASSISTANCE À LA CONSULTATION -->
 <div id="assistance-bar">
-  <div class="qa-bar-label" style="color:rgba(255,255,255,0.3)">ASSISTANCE A LA CONSULTATION</div>
-  <button class="qa-btn qa-1" onclick="quickAction('epate')">EPATE</button>
+  <div class="qa-bar-label" style="color:rgba(255,255,255,0.3)">ASSISTANCE À LA CONSULTATION</div>
+  <button class="qa-btn qa-1" onclick="quickAction('epate')">ÉPATE</button>
   <button class="qa-btn qa-2" onclick="quickAction('question')">QUESTION</button>
   <button class="qa-btn qa-3" onclick="quickAction('alerte')">ALERTE</button>
   <button class="qa-btn qa-4" onclick="quickAction('service')">SERVICE</button>
-  <button class="qa-btn qa-5" onclick="quickAction('revelation')">REVELATION</button>
-  <button class="qa-btn qa-6" onclick="quickAction('energie')">ENERGIE</button>
+  <button class="qa-btn qa-5" onclick="quickAction('revelation')">RÉVÉLATION</button>
+  <button class="qa-btn qa-6" onclick="quickAction('energie')">ÉNERGIE</button>
   <button class="qa-btn qa-7" onclick="openDOB()">DATE NAISS.</button>
   <button class="qa-btn qa-8" onclick="openFreeText()">MA QUESTION</button>
 </div>
@@ -549,7 +549,7 @@ button:not(.cb-close):not(.mini-close):hover,
 <div id="module-strip">
   <div class="mod-strip-label" style="color:rgba(255,255,255,0.3)">MODULES VOYANCE</div>
   <button class="mod-btn mb-tarot" onclick="openModule('tarot')">TAROT</button>
-  <button class="mod-btn mb-num" onclick="openModule('numerologie')">NUMEROLOGIE</button>
+  <button class="mod-btn mb-num" onclick="openModule('numerologie')">NUMÉROLOGIE</button>
   <button class="mod-btn mb-horoscope" onclick="openModule('horoscope')">HOROSCOPE</button>
   <button class="mod-btn mb-astro" onclick="openModule('astrologie')">ASTROLOGIE</button>
   <button class="mod-btn mb-ange" onclick="openModule('ange')">ANGE GARDIEN</button>
@@ -562,11 +562,13 @@ button:not(.cb-close):not(.mini-close):hover,
 <!-- FOOTER -->
 <footer>
   <div id="fgroup-idle" style="flex:1;display:flex;gap:6px;align-items:center;">
-    <button id="btn-start" onclick="startConsultation()" title="Demarrer la consultation">
-      <span id="btn-start-dot" style="font-size:10px;width:16px;height:16px;border-radius:50%;background:rgba(80,0,0,0.6);display:flex;align-items:center;justify-content:center;border:2px solid rgba(120,0,0,0.8);box-shadow:0 0 0 2px #1a0a00">
-        <span style="width:8px;height:8px;border-radius:50%;background:#cc0000;display:block;box-shadow:0 0 4px rgba(255,0,0,0.8)"></span>
+    <button id="btn-start" onclick="startConsultation()" title="Démarrer la consultation">
+      <span style="font-family:'Orbitron',monospace;font-size:6px;letter-spacing:1.5px;font-weight:900;color:#1a0a00;text-shadow:0 1px 0 rgba(255,220,80,0.4);display:block;text-align:center;margin-bottom:3px">START</span>
+      <span id="btn-start-dot" style="position:relative;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;">
+        <span style="position:absolute;inset:0;border-radius:50%;border:2px solid rgba(200,0,0,0.8);box-shadow:0 0 6px rgba(255,0,0,0.4)"></span>
+        <span style="position:absolute;inset:3px;border-radius:50%;background:radial-gradient(circle,#ff2200 0%,#cc0000 60%,#880000 100%);box-shadow:0 0 8px rgba(255,0,0,0.9),0 0 2px rgba(255,100,50,0.8)"></span>
       </span>
-      <span style="font-family:'Orbitron',monospace;font-size:5.5px;letter-spacing:1px;text-align:center;line-height:1.4;font-weight:900;color:#1a0a00;text-shadow:0 1px 0 rgba(255,220,80,0.3)">START<br>CONSULT</span>
+      <span style="font-family:'Orbitron',monospace;font-size:6px;letter-spacing:1.5px;font-weight:900;color:#1a0a00;text-shadow:0 1px 0 rgba(255,220,80,0.4);display:block;text-align:center;margin-top:3px">CONSULT</span>
     </button>
     <button class="fbtn" id="btn-clients-f" onclick="openClientOverlay()"><div class="fbt-label">CLIENTS</div></button>
     <button class="fbtn" id="btn-email-f" onclick="openEmailOverlay()"><div class="fbt-label">VOYANCE<br>EMAIL</div></button>
@@ -574,7 +576,7 @@ button:not(.cb-close):not(.mini-close):hover,
     <button class="fbtn" id="btn-raz-f" onclick="confirmClear()"><div class="fbt-label">EFFACER<br>SESSION</div></button>
   </div>
   <div id="fgroup-active" style="flex:1;gap:6px;align-items:center;" hidden>
-    <button class="fbtn" id="btn-force-f" onclick="forceSuggest()" disabled><div class="fbt-label" style="color:var(--green)">SUGGERER<br>MAINTENANT</div></button>
+    <button class="fbtn" id="btn-force-f" onclick="forceSuggest()" disabled><div class="fbt-label" style="color:var(--green)">SUGGÉRER<br>MAINTENANT</div></button>
     <button class="fbtn" id="btn-clients-fa" onclick="openClientOverlay()" style="background:rgba(204,68,255,0.1);border:1px solid rgba(204,68,255,0.2)"><div class="fbt-label" style="color:var(--purple)">CLIENTS</div></button>
     <button class="fbtn" id="btn-email-fa" onclick="openEmailOverlay()" style="background:rgba(0,255,204,0.1);border:1px solid rgba(0,255,204,0.2)"><div class="fbt-label" style="color:var(--teal)">VOYANCE<br>EMAIL</div></button>
     <button class="fbtn" id="btn-rapports-fa" onclick="openRapportsOverlay()" style="background:rgba(255,208,0,0.1);border:1px solid rgba(255,208,0,0.2)"><div class="fbt-label" style="color:var(--yellow)">RAPPORTS<br>& BILAN</div></button>
@@ -660,11 +662,11 @@ button:not(.cb-close):not(.mini-close):hover,
       <button class="tab-btn" id="tab-new-btn" onclick="showClientTab('new')">NOUVEAU</button>
     </div>
     <div id="client-tab-list">
-      <input type="text" class="search-bar" id="client-search" placeholder="Prenom, date de naiss. (ex: 15/03), tel, signe..." oninput="filterClients()">
+      <input type="text" class="search-bar" id="client-search" placeholder="Prénom, date (ex: 15/03), tél, signe..." oninput="filterClients()">
       <div id="client-list-container"><div style="text-align:center;color:var(--text3);font-size:12px;padding:20px">Chargement...</div></div>
     </div>
     <div id="client-tab-new" style="display:none">
-      <div class="fg"><div class="fl">Prenom *</div><input type="text" id="nc-name" class="fi" placeholder="Marie"></div>
+      <div class="fg"><div class="fl">Prénom *</div><input type="text" id="nc-name" class="fi" placeholder="Marie"></div>
       <div class="fg"><div class="fl">Telephone</div><input type="text" id="nc-phone" class="fi" placeholder="06..."></div>
       <div class="fg"><div class="fl">Date de naissance (JJ/MM/AAAA)</div><input type="text" id="nc-dob" class="fi" placeholder="15/03/1985" maxlength="10" oninput="formatDOBInput(this)"></div>
       <div class="fg"><div class="fl">Signe astrologique</div><input type="text" id="nc-sign" class="fi" placeholder="Balance, Scorpion..."></div>
@@ -736,7 +738,7 @@ button:not(.cb-close):not(.mini-close):hover,
     </div>
     <!-- RAPPORTS TAB -->
     <div id="rbil-panel-rapports">
-      <input type="text" class="search-bar" id="rapport-search" placeholder="Rechercher par prenom ou date..." oninput="filterRapports()">
+      <input type="text" class="search-bar" id="rapport-search" placeholder="Rechercher par prénom ou date..." oninput="filterRapports()">
       <div id="rapports-list"><div style="text-align:center;color:var(--text3);font-size:12px;padding:20px">Aucun rapport sauvegarde.</div></div>
     </div>
     <!-- CLIENTS TAB -->
@@ -791,7 +793,7 @@ button:not(.cb-close):not(.mini-close):hover,
 <div class="mini-overlay" id="email-client-overlay" onclick="miniClose(event,'email-client-overlay')">
   <div class="mini-box">
     <div class="mini-title" style="color:var(--purple)">CHOISIR UN CLIENT <button class="mini-close" onclick="closeOverlay('email-client-overlay')">✕</button></div>
-    <input type="text" class="search-bar" id="email-client-search" placeholder="Prenom ou date de naissance..." oninput="filterEmailClients()" style="margin-bottom:8px">
+    <input type="text" class="search-bar" id="email-client-search" placeholder="Prénom ou date de naissance..." oninput="filterEmailClients()" style="margin-bottom:8px">
     <div id="email-client-list"></div>
   </div>
 </div>
@@ -822,8 +824,8 @@ button:not(.cb-close):not(.mini-close):hover,
 <!-- MODULE NUMEROLOGIE -->
 <div class="overlay" id="mod-numerologie" onclick="overlayClose(event,'mod-numerologie')">
   <div class="drawer"><div class="drawer-handle"></div>
-    <div class="dheader"><div class="drawer-title" style="color:var(--purple)">NUMEROLOGIE</div><button class="dbtn-close" onclick="closeOverlay('mod-numerologie')">FERMER ✕</button></div>
-    <div class="fg"><div class="fl">Prenom complet</div><input type="text" id="num-prenom" class="fi" placeholder="Marie-Claire"></div>
+    <div class="dheader"><div class="drawer-title" style="color:var(--purple)">NUMÉROLOGIE</div><button class="dbtn-close" onclick="closeOverlay('mod-numerologie')">FERMER ✕</button></div>
+    <div class="fg"><div class="fl">Prénom complet</div><input type="text" id="num-prenom" class="fi" placeholder="Marie-Claire"></div>
     <div class="fg"><div class="fl">Nom de famille (optionnel)</div><input type="text" id="num-nom" class="fi" placeholder="Dupont"></div>
     <div class="fg">
       <div class="fl">Choisissez 3 nombres entre 1 et 84</div>
@@ -1415,8 +1417,7 @@ function startConsultation(){
   document.getElementById('fgroup-active').style.display='flex';
   document.getElementById('btn-force-f').disabled=false;
   document.getElementById('btn-start').classList.add('rec-active');
-  const dot=document.getElementById('btn-start-dot');
-  if(dot){dot.style.background='rgba(180,0,0,0.8)';dot.querySelector('span').style.background='#ff2200';dot.querySelector('span').style.boxShadow='0 0 8px rgba(255,0,0,1)';}
+  // dot brightens automatically via rec-active CSS
   if(S.activeClient){
     toast('Consultation demarree — Client : '+S.activeClient.name,'info');
   } else {
@@ -1457,8 +1458,7 @@ async function stopConsultation(){
   document.getElementById('fgroup-active').style.display='none';
   document.getElementById('fgroup-active').setAttribute('hidden','');
   document.getElementById('btn-start').classList.remove('rec-active');
-  const dotEl=document.getElementById('btn-start-dot');
-  if(dotEl){dotEl.style.background='rgba(80,0,0,0.6)';const sp=dotEl.querySelector('span');if(sp){sp.style.background='#cc0000';sp.style.boxShadow='0 0 4px rgba(255,0,0,0.8)';}}
+  // dot resets automatically
   // Final auto-save before report
   autoSaveSessionToClient();
   // If no client selected, prompt to create/select one before saving report
@@ -1601,7 +1601,7 @@ async function validateVoiceProfile(){
   document.getElementById('voice-status').innerHTML='<span class="voice-done-text">Profil vocal sauvegarde avec succes. Vous pouvez fermer.</span>';
   document.getElementById('btn-voice-validate').style.display='none';
   document.getElementById('btn-voice-record').textContent='NOUVEL ENREGISTREMENT';
-  toast('Profil vocal sauvegarde');
+  toast('Profil vocal sauvegardé');
 }
 
 function confirmDeleteVoice(){
@@ -1614,7 +1614,7 @@ function confirmDeleteVoice(){
     document.getElementById('voice-progress-bar').style.width='0%';
     document.getElementById('voice-playback').classList.remove('show');
     document.getElementById('btn-voice-validate').style.display='none';
-    toast('Profil vocal supprime');
+    toast('Profil vocal supprimé');
   });
 }
 
@@ -1679,7 +1679,7 @@ async function loadConversion(){
     data.phrases.forEach((p,i)=>{
       const div=document.createElement('div');div.className='conv-phrase';
       div.innerHTML='<div class="conv-num">OPTION '+(i+1)+'</div><div>'+p+'</div>';
-      div.onclick=()=>{navigator.clipboard?.writeText(p).catch(()=>{});toast('Copie');};
+      div.onclick=()=>{navigator.clipboard?.writeText(p).catch(()=>{});toast('Copié');};
       container.appendChild(div);
     });
     document.getElementById('conv-panel').classList.add('show');
@@ -1730,7 +1730,7 @@ function addModuleResult(cssClass,label,text,closeOverlayId){
 }
 function copyText(btn){
   const text=btn.dataset.text||btn.parentElement.querySelector('.mod-result-text')?.textContent||'';
-  navigator.clipboard?.writeText(text).catch(()=>{});toast('Copie');
+  navigator.clipboard?.writeText(text).catch(()=>{});toast('Copié');
 }
 function escapeHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 
@@ -1814,7 +1814,7 @@ async function interpretTarot(){
     addModuleResult('tarot','TAROT — '+deckName+' — '+spread.label,
       'CARTES : '+S.tarotSelectedCards.join(' | ')+'\n\n'+data.interpretation+(data.cle?'\n\nCLE DU TIRAGE : '+data.cle:''),
       'mod-tarot');
-    toast('Interpretation du tarot generee');
+    toast('Interprétation du tarot générée');
     autoSaveSessionToClient();
   }
   btn.textContent='INTERPRETER CE TIRAGE';btn.disabled=false;
@@ -1884,7 +1884,7 @@ async function runNumerologie(){
       +(calculs['Nombre intime']?' | INTIME : '+calculs['Nombre intime']:'')
       +(data.mot_cle?'\nMOT CLE : '+data.mot_cle:'');
     addModuleResult('numerologie','NUMEROLOGIE',header+'\n\n'+data.analyse,'mod-numerologie');
-    toast('Analyse numerologique generee');
+    toast('Analyse numérologique générée');
     autoSaveSessionToClient();
   }
 }
@@ -1980,7 +1980,7 @@ async function runHoroscope(){
       +(data.point_vigilance?'\nVIGILANCE : '+data.point_vigilance:'')
       +(data.conseil?'\nCONSEIL : '+data.conseil:''),
       'mod-horoscope');
-    toast('Horoscope genere');
+    toast('Horoscope généré');
     autoSaveSessionToClient();
   }
   btn.textContent="GENERER L'HOROSCOPE";btn.disabled=false;
@@ -2002,7 +2002,7 @@ async function runAstrologie(){
     addModuleResult('astrologie','ASTROLOGIE APPROFONDIE',
       (data.signe_solaire?'SIGNE : '+data.signe_solaire+' ':'')+(data.ascendant_estime?'| ASCENDANT : '+data.ascendant_estime:'')+(data.mot_cle?'\nESSENCE : '+data.mot_cle:'')+'\n\n'+data.analyse,
       'mod-astrologie');
-    toast('Analyse astrologique generee');
+    toast('Analyse astrologique générée');
     autoSaveSessionToClient();
   }
   btn.textContent='GENERER L\'ANALYSE ASTROLOGIQUE';btn.disabled=false;
@@ -2020,7 +2020,7 @@ async function runAngeGardien(){
     addModuleResult('ange','MESSAGE DE L\'ANGE GARDIEN',
       (data.nom_ange?'ANGE PERCU : '+data.nom_ange+'\n':'')+(data.symbole?'SYMBOLE : '+data.symbole+'\n\n':'\n')+data.message,
       'mod-ange');
-    toast('Message de l\'ange recu');
+    toast('Message de l\'ange reçu');
     autoSaveSessionToClient();
   }
   btn.textContent='RECEVOIR LE MESSAGE';btn.disabled=false;
@@ -2049,7 +2049,7 @@ async function runLigneDeLaMain(){
     if(result){
       if(S.session)S.session.elements.main={focus,reading:result,timestamp:Date.now()};
       addModuleResult('main','LECTURE DE LA MAIN',result,'mod-main');
-      toast('Lecture de la main generee');
+      toast('Lecture de la main générée');
     }
     btn.textContent='ANALYSER LA MAIN';btn.disabled=false;
   };
@@ -2101,7 +2101,7 @@ async function runAlertes(){
     document.getElementById('alertes-result').style.display='block';
     if(S.session)S.session.elements.alertes.push({type:'analyse_globale',data,timestamp:Date.now()});
     addModuleResult('alerte-glob','ANALYSE ET ALERTES',data.alertes.map(a=>'['+a.type.toUpperCase()+'] '+a.texte).join('\n')+(data.priorite?'\n\nPRIORITE : '+data.priorite:''),null);
-    toast('Analyse globale generee');
+    toast('Analyse globale générée');
     autoSaveSessionToClient();
   }
   btn.textContent='LANCER L\'ANALYSE GLOBALE';btn.disabled=false;
@@ -2231,7 +2231,7 @@ function formatReportHTML(sess,data,el){
 
 function copyReport(){
   if(!S.currentReport?.fullText){toast('Aucun rapport a copier','warn');return;}
-  navigator.clipboard?.writeText(S.currentReport.fullText).catch(()=>{});toast('Rapport copie');
+  navigator.clipboard?.writeText(S.currentReport.fullText).catch(()=>{});toast('Rapport copié');
 }
 function downloadReport(){
   if(!S.currentReport?.fullText){toast('Aucun rapport a telecharger','warn');return;}
@@ -2239,10 +2239,10 @@ function downloadReport(){
   const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;
   const date=new Date().toLocaleDateString('fr-FR').replace(/\//g,'-');
   a.download='rapport_'+(S.currentReport.session?.clientName||'client').replace(/\s+/g,'_')+'_'+date+'.txt';
-  a.click();URL.revokeObjectURL(url);toast('Rapport telecharge');
+  a.click();URL.revokeObjectURL(url);toast('Rapport téléchargé');
 }
 async function saveReportToClient(){
-  if(!S.activeClient||!S.currentReport){toast('Aucun client selectionne','warn');return;}
+  if(!S.activeClient||!S.currentReport){toast('Aucun client sélectionné','warn');return;}
   const sess=S.session||S.currentReport.session;const el=sess?.elements||{};
   const payload={
     summary:S.currentReport.data?.resume||'',
@@ -2273,7 +2273,7 @@ async function saveReportToClient(){
   S.activeClient.consultations=[newConsult,...(S.activeClient.consultations||[])];
   // Also save to Worker
   const r=await workerRequest('POST','/clients/'+S.activeClient.id+'/consultations',payload);
-  if(r) toast('Rapport sauvegarde dans la fiche client');
+  if(r) toast('Rapport sauvegardé dans la fiche client');
   else toast('Rapport sauvegarde localement');
   closeOverlay('rapport-overlay');
 }
@@ -2376,7 +2376,7 @@ async function generateEmailResponse(){
   btn.textContent='GENERER LA REPONSE';btn.disabled=false;
 }
 
-function copyEmailResponse(){navigator.clipboard?.writeText(document.getElementById('email-response-text').textContent).catch(()=>{});toast('Reponse email copiee');}
+function copyEmailResponse(){navigator.clipboard?.writeText(document.getElementById('email-response-text').textContent).catch(()=>{});toast('Réponse email copiée');}
 
 async function saveEmailConsultation(){
   const email=S._lastEmailResponse;if(!email){toast('Aucune reponse a sauvegarder','warn');return;}
@@ -2386,7 +2386,7 @@ async function saveEmailConsultation(){
     lc.emailConsultations=[{...payload,cid:'ec_'+Date.now()},...(lc.emailConsultations||[])];
     ls('ma_client_'+email.clientId,JSON.stringify(lc));
     await workerRequest('POST','/clients/'+email.clientId+'/emailConsultations',payload);
-    toast('Consultation email sauvegardee');
+    toast('Consultation email sauvegardée');
   } else toast('Selectionnez un client pour sauvegarder','warn');
 }
 
@@ -2497,14 +2497,14 @@ async function saveClientInfo(){
   ls('ma_client_'+S.activeClient.id,JSON.stringify(S.activeClient));
   const index=JSON.parse(ls('ma_clients_index')||'[]');const idx=index.findIndex(c=>c.id===S.activeClient.id);
   if(idx>=0){index[idx]={...index[idx],...updates};ls('ma_clients_index',JSON.stringify(index));allClients=index;}
-  toast('Infos sauvegardees');
+  toast('Infos sauvegardées');
 }
 async function saveClientNotes(){
   if(!S.activeClient)return;
   S.activeClient.profile=document.getElementById('cf-profile').value.trim();
   S.activeClient.notes=document.getElementById('cf-notes').value.trim();
   await workerRequest('PUT','/clients/'+S.activeClient.id,S.activeClient);
-  ls('ma_client_'+S.activeClient.id,JSON.stringify(S.activeClient));toast('Notes sauvegardees');
+  ls('ma_client_'+S.activeClient.id,JSON.stringify(S.activeClient));toast('Notes sauvegardées');
 }
 function confirmDeleteClient(){showConfirm('Supprimer ce client','Supprimer definitivement '+S.activeClient?.name+' et tout son historique ?',deleteClient);}
 async function deleteClient(){
@@ -2512,7 +2512,7 @@ async function deleteClient(){
   await workerRequest('DELETE','/clients/'+S.activeClient.id);
   allClients=allClients.filter(c=>c.id!==S.activeClient.id);
   ls('ma_clients_index',JSON.stringify(allClients));ls('ma_client_'+S.activeClient.id,'');
-  deselectClient();closeOverlay('clientfile-overlay');toast('Client supprime');
+  deselectClient();closeOverlay('clientfile-overlay');toast('Client supprimé');
 }
 function showCFTab(t){
   ['info','notes','hist'].forEach(tab=>{
@@ -2554,7 +2554,7 @@ function clearAll(){
   document.getElementById('transcript-card').style.display='none';
   document.getElementById('suggestion-card').style.display='none';
   S.currentReport=null;
-  toast('Session effacee');
+  toast('Session effacée');
 }
 
 /* ═══ SETTINGS ═══ */
@@ -2577,7 +2577,7 @@ function saveSettings(){
   ls('ma_extra',document.getElementById('s-extra').value.trim());
   ls('ma_services',document.getElementById('s-services').value.trim());
   ls('ma_lang',document.getElementById('s-lang').value);
-  closeOverlay('settings-overlay');toast('Parametres sauvegardes');
+  closeOverlay('settings-overlay');toast('Paramètres sauvegardés');
 }
 function resetPrompt(){showConfirm('Reinitialiser le prompt','Restaurer le prompt systeme par defaut ?',()=>{ls('ma_sys_prompt',DEFAULT_SYSTEM_PROMPT);ls('ma_services',DEFAULT_SERVICES);toast('Prompt reinitialise');});}
 function toggleEye(id){const el=document.getElementById(id);el.type=el.type==='password'?'text':'password';}
@@ -2612,7 +2612,7 @@ function openVoiceOverlay(){
 function setStatus(s){
   const pill=document.getElementById('status-pill');const txt=document.getElementById('status-txt');
   pill.className='status-pill';
-  if(s==='listening'){pill.classList.add('s-listening');txt.textContent='En ecoute';}
+  if(s==='listening'){pill.classList.add('s-listening');txt.textContent='En écoute';}
   else if(s==='processing'){pill.classList.add('s-processing');txt.textContent='Analyse...';}
   else if(s==='paused'){pill.classList.add('s-paused');txt.textContent='En pause';}
   else{pill.classList.add('s-idle');txt.textContent='En veille';}
@@ -2643,7 +2643,7 @@ function toast(msg,type='ok'){
 
 /* ═══ EXPORT CLIENT ═══ */
 function exportClientData(mode){
-  if(!S.activeClient){toast('Aucun client selectionne','warn');return;}
+  if(!S.activeClient){toast('Aucun client sélectionné','warn');return;}
   const c=S.activeClient;
   const nl='\n';
   let txt='';
@@ -2683,7 +2683,7 @@ function exportClientData(mode){
   txt+='='.repeat(45)+nl+'Exporte le '+new Date().toLocaleDateString('fr-FR')+' — ClairvoyanceMedium.com'+nl;
   if(mode==='text'){
     navigator.clipboard&&navigator.clipboard.writeText(txt).catch(function(){});
-    toast('Fiche copiee dans le presse-papiers');
+    toast('Fiche copiée dans le presse-papiers');
   } else {
     var blob=new Blob([txt],{type:'text/plain;charset=utf-8'});
     var url=URL.createObjectURL(blob);
@@ -2692,7 +2692,7 @@ function exportClientData(mode){
     a.download='fiche_'+(c.name||'client').replace(/\s+/g,'_')+'.txt';
     a.click();
     URL.revokeObjectURL(url);
-    toast('Fiche telechargee');
+    toast('Fiche téléchargée');
   }
 }
 
@@ -2723,15 +2723,20 @@ function filterBilanClients(){
   }):allClients;
   const container=document.getElementById('rbil-clients-list');
   if(!list.length){container.innerHTML='<div style="text-align:center;color:var(--text3);font-size:12px;padding:20px">Aucun client.</div>';return;}
-  container.innerHTML=list.map(c=>`
-    <div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--r-sm);padding:9px 12px;margin-bottom:7px;display:flex;align-items:center;gap:8px">
-      <div style="flex:1;min-width:0">
-        <div style="font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${c.name}</div>
-        <div style="font-size:9px;color:var(--text2);margin-top:1px">${c.phone||''}${c.birthdate?' • '+c.birthdate:''}</div>
-      </div>
-      <button onclick="openRenameClient('${c.id}','${(c.name||'').replace(/'/g,'\\')}')" style="padding:4px 9px;border-radius:6px;border:none;cursor:pointer;font-family:'Inter',sans-serif;font-size:9px;font-weight:700;background:rgba(204,68,255,0.12);color:var(--purple)">RENOMMER</button>
-      <button onclick="confirmDeleteClientFromBilan('${c.id}','${(c.name||'').replace(/'/g,'\\')}')" style="padding:4px 9px;border-radius:6px;border:none;cursor:pointer;font-family:'Inter',sans-serif;font-size:9px;font-weight:700;background:rgba(255,68,0,0.1);color:var(--red)">SUPPRIMER</button>
-    </div>`).join('');
+  // Build DOM nodes safely (no onclick escaping issues)
+  container.innerHTML = '';
+  list.forEach(c => {
+    const div = document.createElement('div');
+    div.style.cssText = 'background:var(--bg3);border:1px solid var(--border);border-radius:var(--r-sm);padding:9px 12px;margin-bottom:7px;display:flex;align-items:center;gap:8px';
+    div.innerHTML = '<div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + escapeHtml(c.name||'') + '</div>'
+      + '<div style="font-size:9px;color:var(--text2);margin-top:1px">' + escapeHtml(c.phone||'') + (c.birthdate ? ' &bull; ' + c.birthdate : '') + '</div></div>'
+      + '<button data-id="' + c.id + '" data-name="' + escapeHtml(c.name||'') + '" data-action="rename" style="padding:4px 9px;border-radius:6px;border:none;cursor:pointer;font-family:Inter,sans-serif;font-size:9px;font-weight:700;background:rgba(204,68,255,0.12);color:var(--purple)">RENOMMER</button>'
+      + '<button data-id="' + c.id + '" data-name="' + escapeHtml(c.name||'') + '" data-action="delete" style="padding:4px 9px;border-radius:6px;border:none;cursor:pointer;font-family:Inter,sans-serif;font-size:9px;font-weight:700;background:rgba(255,68,0,0.1);color:var(--red)">SUPPRIMER</button>';
+    // Attach events safely
+    div.querySelector('[data-action="rename"]').addEventListener('click', function() { openRenameClient(this.dataset.id, this.dataset.name); });
+    div.querySelector('[data-action="delete"]').addEventListener('click', function() { confirmDeleteClientFromBilan(this.dataset.id, this.dataset.name); });
+    container.appendChild(div);
+  });
 }
 
 let _renameClientId=null;
@@ -2769,7 +2774,7 @@ function confirmDeleteClientFromBilan(id,name){
     ls('ma_client_'+id,'');
     if(S.activeClient&&S.activeClient.id===id)deselectClient();
     filterBilanClients();
-    toast('Client supprime');
+    toast('Client supprimé');
   });
 }
 
@@ -2832,7 +2837,7 @@ async function runCompatibilite(){
     addModuleResult('main','COMPATIBILITE AMOUREUSE — '+p1name+' & '+p2name,
       header+'\n\n'+data.analyse+forces+defis+conseil+pronostic,'mod-compat');
     autoSaveSessionToClient();
-    toast('Analyse de compatibilite generee');
+    toast('Analyse de compatibilité générée');
   }
   btn.textContent='ANALYSER LA COMPATIBILITE';btn.disabled=false;
 }
