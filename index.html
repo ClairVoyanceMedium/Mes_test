@@ -1490,30 +1490,47 @@ let recognition=null;
 function initReco(){
   const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
   if(!SR)return;
-  recognition=new SR();recognition.continuous=true;recognition.interimResults=true;
-  recognition.lang=cfg.lang;recognition.maxAlternatives=1;
+  recognition=new SR();
+  recognition.continuous=true;
+  recognition.interimResults=true;
+  recognition.lang=cfg.lang;
+  recognition.maxAlternatives=1;
+
   recognition.onresult=(e)=>{
-    let final='',interim='';
+    // Seul e.resultIndex garantit qu on ne traite que les nouveaux resultats
+    let finalText='';
+    let interimText='';
     for(let i=e.resultIndex;i<e.results.length;i++){
-      const t=e.results[i][0].transcript;
-      if(e.results[i].isFinal)final+=t+' ';else interim+=t;
-    }
-    if(final&&S.session){
-      // Deduplication: ignore if this exact text was just added (restart artifact)
-      const trimmed=final.trim();
-      const recent=(S.session.transcript||'').slice(-200);
-      if(trimmed&&!recent.endsWith(trimmed)&&!recent.endsWith(trimmed+' ')){
-        S.session.transcript+=final;updateTranscriptUI();
-        clearTimeout(S.debounce);S.debounce=setTimeout(()=>getSuggestion(),1600);
+      if(e.results[i].isFinal){
+        finalText+=e.results[i][0].transcript;
+      } else {
+        interimText+=e.results[i][0].transcript;
       }
     }
-    document.getElementById('transcript-interim').textContent=interim?'> '+interim:'';
+    if(finalText&&S.session){
+      S.session.transcript+=finalText+' ';
+      updateTranscriptUI();
+      clearTimeout(S.debounce);
+      S.debounce=setTimeout(()=>getSuggestion(),1600);
+    }
+    const el=document.getElementById('transcript-interim');
+    if(el)el.textContent=interimText?'> '+interimText:'';
   };
-  // Use a session ID to prevent onend from restarting a closed session
-  recognition._sessionId=Date.now();
-  const _sid=recognition._sessionId;
-  recognition.onerror=(e)=>{if(e.error==='no-speech')return;if(e.error==='not-allowed'){toast('Acces micro refuse — verifiez Chrome','err');return;}};
-  recognition.onend=()=>{if(S.listening&&!S.isPaused&&recognition&&recognition._sessionId===_sid)setTimeout(()=>{try{recognition.start();}catch(e){}},400);};
+
+  recognition.onerror=(e)=>{
+    if(e.error==='no-speech'||e.error==='aborted')return;
+    if(e.error==='not-allowed'){toast('Acces micro refuse — verifiez Chrome','err');return;}
+  };
+
+  recognition.onend=()=>{
+    if(S.listening&&!S.isPaused){
+      setTimeout(()=>{
+        if(S.listening&&!S.isPaused&&recognition){
+          try{recognition.start();}catch(err){}
+        }
+      },250);
+    }
+  };
 }
 
 function forceSuggest(){if(!S.session?.transcript.trim()){toast('Aucune transcription','warn');return;}clearTimeout(S.debounce);getSuggestion();}
