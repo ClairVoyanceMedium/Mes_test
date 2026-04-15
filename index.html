@@ -1499,13 +1499,21 @@ function initReco(){
       if(e.results[i].isFinal)final+=t+' ';else interim+=t;
     }
     if(final&&S.session){
-      S.session.transcript+=final;updateTranscriptUI();
-      clearTimeout(S.debounce);S.debounce=setTimeout(()=>getSuggestion(),1600);
+      // Deduplication: ignore if this exact text was just added (restart artifact)
+      const trimmed=final.trim();
+      const recent=(S.session.transcript||'').slice(-200);
+      if(trimmed&&!recent.endsWith(trimmed)&&!recent.endsWith(trimmed+' ')){
+        S.session.transcript+=final;updateTranscriptUI();
+        clearTimeout(S.debounce);S.debounce=setTimeout(()=>getSuggestion(),1600);
+      }
     }
     document.getElementById('transcript-interim').textContent=interim?'> '+interim:'';
   };
+  // Use a session ID to prevent onend from restarting a closed session
+  recognition._sessionId=Date.now();
+  const _sid=recognition._sessionId;
   recognition.onerror=(e)=>{if(e.error==='no-speech')return;if(e.error==='not-allowed'){toast('Acces micro refuse — verifiez Chrome','err');return;}};
-  recognition.onend=()=>{if(S.listening&&!S.isPaused)setTimeout(()=>{try{if(recognition)recognition.start();}catch(e){}},300);};
+  recognition.onend=()=>{if(S.listening&&!S.isPaused&&recognition&&recognition._sessionId===_sid)setTimeout(()=>{try{recognition.start();}catch(e){}},400);};
 }
 
 function forceSuggest(){if(!S.session?.transcript.trim()){toast('Aucune transcription','warn');return;}clearTimeout(S.debounce);getSuggestion();}
