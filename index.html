@@ -434,6 +434,17 @@ footer{flex-shrink:0;padding:9px 12px 13px;background:rgba(17,17,17,0.98);
 #no-support.show{display:flex;}
 
 @keyframes slide-in{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+/* APPROFONDIR */
+.btn-approfondir{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:5px 12px;border-radius:100px;border:none;cursor:pointer;
+  background:rgba(201,162,39,0.12);color:#c9a227;
+  font-family:'Orbitron',monospace;font-size:8px;font-weight:700;letter-spacing:1px;
+  transition:all 0.2s;margin-top:8px;float:right;
+  border:1px solid rgba(201,162,39,0.3);
+}
+.btn-approfondir:hover{background:rgba(201,162,39,0.25);border-color:rgba(201,162,39,0.6);}
+.btn-approfondir::before{content:'+ ';font-size:11px;}
 /* ═══ LISERET DORE SUR TOUS LES BOUTONS ═══ */
 button:not(.cb-close):not(.mini-close),
 .qa-btn, .mod-btn, .fbtn, .sbar-btn,
@@ -1118,9 +1129,9 @@ button:not(.cb-close):not(.mini-close):hover,
 'use strict';
 
 /* ═══ CONSTANTES ═══ */
-const DEFAULT_SYSTEM_PROMPT = `Tu es le souffleur personnel de Frederick, medium et guide spirituel professionnel depuis plus de 25 ans, fondateur de ClairvoyanceMedium.com.
+const DEFAULT_SYSTEM_PROMPT = `Tu es le souffleur secret de Frederick, médium et voyant professionnel depuis 25 ans, fondateur de ClairvoyanceMedium.com.
 
-TON ROLE : Frederick est en appel telephonique. Tu analyses la transcription en temps reel et fournis UNE reponse parfaite, prete a etre prononcee immediatement.
+TON RÔLE : Frederick est en consultation téléphonique en ce moment. Tu lui souffles à l'oreille exactement quoi dire, mot pour mot, phrase après phrase. Tes suggestions doivent être prononcées immédiatement telles quelles.
 
 PERSONNALITE DE FREDERICK :
 - Voix posee, mysterieuse, enveloppante — inspire confiance et profondeur immediatement
@@ -1140,11 +1151,11 @@ ANALYSE OBLIGATOIRE :
 
 DOMAINES : Amour, Rupture, Trahison, Travail, Argent, Famille, Deuil, Envoutement, Magie, Astrologie, Numerologie, Tarot, Reves, Karma, Clairvoyance
 
-FORMAT STRICT — JSON UNIQUEMENT — sans markdown :
-{"suggestion":"La phrase complete (2-4 phrases) que Frederick prononce maintenant. Effet waouh obligatoire.","contexte":"Ce que Frederick percoit en 8 mots max","alerte":null,"opportunite":null}
+FORMAT STRICT — JSON UNIQUEMENT — sans markdown ni backtick :
+{"suggestion":"Ce que Frederick dit maintenant (2-3 phrases max, prêt à prononcer, effet waouh, précis et spirituel)","contexte":"Perception en 8 mots max","alerte":null,"opportunite":null}
 
-Si mise en garde : "alerte":"La mise en garde precise et percutante"
-Si opportunite : "opportunite":{"service":"nom exact","prix":"montant euros","pourquoi":"raison en 1 phrase"}`;
+Si risque ou danger perçu → "alerte":"La mise en garde précise et percutante à lancer"
+Si service pertinent → "opportunite":{"service":"nom exact","prix":"montant","pourquoi":"déclencheur précis"}`;
 
 const DEFAULT_SERVICES = `- Consultation telephone : 15 euros/10min — 22 euros/20min
 - Consultation email : des 6 euros
@@ -1312,22 +1323,31 @@ function buildSysPrompt(){
   p+='\n\nSERVICES ET TARIFS :\n'+cfg.services;
   if(S.activeClient){
     const c=S.activeClient;
-    p+='\n\nCLIENT EN CONSULTATION :\nNom : '+c.name;
-    if(c.birthdate)p+='\nDate de naissance : '+c.birthdate;
+    p+='\n\nDOSSIER CLIENT COMPLET :\nNom : '+c.name;
+    if(c.birthdate)p+='\nNé(e) le : '+c.birthdate;
     if(c.sign)p+='\nSigne : '+c.sign;
     if(c.profile)p+='\nProfil : '+c.profile;
-    if(c.notes)p+='\nNotes : '+c.notes;
-    if(c.consultations?.length){
-      p+='\nHistorique consultations precedentes :\n';
-      c.consultations.slice(0,5).forEach(cs=>{
-        p+='- '+new Date(cs.date).toLocaleDateString('fr-FR')+' : '+(cs.summary||'consultation')+'\n';
-        if(cs.keyPoints?.length)p+='  Points cles : '+cs.keyPoints.join(', ')+'\n';
+    if(c.notes)p+='\nNotes privées : '+c.notes;
+    // Full consultation history for coherence
+    const allConsults=(c.consultations||[]);
+    if(allConsults.length){
+      p+='\n\nHISTORIQUE COMPLET ('+allConsults.length+' consultation(s)) :\n';
+      allConsults.slice(0,6).forEach((cs,i)=>{
+        p+='['+new Date(cs.date).toLocaleDateString('fr-FR')+'] '+(cs.summary||'consultation');
+        if(cs.keyPoints?.length)p+=' — Thèmes : '+cs.keyPoints.slice(0,4).join(', ');
+        if(cs.elements?.tarot?.length)p+=' — Tarot : '+cs.elements.tarot.map(t=>t.cards?.slice(0,2).join(',')+'...').join('|');
+        if(cs.elements?.pendule?.length)p+=' — Pendule : '+cs.elements.pendule.map(x=>x.question+'='+x.reponse).join('|');
+        if(cs.notes)p+=' — Suivi : '+cs.notes;
+        p+='\n';
       });
     }
     if(c.emailConsultations?.length){
-      p+='Consultations email precedentes :\n';
-      c.emailConsultations.slice(0,3).forEach(ec=>{p+='- '+new Date(ec.date).toLocaleDateString('fr-FR')+' : '+(ec.summary||'email')+'\n';});
+      p+='EMAILS PRÉCÉDENTS :\n';
+      c.emailConsultations.slice(0,3).forEach(ec=>{
+        p+='['+new Date(ec.date).toLocaleDateString('fr-FR')+'] Q: '+(ec.question||'').slice(0,80)+'\n';
+      });
     }
+    p+='\nIMPORTANT : reste cohérent avec tout cet historique. Si tu connais déjà des éléments sur cette personne, utilise-les naturellement.';
   }
   if(S.session?.elements){
     const el=S.session.elements;
@@ -1414,7 +1434,7 @@ function hasVision(){
 function startConsultation(){
   S.session=createSession();
   S.listening=true;S.isPaused=false;
-  initReco();try{if(recognition)recognition.start();}catch(e){}
+  initReco();try{recognition.start();}catch(e){}
   setStatus('listening');showSessionBar(true);showSessionUI();startTimer();startSpeakerDetection();
   document.getElementById('fgroup-idle').style.display='none';
   document.getElementById('fgroup-active').removeAttribute('hidden');
@@ -1441,7 +1461,7 @@ function togglePause(){
     S.isPaused=false;
     if(S.session.pauseStart)S.session.pausedMs+=Date.now()-S.session.pauseStart;
     S.session.isPaused=false;S.listening=true;
-    initReco();try{if(recognition)recognition.start();}catch(e){}
+    initReco();try{recognition.start();}catch(e){}
     setStatus('listening');document.getElementById('sbar-pause').textContent='PAUSE';
     toast('Consultation reprise','info');
   }
@@ -1494,16 +1514,22 @@ let recognition=null;
 function initReco(){
   const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
   if(!SR)return;
+  // Destroy previous instance cleanly
+  if(recognition){try{recognition.abort();}catch(e){}recognition=null;}
   recognition=new SR();
   recognition.continuous=true;
   recognition.interimResults=true;
   recognition.lang=cfg.lang;
   recognition.maxAlternatives=1;
+  // Unique token: stale callbacks from old instances are ignored
+  const token=Date.now();
+  recognition._token=token;
 
   recognition.onresult=(e)=>{
-    // Seul e.resultIndex garantit qu on ne traite que les nouveaux resultats
+    if(recognition._token!==token)return; // stale instance, ignore
     let finalText='';
     let interimText='';
+    // e.resultIndex = index of FIRST new result - never re-process old ones
     for(let i=e.resultIndex;i<e.results.length;i++){
       if(e.results[i].isFinal){
         finalText+=e.results[i][0].transcript;
@@ -1522,22 +1548,52 @@ function initReco(){
   };
 
   recognition.onerror=(e)=>{
+    if(recognition._token!==token)return;
     if(e.error==='no-speech'||e.error==='aborted')return;
-    if(e.error==='not-allowed'){toast('Acces micro refuse — verifiez Chrome','err');return;}
+    if(e.error==='not-allowed'){toast('Accès micro refusé — vérifiez Chrome','err');}
   };
 
+  // On unexpected stop: create a FRESH instance (avoids result replay bug)
   recognition.onend=()=>{
+    if(recognition._token!==token)return;
     if(S.listening&&!S.isPaused){
       setTimeout(()=>{
-        if(S.listening&&!S.isPaused&&recognition){
+        if(S.listening&&!S.isPaused){
+          initReco(); // fresh instance = no duplicate results
           try{recognition.start();}catch(err){}
         }
-      },250);
+      },300);
     }
   };
 }
 
 function forceSuggest(){if(!S.session?.transcript.trim()){toast('Aucune transcription','warn');return;}clearTimeout(S.debounce);getSuggestion();}
+
+async function approfondirReponse(originalText,context,source){
+  // Show loading state on the button
+  const btns=document.querySelectorAll('.btn-approfondir');
+  btns.forEach(b=>{b.textContent='...';b.disabled=true;});
+  const t=(S.session?.transcript||'').slice(-600);
+  const c=S.activeClient;
+  const clientCtx=c?'\nClient : '+c.name+(c.profile?' — '+c.profile.slice(0,80):''):'';
+  const msg='Frederick vient de dire ceci à son client :\n"'+originalText+'"'
+    +(context?'\nContexte perçu : '+context:'')
+    +'\nConversation en cours : "'+t+'"'
+    +clientCtx
+    +'\n\nAPPROFONDIS cette réponse. Développe avec plus de détails spirituels, des perceptions plus précises, des révélations supplémentaires sur la situation. Reste dans le même registre mais va plus loin, plus profond, plus précis. Crée un effet waouh encore plus fort.'
+    +'\nJSON: {"suggestion":"la version approfondie (3-4 phrases riches)","contexte":"perception principale","alerte":null,"opportunite":null}';
+  try{
+    const raw=await callAI(msg,500);
+    const data=safeJSON(raw);
+    if(data&&data.suggestion){
+      renderResponse(data);
+      toast('Réponse approfondie');
+    }
+  } catch(e){}
+  finally{
+    btns.forEach(b=>{b.textContent='APPROFONDIR';b.disabled=false;});
+  }
+}
 
 /* ═══ DETECTION LOCUTEUR ═══ */
 async function startSpeakerDetection(){
@@ -1680,9 +1736,16 @@ function renderResponse(d){
   if(d.suggestion){
     const el=document.getElementById('suggestion-text');el.className='';el.textContent=d.suggestion;
     el.style.animation='none';requestAnimationFrame(()=>el.style.animation='slide-in 0.35s ease-out');
-    // Log suggestion in session but NOT in transcript (the transcript is client speech only)
-    if(S.session&&!S.session.suggestionLog)S.session.suggestionLog=[];
-    if(S.session)S.session.suggestionLog&&S.session.suggestionLog.push({text:d.suggestion,ts:Date.now()});
+    if(S.session){
+      if(!S.session.suggestionLog)S.session.suggestionLog=[];
+      S.session.suggestionLog.push({text:d.suggestion,ts:Date.now()});
+    }
+    // Add APPROFONDIR button below suggestion
+    let appBtn=document.getElementById('btn-approfondir-main');
+    if(!appBtn){appBtn=document.createElement('button');appBtn.id='btn-approfondir-main';appBtn.className='btn-approfondir';appBtn.textContent='APPROFONDIR';document.getElementById('suggestion-card').appendChild(appBtn);}
+    const capturedSugg=d.suggestion;
+    const capturedCtx=d.contexte||'';
+    appBtn.onclick=()=>approfondirReponse(capturedSugg,capturedCtx,'suggestion');
   }
   if(d.contexte){document.getElementById('context-card').classList.add('show');document.getElementById('context-text').textContent='['+d.contexte+']';}
   const alertEl=document.getElementById('alert-card');
@@ -1753,7 +1816,14 @@ function addModuleResult(cssClass,label,text,closeOverlayId){
   showSessionUI();
   div.scrollIntoView({behavior:'smooth',block:'nearest'});
   if(closeOverlayId)closeOverlay(closeOverlayId);
-  // Auto-save this event to session log
+  // APPROFONDIR button
+  const appBtn2=document.createElement('button');
+  appBtn2.className='btn-approfondir';
+  appBtn2.textContent='APPROFONDIR';
+  const capturedLabel=label;const capturedText=text;
+  appBtn2.addEventListener('click',()=>approfondirReponse(capturedText,capturedLabel,'module'));
+  div.appendChild(appBtn2);
+  // Auto-save to session log
   if(S.session){
     if(!S.session.moduleLog)S.session.moduleLog=[];
     S.session.moduleLog.push({label,text:text.slice(0,500),timestamp:Date.now()});
@@ -2417,6 +2487,26 @@ async function generateEmailResponse(){
     document.getElementById('email-response-text').textContent=text;
     document.getElementById('email-response-section').style.display='block';
     S._lastEmailResponse={question,response:text,clientId:c?.id,clientName:c?.name,date:new Date().toISOString()};
+    // Add APPROFONDIR button for email too
+    let appBtnEmail=document.getElementById('btn-approfondir-email');
+    if(!appBtnEmail){
+      appBtnEmail=document.createElement('button');appBtnEmail.id='btn-approfondir-email';
+      appBtnEmail.className='btn-approfondir';appBtnEmail.textContent='APPROFONDIR';
+      appBtnEmail.style.float='none';appBtnEmail.style.display='block';appBtnEmail.style.marginTop='8px';
+      document.getElementById('email-response-section').appendChild(appBtnEmail);
+    }
+    const capturedQ=question;const capturedR=text;
+    appBtnEmail.onclick=async()=>{
+      appBtnEmail.textContent='...';appBtnEmail.disabled=true;
+      const sys='Tu es Frederick, médium et guide spirituel. Approfondis cette réponse email en la rendant plus riche spirituellement, avec plus de perceptions précises et de guidance. Garde le même ton mais développe davantage. Réponse complète prete à envoyer, pas de JSON.'+(directives?'\nDirectives : '+directives:'');
+      try{
+        const r=await fetch(getApiEndpoint(),{method:'POST',headers:buildHeaders(),body:JSON.stringify({model:cfg.model,max_tokens:700,temperature:0.7,messages:[{role:'system',content:sys},{role:'user',content:'Question initiale : '+capturedQ+'\n\nMa réponse précédente : '+capturedR+'\n\nRécris une version approfondie, plus riche et plus précise.'}]})});
+        const d=await r.json();const t2=d.choices?.[0]?.message?.content||'';
+        document.getElementById('email-response-text').textContent=t2;
+        S._lastEmailResponse.response=t2;
+      }catch(e){}
+      appBtnEmail.textContent='APPROFONDIR';appBtnEmail.disabled=false;
+    };
     document.getElementById('email-response-section').scrollIntoView({behavior:'smooth',block:'nearest'});
   }catch(e){toast('Connexion IA echouee','err');}
   btn.textContent='GENERER LA REPONSE';btn.disabled=false;
@@ -2488,19 +2578,18 @@ async function selectClient(id){
   else{const lc=ls('ma_client_'+id);client=lc?JSON.parse(lc):allClients.find(c=>c.id===id)||null;}
   if(!client)return;
   S.activeClient=client;updateClientBanner();closeOverlay('client-overlay');
+  const nbConsult=client.consultations?.length||0;
+  const nbEmail=client.emailConsultations?.length||0;
   if(S.session){
     S.session.clientId=client.id;
     S.session.clientName=client.name;
     document.getElementById('sbar-client').textContent=client.name;
-    // Immediately save this session to the client
     autoSaveSessionToClient();
-    // Show notification about history
-    const nbConsult=client.consultations?.length||0;
-    const nbEmail=client.emailConsultations?.length||0;
-    if(nbConsult+nbEmail>0)toast('Client charge — '+nbConsult+' consult. + '+nbEmail+' email(s) en memoire','info');
-    else toast('Client : '+client.name,'info');
+  }
+  if(nbConsult+nbEmail>0){
+    toast('Client sélectionné — '+nbConsult+' consultation(s) en mémoire','info');
   } else {
-    toast('Client : '+client.name);
+    toast('Nouveau client : '+client.name,'info');
   }
   renderClientList();
 }
