@@ -1340,6 +1340,10 @@ function buildSysPrompt(){
     if(el.pendule.length)p+='\nReponses pendule : '+el.pendule.map(x=>'"'+x.question+'" => '+x.reponse).join(' | ');
     if(el.alertes.filter(a=>a.text).length)p+='\nAlertes emises : '+el.alertes.filter(a=>a.text).map(a=>a.text).join(' | ');
     if(S.session.moduleLog?.length)p+='\nModules utilises cette session : '+S.session.moduleLog.map(m=>m.label).join(', ');
+    if(S.session.suggestionLog?.length){
+      const last3=S.session.suggestionLog.slice(-3).map(s=>s.text).join(' / ');
+      p+='\nDernieres suggestions donnees (ne pas repeter) : '+last3;
+    }
   }
   // Reload active session from client file if available (consultation precedente)
   if(S.activeClient?.activeSession&&!S.session){
@@ -1511,7 +1515,7 @@ function initReco(){
       S.session.transcript+=finalText+' ';
       updateTranscriptUI();
       clearTimeout(S.debounce);
-      S.debounce=setTimeout(()=>getSuggestion(),1600);
+      S.debounce=setTimeout(()=>getSuggestion(),3000);
     }
     const el=document.getElementById('transcript-interim');
     if(el)el.textContent=interimText?'> '+interimText:'';
@@ -1650,7 +1654,7 @@ async function getSuggestion(customMsg=null){
   const transcript=S.session?.transcript||'';
   if(!transcript.trim()&&!customMsg)return;
   S.processing=true;setStatus('processing');setSuggestionLoading(true);
-  const msg=customMsg||'Transcription de la consultation (dernieres paroles) :\n\n"'+transcript.slice(-1400)+'"\n\nAnalyse et fournis la reponse JSON.';
+  const msg=customMsg||'Transcription de la consultation (dernieres paroles) :\n\n"'+transcript.slice(-600)+'"\n\nAnalyse et fournis la reponse JSON.';
   try{
     const raw=await callAI(msg);
     if(!raw)return;
@@ -1676,7 +1680,9 @@ function renderResponse(d){
   if(d.suggestion){
     const el=document.getElementById('suggestion-text');el.className='';el.textContent=d.suggestion;
     el.style.animation='none';requestAnimationFrame(()=>el.style.animation='slide-in 0.35s ease-out');
-    appendMediumAssistToTranscript(d.suggestion);
+    // Log suggestion in session but NOT in transcript (the transcript is client speech only)
+    if(S.session&&!S.session.suggestionLog)S.session.suggestionLog=[];
+    if(S.session)S.session.suggestionLog&&S.session.suggestionLog.push({text:d.suggestion,ts:Date.now()});
   }
   if(d.contexte){document.getElementById('context-card').classList.add('show');document.getElementById('context-text').textContent='['+d.contexte+']';}
   const alertEl=document.getElementById('alert-card');
@@ -2182,11 +2188,11 @@ async function runFreeText(){
 }
 
 /* ═══ RAPPORT ═══ */
-async function generateAndShowReport(){
+async function generateAndShowReport(sessionArg){
   openOverlay('rapport-overlay');
   document.getElementById('rapport-loading').style.display='block';
   document.getElementById('rapport-content').style.display='none';
-  const sess=S.session;if(!sess){document.getElementById('rapport-loading').textContent='Aucune session a analyser.';return;}
+  const sess=sessionArg||S.session;if(!sess){document.getElementById('rapport-loading').textContent='Aucune session a analyser.';return;}
   const duration=Math.floor((sess.endTime-sess.startTime-sess.pausedMs)/1000);
   const mins=Math.floor(duration/60);const el=sess.elements;
   const msg='Consultation terminee. Genere un rapport complet.\nCLIENT : '+sess.clientName+'\nDUREE : '+mins+' minute(s)\nTRANSCRIPTION : "'+sess.transcript.slice(-2000)+'"\nSUGGESTIONS : '+sess.suggestions.length+'\nALERTES : '+el.alertes.filter(a=>a.text).map(a=>a.text).join(' | ')+'||aucune\nTAROT : '+el.tarot.map(t=>t.deck+' ('+t.spread+') : '+t.cards.join(', ')).join(' | ')+'||aucun\nNUMEROLOGIE : '+(el.numerologie?JSON.stringify(el.numerologie.calculs):'non realise')+'\nHOROSCOPE : '+(el.horoscope?el.horoscope.sign+' — '+el.horoscope.period:'non realise')+'\nASTROLOGIE : '+(el.astrologie?el.astrologie.signe_solaire||'realise':'non realise')+'\nANGE GARDIEN : '+(el.angeGardien?'message recu':'non realise')+'\nLIGNE DE LA MAIN : '+(el.main?'analyse realisee':'non realise')+'\nPENDULE : '+el.pendule.map(p=>p.question+' => '+p.reponse).join(' | ')+'||aucune question\n\nRedige un rapport structure, professionnel et complet.\nJSON: {"titre":"titre du rapport","resume":"resume en 2-3 phrases","themes_principaux":["theme1","theme2"],"points_cles":["point1","point2","point3"],"services_proposes":["service1"],"recommandations_prochaine":"ce a faire lors de la prochaine consultation","conclusion":"conclusion en 1 phrase inspirante"}';
@@ -2283,9 +2289,10 @@ async function saveReportToClient(){
       horoscope:el.horoscope||null,
       astrologie:el.astrologie||null,
       angeGardien:el.angeGardien||null,
-      main:el.main?{focus:el.main.focus}:null,
+      main:el.main||null,
       pendule:el.pendule||[],
-      alertes:el.alertes?.filter(a=>a.text)||[]
+      alertes:(el.alertes||[]).filter(a=>a.text),
+      compatibilite:el.compatibilite||null
     },
     duration:sess?.endTime&&sess?.startTime?Math.floor((sess.endTime-sess.startTime-sess.pausedMs)/60000):0
   };
@@ -2300,6 +2307,8 @@ async function saveReportToClient(){
   const r=await workerRequest('POST','/clients/'+S.activeClient.id+'/consultations',payload);
   if(r) toast('Rapport sauvegardé dans la fiche client');
   else toast('Rapport sauvegarde localement');
+  // Refresh history if client file is open
+  renderConsultHistory();
   closeOverlay('rapport-overlay');
 }
 function autoSaveReport(){
@@ -2534,10 +2543,76 @@ function renderConsultHistory(){
   if(!S.activeClient)return;
   const consultations=S.activeClient.consultations||[];
   const emails=S.activeClient.emailConsultations||[];
-  const all=[...consultations.map(c=>({...c,_type:'phone'})),...emails.map(e=>({...e,_type:'email'}))].sort((a,b)=>new Date(b.date)-new Date(a.date));
+  const all=[
+    ...consultations.map(c=>({...c,_type:'phone'})),
+    ...emails.map(e=>({...e,_type:'email'}))
+  ].sort((a,b)=>new Date(b.date)-new Date(a.date));
   const container=document.getElementById('cf-hist-container');
-  if(!all.length){container.innerHTML='<div style="text-align:center;color:var(--text3);font-size:12px;padding:20px">Aucune consultation enregistree.</div>';return;}
-  container.innerHTML=all.map(c=>'<div class="consult-item"><div class="consult-date">'+new Date(c.date).toLocaleDateString('fr-FR',{day:'2-digit',month:'long',year:'numeric'})+' — '+(c._type==='email'?'EMAIL':'TEL')+'</div><div class="consult-summary">'+(c.summary||'—')+'</div>'+(c.keyPoints?.length?'<div style="margin-top:5px">'+c.keyPoints.map(k=>'<span class="kp-badge">'+k+'</span>').join('')+'</div>':'')+'</div>').join('');
+  if(!all.length){
+    container.innerHTML='<div style="text-align:center;color:var(--text3);font-size:12px;padding:20px">Aucune consultation enregistree.</div>';
+    return;
+  }
+  container.innerHTML='';
+  all.forEach(c=>{
+    const d=document.createElement('div');
+    d.className='consult-item';
+    const date=new Date(c.date).toLocaleDateString('fr-FR',{day:'2-digit',month:'long',year:'numeric'});
+    const type=c._type==='email'?'EMAIL':'TEL';
+    const duration=c.duration?c.duration+' min':'';
+    let html='<div class="consult-date">'+date+' — '+type+(duration?' — '+duration:'')+'</div>';
+    // Summary
+    if(c.summary) html+='<div class="consult-summary" style="margin-top:4px">'+escapeHtml(c.summary)+'</div>';
+    // Key points
+    if(c.keyPoints&&c.keyPoints.length){
+      html+='<div style="margin-top:5px">'+c.keyPoints.map(k=>'<span class="kp-badge">'+escapeHtml(k)+'</span>').join('')+'</div>';
+    }
+    // Modules used
+    const el=c.elements||{};
+    const modules=[];
+    if(el.tarot&&el.tarot.length) modules.push('Tarot ('+el.tarot.length+' tirage'+(el.tarot.length>1?'s':'')+')');
+    if(el.numerologie) modules.push('Numérologie');
+    if(el.horoscope) modules.push('Horoscope '+el.horoscope.sign);
+    if(el.astrologie) modules.push('Astrologie');
+    if(el.angeGardien) modules.push('Ange gardien');
+    if(el.main) modules.push('Ligne de la main');
+    if(el.pendule&&el.pendule.length) modules.push('Pendule ('+el.pendule.length+' question'+(el.pendule.length>1?'s':'')+')');
+    if(el.compatibilite) modules.push('Compatibilité amoureuse');
+    if(el.alertes&&el.alertes.filter(a=>a.text).length) modules.push('Alertes');
+    if(modules.length){
+      html+='<div style="margin-top:5px;font-size:9px;color:var(--teal);font-weight:700">'+modules.join(' · ')+'</div>';
+    }
+    // Services discussed
+    if(c.servicesDiscussed&&c.servicesDiscussed.length){
+      html+='<div style="margin-top:3px;font-size:9px;color:var(--yellow)">Services : '+c.servicesDiscussed.join(', ')+'</div>';
+    }
+    // Recommendations
+    if(c.notes){
+      html+='<div style="margin-top:4px;font-size:11px;color:var(--text3);font-style:italic">'+escapeHtml(c.notes)+'</div>';
+    }
+    // View full report button
+    if(c.fullText){
+      const viewBtn=document.createElement('button');
+      viewBtn.textContent='VOIR LE RAPPORT COMPLET';
+      viewBtn.style.cssText='margin-top:8px;padding:4px 10px;border-radius:6px;border:none;cursor:pointer;font-family:Inter,sans-serif;font-size:9px;font-weight:700;background:rgba(0,255,204,0.1);color:var(--teal);display:block;width:100%';
+      viewBtn.addEventListener('click',function(ev){
+        ev.stopPropagation();
+        // Show full report in rapport overlay
+        S.currentReport={fullText:c.fullText,session:{clientName:S.activeClient.name,startTime:new Date(c.date).getTime(),endTime:0,pausedMs:0,elements:el||{}}};
+        document.getElementById('rapport-loading').style.display='none';
+        document.getElementById('rapport-display').innerHTML='<pre style="font-size:11px;line-height:1.7;color:var(--text2);white-space:pre-wrap">'+escapeHtml(c.fullText||'')+'</pre>';
+        document.getElementById('rapport-title').textContent='RAPPORT — '+S.activeClient.name+' — '+date;
+        document.getElementById('rapport-content').style.display='block';
+        document.getElementById('btn-save-rapport').style.display='none';
+        closeOverlay('clientfile-overlay');
+        openOverlay('rapport-overlay');
+      });
+      d.innerHTML=html;
+      d.appendChild(viewBtn);
+    } else {
+      d.innerHTML=html;
+    }
+    container.appendChild(d);
+  });
 }
 
 async function saveClientInfo(){
@@ -2919,23 +2994,23 @@ async function createClientFromEmail(){
 /* ═══ AUTO-SAVE SESSION ═══ */
 function autoSaveSessionToClient(){
   if(!S.activeClient||!S.session)return;
-  const el=S.session.elements;
-  // Build a live snapshot of the session for the client file
+  const el=S.session.elements||{};
   const snapshot={
     sessionId:S.session.id,
     date:new Date(S.session.startTime).toISOString(),
     inProgress:true,
     transcript:S.session.transcript.slice(-3000),
-    suggestions:S.session.suggestions.slice(-20),
+    suggestions:(S.session.suggestions||[]).slice(-20),
     elements:{
-      tarot:el.tarot,
-      numerologie:el.numerologie,
-      horoscope:el.horoscope,
-      astrologie:el.astrologie,
-      angeGardien:el.angeGardien,
-      main:el.main,
-      pendule:el.pendule,
-      alertes:el.alertes.filter(a=>a.text),
+      tarot:el.tarot||[],
+      numerologie:el.numerologie||null,
+      horoscope:el.horoscope||null,
+      astrologie:el.astrologie||null,
+      angeGardien:el.angeGardien||null,
+      main:el.main||null,
+      pendule:el.pendule||[],
+      alertes:(el.alertes||[]).filter(a=>a.text),
+      compatibilite:el.compatibilite||null,
       moduleLog:S.session.moduleLog||[]
     }
   };
