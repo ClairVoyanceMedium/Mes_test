@@ -476,6 +476,10 @@ button:not(.cb-close):not(.mini-close):hover,
     <div class="logo-sub">ClairvoyanceMedium.com — Frederick</div>
   </div>
   <div class="header-right">
+    <div id="worker-pill" style="display:flex;align-items:center;gap:4px;padding:3px 8px;border-radius:100px;font-size:8px;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:all 0.3s;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);color:var(--text3)" onclick="pingWorker()" title="Tester la connexion Cloudflare">
+      <span id="worker-dot" style="width:5px;height:5px;border-radius:50%;background:var(--text3)"></span>
+      <span id="worker-txt">CLOUD</span>
+    </div>
     <div id="status-pill" class="status-pill s-idle"><div class="s-dot"></div><span id="status-txt">En veille</span></div>
     <button class="hbtn" id="btn-settings-open" title="Parametres">
       <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
@@ -1347,8 +1351,10 @@ function buildSysPrompt(){
         p+='['+new Date(ec.date).toLocaleDateString('fr-FR')+'] Q: '+(ec.question||'').slice(0,80)+'\n';
       });
     }
-    p+='\nIMPORTANT : reste cohérent avec tout cet historique. Si tu connais déjà des éléments sur cette personne, utilise-les naturellement.';
+    p+='\nRESTE COHÉRENT avec cet historique dans toutes tes suggestions.';
   }
+  // Token guard: truncate if too long (keep under ~2000 chars for system prompt)
+  if(p.length>4000)p=p.slice(0,4000)+'...';
   if(S.session?.elements){
     const el=S.session.elements;
     if(el.tarot.length)p+='\nTirages Tarot de cette session : '+el.tarot.map(t=>t.deck+' — '+t.spread+' : '+t.cards.join(',')).join(' | ');
@@ -1706,10 +1712,13 @@ function confirmDeleteVoice(){
 /* ═══ SUGGESTION PRINCIPALE ═══ */
 async function getSuggestion(customMsg=null){
   if(!S.session&&!customMsg)return;
-  if(S.processing)return;
+  if(S.processing)return; // don't overlap calls, but speech keeps accumulating
   const transcript=S.session?.transcript||'';
   if(!transcript.trim()&&!customMsg)return;
-  S.processing=true;setStatus('processing');setSuggestionLoading(true);
+  S.processing=true;
+  // DON'T stop recognition — speech continues accumulating in S.session.transcript
+  // Only update UI to show "analysing"
+  setStatus('processing');setSuggestionLoading(true);
   const msg=customMsg||'Transcription de la consultation (dernieres paroles) :\n\n"'+transcript.slice(-600)+'"\n\nAnalyse et fournis la reponse JSON.';
   try{
     const raw=await callAI(msg);
@@ -1718,18 +1727,12 @@ async function getSuggestion(customMsg=null){
     if(data){renderResponse(data);if(S.session)S.session.suggestions.push({...data,timestamp:Date.now()});}
   }finally{
     S.processing=false;
-    setStatus(S.listening&&!S.isPaused?'listening':S.isPaused?'paused':'idle');
+    if(S.session&&S.listening&&!S.isPaused) setStatus('listening');
+    else if(S.isPaused) setStatus('paused');
+    else setStatus('idle');
     setSuggestionLoading(false);
+    if(S.session&&S.activeClient&&S.session.suggestions.length%5===0) autoSaveSessionToClient();
   }
-}
-
-function appendMediumAssistToTranscript(text){
-  if(!S.session) return;
-  const ts=document.getElementById('transcript-text');
-  const existing=ts.textContent||'';
-  const marker='\n\n[MediumAssist] '+text.slice(0,80)+(text.length>80?'...':'')+' \n\n';
-  if(S.session) S.session.transcript += marker;
-  updateTranscriptUI();
 }
 
 function renderResponse(d){
@@ -2377,9 +2380,15 @@ async function saveReportToClient(){
   const r=await workerRequest('POST','/clients/'+S.activeClient.id+'/consultations',payload);
   if(r) toast('Rapport sauvegardé dans la fiche client');
   else toast('Rapport sauvegarde localement');
-  // Refresh history if client file is open
+  // Update in-memory client with new consultation
+  const updatedLC=JSON.parse(ls('ma_client_'+S.activeClient.id)||'{}');
+  if(updatedLC.consultations){
+    S.activeClient.consultations=updatedLC.consultations;
+    S.activeClient.emailConsultations=updatedLC.emailConsultations||[];
+  }
   renderConsultHistory();
   closeOverlay('rapport-overlay');
+  toast('Consultation sauvegardée dans la fiche — historique mis à jour');
 }
 function autoSaveReport(){
   if(!S.currentReport)return;
@@ -3123,6 +3132,49 @@ setInterval(()=>{if(S.session&&!S.isPaused&&S.activeClient)autoSaveSessionToClie
 /* ═══ INIT ═══ */
 document.getElementById('btn-settings-open').addEventListener('click',openSettingsDrawer);
 
+async function pingWorker(){
+  const pill=document.getElementById('worker-pill');
+  const dot=document.getElementById('worker-dot');
+  const txt=document.getElementById('worker-txt');
+  if(!cfg.workerUrl){
+    pill.style.background='rgba(255,255,255,0.04)';
+    pill.style.borderColor='rgba(255,255,255,0.06)';
+    pill.style.color='var(--text3)';
+    dot.style.background='var(--text3)';
+    txt.textContent='CLOUD OFF';
+    return;
+  }
+  txt.textContent='...';
+  try{
+    const start=Date.now();
+    const r=await workerRequest('GET','/ping');
+    const ms=Date.now()-start;
+    if(r&&(r.ok||r.status==='ok')){
+      pill.style.background='rgba(57,255,20,0.1)';
+      pill.style.borderColor='rgba(57,255,20,0.25)';
+      pill.style.color='var(--green)';
+      dot.style.background='var(--green)';
+      dot.style.boxShadow='0 0 4px rgba(57,255,20,0.6)';
+      txt.textContent='CLOUD '+ms+'ms';
+    } else {
+      setWorkerError();
+    }
+  } catch(e){
+    setWorkerError();
+  }
+}
+function setWorkerError(){
+  const pill=document.getElementById('worker-pill');
+  const dot=document.getElementById('worker-dot');
+  const txt=document.getElementById('worker-txt');
+  pill.style.background='rgba(255,68,0,0.1)';
+  pill.style.borderColor='rgba(255,68,0,0.25)';
+  pill.style.color='var(--red)';
+  dot.style.background='var(--red)';
+  dot.style.boxShadow='0 0 4px rgba(255,68,0,0.6)';
+  txt.textContent='CLOUD ERR';
+}
+
 (function init(){
   const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
   if(!SR){document.getElementById('no-support').classList.add('show');return;}
@@ -3134,6 +3186,8 @@ document.getElementById('btn-settings-open').addEventListener('click',openSettin
     setTimeout(()=>toast('Configurez votre cle API dans les parametres (roue crantee)','warn'),1200);
   }
   if(cfg.workerUrl){
+    // Auto-ping worker status
+    setTimeout(pingWorker, 800);
     // Sync voice profile from Worker
     workerRequest('GET','/voice').then(p=>{
       if(p?.fft){const existing=cfg.voiceProfile;if(!existing?.fft)ls('ma_voice',JSON.stringify(p));}
