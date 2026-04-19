@@ -95,15 +95,15 @@ main{flex:1;overflow-y:auto;overflow-x:hidden;padding:10px 12px;
 .clabel-dot{width:4px;height:4px;border-radius:50%;background:currentColor;flex-shrink:0;}
 
 /* Transcript */
-#transcript-card{border-color:rgba(0,207,255,0.2);}
-#transcript-card .clabel{color:var(--cyan);}
+#transcript-card{border-color:rgba(57,255,20,0.2);}
+#transcript-card .clabel{color:var(--green);}
 #transcript-scroll{max-height:80px;overflow-y:auto;margin-bottom:3px;}
 #transcript-text{font-family:'JetBrains Mono',monospace;font-size:11px;line-height:1.7;color:#ccc;word-break:break-word;}
 #transcript-interim{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3);font-style:italic;min-height:14px;}
 
 /* Suggestion */
-#suggestion-card{border-color:rgba(57,255,20,0.25);box-shadow:0 0 20px rgba(57,255,20,0.04);}
-#suggestion-card .clabel{color:var(--green);}
+#suggestion-card{border-color:rgba(0,207,255,0.25);box-shadow:0 0 20px rgba(0,207,255,0.04);}
+#suggestion-card .clabel{color:var(--cyan);}
 #suggestion-text{font-size:16px;line-height:1.6;color:var(--text);font-weight:500;min-height:48px;}
 #suggestion-text.ph{color:var(--text3);font-size:12px;font-weight:400;font-style:italic;}
 #suggestion-text.loading{background:linear-gradient(90deg,var(--text3) 25%,#999 50%,var(--text3) 75%);
@@ -148,7 +148,7 @@ main{flex:1;overflow-y:auto;overflow-x:hidden;padding:10px 12px;
 
 /* Module results */
 .mod-result-card{border-radius:var(--r);padding:12px 14px;margin-bottom:0;animation:slide-in 0.35s ease-out;}
-.mod-result-text{font-size:14px;line-height:1.7;color:var(--text);white-space:pre-wrap;}
+.mod-result-text{font-size:14px;line-height:1.8;color:var(--text);}
 .mod-result-label{font-size:8px;font-weight:800;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;}
 .mod-copy-btn{margin-top:8px;padding:5px 12px;border-radius:6px;border:none;cursor:pointer;
   font-family:'Inter',sans-serif;font-size:9px;font-weight:700;transition:all 0.2s;
@@ -478,7 +478,7 @@ button:not(.cb-close):not(.mini-close):hover,
   <div class="header-right">
     <div id="worker-pill" style="display:flex;align-items:center;gap:4px;padding:3px 8px;border-radius:100px;font-size:8px;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:all 0.3s;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);color:var(--text3)" onclick="pingWorker()" title="Tester la connexion Cloudflare">
       <span id="worker-dot" style="width:5px;height:5px;border-radius:50%;background:var(--text3)"></span>
-      <span id="worker-txt">CLOUD</span>
+      <span id="worker-txt">Cloudflare</span>
     </div>
     <div id="status-pill" class="status-pill s-idle"><div class="s-dot"></div><span id="status-txt">En veille</span></div>
     <button class="hbtn" id="btn-settings-open" title="Parametres">
@@ -521,13 +521,13 @@ button:not(.cb-close):not(.mini-close):hover,
     <div class="es-sub">Sélectionnez un client (optionnel), puis appuyez sur <strong>DÉMARRER LA CONSULTATION</strong>.</div>
   </div>
   <div class="card" id="transcript-card" style="display:none">
-    <div class="clabel"><div class="clabel-dot"></div>TRANSCRIPTION EN DIRECT</div>
+    <div class="clabel"><div class="clabel-dot" style="background:var(--green)"></div>&#9679; LIVE &#9679; Le consultant dit...</div>
     <div id="transcript-scroll"><div id="transcript-text"><span style="color:var(--text3);font-style:italic;font-size:11px">En attente de parole...</span></div></div>
     <div id="transcript-interim"></div>
   </div>
   <div class="card" id="context-card"><div id="context-text"></div></div>
   <div class="card" id="suggestion-card" style="display:none">
-    <div class="clabel"><div class="clabel-dot"></div>DIS MAINTENANT</div>
+    <div class="clabel"><div class="clabel-dot"></div>MediumAssist dit...</div>
     <div id="suggestion-text" class="ph">En attente d'analyse...</div>
   </div>
   <div class="card" id="alert-card">
@@ -891,7 +891,10 @@ button:not(.cb-close):not(.mini-close):hover,
       </div>
     </div>
 
-    <div id="horoscope-ascendant-display" style="display:none;background:rgba(255,208,0,0.07);border:1px solid rgba(255,208,0,0.2);border-radius:var(--r-sm);padding:9px 12px;margin-bottom:10px;font-size:12px;color:#ffe566;text-align:center;font-weight:700;letter-spacing:1px"></div>
+    <div id="horoscope-ascendant-display" style="display:none;background:rgba(255,208,0,0.07);border:1px solid rgba(255,208,0,0.2);border-radius:var(--r-sm);padding:10px 13px;margin-bottom:10px;">
+      <div style="font-size:11px;color:#ffe566;font-weight:700;letter-spacing:1px;margin-bottom:3px" id="horoscope-ascendant-label"></div>
+      <div style="font-size:10px;color:rgba(255,230,100,0.6)">Calcul approx. basé sur l'heure de naissance — pour un calcul précis, l'heure et le lieu exact sont nécessaires.</div>
+    </div>
 
     <div class="fg"><div class="fl">Ou choisir le signe directement</div>
       <select id="horoscope-sign" class="fsel" onchange="document.getElementById('horoscope-dob').value='';document.getElementById('horoscope-sign-detected').textContent='';document.getElementById('horoscope-ascendant-display').style.display='none'">
@@ -1156,9 +1159,10 @@ ANALYSE OBLIGATOIRE :
 DOMAINES : Amour, Rupture, Trahison, Travail, Argent, Famille, Deuil, Envoutement, Magie, Astrologie, Numerologie, Tarot, Reves, Karma, Clairvoyance
 
 FORMAT STRICT — JSON UNIQUEMENT — sans markdown ni backtick :
-{"suggestion":"Ce que Frederick dit maintenant (2-3 phrases max, prêt à prononcer, effet waouh, précis et spirituel)","contexte":"Perception en 8 mots max","alerte":null,"opportunite":null}
+{"suggestion":"Ce que Frederick dit maintenant — 1-2 phrases percutantes + 2-3 points résumés avec • :\n• Point clé 1\n• Point clé 2\n• Point clé 3","contexte":"Perception en 8 mots max","alerte":null,"opportunite":null}
 
-Si risque ou danger perçu → "alerte":"La mise en garde précise et percutante à lancer"
+IMPORTANT : TOUJOURS inclure les points • après la phrase principale. Ils permettent à Frederick de lire d'un coup d'œil les éléments essentiels à communiquer.
+Si risque ou danger perçu → "alerte":"La mise en garde précise et percutante"
 Si service pertinent → "opportunite":{"service":"nom exact","prix":"montant","pourquoi":"déclencheur précis"}`;
 
 const DEFAULT_SERVICES = `- Consultation telephone : 15 euros/10min — 22 euros/20min
@@ -1737,7 +1741,12 @@ async function getSuggestion(customMsg=null){
 
 function renderResponse(d){
   if(d.suggestion){
-    const el=document.getElementById('suggestion-text');el.className='';el.textContent=d.suggestion;
+    const el=document.getElementById('suggestion-text');el.className='';
+    // Render bullet points nicely
+    const formatted=d.suggestion
+      .replace(/\n•/g,'<br><span style="color:var(--cyan);font-weight:700;margin-right:4px">•</span>')
+      .replace(/\n/g,'<br>');
+    el.innerHTML=formatted;
     el.style.animation='none';requestAnimationFrame(()=>el.style.animation='slide-in 0.35s ease-out');
     if(S.session){
       if(!S.session.suggestionLog)S.session.suggestionLog=[];
@@ -1813,7 +1822,8 @@ async function quickAction(type){
 function addModuleResult(cssClass,label,text,closeOverlayId){
   const container=document.getElementById('module-results');
   const div=document.createElement('div');div.className='mod-result-card mod-'+cssClass;
-  div.innerHTML='<div class="mod-result-label">'+label+'</div><div class="mod-result-text">'+escapeHtml(text)+'</div><button class="mod-copy-btn" onclick="copyText(this)">COPIER</button>';
+  const formattedMod=text.replace(/\n•/g,'<br><span style="color:var(--gold);font-weight:700;margin-right:4px">•</span>').replace(/\n/g,'<br>');
+  div.innerHTML='<div class="mod-result-label">'+label+'</div><div class="mod-result-text">'+formattedMod+'</div><button class="mod-copy-btn" onclick="copyText(this)">COPIER</button>';
   div.querySelector('.mod-copy-btn').dataset.text=text;
   container.appendChild(div);
   showSessionUI();
@@ -2045,7 +2055,7 @@ function autoDetectSignAndAscendant(){
     if(timeStr){
       const asc=calcApproxAscendant(dobStr,timeStr);
       if(asc){
-        ascDisplay.textContent='ASCENDANT CALCULE (approx.) : '+asc.toUpperCase();
+        document.getElementById('horoscope-ascendant-label').textContent='ASCENDANT ESTIMÉ : '+asc.toUpperCase();
         ascDisplay.style.display='block';
         document.getElementById('horoscope-ascendant').value=asc;
       }
@@ -2764,10 +2774,30 @@ function confirmNo(){closeOverlay('confirm-overlay');S.confirmCallback=null;}
 
 function confirmClear(){showConfirm('Effacer la session','Effacer toute la transcription et les resultats de cette session ?',clearAll);}
 function clearAll(){
+  // Full reset: session, client, all content
   S.session=null;
+  S.currentReport=null;
+  // Stop listening if active
+  if(S.listening){
+    S.listening=false;
+    if(recognition){try{recognition.abort();}catch(e){}recognition=null;}
+    stopSpeakerDetection();
+    clearInterval(S.timerInterval);
+    showSessionBar(false);
+    document.getElementById('fgroup-idle').style.display='flex';
+    document.getElementById('fgroup-active').style.display='none';
+    document.getElementById('fgroup-active').setAttribute('hidden','');
+    document.getElementById('btn-start').classList.remove('rec-active');
+  }
+  // Deselect client — nothing is attributed to anyone
+  deselectClient();
+  S.emailClient=null;
+  // Clear all displayed content
   document.getElementById('transcript-text').innerHTML='<span style="color:var(--text3);font-style:italic;font-size:11px">En attente de parole...</span>';
   document.getElementById('transcript-interim').textContent='';
-  document.getElementById('suggestion-text').className='ph';document.getElementById('suggestion-text').textContent='En attente d\'analyse...';
+  document.getElementById('suggestion-text').className='ph';
+  document.getElementById('suggestion-text').textContent="En attente d'analyse...";
+  const appBtn=document.getElementById('btn-approfondir-main');if(appBtn)appBtn.remove();
   document.getElementById('context-card').classList.remove('show');
   document.getElementById('alert-card').classList.remove('show');
   document.getElementById('opp-card').classList.remove('show');
@@ -2777,8 +2807,8 @@ function clearAll(){
   document.getElementById('empty-state').style.display='';
   document.getElementById('transcript-card').style.display='none';
   document.getElementById('suggestion-card').style.display='none';
-  S.currentReport=null;
-  toast('Session effacée');
+  setStatus('idle');
+  toast('Session effacée — prêt pour une nouvelle consultation');
 }
 
 /* ═══ SETTINGS ═══ */
@@ -3141,10 +3171,10 @@ async function pingWorker(){
     pill.style.borderColor='rgba(255,255,255,0.06)';
     pill.style.color='var(--text3)';
     dot.style.background='var(--text3)';
-    txt.textContent='CLOUD OFF';
+    txt.textContent='Cloudflare';
     return;
   }
-  txt.textContent='...';
+  txt.textContent='Cloudflare';
   try{
     const start=Date.now();
     const r=await workerRequest('GET','/ping');
@@ -3155,7 +3185,7 @@ async function pingWorker(){
       pill.style.color='var(--green)';
       dot.style.background='var(--green)';
       dot.style.boxShadow='0 0 4px rgba(57,255,20,0.6)';
-      txt.textContent='CLOUD '+ms+'ms';
+      txt.textContent='Cloudflare';
     } else {
       setWorkerError();
     }
@@ -3172,7 +3202,7 @@ function setWorkerError(){
   pill.style.color='var(--red)';
   dot.style.background='var(--red)';
   dot.style.boxShadow='0 0 4px rgba(255,68,0,0.6)';
-  txt.textContent='CLOUD ERR';
+  txt.textContent='Cloudflare';
 }
 
 (function init(){
