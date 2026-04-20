@@ -521,7 +521,7 @@ button:not(.cb-close):not(.mini-close):hover,
     <div class="es-sub">Sélectionnez un client (optionnel), puis appuyez sur <strong>DÉMARRER LA CONSULTATION</strong>.</div>
   </div>
   <div class="card" id="transcript-card" style="display:none">
-    <div class="clabel"><div class="clabel-dot" style="background:var(--green)"></div>&#9679; LIVE &#9679; Le consultant dit...</div>
+    <div class="clabel"><div class="clabel-dot" style="background:var(--green)"></div>LIVE &#9679; Le consultant dit...</div>
     <div id="transcript-scroll"><div id="transcript-text"><span style="color:var(--text3);font-style:italic;font-size:11px">En attente de parole...</span></div></div>
     <div id="transcript-interim"></div>
   </div>
@@ -1797,12 +1797,29 @@ async function loadConversion(){
 
 /* ═══ ACTIONS RAPIDES ═══ */
 const QA={
-  epate:(t,c)=>t+c+'\nAction "Epate le client" : reponse SPECTACULAIRE avec effet waouh maximal. Detail inattendu, precis, impossible a deviner.\nJSON: {"suggestion":"...","contexte":"...","alerte":null,"opportunite":null}',
-  question:(t,c)=>t+c+'\nAction "Question percutante" : question qui semble impossible sans capacites mediumniques.\nJSON: {"suggestion":"...","contexte":"...","alerte":null,"opportunite":null}',
-  alerte:(t,c)=>t+c+'\nAction "Mise en garde" : alerte serieuse sur un danger percu. Precis et percutant.\nJSON: {"suggestion":"...","contexte":"...","alerte":"la mise en garde","opportunite":null}',
-  service:(t,c)=>t+c+'\nAction "Propose un service" : identifie le service le plus adapte, genere une proposition naturelle.\nJSON: {"suggestion":"...","contexte":"...","alerte":null,"opportunite":{"service":"...","prix":"...","pourquoi":"..."}}',
-  revelation:(t,c)=>t+c+'\nAction "Revelation surprise" : flash inattendu sur la personne, quelque chose qu\'elle n\'a pas dit.\nJSON: {"suggestion":"...","contexte":"...","alerte":null,"opportunite":null}',
-  energie:(t,c)=>t+c+'\nAction "Lis l\'energie" : lecture energetique complete — etat interieur, blocages, forces, faiblesses.\nJSON: {"suggestion":"...","contexte":"...","alerte":null,"opportunite":null}',
+  epate:(t,c)=>'Tu es le souffleur de Frederick, medium professionnel.\n'+t+c
+    +'\nACTION : EBLOUIR le client maintenant. Genere une perception SPECTACULAIRE et PRECISE — un detail sur sa vie, une date, un prenom, une situation specifique que Frederick "voit" et qui est impossible a deviner. Phrase courte, percutante, effet waouh garanti. Puis 2-3 points •.\n'
+    +'Reponds UNIQUEMENT en JSON valide : {"suggestion":"Phrase epoustouflante que Frederick dit maintenant\\n• Detail precis 1\\n• Detail precis 2\\n• Revelation cle","contexte":"ce qui est percu en 6 mots","alerte":null,"opportunite":null}',
+
+  question:(t,c)=>'Tu es le souffleur de Frederick, medium professionnel.\n'+t+c
+    +'\nACTION : QUESTION PERCUTANTE — genere une question que seul un vrai medium peut poser, en lien direct avec la conversation. Elle doit sembler impossible a deviner. Puis points • sur ce que Frederick percoit.\n'
+    +'Reponds UNIQUEMENT en JSON valide : {"suggestion":"La question percutante de Frederick\\n• Perception 1\\n• Perception 2","contexte":"ce qui est percu en 6 mots","alerte":null,"opportunite":null}',
+
+  alerte:(t,c)=>'Tu es le souffleur de Frederick, medium professionnel.\n'+t+c
+    +'\nACTION : MISE EN GARDE URGENTE — signal un danger, un blocage ou une energie negative specifique percu dans la situation. Direct, grave, bienveillant. Points • pour etre lisible rapidement.\n'
+    +'Reponds UNIQUEMENT en JSON valide : {"suggestion":"Ce que Frederick annonce maintenant\\n• Danger/blocage detecte\\n• Ce qu\'il faut faire","contexte":"danger percu en 6 mots","alerte":"La mise en garde complete et precise","opportunite":null}',
+
+  service:(t,c)=>'Tu es le souffleur de Frederick, medium professionnel.\n'+t+c
+    +'\nACTION : PROPOSITION DE SERVICE — identifie le service le plus adapte a la situation du client et genere une proposition naturelle, sans forcer. Points • sur pourquoi ce service maintenant.\n'
+    +'Reponds UNIQUEMENT en JSON valide : {"suggestion":"Phrase naturelle de Frederick\\n• Raison 1\\n• Benefice pour le client","contexte":"besoin identifie en 6 mots","alerte":null,"opportunite":{"service":"nom exact du service","prix":"montant en euros","pourquoi":"raison precise en 1 phrase"}}',
+
+  revelation:(t,c)=>'Tu es le souffleur de Frederick, medium professionnel.\n'+t+c
+    +'\nACTION : REVELATION FLASH — annonce quelque chose que la personne n\'a pas encore dit, une info cachee, un secret, un fait important sur sa vie. Precis, direct, impossible a deviner. Points • pour la lisibilite.\n'
+    +'Reponds UNIQUEMENT en JSON valide : {"suggestion":"La revelation de Frederick\\n• Ce qu\'il voit\\n• Ce que ca signifie\\n• Conseil immediat","contexte":"revelation en 6 mots","alerte":null,"opportunite":null}',
+
+  energie:(t,c)=>'Tu es le souffleur de Frederick, medium professionnel.\n'+t+c
+    +'\nACTION : LECTURE ENERGETIQUE — decris l\'energie de la personne en ce moment : etat emotionnel profond, blocages, forces, opportunites, tensions. Concret et exploitable. Points • obligatoires.\n'
+    +'Reponds UNIQUEMENT en JSON valide : {"suggestion":"Lecture energetique de Frederick\\n• Energie dominante\\n• Blocage detecte\\n• Force cachee","contexte":"energie en 6 mots","alerte":null,"opportunite":null}',
 };
 
 async function quickAction(type){
@@ -1811,7 +1828,7 @@ async function quickAction(type){
   const c=S.activeClient?'\nClient : '+S.activeClient.name+(S.activeClient.profile?' — '+S.activeClient.profile.slice(0,100):''):'';
   const fn=QA[type];if(!fn){S.processing=false;return;}
   try{
-    const raw=await callAI(fn(t,c));const data=safeJSON(raw);
+    const raw=await callAI(fn(t,c),450);const data=safeJSON(raw);
     if(data){renderResponse(data);if(S.session)S.session.suggestions.push({...data,type,timestamp:Date.now()});}
   }finally{
     S.processing=false;setStatus(S.listening&&!S.isPaused?'listening':S.isPaused?'paused':'idle');setSuggestionLoading(false);
