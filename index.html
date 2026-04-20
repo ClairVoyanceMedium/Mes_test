@@ -434,6 +434,29 @@ footer{flex-shrink:0;padding:9px 12px 13px;background:rgba(17,17,17,0.98);
 #no-support.show{display:flex;}
 
 @keyframes slide-in{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+/* QA ACTION CARDS */
+.qa-result-card{
+  border-radius:var(--r);padding:13px 15px;margin-top:0;
+  animation:slide-in 0.3s ease-out;position:relative;
+}
+.qa-result-label{
+  font-size:8px;font-weight:800;letter-spacing:2px;text-transform:uppercase;
+  margin-bottom:8px;display:flex;align-items:center;gap:5px;
+}
+.qa-result-dot{width:5px;height:5px;border-radius:50%;background:currentColor;flex-shrink:0;}
+.qa-result-text{font-size:15px;line-height:1.7;font-weight:500;}
+/* Colors per action */
+.qa-epate{background:rgba(255,170,0,0.07);border:1px solid rgba(255,170,0,0.3);}
+.qa-epate .qa-result-label{color:var(--gold);}
+.qa-question{background:rgba(57,255,20,0.06);border:1px solid rgba(57,255,20,0.25);}
+.qa-question .qa-result-label{color:var(--green);}
+.qa-revelation{background:rgba(204,68,255,0.07);border:1px solid rgba(204,68,255,0.28);}
+.qa-revelation .qa-result-label{color:var(--purple);}
+.qa-energie{background:rgba(0,255,204,0.06);border:1px solid rgba(0,255,204,0.25);}
+.qa-energie .qa-result-label{color:var(--teal);}
+.qa-service{background:rgba(255,208,0,0.06);border:1px solid rgba(255,208,0,0.28);}
+.qa-service .qa-result-label{color:var(--yellow);}
+
 /* APPROFONDIR */
 .btn-approfondir{
   display:inline-flex;align-items:center;gap:5px;
@@ -543,6 +566,32 @@ button:not(.cb-close):not(.mini-close):hover,
   <div id="conv-panel">
     <div class="clabel"><div class="clabel-dot"></div>PHRASES DE CONVERSION — CLIQUER POUR COPIER</div>
     <div id="conv-phrases"></div>
+  </div>
+  <!-- QA Action result cards -->
+  <div id="qa-epate-card" style="display:none" class="qa-result-card qa-epate">
+    <div class="qa-result-label"><div class="qa-result-dot"></div>ÉPATE — PERCEPTION DIRECTE</div>
+    <div class="qa-result-text" id="qa-epate-text"></div>
+    <button class="btn-approfondir" id="btn-approfondir-epate">APPROFONDIR</button>
+  </div>
+  <div id="qa-question-card" style="display:none" class="qa-result-card qa-question">
+    <div class="qa-result-label"><div class="qa-result-dot"></div>QUESTION PERCUTANTE</div>
+    <div class="qa-result-text" id="qa-question-text"></div>
+    <button class="btn-approfondir" id="btn-approfondir-question">APPROFONDIR</button>
+  </div>
+  <div id="qa-revelation-card" style="display:none" class="qa-result-card qa-revelation">
+    <div class="qa-result-label"><div class="qa-result-dot"></div>RÉVÉLATION FLASH</div>
+    <div class="qa-result-text" id="qa-revelation-text"></div>
+    <button class="btn-approfondir" id="btn-approfondir-revelation">APPROFONDIR</button>
+  </div>
+  <div id="qa-energie-card" style="display:none" class="qa-result-card qa-energie">
+    <div class="qa-result-label"><div class="qa-result-dot"></div>LECTURE ÉNERGÉTIQUE</div>
+    <div class="qa-result-text" id="qa-energie-text"></div>
+    <button class="btn-approfondir" id="btn-approfondir-energie">APPROFONDIR</button>
+  </div>
+  <div id="qa-service-card" style="display:none" class="qa-result-card qa-service">
+    <div class="qa-result-label"><div class="qa-result-dot"></div>OPPORTUNITÉ DÉTECTÉE</div>
+    <div class="qa-result-text" id="qa-service-text"></div>
+    <button class="btn-approfondir" id="btn-approfondir-service">APPROFONDIR</button>
   </div>
   <div id="module-results"></div>
 </main>
@@ -2821,6 +2870,11 @@ function clearAll(){
   document.getElementById('conv-panel').classList.remove('show');
   document.getElementById('conv-phrases').innerHTML='';
   document.getElementById('module-results').innerHTML='';
+  // Clear QA action cards
+  ['epate','question','revelation','energie','service'].forEach(t=>{
+    const el=document.getElementById('qa-'+t+'-card');
+    if(el)el.style.display='none';
+  });
   document.getElementById('empty-state').style.display='';
   document.getElementById('transcript-card').style.display='none';
   document.getElementById('suggestion-card').style.display='none';
