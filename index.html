@@ -288,6 +288,43 @@ tbody td{padding:11px 13px;font-size:12.5px;vertical-align:middle}
 ::-webkit-scrollbar{width:4px;height:4px}
 ::-webkit-scrollbar-track{background:var(--bg2)}
 ::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+
+/* ── RESPONSIVE ── */
+.hamburger{display:none;position:fixed;top:12px;left:12px;z-index:200;
+  background:var(--panel);border:1px solid var(--border2);border-radius:8px;
+  width:40px;height:40px;align-items:center;justify-content:center;
+  cursor:pointer;flex-direction:column;gap:5px;padding:10px;}
+.hamburger span{display:block;width:20px;height:2px;background:var(--neon);border-radius:2px;transition:all .25s}
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:99}
+
+@media(max-width:900px){
+  :root{--sw:0px}
+  .hamburger{display:flex}
+  .sidebar{
+    left:-280px;width:280px;
+    transition:left .25s cubic-bezier(.4,0,.2,1);
+    z-index:101;
+  }
+  .sidebar.open{left:0}
+  .overlay.on{display:block}
+  .main{margin-left:0!important}
+  .topbar{padding:0 14px 0 60px}
+  .page-content{padding:16px}
+  .grid2{grid-template-columns:1fr!important}
+  .stats-grid{grid-template-columns:1fr 1fr!important}
+  .plat-grid{grid-template-columns:1fr 1fr!important}
+  .tone-grid{grid-template-columns:1fr 1fr 1fr!important}
+  .worker-bar{margin:10px 8px 4px}
+}
+@media(max-width:480px){
+  .stats-grid{grid-template-columns:1fr 1fr!important}
+  .plat-grid{grid-template-columns:1fr 1fr!important}
+  .tone-grid{grid-template-columns:1fr 1fr!important}
+  .topbar-title{font-size:11px}
+  .stat-num{font-size:28px}
+  .page-content{padding:12px}
+  .card{padding:14px}
+}
 </style>
 </head>
 <body>
@@ -295,6 +332,12 @@ tbody td{padding:11px 13px;font-size:12.5px;vertical-align:middle}
 <div class="notif" id="notif"></div>
 
 <div style="display:flex;height:100vh">
+<!-- ═ HAMBURGER ═ -->
+<button class="hamburger" id="hamburger" onclick="toggleSidebar()" aria-label="Menu">
+  <span></span><span></span><span></span>
+</button>
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
 <!-- ═══ SIDEBAR ═══ -->
 <aside class="sidebar">
   <div class="sidebar-head">
@@ -318,6 +361,8 @@ tbody td{padding:11px 13px;font-size:12.5px;vertical-align:middle}
   <div class="nav-section">Publication</div>
   <div class="nav-item active" onclick="nav('dashboard')" id="nav-dashboard"><span class="nav-icon">◈</span>Tableau de bord</div>
   <div class="nav-item" onclick="nav('create')" id="nav-create"><span class="nav-icon">✦</span>Créer un post</div>
+  <div class="nav-item" onclick="nav('myposts')" id="nav-myposts"><span class="nav-icon">📋</span>Mes posts<span class="nav-badge" id="myposts-badge" style="display:none">0</span></div>
+  <div class="nav-item" onclick="nav('automation')" id="nav-automation"><span class="nav-icon">⚙</span>Automatisation</div>
   <div class="nav-item" onclick="nav('queue')" id="nav-queue"><span class="nav-icon">⧗</span>File de validation<span class="nav-badge" id="queue-badge" style="display:none">0</span></div>
   <div class="nav-item" onclick="nav('history')" id="nav-history"><span class="nav-icon">◎</span>Historique</div>
   <div class="nav-item" onclick="nav('calendar')" id="nav-calendar"><span class="nav-icon">▦</span>Calendrier</div>
@@ -646,6 +691,196 @@ tbody td{padding:11px 13px;font-size:12.5px;vertical-align:middle}
       </div>
     </div>
 
+    <!-- ══ MES POSTS (BANK) ══ -->
+    <div class="page" id="page-myposts">
+      <div class="card">
+        <div class="card-title flex-between">
+          Mes posts sauvegardés
+          <button class="btn btn-neon btn-sm" onclick="openNewSchedModal()">+ Nouveau post</button>
+        </div>
+        <p class="text-sm text-muted mb16">Préparez et stockez vos posts. Programmez-les ou publiez-les à la demande. Modifiez ou supprimez à tout moment.</p>
+
+        <!-- Filters -->
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">
+          <button class="btn btn-ghost btn-sm sched-filter active" data-filter="all" onclick="filterSched(this,'all')">Tous</button>
+          <button class="btn btn-ghost btn-sm sched-filter" data-filter="draft" onclick="filterSched(this,'draft')">Brouillons</button>
+          <button class="btn btn-ghost btn-sm sched-filter" data-filter="ready" onclick="filterSched(this,'ready')">Prêts</button>
+          <button class="btn btn-ghost btn-sm sched-filter" data-filter="pending_validation" onclick="filterSched(this,'pending_validation')">En validation</button>
+          <button class="btn btn-ghost btn-sm sched-filter" data-filter="published" onclick="filterSched(this,'published')">Publiés</button>
+          <button class="btn btn-ghost btn-sm" onclick="loadMyPosts()" style="margin-left:auto">↺</button>
+        </div>
+
+        <div id="myposts-list"><div class="text-muted text-sm">Chargement...</div></div>
+      </div>
+
+      <!-- Modal nouveau post schedulé -->
+      <div id="sched-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:500;align-items:center;justify-content:center;padding:16px">
+        <div style="background:var(--panel);border:1px solid var(--border2);border-radius:14px;width:100%;max-width:640px;max-height:90vh;overflow-y:auto;padding:28px">
+          <div class="flex-between mb16">
+            <div class="card-title" style="margin:0;border:none;padding:0">Nouveau post à programmer</div>
+            <button class="btn btn-ghost btn-sm" onclick="closeSchedModal()">✕</button>
+          </div>
+
+          <div class="fgrp">
+            <label class="flabel">Nom du post *</label>
+            <input class="finput" id="sm-name" placeholder="Ex: Post voyance téléphone mardi">
+          </div>
+          <div class="fgrp">
+            <label class="flabel">Description *</label>
+            <textarea class="ftextarea" id="sm-desc" rows="3" placeholder="Ce que vous voulez publier..."></textarea>
+          </div>
+          <div class="fgrp">
+            <label class="flabel">Plateformes *</label>
+            <div class="plat-grid" id="sm-platforms" style="grid-template-columns:repeat(auto-fill,minmax(110px,1fr))"></div>
+          </div>
+          <div class="grid2">
+            <div class="fgrp">
+              <label class="flabel">Thème</label>
+              <select class="fselect" id="sm-theme">
+                <option value="">Choisir...</option>
+                <option value="telephone">Voyance téléphone</option>
+                <option value="sentimental">Consultation sentimentale</option>
+                <option value="retour">Retour sentimental</option>
+                <option value="urgence">Urgence</option>
+                <option value="horoscope">Horoscope</option>
+                <option value="magie">Magie</option>
+                <option value="desenvoutement">Désenvoûtement</option>
+                <option value="temoignage">Témoignage</option>
+                <option value="presentation">Présentation Frederick</option>
+              </select>
+            </div>
+            <div class="fgrp">
+              <label class="flabel">Ton</label>
+              <select class="fselect" id="sm-tone">
+                <option value="balanced">Équilibré</option>
+                <option value="emotional">Émotionnel</option>
+                <option value="selling">Vendeur</option>
+                <option value="urgent">Urgent</option>
+                <option value="engaging">Engageant</option>
+              </select>
+            </div>
+          </div>
+          <div class="fgrp">
+            <label class="flabel">Date et heure de publication (optionnel)</label>
+            <input type="datetime-local" class="finput" id="sm-date">
+            <div class="fhelp">Laissez vide pour publier manuellement à la demande.</div>
+          </div>
+          <div class="fgrp">
+            <label class="flabel" style="display:flex;align-items:center;gap:10px;cursor:pointer">
+              <input type="checkbox" id="sm-generate" style="width:16px;height:16px;accent-color:var(--neon)">
+              Générer le contenu AI maintenant (sinon au moment de publier)
+            </label>
+          </div>
+          <div style="display:flex;gap:12px;margin-top:4px">
+            <button class="btn btn-neon btn-full" onclick="saveScheduledPost()">
+              <span class="loader" id="sm-ldr" style="display:none"></span>
+              Sauvegarder
+            </button>
+            <button class="btn btn-ghost" onclick="closeSchedModal()">Annuler</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ AUTOMATISATION ══ -->
+    <div class="page" id="page-automation">
+      <div class="card">
+        <div class="card-title flex-between">
+          Automatisation des publications
+          <button class="btn btn-neon btn-sm" onclick="openAutoModal()">+ Nouvelle règle</button>
+        </div>
+        <p class="text-sm text-muted mb16">
+          Créez des règles d'envoi automatique. Le système générera et vous enverra un post pour validation selon la fréquence choisie.
+          Le cron Cloudflare s'exécute toutes les heures et vérifie les règles actives.
+        </p>
+
+        <!-- Frequency legend -->
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px">
+          <span class="badge b-blue">Quotidien</span>
+          <span class="badge b-blue">Tous les 2 jours</span>
+          <span class="badge b-blue">Tous les 3 jours</span>
+          <span class="badge b-blue">Hebdomadaire</span>
+          <span class="badge b-blue">Bihebdomadaire</span>
+          <span class="badge b-blue">Mensuel</span>
+        </div>
+
+        <div id="auto-list"><div class="text-muted text-sm">Chargement...</div></div>
+      </div>
+
+      <!-- Modal automatisation -->
+      <div id="auto-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:500;align-items:center;justify-content:center;padding:16px">
+        <div style="background:var(--panel);border:1px solid var(--border2);border-radius:14px;width:100%;max-width:640px;max-height:90vh;overflow-y:auto;padding:28px">
+          <div class="flex-between mb16">
+            <div class="card-title" style="margin:0;border:none;padding:0" id="auto-modal-title">Nouvelle règle d'automatisation</div>
+            <button class="btn btn-ghost btn-sm" onclick="closeAutoModal()">✕</button>
+          </div>
+
+          <input type="hidden" id="am-id">
+          <div class="fgrp">
+            <label class="flabel">Nom de la règle *</label>
+            <input class="finput" id="am-name" placeholder="Ex: Post quotidien voyance téléphone">
+          </div>
+          <div class="fgrp">
+            <label class="flabel">Description / Consigne *</label>
+            <textarea class="ftextarea" id="am-desc" rows="3" placeholder="Décrivez le type de post à générer automatiquement..."></textarea>
+          </div>
+          <div class="fgrp">
+            <label class="flabel">Plateformes *</label>
+            <div class="plat-grid" id="am-platforms" style="grid-template-columns:repeat(auto-fill,minmax(110px,1fr))"></div>
+          </div>
+          <div class="grid2">
+            <div class="fgrp">
+              <label class="flabel">Fréquence *</label>
+              <select class="fselect" id="am-freq">
+                <option value="daily">Quotidien (1 fois/jour)</option>
+                <option value="2days">Tous les 2 jours</option>
+                <option value="3days">Tous les 3 jours</option>
+                <option value="weekly">Hebdomadaire</option>
+                <option value="biweekly">Bihebdomadaire</option>
+                <option value="monthly">Mensuel</option>
+              </select>
+            </div>
+            <div class="fgrp">
+              <label class="flabel">Heure d'envoi (Paris)</label>
+              <input type="time" class="finput" id="am-hour" value="09:00">
+            </div>
+          </div>
+          <div class="grid2">
+            <div class="fgrp">
+              <label class="flabel">Thème</label>
+              <select class="fselect" id="am-theme">
+                <option value="">Varié (selon description)</option>
+                <option value="telephone">Voyance téléphone</option>
+                <option value="sentimental">Sentimental</option>
+                <option value="retour">Retour affectif</option>
+                <option value="urgence">Urgence</option>
+                <option value="horoscope">Horoscope</option>
+                <option value="magie">Magie</option>
+                <option value="temoignage">Témoignage</option>
+              </select>
+            </div>
+            <div class="fgrp">
+              <label class="flabel">Ton</label>
+              <select class="fselect" id="am-tone">
+                <option value="balanced">Équilibré</option>
+                <option value="emotional">Émotionnel</option>
+                <option value="selling">Vendeur</option>
+                <option value="urgent">Urgent</option>
+                <option value="engaging">Engageant</option>
+              </select>
+            </div>
+          </div>
+          <div style="display:flex;gap:12px;margin-top:8px">
+            <button class="btn btn-neon btn-full" onclick="saveAutomation()">
+              <span class="loader" id="am-ldr" style="display:none"></span>
+              Sauvegarder la règle
+            </button>
+            <button class="btn btn-ghost" onclick="closeAutoModal()">Annuler</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- ══ LOGS ══ -->
     <div class="page" id="page-logs">
       <div class="card">
@@ -794,7 +1029,7 @@ function updateWorkerStatus() {
 }
 
 // ═══════════════════════════════════════════════════════════
-// NAV
+// NAV — handled by responsive version in JS block below
 // ═══════════════════════════════════════════════════════════
 const PAGE_TITLES = {
   dashboard:'Tableau de bord', create:'Créer un post', queue:'File de validation',
@@ -803,6 +1038,7 @@ const PAGE_TITLES = {
   links:'Liens du site', ai:'Moteur AI', email:'Configuration email', logs:'Logs système',
 };
 function nav(name) {
+  if (window.innerWidth <= 900) closeSidebar();
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
   const pg = document.getElementById('page-' + name);
@@ -817,6 +1053,8 @@ function nav(name) {
   if (name === 'ai')          loadAiConfig();
   if (name === 'email')       loadEmailConfig();
   if (name === 'logs')        loadLogs();
+  if (name === 'myposts')     loadMyPosts();
+  if (name === 'automation')  loadAutomations();
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -1375,8 +1613,383 @@ async function loadLogs() {
 }
 
 // ═══════════════════════════════════════════════════════════
-// UTILS
+// RESPONSIVE SIDEBAR
 // ═══════════════════════════════════════════════════════════
+function toggleSidebar() {
+  document.querySelector('.sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('on');
+}
+function closeSidebar() {
+  document.querySelector('.sidebar').classList.remove('open');
+  document.getElementById('overlay').classList.remove('on');
+}
+
+// ═══════════════════════════════════════════════════════════
+// PAGE TITLES (extend for new pages)
+// ═══════════════════════════════════════════════════════════
+Object.assign(PAGE_TITLES, {
+  myposts:    'Mes posts sauvegardés',
+  automation: 'Automatisation des publications',
+});
+
+// ═══════════════════════════════════════════════════════════
+// MES POSTS
+// ═══════════════════════════════════════════════════════════
+let schedFilter = 'all';
+
+function buildSchedPlatformGrid(containerId) {
+  document.getElementById(containerId).innerHTML = Object.entries(PLATFORMS).map(([k, p]) =>
+    `<div class="plat-check">
+      <input type="checkbox" id="${containerId}-${k}" value="${k}">
+      <label for="${containerId}-${k}" style="font-size:11px;padding:7px 10px">
+        <span style="font-size:14px">${p.icon}</span>${p.name}
+      </label>
+    </div>`
+  ).join('');
+}
+
+function openNewSchedModal(editData = null) {
+  buildSchedPlatformGrid('sm-platforms');
+  document.getElementById('sm-name').value = editData?.name || '';
+  document.getElementById('sm-desc').value = editData?.description || '';
+  document.getElementById('sm-theme').value = editData?.themes?.[0] || '';
+  document.getElementById('sm-tone').value = editData?.tone || 'balanced';
+  if (editData?.scheduledAt) {
+    const d = new Date(editData.scheduledAt);
+    document.getElementById('sm-date').value = d.toISOString().slice(0,16);
+  } else { document.getElementById('sm-date').value = ''; }
+  if (editData?.platforms) {
+    editData.platforms.forEach(p => {
+      const el = document.getElementById(`sm-platforms-${p}`);
+      if (el) el.checked = true;
+    });
+  }
+  document.getElementById('sched-modal').style.display = 'flex';
+  document.getElementById('sched-modal').dataset.editId = editData?.id || '';
+}
+
+function closeSchedModal() {
+  document.getElementById('sched-modal').style.display = 'none';
+}
+
+async function saveScheduledPost() {
+  const name = document.getElementById('sm-name').value.trim();
+  const description = document.getElementById('sm-desc').value.trim();
+  const platforms = [...document.querySelectorAll('#sm-platforms input:checked')].map(i => i.value);
+  const tone = document.getElementById('sm-tone').value;
+  const theme = document.getElementById('sm-theme').value;
+  const dateVal = document.getElementById('sm-date').value;
+  const generateNow = document.getElementById('sm-generate').checked;
+  const editId = document.getElementById('sched-modal').dataset.editId;
+
+  if (!name) { notify('Donnez un nom à ce post.', 'err'); return; }
+  if (!description) { notify('Décrivez le contenu.', 'err'); return; }
+  if (!platforms.length) { notify('Sélectionnez au moins une plateforme.', 'err'); return; }
+
+  const ldr = document.getElementById('sm-ldr');
+  ldr.style.display = 'inline-block';
+
+  try {
+    const body = {
+      name, description, platforms,
+      tone, themes: theme ? [theme] : [],
+      scheduledAt: dateVal ? new Date(dateVal).getTime() : null,
+      generateNow,
+    };
+
+    let data;
+    if (editId) {
+      data = await api('/api/scheduled/' + editId, 'PUT', body);
+    } else {
+      data = await api('/api/scheduled', 'POST', body);
+    }
+
+    if (!data.success) throw new Error(data.error);
+    closeSchedModal();
+    loadMyPosts();
+    notify(editId ? 'Post mis à jour.' : 'Post sauvegardé.', 'ok');
+  } catch (e) {
+    notify(e.message, 'err');
+  } finally {
+    ldr.style.display = 'none';
+  }
+}
+
+function filterSched(btn, filter) {
+  document.querySelectorAll('.sched-filter').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  schedFilter = filter;
+  loadMyPosts();
+}
+
+async function loadMyPosts() {
+  const el = document.getElementById('myposts-list');
+  el.innerHTML = '<div class="text-muted text-sm">Chargement...</div>';
+  try {
+    const data = await api('/api/scheduled?limit=200');
+    let items = data.scheduled || [];
+    if (schedFilter !== 'all') items = items.filter(i => i.status === schedFilter);
+
+    // Update badge
+    const badge = document.getElementById('myposts-badge');
+    const total = (data.scheduled || []).length;
+    if (total > 0) { badge.style.display = ''; badge.textContent = total; }
+    else badge.style.display = 'none';
+
+    if (!items.length) {
+      el.innerHTML = '<div class="text-muted text-sm">Aucun post dans cette catégorie.</div>';
+      return;
+    }
+
+    el.innerHTML = items.map(item => {
+      const platIcons = (item.platforms || []).map(p => PLATFORMS[p]?.icon || '').join(' ');
+      const hasDate = item.scheduledAt;
+      const dateStr = hasDate ? new Date(item.scheduledAt).toLocaleString('fr-FR') : 'À la demande';
+      const statusMap = { draft:'b-gray', ready:'b-blue', pending_validation:'b-orange', published:'b-green' };
+      const labelMap = { draft:'Brouillon', ready:'Prêt', pending_validation:'En validation', published:'Publié' };
+
+      return `<div class="mypost-card" id="mpc-${item.id}" style="background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:10px">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap">
+          <div style="flex:1;min-width:200px">
+            <div style="font-weight:700;font-size:14px;margin-bottom:4px">${item.name}</div>
+            <div class="text-sm text-muted" style="margin-bottom:6px">${(item.description||'').slice(0,80)}${item.description?.length>80?'…':''}</div>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center">
+              <span class="badge ${statusMap[item.status]||'b-gray'}">${labelMap[item.status]||item.status}</span>
+              <span class="text-muted" style="font-size:11px">${platIcons}</span>
+              <span class="text-muted" style="font-size:11px">${dateStr}</span>
+              ${item.automationId ? `<span class="badge b-blue" style="font-size:9px">Auto</span>` : ''}
+            </div>
+          </div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap;flex-shrink:0">
+            ${item.status !== 'published' && item.status !== 'pending_validation' ? `
+              <button class="btn btn-neon btn-sm" onclick="publishScheduled('${item.id}')">Publier</button>
+              <button class="btn btn-ghost btn-sm" onclick="generateScheduled('${item.id}')">Générer</button>
+            ` : ''}
+            ${item.content ? `<button class="btn btn-ghost btn-sm" onclick="previewScheduled('${item.id}')">Aperçu</button>` : ''}
+            <button class="btn btn-ghost btn-sm" onclick="editScheduled('${item.id}')">Modifier</button>
+            <button class="btn btn-red btn-sm" onclick="deleteScheduled('${item.id}')">Supprimer</button>
+          </div>
+        </div>
+        <div id="preview-${item.id}" style="display:none;margin-top:12px;border-top:1px solid var(--border);padding-top:12px"></div>
+      </div>`;
+    }).join('');
+  } catch (e) {
+    el.innerHTML = `<div class="text-red text-sm">${e.message}</div>`;
+  }
+}
+
+async function generateScheduled(id) {
+  notify('Génération en cours...', 'info');
+  try {
+    const data = await api('/api/scheduled/' + id + '/generate', 'POST');
+    if (data.success) { notify('Contenu généré.', 'ok'); loadMyPosts(); }
+    else throw new Error(data.error);
+  } catch (e) { notify(e.message, 'err'); }
+}
+
+async function publishScheduled(id) {
+  notify('Envoi pour validation...', 'info');
+  try {
+    const data = await api('/api/scheduled/' + id + '/publish', 'POST');
+    if (data.success) { notify('Email de validation envoyé à chicsensation@gmail.com', 'ok'); loadMyPosts(); }
+    else throw new Error(data.error);
+  } catch (e) { notify(e.message, 'err'); }
+}
+
+async function editScheduled(id) {
+  try {
+    const data = await api('/api/scheduled/' + id);
+    // rebuild from inline data in list (faster)
+    const el = document.getElementById('mpc-' + id);
+    // Just re-fetch and open modal
+    if (!data.success) throw new Error(data.error);
+    openNewSchedModal(data.scheduled || { id });
+  } catch (e) {
+    // fallback: open modal with id only and let user fill
+    document.getElementById('sched-modal').dataset.editId = id;
+    document.getElementById('sched-modal').style.display = 'flex';
+  }
+}
+
+async function deleteScheduled(id) {
+  if (!confirm('Supprimer ce post sauvegardé ?')) return;
+  try {
+    const data = await api('/api/scheduled/' + id, 'DELETE');
+    if (data.success) { notify('Post supprimé.', 'ok'); loadMyPosts(); }
+    else throw new Error(data.error);
+  } catch (e) { notify(e.message, 'err'); }
+}
+
+async function previewScheduled(id) {
+  const el = document.getElementById('preview-' + id);
+  if (el.style.display === 'block') { el.style.display = 'none'; return; }
+  try {
+    const data = await api('/api/scheduled/' + id);
+    const item = data.scheduled;
+    if (!item?.content) { notify('Pas encore de contenu généré.', 'info'); return; }
+    el.innerHTML = `
+      <div style="color:var(--neon);font-size:15px;margin-bottom:8px;font-style:italic">${item.content.hook||''}</div>
+      <div style="font-size:12px;line-height:1.7;color:var(--text2);margin-bottom:8px">${(item.content.mainText||'').slice(0,300)}…</div>
+      <div style="font-size:11px;color:var(--gold)">${item.content.cta||''}</div>
+      ${item.imageUrl ? `<img src="${item.imageUrl}" style="max-width:200px;border-radius:8px;margin-top:8px;border:1px solid var(--border)">` : ''}
+    `;
+    el.style.display = 'block';
+  } catch (e) { notify(e.message, 'err'); }
+}
+
+// ═══════════════════════════════════════════════════════════
+// AUTOMATISATION
+// ═══════════════════════════════════════════════════════════
+function buildAutoPlatGrid(containerId) {
+  document.getElementById(containerId).innerHTML = Object.entries(PLATFORMS).map(([k, p]) =>
+    `<div class="plat-check">
+      <input type="checkbox" id="${containerId}-${k}" value="${k}">
+      <label for="${containerId}-${k}" style="font-size:11px;padding:7px 10px">
+        <span style="font-size:14px">${p.icon}</span>${p.name}
+      </label>
+    </div>`
+  ).join('');
+}
+
+function openAutoModal(editData = null) {
+  buildAutoPlatGrid('am-platforms');
+  document.getElementById('am-id').value   = editData?.id || '';
+  document.getElementById('am-name').value = editData?.name || '';
+  document.getElementById('am-desc').value = editData?.description || '';
+  document.getElementById('am-freq').value = editData?.frequency || 'daily';
+  document.getElementById('am-hour').value = editData?.hour || '09:00';
+  document.getElementById('am-theme').value = editData?.themes?.[0] || '';
+  document.getElementById('am-tone').value  = editData?.tone || 'balanced';
+  document.getElementById('auto-modal-title').textContent = editData ? 'Modifier la règle' : 'Nouvelle règle d\'automatisation';
+  if (editData?.platforms) editData.platforms.forEach(p => {
+    const el = document.getElementById(`am-platforms-${p}`);
+    if (el) el.checked = true;
+  });
+  document.getElementById('auto-modal').style.display = 'flex';
+}
+
+function closeAutoModal() {
+  document.getElementById('auto-modal').style.display = 'none';
+}
+
+async function saveAutomation() {
+  const id   = document.getElementById('am-id').value;
+  const name = document.getElementById('am-name').value.trim();
+  const desc = document.getElementById('am-desc').value.trim();
+  const platforms = [...document.querySelectorAll('#am-platforms input:checked')].map(i => i.value);
+  const frequency = document.getElementById('am-freq').value;
+  const hour  = document.getElementById('am-hour').value;
+  const theme = document.getElementById('am-theme').value;
+  const tone  = document.getElementById('am-tone').value;
+
+  if (!name) { notify('Donnez un nom à cette règle.', 'err'); return; }
+  if (!desc)  { notify('Décrivez le contenu à générer.', 'err'); return; }
+  if (!platforms.length) { notify('Sélectionnez au moins une plateforme.', 'err'); return; }
+
+  const ldr = document.getElementById('am-ldr');
+  ldr.style.display = 'inline-block';
+
+  const body = { name, description: desc, platforms, frequency, hour, tone, themes: theme ? [theme] : [], active: true };
+  try {
+    const data = id
+      ? await api('/api/automations/' + id, 'PUT', body)
+      : await api('/api/automations', 'POST', body);
+    if (!data.success) throw new Error(data.error);
+    closeAutoModal();
+    loadAutomations();
+    notify(id ? 'Règle mise à jour.' : 'Règle créée.', 'ok');
+  } catch (e) { notify(e.message, 'err'); }
+  finally { ldr.style.display = 'none'; }
+}
+
+const FREQ_LABELS = {
+  daily:'Quotidien', '2days':'Tous les 2 jours', '3days':'Tous les 3 jours',
+  weekly:'Hebdomadaire', biweekly:'Bihebdomadaire', monthly:'Mensuel'
+};
+
+async function loadAutomations() {
+  const el = document.getElementById('auto-list');
+  el.innerHTML = '<div class="text-muted text-sm">Chargement...</div>';
+  try {
+    const data = await api('/api/automations');
+    const rules = data.automations || [];
+    if (!rules.length) {
+      el.innerHTML = `<div style="text-align:center;padding:40px 20px;color:var(--text2)">
+        <div style="font-size:40px;margin-bottom:12px">⚙</div>
+        <div style="font-size:14px;margin-bottom:12px">Aucune règle d'automatisation</div>
+        <button class="btn btn-neon btn-sm" onclick="openAutoModal()">Créer ma première règle</button>
+      </div>`;
+      return;
+    }
+    el.innerHTML = rules.map(r => {
+      const platIcons = (r.platforms || []).map(p => PLATFORMS[p]?.icon || '').join(' ');
+      const nextDate = r.nextRun ? new Date(r.nextRun).toLocaleString('fr-FR') : '—';
+      const lastDate = r.lastRun ? new Date(r.lastRun).toLocaleString('fr-FR') : 'Jamais';
+      return `<div style="background:var(--bg2);border:1px solid ${r.active?'rgba(0,191,255,.25)':'var(--border)'};border-radius:10px;padding:18px;margin-bottom:12px">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap">
+          <div style="flex:1;min-width:200px">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;flex-wrap:wrap">
+              <div style="font-weight:700;font-size:14px">${r.name}</div>
+              <span class="badge ${r.active?'b-green':'b-gray'}">${r.active?'Active':'Inactive'}</span>
+              <span class="badge b-blue">${FREQ_LABELS[r.frequency]||r.frequency}</span>
+            </div>
+            <div class="text-sm text-muted" style="margin-bottom:8px">${(r.description||'').slice(0,80)}…</div>
+            <div style="display:flex;gap:16px;flex-wrap:wrap">
+              <span class="text-sm" style="color:var(--text2)">Plateformes: <span style="color:var(--text)">${platIcons} ${(r.platforms||[]).map(p=>PLATFORMS[p]?.name||p).join(', ')}</span></span>
+            </div>
+            <div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:6px">
+              <span class="text-sm text-muted">Heure: <span style="color:var(--neon)">${r.hour||'09:00'}</span></span>
+              <span class="text-sm text-muted">Prochain envoi: <span style="color:var(--gold)">${nextDate}</span></span>
+              <span class="text-sm text-muted">Dernier envoi: ${lastDate}</span>
+              <span class="text-sm text-muted">Exécutions: <span style="color:var(--text)">${r.runCount||0}</span></span>
+            </div>
+          </div>
+          <div style="display:flex;gap:7px;flex-wrap:wrap;flex-shrink:0">
+            <button class="btn ${r.active?'btn-ghost':'btn-green'} btn-sm" onclick="toggleAuto('${r.id}')">${r.active?'Désactiver':'Activer'}</button>
+            <button class="btn btn-neon btn-sm" onclick="runAutoNow('${r.id}')">Exécuter</button>
+            <button class="btn btn-ghost btn-sm" onclick="editAuto('${r.id}')">Modifier</button>
+            <button class="btn btn-red btn-sm" onclick="deleteAuto('${r.id}')">Supprimer</button>
+          </div>
+        </div>
+      </div>`;
+    }).join('');
+  } catch (e) { el.innerHTML = `<div class="text-red text-sm">${e.message}</div>`; }
+}
+
+async function toggleAuto(id) {
+  try {
+    const data = await api('/api/automations/' + id + '/toggle', 'POST');
+    notify(data.active ? 'Règle activée.' : 'Règle désactivée.', 'ok');
+    loadAutomations();
+  } catch (e) { notify(e.message, 'err'); }
+}
+
+async function runAutoNow(id) {
+  notify('Génération en cours...', 'info');
+  try {
+    const data = await api('/api/automations/' + id + '/run', 'POST');
+    if (data.success) notify('Post généré et email envoyé à chicsensation@gmail.com', 'ok');
+    else throw new Error(data.error);
+    loadAutomations();
+  } catch (e) { notify(e.message, 'err'); }
+}
+
+async function editAuto(id) {
+  try {
+    const data = await api('/api/automations/' + id);
+    if (data.success) openAutoModal(data.automation);
+  } catch (e) { notify(e.message, 'err'); }
+}
+
+async function deleteAuto(id) {
+  if (!confirm('Supprimer cette règle d\'automatisation ?')) return;
+  try {
+    const data = await api('/api/automations/' + id, 'DELETE');
+    if (data.success) { notify('Règle supprimée.', 'ok'); loadAutomations(); }
+    else throw new Error(data.error);
+  } catch (e) { notify(e.message, 'err'); }
+}
+
 function statusLabel(s) {
   return { published:'Publié', pending_validation:'En attente', modification_requested:'Modification', approved:'Approuvé', partial:'Partiel', publishing:'Publication...', failed:'Erreur' }[s] || s || '—';
 }
