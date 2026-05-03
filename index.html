@@ -3,2008 +3,1063 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PGI • Posting Marketing</title>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<title>PGI • Financial Pro</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --neon:#00bfff; --neon2:#0077dd; --neon3:#0044aa;
-  --glow:0 0 6px #00bfff,0 0 14px #00bfff88,0 0 30px #0055cc44;
-  --bg:#06060f; --bg2:#0b0b1c; --bg3:#0f0f28;
-  --panel:#0d0d22; --border:#182040; --border2:#223070;
-  --text:#ccd6f5; --text2:#7888bb; --text3:#4455aa;
-  --gold:#c4a044; --green:#00bb55; --red:#cc2244; --orange:#ee7722;
-  --sw:264px; --r:10px;
+  --bg:   #111111;
+  --bg2:  #181818;
+  --bg3:  #1f1f1f;
+  --bg4:  #282828;
+  --bdr:  #2e2e2e;
+  --ny:   #FFE600; /* yellow neon */
+  --np:   #FF00CC; /* pink neon */
+  --no:   #FF6B00; /* orange neon */
+  --nb:   #00D4FF; /* blue neon */
+  --ng:   #00FF88; /* green - BUY */
+  --nr:   #FF3366; /* red - SELL */
+  --nc:   #AA66FF; /* purple - neutral */
+  --tx:   #D8D8D8;
+  --txd:  #666;
+  --txb:  #FFFFFF;
 }
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%}
-body{font-family:'Raleway',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{min-height:100vh;background:var(--bg);color:var(--tx);font-family:'Rajdhani',sans-serif;font-size:15px;overflow-x:hidden}
+a{color:var(--nb);text-decoration:none}
 
-/* ── STARS ── */
-body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
-  background:
-    radial-gradient(1.5px 1.5px at 8% 12%,rgba(0,191,255,.5) 0%,transparent 100%),
-    radial-gradient(1px 1px at 22% 65%,rgba(0,191,255,.35) 0%,transparent 100%),
-    radial-gradient(1px 1px at 38% 28%,rgba(0,191,255,.4) 0%,transparent 100%),
-    radial-gradient(1.5px 1.5px at 55% 80%,rgba(0,191,255,.3) 0%,transparent 100%),
-    radial-gradient(1px 1px at 70% 18%,rgba(0,191,255,.45) 0%,transparent 100%),
-    radial-gradient(1.5px 1.5px at 82% 55%,rgba(0,191,255,.4) 0%,transparent 100%),
-    radial-gradient(1px 1px at 92% 88%,rgba(196,160,68,.4) 0%,transparent 100%),
-    radial-gradient(1px 1px at 15% 90%,rgba(196,160,68,.35) 0%,transparent 100%),
-    radial-gradient(1px 1px at 60% 45%,rgba(196,160,68,.3) 0%,transparent 100%)}
+/* ── HEADER ── */
+.hdr{background:var(--bg2);border-bottom:1px solid var(--ny);padding:10px 18px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200;box-shadow:0 0 24px rgba(255,230,0,.12)}
+.logo{font-family:'Orbitron',sans-serif;font-weight:900;font-size:17px;color:var(--ny);text-shadow:0 0 12px var(--ny),0 0 30px rgba(255,230,0,.35);letter-spacing:3px}
+.logo em{color:var(--np);font-style:normal;text-shadow:0 0 12px var(--np)}
+.hdr-right{display:flex;align-items:center;gap:12px}
+.live{display:flex;align-items:center;gap:5px;font-family:'Orbitron',sans-serif;font-size:10px;color:var(--ng)}
+.dot{width:7px;height:7px;background:var(--ng);border-radius:50%;box-shadow:0 0 8px var(--ng);animation:blink 1.4s infinite}
+@keyframes blink{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.75)}}
+.hdr-time{font-family:'Orbitron',sans-serif;font-size:10px;color:var(--txd)}
 
-/* ── NEON TITLE ── */
-@keyframes nflicker{
-  0%,91%,93%,95%,100%{text-shadow:var(--glow);opacity:1}
-  92%,94%{text-shadow:none;opacity:.82}
-}
-.neon-title{
-  font-family:'Cinzel',serif;
-  color:var(--neon);
-  text-shadow:var(--glow);
-  animation:nflicker 4s infinite;
-  letter-spacing:.12em;
-  line-height:1.15;
-}
+/* ── TICKER ── */
+.ticker{background:#0d0d0d;border-bottom:1px solid var(--bdr);height:30px;overflow:hidden;display:flex;align-items:center}
+.ticker-inner{display:flex;gap:48px;white-space:nowrap;animation:scroll 80s linear infinite;padding:0 20px}
+.ticker-inner:hover{animation-play-state:paused}
+@keyframes scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.ti{display:inline-flex;gap:6px;align-items:center;font-family:'Orbitron',sans-serif;font-size:10px}
+.ti .sym{color:var(--txd)}
+.ti .prc{color:var(--txb)}
+.ti .up{color:var(--ng)}
+.ti .dn{color:var(--nr)}
 
-/* ── LAYOUT ── */
-.sidebar{
-  position:fixed;left:0;top:0;bottom:0;width:var(--sw);
-  background:linear-gradient(180deg,#09091e 0%,#070716 100%);
-  border-right:1px solid var(--border);
-  display:flex;flex-direction:column;z-index:100;overflow-y:auto;
-}
-.sidebar-head{padding:24px 18px 20px;border-bottom:1px solid var(--border)}
-.logo-block .neon-title{font-size:16px}
-.logo-sub{font-size:9px;color:var(--text3);letter-spacing:3px;text-transform:uppercase;margin-top:5px}
-.worker-status{margin-top:10px;font-size:10px;display:flex;align-items:center;gap:6px}
-.dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
-.dot-green{background:var(--green);box-shadow:0 0 6px var(--green);animation:pulse 2s infinite}
-.dot-red{background:var(--red)}
-.dot-orange{background:var(--orange);animation:pulse 2s infinite}
+/* ── NAV ── */
+nav{background:var(--bg2);display:flex;border-bottom:1px solid var(--bdr);overflow-x:auto;scrollbar-width:none}
+nav::-webkit-scrollbar{display:none}
+.nt{padding:11px 16px;cursor:pointer;font-family:'Orbitron',sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;color:var(--txd);border-bottom:2px solid transparent;white-space:nowrap;transition:all .2s;user-select:none}
+.nt:hover{color:var(--tx)}
+.nt.act{color:var(--nb);border-bottom-color:var(--nb);text-shadow:0 0 8px var(--nb)}
 
-.nav-section{padding:16px 14px 6px;font-size:9px;color:var(--text3);letter-spacing:2px;text-transform:uppercase;font-weight:700}
-.nav-item{
-  display:flex;align-items:center;gap:10px;
-  padding:9px 16px;margin:2px 8px;border-radius:8px;
-  cursor:pointer;color:var(--text2);font-size:12.5px;font-weight:500;
-  transition:all .18s;user-select:none;border-left:2px solid transparent;
-}
-.nav-item:hover{background:rgba(0,191,255,.06);color:var(--text)}
-.nav-item.active{background:rgba(0,191,255,.10);color:var(--neon);border-left-color:var(--neon);margin-left:6px}
-.nav-icon{font-size:15px;width:18px;text-align:center;flex-shrink:0}
-.nav-badge{margin-left:auto;background:rgba(238,119,34,.2);color:var(--orange);border:1px solid rgba(238,119,34,.4);border-radius:12px;font-size:10px;padding:1px 7px}
-
-.sidebar-footer{margin-top:auto;padding:14px 16px;border-top:1px solid var(--border);font-size:10px;color:var(--text3);text-align:center}
-
-/* Worker URL config bar */
-.worker-bar{
-  background:rgba(0,40,100,.3);border:1px solid var(--border2);
-  border-radius:8px;padding:10px 14px;margin:12px 10px 4px;
-  display:flex;align-items:center;gap:8px;
-}
-.worker-bar input{
-  flex:1;background:transparent;border:none;outline:none;
-  color:var(--text);font-size:11px;font-family:'Raleway',sans-serif;
-}
-.worker-bar input::placeholder{color:var(--text3)}
-
-/* ── MAIN ── */
-.main{margin-left:var(--sw);min-height:100vh;display:flex;flex-direction:column;position:relative;z-index:1}
-.topbar{
-  height:58px;background:rgba(8,8,20,.95);border-bottom:1px solid var(--border);
-  display:flex;align-items:center;justify-content:space-between;
-  padding:0 28px;position:sticky;top:0;z-index:50;backdrop-filter:blur(12px);
-}
-.topbar-title{font-family:'Cinzel',serif;font-size:13px;letter-spacing:2px;color:var(--text)}
-.topbar-right{display:flex;align-items:center;gap:12px}
-.page-content{padding:28px;flex:1}
-.page{display:none}.page.active{display:block;animation:fadein .3s ease}
-@keyframes fadein{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+/* ── TABS ── */
+.tab{display:none;padding:18px 16px;max-width:860px;margin:0 auto}
+.tab.act{display:block}
 
 /* ── CARDS ── */
-.card{background:var(--panel);border:1px solid var(--border);border-radius:var(--r);padding:22px;margin-bottom:18px}
-.card-title{
-  font-family:'Cinzel',serif;font-size:12px;color:var(--neon);
-  letter-spacing:2px;text-transform:uppercase;
-  margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border);
-}
+.card{background:var(--bg2);border:1px solid var(--bdr);border-radius:10px;padding:16px;margin-bottom:16px}
+.card-t{font-family:'Orbitron',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;color:var(--no);text-shadow:0 0 8px rgba(255,107,0,.6);margin-bottom:14px;text-transform:uppercase}
 
-/* ── STATS ── */
-.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:22px}
-.stat-card{
-  background:linear-gradient(135deg,#0b0b24,#0e0e2e);
-  border:1px solid var(--border);border-radius:var(--r);
-  padding:18px;text-align:center;transition:all .2s;cursor:default;
-}
-.stat-card:hover{border-color:var(--border2);transform:translateY(-2px);box-shadow:0 6px 24px rgba(0,80,180,.12)}
-.stat-num{
-  font-family:'Cinzel',serif;font-size:38px;font-weight:700;
-  background:linear-gradient(135deg,var(--neon),var(--neon2));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-  line-height:1;margin-bottom:7px;
-}
-.stat-lbl{font-size:10px;color:var(--text2);letter-spacing:1.5px;text-transform:uppercase}
-
-/* ── PLATFORM CHECKBOXES ── */
-.plat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(128px,1fr));gap:9px}
-.plat-check{position:relative}
-.plat-check input{position:absolute;opacity:0;width:0;height:0}
-.plat-check label{
-  display:flex;align-items:center;gap:7px;padding:9px 13px;
-  background:var(--bg2);border:1px solid var(--border);border-radius:8px;
-  cursor:pointer;font-size:12.5px;transition:all .18s;user-select:none;
-}
-.plat-check input:checked+label{
-  background:rgba(0,191,255,.1);border-color:var(--neon);color:var(--neon);
-  box-shadow:0 0 10px rgba(0,191,255,.12);
-}
-.plat-check label:hover{border-color:var(--border2)}
-.plat-check label .plat-icon{font-size:16px;flex-shrink:0}
-.plat-mode-badge{margin-left:auto;font-size:9px;color:var(--text3);background:rgba(255,255,255,.05);border-radius:4px;padding:1px 5px}
-input[type=checkbox]:checked+label .plat-mode-badge{color:rgba(0,191,255,.6)}
-
-/* ── TONE ── */
-.tone-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px}
-.tone-btn{
-  padding:9px 13px;background:var(--bg2);border:1px solid var(--border);
-  border-radius:8px;color:var(--text2);cursor:pointer;font-size:12px;
-  text-align:center;transition:all .18s;font-family:'Raleway',sans-serif;
-}
-.tone-btn:hover{border-color:var(--border2);color:var(--text)}
-.tone-btn.active{background:rgba(0,191,255,.1);border-color:var(--neon);color:var(--neon)}
-
-/* ── FORM ── */
-.fgrp{margin-bottom:18px}
-.flabel{display:block;font-size:10px;color:var(--text2);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:7px;font-weight:700}
-.finput,.fselect,.ftextarea{
-  width:100%;padding:11px 15px;background:rgba(0,0,0,.35);
-  border:1px solid var(--border2);border-radius:8px;color:var(--text);
-  font-family:'Raleway',sans-serif;font-size:13.5px;outline:none;
-  transition:border-color .18s,box-shadow .18s;
-}
-.finput:focus,.fselect:focus,.ftextarea:focus{border-color:var(--neon);box-shadow:0 0 0 2px rgba(0,191,255,.1)}
-.fselect{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='7'%3E%3Cpath d='M1 1l4.5 5 4.5-5' stroke='%237888bb' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 13px center;padding-right:36px}
-.fselect option,.finput option{background:var(--bg2)}
-.ftextarea{resize:vertical;min-height:90px;line-height:1.6}
-.fhelp{font-size:11px;color:var(--text3);margin-top:5px;line-height:1.5}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-@media(max-width:700px){.grid2{grid-template-columns:1fr}}
+/* ── FORMS ── */
+.fg{margin-bottom:13px}
+.fg label{display:block;font-family:'Orbitron',sans-serif;font-size:9px;letter-spacing:1.5px;color:var(--txd);margin-bottom:5px;text-transform:uppercase}
+select,input[type=text],input[type=number],input[type=email],input[type=password]{
+  background:var(--bg3);border:1px solid var(--bdr);color:var(--tx);padding:9px 13px;border-radius:6px;
+  font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:500;width:100%;outline:none;transition:border-color .2s,box-shadow .2s}
+select:focus,input:focus{border-color:var(--nb);box-shadow:0 0 10px rgba(0,212,255,.18)}
+select option{background:var(--bg3)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
 
 /* ── BUTTONS ── */
-.btn{
-  display:inline-flex;align-items:center;gap:7px;padding:10px 20px;
-  border-radius:8px;font-family:'Raleway',sans-serif;font-size:12.5px;
-  font-weight:600;cursor:pointer;transition:all .18s;
-  border:1px solid transparent;text-decoration:none;letter-spacing:.4px;
-}
-.btn-neon{background:linear-gradient(135deg,#002255,#004488);border-color:var(--neon);color:#fff;box-shadow:0 0 10px rgba(0,191,255,.2)}
-.btn-neon:hover{box-shadow:0 0 20px rgba(0,191,255,.45);transform:translateY(-1px)}
-.btn-neon:disabled{opacity:.45;cursor:not-allowed;transform:none}
-.btn-green{background:linear-gradient(135deg,#003a18,#006030);border-color:var(--green);color:#fff}
-.btn-green:hover{box-shadow:0 0 14px rgba(0,187,85,.4)}
-.btn-red{background:rgba(204,34,68,.15);border-color:var(--red);color:var(--red)}
-.btn-red:hover{background:rgba(204,34,68,.25)}
-.btn-ghost{background:transparent;border-color:var(--border2);color:var(--text2)}
-.btn-ghost:hover{border-color:var(--text2);color:var(--text)}
-.btn-sm{padding:6px 13px;font-size:11px}
-.btn-full{width:100%;justify-content:center}
+.btn-scan{background:linear-gradient(135deg,var(--np),var(--no));color:#fff;border:none;padding:18px 24px;border-radius:8px;font-family:'Orbitron',sans-serif;font-weight:900;font-size:13px;letter-spacing:3px;cursor:pointer;width:100%;text-transform:uppercase;transition:all .25s;box-shadow:0 0 28px rgba(255,0,204,.35);margin:14px 0}
+.btn-scan:hover:not(:disabled){transform:translateY(-3px);box-shadow:0 0 50px rgba(255,0,204,.55)}
+.btn-scan:disabled{opacity:.45;cursor:not-allowed;transform:none}
 
-/* ── PROGRESS / LOADER ── */
-.prog-bar{height:3px;background:var(--border);border-radius:3px;overflow:hidden;margin-bottom:18px;display:none}
-.prog-bar.on{display:block}
-.prog-fill{height:100%;background:linear-gradient(90deg,var(--neon3),var(--neon));border-radius:3px;animation:prog 1.8s ease infinite}
-@keyframes prog{0%{width:0;margin-left:0}50%{width:65%}100%{width:0;margin-left:100%}}
-.loader{display:inline-block;width:16px;height:16px;border:2px solid rgba(0,191,255,.25);border-top-color:var(--neon);border-radius:50%;animation:spin .7s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.55}}
+.btn-main{background:linear-gradient(135deg,var(--ny),var(--no));color:#000;border:none;padding:13px 22px;border-radius:6px;font-family:'Orbitron',sans-serif;font-weight:900;font-size:12px;letter-spacing:2px;cursor:pointer;width:100%;text-transform:uppercase;transition:all .25s;box-shadow:0 0 20px rgba(255,230,0,.28)}
+.btn-main:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 0 36px rgba(255,230,0,.48)}
+.btn-main:disabled{opacity:.45;cursor:not-allowed;transform:none}
 
-/* ── RESULT BOX ── */
-.result-box{background:linear-gradient(135deg,#08082a,#0b0b26);border:1px solid var(--border2);border-radius:var(--r);padding:22px;margin-top:18px;display:none}
-.result-box.on{display:block}
-.r-hook{font-family:'Cinzel',serif;font-size:19px;color:var(--neon);text-shadow:0 0 8px rgba(0,191,255,.35);margin-bottom:14px;line-height:1.4}
-.r-section{background:rgba(0,0,0,.2);border-left:2px solid var(--border2);padding:11px 15px;margin-bottom:10px;border-radius:0 6px 6px 0}
-.r-lbl{font-size:9px;color:var(--text3);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:5px}
-.r-val{font-size:13px;line-height:1.7;color:var(--text)}
-.plat-result{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:12px;margin-bottom:9px}
-.plat-result-name{font-weight:700;font-size:11px;color:var(--neon);letter-spacing:1px;margin-bottom:7px}
-.htag{color:var(--neon);font-size:11px;margin-right:5px}
+.btn-sec{background:transparent;border:1px solid var(--nb);color:var(--nb);padding:9px 18px;border-radius:6px;font-family:'Orbitron',sans-serif;font-size:10px;letter-spacing:1px;cursor:pointer;transition:all .2s;white-space:nowrap}
+.btn-sec:hover{background:rgba(0,212,255,.1);box-shadow:0 0 12px rgba(0,212,255,.25)}
 
-/* ── IMAGE PREVIEW ── */
-.img-box{background:var(--bg2);border:1px dashed var(--border2);border-radius:10px;min-height:180px;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
-.img-box img{width:100%;border-radius:10px;display:block}
-.img-placeholder{text-align:center;color:var(--text3);padding:24px}
-.img-ph-icon{font-size:36px;margin-bottom:8px}
+/* ── BADGES ── */
+.badge{display:inline-flex;align-items:center;gap:5px;padding:5px 14px;border-radius:5px;font-family:'Orbitron',sans-serif;font-weight:700;font-size:12px;letter-spacing:1px}
+.b-buy{background:rgba(0,255,136,.12);border:1px solid var(--ng);color:var(--ng);text-shadow:0 0 8px var(--ng)}
+.b-sell{background:rgba(255,51,102,.12);border:1px solid var(--nr);color:var(--nr);text-shadow:0 0 8px var(--nr)}
+.b-neut{background:rgba(170,102,255,.12);border:1px solid var(--nc);color:var(--nc)}
 
-/* ── LINK SUGGEST ── */
-.link-suggest{background:rgba(0,80,180,.08);border:1px solid rgba(0,130,255,.2);border-radius:8px;padding:10px 14px;font-size:11px;margin-top:7px;display:none}
-.link-suggest.on{display:block}
-.link-url{color:var(--neon);font-size:10px;word-break:break-all;margin-top:3px}
-.link-page{color:var(--gold);font-size:10px;margin-top:2px}
+/* ── PROB BAR ── */
+.pbar{background:var(--bg4);border-radius:4px;height:7px;overflow:hidden;margin:7px 0 3px}
+.pfill{height:100%;border-radius:4px;transition:width 1.2s ease}
+.p-hi{background:linear-gradient(90deg,var(--ng),#00ffcc);box-shadow:0 0 8px var(--ng)}
+.p-md{background:linear-gradient(90deg,var(--ny),var(--no));box-shadow:0 0 8px var(--ny)}
+.p-lo{background:linear-gradient(90deg,var(--nr),#ff8888);box-shadow:0 0 8px var(--nr)}
 
-/* ── CONNECTIONS ── */
-.conn-item{border:1px solid var(--border);border-radius:10px;margin-bottom:14px;overflow:hidden}
-.conn-head{
-  padding:14px 18px;display:flex;align-items:center;justify-content:space-between;
-  cursor:pointer;background:var(--bg2);transition:background .15s;
-}
-.conn-head:hover{background:var(--bg3)}
-.conn-name{display:flex;align-items:center;gap:12px}
-.conn-icon{font-size:22px}
-.conn-label{font-weight:600;font-size:13px}
-.conn-mode{font-size:10px;color:var(--text3);margin-top:2px}
-.conn-body{padding:18px;background:rgba(0,0,0,.15);display:none}
-.conn-body.open{display:block}
-.conn-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+/* ── OPP CARD ── */
+.ocard{background:var(--bg3);border:1px solid var(--bdr);border-radius:9px;padding:14px 16px;margin-bottom:12px;transition:border-color .2s}
+.ocard:hover{border-color:#444}
+.oh{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px;gap:10px}
+.osym{font-family:'Orbitron',sans-serif;font-weight:700;font-size:16px;color:var(--txb)}
+.ocat{font-size:10px;color:var(--txd);font-family:'Orbitron',sans-serif;letter-spacing:1px;margin-top:2px}
+.oprc{font-family:'Orbitron',sans-serif;font-size:13px;color:var(--txd);text-align:right}
+.prow{display:flex;align-items:center;justify-content:space-between;margin:8px 0 4px}
+.ppct{font-family:'Orbitron',sans-serif;font-weight:900;font-size:26px}
+.pcells{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0}
+.pc{background:var(--bg4);border-radius:6px;padding:8px;text-align:center}
+.pc .lbl{font-family:'Orbitron',sans-serif;font-size:9px;color:var(--txd);letter-spacing:1px;display:block;margin-bottom:4px}
+.pc .val{font-family:'Orbitron',sans-serif;font-size:13px;font-weight:700}
+.ve{color:var(--nb)} .vt{color:var(--ng)} .vsl{color:var(--nr)}
+.reasons{margin-top:10px;padding-top:10px;border-top:1px solid var(--bdr)}
+.ri{font-size:13px;color:var(--txd);padding:3px 0 3px 14px;position:relative}
+.ri::before{content:'›';position:absolute;left:0;color:var(--ny)}
+.tags{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
+.tz{display:inline-block;padding:2px 9px;border:1px solid var(--bdr);border-radius:4px;font-size:10px;color:var(--txd);font-family:'Orbitron',sans-serif;letter-spacing:.5px}
+.rk-lo{background:rgba(0,255,136,.1);color:var(--ng)}
+.rk-md{background:rgba(255,230,0,.1);color:var(--ny)}
+.rk-hi{background:rgba(255,51,102,.1);color:var(--nr)}
 
-/* ── HISTORY TABLE ── */
-.t-wrap{overflow-x:auto}
-table{width:100%;border-collapse:collapse}
-thead th{padding:9px 13px;text-align:left;font-size:9.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text2);border-bottom:1px solid var(--border);font-weight:700}
-tbody tr{border-bottom:1px solid rgba(24,32,64,.5);transition:background .12s}
-tbody tr:hover{background:rgba(0,191,255,.035)}
-tbody td{padding:11px 13px;font-size:12.5px;vertical-align:middle}
-.td-mono{font-family:monospace;color:var(--text2);font-size:11px}
-.td-clamp{max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+/* ── P&L ── */
+.pnl{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:13px 0}
+.pcard{background:var(--bg3);border-radius:8px;padding:12px;text-align:center}
+.plbl{font-family:'Orbitron',sans-serif;font-size:9px;letter-spacing:1px;color:var(--txd);margin-bottom:6px}
+.pgain{font-family:'Orbitron',sans-serif;font-size:22px;font-weight:900;color:var(--ng);text-shadow:0 0 12px var(--ng)}
+.ploss{font-family:'Orbitron',sans-serif;font-size:22px;font-weight:900;color:var(--nr);text-shadow:0 0 12px var(--nr)}
 
-/* ── BADGE ── */
-.badge{display:inline-block;padding:2px 9px;border-radius:20px;font-size:9.5px;font-weight:700;letter-spacing:.8px;text-transform:uppercase}
-.b-green{background:rgba(0,187,85,.12);color:var(--green);border:1px solid rgba(0,187,85,.3)}
-.b-red{background:rgba(204,34,68,.12);color:var(--red);border:1px solid rgba(204,34,68,.3)}
-.b-orange{background:rgba(238,119,34,.12);color:var(--orange);border:1px solid rgba(238,119,34,.3)}
-.b-blue{background:rgba(0,191,255,.09);color:var(--neon);border:1px solid rgba(0,191,255,.25)}
-.b-gray{background:rgba(120,136,187,.1);color:var(--text2);border:1px solid rgba(120,136,187,.2)}
+/* ── LOADING ── */
+.loading{display:flex;flex-direction:column;align-items:center;padding:48px 20px;gap:16px}
+.spin{width:52px;height:52px;border:3px solid var(--bdr);border-top-color:var(--np);border-radius:50%;animation:rot .8s linear infinite;box-shadow:0 0 24px rgba(255,0,204,.3)}
+@keyframes rot{to{transform:rotate(360deg)}}
+.ltxt{font-family:'Orbitron',sans-serif;font-size:11px;color:var(--np);letter-spacing:2px;animation:blink 1.5s infinite}
+.lsub{font-size:12px;color:var(--txd);margin-top:2px}
 
-/* ── NOTIF ── */
-.notif{
-  position:fixed;top:72px;right:22px;z-index:9999;max-width:360px;
-  padding:12px 18px;border-radius:10px;font-size:13px;font-weight:500;
-  display:none;align-items:center;gap:10px;
-  box-shadow:0 4px 24px rgba(0,0,0,.45);
-  animation:slidein .28s ease;
-}
-.notif.on{display:flex}
-.n-ok{background:#081e12;border:1px solid var(--green);color:var(--green)}
-.n-err{background:#1a080e;border:1px solid var(--red);color:var(--red)}
-.n-info{background:#081428;border:1px solid var(--neon);color:var(--neon)}
-@keyframes slidein{from{opacity:0;transform:translateX(18px)}to{opacity:1;transform:translateX(0)}}
+/* ── TOGGLE ── */
+.trow{display:flex;align-items:center;justify-content:space-between;padding:13px 0;border-bottom:1px solid var(--bdr);gap:12px}
+.tlbl{font-size:14px;font-weight:600}
+.tdsc{font-size:12px;color:var(--txd);margin-top:2px}
+.tog{position:relative;width:50px;height:26px;flex-shrink:0}
+.tog input{opacity:0;width:0;height:0}
+.sldr{position:absolute;inset:0;background:var(--bg3);border:1px solid var(--bdr);border-radius:26px;cursor:pointer;transition:.3s}
+.sldr:before{content:'';position:absolute;width:18px;height:18px;border-radius:50%;background:#555;top:3px;left:3px;transition:.3s}
+input:checked+.sldr{background:rgba(0,255,136,.1);border-color:var(--ng);box-shadow:0 0 12px rgba(0,255,136,.25)}
+input:checked+.sldr:before{transform:translateX(24px);background:var(--ng);box-shadow:0 0 8px var(--ng)}
 
-/* ── CALENDAR ── */
-.cal-day-names{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:6px}
-.cal-day-name{text-align:center;font-size:9.5px;color:var(--text3);padding:5px;font-weight:700;letter-spacing:1px}
-.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
-.cal-day{min-height:64px;background:var(--bg2);border:1px solid var(--border);border-radius:7px;padding:6px;font-size:11px}
-.cal-day.today{border-color:var(--neon);background:rgba(0,191,255,.07)}
-.cal-day-num{font-weight:700;color:var(--text2);margin-bottom:4px;font-size:12px}
-.cal-day.today .cal-day-num{color:var(--neon)}
-.cal-event{background:rgba(0,80,180,.25);border-radius:4px;padding:2px 5px;margin-bottom:2px;font-size:10px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+/* ── STATUS MSGS ── */
+.sm{padding:11px 14px;border-radius:6px;font-size:13px;margin:10px 0;border-left:3px solid;display:none}
+.sm.ok{background:rgba(0,255,136,.06);border-color:var(--ng);color:var(--ng)}
+.sm.er{background:rgba(255,51,102,.06);border-color:var(--nr);color:var(--nr)}
+.sm.inf{background:rgba(0,212,255,.06);border-color:var(--nb);color:var(--nb)}
+.sm.show{display:block}
+
+/* ── SUMMARY ── */
+.sumbox{background:rgba(255,230,0,.04);border:1px solid rgba(255,230,0,.25);border-radius:8px;padding:13px;margin:12px 0;font-size:14px;line-height:1.65;color:var(--tx)}
+
+/* ── PROVIDERS ── */
+.provgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+.prov{background:var(--bg3);border:1px solid var(--bdr);border-radius:7px;padding:10px 8px;cursor:pointer;text-align:center;transition:all .2s;color:var(--txd);font-family:'Orbitron',sans-serif;font-size:10px;letter-spacing:1px}
+.prov:hover{border-color:#555;color:var(--tx)}
+.prov.act{border-color:var(--nb);color:var(--nb);background:rgba(0,212,255,.07);box-shadow:0 0 10px rgba(0,212,255,.18)}
+.prov .ft{display:block;font-size:8px;margin-top:3px;letter-spacing:.5px}
+.ft-free{color:var(--ng)}
+.ft-paid{color:var(--txd)}
+
+/* ── DASH GRID ── */
+.dgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.dcard{background:var(--bg3);border:1px solid var(--bdr);border-radius:9px;padding:12px 14px}
+.dsym{font-family:'Orbitron',sans-serif;font-size:10px;letter-spacing:1.5px;color:var(--txd);margin-bottom:6px}
+.dprc{font-family:'Orbitron',sans-serif;font-size:18px;font-weight:700;color:var(--txb)}
+.dchg{font-size:12px;margin-top:3px}
+.dhl{font-size:10px;color:var(--txd);margin-top:4px}
+
+/* ── GMAIL STATUS ── */
+.gstatus{display:flex;align-items:center;gap:10px;padding:12px;background:var(--bg3);border-radius:8px;margin-bottom:14px}
+.gdot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.gdot.on{background:var(--ng);box-shadow:0 0 8px var(--ng)}
+.gdot.off{background:#444}
+.gtext{font-size:13px;font-weight:600}
+.gsub{font-size:11px;color:var(--txd)}
+
+/* ── ALERT HISTORY ── */
+.ah{background:var(--bg3);border-left:3px solid var(--ng);border-radius:0 6px 6px 0;padding:10px 12px;margin-bottom:8px}
+.aht{font-family:'Orbitron',sans-serif;font-size:10px;color:var(--txd);margin-bottom:4px}
+
+/* ── EMPTY ── */
+.empty{text-align:center;padding:40px 20px;color:var(--txd)}
+.eico{font-size:44px;margin-bottom:14px;opacity:.4}
+.etit{font-family:'Orbitron',sans-serif;font-size:12px;letter-spacing:2px;margin-bottom:8px}
 
 /* ── DIVIDER ── */
-.divider{height:1px;background:var(--border);margin:18px 0}
-.mt8{margin-top:8px}.mt16{margin-top:16px}.mb16{margin-bottom:16px}
-.flex{display:flex}.flex-between{display:flex;justify-content:space-between;align-items:center}
-.gap8{gap:8px}.gap12{gap:12px}.gap16{gap:16px}.flex-wrap{flex-wrap:wrap}
-.text-sm{font-size:12px}.text-muted{color:var(--text2)}.text-neon{color:var(--neon)}.text-gold{color:var(--gold)}.text-green{color:var(--green)}.text-red{color:var(--red)}
+.ndiv{height:1px;background:linear-gradient(90deg,transparent,var(--np),transparent);margin:18px 0;opacity:.4}
 
-::-webkit-scrollbar{width:4px;height:4px}
-::-webkit-scrollbar-track{background:var(--bg2)}
-::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+/* ── RANK ── */
+.rank{font-family:'Orbitron',sans-serif;font-size:28px;font-weight:900;color:rgba(255,255,255,.06);line-height:1}
 
-/* ── RESPONSIVE ── */
-.hamburger{display:none;position:fixed;top:12px;left:12px;z-index:200;
-  background:var(--panel);border:1px solid var(--border2);border-radius:8px;
-  width:40px;height:40px;align-items:center;justify-content:center;
-  cursor:pointer;flex-direction:column;gap:5px;padding:10px;}
-.hamburger span{display:block;width:20px;height:2px;background:var(--neon);border-radius:2px;transition:all .25s}
-.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:99}
+/* ── NEWS ── */
+.ncard{background:var(--bg3);border:1px solid var(--bdr);border-radius:8px;padding:14px;margin-bottom:10px;transition:border-color .2s}
+.ncard:hover{border-color:#444}
+.nsrc{font-family:'Orbitron',sans-serif;font-size:9px;letter-spacing:.5px}
+.ntit{font-weight:600;font-size:14px;color:var(--txb);line-height:1.35;margin:5px 0}
+.ndsc{font-size:12px;color:var(--txd);line-height:1.5}
+.nrd{font-family:'Orbitron',sans-serif;font-size:9px;color:var(--nb);letter-spacing:.5px;margin-top:6px;display:inline-block}
 
-@media(max-width:900px){
-  :root{--sw:0px}
-  .hamburger{display:flex}
-  .sidebar{
-    left:-280px;width:280px;
-    transition:left .25s cubic-bezier(.4,0,.2,1);
-    z-index:101;
-  }
-  .sidebar.open{left:0}
-  .overlay.on{display:block}
-  .main{margin-left:0!important}
-  .topbar{padding:0 14px 0 60px}
-  .page-content{padding:16px}
-  .grid2{grid-template-columns:1fr!important}
-  .stats-grid{grid-template-columns:1fr 1fr!important}
-  .plat-grid{grid-template-columns:1fr 1fr!important}
-  .tone-grid{grid-template-columns:1fr 1fr 1fr!important}
-  .worker-bar{margin:10px 8px 4px}
-}
-@media(max-width:480px){
-  .stats-grid{grid-template-columns:1fr 1fr!important}
-  .plat-grid{grid-template-columns:1fr 1fr!important}
-  .tone-grid{grid-template-columns:1fr 1fr!important}
-  .topbar-title{font-size:11px}
-  .stat-num{font-size:28px}
-  .page-content{padding:12px}
-  .card{padding:14px}
+@media(max-width:600px){
+  .row2{grid-template-columns:1fr}
+  .provgrid{grid-template-columns:repeat(2,1fr)}
+  .pcells{grid-template-columns:repeat(3,1fr)}
+  .dgrid{grid-template-columns:1fr 1fr}
 }
 </style>
 </head>
 <body>
 
-<div class="notif" id="notif"></div>
-
-<div style="display:flex;height:100vh">
-<!-- ═ HAMBURGER ═ -->
-<button class="hamburger" id="hamburger" onclick="toggleSidebar()" aria-label="Menu">
-  <span></span><span></span><span></span>
-</button>
-<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
-
-<!-- ═══ SIDEBAR ═══ -->
-<aside class="sidebar">
-  <div class="sidebar-head">
-    <div class="logo-block">
-      <div class="neon-title">PGI &bull; POSTING<br>MARKETING</div>
-      <div class="logo-sub">Administration</div>
-    </div>
-    <div class="worker-status">
-      <div class="dot dot-orange" id="ws-dot"></div>
-      <span style="color:var(--text3);font-size:10px" id="ws-txt">Non configuré</span>
-    </div>
+<!-- HEADER -->
+<header class="hdr">
+  <div class="logo">PGI<em> • </em>FINANCIAL PRO</div>
+  <div class="hdr-right">
+    <div class="hdr-time" id="clock">--:--:--</div>
+    <div class="live"><div class="dot"></div>LIVE</div>
   </div>
+</header>
 
-  <!-- Worker URL inline config -->
-  <div class="worker-bar">
-    <input type="url" id="worker-url-inp" placeholder="https://pgi-worker.xxx.workers.dev" title="URL du Cloudflare Worker">
-    <button class="btn btn-neon btn-sm" onclick="saveWorkerUrl()" title="Enregistrer">✓</button>
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner" id="ticker">
+    <span class="ti"><span class="sym">EUR/USD</span><span class="prc" id="tk-0">—</span><span class="up" id="tc-0">—</span></span>
+    <span class="ti"><span class="sym">GBP/USD</span><span class="prc" id="tk-1">—</span><span class="up" id="tc-1">—</span></span>
+    <span class="ti"><span class="sym">USD/JPY</span><span class="prc" id="tk-2">—</span><span class="up" id="tc-2">—</span></span>
+    <span class="ti"><span class="sym">CAC 40</span><span class="prc" id="tk-3">—</span><span class="up" id="tc-3">—</span></span>
+    <span class="ti"><span class="sym">NASDAQ</span><span class="prc" id="tk-4">—</span><span class="up" id="tc-4">—</span></span>
+    <span class="ti"><span class="sym">S&amp;P 500</span><span class="prc" id="tk-5">—</span><span class="up" id="tc-5">—</span></span>
+    <span class="ti"><span class="sym">DOW JONES</span><span class="prc" id="tk-6">—</span><span class="up" id="tc-6">—</span></span>
+    <span class="ti"><span class="sym">BTC/USD</span><span class="prc" id="tk-7">—</span><span class="up" id="tc-7">—</span></span>
+    <span class="ti"><span class="sym">OR (GOLD)</span><span class="prc" id="tk-8">—</span><span class="up" id="tc-8">—</span></span>
+    <span class="ti"><span class="sym">PÉTROLE WTI</span><span class="prc" id="tk-9">—</span><span class="up" id="tc-9">—</span></span>
+    <!-- dupliqué pour boucle seamless -->
+    <span class="ti"><span class="sym">EUR/USD</span><span class="prc">—</span><span class="up">—</span></span>
+    <span class="ti"><span class="sym">GBP/USD</span><span class="prc">—</span><span class="up">—</span></span>
+    <span class="ti"><span class="sym">USD/JPY</span><span class="prc">—</span><span class="up">—</span></span>
+    <span class="ti"><span class="sym">CAC 40</span><span class="prc">—</span><span class="up">—</span></span>
+    <span class="ti"><span class="sym">NASDAQ</span><span class="prc">—</span><span class="up">—</span></span>
+    <span class="ti"><span class="sym">S&amp;P 500</span><span class="prc">—</span><span class="up">—</span></span>
+    <span class="ti"><span class="sym">DOW JONES</span><span class="prc">—</span><span class="up">—</span></span>
+    <span class="ti"><span class="sym">BTC/USD</span><span class="prc">—</span><span class="up">—</span></span>
+    <span class="ti"><span class="sym">OR (GOLD)</span><span class="prc">—</span><span class="up">—</span></span>
+    <span class="ti"><span class="sym">PÉTROLE WTI</span><span class="prc">—</span><span class="up">—</span></span>
   </div>
-  <div style="padding:0 14px 8px;font-size:9px;color:var(--text3)">URL du Worker Cloudflare</div>
-
-  <div class="nav-section">Publication</div>
-  <div class="nav-item active" onclick="nav('dashboard')" id="nav-dashboard"><span class="nav-icon">◈</span>Tableau de bord</div>
-  <div class="nav-item" onclick="nav('create')" id="nav-create"><span class="nav-icon">✦</span>Créer un post</div>
-  <div class="nav-item" onclick="nav('myposts')" id="nav-myposts"><span class="nav-icon">📋</span>Mes posts<span class="nav-badge" id="myposts-badge" style="display:none">0</span></div>
-  <div class="nav-item" onclick="nav('automation')" id="nav-automation"><span class="nav-icon">⚙</span>Automatisation</div>
-  <div class="nav-item" onclick="nav('queue')" id="nav-queue"><span class="nav-icon">⧗</span>File de validation<span class="nav-badge" id="queue-badge" style="display:none">0</span></div>
-  <div class="nav-item" onclick="nav('history')" id="nav-history"><span class="nav-icon">◎</span>Historique</div>
-  <div class="nav-item" onclick="nav('calendar')" id="nav-calendar"><span class="nav-icon">▦</span>Calendrier</div>
-
-  <div class="nav-section">Connexions</div>
-  <div class="nav-item" onclick="nav('connections')" id="nav-connections"><span class="nav-icon">⟳</span>Plateformes</div>
-  <div class="nav-item" onclick="nav('platforms')" id="nav-platforms"><span class="nav-icon">⬡</span>Statut plateformes</div>
-  <div class="nav-item" onclick="nav('references')" id="nav-references"><span class="nav-icon">◉</span>Images de référence</div>
-  <div class="nav-item" onclick="nav('links')" id="nav-links"><span class="nav-icon">⬢</span>Liens du site</div>
-
-  <div class="nav-section">Système</div>
-  <div class="nav-item" onclick="nav('ai')" id="nav-ai"><span class="nav-icon">⚡</span>Moteur AI</div>
-  <div class="nav-item" onclick="nav('email')" id="nav-email"><span class="nav-icon">✉</span>Email</div>
-  <div class="nav-item" onclick="nav('logs')" id="nav-logs"><span class="nav-icon">▤</span>Logs</div>
-
-  <div class="sidebar-footer">
-    <div style="margin-bottom:4px">clairvoyancemedium.com</div>
-    <div>06 95 46 89 23</div>
-    <div style="margin-top:4px;color:var(--text3)">chicsensation@gmail.com</div>
-  </div>
-</aside>
-
-<!-- ═══ MAIN ═══ -->
-<main class="main">
-  <div class="topbar">
-    <div class="topbar-title" id="page-title">Tableau de bord</div>
-    <div class="topbar-right">
-      <button class="btn btn-ghost btn-sm" onclick="loadStats()">↺</button>
-      <button class="btn btn-neon btn-sm" onclick="nav('create')">+ Nouveau post</button>
-    </div>
-  </div>
-
-  <div class="page-content">
-
-    <!-- ══ DASHBOARD ══ -->
-    <div class="page active" id="page-dashboard">
-      <div class="stats-grid">
-        <div class="stat-card"><div class="stat-num" id="s-total">—</div><div class="stat-lbl">Posts générés</div></div>
-        <div class="stat-card"><div class="stat-num text-green" id="s-pub">—</div><div class="stat-lbl">Publiés</div></div>
-        <div class="stat-card"><div class="stat-num" style="background:linear-gradient(135deg,var(--gold),#a0800a);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text" id="s-pend">—</div><div class="stat-lbl">En attente</div></div>
-        <div class="stat-card"><div class="stat-num" id="s-plats">20</div><div class="stat-lbl">Connecteurs</div></div>
-      </div>
-      <div class="grid2">
-        <div class="card">
-          <div class="card-title">Publications récentes</div>
-          <div id="dash-recent"><div class="text-muted text-sm">Chargement...</div></div>
-        </div>
-        <div class="card">
-          <div class="card-title">Répartition par plateforme</div>
-          <div id="dash-platstat"><div class="text-muted text-sm">Chargement...</div></div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-title">Démarrage rapide</div>
-        <div class="flex gap12 flex-wrap">
-          <button class="btn btn-neon" onclick="nav('create')">✦ Créer un post</button>
-          <button class="btn btn-ghost" onclick="nav('queue')">⧗ File de validation</button>
-          <button class="btn btn-ghost" onclick="nav('connections')">⟳ Connexions</button>
-          <button class="btn btn-ghost" onclick="nav('ai')">⚡ Moteur AI</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- ══ CREATE ══ -->
-    <div class="page" id="page-create">
-      <div class="card">
-        <div class="card-title">Plateformes cibles</div>
-        <div class="plat-grid" id="plat-checklist">
-          <!-- injected by JS -->
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-title">Votre demande de publication</div>
-        <div class="fgrp">
-          <label class="flabel">Description *</label>
-          <textarea class="ftextarea" id="c-desc" rows="4" placeholder="Décrivez ce que vous voulez publier, le message, l'objectif..." oninput="onDescInput(this.value)"></textarea>
-          <div class="link-suggest" id="link-suggest">
-            <span class="text-muted" style="font-size:10px">Lien suggéré automatiquement :</span>
-            <div class="link-url" id="ls-url"></div>
-            <div class="link-page" id="ls-page"></div>
-          </div>
-        </div>
-        <div class="grid2">
-          <div class="fgrp">
-            <label class="flabel">Thème / Objectif</label>
-            <select class="fselect" id="c-theme">
-              <option value="">Sélectionner un thème...</option>
-              <option value="telephone">Voyance par téléphone</option>
-              <option value="email">Voyance par email</option>
-              <option value="sentimental">Consultation sentimentale</option>
-              <option value="retour">Retour sentimental / Ex</option>
-              <option value="urgence">Consultation urgente</option>
-              <option value="horoscope">Horoscope / Astrologie</option>
-              <option value="desenvoutement">Désenvoûtement</option>
-              <option value="magie">Magie blanche / rouge</option>
-              <option value="mediumnite">Médiumnité / Défunt</option>
-              <option value="pendule">Voyance par pendule</option>
-              <option value="photo">Voyance par photo</option>
-              <option value="temoignage">Témoignage client</option>
-              <option value="presentation">Présentation de Frederick</option>
-              <option value="entreprise">Voyance entreprise</option>
-            </select>
-          </div>
-          <div class="fgrp">
-            <label class="flabel">Date / Heure de publication</label>
-            <input type="datetime-local" class="finput" id="c-date">
-          </div>
-        </div>
-        <div class="fgrp">
-          <label class="flabel">Ton du post</label>
-          <div class="tone-grid">
-            <div class="tone-btn active" data-tone="balanced" onclick="selTone(this)">Équilibré</div>
-            <div class="tone-btn" data-tone="emotional" onclick="selTone(this)">Émotionnel</div>
-            <div class="tone-btn" data-tone="selling" onclick="selTone(this)">Vendeur</div>
-            <div class="tone-btn" data-tone="informative" onclick="selTone(this)">Informatif</div>
-            <div class="tone-btn" data-tone="urgent" onclick="selTone(this)">Urgent</div>
-            <div class="tone-btn" data-tone="engaging" onclick="selTone(this)">Engageant</div>
-          </div>
-        </div>
-        <div class="fgrp">
-          <label class="flabel">Image de référence ou exemple (optionnel)</label>
-          <input type="file" class="finput" id="c-file" accept="image/*" style="padding:9px">
-          <div class="fhelp">Joignez une image pour indiquer le style visuel attendu.</div>
-        </div>
-      </div>
-
-      <div class="prog-bar" id="gen-prog"><div class="prog-fill"></div></div>
-
-      <div class="flex gap12 flex-wrap mb16">
-        <button class="btn btn-neon" id="btn-gen" onclick="generatePost()">
-          <span class="loader" id="gen-ldr" style="display:none"></span>
-          ✦ Générer et envoyer
-        </button>
-        <button class="btn btn-ghost" onclick="resetCreate()">Réinitialiser</button>
-      </div>
-
-      <!-- RESULT -->
-      <div class="result-box" id="result-box">
-        <div class="card-title mb16">Contenu généré — Email de validation envoyé à chicsensation@gmail.com</div>
-        <div class="r-hook" id="r-hook"></div>
-        <div class="grid2">
-          <div>
-            <div class="r-section"><div class="r-lbl">Texte principal</div><div class="r-val" id="r-main"></div></div>
-            <div class="r-section"><div class="r-lbl">Texte sur le visuel</div><div class="r-val text-neon" id="r-itext"></div></div>
-            <div class="r-section"><div class="r-lbl">Appel à l'action</div><div class="r-val text-gold" id="r-cta"></div></div>
-            <div class="r-section"><div class="r-lbl">Lien sélectionné</div><div class="r-val" id="r-link" style="font-size:11px"></div></div>
-          </div>
-          <div>
-            <div class="r-lbl mb16">Visuel généré</div>
-            <div class="img-box" id="r-img-box">
-              <div class="img-placeholder"><div class="img-ph-icon">🎨</div><div id="r-img-status">En cours de génération...</div></div>
-            </div>
-          </div>
-        </div>
-        <div class="divider"></div>
-        <div class="card-title mb16">Contenu par plateforme</div>
-        <div id="r-platforms"></div>
-        <div class="divider"></div>
-        <div style="background:rgba(0,187,85,.07);border:1px solid rgba(0,187,85,.22);border-radius:8px;padding:16px;text-align:center">
-          <div style="font-size:14px;color:var(--green);font-weight:700;margin-bottom:5px">Email envoyé à chicsensation@gmail.com</div>
-          <div class="text-sm text-muted">Validez ou demandez une modification depuis votre messagerie. La publication n'aura lieu qu'après votre accord explicite.</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ══ QUEUE ══ -->
-    <div class="page" id="page-queue">
-      <div class="card">
-        <div class="card-title flex-between">File de validation<button class="btn btn-ghost btn-sm" onclick="loadQueue()">↺ Actualiser</button></div>
-        <div id="queue-list"><div class="text-muted text-sm">Chargement...</div></div>
-      </div>
-    </div>
-
-    <!-- ══ HISTORY ══ -->
-    <div class="page" id="page-history">
-      <div class="card">
-        <div class="card-title flex-between">Historique<button class="btn btn-ghost btn-sm" onclick="loadHistory()">↺</button></div>
-        <div class="t-wrap">
-          <table>
-            <thead><tr><th>ID</th><th>Description</th><th>Plateformes</th><th>Statut</th><th>Date</th><th></th></tr></thead>
-            <tbody id="hist-tbody"><tr><td colspan="6" class="text-muted text-sm" style="padding:20px">Chargement...</td></tr></tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <!-- ══ CALENDAR ══ -->
-    <div class="page" id="page-calendar">
-      <div class="card">
-        <div class="card-title flex-between">
-          <span id="cal-month-label">Calendrier</span>
-          <div class="flex gap8">
-            <button class="btn btn-ghost btn-sm" onclick="calPrev()">◀</button>
-            <button class="btn btn-ghost btn-sm" onclick="calNext()">▶</button>
-          </div>
-        </div>
-        <div class="cal-day-names" id="cal-day-names"></div>
-        <div class="cal-grid" id="cal-grid"></div>
-      </div>
-    </div>
-
-    <!-- ══ PLATFORMS STATUS ══ -->
-    <div class="page" id="page-platforms">
-      <div class="card">
-        <div class="card-title flex-between">Statut des plateformes<button class="btn btn-ghost btn-sm" onclick="loadPlatStatus()">↺</button></div>
-        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px" id="plat-status-grid">
-          <div class="text-muted text-sm">Chargement...</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ══ CONNECTIONS ══ -->
-    <div class="page" id="page-connections">
-      <div class="card">
-        <div class="card-title">Connexion aux plateformes</div>
-        <p class="text-sm text-muted mb16">Renseignez les identifiants pour chaque plateforme. Toutes les données sont chiffrées et stockées côté serveur uniquement.</p>
-        <div id="conn-list"></div>
-      </div>
-    </div>
-
-    <!-- ══ REFERENCES ══ -->
-    <div class="page" id="page-references">
-      <div class="card">
-        <div class="card-title">Image de référence visuelle</div>
-        <p class="text-sm text-muted mb16">Cette image inspire l'ambiance, la composition et le style de chaque visuel généré.</p>
-        <div class="fgrp">
-          <label class="flabel">Importer une image de référence</label>
-          <input type="file" class="finput" id="ref-inp" accept="image/*" style="padding:9px">
-        </div>
-        <button class="btn btn-neon btn-sm mt8" onclick="saveRef()">Sauvegarder la référence</button>
-        <div id="ref-preview" class="mt16"></div>
-      </div>
-    </div>
-
-    <!-- ══ LINKS ══ -->
-    <div class="page" id="page-links">
-      <div class="card">
-        <div class="card-title">Pages du site et sélection automatique des liens</div>
-        <p class="text-sm text-muted mb16">Le système choisit automatiquement le lien le plus pertinent selon le contenu du post.</p>
-        <div class="t-wrap"><table>
-          <thead><tr><th>Page</th><th>URL</th><th>Thèmes de correspondance</th></tr></thead>
-          <tbody id="links-tbody"></tbody>
-        </table></div>
-      </div>
-    </div>
-
-    <!-- ══ AI ENGINE ══ -->
-    <div class="page" id="page-ai">
-      <div class="card">
-        <div class="card-title">Moteur AI — Génération de texte</div>
-        <div class="grid2">
-          <div class="fgrp">
-            <label class="flabel">Fournisseur AI</label>
-            <select class="fselect" id="ai-provider" onchange="onAiProviderChange()">
-              <option value="openai">OpenAI GPT-4o</option>
-              <option value="mistral">Mistral AI</option>
-              <option value="gemini">Google Gemini</option>
-              <option value="groq">Groq (Llama 3.3)</option>
-              <option value="cohere">Cohere Command R+</option>
-              <option value="anthropic">Anthropic Claude</option>
-              <option value="grok">xAI Grok</option>
-              <option value="deepseek">DeepSeek</option>
-              <option value="custom">API custom (OpenAI-compatible)</option>
-            </select>
-          </div>
-          <div class="fgrp">
-            <label class="flabel">Modèle (optionnel)</label>
-            <input class="finput" id="ai-model" placeholder="Laisser vide pour le modèle par défaut">
-            <div class="fhelp" id="ai-model-hint"></div>
-          </div>
-        </div>
-        <div class="fgrp">
-          <label class="flabel">Clé API *</label>
-          <input type="password" class="finput" id="ai-key" placeholder="sk-... / re_... / AIza... selon le fournisseur">
-        </div>
-        <div class="fgrp" id="ai-endpoint-grp">
-          <label class="flabel">Endpoint API (custom uniquement)</label>
-          <input class="finput" id="ai-endpoint" placeholder="https://votre-api.com/v1/chat/completions">
-        </div>
-        <div class="divider"></div>
-        <div class="card-title">Génération d'images</div>
-        <div class="grid2">
-          <div class="fgrp">
-            <label class="flabel">Fournisseur d'images</label>
-            <select class="fselect" id="img-provider">
-              <option value="dalle3">DALL-E 3 (OpenAI)</option>
-              <option value="stability">Stability AI (SDXL)</option>
-              <option value="none">Pas de génération d'image</option>
-            </select>
-          </div>
-          <div class="fgrp">
-            <label class="flabel">Clé API images (si différente)</label>
-            <input type="password" class="finput" id="img-key" placeholder="Laisser vide pour utiliser la même clé">
-            <div class="fhelp">Utilisé uniquement si différent du fournisseur principal.</div>
-          </div>
-        </div>
-        <div class="flex gap12 mt16">
-          <button class="btn btn-neon" onclick="saveAiConfig()">Sauvegarder</button>
-          <button class="btn btn-ghost btn-sm" onclick="testAiConfig()">Tester la configuration</button>
-        </div>
-        <div id="ai-test-result" class="mt16" style="display:none"></div>
-      </div>
-    </div>
-
-    <!-- ══ EMAIL ══ -->
-    <div class="page" id="page-email">
-      <div class="card">
-        <div class="card-title">Configuration email</div>
-        <div class="fgrp">
-          <label class="flabel">Adresse de destination</label>
-          <input class="finput" value="chicsensation@gmail.com" readonly>
-          <div class="fhelp">Toutes les demandes de validation sont envoyées à cette adresse.</div>
-        </div>
-        <div class="fgrp">
-          <label class="flabel">Clé API Resend *</label>
-          <input type="password" class="finput" id="email-resend-key" placeholder="re_...">
-          <div class="fhelp"><a href="https://resend.com" target="_blank" style="color:var(--neon)">resend.com</a> — Gratuit jusqu'à 3000 emails/mois.</div>
-        </div>
-        <div class="fgrp">
-          <label class="flabel">Adresse expéditeur</label>
-          <input class="finput" id="email-from" placeholder="PGI Posting &lt;noreply@votredomaine.com&gt;">
-          <div class="fhelp">Laissez vide pour utiliser l'adresse Resend par défaut.</div>
-        </div>
-        <button class="btn btn-neon mt16" onclick="saveEmailConfig()">Sauvegarder</button>
-      </div>
-    </div>
-
-    <!-- ══ MES POSTS (BANK) ══ -->
-    <div class="page" id="page-myposts">
-      <div class="card">
-        <div class="card-title flex-between">
-          Mes posts sauvegardés
-          <button class="btn btn-neon btn-sm" onclick="openNewSchedModal()">+ Nouveau post</button>
-        </div>
-        <p class="text-sm text-muted mb16">Préparez et stockez vos posts. Programmez-les ou publiez-les à la demande. Modifiez ou supprimez à tout moment.</p>
-
-        <!-- Filters -->
-        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">
-          <button class="btn btn-ghost btn-sm sched-filter active" data-filter="all" onclick="filterSched(this,'all')">Tous</button>
-          <button class="btn btn-ghost btn-sm sched-filter" data-filter="draft" onclick="filterSched(this,'draft')">Brouillons</button>
-          <button class="btn btn-ghost btn-sm sched-filter" data-filter="ready" onclick="filterSched(this,'ready')">Prêts</button>
-          <button class="btn btn-ghost btn-sm sched-filter" data-filter="pending_validation" onclick="filterSched(this,'pending_validation')">En validation</button>
-          <button class="btn btn-ghost btn-sm sched-filter" data-filter="published" onclick="filterSched(this,'published')">Publiés</button>
-          <button class="btn btn-ghost btn-sm" onclick="loadMyPosts()" style="margin-left:auto">↺</button>
-        </div>
-
-        <div id="myposts-list"><div class="text-muted text-sm">Chargement...</div></div>
-      </div>
-
-      <!-- Modal nouveau post schedulé -->
-      <div id="sched-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:500;align-items:center;justify-content:center;padding:16px">
-        <div style="background:var(--panel);border:1px solid var(--border2);border-radius:14px;width:100%;max-width:640px;max-height:90vh;overflow-y:auto;padding:28px">
-          <div class="flex-between mb16">
-            <div class="card-title" style="margin:0;border:none;padding:0">Nouveau post à programmer</div>
-            <button class="btn btn-ghost btn-sm" onclick="closeSchedModal()">✕</button>
-          </div>
-
-          <div class="fgrp">
-            <label class="flabel">Nom du post *</label>
-            <input class="finput" id="sm-name" placeholder="Ex: Post voyance téléphone mardi">
-          </div>
-          <div class="fgrp">
-            <label class="flabel">Description *</label>
-            <textarea class="ftextarea" id="sm-desc" rows="3" placeholder="Ce que vous voulez publier..."></textarea>
-          </div>
-          <div class="fgrp">
-            <label class="flabel">Plateformes *</label>
-            <div class="plat-grid" id="sm-platforms" style="grid-template-columns:repeat(auto-fill,minmax(110px,1fr))"></div>
-          </div>
-          <div class="grid2">
-            <div class="fgrp">
-              <label class="flabel">Thème</label>
-              <select class="fselect" id="sm-theme">
-                <option value="">Choisir...</option>
-                <option value="telephone">Voyance téléphone</option>
-                <option value="sentimental">Consultation sentimentale</option>
-                <option value="retour">Retour sentimental</option>
-                <option value="urgence">Urgence</option>
-                <option value="horoscope">Horoscope</option>
-                <option value="magie">Magie</option>
-                <option value="desenvoutement">Désenvoûtement</option>
-                <option value="temoignage">Témoignage</option>
-                <option value="presentation">Présentation Frederick</option>
-              </select>
-            </div>
-            <div class="fgrp">
-              <label class="flabel">Ton</label>
-              <select class="fselect" id="sm-tone">
-                <option value="balanced">Équilibré</option>
-                <option value="emotional">Émotionnel</option>
-                <option value="selling">Vendeur</option>
-                <option value="urgent">Urgent</option>
-                <option value="engaging">Engageant</option>
-              </select>
-            </div>
-          </div>
-          <div class="fgrp">
-            <label class="flabel">Date et heure de publication (optionnel)</label>
-            <input type="datetime-local" class="finput" id="sm-date">
-            <div class="fhelp">Laissez vide pour publier manuellement à la demande.</div>
-          </div>
-          <div class="fgrp">
-            <label class="flabel" style="display:flex;align-items:center;gap:10px;cursor:pointer">
-              <input type="checkbox" id="sm-generate" style="width:16px;height:16px;accent-color:var(--neon)">
-              Générer le contenu AI maintenant (sinon au moment de publier)
-            </label>
-          </div>
-          <div style="display:flex;gap:12px;margin-top:4px">
-            <button class="btn btn-neon btn-full" onclick="saveScheduledPost()">
-              <span class="loader" id="sm-ldr" style="display:none"></span>
-              Sauvegarder
-            </button>
-            <button class="btn btn-ghost" onclick="closeSchedModal()">Annuler</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ══ AUTOMATISATION ══ -->
-    <div class="page" id="page-automation">
-      <div class="card">
-        <div class="card-title flex-between">
-          Automatisation des publications
-          <button class="btn btn-neon btn-sm" onclick="openAutoModal()">+ Nouvelle règle</button>
-        </div>
-        <p class="text-sm text-muted mb16">
-          Créez des règles d'envoi automatique. Le système générera et vous enverra un post pour validation selon la fréquence choisie.
-          Le cron Cloudflare s'exécute toutes les heures et vérifie les règles actives.
-        </p>
-
-        <!-- Frequency legend -->
-        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px">
-          <span class="badge b-blue">Quotidien</span>
-          <span class="badge b-blue">Tous les 2 jours</span>
-          <span class="badge b-blue">Tous les 3 jours</span>
-          <span class="badge b-blue">Hebdomadaire</span>
-          <span class="badge b-blue">Bihebdomadaire</span>
-          <span class="badge b-blue">Mensuel</span>
-        </div>
-
-        <div id="auto-list"><div class="text-muted text-sm">Chargement...</div></div>
-      </div>
-
-      <!-- Modal automatisation -->
-      <div id="auto-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:500;align-items:center;justify-content:center;padding:16px">
-        <div style="background:var(--panel);border:1px solid var(--border2);border-radius:14px;width:100%;max-width:640px;max-height:90vh;overflow-y:auto;padding:28px">
-          <div class="flex-between mb16">
-            <div class="card-title" style="margin:0;border:none;padding:0" id="auto-modal-title">Nouvelle règle d'automatisation</div>
-            <button class="btn btn-ghost btn-sm" onclick="closeAutoModal()">✕</button>
-          </div>
-
-          <input type="hidden" id="am-id">
-          <div class="fgrp">
-            <label class="flabel">Nom de la règle *</label>
-            <input class="finput" id="am-name" placeholder="Ex: Post quotidien voyance téléphone">
-          </div>
-          <div class="fgrp">
-            <label class="flabel">Description / Consigne *</label>
-            <textarea class="ftextarea" id="am-desc" rows="3" placeholder="Décrivez le type de post à générer automatiquement..."></textarea>
-          </div>
-          <div class="fgrp">
-            <label class="flabel">Plateformes *</label>
-            <div class="plat-grid" id="am-platforms" style="grid-template-columns:repeat(auto-fill,minmax(110px,1fr))"></div>
-          </div>
-          <div class="grid2">
-            <div class="fgrp">
-              <label class="flabel">Fréquence *</label>
-              <select class="fselect" id="am-freq">
-                <option value="daily">Quotidien (1 fois/jour)</option>
-                <option value="2days">Tous les 2 jours</option>
-                <option value="3days">Tous les 3 jours</option>
-                <option value="weekly">Hebdomadaire</option>
-                <option value="biweekly">Bihebdomadaire</option>
-                <option value="monthly">Mensuel</option>
-              </select>
-            </div>
-            <div class="fgrp">
-              <label class="flabel">Heure d'envoi (Paris)</label>
-              <input type="time" class="finput" id="am-hour" value="09:00">
-            </div>
-          </div>
-          <div class="grid2">
-            <div class="fgrp">
-              <label class="flabel">Thème</label>
-              <select class="fselect" id="am-theme">
-                <option value="">Varié (selon description)</option>
-                <option value="telephone">Voyance téléphone</option>
-                <option value="sentimental">Sentimental</option>
-                <option value="retour">Retour affectif</option>
-                <option value="urgence">Urgence</option>
-                <option value="horoscope">Horoscope</option>
-                <option value="magie">Magie</option>
-                <option value="temoignage">Témoignage</option>
-              </select>
-            </div>
-            <div class="fgrp">
-              <label class="flabel">Ton</label>
-              <select class="fselect" id="am-tone">
-                <option value="balanced">Équilibré</option>
-                <option value="emotional">Émotionnel</option>
-                <option value="selling">Vendeur</option>
-                <option value="urgent">Urgent</option>
-                <option value="engaging">Engageant</option>
-              </select>
-            </div>
-          </div>
-          <div style="display:flex;gap:12px;margin-top:8px">
-            <button class="btn btn-neon btn-full" onclick="saveAutomation()">
-              <span class="loader" id="am-ldr" style="display:none"></span>
-              Sauvegarder la règle
-            </button>
-            <button class="btn btn-ghost" onclick="closeAutoModal()">Annuler</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ══ LOGS ══ -->
-    <div class="page" id="page-logs">
-      <div class="card">
-        <div class="card-title flex-between">Logs système<button class="btn btn-ghost btn-sm" onclick="loadLogs()">↺</button></div>
-        <div id="logs-out" style="font-family:monospace;font-size:11.5px;color:var(--text2);line-height:1.9;max-height:560px;overflow-y:auto">
-          En attente...
-        </div>
-      </div>
-    </div>
-
-  </div><!-- /page-content -->
-</main>
 </div>
 
+<!-- NAVIGATION -->
+<nav id="nav">
+  <div class="nt act" onclick="sw('scanner')">🔍 SCANNER</div>
+  <div class="nt" onclick="sw('analyse')">📊 ANALYSE</div>
+  <div class="nt" onclick="sw('marche')">📈 MARCHÉS</div>
+  <div class="nt" onclick="sw('news')">📰 NEWS</div>
+  <div class="nt" onclick="sw('alertes')">🔔 ALERTES</div>
+  <div class="nt" onclick="sw('reglages')">⚙️ RÉGLAGES</div>
+</nav>
+
+<!-- ================================================================ -->
+<!-- TAB SCANNER -->
+<!-- ================================================================ -->
+<div class="tab act" id="tab-scanner">
+
+  <div class="card">
+    <div class="card-t">🎯 SCANNER D'OPPORTUNITÉS MONDIALES</div>
+
+    <div class="row2">
+      <div class="fg">
+        <label>CATÉGORIE DE MARCHÉ</label>
+        <select id="sCat" onchange="fillScanMarkets()">
+          <option value="all">🌍 Tous les marchés</option>
+          <option value="forex_major">💱 Forex — Majeurs</option>
+          <option value="forex_minor">💱 Forex — Croisés</option>
+          <option value="forex_exotic">💱 Forex — Exotiques</option>
+          <option value="idx_us">🇺🇸 Indices USA</option>
+          <option value="idx_eu">🇪🇺 Indices Europe</option>
+          <option value="idx_asia">🌏 Indices Asie</option>
+          <option value="idx_other">🌍 Indices Monde</option>
+          <option value="commo">🥇 Matières Premières</option>
+          <option value="crypto">₿ Crypto-monnaies</option>
+        </select>
+      </div>
+      <div class="fg">
+        <label>INSTRUMENT SPÉCIFIQUE</label>
+        <select id="sMkt"><option value="all">Tous les instruments de la catégorie</option></select>
+      </div>
+    </div>
+
+    <div class="fg">
+      <label>NOMBRE D'OPPORTUNITÉS</label>
+      <select id="sLim">
+        <option value="5">Top 5</option>
+        <option value="10" selected>Top 10</option>
+        <option value="15">Top 15</option>
+        <option value="20">Top 20</option>
+      </select>
+    </div>
+
+    <button class="btn-scan" id="btnScan" onclick="doScan()">
+      🔍 ANALYSER LES MEILLEURES OPPORTUNITÉS MAINTENANT
+    </button>
+  </div>
+
+  <div id="scanOut"></div>
+</div>
+
+<!-- ================================================================ -->
+<!-- TAB ANALYSE -->
+<!-- ================================================================ -->
+<div class="tab" id="tab-analyse">
+
+  <div class="card">
+    <div class="card-t">📊 ANALYSE APPROFONDIE</div>
+
+    <div class="row2">
+      <div class="fg">
+        <label>CATÉGORIE</label>
+        <select id="aCat" onchange="fillAnalyseMarkets()">
+          <option value="forex_major">💱 Forex — Majeurs</option>
+          <option value="forex_minor">💱 Forex — Croisés</option>
+          <option value="forex_exotic">💱 Forex — Exotiques</option>
+          <option value="idx_us">🇺🇸 Indices USA</option>
+          <option value="idx_eu">🇪🇺 Indices Europe</option>
+          <option value="idx_asia">🌏 Indices Asie</option>
+          <option value="commo">🥇 Matières Premières</option>
+          <option value="crypto">₿ Crypto</option>
+        </select>
+      </div>
+      <div class="fg">
+        <label>INSTRUMENT</label>
+        <select id="aMkt"></select>
+      </div>
+    </div>
+
+    <div class="fg">
+      <label>SYMBOLE MANUEL (ex: AAPL, ETH-USD, ^DJI)</label>
+      <input type="text" id="aSym" placeholder="Laisser vide = utiliser la liste ci-dessus">
+    </div>
+
+    <div class="fg">
+      <label>MONTANT À INVESTIR (€)</label>
+      <input type="number" id="aAmt" value="1000" min="1">
+    </div>
+
+    <button class="btn-main" id="btnAnalyse" onclick="doAnalyse()">
+      ⚡ ANALYSER MAINTENANT
+    </button>
+  </div>
+
+  <div id="analyseOut"></div>
+</div>
+
+<!-- ================================================================ -->
+<!-- TAB MARCHÉS -->
+<!-- ================================================================ -->
+<div class="tab" id="tab-marche">
+  <div class="card">
+    <div class="card-t">📈 DONNÉES EN DIRECT</div>
+    <div class="fg">
+      <label>CATÉGORIE</label>
+      <select id="dCat" onchange="loadDash()">
+        <option value="forex_major">💱 Forex — Majeurs</option>
+        <option value="idx_us">🇺🇸 Indices USA</option>
+        <option value="idx_eu">🇪🇺 Indices Europe</option>
+        <option value="idx_asia">🌏 Indices Asie</option>
+        <option value="commo">🥇 Matières Premières</option>
+        <option value="crypto">₿ Crypto</option>
+      </select>
+    </div>
+    <button class="btn-sec" onclick="loadDash()">↻ ACTUALISER</button>
+  </div>
+  <div id="dashOut"><div class="loading"><div class="spin"></div><div class="ltxt">CHARGEMENT...</div></div></div>
+</div>
+
+<!-- ================================================================ -->
+<!-- TAB NEWS -->
+<!-- ================================================================ -->
+<div class="tab" id="tab-news">
+
+  <div class="card">
+    <div class="card-t">📰 BLOOMBERG-STYLE NEWS TERMINAL</div>
+    <div class="row2">
+      <div class="fg">
+        <label>CATÉGORIE</label>
+        <select id="nCat">
+          <option value="all">🌍 Toutes les news</option>
+          <option value="forex">💱 Forex &amp; Devises</option>
+          <option value="indices">📈 Indices &amp; Marchés</option>
+          <option value="commo">🥇 Matières Premières</option>
+          <option value="crypto">₿ Crypto</option>
+        </select>
+      </div>
+      <div class="fg" style="display:flex;align-items:flex-end">
+        <button class="btn-main" onclick="loadNews()" style="margin:0">📡 ACTUALISER LES NEWS</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="newsOut">
+    <div class="loading"><div class="spin"></div><div class="ltxt">CHARGEMENT NEWS...</div></div>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- TAB ALERTES -->
+<!-- ================================================================ -->
+<div class="tab" id="tab-alertes">
+
+  <div class="card">
+    <div class="card-t">🔔 ALERTES EMAIL AUTOMATIQUES</div>
+
+    <div class="gstatus">
+      <div class="gdot off" id="gdot"></div>
+      <div>
+        <div class="gtext" id="gtxt">Vérification Gmail...</div>
+        <div class="gsub">chicsensation@gmail.com</div>
+      </div>
+      <button class="btn-sec" style="margin-left:auto" onclick="authGmail()">CONNECTER</button>
+    </div>
+
+    <div class="trow">
+      <div>
+        <div class="tlbl">🔍 Surveillance continue</div>
+        <div class="tdsc">Scan toutes les 5 min — alerte si opportunité ≥ seuil</div>
+      </div>
+      <label class="tog">
+        <input type="checkbox" id="altTog" onchange="toggleAlerts()">
+        <span class="sldr"></span>
+      </label>
+    </div>
+
+    <div class="trow">
+      <div>
+        <div class="tlbl" style="font-size:13px">Probabilité minimale pour alerter</div>
+      </div>
+      <select id="altThr" style="width:90px">
+        <option value="70">70%</option>
+        <option value="75" selected>75%</option>
+        <option value="80">80%</option>
+        <option value="85">85%</option>
+        <option value="90">90%</option>
+      </select>
+    </div>
+
+    <div class="fg" style="margin-top:14px">
+      <label>MARCHÉS SURVEILLÉS (Ctrl+clic = multi-sélection)</label>
+      <select id="altMkts" multiple style="height:110px">
+        <option value="forex_major" selected>Forex — Majeurs</option>
+        <option value="forex_minor">Forex — Croisés</option>
+        <option value="idx_us" selected>Indices USA</option>
+        <option value="idx_eu">Indices Europe</option>
+        <option value="commo" selected>Matières Premières</option>
+        <option value="crypto">Crypto</option>
+      </select>
+    </div>
+
+    <div id="altStatus"></div>
+    <button class="btn-main" onclick="saveAlerts()" style="margin-top:8px">💾 SAUVEGARDER</button>
+  </div>
+
+  <div class="card">
+    <div class="card-t">📋 HISTORIQUE DES ALERTES</div>
+    <div id="altHist">
+      <div class="empty">
+        <div class="eico">📭</div>
+        <div class="etit">AUCUNE ALERTE ENVOYÉE</div>
+        <div style="font-size:12px;margin-top:6px">Activez la surveillance pour recevoir des alertes.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ================================================================ -->
+<!-- TAB RÉGLAGES -->
+<!-- ================================================================ -->
+<div class="tab" id="tab-reglages">
+
+  <div class="card">
+    <div class="card-t">🤖 FOURNISSEUR D'INTELLIGENCE ARTIFICIELLE</div>
+
+    <div class="provgrid" id="provGrid">
+      <div class="prov act" onclick="selProv('groq')" id="p-groq">GROQ<span class="ft ft-free">✓ GRATUIT · Llama 3.3</span></div>
+      <div class="prov" onclick="selProv('gemini')" id="p-gemini">GEMINI<span class="ft ft-free">✓ GRATUIT · Google</span></div>
+      <div class="prov" onclick="selProv('together')" id="p-together">TOGETHER AI<span class="ft ft-free">✓ GRATUIT · Llama</span></div>
+      <div class="prov" onclick="selProv('openai')" id="p-openai">OPENAI<span class="ft ft-paid">€ Payant · GPT-4o</span></div>
+      <div class="prov" onclick="selProv('claude')" id="p-claude">CLAUDE<span class="ft ft-paid">€ Payant · Sonnet</span></div>
+      <div class="prov" onclick="selProv('mistral')" id="p-mistral">MISTRAL<span class="ft ft-paid">€/✓ · Large</span></div>
+    </div>
+
+    <div class="fg">
+      <label id="aklbl">CLÉ API GROQ</label>
+      <input type="password" id="aiKey" placeholder="Votre clé API...">
+    </div>
+    <div class="sm inf show" id="akhint">🔗 Clé gratuite sur <strong>console.groq.com</strong> → API Keys</div>
+
+    <button class="btn-main" onclick="saveSettings()" style="margin-top:10px">💾 SAUVEGARDER</button>
+    <div class="sm" id="saveMsg"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-t">📡 APIs DE DONNÉES MARCHÉ (OPTIONNEL)</div>
+    <div class="fg">
+      <label>ALPHA VANTAGE API KEY — alphavantage.co (gratuit, 25 req/j)</label>
+      <input type="password" id="avKey" placeholder="Améliore les données RSI/MACD...">
+    </div>
+    <div class="fg">
+      <label>TWELVE DATA API KEY — twelvedata.com (gratuit, 800 req/j)</label>
+      <input type="password" id="tdKey" placeholder="Données plus complètes...">
+    </div>
+    <div class="sm inf show">📊 Sans clé : Yahoo Finance (illimité, gratuit). Avec clé : indicateurs avancés.</div>
+    <button class="btn-main" onclick="saveSettings()" style="margin-top:10px">💾 SAUVEGARDER</button>
+  </div>
+
+  <div class="card">
+    <div class="card-t">🔧 WORKER CLOUDFLARE</div>
+    <div class="fg">
+      <label>URL DU WORKER</label>
+      <input type="text" id="wUrl" value="https://pgi-financial-pro.chicsensation.workers.dev">
+    </div>
+    <button class="btn-sec" onclick="testWorker()">⚡ TESTER LA CONNEXION</button>
+    <div class="sm" id="wTest" style="margin-top:10px"></div>
+  </div>
+
+</div>
+
+<!-- ================================================================ -->
+<!-- JAVASCRIPT -->
+<!-- ================================================================ -->
 <script>
-// ═══════════════════════════════════════════════════════════
-// CONFIG & STATE
-// ═══════════════════════════════════════════════════════════
-const ADMIN_TOKEN = 'pgi_direct_access_2024'; // Token hardcodé pour accès direct
-let WORKER_URL = localStorage.getItem('pgi_worker_url') || '';
-
-const SITE_PAGES = [
-  { url:"https://www.clairvoyancemedium.com/Accueil-ccbaaaaaa.asp",label:"Accueil",themes:["general","voyance","presentation","bienvenue"] },
-  { url:"https://www.clairvoyancemedium.com/Voyance-Telephone-cbbaaaaaa.asp",label:"Voyance par Téléphone",themes:["telephone","appel","urgence","direct","immediat"] },
-  { url:"https://www.clairvoyancemedium.com/Voyance-Par-email-cbcaaaaaa.asp",label:"Voyance par Email",themes:["email","ecrit","questions"] },
-  { url:"https://www.clairvoyancemedium.com/Consultation-express-cbgaaaaac.asp",label:"Consultation Express",themes:["express","rapide","urgent","maintenant"] },
-  { url:"https://www.clairvoyancemedium.com/Love-Compatibilite-cbgaaaaaj.asp",label:"Love & Compatibilité",themes:["amour","sentimental","couple","retour","coeur","ex","rupture"] },
-  { url:"https://www.clairvoyancemedium.com/Desenvoutement-cbgaaaaae.asp",label:"Désenvoûtement",themes:["envoutement","blocage","malchance","sort","protection"] },
-  { url:"https://www.clairvoyancemedium.com/Magie-Blanche-Rouge-cbgaaaaag.asp",label:"Magie Blanche/Rouge",themes:["magie","rituel","charme","rouge","blanche"] },
-  { url:"https://www.clairvoyancemedium.com/Rituels-Les-Methodes-de-Frederick-ccgaaaaaa.asp",label:"Rituels de Frederick",themes:["methode","rituel","frederick","technique","secret"] },
-  { url:"https://www.clairvoyancemedium.com/Astrologie-cbfaaaaaa.asp",label:"Astrologie",themes:["astrologie","horoscope","signe","planete","zodiaque"] },
-  { url:"https://www.clairvoyancemedium.com/Horoscope-Du-jour-cbgaaaaah.asp",label:"Horoscope du jour",themes:["horoscope","jour","quotidien"] },
-  { url:"https://www.clairvoyancemedium.com/Dialoguer-avec-un-defunt-cbgaaaaaf.asp",label:"Dialoguer avec un défunt",themes:["deuil","defunt","mediumnite","esprit"] },
-  { url:"https://www.clairvoyancemedium.com/WhatsApp-Signal-cbgaaaaak.asp",label:"WhatsApp / Signal",themes:["whatsapp","signal","chat"] },
-  { url:"https://www.clairvoyancemedium.com/Voyance-photos-cbgaaaaau.asp",label:"Voyance par photos",themes:["photo","portrait","image"] },
-  { url:"https://www.clairvoyancemedium.com/Voyance-Pendule-cbgaaaaav.asp",label:"Voyance Pendule",themes:["pendule","divination","oscillation"] },
-  { url:"https://www.clairvoyancemedium.com/ENTREPRISE-Voyance-Email-cbgaaaaat.asp",label:"Voyance Entreprise",themes:["entreprise","professionnel","business"] },
-  { url:"https://www.clairvoyancemedium.com/Contact-ccfaaaaaa.asp",label:"Contact",themes:["contact","joindre","question"] },
-  { url:"https://www.clairvoyancemedium.com/Qui-suis-je-ccdaaaaaa.asp",label:"Qui suis-je — Frederick",themes:["presentation","frederick","medium","biographie","qui"] },
-  { url:"https://www.clairvoyancemedium.com/Blog-Retour-affectif-ce-que-les-marabouts-ne-vous-disent-jamais-ccnaaaaaa.asp",label:"Blog Retour Affectif",themes:["retour","affectif","marabout","blog"] },
-];
-
-const PLATFORMS = {
-  facebook:    {name:"Facebook",         icon:"📘",mode:"api",  maxChars:63206},
-  instagram:   {name:"Instagram",        icon:"📷",mode:"api",  maxChars:2200 },
-  x:           {name:"X (Twitter)",      icon:"𝕏", mode:"api",  maxChars:280  },
-  threads:     {name:"Threads",          icon:"🧵",mode:"semi", maxChars:500  },
-  linkedin:    {name:"LinkedIn",         icon:"💼",mode:"api",  maxChars:3000 },
-  pinterest:   {name:"Pinterest",        icon:"📌",mode:"api",  maxChars:500  },
-  reddit:      {name:"Reddit",           icon:"🔴",mode:"api",  maxChars:40000},
-  tiktok:      {name:"TikTok",           icon:"▶", mode:"semi", maxChars:2200 },
-  youtube:     {name:"YouTube",          icon:"▶", mode:"semi", maxChars:5000 },
-  telegram:    {name:"Telegram",         icon:"✈", mode:"api",  maxChars:4096 },
-  discord:     {name:"Discord",          icon:"💬",mode:"api",  maxChars:2000 },
-  bluesky:     {name:"Bluesky",          icon:"🦋",mode:"api",  maxChars:300  },
-  mastodon:    {name:"Mastodon",         icon:"🐘",mode:"api",  maxChars:500  },
-  tumblr:      {name:"Tumblr",           icon:"📝",mode:"api",  maxChars:4096 },
-  medium:      {name:"Medium",           icon:"Ⓜ", mode:"api",  maxChars:99999},
-  quora:       {name:"Quora",            icon:"❓",mode:"semi", maxChars:3000 },
-  snapchat:    {name:"Snapchat",         icon:"👻",mode:"semi", maxChars:250  },
-  whatsapp:    {name:"WhatsApp Business",icon:"💚",mode:"api",  maxChars:4096 },
-  vimeo:       {name:"Vimeo",            icon:"🎬",mode:"semi", maxChars:5000 },
-  dailymotion: {name:"Dailymotion",      icon:"📺",mode:"semi", maxChars:3000 },
+// ══════════════════════════════════════════════
+// MARCHÉS
+// ══════════════════════════════════════════════
+const MKT = {
+  forex_major:[
+    {s:'EURUSD=X',n:'EUR/USD'},  {s:'GBPUSD=X',n:'GBP/USD'},
+    {s:'USDJPY=X',n:'USD/JPY'},  {s:'AUDUSD=X',n:'AUD/USD'},
+    {s:'USDCAD=X',n:'USD/CAD'},  {s:'USDCHF=X',n:'USD/CHF'},
+    {s:'NZDUSD=X',n:'NZD/USD'},
+  ],
+  forex_minor:[
+    {s:'EURGBP=X',n:'EUR/GBP'},  {s:'EURJPY=X',n:'EUR/JPY'},
+    {s:'GBPJPY=X',n:'GBP/JPY'},  {s:'EURCHF=X',n:'EUR/CHF'},
+    {s:'EURAUD=X',n:'EUR/AUD'},  {s:'EURCAD=X',n:'EUR/CAD'},
+    {s:'AUDJPY=X',n:'AUD/JPY'},  {s:'GBPCHF=X',n:'GBP/CHF'},
+    {s:'GBPAUD=X',n:'GBP/AUD'},  {s:'GBPCAD=X',n:'GBP/CAD'},
+    {s:'CADJPY=X',n:'CAD/JPY'},  {s:'CHFJPY=X',n:'CHF/JPY'},
+    {s:'AUDCAD=X',n:'AUD/CAD'},  {s:'AUDCHF=X',n:'AUD/CHF'},
+    {s:'AUDNZD=X',n:'AUD/NZD'},  {s:'NZDJPY=X',n:'NZD/JPY'},
+  ],
+  forex_exotic:[
+    {s:'USDHKD=X',n:'USD/HKD'},  {s:'USDSGD=X',n:'USD/SGD'},
+    {s:'USDMXN=X',n:'USD/MXN'},  {s:'USDZAR=X',n:'USD/ZAR'},
+    {s:'USDTRY=X',n:'USD/TRY'},  {s:'USDNOK=X',n:'USD/NOK'},
+    {s:'USDSEK=X',n:'USD/SEK'},  {s:'USDDKK=X',n:'USD/DKK'},
+    {s:'USDPLN=X',n:'USD/PLN'},  {s:'USDBRL=X',n:'USD/BRL'},
+    {s:'EURMXN=X',n:'EUR/MXN'},  {s:'EURTRY=X',n:'EUR/TRY'},
+    {s:'EURNOK=X',n:'EUR/NOK'},
+  ],
+  idx_us:[
+    {s:'^NDX',n:'Nasdaq 100'},   {s:'^GSPC',n:'S&P 500'},
+    {s:'^DJI',n:'Dow Jones'},    {s:'^RUT',n:'Russell 2000'},
+    {s:'^VIX',n:'VIX'},          {s:'^IXIC',n:'Nasdaq Comp.'},
+  ],
+  idx_eu:[
+    {s:'^FCHI',n:'CAC 40'},      {s:'^GDAXI',n:'DAX'},
+    {s:'^FTSE',n:'FTSE 100'},    {s:'^STOXX50E',n:'Euro Stoxx 50'},
+    {s:'^IBEX',n:'IBEX 35'},     {s:'^AEX',n:'AEX'},
+    {s:'^BFX',n:'BEL 20'},       {s:'^SSMI',n:'SMI'},
+    {s:'^OMXS30',n:'OMX S30'},
+  ],
+  idx_asia:[
+    {s:'^N225',n:'Nikkei 225'},  {s:'^HSI',n:'Hang Seng'},
+    {s:'000001.SS',n:'Shanghai'},{s:'^AXJO',n:'ASX 200'},
+    {s:'^BSESN',n:'Sensex'},     {s:'^NSEI',n:'Nifty 50'},
+    {s:'^KS11',n:'KOSPI'},       {s:'^TWII',n:'TAIEX'},
+  ],
+  idx_other:[
+    {s:'^MERV',n:'Merval (AR)'},  {s:'^BVSP',n:'Bovespa (BR)'},
+    {s:'^MXX',n:'IPC (MX)'},
+  ],
+  commo:[
+    {s:'GC=F',n:'Or (Gold)'},    {s:'SI=F',n:'Argent'},
+    {s:'CL=F',n:'Pétrole WTI'},  {s:'BZ=F',n:'Pétrole Brent'},
+    {s:'NG=F',n:'Gaz Naturel'},  {s:'HG=F',n:'Cuivre'},
+    {s:'PL=F',n:'Platine'},      {s:'PA=F',n:'Palladium'},
+    {s:'ZW=F',n:'Blé'},          {s:'ZC=F',n:'Maïs'},
+    {s:'ZS=F',n:'Soja'},         {s:'KC=F',n:'Café'},
+    {s:'CC=F',n:'Cacao'},        {s:'SB=F',n:'Sucre'},
+  ],
+  crypto:[
+    {s:'BTC-USD',n:'Bitcoin'},   {s:'ETH-USD',n:'Ethereum'},
+    {s:'BNB-USD',n:'BNB'},       {s:'XRP-USD',n:'XRP'},
+    {s:'SOL-USD',n:'Solana'},    {s:'ADA-USD',n:'Cardano'},
+    {s:'DOGE-USD',n:'Dogecoin'}, {s:'DOT-USD',n:'Polkadot'},
+    {s:'AVAX-USD',n:'Avalanche'},{s:'LINK-USD',n:'Chainlink'},
+    {s:'MATIC-USD',n:'Polygon'}, {s:'LTC-USD',n:'Litecoin'},
+    {s:'BCH-USD',n:'Bitcoin Cash'},{s:'ATOM-USD',n:'Cosmos'},
+    {s:'UNI-USD',n:'Uniswap'},
+  ],
 };
 
-const CONN_FIELDS = {
-  facebook:    [{k:"accessToken",l:"Access Token de page",t:"password",h:"Meta Business Suite > Outils développeur"},{k:"pageId",l:"ID de la page",t:"text",h:"Identifiant numérique de votre page Facebook"}],
-  instagram:   [{k:"accessToken",l:"Access Token Instagram Graph",t:"password",h:"Via Meta API — compte Pro/Business requis"},{k:"accountId",l:"ID compte Instagram Pro",t:"text"}],
-  x:           [{k:"bearerToken",l:"Bearer Token (API v2)",t:"password",h:"developer.twitter.com > votre app > Keys & Tokens"},{k:"apiKey",l:"API Key",t:"password"},{k:"apiSecret",l:"API Secret",t:"password"},{k:"accessToken",l:"Access Token",t:"password"},{k:"accessSecret",l:"Access Token Secret",t:"password"}],
-  threads:     [{k:"note",l:"Note",t:"text",h:"Threads: API officielle limitée. Le contenu est préparé pour copier-coller."}],
-  linkedin:    [{k:"accessToken",l:"Access Token LinkedIn",t:"password",h:"developers.linkedin.com > OAuth 2.0"},{k:"personUrn",l:"Person URN",t:"text",h:"Ex: urn:li:person:XXXXXXXXX"}],
-  pinterest:   [{k:"accessToken",l:"Access Token Pinterest",t:"password",h:"developers.pinterest.com"},{k:"boardId",l:"ID du tableau cible",t:"text"}],
-  reddit:      [{k:"clientId",l:"Client ID",t:"text",h:"reddit.com/prefs/apps — créez une app script"},{k:"clientSecret",l:"Client Secret",t:"password"},{k:"username",l:"Nom d'utilisateur",t:"text"},{k:"password",l:"Mot de passe Reddit",t:"password"},{k:"subreddit",l:"Subreddit cible",t:"text",h:"Sans le r/ — ex: voyance"}],
-  tiktok:      [{k:"note",l:"Note",t:"text",h:"TikTok: app développeur requise et approuvée. Contenu préparé pour mode semi-auto."}],
-  youtube:     [{k:"note",l:"Note",t:"text",h:"YouTube: publication vidéo via API nécessite OAuth2 Google. Contenu préparé pour copier-coller."}],
-  telegram:    [{k:"botToken",l:"Bot Token",t:"password",h:"@BotFather sur Telegram > /newbot"},{k:"chatId",l:"Chat ID ou Channel ID",t:"text",h:"ID du canal ou groupe cible (ex: -100123456789)"}],
-  discord:     [{k:"webhookUrl",l:"Webhook URL",t:"text",h:"Serveur Discord > Paramètres du salon > Intégrations > Webhooks"}],
-  bluesky:     [{k:"handle",l:"Handle Bluesky",t:"text",h:"Ex: votrecompte.bsky.social"},{k:"appPassword",l:"App Password",t:"password",h:"Paramètres Bluesky > Confidentialité > App passwords"}],
-  mastodon:    [{k:"instanceUrl",l:"URL de l'instance",t:"text",h:"Ex: https://mastodon.social"},{k:"accessToken",l:"Access Token",t:"password",h:"Paramètres > Développement > Nouvelle application"}],
-  tumblr:      [{k:"accessToken",l:"Access Token Tumblr",t:"password",h:"api.tumblr.com > OAuth2"},{k:"blogName",l:"Nom du blog",t:"text",h:"Ex: monblog (sans .tumblr.com)"}],
-  medium:      [{k:"integrationToken",l:"Integration Token Medium",t:"password",h:"medium.com > Paramètres > Security > Integration tokens"}],
-  quora:       [{k:"note",l:"Note",t:"text",h:"Quora: pas d'API de publication officielle. Contenu préparé pour copier-coller."}],
-  snapchat:    [{k:"note",l:"Note",t:"text",h:"Snapchat: API Stories réservée aux partenaires certifiés. Mode semi-auto."}],
-  whatsapp:    [{k:"accessToken",l:"Access Token WhatsApp",t:"password",h:"Meta Business Suite > WhatsApp > API"},{k:"phoneNumberId",l:"Phone Number ID",t:"text"},{k:"recipientPhone",l:"Numéro destinataire (avec indicatif)",t:"text",h:"Ex: 33695468923"}],
-  vimeo:       [{k:"note",l:"Note",t:"text",h:"Vimeo: upload vidéo via API. Contenu de description préparé pour copier-coller."}],
-  dailymotion: [{k:"apiKey",l:"API Key Dailymotion",t:"password",h:"developer.dailymotion.com"},{k:"apiSecret",l:"API Secret",t:"password"},{k:"username",l:"Nom d'utilisateur",t:"text"},{k:"password",l:"Mot de passe",t:"password"}],
+function allMkts(){
+  return [...MKT.forex_major,...MKT.forex_minor,...MKT.idx_us,...MKT.idx_eu,...MKT.commo,...MKT.crypto];
+}
+
+const AI_PROV = {
+  groq:    {lbl:'GROQ API KEY',    hint:'Clé gratuite → <a href="https://console.groq.com" target="_blank">console.groq.com</a> → API Keys'},
+  gemini:  {lbl:'GEMINI API KEY',  hint:'Clé gratuite → <a href="https://aistudio.google.com" target="_blank">aistudio.google.com</a>'},
+  together:{lbl:'TOGETHER AI KEY', hint:'Clé gratuite → <a href="https://api.together.ai" target="_blank">api.together.ai</a>'},
+  openai:  {lbl:'OPENAI API KEY',  hint:'Clé payante → <a href="https://platform.openai.com" target="_blank">platform.openai.com</a>'},
+  claude:  {lbl:'ANTHROPIC API KEY',hint:'Clé payante → <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a>'},
+  mistral: {lbl:'MISTRAL API KEY', hint:'Clé → <a href="https://console.mistral.ai" target="_blank">console.mistral.ai</a>'},
 };
 
-const AI_DEFAULTS = {
-  openai:    {model:"gpt-4o",        endpoint:"https://api.openai.com/v1/chat/completions"},
-  mistral:   {model:"mistral-large-latest",endpoint:"https://api.mistral.ai/v1/chat/completions"},
-  gemini:    {model:"gemini-1.5-pro",endpoint:"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"},
-  groq:      {model:"llama-3.3-70b-versatile",endpoint:"https://api.groq.com/openai/v1/chat/completions"},
-  cohere:    {model:"command-r-plus",endpoint:"https://api.cohere.ai/v1/chat"},
-  anthropic: {model:"claude-opus-4-5",endpoint:"https://api.anthropic.com/v1/messages"},
-  grok:      {model:"grok-beta",     endpoint:"https://api.x.ai/v1/chat/completions"},
-  deepseek:  {model:"deepseek-chat", endpoint:"https://api.deepseek.com/v1/chat/completions"},
-  custom:    {model:"",              endpoint:""},
-};
+// ══════════════════════════════════════════════
+// UTILS
+// ══════════════════════════════════════════════
+let curProv='groq';
 
-let selectedTone = 'balanced';
-let calYear, calMonth, calPosts = [];
-let linkSuggestTimer = null;
+function W(){return (localStorage.getItem('worker_url')||'https://pgi-financial-pro.chicsensation.workers.dev').replace(/\/$/,'')}
+function AK(){return localStorage.getItem('ai_key')||''}
+function fmt(n,d=4){if(!n&&n!==0)return'—';const v=parseFloat(n);if(isNaN(v))return'—';if(Math.abs(v)>1000)return v.toLocaleString('fr-FR',{maximumFractionDigits:2});return v.toFixed(d)}
+function fmtc(n){if(!n&&n!==0)return'—';const v=parseFloat(n);if(isNaN(v))return'—';return(v>=0?'+':'')+v.toFixed(2)+'%'}
+function ccls(n){return parseFloat(n)>=0?'up':'dn'}
+function probCls(p){return p>=78?'p-hi':p>=62?'p-md':'p-lo'}
+function riskCls(r){return r==='Faible'?'rk-lo':r==='Élevé'?'rk-hi':'rk-md'}
+function dirBadge(d){
+  if(d&&(d.includes('ACHAT')||d.includes('BUY')))return`<span class="badge b-buy">▲ ACHAT</span>`;
+  if(d&&(d.includes('VENTE')||d.includes('SELL')))return`<span class="badge b-sell">▼ VENTE</span>`;
+  return`<span class="badge b-neut">◆ NEUTRE</span>`;
+}
+function probColor(p){return p>=78?'var(--ng)':p>=62?'var(--ny)':'var(--nr)'}
+function showSM(id,msg,type){const el=document.getElementById(id);if(!el)return;el.className=`sm ${type} show`;el.innerHTML=msg;if(type!=='inf')setTimeout(()=>{el.className='sm'},4000)}
 
-// ═══════════════════════════════════════════════════════════
-// API
-// ═══════════════════════════════════════════════════════════
-async function api(path, method = 'GET', body = null) {
-  const base = (WORKER_URL || '').replace(/\/$/, '');
-  if (!base) throw new Error('Worker URL non configuré. Renseignez-la dans la barre en haut à gauche.');
-  const opts = { method, headers: { 'Content-Type':'application/json', 'X-Admin-Token': ADMIN_TOKEN } };
-  if (body) opts.body = JSON.stringify(body);
-  const r = await fetch(base + path, opts);
-  if (!r.ok && r.status !== 200) {
-    const t = await r.text();
-    let msg = t;
-    try { msg = JSON.parse(t).error || t; } catch {}
-    throw new Error(`API ${r.status}: ${msg}`);
+// ══════════════════════════════════════════════
+// NAVIGATION
+// ══════════════════════════════════════════════
+const TABS=['scanner','analyse','marche','news','alertes','reglages'];
+function sw(name){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('act'));
+  document.querySelectorAll('.nt').forEach(t=>t.classList.remove('act'));
+  document.getElementById('tab-'+name).classList.add('act');
+  const i=TABS.indexOf(name);
+  document.querySelectorAll('.nt')[i]?.classList.add('act');
+  if(name==='marche')loadDash();
+  if(name==='news')loadNews();
+  if(name==='alertes')checkGmail();
+}
+
+// ══════════════════════════════════════════════
+// DROPDOWN FILL
+// ══════════════════════════════════════════════
+function fillSel(selId, list, addAll=true){
+  const sel=document.getElementById(selId);
+  sel.innerHTML= addAll?'<option value="all">Tous les instruments de la catégorie</option>':'';
+  list.forEach(m=>{const o=document.createElement('option');o.value=m.s;o.textContent=m.n;sel.appendChild(o)});
+}
+function fillScanMarkets(){
+  const cat=document.getElementById('sCat').value;
+  fillSel('sMkt', cat==='all'?allMkts():(MKT[cat]||[]));
+}
+function fillAnalyseMarkets(){
+  fillSel('aMkt', MKT[document.getElementById('aCat').value]||[], false);
+}
+
+// ══════════════════════════════════════════════
+// SCANNER
+// ══════════════════════════════════════════════
+async function doScan(){
+  const ak=AK();
+  if(!ak){document.getElementById('scanOut').innerHTML=`<div class="sm er show">⚠️ Configurez votre clé API dans l'onglet Réglages.</div>`;return}
+  const cat=document.getElementById('sCat').value;
+  const mkt=document.getElementById('sMkt').value;
+  const lim=parseInt(document.getElementById('sLim').value);
+  let list=mkt!=='all'
+    ?(allMkts().find(m=>m.s===mkt)?[allMkts().find(m=>m.s===mkt)]:[])
+    :(cat==='all'?allMkts():(MKT[cat]||[]));
+
+  const btn=document.getElementById('btnScan');
+  btn.disabled=true;btn.textContent='⏳ ANALYSE EN COURS...';
+  document.getElementById('scanOut').innerHTML=`<div class="loading"><div class="spin"></div><div class="ltxt">SCAN DES MARCHÉS EN COURS...</div><div class="lsub">${list.length} instruments analysés par l'IA</div></div>`;
+
+  try{
+    const res=await fetch(`${W()}/scan`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
+      markets:list,limit:lim,provider:curProv,apiKey:ak,
+      avKey:localStorage.getItem('av_key')||'',tdKey:localStorage.getItem('td_key')||''
+    })});
+    if(!res.ok)throw new Error(`Erreur serveur ${res.status}`);
+    const d=await res.json();
+    if(d.error)throw new Error(d.error);
+    renderScan(d.opportunities||[]);
+  }catch(e){
+    document.getElementById('scanOut').innerHTML=`<div class="sm er show">❌ ${e.message}</div>`;
+  }finally{btn.disabled=false;btn.textContent='🔍 ANALYSER LES MEILLEURES OPPORTUNITÉS MAINTENANT'}
+}
+
+function renderScan(ops){
+  if(!ops.length){
+    document.getElementById('scanOut').innerHTML=`<div class="empty"><div class="eico">🔍</div><div class="etit">AUCUNE OPPORTUNITÉ DÉTECTÉE</div><div style="font-size:12px;margin-top:8px">Pas de signal fort en ce moment. Réessayez dans quelques minutes.</div></div>`;
+    return;
   }
-  return r.json();
-}
-
-// ═══════════════════════════════════════════════════════════
-// WORKER URL
-// ═══════════════════════════════════════════════════════════
-function saveWorkerUrl() {
-  const v = document.getElementById('worker-url-inp').value.trim();
-  if (!v) return notify('Entrez une URL valide.', 'err');
-  WORKER_URL = v;
-  localStorage.setItem('pgi_worker_url', v);
-  updateWorkerStatus();
-  notify('URL Worker sauvegardée.', 'ok');
-  initApp();
-}
-
-function updateWorkerStatus() {
-  const dot = document.getElementById('ws-dot');
-  const txt = document.getElementById('ws-txt');
-  if (WORKER_URL) {
-    dot.className = 'dot dot-green';
-    txt.textContent = new URL(WORKER_URL).hostname;
-  } else {
-    dot.className = 'dot dot-orange';
-    txt.textContent = 'Non configuré';
-  }
-}
-
-// ═══════════════════════════════════════════════════════════
-// NAV — handled by responsive version in JS block below
-// ═══════════════════════════════════════════════════════════
-const PAGE_TITLES = {
-  dashboard:'Tableau de bord', create:'Créer un post', queue:'File de validation',
-  history:'Historique', calendar:'Calendrier', platforms:'Statut des plateformes',
-  connections:'Connexions aux plateformes', references:'Images de référence',
-  links:'Liens du site', ai:'Moteur AI', email:'Configuration email', logs:'Logs système',
-};
-function nav(name) {
-  if (window.innerWidth <= 900) closeSidebar();
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  const pg = document.getElementById('page-' + name);
-  const ni = document.getElementById('nav-' + name);
-  if (pg) pg.classList.add('active');
-  if (ni) ni.classList.add('active');
-  document.getElementById('page-title').textContent = PAGE_TITLES[name] || name;
-  if (name === 'queue')       loadQueue();
-  if (name === 'history')     loadHistory();
-  if (name === 'calendar')    initCalendar();
-  if (name === 'platforms')   loadPlatStatus();
-  if (name === 'ai')          loadAiConfig();
-  if (name === 'email')       loadEmailConfig();
-  if (name === 'logs')        loadLogs();
-  if (name === 'myposts')     loadMyPosts();
-  if (name === 'automation')  loadAutomations();
-}
-
-// ═══════════════════════════════════════════════════════════
-// INIT
-// ═══════════════════════════════════════════════════════════
-window.addEventListener('load', () => {
-  document.getElementById('worker-url-inp').value = WORKER_URL;
-  updateWorkerStatus();
-  buildPlatformChecklist();
-  buildConnectionsList();
-  buildLinksTable();
-  setDefaultDate();
-  loadRef();
-  initApp();
-});
-
-function initApp() {
-  if (!WORKER_URL) return;
-  loadStats();
-}
-
-function setDefaultDate() {
-  const d = new Date();
-  d.setHours(d.getHours() + 1);
-  document.getElementById('c-date').value = d.toISOString().slice(0, 16);
-}
-
-// ═══════════════════════════════════════════════════════════
-// BUILD STATIC UI
-// ═══════════════════════════════════════════════════════════
-function buildPlatformChecklist() {
-  const el = document.getElementById('plat-checklist');
-  el.innerHTML = Object.entries(PLATFORMS).map(([k, p]) =>
-    `<div class="plat-check">
-      <input type="checkbox" id="pc-${k}" value="${k}">
-      <label for="pc-${k}">
-        <span class="plat-icon">${p.icon}</span>
-        ${p.name}
-        <span class="plat-mode-badge">${p.mode === 'api' ? 'API' : 'semi'}</span>
-      </label>
-    </div>`
-  ).join('');
-}
-
-function buildConnectionsList() {
-  const el = document.getElementById('conn-list');
-  el.innerHTML = Object.entries(CONN_FIELDS).map(([platform, fields]) => {
-    const p = PLATFORMS[platform] || {};
-    return `<div class="conn-item" id="conn-${platform}">
-      <div class="conn-head" onclick="toggleConn('${platform}')">
-        <div class="conn-name">
-          <span class="conn-icon">${p.icon || '⬡'}</span>
-          <div>
-            <div class="conn-label">${p.name}</div>
-            <div class="conn-mode">${p.mode === 'api' ? 'Connexion API officielle' : 'Mode semi-automatique'}</div>
-          </div>
-        </div>
-        <div class="conn-actions">
-          <button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();testConn('${platform}')">Tester</button>
-          <button class="btn btn-red btn-sm" onclick="event.stopPropagation();disconnectConn('${platform}')">Déconnecter</button>
-          <span style="color:var(--text3);margin-left:6px">▾</span>
+  let h=`<div class="card"><div class="card-t">🎯 TOP ${ops.length} OPPORTUNITÉS DÉTECTÉES</div>`;
+  ops.forEach((o,i)=>{
+    const p=parseInt(o.probabilite)||0;
+    const pc=probColor(p);
+    const chgCls=(o.change||0)>=0?'up':'dn';
+    const priceStr=o.price?fmt(o.price,o.price>100?2:4):'—';
+    h+=`
+    <div class="ocard">
+      <div class="oh">
+        <div><div class="rank">${String(i+1).padStart(2,'0')}</div><div class="osym">${o.display||o.symbol||o.instrument}</div><div class="ocat">${o.category||o.horizon||''}</div></div>
+        <div style="text-align:right">
+          ${dirBadge(o.direction)}
+          <div class="oprc" style="margin-top:6px">${priceStr} <span style="color:var(--${chgCls==='up'?'ng':'nr'})">${fmtc(o.change)}</span></div>
         </div>
       </div>
-      <div class="conn-body" id="connb-${platform}">
-        ${fields.map(f => `
-          <div class="fgrp">
-            <label class="flabel">${f.l}</label>
-            <input type="${f.t}" class="finput" id="cred-${platform}-${f.k}" placeholder="${f.h || ''}">
-            ${f.h ? `<div class="fhelp">${f.h}</div>` : ''}
-          </div>`).join('')}
-        <button class="btn btn-neon btn-sm" onclick="saveCreds('${platform}')">Sauvegarder</button>
+      <div class="prow">
+        <div style="font-family:Orbitron,sans-serif;font-size:9px;letter-spacing:1px;color:var(--txd)">PROBABILITÉ DE RÉUSSITE</div>
+        <div class="ppct" style="color:${pc};text-shadow:0 0 10px ${pc}">${p}%</div>
+      </div>
+      <div class="pbar"><div class="pfill ${probCls(p)}" style="width:${p}%"></div></div>
+      <div class="pcells">
+        <div class="pc"><span class="lbl">ENTRÉE</span><span class="val ve">${o.entree||'—'}</span></div>
+        <div class="pc"><span class="lbl">OBJECTIF</span><span class="val vt">${o.cible||'—'}</span></div>
+        <div class="pc"><span class="lbl">STOP-LOSS</span><span class="val vsl">${o.stopLoss||'—'}</span></div>
+      </div>
+      <div class="reasons">${(o.raisons||[]).map(r=>`<div class="ri">${r}</div>`).join('')}</div>
+      <div class="tags">
+        <span class="tz">${o.horizon||'Court terme'}</span>
+        <span class="tz ${riskCls(o.risque)}">Risque ${o.risque||'Modéré'}</span>
       </div>
     </div>`;
-  }).join('');
-}
-
-function buildLinksTable() {
-  document.getElementById('links-tbody').innerHTML = SITE_PAGES.map(p =>
-    `<tr>
-      <td style="font-weight:600">${p.label}</td>
-      <td><a href="${p.url}" target="_blank" style="color:var(--neon);font-size:11px">${p.url.replace('https://www.clairvoyancemedium.com/', '…/')}</a></td>
-      <td>${p.themes.map(t => `<span class="badge b-blue" style="margin:1px 2px;font-size:9px">${t}</span>`).join('')}</td>
-    </tr>`
-  ).join('');
-}
-
-// ═══════════════════════════════════════════════════════════
-// STATS
-// ═══════════════════════════════════════════════════════════
-async function loadStats() {
-  try {
-    const [statsData, postsData] = await Promise.all([api('/api/stats'), api('/api/posts?limit=6')]);
-    if (statsData.success) {
-      const s = statsData.stats;
-      document.getElementById('s-total').textContent = s.total ?? 0;
-      document.getElementById('s-pub').textContent   = s.published ?? 0;
-      document.getElementById('s-pend').textContent  = s.pending ?? 0;
-      const pendBadge = document.getElementById('queue-badge');
-      if (s.pending > 0) { pendBadge.style.display = ''; pendBadge.textContent = s.pending; }
-      else pendBadge.style.display = 'none';
-
-      // Platform stats
-      const platEl = document.getElementById('dash-platstat');
-      if (s.byPlatform && Object.keys(s.byPlatform).length) {
-        platEl.innerHTML = Object.entries(s.byPlatform)
-          .sort((a,b) => b[1]-a[1])
-          .map(([p, c]) => {
-            const cfg = PLATFORMS[p] || {};
-            return `<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border)">
-              <span>${cfg.icon||''} ${cfg.name||p}</span>
-              <span class="badge b-blue">${c}</span>
-            </div>`;
-          }).join('');
-      } else platEl.innerHTML = '<div class="text-muted text-sm">Aucune publication encore</div>';
-    }
-
-    if (postsData.success && postsData.posts?.length) {
-      document.getElementById('dash-recent').innerHTML = postsData.posts.map(p =>
-        `<div style="padding:9px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center">
-          <div>
-            <div style="font-size:13px;font-weight:500">${(p.description||'').slice(0,48)}${p.description?.length>48?'…':''}</div>
-            <div class="text-sm text-muted" style="margin-top:2px">${(p.platforms||[]).map(k=>PLATFORMS[k]?.name||k).join(', ')} &bull; ${new Date(p.createdAt).toLocaleDateString('fr-FR')}</div>
-          </div>
-          <span class="badge ${statusBadge(p.status)}">${statusLabel(p.status)}</span>
-        </div>`
-      ).join('');
-    } else {
-      document.getElementById('dash-recent').innerHTML = '<div class="text-muted text-sm">Aucune publication pour l\'instant</div>';
-    }
-  } catch (e) { console.warn('Stats:', e.message); }
-}
-
-// ═══════════════════════════════════════════════════════════
-// CREATE POST
-// ═══════════════════════════════════════════════════════════
-function selTone(el) {
-  document.querySelectorAll('.tone-btn').forEach(b => b.classList.remove('active'));
-  el.classList.add('active');
-  selectedTone = el.dataset.tone;
-}
-
-function onDescInput(val) {
-  clearTimeout(linkSuggestTimer);
-  if (val.length < 5) { document.getElementById('link-suggest').classList.remove('on'); return; }
-  linkSuggestTimer = setTimeout(() => {
-    const page = bestLinkLocal(val);
-    document.getElementById('ls-url').textContent  = page.url;
-    document.getElementById('ls-page').textContent = 'Page : ' + page.label;
-    document.getElementById('link-suggest').classList.add('on');
-  }, 500);
-}
-
-function bestLinkLocal(desc) {
-  const text = desc.toLowerCase();
-  let best = SITE_PAGES[0], top = 0;
-  for (const p of SITE_PAGES) {
-    let s = 0;
-    for (const t of p.themes) { if (text.includes(t)) s += 3; for (const w of text.split(/\s+/)) if (w.length > 3 && t.includes(w)) s += 1; }
-    if (s > top) { top = s; best = p; }
-  }
-  return best;
-}
-
-async function generatePost() {
-  const platforms = [...document.querySelectorAll('.plat-check input:checked')].map(i => i.value);
-  if (!platforms.length) { notify('Sélectionnez au moins une plateforme.', 'err'); return; }
-  const description = document.getElementById('c-desc').value.trim();
-  if (!description) { notify('Décrivez votre publication.', 'err'); return; }
-
-  const btn = document.getElementById('btn-gen');
-  const ldr = document.getElementById('gen-ldr');
-  const prog = document.getElementById('gen-prog');
-  btn.disabled = true; ldr.style.display = 'inline-block'; prog.classList.add('on');
-
-  try {
-    const theme = document.getElementById('c-theme').value;
-    const scheduledAt = new Date(document.getElementById('c-date').value).getTime() || Date.now() + 3600000;
-
-    const data = await api('/api/posts/generate', 'POST', {
-      description, platforms,
-      tone: selectedTone,
-      themes: theme ? [theme] : [],
-      scheduledAt,
-    });
-
-    if (!data.success) throw new Error(data.error || 'Erreur inconnue');
-
-    renderResult(data.content, data.imageUrl, platforms);
-    notify('Contenu généré. Email envoyé à chicsensation@gmail.com', 'ok');
-    loadStats();
-  } catch (e) {
-    notify('Erreur : ' + e.message, 'err');
-  } finally {
-    btn.disabled = false; ldr.style.display = 'none'; prog.classList.remove('on');
-  }
-}
-
-function renderResult(content, imageUrl, platforms) {
-  document.getElementById('result-box').classList.add('on');
-  document.getElementById('r-hook').textContent = content.hook || '';
-  document.getElementById('r-main').textContent = content.mainText || '';
-  document.getElementById('r-itext').textContent = content.imageText || '';
-  document.getElementById('r-cta').textContent = content.cta || '';
-  document.getElementById('r-link').innerHTML =
-    `<a href="${content.selectedLink||'#'}" target="_blank" style="color:var(--neon)">${content.selectedLink||''}</a>` +
-    `<br><span style="color:var(--gold);font-size:11px">${content.selectedPage||''}</span>`;
-
-  const imgBox = document.getElementById('r-img-box');
-  if (imageUrl) {
-    imgBox.innerHTML = `<img src="${imageUrl}" alt="Visuel">`;
-  } else {
-    document.getElementById('r-img-status').textContent = 'Configurez un fournisseur d\'images dans Moteur AI';
-  }
-
-  const platDiv = document.getElementById('r-platforms');
-  platDiv.innerHTML = platforms.map(p => {
-    const pc  = content.platforms?.[p] || {};
-    const cfg = PLATFORMS[p] || {};
-    const tags = (pc.hashtags || []).filter(Boolean).map(h => `<span class="htag">#${h.replace(/^#/,'')}</span>`).join('');
-    return `<div class="plat-result">
-      <div class="plat-result-name">${cfg.icon||''} ${cfg.name||p} ${cfg.mode==='semi'?'<span class="badge b-orange" style="font-size:9px">semi-auto</span>':''}</div>
-      ${pc.title ? `<div style="font-weight:700;color:var(--gold);margin-bottom:6px">${pc.title}</div>` : ''}
-      <div style="font-size:13px;line-height:1.7">${(pc.text||'').replace(/\n/g,'<br>')}</div>
-      ${tags ? `<div style="margin-top:8px">${tags}</div>` : ''}
-    </div>`;
-  }).join('');
-
-  document.getElementById('result-box').scrollIntoView({ behavior:'smooth', block:'start' });
-}
-
-function resetCreate() {
-  document.querySelectorAll('.plat-check input').forEach(i => i.checked = false);
-  document.getElementById('c-desc').value = '';
-  document.getElementById('c-theme').value = '';
-  document.getElementById('result-box').classList.remove('on');
-  document.getElementById('link-suggest').classList.remove('on');
-  document.querySelectorAll('.tone-btn').forEach(b => b.classList.remove('active'));
-  document.querySelector('.tone-btn[data-tone="balanced"]').classList.add('active');
-  selectedTone = 'balanced';
-  setDefaultDate();
-}
-
-// ═══════════════════════════════════════════════════════════
-// QUEUE
-// ═══════════════════════════════════════════════════════════
-async function loadQueue() {
-  const el = document.getElementById('queue-list');
-  try {
-    const data = await api('/api/posts?limit=100');
-    const pending = (data.posts||[]).filter(p => ['pending_validation','modification_requested'].includes(p.status));
-    if (!pending.length) { el.innerHTML = '<div class="text-muted text-sm">Aucune publication en attente de validation.</div>'; return; }
-    el.innerHTML = pending.map(p =>
-      `<div style="background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:11px;display:flex;align-items:center;gap:14px;flex-wrap:wrap">
-        <div style="flex:1;min-width:200px">
-          <div style="font-weight:600;margin-bottom:4px">${(p.description||'').slice(0,60)}…</div>
-          <div class="text-sm text-muted">${(p.platforms||[]).map(k=>PLATFORMS[k]?.name||k).join(', ')} &bull; ${new Date(p.createdAt).toLocaleDateString('fr-FR')}</div>
-          ${p.content?.hook ? `<div style="color:var(--neon);font-size:12px;margin-top:4px;font-style:italic">${p.content.hook.slice(0,80)}</div>` : ''}
-        </div>
-        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
-          <span class="badge ${statusBadge(p.status)}">${statusLabel(p.status)}</span>
-          <button class="btn btn-ghost btn-sm" onclick="openModify('${p.id}')">Modifier</button>
-          <button class="btn btn-ghost btn-sm" onclick="viewPost('${p.id}')">Voir</button>
-        </div>
-      </div>`
-    ).join('');
-  } catch (e) { el.innerHTML = `<div class="text-red text-sm">${e.message}</div>`; }
-}
-
-// ═══════════════════════════════════════════════════════════
-// HISTORY
-// ═══════════════════════════════════════════════════════════
-async function loadHistory() {
-  const tbody = document.getElementById('hist-tbody');
-  try {
-    const data = await api('/api/posts?limit=100');
-    if (!data.posts?.length) { tbody.innerHTML = '<tr><td colspan="6" class="text-muted text-sm" style="padding:18px">Aucune publication</td></tr>'; return; }
-    tbody.innerHTML = data.posts.map(p =>
-      `<tr>
-        <td class="td-mono">${p.id}</td>
-        <td class="td-clamp">${p.description||''}</td>
-        <td>${(p.platforms||[]).map(k=>`<span class="badge b-blue" style="margin:1px">${PLATFORMS[k]?.icon||''} ${k}</span>`).join('')}</td>
-        <td><span class="badge ${statusBadge(p.status)}">${statusLabel(p.status)}</span></td>
-        <td class="text-muted text-sm">${new Date(p.createdAt).toLocaleString('fr-FR')}</td>
-        <td><button class="btn btn-ghost btn-sm" onclick="viewPost('${p.id}')">Voir</button></td>
-      </tr>`
-    ).join('');
-  } catch (e) { tbody.innerHTML = `<tr><td colspan="6" class="text-red text-sm" style="padding:16px">${e.message}</td></tr>`; }
-}
-
-async function viewPost(id) {
-  try {
-    const data = await api('/api/posts/' + id);
-    if (!data.success) return;
-    const p = data.post;
-    const w = window.open('', '_blank', 'width=720,height=880');
-    w.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Post ${p.id}</title>
-    <style>body{font-family:Georgia;background:#06060f;color:#ccd6f5;padding:30px;line-height:1.6}h2,h3{color:#00bfff;margin:20px 0 8px}pre{white-space:pre-wrap;font-family:inherit}a{color:#4488ff}hr{border:1px solid #182040;margin:16px 0}.badge{background:#0f2a5a;color:#00bfff;padding:3px 10px;border-radius:20px;font-size:12px;margin:2px}</style>
-    </head><body>
-    <h2>Publication ${p.id}</h2>
-    <p><span class="badge">${statusLabel(p.status)}</span> &bull; ${new Date(p.createdAt).toLocaleString('fr-FR')}</p>
-    <p>${(p.platforms||[]).map(k=>`<span class="badge">${PLATFORMS[k]?.name||k}</span>`).join('')}</p>
-    <hr><h3>Accroche</h3><pre>${p.content?.hook||''}</pre>
-    <h3>Texte principal</h3><pre>${p.content?.mainText||''}</pre>
-    <h3>CTA</h3><pre>${p.content?.cta||''}</pre>
-    <h3>Lien</h3><a href="${p.content?.selectedLink||'#'}" target="_blank">${p.content?.selectedLink||''}</a> — ${p.content?.selectedPage||''}
-    ${p.imageUrl?`<h3>Visuel</h3><img src="${p.imageUrl}" style="max-width:100%;border-radius:8px">` : ''}
-    ${p.publishResults?`<h3>Résultats de publication</h3><pre>${JSON.stringify(p.publishResults,null,2)}</pre>`:''}
-    </body></html>`);
-  } catch (e) { notify(e.message, 'err'); }
-}
-
-async function openModify(id) {
-  const note = prompt('Décrivez les modifications souhaitées :');
-  if (note === null) return;
-  try {
-    const data = await api('/api/posts/' + id + '/modify', 'PUT', { note });
-    if (data.success) { notify('Contenu régénéré. Nouvel email envoyé.', 'ok'); loadQueue(); }
-    else notify(data.error, 'err');
-  } catch (e) { notify(e.message, 'err'); }
-}
-
-// ═══════════════════════════════════════════════════════════
-// CALENDAR
-// ═══════════════════════════════════════════════════════════
-function initCalendar() {
-  const now = new Date();
-  calYear  = now.getFullYear();
-  calMonth = now.getMonth();
-  api('/api/posts?limit=200').then(d => { calPosts = d.posts || []; renderCalendar(); }).catch(() => renderCalendar());
-}
-function calPrev() { calMonth--; if (calMonth < 0) { calMonth = 11; calYear--; } renderCalendar(); }
-function calNext() { calMonth++; if (calMonth > 11) { calMonth = 0; calYear++; } renderCalendar(); }
-
-function renderCalendar() {
-  const names = ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'];
-  document.getElementById('cal-day-names').innerHTML = names.map(n => `<div class="cal-day-name">${n}</div>`).join('');
-  document.getElementById('cal-month-label').textContent =
-    new Date(calYear, calMonth, 1).toLocaleDateString('fr-FR', { month:'long', year:'numeric' });
-
-  const firstDay  = new Date(calYear, calMonth, 1).getDay();
-  const daysCount = new Date(calYear, calMonth + 1, 0).getDate();
-  const today     = new Date();
-  let html = '';
-  for (let i = 0; i < firstDay; i++) html += '<div></div>';
-  for (let d = 1; d <= daysCount; d++) {
-    const isToday = d === today.getDate() && calMonth === today.getMonth() && calYear === today.getFullYear();
-    const dayPosts = calPosts.filter(p => {
-      const dt = new Date(p.scheduledAt || p.createdAt);
-      return dt.getFullYear() === calYear && dt.getMonth() === calMonth && dt.getDate() === d;
-    });
-    html += `<div class="cal-day${isToday?' today':''}">
-      <div class="cal-day-num">${d}</div>
-      ${dayPosts.slice(0,2).map(p => `<div class="cal-event">${PLATFORMS[p.platforms?.[0]]?.icon||''} ${(p.description||'').slice(0,14)}</div>`).join('')}
-      ${dayPosts.length > 2 ? `<div style="font-size:9px;color:var(--text3)">+${dayPosts.length-2}</div>` : ''}
-    </div>`;
-  }
-  document.getElementById('cal-grid').innerHTML = html;
-}
-
-// ═══════════════════════════════════════════════════════════
-// PLATFORM STATUS
-// ═══════════════════════════════════════════════════════════
-async function loadPlatStatus() {
-  const el = document.getElementById('plat-status-grid');
-  try {
-    const data = await api('/api/platforms');
-    if (!data.success) return;
-    el.innerHTML = Object.entries(data.platforms).map(([k, p]) =>
-      `<div style="background:var(--bg2);border:1px solid ${p.connected?'rgba(0,187,85,.35)':'var(--border)'};border-radius:10px;padding:16px">
-        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px">
-          <div>
-            <div style="font-size:22px;margin-bottom:4px">${p.icon}</div>
-            <div style="font-weight:600;font-size:13px">${p.name}</div>
-          </div>
-          <span class="badge ${p.connected?'b-green':'b-red'}">${p.connected?'Connecté':'Non connecté'}</span>
-        </div>
-        <div class="text-sm text-muted" style="margin-bottom:10px">Max ${(p.maxChars||0).toLocaleString()} car.</div>
-        <div style="display:flex;gap:6px">
-          <button class="btn btn-ghost btn-sm" onclick="testConn('${k}')">Tester</button>
-          <button class="btn btn-neon btn-sm" onclick="nav('connections')">Config.</button>
-        </div>
-      </div>`
-    ).join('');
-  } catch (e) { el.innerHTML = `<div class="text-red text-sm">${e.message}</div>`; }
-}
-
-// ═══════════════════════════════════════════════════════════
-// CONNECTIONS
-// ═══════════════════════════════════════════════════════════
-function toggleConn(p) { document.getElementById('connb-' + p).classList.toggle('open'); }
-
-async function saveCreds(platform) {
-  const fields = CONN_FIELDS[platform] || [];
-  const creds = {};
-  for (const f of fields) {
-    const val = (document.getElementById(`cred-${platform}-${f.k}`)?.value || '').trim();
-    if (val) creds[f.k] = val;
-  }
-  if (!Object.keys(creds).length) { notify('Renseignez au moins un champ.', 'err'); return; }
-  try {
-    const r = await api('/api/platforms/' + platform + '/credentials', 'PUT', creds);
-    if (r.success) notify(`${PLATFORMS[platform]?.name} : identifiants sauvegardés.`, 'ok');
-    else throw new Error(r.error);
-  } catch (e) { notify(e.message, 'err'); }
-}
-
-async function disconnectConn(platform) {
-  if (!confirm(`Déconnecter ${PLATFORMS[platform]?.name} ?`)) return;
-  try {
-    await api('/api/platforms/' + platform + '/credentials', 'DELETE');
-    notify(`${PLATFORMS[platform]?.name} déconnecté.`, 'info');
-  } catch (e) { notify(e.message, 'err'); }
-}
-
-async function testConn(platform) {
-  notify('Test en cours...', 'info');
-  try {
-    const r = await api('/api/platforms/' + platform + '/test');
-    notify(r.message || (r.success ? 'Connexion OK' : 'Échec'), r.success ? 'ok' : 'err');
-  } catch (e) { notify(e.message, 'err'); }
-}
-
-// ═══════════════════════════════════════════════════════════
-// AI CONFIG
-// ═══════════════════════════════════════════════════════════
-function onAiProviderChange() {
-  const prov = document.getElementById('ai-provider').value;
-  const d = AI_DEFAULTS[prov] || {};
-  document.getElementById('ai-model').placeholder = d.model ? `Défaut: ${d.model}` : '';
-  const hint = document.getElementById('ai-model-hint');
-  hint.textContent = d.model ? `Modèle par défaut: ${d.model}` : '';
-  const endpGrp = document.getElementById('ai-endpoint-grp');
-  endpGrp.style.display = prov === 'custom' ? 'block' : 'none';
-  if (prov !== 'custom') { document.getElementById('ai-endpoint').value = ''; }
-}
-
-async function loadAiConfig() {
-  try {
-    const r = await api('/api/config/ai');
-    if (!r.success) return;
-    const c = r.config || {};
-    if (c.provider) document.getElementById('ai-provider').value = c.provider;
-    if (c.model) document.getElementById('ai-model').value = c.model;
-    if (c.apiKey) document.getElementById('ai-key').placeholder = '***configurée***';
-    if (c.endpoint) document.getElementById('ai-endpoint').value = c.endpoint;
-    if (c.imageProvider) document.getElementById('img-provider').value = c.imageProvider;
-    if (c.imageApiKey) document.getElementById('img-key').placeholder = '***configurée***';
-    onAiProviderChange();
-  } catch (e) { console.warn('AI config:', e.message); }
-}
-
-async function saveAiConfig() {
-  const body = {
-    provider:      document.getElementById('ai-provider').value,
-    model:         document.getElementById('ai-model').value.trim(),
-    apiKey:        document.getElementById('ai-key').value.trim() || '***',
-    endpoint:      document.getElementById('ai-endpoint').value.trim(),
-    imageProvider: document.getElementById('img-provider').value,
-    imageApiKey:   document.getElementById('img-key').value.trim() || '***',
-  };
-  try {
-    const r = await api('/api/config/ai', 'PUT', body);
-    if (r.success) notify('Configuration AI sauvegardée.', 'ok');
-    else throw new Error(r.error);
-  } catch (e) { notify(e.message, 'err'); }
-}
-
-async function testAiConfig() {
-  const el = document.getElementById('ai-test-result');
-  el.style.display = 'block';
-  el.textContent = 'Test en cours...';
-  el.style.color = 'var(--text2)';
-  try {
-    const r = await api('/api/posts/generate', 'POST', {
-      description: 'Test de connexion — voyance par téléphone disponible 24h/24',
-      platforms: ['facebook'],
-      tone: 'balanced',
-      themes: ['telephone'],
-    });
-    if (r.success) {
-      el.textContent = '✓ Moteur AI opérationnel. Texte généré avec succès.';
-      el.style.color = 'var(--green)';
-    } else throw new Error(r.error);
-  } catch (e) {
-    el.textContent = '✕ ' + e.message;
-    el.style.color = 'var(--red)';
-  }
-}
-
-// ═══════════════════════════════════════════════════════════
-// EMAIL CONFIG
-// ═══════════════════════════════════════════════════════════
-async function loadEmailConfig() {
-  try {
-    const r = await api('/api/config/email');
-    if (!r.success) return;
-    const c = r.config || {};
-    if (c.resendApiKey) document.getElementById('email-resend-key').placeholder = '***configurée***';
-    if (c.fromEmail) document.getElementById('email-from').value = c.fromEmail;
-  } catch {}
-}
-
-async function saveEmailConfig() {
-  const body = {
-    resendApiKey: document.getElementById('email-resend-key').value.trim() || '***',
-    fromEmail:    document.getElementById('email-from').value.trim(),
-  };
-  try {
-    const r = await api('/api/config/email', 'PUT', body);
-    if (r.success) notify('Configuration email sauvegardée.', 'ok');
-    else throw new Error(r.error);
-  } catch (e) { notify(e.message, 'err'); }
-}
-
-// ═══════════════════════════════════════════════════════════
-// REFERENCE IMAGE
-// ═══════════════════════════════════════════════════════════
-function saveRef() {
-  const file = document.getElementById('ref-inp').files[0];
-  if (!file) { notify('Sélectionnez une image.', 'err'); return; }
-  const r = new FileReader();
-  r.onload = e => {
-    localStorage.setItem('pgi_ref_img', e.target.result);
-    renderRef(e.target.result);
-    notify('Image de référence sauvegardée.', 'ok');
-  };
-  r.readAsDataURL(file);
-}
-function loadRef() {
-  const img = localStorage.getItem('pgi_ref_img');
-  if (img) renderRef(img);
-}
-function renderRef(src) {
-  document.getElementById('ref-preview').innerHTML =
-    `<div class="text-sm text-muted mb16">Image de référence actuelle :</div>
-     <img src="${src}" style="max-width:420px;border-radius:10px;border:1px solid var(--border)">`;
-}
-
-// ═══════════════════════════════════════════════════════════
-// LOGS
-// ═══════════════════════════════════════════════════════════
-async function loadLogs() {
-  const el = document.getElementById('logs-out');
-  try {
-    const data = await api('/api/posts?limit=30');
-    const lines = [];
-    for (const p of (data.posts||[])) {
-      lines.push(`[${new Date(p.createdAt).toLocaleString('fr-FR')}] POST ${p.id} — ${(p.platforms||[]).join('+')} — ${statusLabel(p.status)}`);
-      if (p.publishedAt) lines.push(`[${new Date(p.publishedAt).toLocaleString('fr-FR')}] POST ${p.id} — PUBLIÉ`);
-      if (p.modifiedAt)  lines.push(`[${new Date(p.modifiedAt).toLocaleString('fr-FR')}] POST ${p.id} — MODIFIÉ — ${p.modificationNote||''}`);
-    }
-    el.innerHTML = lines.length
-      ? lines.reverse().map(l => `<div style="border-bottom:1px solid rgba(24,32,64,.4);padding:3px 0">${l}</div>`).join('')
-      : '<div class="text-muted">Aucun log disponible</div>';
-  } catch (e) { el.innerHTML = `<div class="text-red">${e.message}</div>`; }
-}
-
-// ═══════════════════════════════════════════════════════════
-// RESPONSIVE SIDEBAR
-// ═══════════════════════════════════════════════════════════
-function toggleSidebar() {
-  document.querySelector('.sidebar').classList.toggle('open');
-  document.getElementById('overlay').classList.toggle('on');
-}
-function closeSidebar() {
-  document.querySelector('.sidebar').classList.remove('open');
-  document.getElementById('overlay').classList.remove('on');
-}
-
-// ═══════════════════════════════════════════════════════════
-// PAGE TITLES (extend for new pages)
-// ═══════════════════════════════════════════════════════════
-Object.assign(PAGE_TITLES, {
-  myposts:    'Mes posts sauvegardés',
-  automation: 'Automatisation des publications',
-});
-
-// ═══════════════════════════════════════════════════════════
-// MES POSTS
-// ═══════════════════════════════════════════════════════════
-let schedFilter = 'all';
-
-function buildSchedPlatformGrid(containerId) {
-  document.getElementById(containerId).innerHTML = Object.entries(PLATFORMS).map(([k, p]) =>
-    `<div class="plat-check">
-      <input type="checkbox" id="${containerId}-${k}" value="${k}">
-      <label for="${containerId}-${k}" style="font-size:11px;padding:7px 10px">
-        <span style="font-size:14px">${p.icon}</span>${p.name}
-      </label>
-    </div>`
-  ).join('');
-}
-
-function openNewSchedModal(editData = null) {
-  buildSchedPlatformGrid('sm-platforms');
-  document.getElementById('sm-name').value = editData?.name || '';
-  document.getElementById('sm-desc').value = editData?.description || '';
-  document.getElementById('sm-theme').value = editData?.themes?.[0] || '';
-  document.getElementById('sm-tone').value = editData?.tone || 'balanced';
-  if (editData?.scheduledAt) {
-    const d = new Date(editData.scheduledAt);
-    document.getElementById('sm-date').value = d.toISOString().slice(0,16);
-  } else { document.getElementById('sm-date').value = ''; }
-  if (editData?.platforms) {
-    editData.platforms.forEach(p => {
-      const el = document.getElementById(`sm-platforms-${p}`);
-      if (el) el.checked = true;
-    });
-  }
-  document.getElementById('sched-modal').style.display = 'flex';
-  document.getElementById('sched-modal').dataset.editId = editData?.id || '';
-}
-
-function closeSchedModal() {
-  document.getElementById('sched-modal').style.display = 'none';
-}
-
-async function saveScheduledPost() {
-  const name = document.getElementById('sm-name').value.trim();
-  const description = document.getElementById('sm-desc').value.trim();
-  const platforms = [...document.querySelectorAll('#sm-platforms input:checked')].map(i => i.value);
-  const tone = document.getElementById('sm-tone').value;
-  const theme = document.getElementById('sm-theme').value;
-  const dateVal = document.getElementById('sm-date').value;
-  const generateNow = document.getElementById('sm-generate').checked;
-  const editId = document.getElementById('sched-modal').dataset.editId;
-
-  if (!name) { notify('Donnez un nom à ce post.', 'err'); return; }
-  if (!description) { notify('Décrivez le contenu.', 'err'); return; }
-  if (!platforms.length) { notify('Sélectionnez au moins une plateforme.', 'err'); return; }
-
-  const ldr = document.getElementById('sm-ldr');
-  ldr.style.display = 'inline-block';
-
-  try {
-    const body = {
-      name, description, platforms,
-      tone, themes: theme ? [theme] : [],
-      scheduledAt: dateVal ? new Date(dateVal).getTime() : null,
-      generateNow,
-    };
-
-    let data;
-    if (editId) {
-      data = await api('/api/scheduled/' + editId, 'PUT', body);
-    } else {
-      data = await api('/api/scheduled', 'POST', body);
-    }
-
-    if (!data.success) throw new Error(data.error);
-    closeSchedModal();
-    loadMyPosts();
-    notify(editId ? 'Post mis à jour.' : 'Post sauvegardé.', 'ok');
-  } catch (e) {
-    notify(e.message, 'err');
-  } finally {
-    ldr.style.display = 'none';
-  }
-}
-
-function filterSched(btn, filter) {
-  document.querySelectorAll('.sched-filter').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  schedFilter = filter;
-  loadMyPosts();
-}
-
-async function loadMyPosts() {
-  const el = document.getElementById('myposts-list');
-  el.innerHTML = '<div class="text-muted text-sm">Chargement...</div>';
-  try {
-    const data = await api('/api/scheduled?limit=200');
-    let items = data.scheduled || [];
-    if (schedFilter !== 'all') items = items.filter(i => i.status === schedFilter);
-
-    // Update badge
-    const badge = document.getElementById('myposts-badge');
-    const total = (data.scheduled || []).length;
-    if (total > 0) { badge.style.display = ''; badge.textContent = total; }
-    else badge.style.display = 'none';
-
-    if (!items.length) {
-      el.innerHTML = '<div class="text-muted text-sm">Aucun post dans cette catégorie.</div>';
-      return;
-    }
-
-    el.innerHTML = items.map(item => {
-      const platIcons = (item.platforms || []).map(p => PLATFORMS[p]?.icon || '').join(' ');
-      const hasDate = item.scheduledAt;
-      const dateStr = hasDate ? new Date(item.scheduledAt).toLocaleString('fr-FR') : 'À la demande';
-      const statusMap = { draft:'b-gray', ready:'b-blue', pending_validation:'b-orange', published:'b-green' };
-      const labelMap = { draft:'Brouillon', ready:'Prêt', pending_validation:'En validation', published:'Publié' };
-
-      return `<div class="mypost-card" id="mpc-${item.id}" style="background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:10px">
-        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap">
-          <div style="flex:1;min-width:200px">
-            <div style="font-weight:700;font-size:14px;margin-bottom:4px">${item.name}</div>
-            <div class="text-sm text-muted" style="margin-bottom:6px">${(item.description||'').slice(0,80)}${item.description?.length>80?'…':''}</div>
-            <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center">
-              <span class="badge ${statusMap[item.status]||'b-gray'}">${labelMap[item.status]||item.status}</span>
-              <span class="text-muted" style="font-size:11px">${platIcons}</span>
-              <span class="text-muted" style="font-size:11px">${dateStr}</span>
-              ${item.automationId ? `<span class="badge b-blue" style="font-size:9px">Auto</span>` : ''}
-            </div>
-          </div>
-          <div style="display:flex;gap:6px;flex-wrap:wrap;flex-shrink:0">
-            ${item.status !== 'published' && item.status !== 'pending_validation' ? `
-              <button class="btn btn-neon btn-sm" onclick="publishScheduled('${item.id}')">Publier</button>
-              <button class="btn btn-ghost btn-sm" onclick="generateScheduled('${item.id}')">Générer</button>
-            ` : ''}
-            ${item.content ? `<button class="btn btn-ghost btn-sm" onclick="previewScheduled('${item.id}')">Aperçu</button>` : ''}
-            <button class="btn btn-ghost btn-sm" onclick="editScheduled('${item.id}')">Modifier</button>
-            <button class="btn btn-red btn-sm" onclick="deleteScheduled('${item.id}')">Supprimer</button>
-          </div>
-        </div>
-        <div id="preview-${item.id}" style="display:none;margin-top:12px;border-top:1px solid var(--border);padding-top:12px"></div>
-      </div>`;
-    }).join('');
-  } catch (e) {
-    el.innerHTML = `<div class="text-red text-sm">${e.message}</div>`;
-  }
-}
-
-async function generateScheduled(id) {
-  notify('Génération en cours...', 'info');
-  try {
-    const data = await api('/api/scheduled/' + id + '/generate', 'POST');
-    if (data.success) { notify('Contenu généré.', 'ok'); loadMyPosts(); }
-    else throw new Error(data.error);
-  } catch (e) { notify(e.message, 'err'); }
-}
-
-async function publishScheduled(id) {
-  notify('Envoi pour validation...', 'info');
-  try {
-    const data = await api('/api/scheduled/' + id + '/publish', 'POST');
-    if (data.success) { notify('Email de validation envoyé à chicsensation@gmail.com', 'ok'); loadMyPosts(); }
-    else throw new Error(data.error);
-  } catch (e) { notify(e.message, 'err'); }
-}
-
-async function editScheduled(id) {
-  try {
-    const data = await api('/api/scheduled/' + id);
-    // rebuild from inline data in list (faster)
-    const el = document.getElementById('mpc-' + id);
-    // Just re-fetch and open modal
-    if (!data.success) throw new Error(data.error);
-    openNewSchedModal(data.scheduled || { id });
-  } catch (e) {
-    // fallback: open modal with id only and let user fill
-    document.getElementById('sched-modal').dataset.editId = id;
-    document.getElementById('sched-modal').style.display = 'flex';
-  }
-}
-
-async function deleteScheduled(id) {
-  if (!confirm('Supprimer ce post sauvegardé ?')) return;
-  try {
-    const data = await api('/api/scheduled/' + id, 'DELETE');
-    if (data.success) { notify('Post supprimé.', 'ok'); loadMyPosts(); }
-    else throw new Error(data.error);
-  } catch (e) { notify(e.message, 'err'); }
-}
-
-async function previewScheduled(id) {
-  const el = document.getElementById('preview-' + id);
-  if (el.style.display === 'block') { el.style.display = 'none'; return; }
-  try {
-    const data = await api('/api/scheduled/' + id);
-    const item = data.scheduled;
-    if (!item?.content) { notify('Pas encore de contenu généré.', 'info'); return; }
-    el.innerHTML = `
-      <div style="color:var(--neon);font-size:15px;margin-bottom:8px;font-style:italic">${item.content.hook||''}</div>
-      <div style="font-size:12px;line-height:1.7;color:var(--text2);margin-bottom:8px">${(item.content.mainText||'').slice(0,300)}…</div>
-      <div style="font-size:11px;color:var(--gold)">${item.content.cta||''}</div>
-      ${item.imageUrl ? `<img src="${item.imageUrl}" style="max-width:200px;border-radius:8px;margin-top:8px;border:1px solid var(--border)">` : ''}
-    `;
-    el.style.display = 'block';
-  } catch (e) { notify(e.message, 'err'); }
-}
-
-// ═══════════════════════════════════════════════════════════
-// AUTOMATISATION
-// ═══════════════════════════════════════════════════════════
-function buildAutoPlatGrid(containerId) {
-  document.getElementById(containerId).innerHTML = Object.entries(PLATFORMS).map(([k, p]) =>
-    `<div class="plat-check">
-      <input type="checkbox" id="${containerId}-${k}" value="${k}">
-      <label for="${containerId}-${k}" style="font-size:11px;padding:7px 10px">
-        <span style="font-size:14px">${p.icon}</span>${p.name}
-      </label>
-    </div>`
-  ).join('');
-}
-
-function openAutoModal(editData = null) {
-  buildAutoPlatGrid('am-platforms');
-  document.getElementById('am-id').value   = editData?.id || '';
-  document.getElementById('am-name').value = editData?.name || '';
-  document.getElementById('am-desc').value = editData?.description || '';
-  document.getElementById('am-freq').value = editData?.frequency || 'daily';
-  document.getElementById('am-hour').value = editData?.hour || '09:00';
-  document.getElementById('am-theme').value = editData?.themes?.[0] || '';
-  document.getElementById('am-tone').value  = editData?.tone || 'balanced';
-  document.getElementById('auto-modal-title').textContent = editData ? 'Modifier la règle' : 'Nouvelle règle d\'automatisation';
-  if (editData?.platforms) editData.platforms.forEach(p => {
-    const el = document.getElementById(`am-platforms-${p}`);
-    if (el) el.checked = true;
   });
-  document.getElementById('auto-modal').style.display = 'flex';
+  h+='</div>';
+  document.getElementById('scanOut').innerHTML=h;
 }
 
-function closeAutoModal() {
-  document.getElementById('auto-modal').style.display = 'none';
+// ══════════════════════════════════════════════
+// ANALYSE
+// ══════════════════════════════════════════════
+async function doAnalyse(){
+  const ak=AK();
+  if(!ak){document.getElementById('analyseOut').innerHTML=`<div class="sm er show">⚠️ Configurez votre clé API dans l'onglet Réglages.</div>`;return}
+  const sym=(document.getElementById('aSym').value.trim()||document.getElementById('aMkt').value).toUpperCase().trim();
+  const amt=parseFloat(document.getElementById('aAmt').value)||1000;
+  const all=[...Object.values(MKT).flat()];
+  const info=all.find(m=>m.s===sym)||{s:sym,n:sym};
+
+  const btn=document.getElementById('btnAnalyse');
+  btn.disabled=true;btn.textContent='⏳ ANALYSE EN COURS...';
+  document.getElementById('analyseOut').innerHTML=`<div class="loading"><div class="spin"></div><div class="ltxt">ANALYSE IA EN COURS...</div><div class="lsub">Collecte données + analyse multi-facteurs</div></div>`;
+
+  try{
+    const res=await fetch(`${W()}/analyze`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
+      symbol:sym,name:info.n,amount:amt,provider:curProv,apiKey:ak,
+      avKey:localStorage.getItem('av_key')||'',tdKey:localStorage.getItem('td_key')||''
+    })});
+    if(!res.ok)throw new Error(`Erreur serveur ${res.status}`);
+    const d=await res.json();
+    if(d.error)throw new Error(d.error);
+    renderAnalyse(d,amt,info);
+  }catch(e){
+    document.getElementById('analyseOut').innerHTML=`<div class="sm er show">❌ ${e.message}</div>`;
+  }finally{btn.disabled=false;btn.textContent='⚡ ANALYSER MAINTENANT'}
 }
 
-async function saveAutomation() {
-  const id   = document.getElementById('am-id').value;
-  const name = document.getElementById('am-name').value.trim();
-  const desc = document.getElementById('am-desc').value.trim();
-  const platforms = [...document.querySelectorAll('#am-platforms input:checked')].map(i => i.value);
-  const frequency = document.getElementById('am-freq').value;
-  const hour  = document.getElementById('am-hour').value;
-  const theme = document.getElementById('am-theme').value;
-  const tone  = document.getElementById('am-tone').value;
-
-  if (!name) { notify('Donnez un nom à cette règle.', 'err'); return; }
-  if (!desc)  { notify('Décrivez le contenu à générer.', 'err'); return; }
-  if (!platforms.length) { notify('Sélectionnez au moins une plateforme.', 'err'); return; }
-
-  const ldr = document.getElementById('am-ldr');
-  ldr.style.display = 'inline-block';
-
-  const body = { name, description: desc, platforms, frequency, hour, tone, themes: theme ? [theme] : [], active: true };
-  try {
-    const data = id
-      ? await api('/api/automations/' + id, 'PUT', body)
-      : await api('/api/automations', 'POST', body);
-    if (!data.success) throw new Error(data.error);
-    closeAutoModal();
-    loadAutomations();
-    notify(id ? 'Règle mise à jour.' : 'Règle créée.', 'ok');
-  } catch (e) { notify(e.message, 'err'); }
-  finally { ldr.style.display = 'none'; }
+function renderAnalyse(d,amt,info){
+  const a=d.analysis||d;
+  const p=parseInt(a.probabilite)||0;
+  const pc=probColor(p);
+  const gain=parseFloat(a.gain_estime)||+(amt*p/100*0.04).toFixed(2);
+  const perte=parseFloat(a.perte_max)||+(amt*0.02).toFixed(2);
+  const chgCol=(d.change||0)>=0?'var(--ng)':'var(--nr)';
+  document.getElementById('analyseOut').innerHTML=`
+  <div class="card">
+    <div class="card-t">📊 RÉSULTAT — ${info.n}</div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px">
+      <div>${dirBadge(a.direction)}</div>
+      <div style="text-align:right">
+        <div style="font-family:Orbitron,sans-serif;font-size:9px;letter-spacing:1px;color:var(--txd)">PROBABILITÉ</div>
+        <div style="font-family:Orbitron,sans-serif;font-weight:900;font-size:38px;color:${pc};text-shadow:0 0 14px ${pc}">${p}%</div>
+      </div>
+    </div>
+    <div class="pbar" style="height:8px;margin-bottom:16px"><div class="pfill ${probCls(p)}" style="width:${p}%"></div></div>
+    <div class="row3" style="margin-bottom:14px">
+      <div class="pc"><span class="lbl">PRIX ACTUEL</span><span class="val" style="color:var(--nb)">${d.price?fmt(d.price,d.price>100?2:4):'—'}</span></div>
+      <div class="pc"><span class="lbl">VARIATION 24H</span><span class="val" style="color:${chgCol}">${fmtc(d.change)}</span></div>
+      <div class="pc"><span class="lbl">VOLUME</span><span class="val" style="color:var(--tx);font-size:11px">${d.volume?parseInt(d.volume).toLocaleString('fr-FR'):'—'}</span></div>
+    </div>
+    <div class="pcells" style="margin-bottom:14px">
+      <div class="pc"><span class="lbl">ENTRÉE SUGGÉRÉE</span><span class="val ve">${a.prix_entree||'—'}</span></div>
+      <div class="pc"><span class="lbl">OBJECTIF</span><span class="val vt">${a.prix_cible||'—'}</span></div>
+      <div class="pc"><span class="lbl">STOP-LOSS</span><span class="val vsl">${a.stop_loss||'—'}</span></div>
+    </div>
+    <div class="pnl">
+      <div class="pcard" style="border:1px solid var(--ng)"><div class="plbl">GAIN ESTIMÉ (${amt}€)</div><div class="pgain">+${gain.toFixed(2)}€</div></div>
+      <div class="pcard" style="border:1px solid var(--nr)"><div class="plbl">PERTE MAXIMALE</div><div class="ploss">-${perte.toFixed(2)}€</div></div>
+    </div>
+    ${a.resume?`<div class="sumbox">${a.resume}</div>`:''}
+    ${(a.raisons||[]).length?`<div style="margin-top:12px"><div style="font-family:Orbitron,sans-serif;font-size:9px;letter-spacing:2px;color:var(--txd);margin-bottom:8px">RAISONS PRINCIPALES</div>${a.raisons.map(r=>`<div class="ri" style="margin-bottom:5px;font-size:14px">${r}</div>`).join('')}</div>`:''}
+    <div class="tags" style="margin-top:12px">
+      <span class="tz">${a.horizon_temps||'Court terme'}</span>
+      <span class="tz ${riskCls(a.niveau_risque)}">Risque ${a.niveau_risque||'Modéré'}</span>
+    </div>
+    <div style="font-size:11px;color:var(--txd);margin-top:14px;padding-top:10px;border-top:1px solid var(--bdr)">
+      ⚠️ Analyse informative uniquement. Investir comporte des risques. Consultez un conseiller financier.
+    </div>
+  </div>`;
 }
 
-const FREQ_LABELS = {
-  daily:'Quotidien', '2days':'Tous les 2 jours', '3days':'Tous les 3 jours',
-  weekly:'Hebdomadaire', biweekly:'Bihebdomadaire', monthly:'Mensuel'
+// ══════════════════════════════════════════════
+// DASHBOARD
+// ══════════════════════════════════════════════
+async function loadDash(){
+  const cat=document.getElementById('dCat').value;
+  const list=MKT[cat]||[];
+  document.getElementById('dashOut').innerHTML=`<div class="loading"><div class="spin"></div><div class="ltxt">CHARGEMENT...</div></div>`;
+  try{
+    const syms=list.map(m=>m.s).join(',');
+    const res=await fetch(`${W()}/market-data?symbols=${encodeURIComponent(syms)}`);
+    if(!res.ok)throw new Error(`${res.status}`);
+    const d=await res.json();
+    renderDash(d.quotes||[],list);
+  }catch(e){
+    document.getElementById('dashOut').innerHTML=`<div class="sm er show">❌ ${e.message}</div>`;
+  }
+}
+
+function renderDash(quotes,list){
+  let h='<div class="dgrid">';
+  list.forEach(m=>{
+    const q=quotes.find(x=>x.symbol===m.s)||{};
+    const chg=q.regularMarketChangePercent||0;
+    const prc=q.regularMarketPrice||0;
+    const cc=chg>=0?'var(--ng)':'var(--nr)';
+    const arr=chg>=0?'▲':'▼';
+    h+=`<div class="dcard">
+      <div class="dsym">${m.n}</div>
+      <div class="dprc">${fmt(prc,prc>100?2:4)}</div>
+      <div class="dchg" style="color:${cc}">${arr} ${Math.abs(chg).toFixed(2)}%</div>
+      ${q.regularMarketDayHigh?`<div class="dhl">H: ${fmt(q.regularMarketDayHigh,2)} · B: ${fmt(q.regularMarketDayLow,2)}</div>`:''}
+    </div>`;
+  });
+  h+='</div>';
+  document.getElementById('dashOut').innerHTML=h;
+}
+
+// ══════════════════════════════════════════════
+// TICKER
+// ══════════════════════════════════════════════
+const TSYMS=['EURUSD=X','GBPUSD=X','USDJPY=X','^FCHI','^NDX','^GSPC','^DJI','BTC-USD','GC=F','CL=F'];
+async function loadTicker(){
+  try{
+    const res=await fetch(`${W()}/market-data?symbols=${encodeURIComponent(TSYMS.join(','))}`);
+    if(!res.ok)return;
+    const d=await res.json();
+    const qs=d.quotes||[];
+    TSYMS.forEach((s,i)=>{
+      const q=qs.find(x=>x.symbol===s)||{};
+      const prc=q.regularMarketPrice||0;
+      const chg=q.regularMarketChangePercent||0;
+      const cls=chg>=0?'up':'dn';
+      const pEl=document.getElementById(`tk-${i}`);
+      const cEl=document.getElementById(`tc-${i}`);
+      if(pEl)pEl.textContent=fmt(prc,prc>100?2:4);
+      if(cEl){cEl.textContent=(chg>=0?'▲':'▼')+Math.abs(chg).toFixed(2)+'%';cEl.className=cls}
+    });
+  }catch(e){}
+}
+
+// ══════════════════════════════════════════════
+// NEWS BLOOMBERG
+// ══════════════════════════════════════════════
+let newsAutoRefresh=null;
+async function loadNews(){
+  const cat=document.getElementById('nCat')?.value||'all';
+  document.getElementById('newsOut').innerHTML=`<div class="loading"><div class="spin"></div><div class="ltxt">CHARGEMENT NEWS...</div><div class="lsub">Agrégation Reuters · Bloomberg · FT · BFM · Les Echos...</div></div>`;
+  try{
+    const res=await fetch(`${W()}/news?cat=${cat}`);
+    if(!res.ok)throw new Error(`${res.status}`);
+    const d=await res.json();
+    renderNews(d.articles||[],d.ts);
+  }catch(e){
+    document.getElementById('newsOut').innerHTML=`<div class="sm er show">❌ ${e.message} — Vérifiez la connexion au Worker.</div>`;
+  }
+}
+
+function timeAgo(pub){
+  if(!pub)return'';
+  try{
+    const d=new Date(pub);
+    const mins=Math.floor((Date.now()-d)/60000);
+    if(mins<2)return'il y a quelques secondes';
+    if(mins<60)return`il y a ${mins} min`;
+    if(mins<1440)return`il y a ${Math.floor(mins/60)}h`;
+    return`il y a ${Math.floor(mins/1440)}j`;
+  }catch{return pub.slice(0,16)}
+}
+
+const SRC_CLR={
+  'Reuters Finance':'var(--no)','Bloomberg (public)':'var(--ny)',
+  'FT Markets':'var(--np)','CNBC Finance':'var(--nb)',
+  'Market Watch':'var(--ng)','Les Echos':'var(--ny)',
+  'BFM Bourse':'var(--no)','Boursorama':'var(--nb)',
+  'Investing.com FR':'var(--ng)','Yahoo Finance':'var(--np)',
 };
 
-async function loadAutomations() {
-  const el = document.getElementById('auto-list');
-  el.innerHTML = '<div class="text-muted text-sm">Chargement...</div>';
-  try {
-    const data = await api('/api/automations');
-    const rules = data.automations || [];
-    if (!rules.length) {
-      el.innerHTML = `<div style="text-align:center;padding:40px 20px;color:var(--text2)">
-        <div style="font-size:40px;margin-bottom:12px">⚙</div>
-        <div style="font-size:14px;margin-bottom:12px">Aucune règle d'automatisation</div>
-        <button class="btn btn-neon btn-sm" onclick="openAutoModal()">Créer ma première règle</button>
-      </div>`;
-      return;
-    }
-    el.innerHTML = rules.map(r => {
-      const platIcons = (r.platforms || []).map(p => PLATFORMS[p]?.icon || '').join(' ');
-      const nextDate = r.nextRun ? new Date(r.nextRun).toLocaleString('fr-FR') : '—';
-      const lastDate = r.lastRun ? new Date(r.lastRun).toLocaleString('fr-FR') : 'Jamais';
-      return `<div style="background:var(--bg2);border:1px solid ${r.active?'rgba(0,191,255,.25)':'var(--border)'};border-radius:10px;padding:18px;margin-bottom:12px">
-        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap">
-          <div style="flex:1;min-width:200px">
-            <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;flex-wrap:wrap">
-              <div style="font-weight:700;font-size:14px">${r.name}</div>
-              <span class="badge ${r.active?'b-green':'b-gray'}">${r.active?'Active':'Inactive'}</span>
-              <span class="badge b-blue">${FREQ_LABELS[r.frequency]||r.frequency}</span>
-            </div>
-            <div class="text-sm text-muted" style="margin-bottom:8px">${(r.description||'').slice(0,80)}…</div>
-            <div style="display:flex;gap:16px;flex-wrap:wrap">
-              <span class="text-sm" style="color:var(--text2)">Plateformes: <span style="color:var(--text)">${platIcons} ${(r.platforms||[]).map(p=>PLATFORMS[p]?.name||p).join(', ')}</span></span>
-            </div>
-            <div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:6px">
-              <span class="text-sm text-muted">Heure: <span style="color:var(--neon)">${r.hour||'09:00'}</span></span>
-              <span class="text-sm text-muted">Prochain envoi: <span style="color:var(--gold)">${nextDate}</span></span>
-              <span class="text-sm text-muted">Dernier envoi: ${lastDate}</span>
-              <span class="text-sm text-muted">Exécutions: <span style="color:var(--text)">${r.runCount||0}</span></span>
-            </div>
-          </div>
-          <div style="display:flex;gap:7px;flex-wrap:wrap;flex-shrink:0">
-            <button class="btn ${r.active?'btn-ghost':'btn-green'} btn-sm" onclick="toggleAuto('${r.id}')">${r.active?'Désactiver':'Activer'}</button>
-            <button class="btn btn-neon btn-sm" onclick="runAutoNow('${r.id}')">Exécuter</button>
-            <button class="btn btn-ghost btn-sm" onclick="editAuto('${r.id}')">Modifier</button>
-            <button class="btn btn-red btn-sm" onclick="deleteAuto('${r.id}')">Supprimer</button>
-          </div>
+function srcColor(src){return SRC_CLR[src]||'var(--txd)'}
+
+function renderNews(articles,ts){
+  if(!articles.length){
+    document.getElementById('newsOut').innerHTML=`<div class="empty"><div class="eico">📭</div><div class="etit">AUCUNE NEWS DISPONIBLE</div><div style="font-size:12px;margin-top:8px">Réessayez dans quelques instants.</div></div>`;
+    return;
+  }
+  const updated=ts?new Date(ts).toLocaleTimeString('fr-FR'):'—';
+  let h=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px">
+    <div style="font-family:Orbitron,sans-serif;font-size:9px;color:var(--txd);letter-spacing:2px">${articles.length} ARTICLES — MÀJ ${updated}</div>
+    <button class="btn-sec" onclick="loadNews()" style="font-size:9px;padding:6px 12px">↻ REFRESH</button>
+  </div>`;
+
+  // Top story (premier article)
+  const top=articles[0];
+  h+=`<div class="card" style="border-color:var(--ny);background:rgba(255,230,0,.03);margin-bottom:14px">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+      <div style="background:var(--ny);color:#000;font-family:Orbitron,sans-serif;font-size:9px;font-weight:900;padding:3px 8px;border-radius:3px;letter-spacing:1px">TOP STORY</div>
+      <div style="font-family:Orbitron,sans-serif;font-size:9px;color:${srcColor(top.source)}">${top.source}</div>
+      <div style="font-size:10px;color:var(--txd);margin-left:auto">${timeAgo(top.pub)}</div>
+    </div>
+    <div style="font-family:Orbitron,sans-serif;font-size:13px;font-weight:700;color:var(--txb);line-height:1.4;margin-bottom:8px">${top.title}</div>
+    ${top.desc?`<div style="font-size:13px;color:var(--txd);line-height:1.6">${top.desc}</div>`:''}
+    ${top.link?`<a href="${top.link}" target="_blank" style="display:inline-block;margin-top:10px;font-family:Orbitron,sans-serif;font-size:9px;color:var(--nb);letter-spacing:1px">LIRE L'ARTICLE →</a>`:''}
+  </div>`;
+
+  // Grille news
+  h+='<div class="card"><div class="card-t">📡 FLUX EN DIRECT</div>';
+  articles.slice(1).forEach(a=>{
+    h+=`<div style="padding:12px 0;border-bottom:1px solid var(--bdr);display:flex;gap:12px;align-items:flex-start">
+      <div style="flex:1;min-width:0">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px;flex-wrap:wrap">
+          <span style="font-family:Orbitron,sans-serif;font-size:9px;color:${srcColor(a.source)};letter-spacing:.5px;flex-shrink:0">${a.source}</span>
+          <span style="font-size:9px;color:var(--txd)">${timeAgo(a.pub)}</span>
         </div>
-      </div>`;
-    }).join('');
-  } catch (e) { el.innerHTML = `<div class="text-red text-sm">${e.message}</div>`; }
+        <div style="font-weight:600;font-size:14px;color:var(--txb);line-height:1.35;margin-bottom:4px">${a.title}</div>
+        ${a.desc?`<div style="font-size:12px;color:var(--txd);line-height:1.5;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical">${a.desc}</div>`:''}
+        ${a.link?`<a href="${a.link}" target="_blank" style="font-family:Orbitron,sans-serif;font-size:9px;color:var(--nb);letter-spacing:.5px;margin-top:5px;display:inline-block">LIRE →</a>`:''}
+      </div>
+    </div>`;
+  });
+  h+='</div>';
+  document.getElementById('newsOut').innerHTML=h;
 }
 
-async function toggleAuto(id) {
-  try {
-    const data = await api('/api/automations/' + id + '/toggle', 'POST');
-    notify(data.active ? 'Règle activée.' : 'Règle désactivée.', 'ok');
-    loadAutomations();
-  } catch (e) { notify(e.message, 'err'); }
+
+async function checkGmail(){
+  try{
+    const res=await fetch(`${W()}/alerts/status`);
+    const d=await res.json();
+    document.getElementById('gdot').className='gdot '+(d.gmail_connected?'on':'off');
+    const txt=document.getElementById('gtxt');
+    txt.textContent=d.gmail_connected?'Gmail connecté ✓':'Gmail non connecté';
+    txt.style.color=d.gmail_connected?'var(--ng)':'var(--txd)';
+    document.getElementById('altTog').checked=d.alerts_enabled||false;
+  }catch(e){document.getElementById('gtxt').textContent='Worker inaccessible'}
 }
 
-async function runAutoNow(id) {
-  notify('Génération en cours...', 'info');
-  try {
-    const data = await api('/api/automations/' + id + '/run', 'POST');
-    if (data.success) notify('Post généré et email envoyé à chicsensation@gmail.com', 'ok');
-    else throw new Error(data.error);
-    loadAutomations();
-  } catch (e) { notify(e.message, 'err'); }
+async function toggleAlerts(){
+  const en=document.getElementById('altTog').checked;
+  try{await fetch(`${W()}/alerts/toggle`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({enabled:en})})}catch(e){}
+  localStorage.setItem('alerts_en',en);
 }
 
-async function editAuto(id) {
-  try {
-    const data = await api('/api/automations/' + id);
-    if (data.success) openAutoModal(data.automation);
-  } catch (e) { notify(e.message, 'err'); }
+async function saveAlerts(){
+  const sel=document.getElementById('altMkts');
+  const mks=Array.from(sel.options).filter(o=>o.selected).map(o=>o.value);
+  const thr=document.getElementById('altThr').value;
+  const en=document.getElementById('altTog').checked;
+  localStorage.setItem('alerts_en',en);
+  localStorage.setItem('alt_thr',thr);
+  localStorage.setItem('alt_mkts',JSON.stringify(mks));
+  try{
+    await fetch(`${W()}/alerts/config`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
+      enabled:en,threshold:thr,markets:mks,email:'chicsensation@gmail.com',
+      provider:curProv,apiKey:AK()
+    })});
+    showSM('altStatus','✓ Réglages alertes sauvegardés !','ok');
+  }catch(e){showSM('altStatus','❌ Erreur: '+e.message,'er')}
 }
 
-async function deleteAuto(id) {
-  if (!confirm('Supprimer cette règle d\'automatisation ?')) return;
-  try {
-    const data = await api('/api/automations/' + id, 'DELETE');
-    if (data.success) { notify('Règle supprimée.', 'ok'); loadAutomations(); }
-    else throw new Error(data.error);
-  } catch (e) { notify(e.message, 'err'); }
+function authGmail(){window.open(`${W()}/auth/gmail`,'_blank','width=520,height=620')}
+
+// ══════════════════════════════════════════════
+// SETTINGS
+// ══════════════════════════════════════════════
+function selProv(k){
+  curProv=k;
+  document.querySelectorAll('.prov').forEach(b=>b.classList.remove('act'));
+  document.getElementById('p-'+k)?.classList.add('act');
+  const p=AI_PROV[k]||{};
+  document.getElementById('aklbl').textContent=p.lbl||'API KEY';
+  document.getElementById('akhint').innerHTML='🔗 '+p.hint;
 }
 
-function statusLabel(s) {
-  return { published:'Publié', pending_validation:'En attente', modification_requested:'Modification', approved:'Approuvé', partial:'Partiel', publishing:'Publication...', failed:'Erreur' }[s] || s || '—';
-}
-function statusBadge(s) {
-  return { published:'b-green', pending_validation:'b-orange', modification_requested:'b-blue', partial:'b-orange', publishing:'b-blue', failed:'b-red' }[s] || 'b-gray';
+function saveSettings(){
+  localStorage.setItem('ai_provider',curProv);
+  localStorage.setItem('ai_key',document.getElementById('aiKey').value);
+  localStorage.setItem('av_key',document.getElementById('avKey').value);
+  localStorage.setItem('td_key',document.getElementById('tdKey').value);
+  localStorage.setItem('worker_url',document.getElementById('wUrl').value);
+  showSM('saveMsg','✓ Réglages sauvegardés avec succès !','ok');
 }
 
-let _notifTimer;
-function notify(msg, type = 'info') {
-  const el = document.getElementById('notif');
-  el.className = `notif on ${ {ok:'n-ok', err:'n-err', info:'n-info'}[type] || 'n-info' }`;
-  el.innerHTML = `<span>${type==='ok'?'✓':type==='err'?'✕':'ℹ'}</span><span>${msg}</span>`;
-  clearTimeout(_notifTimer);
-  _notifTimer = setTimeout(() => el.classList.remove('on'), 5500);
+function loadSettings(){
+  curProv=localStorage.getItem('ai_provider')||'groq';
+  document.getElementById('aiKey').value=localStorage.getItem('ai_key')||'';
+  document.getElementById('avKey').value=localStorage.getItem('av_key')||'';
+  document.getElementById('tdKey').value=localStorage.getItem('td_key')||'';
+  const wu=localStorage.getItem('worker_url');if(wu)document.getElementById('wUrl').value=wu;
+  selProv(curProv);
+  const thr=localStorage.getItem('alt_thr');if(thr)document.getElementById('altThr').value=thr;
+  const mks=JSON.parse(localStorage.getItem('alt_mkts')||'[]');
+  if(mks.length){const sel=document.getElementById('altMkts');for(const o of sel.options)o.selected=mks.includes(o.value)}
 }
+
+async function testWorker(){
+  const u=document.getElementById('wUrl').value;
+  showSM('wTest','⏳ Test en cours...','inf');
+  document.getElementById('wTest').className='sm inf show';
+  try{
+    const res=await fetch(`${u}/health`);
+    const d=await res.json();
+    showSM('wTest',`✓ Worker OK — v${d.version||'1.0'}  — ${d.status||'OK'}`,'ok');
+  }catch(e){showSM('wTest','❌ Worker inaccessible. Vérifiez l\'URL et le déploiement Cloudflare.','er')}
+}
+
+// ══════════════════════════════════════════════
+// HORLOGE
+// ══════════════════════════════════════════════
+function clock(){
+  const d=new Date();
+  document.getElementById('clock').textContent=
+    String(d.getHours()).padStart(2,'0')+':'+
+    String(d.getMinutes()).padStart(2,'0')+':'+
+    String(d.getSeconds()).padStart(2,'0');
+}
+
+// ══════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════
+window.addEventListener('DOMContentLoaded',()=>{
+  loadSettings();
+  fillScanMarkets();
+  fillAnalyseMarkets();
+  clock();setInterval(clock,1000);
+  setTimeout(()=>{loadTicker();setInterval(loadTicker,60000)},1200);
+  setTimeout(checkGmail,1800);
+});
 </script>
 </body>
 </html>
