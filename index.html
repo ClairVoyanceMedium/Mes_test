@@ -1,252 +1,732 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PGI • Posting Marketing</title>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<style>
-:root {
-  --neon:#00bfff; --neon2:#0077dd; --neon3:#0044aa;
-  --glow:0 0 6px #00bfff,0 0 14px #00bfff88,0 0 30px #0055cc44;
-  --bg:#06060f; --bg2:#0b0b1c; --bg3:#0f0f28;
-  --panel:#0d0d22; --border:#182040; --border2:#223070;
-  --text:#ccd6f5; --text2:#7888bb; --text3:#4455aa;
-  --gold:#c4a044; --green:#00bb55; --red:#cc2244; --orange:#ee7722;
-  --sw:264px; --r:10px;
-}
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%}
-body{font-family:'Raleway',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;overscroll-behavior-y:none}
-body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(1.5px 1.5px at 8% 12%,rgba(0,191,255,.5) 0%,transparent 100%),radial-gradient(1px 1px at 22% 65%,rgba(0,191,255,.35) 0%,transparent 100%),radial-gradient(1px 1px at 38% 28%,rgba(0,191,255,.4) 0%,transparent 100%),radial-gradient(1.5px 1.5px at 55% 80%,rgba(0,191,255,.3) 0%,transparent 100%),radial-gradient(1px 1px at 70% 18%,rgba(0,191,255,.45) 0%,transparent 100%),radial-gradient(1.5px 1.5px at 82% 55%,rgba(0,191,255,.4) 0%,transparent 100%),radial-gradient(1px 1px at 92% 88%,rgba(196,160,68,.4) 0%,transparent 100%),radial-gradient(1px 1px at 15% 90%,rgba(196,160,68,.35) 0%,transparent 100%),radial-gradient(1px 1px at 60% 45%,rgba(196,160,68,.3) 0%,transparent 100%)}
-@keyframes nflicker{0%,91%,93%,95%,100%{text-shadow:var(--glow);opacity:1}92%,94%{text-shadow:none;opacity:.82}}
-@keyframes fadein{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
-@keyframes spin{to{transform:rotate(360deg)}}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.55}}
-.neon-title{font-family:'Cinzel',serif;color:var(--neon);text-shadow:var(--glow);animation:nflicker 4s infinite;letter-spacing:.12em;line-height:1.15}
-.sidebar{position:fixed;left:0;top:0;bottom:0;width:var(--sw);background:linear-gradient(180deg,#09091e 0%,#070716 100%);border-right:1px solid var(--border);display:flex;flex-direction:column;z-index:100;overflow-y:auto;transition:left .25s cubic-bezier(.4,0,.2,1)}
-.sidebar-head{padding:24px 18px 20px;border-bottom:1px solid var(--border)}
-.logo-block .neon-title{font-size:16px}.logo-sub{font-size:9px;color:var(--text3);letter-spacing:3px;text-transform:uppercase;margin-top:5px}
-.worker-status{margin-top:10px;font-size:10px;display:flex;align-items:center;gap:6px}.dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}.dot-green{background:var(--green);box-shadow:0 0 6px var(--green);animation:pulse 2s infinite}.dot-red{background:var(--red)}.dot-orange{background:var(--orange);animation:pulse 2s infinite}
-.nav-section{padding:16px 14px 6px;font-size:9px;color:var(--text3);letter-spacing:2px;text-transform:uppercase;font-weight:700}
-.nav-item{display:flex;align-items:center;gap:10px;padding:9px 16px;margin:2px 8px;border-radius:8px;cursor:pointer;color:var(--text2);font-size:12.5px;font-weight:500;transition:all .18s;user-select:none;border-left:2px solid transparent}
-.nav-item:hover{background:rgba(0,191,255,.06);color:var(--text)}.nav-item.active{background:rgba(0,191,255,.10);color:var(--neon);border-left-color:var(--neon);margin-left:6px}
-.nav-icon{font-size:15px;width:18px;text-align:center;flex-shrink:0}.nav-badge{margin-left:auto;background:rgba(238,119,34,.2);color:var(--orange);border:1px solid rgba(238,119,34,.4);border-radius:12px;font-size:10px;padding:1px 7px}
-.sidebar-footer{margin-top:auto;padding:14px 16px;border-top:1px solid var(--border);font-size:10px;color:var(--text3);text-align:center}
-.worker-bar{background:rgba(0,40,100,.3);border:1px solid var(--border2);border-radius:8px;padding:10px 14px;margin:12px 10px 4px;display:flex;align-items:center;gap:8px}.worker-bar input{flex:1;background:transparent;border:none;outline:none;color:var(--text);font-size:11px;font-family:'Raleway',sans-serif}.worker-bar input::placeholder{color:var(--text3)}
-.main{margin-left:var(--sw);min-height:100vh;display:flex;flex-direction:column;position:relative;z-index:1}.topbar{height:58px;background:rgba(8,8,20,.95);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:50;backdrop-filter:blur(12px)}.topbar-title{font-family:'Cinzel',serif;font-size:13px;letter-spacing:2px;color:var(--text)}.topbar-right{display:flex;align-items:center;gap:12px}.page-content{padding:28px;flex:1}.page{display:none}.page.active{display:block;animation:fadein .3s ease}
-.card{background:var(--panel);border:1px solid var(--border);border-radius:var(--r);padding:22px;margin-bottom:18px}.card-title{font-family:'Cinzel',serif;font-size:12px;color:var(--neon);letter-spacing:2px;text-transform:uppercase;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border)}
-.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:22px}.stat-card{aspect-ratio:1/1;min-height:150px;background:linear-gradient(135deg,#0b0b24,#0e0e2e);border:1px solid var(--border);border-radius:var(--r);padding:18px;text-align:center;transition:all .2s;display:flex;flex-direction:column;align-items:center;justify-content:center}.stat-num{font-family:'Cinzel',serif;font-size:38px;font-weight:700;background:linear-gradient(135deg,var(--neon),var(--neon2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;margin-bottom:7px}.stat-lbl{font-size:10px;color:var(--text2);letter-spacing:1.5px;text-transform:uppercase;line-height:1.35}
-.plat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(128px,1fr));gap:9px}.plat-check{position:relative}.plat-check input{position:absolute;opacity:0;width:0;height:0}.plat-check label{display:flex;align-items:center;gap:7px;padding:9px 13px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;cursor:pointer;font-size:12.5px;transition:all .18s;user-select:none}.plat-check input:checked+label{background:rgba(0,191,255,.1);border-color:var(--neon);color:var(--neon);box-shadow:0 0 10px rgba(0,191,255,.12)}.plat-check label:hover{border-color:var(--border2)}.plat-icon{font-size:16px;flex-shrink:0}.plat-mode-badge{margin-left:auto;font-size:9px;color:var(--text3);background:rgba(255,255,255,.05);border-radius:4px;padding:1px 5px}
-.fgrp{margin-bottom:18px}.flabel{display:block;font-size:10px;color:var(--text2);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:7px;font-weight:700}.finput,.fselect,.ftextarea{width:100%;padding:11px 15px;background:rgba(0,0,0,.35);border:1px solid var(--border2);border-radius:8px;color:var(--text);font-family:'Raleway',sans-serif;font-size:13.5px;outline:none;transition:border-color .18s,box-shadow .18s}.finput:focus,.fselect:focus,.ftextarea:focus{border-color:var(--neon);box-shadow:0 0 0 2px rgba(0,191,255,.1)}.fselect{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='7'%3E%3Cpath d='M1 1l4.5 5 4.5-5' stroke='%237888bb' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 13px center;padding-right:36px}.fselect option,.finput option{background:var(--bg2)}.ftextarea{resize:vertical;min-height:90px;line-height:1.6}.fhelp{font-size:11px;color:var(--text3);margin-top:5px;line-height:1.5}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.btn{display:inline-flex;align-items:center;gap:7px;padding:10px 20px;border-radius:8px;font-family:'Raleway',sans-serif;font-size:12.5px;font-weight:600;cursor:pointer;transition:all .18s;border:1px solid transparent;text-decoration:none;letter-spacing:.4px;justify-content:center}.btn-neon{background:linear-gradient(135deg,#002255,#004488);border-color:var(--neon);color:#fff;box-shadow:0 0 10px rgba(0,191,255,.2)}.btn-green{background:linear-gradient(135deg,#003a18,#006030);border-color:var(--green);color:#fff}.btn-red{background:rgba(204,34,68,.15);border-color:var(--red);color:var(--red)}.btn-orange{background:rgba(238,119,34,.15);border-color:var(--orange);color:var(--orange)}.btn-ghost{background:transparent;border-color:var(--border2);color:var(--text2)}.btn-sm{padding:6px 13px;font-size:11px}.btn-full{width:100%;justify-content:center}.btn:disabled{opacity:.45;cursor:not-allowed;transform:none}.loader{display:inline-block;width:16px;height:16px;border:2px solid rgba(0,191,255,.25);border-top-color:var(--neon);border-radius:50%;animation:spin .7s linear infinite}
-.result-box{background:linear-gradient(135deg,#08082a,#0b0b26);border:1px solid var(--border2);border-radius:var(--r);padding:22px;margin-top:18px;display:none}.result-box.on{display:block}.r-hook{font-family:'Cinzel',serif;font-size:19px;color:var(--neon);text-shadow:0 0 8px rgba(0,191,255,.35);margin-bottom:14px;line-height:1.4}.r-section{background:rgba(0,0,0,.2);border-left:2px solid var(--border2);padding:11px 15px;margin-bottom:10px;border-radius:0 6px 6px 0}.r-lbl{font-size:9px;color:var(--text3);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:5px}.r-val{font-size:13px;line-height:1.7;color:var(--text)}.plat-result{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:12px;margin-bottom:9px}.plat-result-name{font-weight:700;font-size:11px;color:var(--neon);letter-spacing:1px;margin-bottom:7px}.img-box{background:var(--bg2);border:1px dashed var(--border2);border-radius:10px;min-height:180px;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}.img-box img{width:100%;border-radius:10px;display:block}.img-placeholder{text-align:center;color:var(--text3);padding:24px}
-.conn-item{border:1px solid var(--border);border-radius:10px;margin-bottom:14px;overflow:hidden}.conn-head{padding:14px 18px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;background:var(--bg2);transition:background .15s}.conn-name{display:flex;align-items:center;gap:12px}.conn-icon{font-size:22px}.conn-label{font-weight:600;font-size:13px}.conn-mode{font-size:10px;color:var(--text3);margin-top:2px}.conn-body{padding:18px;background:rgba(0,0,0,.15);display:none}.conn-body.open{display:block}.conn-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-.t-wrap{overflow-x:auto}table{width:100%;border-collapse:collapse}thead th{padding:9px 13px;text-align:left;font-size:9.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text2);border-bottom:1px solid var(--border);font-weight:700}tbody tr{border-bottom:1px solid rgba(24,32,64,.5);transition:background .12s}tbody td{padding:11px 13px;font-size:12.5px;vertical-align:middle}.td-mono{font-family:monospace;color:var(--text2);font-size:11px}.td-clamp{max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.badge{display:inline-block;padding:2px 9px;border-radius:20px;font-size:9.5px;font-weight:700;letter-spacing:.8px;text-transform:uppercase}.b-green{background:rgba(0,187,85,.12);color:var(--green);border:1px solid rgba(0,187,85,.3)}.b-red{background:rgba(204,34,68,.12);color:var(--red);border:1px solid rgba(204,34,68,.3)}.b-orange{background:rgba(238,119,34,.12);color:var(--orange);border:1px solid rgba(238,119,34,.3)}.b-blue{background:rgba(0,191,255,.09);color:var(--neon);border:1px solid rgba(0,191,255,.25)}.b-gray{background:rgba(120,136,187,.1);color:var(--text2);border:1px solid rgba(120,136,187,.2)}
-.notif{position:fixed;top:72px;right:22px;z-index:9999;max-width:390px;padding:12px 18px;border-radius:10px;font-size:13px;font-weight:500;display:none;align-items:center;gap:10px;box-shadow:0 4px 24px rgba(0,0,0,.45)}.notif.on{display:flex}.n-ok{background:#081e12;border:1px solid var(--green);color:var(--green)}.n-err{background:#1a080e;border:1px solid var(--red);color:var(--red)}.n-info{background:#081428;border:1px solid var(--neon);color:var(--neon)}
-.cal-day-names{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:6px}.cal-day-name{text-align:center;font-size:9.5px;color:var(--text3);padding:5px;font-weight:700;letter-spacing:1px}.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}.cal-day{min-height:64px;background:var(--bg2);border:1px solid var(--border);border-radius:7px;padding:6px;font-size:11px}.cal-day.today{border-color:var(--neon);background:rgba(0,191,255,.07)}.cal-day-num{font-weight:700;color:var(--text2);margin-bottom:4px;font-size:12px}.cal-event{background:rgba(0,80,180,.25);border-radius:4px;padding:2px 5px;margin-bottom:2px;font-size:10px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
-.ref-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}.ref-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:12px;position:relative}.ref-img{width:100%;height:150px;object-fit:cover;border-radius:9px;border:1px solid var(--border2);display:block;background:#050510}.ref-id{font-family:monospace;color:var(--gold);font-size:10px;margin-bottom:6px}.ref-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
-.img-toggle-row{display:flex;align-items:center;gap:10px;padding:12px 16px;background:rgba(0,191,255,.04);border:1px solid rgba(0,191,255,.15);border-radius:10px;cursor:pointer;user-select:none;margin-bottom:0}.img-toggle-row input[type=checkbox]{width:17px;height:17px;accent-color:var(--neon);cursor:pointer;flex-shrink:0}.img-toggle-label{font-size:12px;font-weight:700;color:var(--neon);letter-spacing:.8px;text-transform:uppercase}.img-toggle-sub{font-size:11px;color:var(--text3);margin-left:auto}.img-options-panel{overflow:hidden;max-height:0;opacity:0;transition:max-height .35s cubic-bezier(.4,0,.2,1),opacity .25s;pointer-events:none}.img-options-panel.open{max-height:600px;opacity:1;pointer-events:auto}.img-options-inner{padding:16px;background:rgba(0,0,20,.35);border:1px solid var(--border2);border-top:none;border-radius:0 0 10px 10px}.img-cols{display:grid;grid-template-columns:1fr 1fr;gap:14px}.img-col-label{font-size:9px;color:var(--text3);letter-spacing:1.5px;text-transform:uppercase;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:6px}.img-col-label span{font-size:14px}.lib-autocomplete-wrap{position:relative}.lib-autocomplete-list{position:absolute;top:100%;left:0;right:0;z-index:200;background:var(--bg3);border:1px solid var(--border2);border-top:none;border-radius:0 0 8px 8px;max-height:180px;overflow-y:auto;display:none}.lib-autocomplete-list.open{display:block}.lib-ac-item{display:flex;align-items:center;gap:8px;padding:8px 12px;cursor:pointer;font-size:12px}.lib-ac-item img{width:32px;height:32px;object-fit:cover;border-radius:5px;flex-shrink:0}.lib-ac-name{font-size:12px;color:var(--text);line-height:1.2}.lib-ac-num{font-size:9px;color:var(--text3)}.lib-preview-chip{display:inline-flex;align-items:center;gap:7px;background:rgba(196,160,68,.1);border:1px solid rgba(196,160,68,.3);border-radius:20px;padding:5px 10px;font-size:11px;color:var(--gold);margin-top:8px}.lib-preview-chip img{width:24px;height:24px;object-fit:cover;border-radius:50%}.lib-preview-chip .rm{cursor:pointer;color:var(--text3);margin-left:4px;font-size:13px;line-height:1}.pinterest-board-item{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;margin-top:8px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}.pinterest-board-meta{flex:1;min-width:180px}.pinterest-board-name{font-size:12px;font-weight:600;color:var(--text)}.pinterest-board-id{font-size:10px;color:var(--text3);font-family:monospace;margin-top:4px;word-break:break-all}
-.divider{height:1px;background:var(--border);margin:18px 0}.mt8{margin-top:8px}.mb16{margin-bottom:16px}.flex{display:flex}.flex-between{display:flex;justify-content:space-between;align-items:center}.gap8{gap:8px}.gap12{gap:12px}.flex-wrap{flex-wrap:wrap}.text-sm{font-size:12px}.text-muted{color:var(--text2)}.text-neon{color:var(--neon)}.text-gold{color:var(--gold)}.text-red{color:var(--red)}
-.hamburger{display:none;position:fixed;top:12px;left:12px;z-index:250;background:var(--panel);border:1px solid var(--border2);border-radius:8px;width:40px;height:40px;align-items:center;justify-content:center;cursor:pointer;flex-direction:column;gap:5px;padding:10px}.hamburger span{display:block;width:20px;height:2px;background:var(--neon);border-radius:2px}.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:99}
-.note-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:12px}.note-card textarea{width:100%;background:transparent;border:none;outline:none;color:var(--text);font-family:'Raleway',sans-serif;font-size:13px;line-height:1.7;resize:none;min-height:80px;overflow:hidden}.note-card-footer{display:flex;justify-content:space-between;align-items:center;margin-top:8px;padding-top:8px;border-top:1px solid var(--border)}.note-date{font-size:10px;color:var(--text3)}.note-actions{display:flex;gap:6px}
-.forum-check-label{display:flex;align-items:center;gap:8px;padding:9px 13px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;cursor:pointer;font-size:12.5px;transition:all .18s;user-select:none}.forum-check-label input{width:15px;height:15px;accent-color:var(--neon);flex-shrink:0}.forum-result-card{background:var(--bg2);border:1px solid var(--border2);border-radius:12px;padding:18px;margin-bottom:14px}.forum-result-title{font-weight:700;font-size:14px;color:var(--text);margin-bottom:6px}.forum-result-meta{font-size:11px;color:var(--text3);margin-bottom:10px}.forum-result-reply{background:rgba(0,0,0,.25);border-left:3px solid var(--neon);border-radius:0 8px 8px 0;padding:12px 14px;font-size:13px;line-height:1.7;color:var(--text);margin-bottom:10px;white-space:pre-wrap}
-@media(max-width:900px){:root{--sw:0px}.hamburger{display:flex}.sidebar{left:-280px;width:280px;z-index:101}.sidebar.open{left:0}.overlay.on{display:block}.main{margin-left:0!important}.topbar{padding:0 14px 0 60px}.page-content{padding:16px}.grid2{grid-template-columns:1fr!important}.stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}.plat-grid{grid-template-columns:1fr 1fr!important}.worker-bar{margin:10px 8px 4px}.img-cols{grid-template-columns:1fr!important}}
-@media(max-width:480px){.stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px}.stat-card{min-height:132px;padding:14px}.stat-num{font-size:28px}.stat-lbl{font-size:9px}.plat-grid{grid-template-columns:1fr!important}.topbar-title{font-size:11px}.page-content{padding:12px}.card{padding:14px}.topbar-right .btn-neon{display:none}.ref-grid{grid-template-columns:1fr}}
-</style>
+  <!-- Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1318316674011684"
+     crossorigin="anonymous"></script>
+
+  <meta name="google-adsense-account" content="ca-pub-1318316674011684">
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Voyance par mail sérieuse et confidentielle | Réponse personnalisée</title>
+
+  <meta name="description" content="Consultation de voyance par mail sérieuse, confidentielle et personnalisée. Posez vos questions sur l'amour, le travail, la famille ou votre situation personnelle, sans promesse de résultat.">
+  <meta name="keywords" content="voyance par mail, voyance par email, consultation voyance email, voyant par mail, voyance sentimentale par mail, voyance sérieuse par mail">
+  <meta name="author" content="Frederick - ClairVoyanceMedium.com">
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+
+  <link rel="canonical" href="https://voyanceparmail.fr/">
+
+  <meta property="og:title" content="Voyance par mail sérieuse et confidentielle">
+  <meta property="og:description" content="Consultation de voyance par mail avec réponse personnalisée, claire et confidentielle.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://voyanceparmail.fr/">
+  <meta property="og:locale" content="fr_FR">
+
+  <meta name="theme-color" content="#0b0b0f">
+
+  <style>
+    :root {
+      --bg: #0b0b0f;
+      --bg-soft: #15151d;
+      --card: #1d1d27;
+      --gold: #d8b35a;
+      --gold-soft: #f3d98b;
+      --text: #f4f0e8;
+      --muted: #c9c2b5;
+      --line: rgba(216, 179, 90, 0.28);
+      --white: #ffffff;
+      --danger: #f6c6c6;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    a {
+      color: var(--gold-soft);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    header {
+      background: linear-gradient(135deg, #08080b 0%, #171720 55%, #261f10 100%);
+      border-bottom: 1px solid var(--line);
+      padding: 28px 18px 50px;
+    }
+
+    .topbar {
+      max-width: 1120px;
+      margin: 0 auto 35px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      color: var(--gold-soft);
+    }
+
+    nav {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      font-size: 0.95rem;
+    }
+
+    nav a {
+      color: var(--text);
+      opacity: 0.95;
+    }
+
+    .hero {
+      max-width: 1120px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.3fr 0.7fr;
+      gap: 32px;
+      align-items: center;
+    }
+
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 4rem);
+      line-height: 1.12;
+      margin: 0 0 20px;
+      color: var(--white);
+    }
+
+    .hero h1 span {
+      color: var(--gold-soft);
+    }
+
+    .hero p {
+      font-size: 1.12rem;
+      color: var(--muted);
+      margin: 0 0 18px;
+    }
+
+    .cta-row {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 25px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 14px 20px;
+      border-radius: 10px;
+      font-weight: 700;
+      border: 1px solid var(--gold);
+    }
+
+    .btn-primary {
+      background: var(--gold);
+      color: #14100a;
+    }
+
+    .btn-secondary {
+      color: var(--gold-soft);
+      background: transparent;
+    }
+
+    .hero-card {
+      background: rgba(29, 29, 39, 0.9);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 24px;
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.3);
+    }
+
+    .hero-card h2 {
+      margin-top: 0;
+      color: var(--gold-soft);
+      font-size: 1.35rem;
+    }
+
+    .price {
+      font-size: 2.1rem;
+      font-weight: 800;
+      color: var(--white);
+      margin: 10px 0;
+    }
+
+    .notice {
+      font-size: 0.95rem;
+      color: var(--muted);
+      border-top: 1px solid var(--line);
+      margin-top: 18px;
+      padding-top: 16px;
+    }
+
+    main {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 42px 18px;
+    }
+
+    section {
+      margin-bottom: 46px;
+    }
+
+    .section-title {
+      color: var(--gold-soft);
+      font-size: 2rem;
+      line-height: 1.2;
+      margin: 0 0 18px;
+    }
+
+    .lead {
+      color: var(--muted);
+      font-size: 1.08rem;
+      max-width: 900px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin-top: 24px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+      margin-top: 24px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 22px;
+    }
+
+    .card h3 {
+      margin-top: 0;
+      color: var(--gold-soft);
+      font-size: 1.2rem;
+    }
+
+    .card p,
+    .card li {
+      color: var(--muted);
+    }
+
+    ul,
+    ol {
+      padding-left: 22px;
+    }
+
+    .content-block {
+      background: var(--bg-soft);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 28px;
+      margin-top: 22px;
+    }
+
+    .content-block h3 {
+      color: var(--gold-soft);
+      margin-top: 28px;
+    }
+
+    .content-block h3:first-child {
+      margin-top: 0;
+    }
+
+    .legal {
+      font-size: 0.96rem;
+      color: var(--muted);
+    }
+
+    .warning {
+      background: rgba(246, 198, 198, 0.08);
+      border: 1px solid rgba(246, 198, 198, 0.35);
+      color: var(--danger);
+      border-radius: 14px;
+      padding: 18px;
+      margin-top: 20px;
+    }
+
+    footer {
+      border-top: 1px solid var(--line);
+      background: #07070a;
+      padding: 32px 18px;
+      color: var(--muted);
+    }
+
+    .footer-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+
+    @media (max-width: 850px) {
+      .hero,
+      .grid,
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+
+      .topbar {
+        align-items: flex-start;
+      }
+
+      nav {
+        flex-direction: column;
+        gap: 8px;
+      }
+    }
+  </style>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "name": "Voyance par mail - ClairVoyanceMedium.com",
+    "url": "https://voyanceparmail.fr/",
+    "description": "Consultation de voyance par mail sérieuse, confidentielle et personnalisée.",
+    "areaServed": ["France", "Belgique", "Suisse", "Luxembourg", "Monaco"],
+    "founder": {
+      "@type": "Person",
+      "name": "Frederick"
+    },
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+33695468923",
+      "contactType": "customer service",
+      "availableLanguage": "French"
+    },
+    "sameAs": [
+      "https://www.clairvoyancemedium.com/"
+    ]
+  }
+  </script>
 </head>
+
 <body>
-<div class="notif" id="notif"></div>
-<div style="display:flex;height:100vh">
-<button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
-<div class="overlay" id="overlay"></div>
-<aside class="sidebar">
-  <div class="sidebar-head"><div class="logo-block"><div class="neon-title">PGI &bull; POSTING<br>MARKETING</div><div class="logo-sub">Administration</div></div><div class="worker-status"><div class="dot dot-orange" id="ws-dot"></div><span style="color:var(--text3);font-size:10px" id="ws-txt">Non configuré</span></div></div>
-  <div class="worker-bar"><input type="url" id="worker-url-inp" placeholder="https://pgi-worker.xxx.workers.dev" title="URL du Cloudflare Worker"><button class="btn btn-neon btn-sm" onclick="saveWorkerUrl()" title="Enregistrer">✓</button></div>
-  <div style="padding:0 14px 8px;font-size:9px;color:var(--text3)">URL du Worker Cloudflare</div>
-  <div class="nav-section">Publication</div>
-  <div class="nav-item active" onclick="nav('dashboard')" id="nav-dashboard"><span class="nav-icon">◈</span>Tableau de bord</div>
-  <div class="nav-item" onclick="nav('create')" id="nav-create"><span class="nav-icon">✦</span>Créer un post</div>
-  <div class="nav-item" onclick="nav('myposts')" id="nav-myposts"><span class="nav-icon">📋</span>Posts programmés<span class="nav-badge" id="myposts-badge" style="display:none">0</span></div>
-  <div class="nav-item" onclick="nav('automation')" id="nav-automation"><span class="nav-icon">⚙</span>Automatisation</div>
-  <div class="nav-item" onclick="nav('queue')" id="nav-queue"><span class="nav-icon">⧗</span>File de validation<span class="nav-badge" id="queue-badge" style="display:none">0</span></div>
-  <div class="nav-item" onclick="nav('history')" id="nav-history"><span class="nav-icon">◎</span>Historique</div>
-  <div class="nav-item" onclick="nav('calendar')" id="nav-calendar"><span class="nav-icon">▦</span>Calendrier</div>
-  <div class="nav-section">Connexions</div>
-  <div class="nav-item" onclick="nav('connections')" id="nav-connections"><span class="nav-icon">⟳</span>Plateformes</div>
-  <div class="nav-item" onclick="nav('platforms')" id="nav-platforms"><span class="nav-icon">⬡</span>Statut plateformes</div>
-  <div class="nav-item" onclick="nav('references')" id="nav-references"><span class="nav-icon">◉</span>Bibliothèque images</div>
-  <div class="nav-item" onclick="nav('links')" id="nav-links"><span class="nav-icon">⬢</span>Liens du site</div>
-  <div class="nav-section">Système</div>
-  <div class="nav-item" onclick="nav('forums')" id="nav-forums"><span class="nav-icon">💬</span>Répondre forums</div>
-  <div class="nav-item" onclick="nav('horaires')" id="nav-horaires"><span class="nav-icon">🕐</span>Meilleurs horaires</div>
-  <div class="nav-item" onclick="nav('forumhistory')" id="nav-forumhistory"><span class="nav-icon">📜</span>Historique forums</div>
-  <div class="nav-item" onclick="nav('clicks')" id="nav-clicks"><span class="nav-icon">📊</span>Stats clics</div>
-  <div class="nav-item" onclick="nav('notes')" id="nav-notes"><span class="nav-icon">📝</span>Notes<span class="nav-badge" id="notes-badge" style="display:none">0</span></div>
-  <div class="nav-item" onclick="nav('guide')" id="nav-guide"><span class="nav-icon">📖</span>Guide plateformes</div>
-  <div class="nav-item" onclick="nav('ai')" id="nav-ai"><span class="nav-icon">⚡</span>Configuration AI</div>
-  <div class="nav-item" onclick="nav('email')" id="nav-email"><span class="nav-icon">✉</span>Email</div>
-  <div class="nav-item" onclick="nav('logs')" id="nav-logs"><span class="nav-icon">▤</span>Logs</div>
-  <div class="sidebar-footer"><div style="margin-bottom:4px">clairvoyancemedium.com</div><div>06 95 46 89 23</div><div style="margin-top:4px;color:var(--text3)">chicsensation@gmail.com</div></div>
-</aside>
-<main class="main">
-  <div class="topbar"><div class="topbar-title" id="page-title">Tableau de bord</div><div class="topbar-right"><button class="btn btn-ghost btn-sm" onclick="refreshCurrent()">↺</button><button class="btn btn-neon btn-sm" onclick="nav('create')">+ Nouveau post</button></div></div>
-  <div class="page-content">
-    <div class="page active" id="page-dashboard"><div style="text-align:center;padding:32px 20px 28px;margin-bottom:24px;background:linear-gradient(160deg,rgba(0,40,100,.18),rgba(0,0,0,0));border:1px solid var(--border);border-radius:14px;position:relative;overflow:hidden"><div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(0,191,255,.07) 0%,transparent 70%);pointer-events:none"></div><div class="neon-title" style="font-size:clamp(22px,5vw,42px);letter-spacing:.15em;margin-bottom:10px">PGI &bull; POSTING MARKETING</div><div style="font-size:clamp(11px,2vw,14px);color:var(--text2);letter-spacing:3px;text-transform:uppercase;margin-bottom:18px">Système de publication multi-plateformes</div><div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap"><span style="font-size:12px;color:var(--text3)">clairvoyancemedium.com</span><span style="color:var(--border2)">•</span><span style="font-size:12px;color:var(--gold)">Frederick</span><span style="color:var(--border2)">•</span><span style="font-size:12px;color:var(--text3)">06 95 46 89 23</span><span style="color:var(--border2)">•</span><span style="font-size:12px;color:var(--text3)">Disponible 24h/24 7j/7</span></div></div><div class="stats-grid"><div class="stat-card"><div class="stat-num" id="s-total">—</div><div class="stat-lbl">Posts générés</div></div><div class="stat-card"><div class="stat-num text-green" id="s-pub">—</div><div class="stat-lbl">Publiés</div></div><div class="stat-card"><div class="stat-num" style="background:linear-gradient(135deg,var(--gold),#a0800a);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text" id="s-pend">—</div><div class="stat-lbl">En attente</div></div><div class="stat-card"><div class="stat-num" id="s-plats">20</div><div class="stat-lbl">Connecteurs</div></div></div><div class="grid2"><div class="card"><div class="card-title">Publications récentes</div><div id="dash-recent"><div class="text-muted text-sm">Chargement...</div></div></div><div class="card"><div class="card-title">Répartition par plateforme</div><div id="dash-platstat"><div class="text-muted text-sm">Chargement...</div></div></div></div><div class="card"><div class="card-title flex-between"><span>Démarrage rapide</span><div class="flex gap8 flex-wrap"><button class="btn btn-red btn-sm" onclick="resetStats()">Mise à zéro métriques</button><button class="btn btn-orange btn-sm" onclick="resetDashboardRecent()">Mise à zéro publications affichées</button></div></div><div class="flex gap12 flex-wrap"><button class="btn btn-neon" onclick="nav('create')">✦ Créer un post</button><button class="btn btn-ghost" onclick="nav('references')">◉ Bibliothèque images</button><button class="btn btn-ghost" onclick="nav('myposts')">📋 Posts programmés</button><button class="btn btn-ghost" onclick="nav('automation')">⚙ Automatisation</button><button class="btn btn-ghost" onclick="nav('queue')">⧗ File de validation</button><button class="btn btn-ghost" onclick="nav('connections')">⟳ Connexions</button></div></div></div>
-    <div class="page" id="page-create"><div class="card"><div class="card-title">Plateformes cibles</div><div class="plat-grid" id="plat-checklist"></div></div><div class="card"><div class="card-title">Votre demande de publication</div><div class="fgrp"><label class="flabel">Description *</label><textarea class="ftextarea" id="c-desc" rows="4" placeholder="Décrivez ce que vous voulez publier, le message, l'objectif..."></textarea></div><div class="grid2"><div class="fgrp"><label class="flabel">Thème / Objectif</label><select class="fselect" id="c-theme"><option value="">Sélectionner un thème...</option><option value="telephone">Voyance par téléphone</option><option value="email">Voyance par email</option><option value="sentimental">Consultation sentimentale</option><option value="retour">Retour sentimental / Ex</option><option value="urgence">Consultation urgente</option><option value="horoscope">Horoscope / Astrologie</option><option value="desenvoutement">Désenvoûtement</option><option value="magie">Magie blanche / rouge</option></select></div><div class="fgrp"><label class="flabel">Date / Heure de publication</label><input type="datetime-local" class="finput" id="c-date"></div></div><div class="grid2"><div class="fgrp"><label class="flabel">Ton du post</label><select class="fselect" id="c-tone"><option value="balanced">Équilibré</option><option value="emotional">Émotionnel</option><option value="selling">Vendeur</option><option value="informative">Informatif</option><option value="urgent">Urgent</option><option value="engaging">Engageant</option></select></div><div class="fgrp"><label class="flabel">Mode</label><select class="fselect" id="c-mode"><option value="manual">Générer puis publier manuellement</option><option value="validation">Envoyer en validation email</option></select></div></div><div class="fgrp" style="margin-bottom:0"><label class="img-toggle-row" for="img-check-create"><input type="checkbox" id="img-check-create"><span class="img-toggle-label">🖼 Inclure une image</span><span class="img-toggle-sub">Référence bibliothèque ou description libre</span></label><div class="img-options-panel" id="img-panel-create"><div class="img-options-inner"><div class="img-cols"><div><div class="img-col-label"><span>📎</span> Depuis la bibliothèque</div><div class="fhelp" style="margin-bottom:8px">Tapez le nom ou numéro d'une image — elle servira de référence visuelle.</div><div class="lib-autocomplete-wrap"><input class="finput" id="lib-input-create" placeholder="Ex : Image 3, amour perdu…" autocomplete="off"><div class="lib-autocomplete-list" id="lib-ac-create"></div></div><div id="lib-chips-create" style="margin-top:8px;display:flex;flex-wrap:wrap;gap:6px"></div></div><div><div class="img-col-label"><span>✍️</span> Description libre</div><div class="fhelp" style="margin-bottom:8px">Si aucune image n'est sélectionnée, décrivez l'image souhaitée.</div><textarea class="ftextarea" id="img-desc-create" rows="4" style="min-height:100px"></textarea></div></div></div></div></div></div><div class="flex gap12 flex-wrap mb16"><button class="btn btn-neon" id="btn-gen" onclick="generatePost()"><span class="loader" id="gen-ldr" style="display:none"></span>✦ Générer</button><button class="btn btn-ghost" onclick="resetCreate()">Réinitialiser</button></div><div class="result-box" id="result-box"><div class="card-title mb16">Contenu généré</div><div class="r-hook" id="r-hook"></div><div class="grid2"><div><div class="r-section"><div class="r-lbl">Texte principal</div><div class="r-val" id="r-main"></div></div><div class="r-section"><div class="r-lbl">Texte sur le visuel</div><div class="r-val text-neon" id="r-itext"></div></div><div class="r-section"><div class="r-lbl">Appel à l'action</div><div class="r-val text-gold" id="r-cta"></div></div><div class="r-section"><div class="r-lbl">Lien sélectionné</div><div class="r-val" id="r-link" style="font-size:11px"></div></div></div><div><div class="r-lbl mb16">Visuel généré</div><div class="img-box" id="r-img-box"><div class="img-placeholder">Visuel en attente</div></div></div></div><div class="divider"></div><div class="card-title mb16">Contenu par plateforme</div><div id="r-platforms"></div><div class="divider"></div><div id="result-footer"></div></div></div>
-    <div class="page" id="page-queue"><div class="card"><div class="card-title flex-between">File de validation<button class="btn btn-ghost btn-sm" onclick="loadQueue()">↺ Actualiser</button></div><div id="queue-list"><div class="text-muted text-sm">Chargement...</div></div></div></div>
-    <div class="page" id="page-history"><div class="card"><div class="card-title flex-between">Historique<button class="btn btn-ghost btn-sm" onclick="loadHistory()">↺</button></div><div class="t-wrap"><table><thead><tr><th>ID</th><th>Description</th><th>Plateformes</th><th>Statut</th><th>Date</th><th>Actions</th></tr></thead><tbody id="hist-tbody"><tr><td colspan="6" class="text-muted text-sm" style="padding:20px">Chargement...</td></tr></tbody></table></div></div></div>
-    <div class="page" id="page-calendar"><div class="card"><div class="card-title flex-between"><span id="cal-month-label">Calendrier</span><div class="flex gap8"><button class="btn btn-ghost btn-sm" onclick="calPrev()">◀</button><button class="btn btn-ghost btn-sm" onclick="calNext()">▶</button></div></div><div class="cal-day-names" id="cal-day-names"></div><div class="cal-grid" id="cal-grid"></div></div></div>
-    <div class="page" id="page-platforms"><div class="card"><div class="card-title flex-between">Statut des plateformes<button class="btn btn-ghost btn-sm" onclick="loadPlatStatus()">↺</button></div><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px" id="plat-status-grid"><div class="text-muted text-sm">Chargement...</div></div></div></div>
-    <div class="page" id="page-connections"><div class="card"><div class="card-title">Connexion aux plateformes</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px"><div style="background:rgba(0,187,85,.07);border:1px solid rgba(0,187,85,.25);border-radius:10px;padding:14px"><div style="font-weight:700;font-size:12px;color:var(--green);margin-bottom:8px">✓ Connexion OAuth / API</div><div class="text-sm text-muted" style="line-height:1.6"><strong style="color:var(--text)">Instagram est placé en haut</strong><br><strong style="color:var(--text)">Facebook / Instagram via Meta</strong><br><strong style="color:var(--text)">Threads, LinkedIn, Pinterest, Reddit, Mastodon</strong><br><strong style="color:var(--text)">Telegram, Discord, Bluesky</strong> via token/webhook</div></div><div style="background:rgba(238,119,34,.07);border:1px solid rgba(238,119,34,.25);border-radius:10px;padding:14px"><div style="font-weight:700;font-size:12px;color:var(--orange);margin-bottom:8px">⚠ Plateformes semi-automatiques</div><div class="text-sm text-muted" style="line-height:1.6"><strong style="color:var(--text)">TikTok, YouTube, Quora, Snapchat, Vimeo, Dailymotion</strong><br>Contenu préparé pour copier-coller si l'API n'est pas validée.</div></div></div><div style="background:rgba(0,191,255,.06);border:1px solid rgba(0,191,255,.2);border-radius:10px;padding:14px 18px;margin-bottom:18px"><div style="font-size:12px;color:var(--neon);font-weight:700;margin-bottom:5px">Connexion OAuth réelle</div><div class="text-sm text-muted">Instagram passe par Facebook/Meta. Threads est vérifié réellement via l'API.</div></div><div id="conn-list"></div></div></div>
-    <div class="page" id="page-references"><div class="card"><div class="card-title flex-between"><span>Bibliothèque de références visuelles</span><button class="btn btn-ghost btn-sm" onclick="renderReferenceLibrary()">↺</button></div><div style="background:rgba(0,191,255,.06);border:1px solid rgba(0,191,255,.2);border-radius:10px;padding:14px 18px;margin-bottom:18px"><div style="font-size:12px;color:var(--neon);font-weight:700;margin-bottom:5px">Images de référence persistantes</div><div class="text-sm text-muted">Ajoutez vos images, nommez-les. Dans chaque post ou automatisation, cochez Inclure une image puis tapez le nom pour sélectionner une référence.</div></div><div class="grid2"><div class="fgrp"><label class="flabel">Ajouter des images</label><input type="file" class="finput" id="ref-files" accept="image/*" multiple style="padding:9px"></div><div class="fgrp"><label class="flabel">Nom commun optionnel</label><input class="finput" id="ref-default-name"></div></div><div class="flex gap12 flex-wrap mb16"><button class="btn btn-neon" onclick="addReferenceImages()">Ajouter à la bibliothèque</button><button class="btn btn-red" onclick="clearReferenceLibrary()">Vider la bibliothèque</button></div><div id="ref-library" class="ref-grid"></div></div></div>
-    <div class="page" id="page-links"><div class="card"><div class="card-title">Pages du site et sélection automatique des liens</div><p class="text-sm text-muted mb16">Le système choisit automatiquement le lien le plus pertinent côté Worker.</p><div class="t-wrap"><table><thead><tr><th>Page</th><th>URL</th><th>Thèmes</th></tr></thead><tbody id="links-tbody"></tbody></table></div></div></div>
-    <div class="page" id="page-guide"><div class="card"><div class="card-title">Guide plateformes</div><div id="guide-out" class="text-sm text-muted" style="line-height:1.8">Facebook/Instagram : OAuth Meta. Threads : OAuth Threads. LinkedIn/Pinterest/Reddit/Mastodon : OAuth dédié. Telegram/Discord/Bluesky/Medium/WhatsApp : jeton ou webhook. Les autres restent en semi-automatique.</div></div></div>
-    <div class="page" id="page-ai"><div class="card"><div class="card-title">Configuration AI — Génération de texte</div><div class="grid2"><div class="fgrp"><label class="flabel">Fournisseur AI</label><select class="fselect" id="ai-provider"><option value="openai">OpenAI GPT-4o</option><option value="groq">Groq Llama</option><option value="mistral">Mistral AI</option><option value="deepseek">DeepSeek</option><option value="custom">API custom</option></select></div><div class="fgrp"><label class="flabel">Modèle</label><input class="finput" id="ai-model"></div></div><div class="fgrp"><label class="flabel">Clé API *</label><input type="password" class="finput" id="ai-key"></div><div class="fgrp"><label class="flabel">Endpoint API custom</label><input class="finput" id="ai-endpoint"></div><div class="divider"></div><div class="card-title">Génération d'images</div><div class="grid2"><div class="fgrp"><label class="flabel">Fournisseur d'images</label><select class="fselect" id="img-provider"><option value="pollinations">Pollinations AI gratuit</option><option value="none">Pas de génération d'image</option></select></div><div class="fgrp"><label class="flabel">Clé API images</label><input type="password" class="finput" id="img-key"></div></div><button class="btn btn-neon" onclick="saveAiConfig()">Sauvegarder</button></div></div>
-    <div class="page" id="page-email"><div class="card"><div class="card-title">Configuration email</div><div class="fgrp"><label class="flabel">Adresse de destination</label><input class="finput" id="approval-email-display" value="chicsensation@gmail.com" readonly></div><div class="fgrp"><label class="flabel">Clé API Resend *</label><input type="password" class="finput" id="email-resend-key"></div><div class="fgrp"><label class="flabel">Adresse expéditeur</label><input class="finput" id="email-from"></div><button class="btn btn-neon" onclick="saveEmailConfig()">Sauvegarder</button></div></div>
-    <div class="page" id="page-myposts"><div class="card"><div class="card-title flex-between">Posts programmés à date fixe<button class="btn btn-neon btn-sm" onclick="openSchedModal()">+ Nouveau post</button></div><div id="myposts-list"><div class="text-muted text-sm">Chargement...</div></div></div></div>
-    <div class="page" id="page-automation"><div class="card"><div class="card-title flex-between">Automatisation<button class="btn btn-neon btn-sm" onclick="openAutoModal()">+ Nouvelle règle</button></div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px"><span class="badge b-blue">Quotidien</span><span class="badge b-blue">Tous les 2 jours</span><span class="badge b-blue">Tous les 3 jours</span><span class="badge b-blue">Hebdomadaire</span><span class="badge b-blue">Bihebdomadaire</span><span class="badge b-blue">Mensuel</span><button class="btn btn-ghost btn-sm" onclick="runCronNow()" style="margin-left:auto">Vérifier maintenant</button></div><div id="auto-list"><div class="text-muted text-sm">Chargement...</div></div></div></div>
-    <div class="page" id="page-horaires"><div class="card"><div class="card-title">Meilleurs horaires de publication par plateforme</div><div id="horaires-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px"></div></div></div>
-    <div class="page" id="page-forumhistory"><div class="card"><div class="card-title flex-between"><span>Historique des réponses postées sur les forums</span><button class="btn btn-red btn-sm" onclick="clearForumHistory()">Vider</button></div><div id="forumhistory-list"></div></div></div>
-    <div class="page" id="page-clicks"><div class="card"><div class="card-title flex-between"><span>Statistiques de clics sur vos liens</span><button class="btn btn-ghost btn-sm" onclick="loadClickStats()">↺</button></div><div id="clicks-summary" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:20px"></div><div id="clicks-list"></div></div></div>
-    <div class="page" id="page-forums"><div class="card"><div class="card-title flex-between"><span>Répondre sur les forums</span><button class="btn btn-neon" id="btn-forums" onclick="analyzeForums()"><span class="loader" id="forums-ldr" style="display:none"></span>🔍 Analyser les forums</button></div><div class="fgrp"><label class="flabel">Forums à analyser</label><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px" id="forums-checklist"></div></div><div id="forums-results" style="margin-top:8px"></div></div></div>
-    <div class="page" id="page-notes"><div class="card"><div class="card-title flex-between"><span>Notes personnelles</span><button class="btn btn-neon btn-sm" onclick="addNote()">+ Nouvelle note</button></div><div id="notes-list"></div></div></div>
-    <div class="page" id="page-logs"><div class="card"><div class="card-title flex-between">Logs système<button class="btn btn-ghost btn-sm" onclick="loadLogs()">↺</button></div><div id="logs-out" style="font-family:monospace;font-size:11.5px;color:var(--text2);line-height:1.9;max-height:560px;overflow-y:auto">En attente...</div></div></div>
+
+<header>
+  <div class="topbar">
+    <div class="brand">ClairVoyanceMedium.com</div>
+    <nav aria-label="Navigation principale">
+      <a href="#fonctionnement">Fonctionnement</a>
+      <a href="#questions">Questions possibles</a>
+      <a href="#tarifs">Tarif</a>
+      <a href="#articles">Guides</a>
+      <a href="#confidentialite">Confidentialité</a>
+      <a href="#contact">Contact</a>
+      <a href="#mentions-legales">Mentions légales</a>
+    </nav>
   </div>
+
+  <div class="hero">
+    <div>
+      <h1>Voyance par mail <span>sérieuse et confidentielle</span></h1>
+      <p>
+        La voyance par mail permet de poser vos questions à distance, calmement, sans appel téléphonique et sans pression.
+        Vous recevez une réponse écrite, structurée et personnalisée, que vous pouvez relire lorsque vous en avez besoin.
+      </p>
+      <p>
+        Ce service s’adresse aux personnes qui cherchent une clarification sur une situation sentimentale, familiale,
+        professionnelle ou personnelle. La consultation est proposée dans un cadre confidentiel, avec une approche
+        responsable et sans promesse irréaliste.
+      </p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#tarifs">Voir le fonctionnement</a>
+        <a class="btn btn-secondary" href="#contact">Contacter le cabinet</a>
+      </div>
+    </div>
+
+    <aside class="hero-card">
+      <h2>Consultation par email</h2>
+      <p>Service écrit, discret et personnalisé.</p>
+      <div class="price">12 €</div>
+      <p>Pour 3 questions précises par mail.</p>
+      <p class="notice">
+        La voyance est un accompagnement intuitif. Elle ne remplace pas un avis médical, psychologique, juridique,
+        financier ou administratif.
+      </p>
+    </aside>
+  </div>
+</header>
+
+<main>
+
+  <section id="fonctionnement">
+    <h2 class="section-title">Comment fonctionne une consultation de voyance par mail ?</h2>
+    <p class="lead">
+      Une consultation par mail se déroule de manière simple. Vous préparez vos questions, vous envoyez les éléments
+      utiles à la compréhension de votre situation, puis vous recevez une réponse écrite. L’objectif est de vous aider
+      à prendre du recul, à mieux comprendre les enjeux et à éclaircir ce qui vous préoccupe.
+    </p>
+
+    <div class="grid">
+      <article class="card">
+        <h3>1. Vous formulez vos questions</h3>
+        <p>
+          Vous indiquez jusqu’à trois questions précises. Une question claire permet une réponse plus utile. Par exemple,
+          une question sur une relation, une décision à prendre ou une situation bloquée.
+        </p>
+      </article>
+
+      <article class="card">
+        <h3>2. La situation est analysée</h3>
+        <p>
+          La réponse est préparée à partir de vos informations et du ressenti intuitif. Le but n’est pas d’imposer une
+          décision, mais d’apporter une lecture plus claire de la situation.
+        </p>
+      </article>
+
+      <article class="card">
+        <h3>3. Vous recevez une réponse écrite</h3>
+        <p>
+          La consultation par email vous permet de conserver une trace écrite. Vous pouvez relire la réponse plus tard,
+          comparer avec l’évolution de votre situation et avancer à votre rythme.
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <section id="questions">
+    <h2 class="section-title">Quels sujets peut-on aborder ?</h2>
+    <p class="lead">
+      La voyance par mail peut concerner plusieurs domaines de vie. Les sujets les plus fréquents touchent à l’amour,
+      aux relations, au travail, à la famille et aux périodes de doute personnel.
+    </p>
+
+    <div class="grid-2">
+      <article class="card">
+        <h3>Vie sentimentale</h3>
+        <p>
+          Vous pouvez poser une question sur une relation, une rupture, une distance affective, une reprise de contact,
+          un doute amoureux ou une difficulté de communication.
+        </p>
+      </article>
+
+      <article class="card">
+        <h3>Travail et décisions</h3>
+        <p>
+          Une consultation peut aider à clarifier une période d’hésitation professionnelle, une tension au travail,
+          un projet, un changement ou une décision importante.
+        </p>
+      </article>
+
+      <article class="card">
+        <h3>Famille et entourage</h3>
+        <p>
+          Les questions familiales demandent souvent du recul. L’objectif est d’éclairer les dynamiques relationnelles,
+          les blocages et les attitudes à adopter.
+        </p>
+      </article>
+
+      <article class="card">
+        <h3>Chemin personnel</h3>
+        <p>
+          Certaines personnes consultent lorsqu’elles ressentent une fatigue morale, une confusion intérieure ou le besoin
+          de mieux comprendre une période de transition.
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <section id="tarifs">
+    <h2 class="section-title">Tarif de la voyance par mail</h2>
+    <div class="content-block">
+      <h3>Consultation écrite : 12 € pour 3 questions</h3>
+      <p>
+        Le tarif est fixe et annoncé clairement avant la consultation. La consultation comprend une réponse écrite et
+        personnalisée à trois questions précises.
+      </p>
+      <p>
+        Pour obtenir une réponse utile, il est recommandé d’éviter les questions trop larges. Une question comme
+        “Que voyez-vous pour mon avenir ?” est moins précise qu’une question comme “Comment peut évoluer ma relation
+        actuelle dans les prochaines semaines ?”.
+      </p>
+
+      <div class="warning">
+        Aucune consultation ne garantit un résultat, un retour sentimental, une décision d’une autre personne ou un
+        événement certain. La réponse doit être comprise comme un éclairage intuitif et non comme une certitude absolue.
+      </div>
+    </div>
+  </section>
+
+  <section id="articles">
+    <h2 class="section-title">Guides utiles sur la voyance par mail</h2>
+    <p class="lead">
+      Ces guides sont intégrés pour aider les visiteurs à comprendre le service avant de consulter. Ils renforcent aussi
+      la qualité éditoriale du site en apportant du contenu informatif original.
+    </p>
+
+    <div class="content-block">
+      <h3>Voyance par mail ou voyance par téléphone : quelle différence ?</h3>
+      <p>
+        La voyance par téléphone permet un échange immédiat, avec des réponses en direct. La voyance par mail fonctionne
+        différemment : elle laisse le temps de formuler les questions et de recevoir une réponse écrite. Ce format convient
+        aux personnes qui préfèrent la discrétion, qui ne souhaitent pas parler au téléphone ou qui veulent garder une
+        trace de la consultation.
+      </p>
+      <p>
+        Le choix dépend donc du besoin. Pour une situation urgente ou très émotionnelle, l’appel peut être plus adapté.
+        Pour une réflexion posée, une question sentimentale ou un besoin de recul, le mail peut offrir un cadre plus calme.
+      </p>
+
+      <h3>Comment poser une bonne question en voyance par mail ?</h3>
+      <p>
+        Une bonne question doit être claire, directe et liée à une situation concrète. Il est préférable de préciser le
+        contexte sans écrire un récit trop long. Une question efficace indique le domaine concerné, les personnes impliquées
+        et ce que vous souhaitez comprendre.
+      </p>
+      <p>
+        Exemple de question utile : “Quelle évolution voyez-vous dans ma relation avec cette personne après notre période
+        de silence ?”. Cette formulation donne un cadre clair. Elle permet une réponse plus précise qu’une question générale
+        sur l’avenir amoureux.
+      </p>
+
+      <h3>Les limites d’une consultation par email</h3>
+      <p>
+        Une consultation de voyance ne doit pas remplacer une décision personnelle, un accompagnement médical, un conseil
+        juridique ou une expertise financière. Elle peut aider à clarifier un ressenti, à prendre du recul et à mieux
+        comprendre une situation, mais elle ne doit pas être utilisée comme une certitude absolue.
+      </p>
+      <p>
+        Les sujets liés à la santé, à la justice, aux placements financiers ou aux situations de danger doivent être traités
+        avec des professionnels qualifiés. La voyance peut accompagner une réflexion personnelle, mais elle ne remplace pas
+        les démarches officielles ou spécialisées.
+      </p>
+
+      <h3>Pourquoi choisir une réponse écrite ?</h3>
+      <p>
+        La réponse écrite permet de relire calmement ce qui a été transmis. Dans les moments de doute, une conversation
+        orale peut être oubliée ou déformée par l’émotion. Le mail offre une trace stable, utile pour reprendre les éléments
+        importants et les comparer à l’évolution réelle de la situation.
+      </p>
+      <p>
+        Ce format convient particulièrement aux personnes qui vivent une période affective confuse, une attente ou une
+        décision difficile. Il permet de poser la question une fois, clairement, puis de recevoir une réponse structurée.
+      </p>
+
+      <h3>Comment reconnaître une voyance par mail sérieuse ?</h3>
+      <p>
+        Une approche sérieuse évite les promesses de résultat. Elle annonce clairement le tarif, explique le fonctionnement,
+        précise les limites du service et respecte la confidentialité. Elle ne pousse pas à la dépendance et ne prétend pas
+        contrôler les choix d’une autre personne.
+      </p>
+      <p>
+        Un service responsable doit aussi permettre au visiteur de comprendre qui propose la consultation, comment le
+        contacter et quelles sont les conditions générales du service. La transparence est essentielle.
+      </p>
+    </div>
+  </section>
+
+  <section id="a-propos">
+    <h2 class="section-title">À propos du cabinet</h2>
+    <div class="content-block">
+      <p>
+        ClairVoyanceMedium.com est un service de consultation spirituelle et intuitive proposé par Frederick. Le cabinet
+        accompagne les personnes qui souhaitent obtenir un éclairage sur une situation personnelle, sentimentale, familiale
+        ou professionnelle.
+      </p>
+      <p>
+        La démarche repose sur l’écoute, la confidentialité et la clarté. Le service de voyance par mail a été conçu pour
+        les personnes qui préfèrent écrire leurs questions, éviter l’appel téléphonique ou recevoir une réponse qu’elles
+        peuvent conserver.
+      </p>
+      <p>
+        Le site ne présente pas la voyance comme une science exacte. Il s’agit d’un accompagnement intuitif, proposé sans
+        garantie de résultat, dans le respect du libre arbitre et de la situation personnelle de chaque consultant.
+      </p>
+    </div>
+  </section>
+
+  <section id="confidentialite">
+    <h2 class="section-title">Confidentialité et données personnelles</h2>
+    <div class="content-block legal">
+      <p>
+        Les informations transmises dans le cadre d’une consultation par mail sont utilisées uniquement pour répondre à la
+        demande du consultant. Elles ne sont pas publiées sur le site.
+      </p>
+      <p>
+        Le site peut utiliser des cookies, des outils de mesure d’audience et des services publicitaires tiers, notamment
+        Google AdSense lorsque le site est approuvé. Des tiers peuvent placer ou lire des cookies dans le navigateur des
+        visiteurs, utiliser des balises web ou collecter certaines informations techniques, comme l’adresse IP, afin de
+        diffuser, mesurer ou personnaliser des annonces.
+      </p>
+      <p>
+        Les visiteurs peuvent gérer les cookies depuis les paramètres de leur navigateur. Ils peuvent également consulter
+        les paramètres publicitaires de Google afin de gérer la personnalisation des annonces.
+      </p>
+      <p>
+        Pour toute demande concernant les données personnelles, vous pouvez contacter le cabinet à l’adresse indiquée dans
+        la section contact.
+      </p>
+    </div>
+  </section>
+
+  <section id="conditions">
+    <h2 class="section-title">Conditions de service</h2>
+    <div class="content-block legal">
+      <h3>Nature du service</h3>
+      <p>
+        La voyance par mail est un service d’accompagnement intuitif et spirituel. Elle ne constitue pas une prestation
+        médicale, psychologique, juridique, financière ou administrative.
+      </p>
+
+      <h3>Absence de garantie</h3>
+      <p>
+        Aucune réponse ne garantit la réalisation d’un événement, le retour d’une personne, une décision extérieure ou un
+        résultat précis. Le consultant reste libre de ses choix et de ses décisions.
+      </p>
+
+      <h3>Responsabilité</h3>
+      <p>
+        Les réponses transmises par mail sont destinées à apporter un éclairage personnel. Elles ne doivent pas être utilisées
+        comme seule base pour prendre une décision importante concernant la santé, l’argent, la justice ou la sécurité.
+      </p>
+
+      <h3>Tarif</h3>
+      <p>
+        Le tarif de la consultation par mail est indiqué clairement sur le site. Toute demande supplémentaire peut faire
+        l’objet d’une nouvelle consultation.
+      </p>
+    </div>
+  </section>
+
+  <section id="faq">
+    <h2 class="section-title">Questions fréquentes</h2>
+
+    <div class="grid-2">
+      <article class="card">
+        <h3>Combien de questions puis-je poser ?</h3>
+        <p>
+          La formule présentée sur ce site comprend trois questions précises. Il est conseillé de formuler chaque question
+          clairement pour obtenir une réponse plus utile.
+        </p>
+      </article>
+
+      <article class="card">
+        <h3>Puis-je poser une question sentimentale ?</h3>
+        <p>
+          Oui. Les questions sentimentales sont fréquentes. Elles peuvent concerner une relation, une rupture, une attente,
+          une reprise de contact ou une situation affective confuse.
+        </p>
+      </article>
+
+      <article class="card">
+        <h3>La réponse est-elle garantie ?</h3>
+        <p>
+          Non. La consultation est un éclairage intuitif. Elle ne garantit pas un résultat, un événement ou une décision
+          d’une autre personne.
+        </p>
+      </article>
+
+      <article class="card">
+        <h3>La consultation est-elle confidentielle ?</h3>
+        <p>
+          Oui. Les informations transmises servent uniquement à préparer la réponse. Elles ne sont pas publiées sur le site.
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <section id="contact">
+    <h2 class="section-title">Contact</h2>
+    <div class="content-block">
+      <p>
+        Pour une demande de consultation par mail ou une question sur le service, vous pouvez contacter le cabinet.
+      </p>
+      <p>
+        <strong>Email :</strong>
+        <a href="mailto:contact.clairvoyancemedium@gmail.com">contact.clairvoyancemedium@gmail.com</a>
+      </p>
+      <p>
+        <strong>Téléphone :</strong>
+        <a href="tel:+33695468923">06 95 46 89 23</a>
+      </p>
+      <p>
+        <strong>Site principal :</strong>
+        <a href="https://www.clairvoyancemedium.com/">www.clairvoyancemedium.com</a>
+      </p>
+    </div>
+  </section>
+
+  <section id="mentions-legales">
+    <h2 class="section-title">Mentions légales</h2>
+    <div class="content-block legal">
+      <p>
+        <strong>Éditeur du site :</strong> Frederick - ClairVoyanceMedium.com
+      </p>
+      <p>
+        <strong>Site :</strong> voyanceparmail.fr
+      </p>
+      <p>
+        <strong>Email :</strong> contact.clairvoyancemedium@gmail.com
+      </p>
+      <p>
+        <strong>Téléphone :</strong> 06 95 46 89 23
+      </p>
+      <p>
+        <strong>Responsable de la publication :</strong> Frederick
+      </p>
+      <p>
+        <strong>Hébergement :</strong> GitHub Pages, GitHub, Inc.
+      </p>
+      <p>
+        Ce site présente un service de consultation de voyance par mail. Les contenus publiés ont une finalité informative
+        et commerciale. Les informations fournies ne remplacent pas un avis professionnel qualifié.
+      </p>
+    </div>
+  </section>
+
 </main>
-</div>
-<div id="auto-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:500;align-items:center;justify-content:center;padding:16px"><div style="background:var(--panel);border:1px solid var(--border2);border-radius:14px;width:100%;max-width:760px;max-height:92vh;overflow-y:auto;padding:28px"><div class="flex-between mb16"><div class="card-title" style="margin:0;border:none;padding:0">Nouvelle automatisation</div><button class="btn btn-ghost btn-sm" onclick="closeAutoModal()">✕</button></div><input type="hidden" id="am-id"><div class="fgrp"><label class="flabel">Nom de l'automatisation *</label><input class="finput" id="am-name"></div><div class="fgrp"><label class="flabel">Description / Consigne *</label><textarea class="ftextarea" id="am-desc" rows="3"></textarea></div><div class="fgrp"><label class="flabel">Plateformes *</label><div class="plat-grid" id="am-platforms"></div></div><div class="grid2"><div class="fgrp"><label class="flabel">Fréquence *</label><select class="fselect" id="am-freq"><option value="daily">Quotidien</option><option value="2days">Tous les 2 jours</option><option value="3days">Tous les 3 jours</option><option value="weekly">Hebdomadaire</option><option value="biweekly">Bihebdomadaire</option><option value="monthly">Mensuel</option></select></div><div class="fgrp"><label class="flabel">Heure d'envoi Paris</label><input type="time" class="finput" id="am-hour" value="09:00"></div></div><div class="grid2"><div class="fgrp"><label class="flabel">Thème</label><select class="fselect" id="am-theme"><option value="">Varié</option><option value="telephone">Voyance téléphone</option><option value="sentimental">Sentimental</option><option value="retour">Retour affectif</option><option value="urgence">Urgence</option></select></div><div class="fgrp"><label class="flabel">Ton</label><select class="fselect" id="am-tone"><option value="balanced">Équilibré</option><option value="emotional">Émotionnel</option><option value="selling">Vendeur</option><option value="urgent">Urgent</option></select></div></div><div class="fgrp" style="margin-bottom:18px"><label class="img-toggle-row" for="img-check-auto"><input type="checkbox" id="img-check-auto"><span class="img-toggle-label">🖼 Inclure une image</span><span class="img-toggle-sub">Référence bibliothèque ou description libre</span></label><div class="img-options-panel" id="img-panel-auto"><div class="img-options-inner"><div class="img-cols"><div><div class="img-col-label"><span>📎</span> Depuis la bibliothèque</div><div class="lib-autocomplete-wrap"><input class="finput" id="lib-input-auto" autocomplete="off"><div class="lib-autocomplete-list" id="lib-ac-auto"></div></div><div id="lib-chips-auto" style="margin-top:8px;display:flex;flex-wrap:wrap;gap:6px"></div></div><div><div class="img-col-label"><span>✍️</span> Description libre</div><textarea class="ftextarea" id="img-desc-auto" rows="4" style="min-height:100px"></textarea></div></div></div></div></div><div class="grid2"><div class="fgrp"><label class="flabel"><input type="checkbox" id="am-validate-email" checked> Validation email avant publication</label></div><div class="fgrp"><label class="flabel"><input type="checkbox" id="am-infinite" checked> Campagne infinie</label></div></div><div class="grid2"><div class="fgrp"><label class="flabel">Date de fin</label><input type="date" class="finput" id="am-enddate"></div><div class="fgrp"><label class="flabel">Nombre max publications</label><input type="number" class="finput" id="am-maxruns" min="1"></div></div><div style="display:flex;gap:12px"><button class="btn btn-neon btn-full" onclick="saveAutomation()">Sauvegarder</button><button class="btn btn-ghost" onclick="closeAutoModal()">Annuler</button></div></div></div>
-<div id="sched-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:500;align-items:center;justify-content:center;padding:16px"><div style="background:var(--panel);border:1px solid var(--border2);border-radius:14px;width:100%;max-width:720px;max-height:92vh;overflow-y:auto;padding:28px"><div class="flex-between mb16"><div class="card-title" style="margin:0;border:none;padding:0">Nouveau post programmé</div><button class="btn btn-ghost btn-sm" onclick="closeSchedModal()">✕</button></div><input type="hidden" id="sm-id"><div class="fgrp"><label class="flabel">Nom du post *</label><input class="finput" id="sm-name"></div><div class="fgrp"><label class="flabel">Description *</label><textarea class="ftextarea" id="sm-desc"></textarea></div><div class="fgrp"><label class="flabel">Plateformes *</label><div class="plat-grid" id="sm-platforms"></div></div><div class="grid2"><div class="fgrp"><label class="flabel">Date et heure de publication</label><input type="datetime-local" class="finput" id="sm-date"></div><div class="fgrp"><label class="flabel">Ton</label><select class="fselect" id="sm-tone"><option value="balanced">Équilibré</option><option value="emotional">Émotionnel</option><option value="selling">Vendeur</option><option value="urgent">Urgent</option></select></div></div><div class="fgrp" style="margin-bottom:18px"><label class="img-toggle-row" for="img-check-sched"><input type="checkbox" id="img-check-sched"><span class="img-toggle-label">🖼 Inclure une image</span><span class="img-toggle-sub">Référence bibliothèque ou description libre</span></label><div class="img-options-panel" id="img-panel-sched"><div class="img-options-inner"><div class="img-cols"><div><div class="img-col-label"><span>📎</span> Depuis la bibliothèque</div><div class="lib-autocomplete-wrap"><input class="finput" id="lib-input-sched" autocomplete="off"><div class="lib-autocomplete-list" id="lib-ac-sched"></div></div><div id="lib-chips-sched" style="margin-top:8px;display:flex;flex-wrap:wrap;gap:6px"></div></div><div><div class="img-col-label"><span>✍️</span> Description libre</div><textarea class="ftextarea" id="img-desc-sched" rows="4" style="min-height:100px"></textarea></div></div></div></div></div><div class="fgrp"><label class="flabel"><input type="checkbox" id="sm-generate"> Générer le contenu maintenant</label></div><div style="display:flex;gap:12px"><button class="btn btn-neon btn-full" onclick="saveScheduledPost()">Sauvegarder</button><button class="btn btn-ghost" onclick="closeSchedModal()">Annuler</button></div></div></div>
-<script>
-const STORAGE_PREFIX='pgi_fredericandco_';
-const SK={workerUrl:STORAGE_PREFIX+'worker_url',refLibrary:STORAGE_PREFIX+'reference_library_v1',notes:STORAGE_PREFIX+'notes_v1',creds:STORAGE_PREFIX+'creds_cache_v1'};
-const ADMIN_TOKEN='pgi_direct_access_2024';
-let WORKER_URL=localStorage.getItem(SK.workerUrl)||'';
-let currentPage='dashboard';
-let _notifTimer;
-let calYear,calMonth,calPosts=[];
-const _libSelected={create:[],auto:[],sched:[]};
-const SITE_PAGES=[{url:'https://www.clairvoyancemedium.com/Accueil-ccbaaaaaa.asp',label:'Accueil',themes:['general','voyance','presentation']},{url:'https://www.clairvoyancemedium.com/Voyance-Telephone-cbbaaaaaa.asp',label:'Voyance par Téléphone',themes:['telephone','appel','consultation']},{url:'https://www.clairvoyancemedium.com/Voyance-Par-email-cbcaaaaaa.asp',label:'Voyance par Email',themes:['email','questions','reponse']},{url:'https://www.clairvoyancemedium.com/Love-Compatibilite-cbgaaaaaj.asp',label:'Love & Compatibilité Amoureuse',themes:['amour','sentimental','couple']},{url:'https://www.clairvoyancemedium.com/Les-plus-demandes-cbgaaaaab.asp',label:'Les plus demandés',themes:['populaire','service']}];
-const PLATFORMS={instagram:{name:'Instagram',icon:'📷',mode:'meta',oauth:true},facebook:{name:'Facebook',icon:'📘',mode:'oauth',oauth:true},threads:{name:'Threads',icon:'🧵',mode:'oauth',oauth:true},linkedin:{name:'LinkedIn',icon:'💼',mode:'oauth',oauth:true},pinterest:{name:'Pinterest',icon:'📌',mode:'oauth',oauth:true},reddit:{name:'Reddit',icon:'🔴',mode:'oauth',oauth:true},mastodon:{name:'Mastodon',icon:'🐘',mode:'oauth',oauth:true},x:{name:'X / Twitter',icon:'𝕏',mode:'token'},telegram:{name:'Telegram',icon:'✈',mode:'bot'},discord:{name:'Discord',icon:'💬',mode:'webhook'},bluesky:{name:'Bluesky',icon:'🦋',mode:'app_password'},tumblr:{name:'Tumblr',icon:'📝',mode:'token'},medium:{name:'Medium',icon:'Ⓜ',mode:'token'},whatsapp:{name:'WhatsApp Business',icon:'💚',mode:'meta_token'},tiktok:{name:'TikTok',icon:'▶',mode:'semi'},youtube:{name:'YouTube',icon:'▶',mode:'semi'},quora:{name:'Quora',icon:'❓',mode:'semi'},snapchat:{name:'Snapchat',icon:'👻',mode:'semi'},vimeo:{name:'Vimeo',icon:'🎬',mode:'semi'},dailymotion:{name:'Dailymotion',icon:'📺',mode:'semi'}};
-const CONN_FIELDS={instagram:[{k:'accountId',l:'Instagram Business Account ID',t:'text',h:'Rempli via Facebook OAuth si Instagram est lié à la Page'},{k:'accessToken',l:'Token Meta',t:'password',h:'Optionnel'}],facebook:[{k:'pageId',l:'ID de page Facebook',t:'text',h:'Normalement rempli automatiquement par OAuth Meta'},{k:'accessToken',l:'Token page Meta',t:'password',h:'Optionnel si OAuth fonctionne'}],threads:[{k:'accessToken',l:'Token Threads',t:'password',h:'Normalement rempli automatiquement par OAuth Threads'},{k:'userId',l:'Threads User ID',t:'text',h:'Rempli via OAuth'}],linkedin:[{k:'personUrn',l:'Person URN LinkedIn',t:'text',h:'Ex: urn:li:person:xxxx'}],pinterest:[{k:'boardId',l:'Board ID Pinterest',t:'text',h:'Obligatoire pour choisir le tableau cible'}],reddit:[{k:'subreddit',l:'Subreddit cible',t:'text',h:'Sans r/. Exemple : voyance'}],mastodon:[{k:'instanceUrl',l:'Instance Mastodon',t:'text',h:'Ex: https://mastodon.social'}],x:[{k:'bearerToken',l:'Bearer Token X',t:'password',h:'OAuth X non inclus sans app X API validée'}],telegram:[{k:'botToken',l:'Bot Token',t:'password',h:'Depuis @BotFather'},{k:'chatId',l:'Chat ID ou @canal',t:'text',h:'Ex: @MonCanal'}],discord:[{k:'webhookUrl',l:'Webhook URL',t:'text',h:'Paramètres du salon Discord > Webhooks'}],bluesky:[{k:'handle',l:'Handle Bluesky',t:'text',h:'exemple.bsky.social'},{k:'appPassword',l:'App Password',t:'password',h:'Mot de passe d\'application'}],tumblr:[{k:'accessToken',l:'Access Token Tumblr',t:'password',h:'Token API Tumblr'},{k:'blogName',l:'Nom du blog',t:'text',h:'sans .tumblr.com'}],medium:[{k:'integrationToken',l:'Integration Token Medium',t:'password',h:'Medium Settings > Integration tokens'}],whatsapp:[{k:'accessToken',l:'Token Meta WhatsApp',t:'password',h:'Cloud API'},{k:'phoneNumberId',l:'Phone Number ID',t:'text',h:'Meta WhatsApp'},{k:'recipientPhone',l:'Numéro destinataire',t:'text',h:'Format international'}],tiktok:[{k:'note',l:'Mode semi-auto',t:'text',h:'API publication soumise à validation TikTok'}],youtube:[{k:'note',l:'Mode semi-auto',t:'text',h:'YouTube Data API nécessite OAuth Google validé'}],quora:[{k:'note',l:'Mode semi-auto',t:'text',h:'Copier-coller manuel'}],snapchat:[{k:'note',l:'Mode semi-auto',t:'text',h:'Copier-coller manuel'}],vimeo:[{k:'note',l:'Mode semi-auto',t:'text',h:'Upload vidéo séparé'}],dailymotion:[{k:'note',l:'Mode semi-auto',t:'text',h:'Upload vidéo séparé'}]};
-const PAGE_TITLES={dashboard:'Tableau de bord',create:'Créer un post',queue:'File de validation',history:'Historique',calendar:'Calendrier',platforms:'Statut des plateformes',connections:'Connexions aux plateformes',references:'Bibliothèque images',links:'Liens du site',guide:'Guide plateformes',ai:'Configuration AI',email:'Configuration email',logs:'Logs système',myposts:'Posts programmés à date fixe',automation:'Automatisation',notes:'Notes',forums:'Répondre sur les forums',horaires:'Meilleurs horaires par plateforme',forumhistory:'Historique réponses forums',clicks:'Statistiques de clics'};
-const FORUMS_LIST=[{id:'doctissimo',name:'Doctissimo',icon:'D',desc:'Sante bien-etre amour - tres actif',url:'https://forum.doctissimo.fr/sante'},{id:'aufeminin',name:'Aufeminin',icon:'F',desc:'Amour couple spiritualite',url:'https://forum.aufeminin.com/forum'},{id:'psychologies',name:'Psychologies Magazine',icon:'P',desc:'Developpement personnel relations',url:'https://www.psychologies.com/Forum'},{id:'marieclaire',name:'Marie Claire',icon:'M',desc:'Amour horoscope bien-etre',url:'https://www.marieclaire.fr/forum'},{id:'marmiton',name:'Marmiton',icon:'C',desc:'Communaute active sections vie perso',url:'https://www.marmiton.org/forum'},{id:'lesensdelavie',name:'Le Sens de la Vie',icon:'S',desc:'Spiritualite voyance esoterisme',url:'https://www.lesensdelavie.net'},{id:'astrocenter',name:'AstroCenter',icon:'A',desc:'Astrologie horoscope voyance',url:'https://www.astrocenter.fr'},{id:'elle',name:'ELLE Forum',icon:'E',desc:'Amour bien-etre feminite',url:'https://www.elle.fr/Forum'},{id:'magicmaman',name:'Magic Maman',icon:'B',desc:'Famille couple bien-etre',url:'https://www.magicmaman.com/forum'},{id:'commentcamarche',name:'Comment Ca Marche',icon:'Q',desc:'Generaliste sections relations',url:'https://forums.commentcamarche.net'},{id:'jeuxvideo',name:'JVC Amour et Psy',icon:'J',desc:'Forum tres actif section amour',url:'https://www.jeuxvideo.com/forums/0-68-0-1-0-1-0-amour-et-psychologie.htm'},{id:'reddit',name:'Reddit FR',icon:'R',desc:'r/voyance r/spiritualite r/amour r/relation_de_couple - tres actif',url:'https://www.reddit.com/r/france'}];
-const BEST_TIMES={instagram:{name:'Instagram',icon:'📷',slots:[{day:'Mardi',time:'11h00',score:5},{day:'Mercredi',time:'13h00',score:5},{day:'Vendredi',time:'10h00',score:4},{day:'Jeudi',time:'15h00',score:4}],tip:'Evite le lundi matin et les weekends apres 20h.'},facebook:{name:'Facebook',icon:'📘',slots:[{day:'Mercredi',time:'13h00',score:5},{day:'Jeudi',time:'08h00',score:5},{day:'Vendredi',time:'09h00',score:4},{day:'Mardi',time:'10h00',score:4}],tip:'Les posts avec image ont 2x plus de portee.'},threads:{name:'Threads',icon:'🧵',slots:[{day:'Lundi',time:'09h00',score:5},{day:'Mercredi',time:'12h00',score:4},{day:'Vendredi',time:'11h00',score:4}],tip:'Le matin en semaine marche bien.'},linkedin:{name:'LinkedIn',icon:'💼',slots:[{day:'Mardi',time:'08h00',score:5},{day:'Mercredi',time:'09h00',score:5},{day:'Jeudi',time:'10h00',score:4}],tip:'Strictement en semaine.'},pinterest:{name:'Pinterest',icon:'📌',slots:[{day:'Samedi',time:'20h00',score:5},{day:'Dimanche',time:'14h00',score:5},{day:'Vendredi',time:'21h00',score:4}],tip:'Pinterest aime le weekend.'}};
-function escapeHtml(v){return String(v||'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
-function workerBase(){return(WORKER_URL||'').replace(/\/$/,'')}
-async function api(path,method='GET',body=null,extraHeaders={}){const base=(WORKER_URL||'').replace(/\/$/,'');if(!base)throw new Error('Worker URL non configuré.');const opts={method,headers:{'Content-Type':'application/json','X-Admin-Token':ADMIN_TOKEN,...extraHeaders}};if(body)opts.body=JSON.stringify(body);let response;try{response=await fetch(base+path,opts)}catch{throw new Error('Impossible de joindre le Worker.')}let data;try{data=await response.json()}catch{throw new Error('Réponse Worker invalide HTTP '+response.status)}if(!response.ok)throw new Error(data.error||('Erreur HTTP '+response.status));return data}
-function statusLabel(s){return{published:'Publié',pending_validation:'En attente',modification_requested:'Modification',approved:'Approuvé',partial:'Partiel',publishing:'Publication...',failed:'Erreur',ready:'Prêt',draft:'Brouillon'}[s]||s||'—'}
-function statusBadge(s){return{published:'b-green',pending_validation:'b-orange',modification_requested:'b-blue',partial:'b-orange',publishing:'b-blue',failed:'b-red',ready:'b-blue',draft:'b-gray'}[s]||'b-gray'}
-function notify(msg,type='info'){const el=document.getElementById('notif');const cls={ok:'n-ok',err:'n-err',info:'n-info'}[type]||'n-info';const icon=type==='ok'?'✓':type==='err'?'✕':'ℹ';el.className='notif on '+cls;el.innerHTML='<span>'+icon+'</span><span>'+escapeHtml(msg)+'</span>';clearTimeout(_notifTimer);_notifTimer=setTimeout(()=>el.classList.remove('on'),6000)}
-function getReferenceLibrary(){try{return JSON.parse(localStorage.getItem(SK.refLibrary)||'[]')}catch{return[]}}
-function saveReferenceLibrary(list){localStorage.setItem(SK.refLibrary,JSON.stringify(list))}
-function getNotes(){try{return JSON.parse(localStorage.getItem(SK.notes)||'[]')}catch{return[]}}
-function saveNotesLocal(list){localStorage.setItem(SK.notes,JSON.stringify(list))}
-function getCredsCache(){try{return JSON.parse(localStorage.getItem(SK.creds)||'{}')}catch{return{}}}
-function saveCredsCache(cache){localStorage.setItem(SK.creds,JSON.stringify(cache||{}))}
-function rememberFieldInput(platform,key,value){const cache=getCredsCache();cache[platform]=Object.assign({},cache[platform]||{}, {[key]:value});saveCredsCache(cache)}
-function rememberCreds(platform,body){const cache=getCredsCache();cache[platform]=Object.assign({},cache[platform]||{},body||{});saveCredsCache(cache)}
-function setCredFieldValue(platform,key,value){const el=document.getElementById('cred-'+platform+'-'+key);if(el&&value!==undefined&&value!==null&&String(value)!=='')el.value=String(value)}
-function hydrateCredsFromCache(){const cache=getCredsCache();Object.keys(cache).forEach(platform=>{const fields=cache[platform]||{};Object.keys(fields).forEach(key=>setCredFieldValue(platform,key,fields[key]))})}
-function updateWorkerStatus(){const dot=document.getElementById('ws-dot');const txt=document.getElementById('ws-txt');if(WORKER_URL){dot.className='dot dot-green';try{txt.textContent=new URL(WORKER_URL).hostname}catch{txt.textContent='Worker configuré'}}else{dot.className='dot dot-orange';txt.textContent='Non configuré'}}
-function saveWorkerUrl(){const v=document.getElementById('worker-url-inp').value.trim();if(!v)return notify('Entrez une URL Worker valide.','err');WORKER_URL=v;localStorage.setItem(SK.workerUrl,v);updateWorkerStatus();notify('URL Worker sauvegardée.','ok');refreshCurrent()}
-function toggleSidebar(){const sidebar=document.querySelector('.sidebar');const overlay=document.getElementById('overlay');if(!sidebar||!overlay)return;sidebar.classList.toggle('open');overlay.classList.toggle('on')}
-function closeSidebar(){const sidebar=document.querySelector('.sidebar');const overlay=document.getElementById('overlay');if(!sidebar||!overlay)return;sidebar.classList.remove('open');overlay.classList.remove('on')}
-function nav(name){currentPage=name;if(window.innerWidth<=900)closeSidebar();document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.nav-item').forEach(i=>i.classList.remove('active'));document.getElementById('page-'+name)?.classList.add('active');document.getElementById('nav-'+name)?.classList.add('active');document.getElementById('page-title').textContent=PAGE_TITLES[name]||name;refreshCurrent()}
-function refreshCurrent(){if(currentPage==='dashboard')loadStats();if(currentPage==='connections')loadConnectionStatuses();if(currentPage==='platforms')loadPlatStatus();if(currentPage==='queue')loadQueue();if(currentPage==='history')loadHistory();if(currentPage==='myposts')loadMyPosts();if(currentPage==='automation')loadAutomations();if(currentPage==='ai')loadAiConfig();if(currentPage==='email')loadEmailConfig();if(currentPage==='logs')loadLogs();if(currentPage==='calendar')initCalendar();if(currentPage==='links')buildLinksTable();if(currentPage==='references')renderReferenceLibrary();if(currentPage==='notes')renderNotes();if(currentPage==='forums')buildForumsChecklist();if(currentPage==='horaires')renderHoraires();if(currentPage==='forumhistory')loadForumHistory();if(currentPage==='clicks')loadClickStats()}
-function setDefaultDate(){const d=new Date();d.setHours(d.getHours()+1);document.getElementById('c-date').value=d.toISOString().slice(0,16)}
-function buildPlatformChecklist(){document.getElementById('plat-checklist').innerHTML=Object.entries(PLATFORMS).map(([key,p])=>`<div class="plat-check"><input type="checkbox" id="pc-${key}" value="${key}"><label for="pc-${key}"><span class="plat-icon">${p.icon}</span>${p.name}<span class="plat-mode-badge">${p.mode}</span></label></div>`).join('')}
-function buildSmallPlatformGrid(containerId){document.getElementById(containerId).innerHTML=Object.entries(PLATFORMS).map(([key,p])=>`<div class="plat-check"><input type="checkbox" id="${containerId}-${key}" value="${key}"><label for="${containerId}-${key}" style="font-size:11px;padding:7px 10px"><span>${p.icon}</span>${p.name}</label></div>`).join('')}
-function buildLinksTable(){document.getElementById('links-tbody').innerHTML=SITE_PAGES.map(p=>`<tr><td style="font-weight:600">${escapeHtml(p.label)}</td><td><a href="${p.url}" target="_blank" style="color:var(--neon);font-size:11px">${escapeHtml(p.url.replace('https://www.clairvoyancemedium.com/','…/'))}</a></td><td>${p.themes.map(t=>`<span class="badge b-blue" style="margin:1px 2px;font-size:9px">${escapeHtml(t)}</span>`).join('')}</td></tr>`).join('')}
-function onImgToggle(ctx){const cb=document.getElementById('img-check-'+ctx);const panel=document.getElementById('img-panel-'+ctx);if(!cb||!panel)return;panel.classList.toggle('open',cb.checked)}
-function libAutocomplete(ctx){const input=document.getElementById('lib-input-'+ctx);const list=document.getElementById('lib-ac-'+ctx);if(!input||!list)return;const q=(input.value||'').toLowerCase().trim();const refs=getReferenceLibrary();const filtered=refs.filter((ref,idx)=>('image '+(idx+1)+' '+ref.name+(ref.note||'')).toLowerCase().includes(q)).slice(0,8);if(!filtered.length){list.classList.remove('open');list.innerHTML='';return;}list.innerHTML=filtered.map(ref=>{const idx=refs.indexOf(ref);return `<div class="lib-ac-item" data-id="${ref.id}"><img src="${ref.dataUrl}" alt=""><div><div class="lib-ac-name">Image ${idx+1} • ${escapeHtml(ref.name)}</div><div class="lib-ac-num">${escapeHtml(ref.note||'')}</div></div></div>`}).join('');list.classList.add('open');[...list.querySelectorAll('.lib-ac-item')].forEach(item=>item.addEventListener('mousedown',e=>{e.preventDefault();selectLibRef(ctx,item.dataset.id)}))}
-function closeLibAc(ctx){const list=document.getElementById('lib-ac-'+ctx);if(list)list.classList.remove('open')}
-function selectLibRef(ctx,id){if(!_libSelected[ctx])_libSelected[ctx]=[];if(_libSelected[ctx].includes(id))return;_libSelected[ctx].push(id);const input=document.getElementById('lib-input-'+ctx);if(input)input.value='';closeLibAc(ctx);renderLibChips(ctx)}
-function removeLibRef(ctx,id){if(!_libSelected[ctx])return;_libSelected[ctx]=_libSelected[ctx].filter(x=>x!==id);renderLibChips(ctx)}
-function renderLibChips(ctx){const el=document.getElementById('lib-chips-'+ctx);if(!el)return;const refs=getReferenceLibrary();el.innerHTML=(_libSelected[ctx]||[]).map(id=>{const ref=refs.find(r=>r.id===id);if(!ref)return '';const idx=refs.indexOf(ref);return `<div class="lib-preview-chip"><img src="${ref.dataUrl}" alt=""><span>Image ${idx+1} • ${escapeHtml(ref.name)}</span><span class="rm" data-id="${id}">✕</span></div>`}).join('');[...el.querySelectorAll('.rm')].forEach(x=>x.addEventListener('click',()=>removeLibRef(ctx,x.dataset.id)))}
-function getImgPayload(ctx){const cbChecked=document.getElementById('img-check-'+ctx)?.checked;if(!cbChecked)return{useImage:false};const refs=getReferenceLibrary();const selectedRefs=(_libSelected[ctx]||[]).map(id=>{const ref=refs.find(r=>r.id===id);if(!ref)return null;const idx=refs.indexOf(ref);return{id:ref.id,name:ref.name,note:ref.note||'',number:idx+1,dataUrl:ref.dataUrl}}).filter(Boolean);const freeDesc=(document.getElementById('img-desc-'+ctx)?.value||'').trim();return{useImage:true,referenceImages:selectedRefs,referenceImageIds:selectedRefs.map(r=>r.id),imageDescription:freeDesc||null}}
-function resetImgBlock(ctx){const cb=document.getElementById('img-check-'+ctx);const panel=document.getElementById('img-panel-'+ctx);if(cb)cb.checked=false;if(panel)panel.classList.remove('open');_libSelected[ctx]=[];renderLibChips(ctx);const desc=document.getElementById('img-desc-'+ctx);if(desc)desc.value='';const input=document.getElementById('lib-input-'+ctx);if(input)input.value='';closeLibAc(ctx)}
-function setImgBlock(ctx,data){if(data?.useImage){const cb=document.getElementById('img-check-'+ctx);const panel=document.getElementById('img-panel-'+ctx);if(cb)cb.checked=true;if(panel)panel.classList.add('open');_libSelected[ctx]=(data.referenceImageIds||[]);renderLibChips(ctx);const desc=document.getElementById('img-desc-'+ctx);if(desc)desc.value=data.imageDescription||''}else resetImgBlock(ctx)}
-async function compressImage(dataUrl,maxW,quality){return new Promise(resolve=>{const img=new Image();img.onload=()=>{const w=Math.min(img.width,maxW||800);const h=Math.round(img.height*(w/img.width));const c=document.createElement('canvas');c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);resolve(c.toDataURL('image/jpeg',quality||0.72))};img.src=dataUrl})}
-async function syncImagesFromCloud(){if(!WORKER_URL)return;try{const data=await api('/api/images');const cloud=data.images||[];if(cloud.length){saveReferenceLibrary(cloud)}}catch(e){}}
-async function pushImagesToCloud(list){if(!WORKER_URL)return;const slim=list.map(r=>({id:r.id,name:r.name,note:r.note||'',createdAt:r.createdAt,dataUrl:r.dataUrl}));try{await api('/api/images','PUT',{images:slim})}catch(e){}}
-async function addReferenceImages(){const input=document.getElementById('ref-files');const files=[...(input.files||[])];if(!files.length)return notify('Sélectionnez au moins une image.','err');const baseName=document.getElementById('ref-default-name').value.trim();let pending=files.length;files.forEach((file,idx)=>{const reader=new FileReader();reader.onload=async e=>{const compressed=await compressImage(e.target.result,800,0.72);const current=getReferenceLibrary();const n=current.length+1;const id='ref_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,7);current.push({id,name:baseName?(files.length>1?baseName+' '+(idx+1):baseName):'Image '+n,dataUrl:compressed,createdAt:Date.now(),note:''});saveReferenceLibrary(current);pending--;if(pending===0){input.value='';document.getElementById('ref-default-name').value='';await pushImagesToCloud(getReferenceLibrary());await renderReferenceLibrary();notify('Images ajoutées et sauvegardées.','ok')}};reader.readAsDataURL(file)})}
-async function renderReferenceLibrary(){const el=document.getElementById('ref-library');if(!el)return;await syncImagesFromCloud();const refs=getReferenceLibrary();if(!refs.length){el.innerHTML='<div class="text-muted text-sm">Aucune image enregistrée.</div>';return}el.innerHTML=refs.map((ref,index)=>`<div class="ref-card"><div class="ref-id">Image ${index+1} • ${escapeHtml(ref.id)}</div><img class="ref-img" src="${ref.dataUrl}" alt="${escapeHtml(ref.name)}"><div class="fgrp" style="margin-top:8px"><label class="flabel">Nom</label><input class="finput" value="${escapeHtml(ref.name)}" data-id="${ref.id}" data-kind="name"></div><div class="fgrp" style="margin-top:8px;margin-bottom:0"><label class="flabel">Note</label><input class="finput" value="${escapeHtml(ref.note||'')}" data-id="${ref.id}" data-kind="note"></div><div class="ref-actions"><button class="btn btn-ghost btn-sm" data-copy="${ref.id}">Copier nom</button><button class="btn btn-red btn-sm" data-del="${ref.id}">Supprimer</button></div></div>`).join('');[...el.querySelectorAll('input[data-kind]')].forEach(inp=>inp.addEventListener('change',()=>{const refs=getReferenceLibrary();const ref=refs.find(r=>r.id===inp.dataset.id);if(!ref)return;if(inp.dataset.kind==='name')ref.name=inp.value.trim()||ref.name;else ref.note=inp.value.trim();saveReferenceLibrary(refs);pushImagesToCloud(refs)}));[...el.querySelectorAll('[data-copy]')].forEach(btn=>btn.addEventListener('click',()=>copyRefName(btn.dataset.copy)));[...el.querySelectorAll('[data-del]')].forEach(btn=>btn.addEventListener('click',()=>deleteRef(btn.dataset.del)))}
-function clearReferenceLibrary(){if(!confirm('Vider toute la bibliothèque ?'))return;saveReferenceLibrary([]);pushImagesToCloud([]);renderReferenceLibrary();notify('Bibliothèque vidée.','ok')}
-function deleteRef(id){if(!confirm('Supprimer cette image ?'))return;const refs=getReferenceLibrary().filter(r=>r.id!==id);saveReferenceLibrary(refs);pushImagesToCloud(refs);renderReferenceLibrary();notify('Image supprimée.','ok')}
-function copyRefName(id){const refs=getReferenceLibrary();const idx=refs.findIndex(r=>r.id===id);const ref=refs[idx];if(!ref)return;const txt='Image '+(idx+1)+' : '+ref.name;navigator.clipboard?.writeText(txt);notify(txt,'info')}
-function getPinterestBoardsHtml(){return `<div id="pinterest-boards-wrap" style="background:rgba(0,191,255,.04);border:1px solid rgba(0,191,255,.12);border-radius:10px;padding:12px 14px;margin-bottom:14px"><div style="font-size:12px;color:var(--neon);font-weight:700;margin-bottom:6px">Boards Pinterest</div><div class="text-sm text-muted" style="margin-bottom:10px">Chargez vos tableaux, choisissez le bon board, puis sauvegardez les champs.</div><div class="flex gap8 flex-wrap"><button class="btn btn-ghost btn-sm" onclick="loadPinterestBoards()">Lister les boards</button></div><div id="pinterest-boards-list" style="margin-top:10px"></div></div>`}
-function getOauthBlock(key,p){const oauthPlatforms=['instagram','facebook','threads','linkedin','pinterest','reddit','mastodon'];if(!oauthPlatforms.includes(key))return `<div style="background:rgba(238,119,34,.07);border:1px solid rgba(238,119,34,.25);border-radius:10px;padding:14px;margin-bottom:14px"><div style="font-weight:700;font-size:12px;color:var(--orange);margin-bottom:6px">Connexion par ${p.mode}</div><div class="text-sm text-muted">Cette plateforme utilise les champs ci-dessous.</div></div>`;const route=key==='instagram'?'facebook':key;const label=key==='instagram'?'Connecter Instagram via Facebook / Meta':'Connecter '+p.name+' via OAuth';const note=key==='threads'?'Le statut Threads est vérifié via graph.threads.net /me.':key==='instagram'?'Instagram nécessite une Page Facebook liée à un compte Instagram Business.':'Connexion officielle via OAuth.';return `<div style="background:rgba(0,100,255,.08);border:1px solid rgba(0,100,255,.25);border-radius:10px;padding:16px;margin-bottom:14px"><div style="font-weight:700;font-size:13px;color:var(--neon);margin-bottom:8px">Connexion OAuth</div><div class="text-sm text-muted" style="margin-bottom:12px">${note}</div><div id="oauth-status-${key}" style="margin-bottom:12px;font-size:12px;color:var(--text2)">Statut non vérifié</div><div class="flex gap8 flex-wrap"><button class="btn btn-neon btn-sm" onclick="startOAuth('${route}')">${label}</button><button class="btn btn-ghost btn-sm" onclick="checkOAuth('${key}')">Vérifier</button></div></div>`}
-function buildConnectionsList(){const el=document.getElementById('conn-list');el.innerHTML=Object.entries(PLATFORMS).map(([key,p])=>{const fields=CONN_FIELDS[key]||[];const oauthBlock=getOauthBlock(key,p);const extraTop=key==='pinterest'?getPinterestBoardsHtml():'';const fHtml=fields.map(f=>`<div class="fgrp"><label class="flabel">${escapeHtml(f.l)}</label><input type="${f.t}" class="finput" id="cred-${key}-${f.k}" placeholder="${escapeHtml(f.h||'')}" oninput="rememberFieldInput('${key}','${f.k}',this.value)"><div class="fhelp">${escapeHtml(f.h)}</div></div>`).join('');return `<div class="conn-item" id="conn-${key}"><div class="conn-head" onclick="toggleConn('${key}')"><div class="conn-name"><span class="conn-icon">${p.icon}</span><div><div class="conn-label">${p.name}</div><div class="conn-mode">${p.mode}${key==='instagram'?' • prioritaire':''}</div></div></div><div class="conn-actions"><span class="badge b-gray" id="conn-status-${key}">—</span><button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();testConn('${key}')">Tester</button><button class="btn btn-red btn-sm" onclick="event.stopPropagation();disconnectConn('${key}')">Déconnecter</button><span style="color:var(--text3);margin-left:6px">▾</span></div></div><div class="conn-body" id="connb-${key}">${oauthBlock}${extraTop}${fHtml}<div class="flex gap8 flex-wrap"><button class="btn btn-neon btn-sm" onclick="saveCreds('${key}')">Sauvegarder champs</button></div></div></div>`}).join('');hydrateCredsFromCache()}
-function toggleConn(key){document.getElementById('connb-'+key)?.classList.toggle('open')}
-function startOAuth(key){if(!WORKER_URL)return notify('Configurez d\'abord l\'URL Worker.','err');window.open(workerBase()+'/auth/'+key+'/start','oauth_'+key,'width=650,height=780,scrollbars=yes')}
-async function checkOAuth(key){try{const res=await fetch(workerBase()+'/auth/'+key+'/status');const data=await res.json();const el=document.getElementById('oauth-status-'+key);if(el)el.innerHTML=data.connected?'<span style="color:var(--green)">✓ Connecté</span> '+escapeHtml(data.username||data.pageName||data.profile?.name||''):'<span style="color:var(--orange)">Non connecté</span> '+escapeHtml(data.error||data.message||'');return data}catch{return null}}
-async function hydrateSavedCredFields(){for(const key of Object.keys(PLATFORMS)){try{const single=await api('/api/platforms/'+key+'/test');const status=single.status||{};const profile=status.profile||{};if(key==='pinterest'){if(status.boardId)setCredFieldValue('pinterest','boardId',status.boardId);if(profile.boardId)setCredFieldValue('pinterest','boardId',profile.boardId)}else if(key==='reddit'){if(status.subreddit)setCredFieldValue('reddit','subreddit',status.subreddit);if(profile.subreddit)setCredFieldValue('reddit','subreddit',profile.subreddit)}else if(key==='mastodon'){if(status.instanceUrl)setCredFieldValue('mastodon','instanceUrl',status.instanceUrl);if(profile.instanceUrl)setCredFieldValue('mastodon','instanceUrl',profile.instanceUrl)}else if(key==='linkedin'){if(status.personUrn)setCredFieldValue('linkedin','personUrn',status.personUrn);if(profile.personUrn)setCredFieldValue('linkedin','personUrn',profile.personUrn)}}catch(e){}}}
-async function loadConnectionStatuses(){buildConnectionsList();for(const key of Object.keys(PLATFORMS))await checkOAuth(key).catch(()=>null);try{const data=await api('/api/platforms');Object.entries(data.platforms||{}).forEach(([key,p])=>{const el=document.getElementById('conn-status-'+key);if(!el)return;el.className=p.connected?'badge b-green':'badge b-gray';el.textContent=p.connected?'Connecté':'Non connecté'});await hydrateSavedCredFields();hydrateCredsFromCache()}catch(e){notify(e.message,'err')}}
-async function saveCreds(key){const fields=CONN_FIELDS[key]||[];const creds={};fields.forEach(f=>{const v=document.getElementById('cred-'+key+'-'+f.k)?.value.trim();if(v)creds[f.k]=v});if(!Object.keys(creds).length)return notify('Renseignez au moins un champ.','err');try{await api('/api/platforms/'+key+'/credentials','PUT',creds);rememberCreds(key,creds);notify('Champs sauvegardés pour '+PLATFORMS[key].name+'.','ok');loadConnectionStatuses()}catch(e){notify(e.message,'err')}}
-async function disconnectConn(key){if(!confirm('Déconnecter '+PLATFORMS[key].name+' ?'))return;try{await api('/api/platforms/'+key+'/credentials','DELETE');try{await api('/auth/'+key+'/disconnect','POST')}catch{}const cache=getCredsCache();delete cache[key];saveCredsCache(cache);if(key==='pinterest'){const list=document.getElementById('pinterest-boards-list');if(list)list.innerHTML='';setCredFieldValue('pinterest','boardId','')}notify('Déconnecté.','ok');loadConnectionStatuses()}catch(e){notify(e.message,'err')}}
-async function testConn(key){try{const d=await api('/api/platforms/'+key+'/test');notify(d.message||'Test terminé',d.success?'ok':'err')}catch(e){notify(e.message,'err')}}
-async function loadPinterestBoards(){const listEl=document.getElementById('pinterest-boards-list');if(!listEl)return;listEl.innerHTML='<div class="text-muted text-sm">Chargement des boards Pinterest...</div>';try{const data=await api('/api/pinterest/boards');const boards=data.boards||[];if(!boards.length){listEl.innerHTML='<div class="text-muted text-sm">Aucun board trouvé.</div>';return;}listEl.innerHTML=boards.map(board=>`<div class="pinterest-board-item"><div class="pinterest-board-meta"><div class="pinterest-board-name">${escapeHtml(board.name||'Sans nom')}</div><div class="pinterest-board-id">${escapeHtml(board.id||'')}</div></div><button class="btn btn-neon btn-sm" data-board="${escapeHtml(board.id||'')}">Choisir</button></div>`).join('');[...listEl.querySelectorAll('[data-board]')].forEach(btn=>btn.addEventListener('click',()=>selectPinterestBoard(btn.dataset.board)))}catch(e){listEl.innerHTML='<div class="text-red text-sm">'+escapeHtml(e.message)+'</div>'}}
-function selectPinterestBoard(boardId){setCredFieldValue('pinterest','boardId',boardId);rememberFieldInput('pinterest','boardId',boardId);notify('Board Pinterest sélectionné. Cliquez maintenant sur Sauvegarder champs.','ok')}
-async function loadStats(){try{const[statsData,postsData]=await Promise.all([api('/api/stats'),api('/api/posts?limit=8')]);const stats=statsData.stats||{};document.getElementById('s-total').textContent=stats.total??0;document.getElementById('s-pub').textContent=stats.published??0;document.getElementById('s-pend').textContent=stats.pending??0;const qb=document.getElementById('queue-badge');if((stats.pending||0)>0){qb.style.display='';qb.textContent=stats.pending}else qb.style.display='none';const pse=document.getElementById('dash-platstat');if(stats.byPlatform&&Object.keys(stats.byPlatform).length){pse.innerHTML=Object.entries(stats.byPlatform).sort((a,b)=>b[1]-a[1]).map(([k,c])=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border)"><span>${PLATFORMS[k]?.icon||''} ${PLATFORMS[k]?.name||k}</span><span class="badge b-blue">${c}</span></div>`).join('')}else pse.innerHTML='<div class="text-muted text-sm">Aucune publication encore</div>';const posts=postsData.posts||[];document.getElementById('dash-recent').innerHTML=posts.length?posts.map(p=>`<div style="padding:9px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;gap:10px"><div><div style="font-size:13px;font-weight:500">${escapeHtml((p.description||'').slice(0,60))}${p.description?.length>60?'…':''}</div><div class="text-sm text-muted">${(p.platforms||[]).map(k=>PLATFORMS[k]?.name||k).join(', ')} • ${new Date(p.createdAt||Date.now()).toLocaleDateString('fr-FR')}</div></div><span class="badge ${statusBadge(p.status)}">${statusLabel(p.status)}</span></div>`).join(''):'<div class="text-muted text-sm">Aucune publication</div>'}catch(e){console.warn(e.message)}}
-async function resetStats(){if(!confirm('Remettre les métriques à zéro ?'))return;try{await api('/api/stats/reset','POST');notify('Métriques remises à zéro.','ok');loadStats()}catch(e){notify(e.message,'err')}}
-async function resetDashboardRecent(){if(!confirm('Masquer les publications affichées ?'))return;try{await api('/api/dashboard/recent/reset','POST');notify('Publications remises à zéro.','ok');loadStats()}catch(e){notify(e.message,'err')}}
-async function generatePost(){const platforms=[...document.querySelectorAll('#plat-checklist input:checked')].map(i=>i.value);const description=document.getElementById('c-desc').value.trim();if(!platforms.length)return notify('Sélectionnez au moins une plateforme.','err');if(!description)return notify('Décrivez votre publication.','err');const btn=document.getElementById('btn-gen');const ldr=document.getElementById('gen-ldr');btn.disabled=true;ldr.style.display='inline-block';try{const mode=document.getElementById('c-mode').value;const scheduledAt=new Date(document.getElementById('c-date').value).getTime()||Date.now()+3600000;const imgPayload=getImgPayload('create');const data=await api('/api/posts/generate','POST',{description,platforms,tone:document.getElementById('c-tone').value,themes:document.getElementById('c-theme').value?[document.getElementById('c-theme').value]:[],scheduledAt,skipEmail:mode==='manual',manual:mode==='manual',...imgPayload});renderResult(data.content,data.imageUrl,platforms,data.postId);notify(mode==='manual'?'Contenu généré.':'Email de validation envoyé.','ok');loadStats()}catch(e){notify(e.message,'err')}finally{btn.disabled=false;ldr.style.display='none'}}
-function renderResult(content,imageUrl,platforms,postId){document.getElementById('result-box').classList.add('on');document.getElementById('r-hook').textContent=content?.hook||'';document.getElementById('r-main').textContent=content?.mainText||'';document.getElementById('r-itext').textContent=content?.imageText||'';document.getElementById('r-cta').textContent=content?.cta||'';document.getElementById('r-link').innerHTML=`<a href="${content?.selectedLink||'#'}" target="_blank" style="color:var(--neon)">${escapeHtml(content?.selectedLink||'')}</a><br><span style="color:var(--gold);font-size:11px">${escapeHtml(content?.selectedPage||'')}</span>`;document.getElementById('r-img-box').innerHTML=imageUrl?`<img src="${imageUrl}" alt="Visuel">`:'<div class="img-placeholder">Aucun visuel</div>';document.getElementById('r-platforms').innerHTML=platforms.map(key=>{const pc=content?.platforms?.[key]||{};const ht=pc.hashtags?.length?`<div style="margin-top:8px;color:var(--neon);font-size:11px">${pc.hashtags.map(t=>'#'+String(t).replace(/^#/,'')).join(' ')}</div>`:'';return`<div class="plat-result"><div class="plat-result-name">${PLATFORMS[key]?.icon||''} ${PLATFORMS[key]?.name||key}</div>${pc.title?`<div style="font-weight:700;color:var(--gold);margin-bottom:6px">${escapeHtml(pc.title)}</div>`:''}<div style="font-size:13px;line-height:1.7">${escapeHtml(pc.text||'').replace(/
-/g,'<br>')}</div>${ht}</div>`}).join('');document.getElementById('result-footer').innerHTML=`<div class="flex gap12 flex-wrap"><button class="btn btn-green btn-full" onclick="publishNow('${postId}')">▶ Publier maintenant</button><button class="btn btn-ghost" onclick="resetCreate()">Nouveau post</button></div>`}
-async function publishNow(id){try{const d=await api('/api/posts/'+id+'/publish','POST');notify('Publication terminée : '+d.status,'ok');loadStats()}catch(e){notify(e.message,'err')}}
-function resetCreate(){document.querySelectorAll('#plat-checklist input').forEach(i=>i.checked=false);document.getElementById('c-desc').value='';document.getElementById('c-theme').value='';document.getElementById('result-box').classList.remove('on');resetImgBlock('create');setDefaultDate()}
-async function loadQueue(){const el=document.getElementById('queue-list');try{const data=await api('/api/posts?limit=200');const items=(data.posts||[]).filter(p=>['pending_validation','modification_requested'].includes(p.status));if(!items.length){el.innerHTML='<div class="text-muted text-sm">Aucune publication en attente.</div>';return}el.innerHTML=items.map(p=>`<div style="background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:11px;display:flex;align-items:center;gap:14px;flex-wrap:wrap"><div style="flex:1;min-width:200px"><div style="font-weight:600;margin-bottom:4px">${escapeHtml((p.description||'').slice(0,70))}…</div><div class="text-sm text-muted">${(p.platforms||[]).map(k=>PLATFORMS[k]?.name||k).join(', ')} • ${new Date(p.createdAt||Date.now()).toLocaleString('fr-FR')}</div></div><span class="badge ${statusBadge(p.status)}">${statusLabel(p.status)}</span><button class="btn btn-green btn-sm" onclick="publishNow('${p.id}')">Exécuter</button><button class="btn btn-ghost btn-sm" onclick="viewPost('${p.id}')">Voir</button><button class="btn btn-red btn-sm" onclick="deletePost('${p.id}');loadQueue()">Supprimer</button></div>`).join('')}catch(e){el.innerHTML='<div class="text-red text-sm">'+escapeHtml(e.message)+'</div>'}}
-async function loadHistory(){const tbody=document.getElementById('hist-tbody');try{const data=await api('/api/posts?limit=200');const posts=data.posts||[];tbody.innerHTML=posts.length?posts.map(p=>`<tr><td class="td-mono">${escapeHtml(p.id)}</td><td class="td-clamp">${escapeHtml(p.description||'')}</td><td>${(p.platforms||[]).map(k=>`<span class="badge b-blue" style="margin:1px">${PLATFORMS[k]?.icon||''} ${k}</span>`).join('')}</td><td><span class="badge ${statusBadge(p.status)}">${statusLabel(p.status)}</span></td><td class="text-muted text-sm">${new Date(p.createdAt||Date.now()).toLocaleString('fr-FR')}</td><td><button class="btn btn-ghost btn-sm" onclick="viewPost('${p.id}')">Voir</button><button class="btn btn-red btn-sm" onclick="deletePost('${p.id}');loadHistory()">Supprimer</button></td></tr>`).join(''):'<tr><td colspan="6" class="text-muted text-sm" style="padding:18px">Aucune publication</td></tr>'}catch(e){tbody.innerHTML='<tr><td colspan="6" class="text-red text-sm">'+escapeHtml(e.message)+'</td></tr>'}}
-async function viewPost(id){try{const data=await api('/api/posts/'+id);const p=data.post;const win=window.open('','_blank','width=760,height=880');win.document.write(`<html><head><meta charset="UTF-8"><title>${p.id}</title><style>body{font-family:Georgia;background:#06060f;color:#ccd6f5;padding:30px;line-height:1.6}h2,h3{color:#00bfff}pre{white-space:pre-wrap;font-family:inherit}a{color:#4488ff}</style></head><body><h2>Publication ${p.id}</h2><p>${statusLabel(p.status)} • ${(p.platforms||[]).join(', ')}</p><h3>Accroche</h3><pre>${escapeHtml(p.content?.hook||'')}</pre><h3>Texte</h3><pre>${escapeHtml(p.content?.mainText||'')}</pre><h3>Résultats</h3><pre>${escapeHtml(JSON.stringify(p.publishResults||{},null,2))}</pre>${p.imageUrl?`<img src="${p.imageUrl}" style="max-width:100%;border-radius:8px">`:'<p>Aucun visuel</p>'}</body></html>`)}catch(e){notify(e.message,'err')}}
-async function deletePost(id){if(!confirm('Supprimer cette publication ?'))return;try{await api('/api/posts/'+id,'DELETE');notify('Supprimée.','ok');loadStats()}catch(e){notify(e.message,'err')}}
-async function loadPlatStatus(){const el=document.getElementById('plat-status-grid');try{const data=await api('/api/platforms');el.innerHTML=Object.entries(data.platforms||{}).map(([key,p])=>`<div style="background:var(--bg2);border:1px solid ${p.connected?'rgba(0,187,85,.35)':'var(--border)'};border-radius:10px;padding:16px"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px"><div><div style="font-size:22px;margin-bottom:4px">${p.icon}</div><div style="font-weight:600;font-size:13px">${p.name}</div><div class="text-muted" style="font-size:11px;margin-top:4px">${p.mode}</div></div><span class="badge ${p.connected?'b-green':'b-red'}">${p.connected?'Connecté':'Non connecté'}</span></div><div class="text-sm text-muted" style="min-height:38px">${escapeHtml(p.status?.message||p.status?.error||p.status?.username||p.status?.pageName||'')}</div><div class="flex gap8 mt16"><button class="btn btn-ghost btn-sm" onclick="testConn('${key}')">Tester</button><button class="btn btn-neon btn-sm" onclick="nav('connections')">Config.</button></div></div>`).join('')}catch(e){el.innerHTML='<div class="text-red text-sm">'+escapeHtml(e.message)+'</div>'}}
-function openAutoModal(data=null){buildSmallPlatformGrid('am-platforms');document.getElementById('am-id').value=data?.id||'';document.getElementById('am-name').value=data?.name||'';document.getElementById('am-desc').value=data?.description||'';document.getElementById('am-freq').value=data?.frequency||'daily';document.getElementById('am-hour').value=data?.hour||'09:00';document.getElementById('am-theme').value=data?.themes?.[0]||'';document.getElementById('am-tone').value=data?.tone||'balanced';document.getElementById('am-validate-email').checked=data?data.validateEmail!==false:true;document.getElementById('am-infinite').checked=data?data.infinite!==false:true;document.getElementById('am-enddate').value=data?.endDate||'';document.getElementById('am-maxruns').value=data?.maxRuns||'';(data?.platforms||[]).forEach(key=>{const i=document.getElementById('am-platforms-'+key);if(i)i.checked=true});setImgBlock('auto',data);document.getElementById('auto-modal').style.display='flex'}
-function closeAutoModal(){document.getElementById('auto-modal').style.display='none'}
-async function saveAutomation(){const id=document.getElementById('am-id').value;const imgPayload=getImgPayload('auto');const body={name:document.getElementById('am-name').value.trim(),description:document.getElementById('am-desc').value.trim(),platforms:[...document.querySelectorAll('#am-platforms input:checked')].map(i=>i.value),frequency:document.getElementById('am-freq').value,hour:document.getElementById('am-hour').value,themes:document.getElementById('am-theme').value?[document.getElementById('am-theme').value]:[],tone:document.getElementById('am-tone').value,...imgPayload,validateEmail:document.getElementById('am-validate-email').checked,infinite:document.getElementById('am-infinite').checked,endDate:document.getElementById('am-enddate').value||null,maxRuns:parseInt(document.getElementById('am-maxruns').value)||null,active:true};if(!body.name||!body.description||!body.platforms.length)return notify('Nom, description et plateforme obligatoires.','err');try{await api(id?'/api/automations/'+id:'/api/automations',id?'PUT':'POST',body);notify('Automatisation sauvegardée.','ok');closeAutoModal();loadAutomations()}catch(e){notify(e.message,'err')}}
-async function loadAutomations(){const el=document.getElementById('auto-list');try{const data=await api('/api/automations');const rules=data.automations||[];if(!rules.length){el.innerHTML='<div class="text-muted text-sm">Aucune automatisation créée.</div>';return}el.innerHTML=rules.map(rule=>`<div style="background:var(--bg2);border:1px solid ${rule.active?'rgba(0,191,255,.25)':'var(--border)'};border-radius:10px;padding:18px;margin-bottom:12px"><div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap"><div style="flex:1;min-width:220px"><div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap"><div style="font-weight:700;font-size:14px">${escapeHtml(rule.name)}</div><span class="badge ${rule.active?'b-green':'b-gray'}">${rule.active?'Active':'Inactive'}</span><span class="badge b-blue">${escapeHtml(rule.frequency)}</span><span class="badge ${rule.validateEmail!==false?'b-blue':'b-orange'}">${rule.validateEmail!==false?'Email validation':'Direct'}</span></div><div class="text-sm text-muted">${escapeHtml((rule.description||'').slice(0,100))}</div><div class="text-sm text-muted mt8">Plateformes : ${(rule.platforms||[]).map(k=>PLATFORMS[k]?.icon||k).join(' ')} • Prochain : <span class="text-gold">${rule.nextRun?new Date(rule.nextRun).toLocaleString('fr-FR'):'—'}</span></div>${rule.lastError?`<div class="text-red text-sm mt8">Erreur : ${escapeHtml(rule.lastError)}</div>`:''}</div><div class="flex gap8 flex-wrap"><button class="btn ${rule.active?'btn-red':'btn-green'} btn-sm" onclick="toggleAuto('${rule.id}')">${rule.active?'Arrêter':'Reprendre'}</button><button class="btn btn-neon btn-sm" onclick="runAutoNow('${rule.id}')">Exécuter</button><button class="btn btn-ghost btn-sm" onclick="editAuto('${rule.id}')">Modifier</button><button class="btn btn-red btn-sm" onclick="deleteAuto('${rule.id}')">Supprimer</button></div></div></div>`).join('')}catch(e){el.innerHTML='<div class="text-red text-sm">'+escapeHtml(e.message)+'</div>'}}
-async function editAuto(id){try{const data=await api('/api/automations/'+id);openAutoModal(data.automation)}catch(e){notify(e.message,'err')}}
-async function toggleAuto(id){try{const d=await api('/api/automations/'+id+'/toggle','POST');notify(d.active?'Activée.':'Arrêtée.','ok');loadAutomations()}catch(e){notify(e.message,'err')}}
-async function runAutoNow(id){try{const d=await api('/api/automations/'+id+'/run','POST');notify(d.validateEmail?'Post généré et email envoyé.':'Post généré et publié directement.','ok');loadAutomations();loadStats()}catch(e){notify(e.message,'err')}}
-async function deleteAuto(id){if(!confirm('Supprimer cette automatisation ?'))return;try{await api('/api/automations/'+id,'DELETE');notify('Supprimée.','ok');loadAutomations()}catch(e){notify(e.message,'err')}}
-async function runCronNow(){try{const d=await api('/api/cron/run','POST',null,{'X-Cron-Secret':ADMIN_TOKEN});notify('Vérification terminée : '+(d.processed||0)+' élément(s).','ok');loadAutomations();loadStats()}catch(e){notify(e.message,'err')}}
-function openSchedModal(){buildSmallPlatformGrid('sm-platforms');resetImgBlock('sched');document.getElementById('sm-id').value='';document.getElementById('sm-name').value='';document.getElementById('sm-desc').value='';document.getElementById('sm-date').value='';document.getElementById('sched-modal').style.display='flex'}
-function closeSchedModal(){document.getElementById('sched-modal').style.display='none'}
-async function saveScheduledPost(){const imgPayload=getImgPayload('sched');const body={name:document.getElementById('sm-name').value.trim(),description:document.getElementById('sm-desc').value.trim(),platforms:[...document.querySelectorAll('#sm-platforms input:checked')].map(i=>i.value),tone:document.getElementById('sm-tone').value,scheduledAt:document.getElementById('sm-date').value?new Date(document.getElementById('sm-date').value).getTime():null,generateNow:document.getElementById('sm-generate').checked,...imgPayload};if(!body.description||!body.platforms.length)return notify('Description et plateforme obligatoires.','err');try{await api('/api/scheduled','POST',body);notify('Post programmé sauvegardé.','ok');closeSchedModal();loadMyPosts()}catch(e){notify(e.message,'err')}}
-async function loadMyPosts(){const el=document.getElementById('myposts-list');try{const data=await api('/api/scheduled?limit=200');const items=data.scheduled||[];const badge=document.getElementById('myposts-badge');badge.style.display=items.length?'':'none';badge.textContent=items.length;if(!items.length){el.innerHTML='<div class="text-muted text-sm">Aucun post programmé.</div>';return}el.innerHTML=items.map(item=>`<div style="background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:10px"><div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap"><div><div style="font-weight:700">${escapeHtml(item.name||item.description)}</div><div class="text-sm text-muted">${escapeHtml((item.description||'').slice(0,90))}</div><div class="text-sm text-muted mt8">${(item.platforms||[]).map(k=>PLATFORMS[k]?.icon||k).join(' ')} • ${item.scheduledAt?new Date(item.scheduledAt).toLocaleString('fr-FR'):'À la demande'} • <span class="badge ${statusBadge(item.status)}">${statusLabel(item.status)}</span></div></div><div class="flex gap8 flex-wrap"><button class="btn btn-neon btn-sm" onclick="publishScheduled('${item.id}')">Exécuter</button><button class="btn btn-red btn-sm" onclick="deleteScheduled('${item.id}')">Supprimer</button></div></div></div>`).join('')}catch(e){el.innerHTML='<div class="text-red text-sm">'+escapeHtml(e.message)+'</div>'}}
-async function publishScheduled(id){try{await api('/api/scheduled/'+id+'/publish','POST');notify('Post envoyé en validation email.','ok');loadMyPosts();loadStats()}catch(e){notify(e.message,'err')}}
-async function deleteScheduled(id){if(!confirm('Supprimer ce post programmé ?'))return;try{await api('/api/scheduled/'+id,'DELETE');notify('Supprimé.','ok');loadMyPosts()}catch(e){notify(e.message,'err')}}
-async function loadAiConfig(){try{const data=await api('/api/config/ai');const c=data.config||{};if(c.provider)document.getElementById('ai-provider').value=c.provider;if(c.model)document.getElementById('ai-model').value=c.model;if(c.apiKey)document.getElementById('ai-key').placeholder='***configurée***';if(c.endpoint)document.getElementById('ai-endpoint').value=c.endpoint;if(c.imageProvider)document.getElementById('img-provider').value=c.imageProvider}catch{}}
-async function saveAiConfig(){try{await api('/api/config/ai','PUT',{provider:document.getElementById('ai-provider').value,model:document.getElementById('ai-model').value.trim(),apiKey:document.getElementById('ai-key').value.trim()||'***',endpoint:document.getElementById('ai-endpoint').value.trim(),imageProvider:document.getElementById('img-provider').value,imageApiKey:document.getElementById('img-key').value.trim()||'***'});notify('Configuration AI sauvegardée.','ok')}catch(e){notify(e.message,'err')}}
-async function loadEmailConfig(){try{const data=await api('/api/config/email');const c=data.config||{};if(data.approvalEmail)document.getElementById('approval-email-display').value=data.approvalEmail;if(c.resendApiKey)document.getElementById('email-resend-key').placeholder='***configurée***';if(c.fromEmail)document.getElementById('email-from').value=c.fromEmail}catch{}}
-async function saveEmailConfig(){try{await api('/api/config/email','PUT',{resendApiKey:document.getElementById('email-resend-key').value.trim()||'***',fromEmail:document.getElementById('email-from').value.trim()});notify('Configuration email sauvegardée.','ok')}catch(e){notify(e.message,'err')}}
-function initCalendar(){const now=new Date();calYear=now.getFullYear();calMonth=now.getMonth();api('/api/posts?limit=200').then(d=>{calPosts=d.posts||[];renderCalendar()}).catch(()=>renderCalendar())}
-function calPrev(){calMonth--;if(calMonth<0){calMonth=11;calYear--}renderCalendar()}
-function calNext(){calMonth++;if(calMonth>11){calMonth=0;calYear++}renderCalendar()}
-function renderCalendar(){const names=['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'];document.getElementById('cal-day-names').innerHTML=names.map(n=>`<div class="cal-day-name">${n}</div>`).join('');document.getElementById('cal-month-label').textContent=new Date(calYear,calMonth,1).toLocaleDateString('fr-FR',{month:'long',year:'numeric'});const firstDay=new Date(calYear,calMonth,1).getDay();const daysCount=new Date(calYear,calMonth+1,0).getDate();const today=new Date();let html='';for(let i=0;i<firstDay;i++)html+='<div></div>';for(let day=1;day<=daysCount;day++){const isToday=day===today.getDate()&&calMonth===today.getMonth()&&calYear===today.getFullYear();const dayPosts=calPosts.filter(p=>{const d=new Date(p.scheduledAt||p.createdAt);return d.getFullYear()===calYear&&d.getMonth()===calMonth&&d.getDate()===day});html+=`<div class="cal-day${isToday?' today':''}"><div class="cal-day-num">${day}</div>${dayPosts.slice(0,2).map(p=>`<div class="cal-event">${PLATFORMS[p.platforms?.[0]]?.icon||''} ${(p.description||'').slice(0,14)}</div>`).join('')}${dayPosts.length>2?`<div style="font-size:9px;color:var(--text3)">+${dayPosts.length-2}</div>`:''}</div>`}document.getElementById('cal-grid').innerHTML=html}
-async function loadLogs(){const el=document.getElementById('logs-out');try{const data=await api('/api/posts?limit=50');const lines=[];(data.posts||[]).forEach(p=>{lines.push(`[${new Date(p.createdAt||Date.now()).toLocaleString('fr-FR')}] ${p.id} — ${(p.platforms||[]).join('+')} — ${statusLabel(p.status)}`);if(p.emailError)lines.push(`[EMAIL ERROR] ${p.id} — ${p.emailError}`);if(p.publishedAt)lines.push(`[${new Date(p.publishedAt).toLocaleString('fr-FR')}] ${p.id} — PUBLIÉ`)});el.innerHTML=lines.length?lines.map(l=>`<div style="border-bottom:1px solid rgba(24,32,64,.4);padding:3px 0">${escapeHtml(l)}</div>`).join(''):'<div class="text-muted">Aucun log disponible</div>'}catch(e){el.innerHTML='<div class="text-red">'+escapeHtml(e.message)+'</div>'}}
-function updateNotesBadge(){const n=getNotes().length;const b=document.getElementById('notes-badge');if(b){b.style.display=n?'':'none';b.textContent=n}}
-async function syncNotesFromCloud(){if(!WORKER_URL)return;try{const data=await api('/api/notes');const cloud=data.notes||[];saveNotesLocal(cloud);updateNotesBadge()}catch(e){}}
-async function pushNotesToCloud(list){if(!WORKER_URL)return;try{await api('/api/notes','PUT',{notes:list})}catch(e){}}
-async function addNote(){const notes=getNotes();const id='note_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,5);notes.unshift({id,text:'',createdAt:Date.now(),updatedAt:Date.now()});saveNotesLocal(notes);await pushNotesToCloud(notes);renderNotes(true);updateNotesBadge();setTimeout(()=>{const ta=document.getElementById('nta-'+id);if(ta){ta.focus();autoResizeTA(ta)}},60)}
-async function saveNote(id){const ta=document.getElementById('nta-'+id);if(!ta)return;const notes=getNotes();const n=notes.find(x=>x.id===id);if(!n)return;n.text=ta.value;n.updatedAt=Date.now();saveNotesLocal(notes);await pushNotesToCloud(notes);const lbl=document.getElementById('nlbl-'+id);if(lbl)lbl.textContent='Sauvegardé • '+new Date(n.updatedAt).toLocaleString('fr-FR');updateNotesBadge();notify('Note sauvegardée.','ok')}
-async function deleteNote(id){if(!confirm('Supprimer cette note ?'))return;const notes=getNotes().filter(n=>n.id!==id);saveNotesLocal(notes);await pushNotesToCloud(notes);renderNotes(true);updateNotesBadge();notify('Note supprimée.','ok')}
-function autoResizeTA(ta){ta.style.height='auto';ta.style.height=ta.scrollHeight+'px'}
-async function renderNotes(skipSync){const el=document.getElementById('notes-list');if(!el)return;if(!skipSync)await syncNotesFromCloud();const notes=getNotes();if(!notes.length){el.innerHTML='<div class="text-muted text-sm" style="padding:12px 0">Aucune note. Cliquez sur "+ Nouvelle note" pour commencer.</div>';return}el.innerHTML=notes.map(n=>`<div class="note-card" id="ncard-${n.id}"><textarea id="nta-${n.id}" oninput="autoResizeTA(this)" onkeydown="if((event.ctrlKey||event.metaKey)&&event.key==='s'){event.preventDefault();saveNote('${n.id}')}" placeholder="Écrivez votre note ici...">${escapeHtml(n.text)}</textarea><div class="note-card-footer"><span class="note-date" id="nlbl-${n.id}">${n.updatedAt?'Modifié '+new Date(n.updatedAt).toLocaleString('fr-FR'):'Nouvelle note'}</span><div class="note-actions"><button class="btn btn-neon btn-sm" onclick="saveNote('${n.id}')">💾 Sauvegarder</button><button class="btn btn-red btn-sm" onclick="deleteNote('${n.id}')">Supprimer</button></div></div></div>`).join('');notes.forEach(n=>{const ta=document.getElementById('nta-'+n.id);if(ta)autoResizeTA(ta)})}
-function buildForumsChecklist(){const el=document.getElementById('forums-checklist');if(!el)return;el.innerHTML=FORUMS_LIST.map(f=>`<label class="forum-check-label"><input type="checkbox" id="fc-${f.id}" value="${f.id}" checked><span>${f.icon} ${f.name}<br><span style="font-size:10px;color:var(--text3)">${f.desc}</span></span></label>`).join('')}
-async function analyzeForums(){const checked=FORUMS_LIST.filter(f=>document.getElementById('fc-'+f.id)?.checked);if(!checked.length)return notify('Cochez au moins un forum.','err');const btn=document.getElementById('btn-forums');const ldr=document.getElementById('forums-ldr');btn.disabled=true;ldr.style.display='inline-block';const el=document.getElementById('forums-results');el.innerHTML='<div class="text-muted text-sm" style="padding:16px 0">Analyse en cours...</div>';try{const data=await api('/api/forums/analyze','POST',{forums:checked.map(f=>({id:f.id,name:f.name,url:f.url}))});const results=data.results||[];if(!results.length){el.innerHTML='<div class="text-muted text-sm" style="padding:12px 0">Aucun sujet trouvé. Réessayez.</div>';return;}el.innerHTML=results.map(r=>{const modeBadge=r.searchMode==='web'?'<span class="badge b-green" style="font-size:9px;margin-left:6px">Fil reel</span>':'<span class="badge b-gray" style="font-size:9px;margin-left:6px">IA generee</span>';const audience=r.audienceProfile?'<div style="font-size:10px;color:var(--text3);margin-top:4px">Profil : '+escapeHtml(r.audienceProfile)+'</div>':'';return '<div class="forum-result-card"><div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;margin-bottom:10px"><div style="flex:1"><div class="forum-result-title">'+escapeHtml(r.title)+modeBadge+'</div><div class="forum-result-meta">'+escapeHtml(r.forum)+' - '+escapeHtml(r.topic||'')+' - <span style="color:var(--gold)">'+escapeHtml(r.impactReason||'')+'</span></div>'+audience+'</div><a href="'+escapeHtml(r.url)+'" target="_blank" class="btn btn-neon btn-sm" style="flex-shrink:0">Aller poster</a></div><div style="font-size:10px;color:var(--text3);margin-bottom:6px">Reponse suggeree :</div><div class="forum-result-reply" id="reply-'+escapeHtml(r.id)+'">'+escapeHtml(r.reply)+'</div><div class="flex gap8" style="flex-wrap:wrap"><button class="btn btn-ghost btn-sm" onclick="copyForumReply(\''+escapeHtml(r.id)+'\')">Copier la reponse</button><button class="btn btn-green btn-sm" onclick="markForumPosted(\''+escapeHtml(r.id)+'\',\''+escapeHtml(r.forum)+'\',\''+escapeHtml(r.title)+'\',\''+escapeHtml(r.url)+'\')">Marque comme postee</button></div></div>'}).join('');notify(results.length+' sujet(s) trouve(s).','ok')}catch(e){el.innerHTML='<div class="text-red text-sm">'+escapeHtml(e.message)+'</div>'}finally{btn.disabled=false;ldr.style.display='none'}}
-function copyForumReply(id){const el=document.getElementById('reply-'+id);if(!el)return;const txt=el.textContent||el.innerText||'';if(navigator.clipboard){navigator.clipboard.writeText(txt).then(()=>notify('Reponse copiee !','ok'))}}
-function renderHoraires(){const el=document.getElementById('horaires-grid');if(!el)return;const stars=n=>{let s='';for(let i=0;i<5;i++)s+=i<n?'★':'☆';return s};el.innerHTML=Object.values(BEST_TIMES).map(p=>'<div style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px"><div style="font-size:18px;margin-bottom:4px">'+p.icon+' <strong style="color:var(--neon)">'+p.name+'</strong></div><div style="margin:10px 0">'+p.slots.map(s=>'<div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid var(--border)"><span style="font-size:12px;color:var(--text)">'+s.day+' <strong>'+s.time+'</strong></span><span style="color:var(--gold);font-size:12px">'+stars(s.score)+'</span></div>').join('')+'</div><div style="font-size:11px;color:var(--text3);margin-top:8px;line-height:1.5">'+p.tip+'</div></div>').join('')}
-function getForumHistory(){try{return JSON.parse(localStorage.getItem('pgi_forum_history')||'[]')}catch{return[]}}
-function saveForumHistory(list){localStorage.setItem('pgi_forum_history',JSON.stringify(list));try{api('/api/forum-history','PUT',{history:list})}catch(e){}}
-function markForumPosted(id,forum,title,url){const history=getForumHistory();if(history.find(h=>h.url===url)){notify('Deja marque comme poste !','info');return;}history.unshift({id,forum,title,url,postedAt:Date.now()});saveForumHistory(history.slice(0,200));notify('Reponse marquee comme postee — sauvegardee dans l\'historique.','ok')}
-async function loadForumHistory(){const el=document.getElementById('forumhistory-list');if(!el)return;try{const data=await api('/api/forum-history');if(data.history)saveForumHistory(data.history)}catch(e){}const history=getForumHistory();if(!history.length){el.innerHTML='<div class="text-muted text-sm">Aucune reponse marquee comme postee pour l\'instant.</div>';return;}el.innerHTML=history.map(h=>'<div style="background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:10px;display:flex;align-items:center;gap:12px;flex-wrap:wrap"><div style="flex:1;min-width:200px"><div style="font-weight:600;font-size:13px;margin-bottom:3px">'+escapeHtml(h.title)+'</div><div style="font-size:11px;color:var(--text3)">'+escapeHtml(h.forum)+' • '+new Date(h.postedAt).toLocaleString('fr-FR')+'</div></div><a href="'+escapeHtml(h.url)+'" target="_blank" class="btn btn-ghost btn-sm">Voir le fil</a><button class="btn btn-red btn-sm" onclick="deleteForumHistory(\''+escapeHtml(h.id)+'\')">Supprimer</button></div>').join('')}
-function deleteForumHistory(id){saveForumHistory(getForumHistory().filter(h=>h.id!==id));loadForumHistory();notify('Supprime.','ok')}
-function clearForumHistory(){if(!confirm('Vider tout l\'historique des forums ?'))return;saveForumHistory([]);loadForumHistory();notify('Historique vide.','ok')}
-async function loadClickStats(){const el=document.getElementById('clicks-list');const sumEl=document.getElementById('clicks-summary');if(!el||!sumEl)return;try{const data=await api('/api/clicks');const clicks=data.clicks||[];const total=clicks.reduce((a,c)=>a+c.count,0);const byPlatform={};clicks.forEach(c=>{byPlatform[c.platform]=(byPlatform[c.platform]||0)+c.count});sumEl.innerHTML='<div style="background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px;text-align:center"><div style="font-family:Cinzel,serif;font-size:32px;color:var(--neon)">'+total+'</div><div style="font-size:10px;color:var(--text2);letter-spacing:1px;text-transform:uppercase;margin-top:4px">Clics totaux</div></div>'+Object.entries(byPlatform).sort((a,b)=>b[1]-a[1]).map(e=>'<div style="background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center"><div style="font-family:Cinzel,serif;font-size:26px;color:var(--text)">'+e[1]+'</div><div style="font-size:10px;color:var(--text2);margin-top:4px">'+escapeHtml(e[0])+'</div></div>').join('');if(!clicks.length){el.innerHTML='<div class="text-muted text-sm">Aucun clic enregistre pour l\'instant.</div>';return;}el.innerHTML='<div class="card-title" style="margin-top:4px">Detail par post</div>'+clicks.map(c=>'<div style="background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:12px 16px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px"><div><div style="font-size:12px;font-weight:600">'+escapeHtml(c.postId)+'</div><div style="font-size:10px;color:var(--text3)">'+escapeHtml(c.platform)+' • '+new Date(c.lastClick||c.firstClick).toLocaleString('fr-FR')+'</div></div><span class="badge b-blue">'+c.count+' clics</span></div>').join('')}catch(e){el.innerHTML='<div class="text-red text-sm">'+escapeHtml(e.message)+'</div>';sumEl.innerHTML=''}}
-function initBindings(){const hb=document.getElementById('hamburger');const ov=document.getElementById('overlay');if(hb)hb.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();toggleSidebar()});if(ov)ov.addEventListener('click',closeSidebar);['create','auto','sched'].forEach(ctx=>{const cb=document.getElementById('img-check-'+ctx);if(cb)cb.addEventListener('change',()=>onImgToggle(ctx));const input=document.getElementById('lib-input-'+ctx);if(input){input.addEventListener('input',()=>libAutocomplete(ctx));input.addEventListener('focus',()=>libAutocomplete(ctx));input.addEventListener('blur',()=>setTimeout(()=>closeLibAc(ctx),180));}})}
-window.addEventListener('load',()=>{if(WORKER_URL)document.getElementById('worker-url-inp').value=WORKER_URL;updateWorkerStatus();buildPlatformChecklist();buildConnectionsList();hydrateCredsFromCache();buildLinksTable();setDefaultDate();renderReferenceLibrary();updateNotesBadge();loadStats();initBindings()});
-</script>
+
+<footer>
+  <div class="footer-inner">
+    <strong>Voyance par mail - ClairVoyanceMedium.com</strong>
+    <p>
+      Consultation écrite, confidentielle et personnalisée. Service proposé sans garantie de résultat et dans le respect
+      du libre arbitre.
+    </p>
+    <div class="footer-links">
+      <a href="#fonctionnement">Fonctionnement</a>
+      <a href="#tarifs">Tarif</a>
+      <a href="#confidentialite">Confidentialité</a>
+      <a href="#conditions">Conditions</a>
+      <a href="#mentions-legales">Mentions légales</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+</footer>
+
 </body>
 </html>
