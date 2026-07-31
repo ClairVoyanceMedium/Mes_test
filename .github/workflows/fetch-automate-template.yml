@@ -1,4 +1,4 @@
-name: Analyze Automate flow format
+name: Locate Automate flow serializer
 
 on:
   push:
@@ -18,39 +18,39 @@ jobs:
         run: |
           rm -rf automate_reverse
           mkdir -p automate_reverse/matches /tmp/apks
-      - name: Download Automate APK with apkeep
-        id: apk
+      - name: Download Automate APK
         run: |
-          set -o pipefail
-          docker run --rm -v /tmp/apks:/output ghcr.io/efforg/apkeep:stable -a com.llamalab.automate /output 2>&1 | tee automate_reverse/apk_download.txt
+          docker run --rm -v /tmp/apks:/output ghcr.io/efforg/apkeep:stable -a com.llamalab.automate /output > automate_reverse/apk_download.txt 2>&1
           APK="$(find /tmp/apks -type f -name '*.apk' | head -n1)"
           test -n "$APK"
           cp "$APK" /tmp/automate.apk
-          file /tmp/automate.apk | tee -a automate_reverse/apk_download.txt
-      - name: Download JADX and decompile
-        id: jadx
+          file /tmp/automate.apk >> automate_reverse/apk_download.txt
+      - name: Decompile
         run: |
-          set -o pipefail
-          curl -fSL --retry 3 'https://github.com/skylot/jadx/releases/download/v1.5.1/jadx-1.5.1.zip' -o /tmp/jadx.zip 2>&1 | tee automate_reverse/jadx_download.txt
+          curl -fSL --retry 3 'https://github.com/skylot/jadx/releases/download/v1.5.1/jadx-1.5.1.zip' -o /tmp/jadx.zip
           unzip -q /tmp/jadx.zip -d /tmp/jadx
-          /tmp/jadx/bin/jadx --no-res --show-bad-code --output-dir /tmp/jadx-out /tmp/automate.apk 2>&1 | tee automate_reverse/jadx_output.txt || true
+          /tmp/jadx/bin/jadx --no-res --show-bad-code --output-dir /tmp/jadx-out /tmp/automate.apk > automate_reverse/jadx_output.txt 2>&1 || true
           test -d /tmp/jadx-out/sources
-      - name: Extract serializer evidence
+      - name: Locate relevant code
         run: |
-          set -euo pipefail
-          grep -RIl --include='*.java' 'LAFl' /tmp/jadx-out/sources | while read -r f; do
+          set +e
+          find /tmp/jadx-out/sources -type f -name '*.java' | wc -l > automate_reverse/java_file_count.txt
+          unzip -Z1 /tmp/automate.apk | grep -E '^classes.*\.dex$' > /tmp/dexlist
+          while read -r dex; do unzip -p /tmp/automate.apk "$dex" | strings | grep -n -E 'LAFl|SpeechRecognition|AppForeground|InteractTouch|ActivityStartVoice' >> automate_reverse/dex_strings.txt; done < /tmp/dexlist
+          grep -RIn --include='*.java' -E 'LAFl|1279346284|1816543564|0x4c41466c|0x6c46414c|SpeechRecognition|AppForeground|InteractTouch|ActivityStartVoice|DataInputStream|DataOutputStream|readUnsigned|writeUnsigned|readUTF|writeUTF' /tmp/jadx-out/sources > automate_reverse/grep.txt
+          grep -RIl --include='*.java' -E 'LAFl|1279346284|1816543564|0x4c41466c|0x6c46414c|SpeechRecognition|AppForeground|InteractTouch|ActivityStartVoice|DataInputStream|DataOutputStream' /tmp/jadx-out/sources > /tmp/matches.txt
+          head -n 100 /tmp/matches.txt | while read -r f; do
             rel="${f#/tmp/jadx-out/sources/}"
             mkdir -p "automate_reverse/matches/$(dirname "$rel")"
             cp "$f" "automate_reverse/matches/$rel"
           done
-          grep -RIn --include='*.java' -E 'LAFl|SpeechRecognition|AppForeground|InteractTouch|ActivityStartVoice|DataInputStream|DataOutputStream|readUnsigned|writeUnsigned' /tmp/jadx-out/sources > automate_reverse/grep.txt || true
-          find /tmp/jadx-out/sources -type f -name '*.java' | wc -l > automate_reverse/java_file_count.txt
-      - name: Save status and commit
+          set -e
+      - name: Commit evidence
         if: always()
         run: |
           find automate_reverse -type f -printf '%p %s bytes\n' > automate_reverse/files.txt
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add automate_reverse
-          git diff --cached --quiet || git commit -m 'Extract Automate flow serializer sources'
+          git diff --cached --quiet || git commit -m 'Locate Automate flow serializer'
           git push
