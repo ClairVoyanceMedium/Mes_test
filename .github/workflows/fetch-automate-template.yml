@@ -1,4 +1,4 @@
-name: Extract Automate serializer dependencies
+name: Extract Automate primitive serializer
 
 on:
   push:
@@ -14,54 +14,27 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Prepare and decompile
+      - name: Download and decompile
         run: |
           set -euo pipefail
-          rm -rf automate_reverse
-          mkdir -p automate_reverse/matches /tmp/apks
-          docker run --rm -v /tmp/apks:/output ghcr.io/efforg/apkeep:stable -a com.llamalab.automate /output > automate_reverse/apk_download.txt 2>&1
+          mkdir -p /tmp/apks
+          docker run --rm -v /tmp/apks:/output ghcr.io/efforg/apkeep:stable -a com.llamalab.automate /output >/tmp/apkeep.log 2>&1
           APK="$(find /tmp/apks -type f -name '*.apk' | head -n1)"
-          cp "$APK" /tmp/automate.apk
           curl -fSL --retry 3 'https://github.com/skylot/jadx/releases/download/v1.5.1/jadx-1.5.1.zip' -o /tmp/jadx.zip
           unzip -q /tmp/jadx.zip -d /tmp/jadx
-          /tmp/jadx/bin/jadx --no-res --show-bad-code --output-dir /tmp/jadx-out /tmp/automate.apk > automate_reverse/jadx_output.txt 2>&1 || true
-          test -d /tmp/jadx-out/sources
-      - name: Copy exact dependencies
+          /tmp/jadx/bin/jadx --no-res --show-bad-code --output-dir /tmp/jadx-out "$APK" >/tmp/jadx.log 2>&1 || true
+      - name: Copy serializers
         run: |
           set -euo pipefail
-          copy_one() {
-            src="/tmp/jadx-out/sources/$1"
-            if [ -f "$src" ]; then
-              mkdir -p "automate_reverse/matches/$(dirname "$1")"
-              cp "$src" "automate_reverse/matches/$1"
-            else
-              echo "MISSING $1" >> automate_reverse/missing.txt
-            fi
-          }
-          for f in \
-            com/llamalab/automate/A2.java \
-            com/llamalab/automate/L0.java \
-            com/llamalab/automate/K0.java \
-            com/llamalab/automate/InterfaceC1700x0.java \
-            com/llamalab/automate/stmt/AbstractStatement.java \
-            com/llamalab/automate/stmt/Action.java \
-            com/llamalab/automate/stmt/Decision.java \
-            com/llamalab/automate/stmt/IntermittentDecision.java \
-            com/llamalab/automate/stmt/IntentAction.java \
-            com/llamalab/automate/stmt/FlowBeginning.java \
-            com/llamalab/automate/stmt/AppForeground.java \
-            com/llamalab/automate/stmt/SpeechRecognition.java \
-            com/llamalab/automate/stmt/ActivityStartVoice.java \
-            com/llamalab/automate/stmt/ExpressionDecision.java \
-            R3/c.java R3/d.java R3/e.java R3/g.java R3/h.java \
-            J3/h.java J3/l.java J3/f.java J3/g.java; do copy_one "$f"; done
-          grep -RIn --include='*.java' -E 'void Y0|void o0|writeObject|readObject|public .*\(|class .* extends' automate_reverse/matches > automate_reverse/serialization_index.txt || true
-      - name: Commit dependencies
-        if: always()
+          mkdir -p automate_reverse/matches/d4 automate_reverse/matches/R3
+          cp /tmp/jadx-out/sources/d4/C1724e.java automate_reverse/matches/d4/
+          cp /tmp/jadx-out/sources/d4/C1725f.java automate_reverse/matches/d4/
+          cp /tmp/jadx-out/sources/R3/c.java automate_reverse/matches/R3/
+          cp /tmp/jadx-out/sources/R3/d.java automate_reverse/matches/R3/
+      - name: Commit
         run: |
-          find automate_reverse -type f -printf '%p %s bytes\n' > automate_reverse/files.txt
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add automate_reverse
-          git diff --cached --quiet || git commit -m 'Extract Automate serializer dependencies'
+          git add automate_reverse/matches/d4 automate_reverse/matches/R3
+          git diff --cached --quiet || git commit -m 'Extract Automate primitive serializer'
           git push
