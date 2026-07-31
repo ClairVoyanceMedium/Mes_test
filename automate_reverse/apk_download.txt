@@ -8,9 +8,9 @@ ef53feb78c9b: Pulling fs layer
 5f48a2167657: Pulling fs layer
 4f4fb700ef54: Pulling fs layer
 29a5c6516209: Pulling fs layer
-1e1bb20756a8: Waiting
-5f48a2167657: Waiting
 ef53feb78c9b: Waiting
+5f48a2167657: Waiting
+1e1bb20756a8: Waiting
 4f4fb700ef54: Waiting
 29a5c6516209: Waiting
 5467f93954cf: Verifying Checksum
@@ -21,9 +21,11 @@ ef53feb78c9b: Waiting
 20d12c8f3f3f: Download complete
 5f48a2167657: Verifying Checksum
 5f48a2167657: Download complete
+4f4fb700ef54: Verifying Checksum
 4f4fb700ef54: Download complete
 1e1bb20756a8: Verifying Checksum
 1e1bb20756a8: Download complete
+ef53feb78c9b: Verifying Checksum
 ef53feb78c9b: Download complete
 28e7d23049b4: Pull complete
 29a5c6516209: Verifying Checksum
@@ -39,10 +41,4 @@ Digest: sha256:746390416931dc8d0e3b968d42ef62875836106e3d319608aa984d652ac50079
 Status: Downloaded newer image for ghcr.io/efforg/apkeep:stable
 Downloading com.llamalab.automate...
 com.llamalab.automate downloaded successfully!
-  8650769   9612 -rw-r--r--   1 root     root      9841184 Jul 31 20:50 /tmp/apks/com.llamalab.automate.apk
 /tmp/automate.apk: Android package (APK), with gradle app-metadata.properties
-    testing: resources.arsc           OK
-    testing: META-INF/CERT.SF         OK
-    testing: META-INF/CERT.RSA        OK
-    testing: META-INF/MANIFEST.MF     OK
-No errors detected in compressed data of /tmp/automate.apk.
