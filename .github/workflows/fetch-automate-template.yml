@@ -14,24 +14,38 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Download Automate APK and JADX
+      - name: Prepare
         run: |
-          set -euo pipefail
-          curl --fail --location --retry 3 'https://llamalab.com/automate/com.llamalab.automate-214.apk' --output /tmp/automate.apk
-          curl --fail --location --retry 3 'https://github.com/skylot/jadx/releases/download/v1.5.1/jadx-1.5.1.zip' --output /tmp/jadx.zip
-          unzip -q /tmp/jadx.zip -d /tmp/jadx
-          /tmp/jadx/bin/jadx --no-res --show-bad-code --output-dir /tmp/jadx-out /tmp/automate.apk
-      - name: Extract flow serializer evidence
-        run: |
-          set -euo pipefail
           rm -rf automate_reverse
           mkdir -p automate_reverse/matches
+      - name: Download Automate APK
+        id: apk
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          curl -fSL --retry 3 -D automate_reverse/apk_headers.txt 'https://llamalab.com/automate/com.llamalab.automate-214.apk' -o /tmp/automate.apk 2>&1 | tee automate_reverse/apk_download.txt
+          ls -l /tmp/automate.apk | tee -a automate_reverse/apk_download.txt
+          file /tmp/automate.apk | tee -a automate_reverse/apk_download.txt
+      - name: Download JADX and decompile
+        id: jadx
+        if: steps.apk.outcome == 'success'
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          curl -fSL --retry 3 'https://github.com/skylot/jadx/releases/download/v1.5.1/jadx-1.5.1.zip' -o /tmp/jadx.zip 2>&1 | tee automate_reverse/jadx_download.txt
+          unzip -q /tmp/jadx.zip -d /tmp/jadx
+          /tmp/jadx/bin/jadx --no-res --show-bad-code --output-dir /tmp/jadx-out /tmp/automate.apk 2>&1 | tee automate_reverse/jadx_output.txt
+      - name: Extract serializer evidence
+        if: steps.jadx.outcome == 'success'
+        continue-on-error: true
+        run: |
           grep -RIl --include='*.java' 'LAFl' /tmp/jadx-out/sources | while read -r f; do cp "$f" "automate_reverse/matches/$(basename "$f")"; done
           grep -RIn --include='*.java' -E 'LAFl|Speech recognition|speech_recognition|App foreground|app_foreground|Interact touch|interact_touch|Flow.*(read|write)|DataInput|DataOutput' /tmp/jadx-out/sources > automate_reverse/grep.txt || true
-          unzip -p /tmp/automate.apk AndroidManifest.xml > automate_reverse/AndroidManifest.binary.xml
-          find automate_reverse -maxdepth 2 -type f -printf '%p %s bytes\n' > automate_reverse/files.txt
-      - name: Commit analysis
+      - name: Save status and commit
+        if: always()
         run: |
+          printf 'apk=%s\njadx=%s\n' '${{ steps.apk.outcome }}' '${{ steps.jadx.outcome }}' > automate_reverse/status.txt
+          find automate_reverse -maxdepth 2 -type f -printf '%p %s bytes\n' > automate_reverse/files.txt
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add automate_reverse
