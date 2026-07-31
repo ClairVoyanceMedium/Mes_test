@@ -1,0 +1,31 @@
+name: Fetch Automate template
+
+on:
+  push:
+    paths:
+      - '.github/workflows/fetch-automate-template.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download official community flow
+        run: |
+          mkdir -p automate_templates
+          curl --fail --location --retry 3 \
+            'https://llamalab.com/automate/community/api/v1/flows/371/data/Voice%2Bcommand%2Bexample%2B%231.flo' \
+            --output automate_templates/voice_command_example.flo
+          file automate_templates/voice_command_example.flo
+          test "$(head -c 4 automate_templates/voice_command_example.flo)" = "LAFl"
+      - name: Commit template
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add automate_templates/voice_command_example.flo
+          git diff --cached --quiet || git commit -m 'Add Automate voice command template'
+          git push
