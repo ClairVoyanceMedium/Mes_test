@@ -1,4 +1,4 @@
-name: Fetch Automate templates
+name: Analyze Automate flow format
 
 on:
   push:
@@ -10,25 +10,30 @@ permissions:
   contents: write
 
 jobs:
-  fetch:
+  analyze:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Download official community flows
+      - name: Download Automate APK and JADX
         run: |
           set -euo pipefail
-          mkdir -p automate_templates
-          curl --fail --location --retry 3 'https://llamalab.com/automate/community/api/v1/flows/371/data/Voice%2Bcommand%2Bexample%2B%231.flo' --output automate_templates/voice_command_example.flo
-          curl --fail --location --retry 3 'https://llamalab.com/automate/community/api/v1/flows/47403/data/Google%2BAssistant%2BAudio%2BFeedback%2B%2528Galaxy%2BZ%2BFold2%2529.flo' --output automate_templates/assistant_foreground_example.flo
-          curl --fail --location --retry 3 'https://llamalab.com/automate/community/api/v1/flows/44245/data/Google%2BAssistant%2Bon%2BAutomate%2BV1.0.flo' --output automate_templates/assistant_interact_example.flo
-          curl --fail --location --retry 3 'https://llamalab.com/automate/community/api/v1/flows/45973/data/F13%2BTriggers%2BAssistant%2BListen.flo' --output automate_templates/assistant_listen_example.flo
-          for f in automate_templates/*.flo; do
-            test "$(head -c 4 "$f")" = "LAFl"
-          done
-      - name: Commit templates
+          curl --fail --location --retry 3 'https://llamalab.com/automate/com.llamalab.automate-214.apk' --output /tmp/automate.apk
+          curl --fail --location --retry 3 'https://github.com/skylot/jadx/releases/download/v1.5.1/jadx-1.5.1.zip' --output /tmp/jadx.zip
+          unzip -q /tmp/jadx.zip -d /tmp/jadx
+          /tmp/jadx/bin/jadx --no-res --show-bad-code --output-dir /tmp/jadx-out /tmp/automate.apk
+      - name: Extract flow serializer evidence
+        run: |
+          set -euo pipefail
+          rm -rf automate_reverse
+          mkdir -p automate_reverse/matches
+          grep -RIl --include='*.java' 'LAFl' /tmp/jadx-out/sources | while read -r f; do cp "$f" "automate_reverse/matches/$(basename "$f")"; done
+          grep -RIn --include='*.java' -E 'LAFl|Speech recognition|speech_recognition|App foreground|app_foreground|Interact touch|interact_touch|Flow.*(read|write)|DataInput|DataOutput' /tmp/jadx-out/sources > automate_reverse/grep.txt || true
+          unzip -p /tmp/automate.apk AndroidManifest.xml > automate_reverse/AndroidManifest.binary.xml
+          find automate_reverse -maxdepth 2 -type f -printf '%p %s bytes\n' > automate_reverse/files.txt
+      - name: Commit analysis
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add automate_templates/*.flo
-          git diff --cached --quiet || git commit -m 'Add Automate Assistant templates'
+          git add automate_reverse
+          git diff --cached --quiet || git commit -m 'Analyze Automate flow format'
           git push
