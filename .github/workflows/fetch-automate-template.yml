@@ -1,4 +1,4 @@
-name: Locate Automate flow serializer
+name: Extract Automate serializer dependencies
 
 on:
   push:
@@ -14,43 +14,54 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Prepare
+      - name: Prepare and decompile
         run: |
+          set -euo pipefail
           rm -rf automate_reverse
           mkdir -p automate_reverse/matches /tmp/apks
-      - name: Download Automate APK
-        run: |
           docker run --rm -v /tmp/apks:/output ghcr.io/efforg/apkeep:stable -a com.llamalab.automate /output > automate_reverse/apk_download.txt 2>&1
           APK="$(find /tmp/apks -type f -name '*.apk' | head -n1)"
-          test -n "$APK"
           cp "$APK" /tmp/automate.apk
-          file /tmp/automate.apk >> automate_reverse/apk_download.txt
-      - name: Decompile
-        run: |
           curl -fSL --retry 3 'https://github.com/skylot/jadx/releases/download/v1.5.1/jadx-1.5.1.zip' -o /tmp/jadx.zip
           unzip -q /tmp/jadx.zip -d /tmp/jadx
           /tmp/jadx/bin/jadx --no-res --show-bad-code --output-dir /tmp/jadx-out /tmp/automate.apk > automate_reverse/jadx_output.txt 2>&1 || true
           test -d /tmp/jadx-out/sources
-      - name: Locate relevant code
+      - name: Copy exact dependencies
         run: |
-          set +e
-          find /tmp/jadx-out/sources -type f -name '*.java' | wc -l > automate_reverse/java_file_count.txt
-          unzip -Z1 /tmp/automate.apk | grep -E '^classes.*\.dex$' > /tmp/dexlist
-          while read -r dex; do unzip -p /tmp/automate.apk "$dex" | strings | grep -n -E 'LAFl|SpeechRecognition|AppForeground|InteractTouch|ActivityStartVoice' >> automate_reverse/dex_strings.txt; done < /tmp/dexlist
-          grep -RIn --include='*.java' -E 'LAFl|1279346284|1816543564|0x4c41466c|0x6c46414c|SpeechRecognition|AppForeground|InteractTouch|ActivityStartVoice|DataInputStream|DataOutputStream|readUnsigned|writeUnsigned|readUTF|writeUTF' /tmp/jadx-out/sources > automate_reverse/grep.txt
-          grep -RIl --include='*.java' -E 'LAFl|1279346284|1816543564|0x4c41466c|0x6c46414c|SpeechRecognition|AppForeground|InteractTouch|ActivityStartVoice|DataInputStream|DataOutputStream' /tmp/jadx-out/sources > /tmp/matches.txt
-          head -n 100 /tmp/matches.txt | while read -r f; do
-            rel="${f#/tmp/jadx-out/sources/}"
-            mkdir -p "automate_reverse/matches/$(dirname "$rel")"
-            cp "$f" "automate_reverse/matches/$rel"
-          done
-          set -e
-      - name: Commit evidence
+          set -euo pipefail
+          copy_one() {
+            src="/tmp/jadx-out/sources/$1"
+            if [ -f "$src" ]; then
+              mkdir -p "automate_reverse/matches/$(dirname "$1")"
+              cp "$src" "automate_reverse/matches/$1"
+            else
+              echo "MISSING $1" >> automate_reverse/missing.txt
+            fi
+          }
+          for f in \
+            com/llamalab/automate/A2.java \
+            com/llamalab/automate/L0.java \
+            com/llamalab/automate/K0.java \
+            com/llamalab/automate/InterfaceC1700x0.java \
+            com/llamalab/automate/stmt/AbstractStatement.java \
+            com/llamalab/automate/stmt/Action.java \
+            com/llamalab/automate/stmt/Decision.java \
+            com/llamalab/automate/stmt/IntermittentDecision.java \
+            com/llamalab/automate/stmt/IntentAction.java \
+            com/llamalab/automate/stmt/FlowBeginning.java \
+            com/llamalab/automate/stmt/AppForeground.java \
+            com/llamalab/automate/stmt/SpeechRecognition.java \
+            com/llamalab/automate/stmt/ActivityStartVoice.java \
+            com/llamalab/automate/stmt/ExpressionDecision.java \
+            R3/c.java R3/d.java R3/e.java R3/g.java R3/h.java \
+            J3/h.java J3/l.java J3/f.java J3/g.java; do copy_one "$f"; done
+          grep -RIn --include='*.java' -E 'void Y0|void o0|writeObject|readObject|public .*\(|class .* extends' automate_reverse/matches > automate_reverse/serialization_index.txt || true
+      - name: Commit dependencies
         if: always()
         run: |
           find automate_reverse -type f -printf '%p %s bytes\n' > automate_reverse/files.txt
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add automate_reverse
-          git diff --cached --quiet || git commit -m 'Locate Automate flow serializer'
+          git diff --cached --quiet || git commit -m 'Extract Automate serializer dependencies'
           git push
