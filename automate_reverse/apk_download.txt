@@ -13,25 +13,24 @@ ef53feb78c9b: Waiting
 5f48a2167657: Waiting
 4f4fb700ef54: Waiting
 29a5c6516209: Waiting
-5467f93954cf: Verifying Checksum
-5467f93954cf: Download complete
 28e7d23049b4: Verifying Checksum
 28e7d23049b4: Download complete
 20d12c8f3f3f: Verifying Checksum
 20d12c8f3f3f: Download complete
-5f48a2167657: Verifying Checksum
-5f48a2167657: Download complete
-4f4fb700ef54: Verifying Checksum
-4f4fb700ef54: Download complete
-28e7d23049b4: Pull complete
-5467f93954cf: Pull complete
 1e1bb20756a8: Verifying Checksum
 1e1bb20756a8: Download complete
+5f48a2167657: Verifying Checksum
+5f48a2167657: Download complete
+4f4fb700ef54: Download complete
+28e7d23049b4: Pull complete
+5467f93954cf: Verifying Checksum
+5467f93954cf: Download complete
 ef53feb78c9b: Verifying Checksum
 ef53feb78c9b: Download complete
-20d12c8f3f3f: Pull complete
 29a5c6516209: Verifying Checksum
 29a5c6516209: Download complete
+5467f93954cf: Pull complete
+20d12c8f3f3f: Pull complete
 1e1bb20756a8: Pull complete
 ef53feb78c9b: Pull complete
 5f48a2167657: Pull complete
@@ -41,4 +40,3 @@ Digest: sha256:746390416931dc8d0e3b968d42ef62875836106e3d319608aa984d652ac50079
 Status: Downloaded newer image for ghcr.io/efforg/apkeep:stable
 Downloading com.llamalab.automate...
 com.llamalab.automate downloaded successfully!
-/tmp/automate.apk: Android package (APK), with gradle app-metadata.properties
