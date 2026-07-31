@@ -1,0 +1,23 @@
+70385:InteractTouchFragment
+80063:/Lcom/llamalab/automate/stmt/ActivityStartVoice;
+80082:,Lcom/llamalab/automate/stmt/AppForeground$a;
+80083:,Lcom/llamalab/automate/stmt/AppForeground$b;
+80084:*Lcom/llamalab/automate/stmt/AppForeground;
+80511:.Lcom/llamalab/automate/stmt/InteractTouch$a$a;
+80512:,Lcom/llamalab/automate/stmt/InteractTouch$a;
+80513:.Lcom/llamalab/automate/stmt/InteractTouch$b$a;
+80514:,Lcom/llamalab/automate/stmt/InteractTouch$b;
+80515:,Lcom/llamalab/automate/stmt/InteractTouch$c;
+80516:*Lcom/llamalab/automate/stmt/InteractTouch;
+80800:0Lcom/llamalab/automate/stmt/SpeechRecognition$a;
+80801:2Lcom/llamalab/automate/stmt/SpeechRecognition$b$a;
+80802:2Lcom/llamalab/automate/stmt/SpeechRecognition$b$b;
+80803:0Lcom/llamalab/automate/stmt/SpeechRecognition$b;
+80804:.Lcom/llamalab/automate/stmt/SpeechRecognition;
+88085:'SpeechRecognition Language preference: 
+88086:'SpeechRecognition Recognition service: 
+88087:'SpeechRecognition Supported languages: 
+88088:"SpeechRecognition Using language: 
+88089:!SpeechRecognition Voice details: 
+90627:/[Lcom/llamalab/automate/stmt/InteractTouch$b$a;
+90628:-[Lcom/llamalab/automate/stmt/InteractTouch$c;
