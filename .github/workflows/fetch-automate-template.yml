@@ -23,9 +23,10 @@ jobs:
         continue-on-error: true
         run: |
           set -o pipefail
-          curl -fSL --retry 3 -D automate_reverse/apk_headers.txt 'https://llamalab.com/automate/com.llamalab.automate-214.apk' -o /tmp/automate.apk 2>&1 | tee automate_reverse/apk_download.txt
+          curl -fSL --retry 3 -A 'Mozilla/5.0' -D automate_reverse/apk_headers.txt 'https://d.apkpure.com/b/APK/com.llamalab.automate?version=latest' -o /tmp/automate.apk 2>&1 | tee automate_reverse/apk_download.txt
           ls -l /tmp/automate.apk | tee -a automate_reverse/apk_download.txt
           file /tmp/automate.apk | tee -a automate_reverse/apk_download.txt
+          unzip -t /tmp/automate.apk | tail -n 5 | tee -a automate_reverse/apk_download.txt
       - name: Download JADX and decompile
         id: jadx
         if: steps.apk.outcome == 'success'
