@@ -1,4 +1,5 @@
 automate_reverse/files.txt 0 bytes
+automate_reverse/jadx_download.txt 397 bytes
 automate_reverse/status.txt 25 bytes
-automate_reverse/apk_headers.txt 1793 bytes
-automate_reverse/apk_download.txt 366 bytes
+automate_reverse/jadx_output.txt 2157 bytes
+automate_reverse/apk_download.txt 1769 bytes

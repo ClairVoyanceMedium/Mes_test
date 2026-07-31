@@ -1,4 +1,48 @@
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0  5545    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
-curl: (22) The requested URL returned error: 403
+Unable to find image 'ghcr.io/efforg/apkeep:stable' locally
+stable: Pulling from efforg/apkeep
+28e7d23049b4: Pulling fs layer
+5467f93954cf: Pulling fs layer
+20d12c8f3f3f: Pulling fs layer
+1e1bb20756a8: Pulling fs layer
+ef53feb78c9b: Pulling fs layer
+5f48a2167657: Pulling fs layer
+4f4fb700ef54: Pulling fs layer
+29a5c6516209: Pulling fs layer
+1e1bb20756a8: Waiting
+5f48a2167657: Waiting
+ef53feb78c9b: Waiting
+4f4fb700ef54: Waiting
+29a5c6516209: Waiting
+5467f93954cf: Verifying Checksum
+5467f93954cf: Download complete
+28e7d23049b4: Verifying Checksum
+28e7d23049b4: Download complete
+20d12c8f3f3f: Verifying Checksum
+20d12c8f3f3f: Download complete
+5f48a2167657: Verifying Checksum
+5f48a2167657: Download complete
+4f4fb700ef54: Download complete
+1e1bb20756a8: Verifying Checksum
+1e1bb20756a8: Download complete
+ef53feb78c9b: Download complete
+28e7d23049b4: Pull complete
+29a5c6516209: Verifying Checksum
+29a5c6516209: Download complete
+5467f93954cf: Pull complete
+20d12c8f3f3f: Pull complete
+1e1bb20756a8: Pull complete
+ef53feb78c9b: Pull complete
+5f48a2167657: Pull complete
+4f4fb700ef54: Pull complete
+29a5c6516209: Pull complete
+Digest: sha256:746390416931dc8d0e3b968d42ef62875836106e3d319608aa984d652ac50079
+Status: Downloaded newer image for ghcr.io/efforg/apkeep:stable
+Downloading com.llamalab.automate...
+com.llamalab.automate downloaded successfully!
+  8650769   9612 -rw-r--r--   1 root     root      9841184 Jul 31 20:50 /tmp/apks/com.llamalab.automate.apk
+/tmp/automate.apk: Android package (APK), with gradle app-metadata.properties
+    testing: resources.arsc           OK
+    testing: META-INF/CERT.SF         OK
+    testing: META-INF/CERT.RSA        OK
+    testing: META-INF/MANIFEST.MF     OK
+No errors detected in compressed data of /tmp/automate.apk.

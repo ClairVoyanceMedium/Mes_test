@@ -1,2 +1,2 @@
-apk=failure
-jadx=skipped
+apk=success
+jadx=failure
