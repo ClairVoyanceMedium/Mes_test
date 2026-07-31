@@ -1,0 +1,31 @@
+name: Fetch reference Automate flows
+
+on:
+  push:
+    paths:
+      - '.github/workflows/fetch-more-flows.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download reference flows
+        run: |
+          set -euo pipefail
+          mkdir -p automate_templates
+          curl --fail --location --retry 3 'https://llamalab.com/automate/community/api/v1/flows/34774/data/Speak%2Bto%2Bassistant%2Bapps.flo' -o automate_templates/speak_to_assistant_apps.flo
+          curl --fail --location --retry 3 'https://llamalab.com/automate/community/api/v1/flows/38383/data/HOTWORD%2BVOICE%2BACTIVATION.flo' -o automate_templates/hotword_voice_activation.flo
+          curl --fail --location --retry 3 'https://llamalab.com/automate/community/api/v1/flows/44/data/Example%2B-%2BSpeech%2BRecognition.flo' -o automate_templates/example_speech_recognition.flo
+          for f in automate_templates/*.flo; do test "$(head -c 4 "$f")" = 'LAFl'; done
+      - name: Commit flows
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add automate_templates/*.flo
+          git diff --cached --quiet || git commit -m 'Add Automate voice reference flows'
+          git push
