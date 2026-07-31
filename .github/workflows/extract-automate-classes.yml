@@ -1,0 +1,58 @@
+name: Extract Automate classes
+
+on:
+  push:
+    paths:
+      - '.github/workflows/extract-automate-classes.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download Automate APK
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/apks
+          docker run --rm -v /tmp/apks:/output ghcr.io/efforg/apkeep:stable -a com.llamalab.automate /output
+          APK="$(find /tmp/apks -type f -name '*.apk' | head -n1)"
+          test -n "$APK"
+          cp "$APK" /tmp/automate.apk
+      - name: Decompile
+        run: |
+          set -euo pipefail
+          curl -fSL --retry 3 'https://github.com/skylot/jadx/releases/download/v1.5.1/jadx-1.5.1.zip' -o /tmp/jadx.zip
+          unzip -q /tmp/jadx.zip -d /tmp/jadx
+          /tmp/jadx/bin/jadx --no-res --show-bad-code --output-dir /tmp/jadx-out /tmp/automate.apk || true
+          test -d /tmp/jadx-out/sources
+      - name: Copy needed sources
+        run: |
+          set -euo pipefail
+          rm -rf automate_extract
+          mkdir -p automate_extract/R3 automate_extract/stmt automate_extract/core
+          cp /tmp/jadx-out/sources/R3/c.java automate_extract/R3/
+          cp /tmp/jadx-out/sources/R3/d.java automate_extract/R3/
+          cp /tmp/jadx-out/sources/R3/g.java automate_extract/R3/
+          cp /tmp/jadx-out/sources/com/llamalab/automate/A2.java automate_extract/core/
+          cp /tmp/jadx-out/sources/com/llamalab/automate/stmt/AbstractStatement.java automate_extract/stmt/
+          cp /tmp/jadx-out/sources/com/llamalab/automate/stmt/Action.java automate_extract/stmt/
+          cp /tmp/jadx-out/sources/com/llamalab/automate/stmt/FlowBeginning.java automate_extract/stmt/
+          cp /tmp/jadx-out/sources/com/llamalab/automate/stmt/CloudMessageReceive.java automate_extract/stmt/
+          cp /tmp/jadx-out/sources/com/llamalab/automate/stmt/CloudMessageSend.java automate_extract/stmt/
+          cp /tmp/jadx-out/sources/com/llamalab/automate/stmt/FailureCatch.java automate_extract/stmt/
+          cp /tmp/jadx-out/sources/com/llamalab/automate/stmt/LogAppend.java automate_extract/stmt/
+          cp /tmp/jadx-out/sources/com/llamalab/automate/stmt/DialogChoice.java automate_extract/stmt/
+          cp /tmp/jadx-out/sources/com/llamalab/automate/stmt/Delay.java automate_extract/stmt/
+          cp /tmp/jadx-out/sources/com/llamalab/automate/stmt/DeviceKeepAwake.java automate_extract/stmt/
+      - name: Commit sources
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add automate_extract
+          git diff --cached --quiet || git commit -m 'Extract Automate parser classes'
+          git push
