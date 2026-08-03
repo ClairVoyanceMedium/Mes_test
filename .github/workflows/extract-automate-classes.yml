@@ -33,15 +33,19 @@ jobs:
         run: |
           set -euo pipefail
           rm -rf automate_extract
-          mkdir -p automate_extract/R3 automate_extract/stmt automate_extract/core automate_extract/J3 automate_extract/L3
+          mkdir -p automate_extract/R3 automate_extract/stmt automate_extract/core automate_extract/J3 automate_extract/L3 automate_extract/d4
           cp /tmp/jadx-out/sources/R3/c.java automate_extract/R3/
           cp /tmp/jadx-out/sources/R3/d.java automate_extract/R3/
           cp /tmp/jadx-out/sources/R3/g.java automate_extract/R3/
+          cp /tmp/jadx-out/sources/d4/C1724e.java automate_extract/d4/
+          cp /tmp/jadx-out/sources/d4/C1725f.java automate_extract/d4/
           cp /tmp/jadx-out/sources/com/llamalab/automate/A2.java automate_extract/core/
           cp /tmp/jadx-out/sources/com/llamalab/automate/InterfaceC1700x0.java automate_extract/core/
+          cp /tmp/jadx-out/sources/com/llamalab/automate/L0.java automate_extract/core/
+          cp /tmp/jadx-out/sources/com/llamalab/automate/K0.java automate_extract/core/
           cp /tmp/jadx-out/sources/J3/*.java automate_extract/J3/
           cp /tmp/jadx-out/sources/L3/*.java automate_extract/L3/
-          for f in AbstractStatement Action Decision IntermittentAction ActivityDecision ActivityAction FlowBeginning CloudMessageReceive CloudMessageSend FailureCatch LogAppend DialogChoice Delay DeviceKeepAwake; do
+          for f in AbstractStatement Action Decision IntermittentAction IntermittentDecision ActivityDecision ActivityAction FlowBeginning AlternativeLaunch FailureCatch DialogChoice DialogInput DialogNumber DialogMessage HttpRequest ExpressionDecision VariableAssign Delay GmailSend EmailSend AtomicLoad AtomicStore LogAppend NotificationShow ForEach DatabaseModify DatabaseQuery FileMakeDirectory FileWrite Goto Label Subroutine FiberStop; do
             cp "/tmp/jadx-out/sources/com/llamalab/automate/stmt/$f.java" automate_extract/stmt/
           done
       - name: Commit sources
@@ -50,5 +54,5 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add automate_extract
-          git diff --cached --quiet || git commit -m 'Extract Automate parser and expression classes'
+          git diff --cached --quiet || git commit -m 'Extract Automate classes for surveillance flow'
           git push
