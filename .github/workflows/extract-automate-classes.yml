@@ -33,7 +33,7 @@ jobs:
         run: |
           set -euo pipefail
           rm -rf automate_extract
-          mkdir -p automate_extract/R3 automate_extract/stmt automate_extract/core automate_extract/J3 automate_extract/L3 automate_extract/d4 automate_extract/expr_func automate_extract/system
+          mkdir -p automate_extract/R3 automate_extract/stmt automate_extract/core automate_extract/J3 automate_extract/L3 automate_extract/d4 automate_extract/expr_func automate_extract/system automate_extract/flow_io
           cp /tmp/jadx-out/sources/R3/c.java automate_extract/R3/
           cp /tmp/jadx-out/sources/R3/d.java automate_extract/R3/
           cp /tmp/jadx-out/sources/R3/g.java automate_extract/R3/
@@ -48,11 +48,16 @@ jobs:
           cp /tmp/jadx-out/sources/com/llamalab/automate/stmt/*.java automate_extract/stmt/
           cp /tmp/jadx-out/sources/com/llamalab/automate/expr/func/*.java automate_extract/expr_func/
           cp /tmp/jadx-out/sources/com/llamalab/android/system/MoreOsConstants.java automate_extract/system/
+          grep -RIl 'LAFl' /tmp/jadx-out/sources --include='*.java' | while read -r file; do
+            rel="${file#/tmp/jadx-out/sources/}"
+            safe="${rel//\//__}"
+            cp "$file" "automate_extract/flow_io/$safe"
+          done
       - name: Commit sources
         run: |
           set -euo pipefail
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add automate_extract
-          git diff --cached --quiet || git commit -m 'Extract Automate serializer constants'
+          git diff --cached --quiet || git commit -m 'Extract Automate flow file reader and writer'
           git push
